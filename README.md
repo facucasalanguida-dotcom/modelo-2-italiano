@@ -3,7 +3,13 @@
 Generador en Ruby (`cafe_napoli_malaga.rb`) que construye el modelo 3D completo del local
 —planta baja y planta alta— a partir de los dos planos entregados.
 
-![Vistas](docs/vistas.png)
+| | |
+|---|---|
+| ![Fachada](docs/renders/v1_fachada.png) | ![Sala](docs/renders/v2_sala.png) |
+| ![Mostrador](docs/renders/v3_mostrador.png) | ![Escalera](docs/renders/v4_escalera.png) |
+| ![Trasbarra](docs/renders/v5_trasbarra.png) | ![Planta baja](docs/renders/v6_pb_aerea.png) |
+
+![Planta alta](docs/renders/v7_pa_aerea.png)
 
 ---
 
@@ -179,5 +185,6 @@ antes de entregarlo, que:
 - las 20 comprobaciones dimensionales contra las cotas del plano salen correctas;
 - ningún elemento de mobiliario invade muros ni queda fuera del perímetro interior.
 
-Las plantas, secciones y axonometrías de este README están generadas **a partir de la
-geometría real que produce el script**, no dibujadas aparte.
+Las plantas, secciones y vistas de este README están generadas **a partir de la geometría
+real que produce el script**, no dibujadas aparte: `docs/plantas.png`, `docs/secciones.png`,
+`docs/vistas.png` y las siete vistas en perspectiva de `docs/renders/`.
