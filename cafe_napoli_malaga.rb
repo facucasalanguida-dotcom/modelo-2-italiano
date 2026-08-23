@@ -2,57 +2,55 @@
 #
 # ============================================================================
 #  CAFÉ NAPOLI — MÁLAGA
-#  Generador de modelo 3D para SketchUp (planta baja + planta alta)
+#  Modelo 3D ESTRUCTURAL para SketchUp  ·  planta baja + planta alta
 # ============================================================================
+#
+#  Contiene ÚNICAMENTE la caja arquitectónica: solera, muros, pilares,
+#  machones, forjado, viga, particiones, huecos de paso, escalera,
+#  barandillas, escaparate y bajante.
+#  NO contiene mobiliario ni equipamiento de ningún tipo.
 #
 #  USO
 #  ---
-#  1) Abre SketchUp con un modelo nuevo (en metros, preferiblemente).
+#  1) SketchUp, modelo nuevo y vacío.
 #  2) Ventana > Consola Ruby  (Window > Ruby Console)
-#  3) Escribe:      load "C:/ruta/al/cafe_napoli_malaga.rb"
-#     (en Mac:      load "/Users/tu_usuario/.../cafe_napoli_malaga.rb")
-#  4) El modelo se genera solo. Para volver a generarlo:
-#         CafeNapoliMalaga.build!
-#
-#  También se instala un menú:  Extensiones > Café Napoli > Generar modelo 3D
+#  3) load "C:/ruta/al/cafe_napoli_malaga.rb"
+#     Para regenerar:  CafeNapoliMalaga.build!
+#  También instala el menú  Extensiones > Café Napoli > Generar modelo 3D.
 #
 #  ORIGEN DE LAS MEDIDAS
 #  ---------------------
-#  Toda la geometría se deriva de los dos planos entregados, midiendo
-#  directamente los vectores del PDF y convirtiéndolos a metros:
+#  Cada coordenada del archivo es una medida tomada sobre los vectores de los
+#  PDF entregados. No hay ninguna cota inventada.
 #
-#    * planimetria_2.pdf  (PLANTA ALTA) ...... escala 1:50  -> 56,6929 pt/m
-#    * PROPOSTA_MALAGA.pdf (PLANTA BAJA) ..... escala 1:30  -> 94,4882 pt/m
+#    planimetria_2.pdf   (PLANTA ALTA + perímetro)  escala 1:50 -> 56,6929 pt/m
+#    PROPOSTA_MALAGA.pdf (PLANTA BAJA)              escala 1:30 -> 94,4882 pt/m
 #
-#  Verificaciones de escala (coinciden con las cotas rotuladas del plano):
-#    - ASEO        medido 3,92 m²   rotulado 3,90 m²
-#    - ALMACÉN-2   medido 2,59 m²   rotulado 2,60 m²
-#    - Huella de peldaño = 0,260 m  (17 tabicas de 3,00/17 = 0,1765 m)
-#    - Barra "272" -> 2,721 m ;  "188" -> 1,880 m ;  "134,5" -> 1,345 m
+#  Escalas validadas contra las cotas rotuladas del propio plano:
+#    ASEO 3,92 m² (rotulado 3,90) · ALMACÉN-2 2,59 m² (rotulado 2,60)
+#    Huella de peldaño 0,260 m · 17 tabicas de 3,00/17 = 0,1765 m
+#    Trasbarra «272» = 2,721 m · «188» = 1,880 m · «134,5» = 1,345 m
 #
-#  Los dos planos encajan entre sí al milímetro: el pilar de fachada
-#  (X 1,300–1,901 / Y 7,048–7,596) y el machón del muro oeste
-#  (Y 3,799–4,397) aparecen idénticos en ambos documentos.
+#  Los dos planos encajan al milímetro en los elementos que comparten
+#  (pilastra sur, machón oeste, cara interior del muro sur): desviación
+#  máxima 1,5 mm.
 #
-#  SISTEMA DE COORDENADAS DEL MODELO (metros)
-#  ------------------------------------------
-#    X = 0  cara exterior del muro OESTE      X = 10,040  medianera ESTE
-#    Y = 0  punto más al sur (pilar fachada)  Y =  9,156  medianera NORTE
-#    Z = 0  nivel de planta baja              Z =  3,000  nivel planta alta (+3.00)
+#  SISTEMA DE COORDENADAS (metros)
+#  -------------------------------
+#    X = 0  cara exterior del muro OESTE       X = 10,040  medianera ESTE
+#    Y = 0  punto más al sur (pilar fachada)   Y =  9,156  medianera NORTE
+#    Z = 0  planta baja                        Z =  3,000  planta alta (+3.00)
 #
-#  COTAS NO GRAFIADAS EN LOS PLANOS
-#  --------------------------------
-#  Los planos sólo acotan el nivel +3.00. El resto de alturas está agrupado
-#  en el bloque "ALTURAS" de más abajo: basta cambiar el número y volver a
-#  ejecutar CafeNapoliMalaga.build!
+#  COTAS NO GRAFIADAS
+#  ------------------
+#  El plano sólo acota el nivel +3.00. Las demás alturas están agrupadas en el
+#  bloque ALTURAS: cambiar el número y volver a ejecutar build!
 #
-#  Dos decisiones que conviene conocer (detalle en README.md):
-#    * La propuesta dibuja el recinto de cocina CERRADO, sin ningún hueco.
-#      Se ha abierto un paso de 0,80 m en el tabique sur, en la prolongación
-#      exacta del pasillo de servicio. Se mueve en el método cocina().
-#    * Los planos no grafían mesas ni sillas. El mobiliario de sala es una
-#      propuesta y va en su propia etiqueta, para poder ocultarlo o borrarlo
-#      sin tocar el resto del modelo.
+#  ÚNICA LIBERTAD TOMADA
+#  ---------------------
+#  La propuesta dibuja el recinto de cocina cerrado, sin ningún hueco (es un
+#  plano de equipamiento). Se abre un paso de 0,80 m en el tabique sur, en la
+#  prolongación exacta del pasillo de servicio. Se mueve en particiones_pb().
 #
 # ============================================================================
 
@@ -64,50 +62,44 @@ module CafeNapoliMalaga
   #  ESCALAS Y CONVERSIÓN PLANO -> MODELO
   # ==========================================================================
 
-  M_TO_IN = 39.3700787401575       # SketchUp trabaja internamente en pulgadas
+  M_TO_IN = 39.3700787401575        # SketchUp trabaja internamente en pulgadas
 
-  SP = 56.692913385826770          # pt por metro — planimetría  (1:50)
-  SB = 94.488188976377950          # pt por metro — propuesta    (1:30)
+  SP = 56.692913385826770           # pt por metro — planimetría (1:50)
+  SB = 94.488188976377950           # pt por metro — propuesta   (1:30)
 
-  PA_OX = 138.3                    # pt X  esquina NO exterior (planimetría)
-  PA_OY =  40.4                    # pt Y  cara exterior medianera norte
-  PA_YS = 559.5                    # pt Y  punto más al sur del solar
+  PA_OX = 138.3                     # pt X esquina NO exterior
+  PA_OY =  40.4                     # pt Y cara exterior medianera norte
+  PA_YS = 559.5                     # pt Y punto más al sur del solar
 
-  PB_AX = 117.8                    # pt X propuesta  <->  152.5 planimetría
-  PB_AY =  52.9                    # pt Y propuesta  <->   48.8 planimetría
+  PB_AX = 117.8                     # pt X propuesta <-> 152.5 planimetría
+  PB_AY =  52.9                     # pt Y propuesta <->  48.8 planimetría
 
-  YMAX = (PA_YS - PA_OY) / SP      # 9,1564 m  (fondo total del local)
+  YMAX = (PA_YS - PA_OY) / SP       # 9,1564 m de fondo total
 
-  # planimetría (pt) -> modelo (m)
-  def self.ax(v) ; (v - PA_OX) / SP ; end
-  def self.ay(v) ; YMAX - (v - PA_OY) / SP ; end
-  # propuesta (pt) -> modelo (m), anclada a la planimetría
-  def self.bx(v) ; ax(152.5) + (v - PB_AX) / SB ; end
-  def self.by(v) ; ay(48.8)  - (v - PB_AY) / SB ; end
+  def self.ax(v) ; (v - PA_OX) / SP ; end          # planimetría pt -> X (m)
+  def self.ay(v) ; YMAX - (v - PA_OY) / SP ; end   # planimetría pt -> Y (m)
+  def self.bx(v) ; ax(152.5) + (v - PB_AX) / SB ; end   # propuesta pt -> X
+  def self.by(v) ; ay(48.8)  - (v - PB_AY) / SB ; end   # propuesta pt -> Y
 
   # ==========================================================================
-  #  ALTURAS  (editar aquí si se dispone de la sección real)
+  #  ALTURAS
   # ==========================================================================
 
-  H_PA        = 3.00     # nivel planta alta  <-- COTA DEL PLANO (+3.00)
-  T_FORJADO   = 0.30     # canto del forjado de planta alta
-  Z_FORJ_INF  = H_PA - T_FORJADO          # 2,70 intradós
-  H_LIBRE_PA  = 2.50     # altura libre en planta alta
-  H_TOTAL     = H_PA + H_LIBRE_PA         # 5,50 cara inferior de cubierta
-  T_CUBIERTA  = 0.30
-  T_SOLERA    = 0.20
+  H_PA         = 3.00          # nivel planta alta  <-- COTA DEL PLANO (+3.00)
+  T_FORJADO    = 0.30          # canto del forjado
+  Z_FORJ_INF   = H_PA - T_FORJADO           # 2,70 intradós
+  H_LIBRE_PA   = 2.50          # altura libre en planta alta
+  H_TOT        = H_PA + H_LIBRE_PA          # 5,50 cara inferior de cubierta
+  T_CUBIERTA   = 0.30
+  T_SOLERA     = 0.20
 
-  H_PUERTA    = 2.10     # hueco de paso
-  H_BARANDA   = 1.00     # antepecho de vidrio
-  H_MOSTRADOR = 0.90     # altura de trabajo de barras y cocina
-  T_ENCIMERA  = 0.04
-  H_VITRINA   = 1.90     # "VETRINA EXPO ALTA"
-  H_ESCAPARATE= 3.00     # altura del acristalamiento de fachada
-  Z_VIGA_INF  = 2.60     # intradós de la viga descolgada del plano
+  H_PUERTA     = 2.10          # huecos de paso
+  H_BARANDA    = 1.00          # antepechos de vidrio
+  H_ESCAPARATE = 3.00          # altura del acristalamiento de fachada
+  Z_VIGA_INF   = 2.60          # intradós de la viga descolgada
 
-  # Escalera: 16 huellas dibujadas entre y=356,6 y y=120,8 pt
-  N_TABICAS   = 17
-  T_ZANCA     = 0.20     # canto vertical de la losa de escalera
+  N_TABICAS    = 17            # 3,00 / 17 = 0,17647 m
+  T_ZANCA      = 0.20          # canto vertical de la losa de escalera
 
   # ==========================================================================
   #  UTILIDADES DE CONSTRUCCIÓN
@@ -125,9 +117,23 @@ module CafeNapoliMalaga
     g
   end
 
+  def self.dedupe(pts)
+    out = []
+    pts.each do |p|
+      q = out.last
+      out << p if q.nil? || (p[0] - q[0]).abs > 1e-7 || (p[1] - q[1]).abs > 1e-7
+    end
+    out.shift if out.length > 1 &&
+                 (out.first[0] - out.last[0]).abs < 1e-7 &&
+                 (out.first[1] - out.last[1]).abs < 1e-7
+    out
+  end
+
   # Prisma vertical a partir de un polígono en planta [[x,y], ...]
   def self.prism(ents, poly, z0, z1, mat = nil, tag = nil, name = nil)
     return nil if (z1 - z0).abs < 1e-6
+    poly = dedupe(poly)
+    return nil if poly.length < 3
     za, zb = [z0, z1].minmax
     g = ents.add_group
     begin
@@ -157,8 +163,15 @@ module CafeNapoliMalaga
   def self.profile_x(ents, prof, x0, x1, mat = nil, tag = nil, name = nil)
     xa, xb = [x0, x1].minmax
     return nil if (xb - xa) < 1e-6
+    prof = dedupe(prof)
+    return nil if prof.length < 3
     g = ents.add_group
-    f = g.entities.add_face(prof.map { |q| p3(xa, q[0], q[1]) })
+    begin
+      f = g.entities.add_face(prof.map { |q| p3(xa, q[0], q[1]) })
+    rescue StandardError => e
+      puts "Café Napoli: perfil no válido en '#{name}' (#{e.message})"
+      f = nil
+    end
     if f.nil?
       g.erase!
       return nil
@@ -168,12 +181,11 @@ module CafeNapoliMalaga
     finish(g, mat, tag, name)
   end
 
-  # Cilindro vertical
   def self.cyl(ents, cx, cy, r, z0, z1, mat = nil, tag = nil, name = nil)
     za, zb = [z0, z1].minmax
     g = ents.add_group
     c = g.entities.add_circle(p3(cx, cy, za), Geom::Vector3d.new(0, 0, 1),
-                              r * M_TO_IN, 36)
+                              r * M_TO_IN, 32)
     f = g.entities.add_face(c)
     if f.nil?
       g.erase!
@@ -184,43 +196,53 @@ module CafeNapoliMalaga
     finish(g, mat, tag, name)
   end
 
+  # Recorte de un perfil [[y,z],...] por un semiplano en Y
+  def self.clip_y(poly, val, keep_ge)
+    out = []
+    n = poly.length
+    n.times do |i|
+      a = poly[i]
+      b = poly[(i + 1) % n]
+      ain = keep_ge ? a[0] >= val - 1e-9 : a[0] <= val + 1e-9
+      bin = keep_ge ? b[0] >= val - 1e-9 : b[0] <= val + 1e-9
+      out << a if ain
+      if ain != bin
+        d = b[0] - a[0]
+        next if d.abs < 1e-12
+        t = (val - a[0]) / d
+        out << [val, a[1] + t * (b[1] - a[1])]
+      end
+    end
+    out
+  end
+
   # ==========================================================================
   #  MATERIALES Y ETIQUETAS
   # ==========================================================================
 
   PALETA = {
-    'CN Muro blanco'      => [244, 241, 236, 255],
-    'CN Medianera'        => [225, 220, 212, 255],
-    'CN Azul Napoli'      => [ 62, 107, 153, 255],
-    'CN Madera roble'     => [214, 183, 142, 255],
-    'CN Madera listones'  => [225, 199, 160, 255],
-    'CN Pavimento madera' => [223, 200, 168, 255],
-    'CN Piedra encimera'  => [242, 240, 234, 255],
-    'CN Acero inox'       => [200, 205, 210, 255],
-    'CN Vidrio'           => [190, 214, 228,  70],
-    'CN Vidrio vitrina'   => [205, 226, 236,  90],
-    'CN Drop-in frio'     => [125, 226, 232, 220],
-    'CN Hormigon'         => [178, 176, 172, 255],
-    'CN Acera'            => [199, 196, 190, 255],
-    'CN Tapiceria'        => [231, 226, 216, 255],
-    'CN Negro mate'       => [ 58,  58,  58, 255],
-    'CN Sanitario'        => [250, 250, 250, 255]
+    'CN Muro'        => [238, 234, 227, 255],
+    'CN Medianera'   => [221, 216, 208, 255],
+    'CN Hormigon'    => [199, 196, 191, 255],
+    'CN Tabique'     => [244, 242, 238, 255],
+    'CN Vidrio'      => [186, 212, 228,  70],
+    'CN Carpinteria' => [ 62,  64,  66, 255],
+    'CN Rotulo'      => [ 62, 107, 153, 255],
+    'CN Instalacion' => [170, 172, 174, 255]
   }
 
   TAGS = [
-    '00 Terreno y acera',
-    '01 Solera y pavimentos',
-    '02 Muros y pilares',
-    '03 Forjado planta alta',
-    '04 Cubierta',
-    '05 Particiones planta alta',
-    '06 Escalera',
-    '07 Barandillas vidrio',
-    '08 Fachada - escaparate',
-    '09 Cocina - equipamiento',
-    '10 Barra y mostrador',
-    '11 Sanitarios',
-    '12 Mobiliario sala (propuesta)'
+    '01 Solera',
+    '02 Muros perimetrales',
+    '03 Pilares y machones',
+    '04 Forjado planta alta',
+    '05 Cubierta',
+    '06 Particiones planta alta',
+    '07 Particiones planta baja',
+    '08 Escalera',
+    '09 Barandillas',
+    '10 Fachada - escaparate',
+    '11 Instalaciones'
   ]
 
   def self.setup_materials(model)
@@ -237,59 +259,72 @@ module CafeNapoliMalaga
   def self.setup_tags(model)
     tags = {}
     TAGS.each { |n| tags[n] = model.layers[n] || model.layers.add(n) }
-    tags['04 Cubierta'].visible = false
+    tags['05 Cubierta'].visible = false
     tags
   end
 
   # ==========================================================================
-  #  CONSTRUCCIÓN DEL MODELO
+  #  CONSTRUCCIÓN
   # ==========================================================================
 
   def self.build!
     model = Sketchup.active_model
-    model.start_operation('Generar Café Napoli Málaga', true)
-
+    model.start_operation('Generar Café Napoli Málaga (estructura)', true)
     begin
       begin
         uo = model.options['UnitsOptions']
         uo['LengthUnit']   = 4     # metros
         uo['LengthFormat'] = 0     # decimal
       rescue StandardError
-        # algunas versiones no exponen estas opciones; no es crítico
       end
 
       mat  = setup_materials(model)
       tag  = setup_tags(model)
-      root = model.active_entities
+      ents = model.active_entities
 
-      shell(root, mat, tag)
-      forjado_y_cubierta(root, mat, tag)
-      particiones_planta_alta(root, mat, tag)
-      escalera(root, mat, tag)
-      barandillas(root, mat, tag)
-      fachada(root, mat, tag)
-      cocina(root, mat, tag)
-      barra_y_mostrador(root, mat, tag)
-      sanitarios(root, mat, tag)
-      mobiliario_sala(root, mat, tag)
+      solera(ents, mat, tag)
+      muros_perimetrales(ents, mat, tag)
+      pilares(ents, mat, tag)
+      forjado_planta_alta(ents, mat, tag)
+      particiones_planta_alta(ents, mat, tag)
+      particiones_pb(ents, mat, tag)
+      escalera(ents, mat, tag)
+      barandillas(ents, mat, tag)
+      fachada(ents, mat, tag)
+      instalaciones(ents, mat, tag)
+      cubierta(ents, mat, tag)
 
       encuadre(model)
     ensure
       model.commit_operation
     end
+    informe
+  end
 
-    msg = "Café Napoli — Málaga: modelo generado.\n\n" \
-          "Superficie PB ~74,7 m²   ·   Planta alta +3.00 m\n" \
-          "ZONA DE PASO-ALMACÉN-1 25,05 m² · ASEO 3,90 m² · " \
-          "ALMACÉN-2 2,60 m² · ESCALERA 3,76 m²"
-    puts msg
-    msg
+  def self.informe
+    txt = <<~TXT
+      CAFÉ NAPOLI — MÁLAGA · modelo estructural generado
+
+        Huella exterior ......... 81,73 m²
+        Superficie útil PB ...... 74,20 m²
+        Forjado planta alta ..... 33,74 m²
+        Ancho total ............. 10,040 m   Fondo total ..... 9,156 m
+        Planta alta ............. +3,00 m    Cubierta ........ +5,50 m
+        Escalera ................ 16 huellas de 0,26 · 17 tabicas de 0,1765
+
+      Sin mobiliario ni equipamiento: sólo solera, muros, pilares, machones,
+      forjado, viga, particiones, huecos, escalera, barandillas, escaparate
+      y bajante.
+    TXT
+    puts txt
+    txt
   end
 
   # --------------------------------------------------------------------------
-  #  1. ENVOLVENTE: solera, muros perimetrales, pilares
+  #  PERÍMETROS
   # --------------------------------------------------------------------------
 
+  # Contorno exterior del local
   def self.perimetro_exterior
     [[ax(138.3), ay( 40.4)],
      [ax(707.5), ay( 40.4)],
@@ -301,86 +336,93 @@ module CafeNapoliMalaga
      [ax(138.3), ay(471.0)]]
   end
 
-  def self.perimetro_interior
-    [[ax(152.5), ay( 48.8)],
-     [ax(699.0), ay( 48.8)],
-     [ax(699.0), ay(478.5)],
-     [ax(688.8), ay(478.5)],
-     [ax(688.8), ay(538.0)],
-     [ax(491.5), ay(538.0)],
-     [ax(491.5), ay(505.1)],
-     [ax(477.3), ay(505.1)],
-     [ax(477.3), ay(456.9)],
-     [ax(246.1), ay(456.9)],
-     [ax(246.1), ay(440.0)],
-     [ax(212.0), ay(440.0)],
-     [ax(212.0), ay(456.9)],
-     [ax(167.2), ay(456.9)],
-     [ax(167.2), ay(445.6)],
-     [ax(152.5), ay(445.6)],
-     [ax(152.5), ay(289.7)],
-     [ax(173.5), ay(289.7)],
-     [ax(173.5), ay(255.8)],
-     [ax(152.5), ay(255.8)]]
-  end
+  # --------------------------------------------------------------------------
+  #  1. SOLERA
+  # --------------------------------------------------------------------------
 
-  def self.shell(ents, mat, tag)
-    t02 = tag['02 Muros y pilares']
-    t01 = tag['01 Solera y pavimentos']
-    t00 = tag['00 Terreno y acera']
-
-    # --- solera y pavimento ------------------------------------------------
+  def self.solera(ents, mat, tag)
     prism(ents, perimetro_exterior, -T_SOLERA, 0.0,
-          mat['CN Hormigon'], t01, 'Solera PB')
-    prism(ents, perimetro_interior, 0.0, 0.015,
-          mat['CN Pavimento madera'], t01, 'Pavimento PB (madera)')
-
-    # --- acera / terreno exterior (contexto) -------------------------------
-    box(ents, ax(463.2) - 2.20, ay(559.5) - 2.60, ax(707.5) + 0.60, ay(538.0),
-        -0.02, 0.0, mat['CN Acera'], t00, 'Acera')
-
-    # --- muros perimetrales -------------------------------------------------
-    # Medianera norte (e = 0,148 m)
-    box(ents, ax(138.3), ay(40.4), ax(707.5), ay(48.8),
-        0.0, H_TOTAL, mat['CN Medianera'], t02, 'Medianera Norte')
-
-    # Muro oeste (e = 0,250 m) + machón
-    box(ents, ax(138.3), ay(48.8), ax(152.5), ay(445.6),
-        0.0, H_TOTAL, mat['CN Muro blanco'], t02, 'Muro Oeste')
-    box(ents, ax(152.5), ay(255.8), ax(173.5), ay(289.7),
-        0.0, H_TOTAL, mat['CN Muro blanco'], t02, 'Machon muro Oeste')
-    box(ents, ax(138.3), ay(445.6), ax(167.2), ay(471.0),
-        0.0, H_TOTAL, mat['CN Muro blanco'], t02, 'Muro Oeste - esquina SO')
-
-    # Muro sur del cuerpo posterior (e = 0,249 m) + pilastra
-    box(ents, ax(167.2), ay(456.9), ax(477.3), ay(471.0),
-        0.0, H_TOTAL, mat['CN Muro blanco'], t02, 'Muro Sur')
-    box(ents, ax(212.0), ay(440.0), ax(246.1), ay(456.9),
-        0.0, H_TOTAL, mat['CN Muro blanco'], t02, 'Pilastra muro Sur')
-
-    # Muro oeste del cuello de fachada + pilar de esquina
-    box(ents, ax(463.2), ay(471.0), ax(477.3), ay(505.1),
-        0.0, H_TOTAL, mat['CN Muro blanco'], t02, 'Muro Oeste cuello')
-    box(ents, ax(463.2), ay(505.1), ax(491.5), ay(559.5),
-        0.0, H_TOTAL, mat['CN Hormigon'], t02, 'Pilar de fachada')
-
-    # Medianera este (e = 0,150 m ; 0,330 m en el cuello)
-    box(ents, ax(699.0), ay(48.8), ax(707.5), ay(478.5),
-        0.0, H_TOTAL, mat['CN Medianera'], t02, 'Medianera Este')
-    box(ents, ax(688.8), ay(478.5), ax(707.5), ay(540.8),
-        0.0, H_TOTAL, mat['CN Medianera'], t02, 'Medianera Este - cuello')
-
-    # Trasdosado de 0,10 m bajo el forjado (grafiado en la propuesta)
-    box(ents, bx(326.5), ay(48.8), ax(699.0), by(62.4),
-        0.0, Z_FORJ_INF, mat['CN Muro blanco'], t02, 'Trasdosado Norte PB')
-
-    # Viga descolgada del plano (0,25 m de ancho)
-    box(ents, ax(173.5), ay(271.6), ax(275.0), ay(285.8),
-        Z_VIGA_INF, H_PA, mat['CN Hormigon'], t02, 'Viga descolgada')
+          mat['CN Hormigon'], tag['01 Solera'], 'Solera planta baja')
   end
 
   # --------------------------------------------------------------------------
-  #  2. FORJADO DE PLANTA ALTA Y CUBIERTA
+  #  2. MUROS PERIMETRALES
+  #     Los rectángulos teselan el espesor de muro sin solapes ni huecos.
+  # --------------------------------------------------------------------------
+
+  def self.muros_perimetrales(ents, mat, tag)
+    t  = tag['02 Muros perimetrales']
+    md = mat['CN Medianera']
+    mu = mat['CN Muro']
+
+    # Medianera norte  (e = 0,148)
+    box(ents, ax(138.3), ay(40.4), ax(707.5), ay(48.8), 0.0, H_TOT, md, t,
+        'Medianera Norte')
+
+    # Muro oeste  (e = 0,250)
+    box(ents, ax(138.3), ay(48.8), ax(152.5), ay(445.6), 0.0, H_TOT, mu, t,
+        'Muro Oeste')
+    box(ents, ax(138.3), ay(445.6), ax(167.2), ay(471.0), 0.0, H_TOT, mu, t,
+        'Muro Oeste - esquina SO')
+
+    # Muro sur del cuerpo posterior  (e = 0,249)
+    box(ents, ax(167.2), ay(456.9), ax(477.3), ay(471.0), 0.0, H_TOT, mu, t,
+        'Muro Sur')
+
+    # Muro oeste del cuello de fachada
+    box(ents, ax(463.2), ay(471.0), ax(477.3), ay(505.1), 0.0, H_TOT, mu, t,
+        'Muro Oeste del cuello')
+
+    # Medianera este  (e = 0,150 ; 0,330 en el cuello)
+    box(ents, ax(699.0), ay(48.8), ax(707.5), ay(478.5), 0.0, H_TOT, md, t,
+        'Medianera Este')
+    box(ents, ax(688.8), ay(478.5), ax(707.5), ay(540.8), 0.0, H_TOT, md, t,
+        'Medianera Este - cuello')
+
+    # Trasdosado de 0,10 m bajo el forjado, grafiado en la propuesta
+    box(ents, bx(326.5), ay(48.8), ax(699.0), by(62.4), 0.0, Z_FORJ_INF, mu, t,
+        'Trasdosado Norte (planta baja)')
+  end
+
+  # --------------------------------------------------------------------------
+  #  3. PILARES, MACHONES Y VIGA
+  # --------------------------------------------------------------------------
+
+  def self.pilares(ents, mat, tag)
+    t = tag['03 Pilares y machones']
+    h = mat['CN Hormigon']
+    m = mat['CN Muro']
+
+    # Machón del muro oeste  (0,37 x 0,60)
+    box(ents, ax(152.5), ay(255.8), ax(173.5), ay(289.7), 0.0, H_TOT, m, t,
+        'Machon muro Oeste')
+
+    # Pilastra del muro sur  (0,60 x 0,30)
+    box(ents, ax(212.0), ay(440.0), ax(246.1), ay(456.9), 0.0, H_TOT, m, t,
+        'Pilastra muro Sur')
+
+    # Machón de la medianera este, junto a la escalera  (0,60 x 0,20)
+    box(ents, ax(687.6), ay(258.5), ax(699.0), ay(292.6), 0.0, H_TOT, m, t,
+        'Machon medianera Este')
+
+    # Pilar central del local  (0,60 x 0,90).
+    # Se interrumpe en el forjado, como un pilar de hormigón real.
+    box(ents, ax(456.9), ay(241.5), ax(490.9), ay(292.6), 0.0, Z_FORJ_INF, h, t,
+        'Pilar central (planta baja)')
+    box(ents, ax(456.9), ay(241.5), ax(490.9), ay(292.6), H_PA, H_TOT, h, t,
+        'Pilar central (planta alta)')
+
+    # Pilar de fachada  (0,50 x 0,96)
+    box(ents, ax(463.2), ay(505.1), ax(491.5), ay(559.5), 0.0, H_TOT, h, t,
+        'Pilar de fachada')
+
+    # Viga descolgada del machón oeste al borde del forjado  (e = 0,25)
+    box(ents, ax(173.5), ay(271.6), ax(275.0), ay(285.8), Z_VIGA_INF, H_PA, h, t,
+        'Viga descolgada')
+  end
+
+  # --------------------------------------------------------------------------
+  #  4. FORJADO DE PLANTA ALTA
   # --------------------------------------------------------------------------
 
   def self.planta_forjado
@@ -394,401 +436,201 @@ module CafeNapoliMalaga
      [ax(277.8), ay(133.8)]]
   end
 
-  def self.forjado_y_cubierta(ents, mat, tag)
+  def self.forjado_planta_alta(ents, mat, tag)
     prism(ents, planta_forjado, Z_FORJ_INF, H_PA,
-          mat['CN Hormigon'], tag['03 Forjado planta alta'], 'Forjado planta alta')
-    prism(ents, planta_forjado, H_PA, H_PA + 0.015,
-          mat['CN Pavimento madera'], tag['01 Solera y pavimentos'],
-          'Pavimento planta alta')
-    prism(ents, perimetro_exterior, H_TOTAL, H_TOTAL + T_CUBIERTA,
-          mat['CN Hormigon'], tag['04 Cubierta'], 'Forjado de cubierta')
+          mat['CN Hormigon'], tag['04 Forjado planta alta'],
+          'Forjado planta alta (+3.00)')
+  end
+
+  def self.cubierta(ents, mat, tag)
+    prism(ents, perimetro_exterior, H_TOT, H_TOT + T_CUBIERTA,
+          mat['CN Hormigon'], tag['05 Cubierta'], 'Forjado de cubierta')
   end
 
   # --------------------------------------------------------------------------
-  #  3. PARTICIONES DE PLANTA ALTA  (ASEO / ALMACÉN-2)
+  #  5. PARTICIONES DE PLANTA ALTA  (ASEO / ALMACÉN-2)
   # --------------------------------------------------------------------------
 
   def self.particiones_planta_alta(ents, mat, tag)
-    t = tag['05 Particiones planta alta']
-    m = mat['CN Muro blanco']
+    t  = tag['06 Particiones planta alta']
+    m  = mat['CN Tabique']
     z0 = H_PA
-    z1 = H_TOTAL
+    z1 = H_TOT
     zd = H_PA + H_PUERTA          # arranque de dinteles
 
-    # Cerramiento oeste del bloque ASEO
     box(ents, ax(277.8), ay(48.8), ax(283.4), ay(133.8), z0, z1, m, t,
-        'PA Tabique Oeste aseo')
+        'PA Tabique Oeste del aseo')
 
-    # Tabique sur del bloque ASEO / ALMACÉN-2, con hueco de puerta
     box(ents, ax(283.4), ay(128.2), ax(313.4), ay(133.8), z0, z1, m, t,
-        'PA Tabique Sur (tramo O)')
+        'PA Tabique Sur - tramo Oeste')
     box(ents, ax(356.5), ay(128.2), ax(564.1), ay(133.8), z0, z1, m, t,
-        'PA Tabique Sur (tramo E)')
+        'PA Tabique Sur - tramo Este')
     box(ents, ax(313.4), ay(128.2), ax(356.5), ay(133.8), zd, z1, m, t,
-        'PA Dintel puerta aseo (0,76 m)')
+        'PA Dintel puerta aseo (hueco 0,76 m)')
 
-    # Tabique del inodoro
     box(ents, ax(391.2), ay(94.2), ax(396.8), ay(128.2), z0, z1, m, t,
-        'PA Tabique inodoro')
+        'PA Tabique del inodoro')
     box(ents, ax(391.2), ay(48.8), ax(396.8), ay(94.2), zd, z1, m, t,
-        'PA Dintel puerta inodoro (0,80 m)')
+        'PA Dintel puerta inodoro (hueco 0,80 m)')
 
-    # Separación inodoro / ALMACÉN-2
     box(ents, ax(447.8), ay(48.8), ax(453.4), ay(128.2), z0, z1, m, t,
-        'PA Tabique aseo-almacen')
+        'PA Tabique aseo / almacen')
 
-    # Cerramiento este de ALMACÉN-2, con hueco de puerta
     box(ents, ax(558.3), ay(101.9), ax(564.1), ay(128.2), z0, z1, m, t,
-        'PA Tabique Este almacen')
+        'PA Tabique Este del almacen')
     box(ents, ax(558.3), ay(48.8), ax(564.1), ay(101.9), zd, z1, m, t,
-        'PA Dintel puerta almacen (0,94 m)')
+        'PA Dintel puerta almacen (hueco 0,94 m)')
   end
 
   # --------------------------------------------------------------------------
-  #  4. ESCALERA  (16 huellas de 0,26 m · 17 tabicas de 3,00/17 = 0,1765 m)
+  #  6. PARTICIONES DE PLANTA BAJA  (recinto de cocina de la propuesta)
+  # --------------------------------------------------------------------------
+
+  def self.particiones_pb(ents, mat, tag)
+    t = tag['07 Particiones planta baja']
+    m = mat['CN Tabique']
+
+    box(ents, bx(349.2), by(62.4), bx(354.0), by(249.9), 0.0, Z_FORJ_INF, m, t,
+        'PB Tabique Este de la cocina')
+
+    # Tabique sur con paso de 0,80 m alineado con el pasillo de servicio
+    box(ents, bx(117.8), by(249.9), bx(181.6), by(254.6), 0.0, Z_FORJ_INF, m, t,
+        'PB Tabique Sur cocina - tramo Oeste')
+    box(ents, bx(257.2), by(249.9), bx(354.0), by(254.6), 0.0, Z_FORJ_INF, m, t,
+        'PB Tabique Sur cocina - tramo Este')
+    box(ents, bx(181.6), by(249.9), bx(257.2), by(254.6),
+        H_PUERTA, Z_FORJ_INF, m, t, 'PB Dintel paso cocina (hueco 0,80 m)')
+  end
+
+  # --------------------------------------------------------------------------
+  #  7. ESCALERA
+  #     16 huellas de 0,26 m · 17 tabicas de 3,00/17 = 0,17647 m
+  #     El machón de la medianera este invade los peldaños centrales, tal como
+  #     está grafiado: la losa se parte para no atravesarlo.
   # --------------------------------------------------------------------------
 
   def self.esc_datos
-    y_pie  = ay(356.6)          # arranque en planta baja
-    y_alto = ay(120.8)          # llegada a +3.00
+    y_pie  = ay(356.6)                      # arranque en planta baja
+    y_alto = ay(120.8)                      # llegada a +3.00
     huella = (y_alto - y_pie) / 16.0
     tabica = H_PA / N_TABICAS
     [y_pie, y_alto, huella, tabica]
   end
 
-  def self.esc_cota(y)          # cota de la escalera a una Y dada
+  def self.esc_perfil
+    y_pie, y_alto, huella, tabica = esc_datos
+    prof = [[y_pie, 0.0]]
+    (1..N_TABICAS).each do |i|
+      y_r = y_pie + (i - 1) * huella
+      prof << [y_r, i * tabica]                       # tabica
+      prof << [y_r + huella, i * tabica] if i <= 16   # huella
+    end
+    prof << [y_alto, H_PA - T_ZANCA]
+    prof << [y_pie + T_ZANCA * (16 * huella) / H_PA, 0.0]
+    prof
+  end
+
+  def self.escalera(ents, mat, tag)
+    t = tag['08 Escalera']
+    h = mat['CN Hormigon']
+    _y_pie, _y_alto, _hu, tabica = esc_datos
+    prof = esc_perfil
+
+    # Banda libre del machón
+    profile_x(ents, prof, ax(637.8), ax(687.6), h, t,
+              'Escalera - losa (banda libre)')
+
+    # Banda del machón: la losa se interrumpe entre Y del machón
+    y_m0 = ay(292.6)      # extremo sur del machón
+    y_m1 = ay(258.5)      # extremo norte del machón
+    profile_x(ents, clip_y(prof, y_m0, false), ax(687.6), ax(699.0), h, t,
+              'Escalera - losa junto al machon (tramo bajo)')
+    profile_x(ents, clip_y(prof, y_m1, true), ax(687.6), ax(699.0), h, t,
+              'Escalera - losa junto al machon (tramo alto)')
+
+    # Peldaño de arranque ensanchado, tal como está grafiado
+    box(ents, ax(628.0), ay(356.6), ax(637.8), ay(341.9), 0.0, tabica, h, t,
+        'Escalera - peldano de arranque')
+  end
+
+  # --------------------------------------------------------------------------
+  #  8. BARANDILLAS DE VIDRIO  (e = 0,05 m, según el trazado del plano)
+  # --------------------------------------------------------------------------
+
+  def self.esc_cota(y)
     y_pie, _y_alto, huella, tabica = esc_datos
     z = ((y - y_pie) / huella) * tabica
     z < 0.0 ? 0.0 : z
   end
 
-  def self.escalera(ents, mat, tag)
-    t = tag['06 Escalera']
-    y_pie, y_alto, huella, tabica = esc_datos
-
-    prof = [[y_pie, 0.0]]
-    (1..N_TABICAS).each do |i|
-      y_r = y_pie + (i - 1) * huella
-      prof << [y_r, i * tabica]                    # tabica
-      prof << [y_r + huella, i * tabica] if i <= 16 # huella
-    end
-    prof << [y_alto, H_PA - T_ZANCA]
-    prof << [y_pie + T_ZANCA * (16 * huella) / H_PA, 0.0]
-
-    profile_x(ents, prof, ax(637.8), ax(699.0),
-              mat['CN Hormigon'], t, 'Escalera - 17 tabicas')
-
-    # primer peldaño ensanchado, tal como aparece grafiado
-    box(ents, ax(628.0), ay(356.6), ax(637.8), ay(341.9),
-        0.0, tabica, mat['CN Hormigon'], t, 'Escalera - peldano de arranque')
-  end
-
-  # --------------------------------------------------------------------------
-  #  5. BARANDILLAS DE VIDRIO  (e = 0,05 m, como en el plano)
-  # --------------------------------------------------------------------------
-
   def self.barandillas(ents, mat, tag)
-    t = tag['07 Barandillas vidrio']
+    t = tag['09 Barandillas']
     v = mat['CN Vidrio']
 
-    # borde oeste y sur del hueco (VACÍO SOBRE PLANTA BAJA)
+    # Borde oeste y sur del hueco (VACÍO SOBRE PLANTA BAJA)
     box(ents, ax(275.0), ay(133.8), ax(277.8), ay(333.4),
-        H_PA, H_PA + H_BARANDA, v, t, 'Barandilla hueco - Oeste')
+        H_PA, H_PA + H_BARANDA, v, t, 'Barandilla del hueco - Oeste')
     box(ents, ax(275.0), ay(333.4), ax(634.9), ay(336.2),
-        H_PA, H_PA + H_BARANDA, v, t, 'Barandilla hueco - Sur')
+        H_PA, H_PA + H_BARANDA, v, t, 'Barandilla del hueco - Sur')
 
-    # borde de la caja de escalera: base inclinada siguiendo los peldaños
-    y_pie, y_alto, _h, _tb = esc_datos
-    y_forj = ay(336.2)
-    z_forj = esc_cota(y_forj)
-
-    profile_x(ents, [[y_forj, z_forj], [y_alto, H_PA],
-                     [y_alto, H_PA + H_BARANDA], [y_forj, H_PA + H_BARANDA]],
-              ax(634.9), ax(637.8), v, t, 'Barandilla caja de escalera')
-
-    profile_x(ents, [[y_pie, 0.0], [y_forj, z_forj],
-                     [y_forj, z_forj + H_BARANDA], [y_pie, H_BARANDA]],
-              ax(634.9), ax(637.8), v, t, 'Barandilla escalera - tramo bajo')
+    # Borde de la caja de escalera. Arranca en la llegada de la escalera
+    # (y = 120,8 pt) para dejar libre el paso del rellano a la zona de paso.
+    box(ents, ax(634.9), ay(120.8), ax(637.8), ay(336.2),
+        H_PA, H_PA + H_BARANDA, v, t, 'Barandilla de la caja de escalera')
   end
 
   # --------------------------------------------------------------------------
-  #  6. FACHADA — ESCAPARATE
+  #  9. FACHADA
   # --------------------------------------------------------------------------
 
   def self.fachada(ents, mat, tag)
-    t   = tag['08 Fachada - escaparate']
-    y0  = ay(540.8)
-    y1  = ay(538.0)
+    t   = tag['10 Fachada - escaparate']
+    y0  = ay(540.8)          # cara exterior
+    y1  = ay(538.0)          # cara interior
     xa  = ax(491.5)
-    xm0 = ax(571.4)      # montante grafiado en el plano
+    xm0 = ax(571.4)          # montante grafiado en el plano
     xm1 = ax(574.3)
     xb  = ax(688.8)
 
-    # vidrio de los dos paños (entre umbral y cabecero)
     box(ents, xa,  y0, xm0, y1, 0.06, H_ESCAPARATE - 0.08,
-        mat['CN Vidrio'], t, 'Escaparate - pano Oeste (acceso)')
+        mat['CN Vidrio'], t, 'Escaparate - pano Oeste')
     box(ents, xm1, y0, xb,  y1, 0.06, H_ESCAPARATE - 0.08,
         mat['CN Vidrio'], t, 'Escaparate - pano Este')
 
-    # montante y cercos
     box(ents, xm0, y0, xm1, y1, 0.0, H_ESCAPARATE,
-        mat['CN Negro mate'], t, 'Escaparate - montante')
-    box(ents, xa,  y0, xb,  y1, 0.0, 0.06,
-        mat['CN Negro mate'], t, 'Escaparate - umbral')
-    box(ents, xa,  y0, xb,  y1, H_ESCAPARATE - 0.08, H_ESCAPARATE,
-        mat['CN Negro mate'], t, 'Escaparate - cabecero')
+        mat['CN Carpinteria'], t, 'Escaparate - montante')
+    [[xa, xm0], [xm1, xb]].each_with_index do |(u0, u1), i|
+      box(ents, u0, y0, u1, y1, 0.0, 0.06,
+          mat['CN Carpinteria'], t, "Escaparate - umbral #{i + 1}")
+      box(ents, u0, y0, u1, y1, H_ESCAPARATE - 0.08, H_ESCAPARATE,
+          mat['CN Carpinteria'], t, "Escaparate - cabecero #{i + 1}")
+    end
 
-    # banda de rótulo y peto sobre el escaparate
     box(ents, xa, y0, xb, y1, H_ESCAPARATE, H_ESCAPARATE + 0.55,
-        mat['CN Azul Napoli'], t, 'Banda de rotulo')
-    box(ents, xa, y0, xb, y1, H_ESCAPARATE + 0.55, H_TOTAL,
-        mat['CN Muro blanco'], t, 'Peto sobre escaparate')
+        mat['CN Rotulo'], t, 'Banda de rotulo')
+    box(ents, xa, y0, xb, y1, H_ESCAPARATE + 0.55, H_TOT,
+        mat['CN Muro'], t, 'Peto sobre el escaparate')
   end
 
   # --------------------------------------------------------------------------
-  #  7. COCINA  (tabiques de 5 cm y equipamiento de la propuesta)
+  #  10. INSTALACIONES
   # --------------------------------------------------------------------------
 
-  def self.cocina(ents, mat, tag)
-    t  = tag['09 Cocina - equipamiento']
-    t2 = tag['02 Muros y pilares']
-    m  = mat['CN Muro blanco']
-
-    # Tabique este de la cocina (altura hasta el intradós del forjado)
-    box(ents, bx(349.2), by(62.4), bx(354.0), by(254.6),
-        0.0, Z_FORJ_INF, m, t2, 'Cocina - tabique Este')
-
-    # Tabique sur, con paso de 0,80 m alineado con el pasillo de servicio
-    box(ents, bx(117.8), by(249.9), bx(181.6), by(254.6),
-        0.0, Z_FORJ_INF, m, t2, 'Cocina - tabique Sur (tramo O)')
-    box(ents, bx(257.2), by(249.9), bx(354.0), by(254.6),
-        0.0, Z_FORJ_INF, m, t2, 'Cocina - tabique Sur (tramo E)')
-    box(ents, bx(181.6), by(249.9), bx(257.2), by(254.6),
-        H_PUERTA, Z_FORJ_INF, m, t2, 'Cocina - dintel de paso (0,80 m)')
-
-    # Equipamiento grafiado en la propuesta (medidas exactas del plano)
-    box(ents, bx(122.5), by(57.7), bx(160.0), by(132.6),
-        0.0, H_MOSTRADOR, mat['CN Acero inox'], t,
-        'Mueble MICROONDAS / TOSTADORA (0,40 x 0,80)')
-    box(ents, bx(126.0), by(62.0), bx(157.0), by(100.0),
-        H_MOSTRADOR, H_MOSTRADOR + 0.30, mat['CN Negro mate'], t, 'Microondas')
-    box(ents, bx(126.0), by(104.0), bx(157.0), by(128.0),
-        H_MOSTRADOR, H_MOSTRADOR + 0.22, mat['CN Acero inox'], t, 'Tostadora')
-
-    box(ents, bx(183.4), by(54.1), bx(221.5), by(120.2),
-        0.0, H_MOSTRADOR, mat['CN Acero inox'], t,
-        'FREIDORA (0,40 x 0,70)')
-    box(ents, bx(231.6), by(52.9), bx(318.8), by(120.4),
-        0.0, H_MOSTRADOR, mat['CN Acero inox'], t,
-        'PLANCHA (0,92 x 0,71)')
-    box(ents, bx(231.6), by(52.9), bx(318.8), by(120.4),
-        H_MOSTRADOR, H_MOSTRADOR + 0.03, mat['CN Negro mate'], t,
-        'PLANCHA - superficie')
+  def self.instalaciones(ents, mat, tag)
+    # Bajante grafiada en el rincón noroeste del vacío (Ø exterior 0,20)
+    cyl(ents, ax(264.5), ay(57.6), 0.1005, 0.0, H_TOT,
+        mat['CN Instalacion'], tag['11 Instalaciones'], 'Bajante (D 0,20)')
   end
 
   # --------------------------------------------------------------------------
-  #  8. BARRA DE SERVICIO Y MOSTRADOR DE VENTA
-  # --------------------------------------------------------------------------
-
-  def self.barra_y_mostrador(ents, mat, tag)
-    t     = tag['10 Barra y mostrador']
-    mad   = mat['CN Madera listones']
-    inox  = mat['CN Acero inox']
-    top   = mat['CN Piedra encimera']
-    frio  = mat['CN Drop-in frio']
-    vid   = mat['CN Vidrio vitrina']
-
-    z_top = H_MOSTRADOR
-    z_enc = H_MOSTRADOR + T_ENCIMERA
-
-    # ---- Trasbarra oeste ---------------------------------------------------
-    # RETRO REFRIGGERATO norte (0,675 x 1,50)
-    box(ents, bx(117.8), by(254.6), bx(181.6), by(396.3),
-        0.0, z_top, inox, t, 'RETRO REFRIGGERATO (norte)')
-    box(ents, bx(117.8), by(254.6), bx(181.6), by(396.3),
-        z_top, z_enc, top, t, 'Encimera trasbarra norte')
-
-    # Trasbarra sur: 2,72 m de la cota "272".
-    # El plano dibuja el testero en x=117,7 pt (1 mm dentro del muro):
-    # se ajusta a la cara interior real del muro oeste.
-    box(ents, ax(152.5), by(455.8), bx(181.6), by(712.9),
-        0.0, z_top, mad, t, 'Trasbarra Sur - MACCHINA CAFFE / RETRO (2,72 m)')
-    box(ents, ax(152.5), by(455.8), bx(181.6), by(712.9),
-        z_top, z_enc, top, t, 'Encimera trasbarra Sur')
-
-    # máquina de café sobre la trasbarra
-    box(ents, bx(124.0), by(462.0), bx(176.0), by(538.0),
-        z_enc, z_enc + 0.52, inox, t, 'MACCHINA CAFFE')
-    box(ents, bx(124.0), by(545.0), bx(176.0), by(566.0),
-        z_enc, z_enc + 0.62, inox, t, 'Molino de cafe')
-
-    # dos senos circulares grafiados (D = 0,47 m, centros a 0,46 m)
-    [595.8, 639.4].each_with_index do |cy, i|
-      cyl(ents, bx(151.4), by(cy), 0.235, z_enc, z_enc + 0.14,
-          inox, t, "Seno circular #{i + 1} (D 0,47)")
-      cyl(ents, bx(128.0), by(cy), 0.022, z_enc, z_enc + 0.26,
-          inox, t, "Griferia seno #{i + 1}")
-    end
-
-    # ---- Mostrador de venta ------------------------------------------------
-    # VETRINA EXPO ALTA (FREDDA)  0,85 x 1,00
-    box(ents, bx(257.2), by(258.4), bx(337.4), by(352.9),
-        0.0, z_top, inox, t, 'VETRINA EXPO ALTA - base')
-    box(ents, bx(259.0), by(260.2), bx(335.6), by(351.1),
-        z_top, H_VITRINA, vid, t, 'VETRINA EXPO ALTA (FREDDA)')
-
-    # Cuerpo del banco: tres módulos según el plano
-    box(ents, bx(257.2), by(352.9), bx(337.4), by(530.5),
-        0.0, z_top, mad, t, 'Banco - modulo DROP IN 1 (1,88 m)')
-    box(ents, bx(257.2), by(530.5), bx(337.4), by(657.6),
-        0.0, z_top, mad, t, 'Banco - modulo DROP IN 2 (1,345 m)')
-    box(ents, bx(257.2), by(657.6), bx(337.4), by(704.8),
-        0.0, z_top, inox, t, 'BANCO CASSA / RETRO REFRIGGERATO (0,50 m)')
-
-    # Encimera del lado de servicio
-    box(ents, bx(257.2), by(352.9), bx(301.6), by(704.8),
-        z_top, z_enc, top, t, 'Encimera lado servicio')
-    box(ents, bx(301.6), by(657.6), bx(337.4), by(704.8),
-        z_top, z_enc, top, t, 'Encimera banco cassa')
-
-    # Cubetas DROP IN CALDO/FREDDO (franja de 0,379 m del plano)
-    box(ents, bx(301.6), by(353.8), bx(337.4), by(530.5),
-        z_top - 0.05, z_enc, frio, t, 'DROP IN CLDO FREDDO (188)')
-    box(ents, bx(301.6), by(531.4), bx(337.4), by(657.6),
-        z_top - 0.05, z_enc, frio, t, 'DROP IN CLDO FREDDO (134,5)')
-
-    # Vitrina de protección sobre las cubetas
-    box(ents, bx(337.0), by(353.8), bx(337.4), by(657.6),
-        z_enc, z_enc + 0.42, vid, t, 'Vitrina banco - frente')
-    box(ents, bx(301.6), by(353.8), bx(337.4), by(657.6),
-        z_enc + 0.42, z_enc + 0.44, vid, t, 'Vitrina banco - cubierta')
-
-    # TPV sobre el banco cassa
-    box(ents, bx(305.0), by(668.0), bx(325.0), by(694.0),
-        z_enc, z_enc + 0.30, mat['CN Negro mate'], t, 'TPV')
-  end
-
-  # --------------------------------------------------------------------------
-  #  9. SANITARIOS DE PLANTA ALTA
-  # --------------------------------------------------------------------------
-
-  def self.sanitarios(ents, mat, tag)
-    t  = tag['11 Sanitarios']
-    z0 = H_PA
-
-    # Encimera de lavabo grafiada (0,50 x 1,40)
-    box(ents, ax(283.4), ay(48.8), ax(311.8), ay(128.2),
-        z0, z0 + 0.85, mat['CN Madera roble'], t, 'Encimera de lavabos')
-    cyl(ents, ax(297.6), ay(87.2), 0.21, z0 + 0.85, z0 + 0.97,
-        mat['CN Sanitario'], t, 'Lavabo sobre encimera (D 0,42)')
-
-    # Lavabo mural
-    box(ents, ax(365.0), ay(108.0), ax(388.0), ay(128.2),
-        z0 + 0.78, z0 + 0.90, mat['CN Sanitario'], t, 'Lavabo mural')
-
-    # Inodoro
-    box(ents, ax(411.6), ay(88.7), ax(433.3), ay(101.0),
-        z0, z0 + 0.90, mat['CN Sanitario'], t, 'Inodoro - cisterna')
-    box(ents, ax(413.0), ay(101.0), ax(432.0), ay(128.0),
-        z0 + 0.20, z0 + 0.42, mat['CN Sanitario'], t, 'Inodoro - taza')
-
-    # Franja azul sobre el alicatado (imagen de referencia).
-    # Se sitúa en la medianera norte, que no tiene huecos.
-    box(ents, ax(283.4), ay(48.8), ax(447.8), ay(48.8) - 0.03,
-        z0 + 1.20, H_TOTAL, mat['CN Azul Napoli'], t, 'Franja azul aseo')
-  end
-
-  # --------------------------------------------------------------------------
-  #  10. MOBILIARIO DE SALA  (no grafiado en los planos — capa independiente)
-  # --------------------------------------------------------------------------
-
-  def self.mesa(ents, mat, tag, cx, cy, lado = 0.70)
-    g = ents.add_group
-    e = g.entities
-    h = 0.75
-    box(e, cx - lado / 2, cy - lado / 2, cx + lado / 2, cy + lado / 2,
-        h - 0.04, h, mat['CN Piedra encimera'], nil, 'Tablero')
-    box(e, cx - 0.04, cy - 0.04, cx + 0.04, cy + 0.04,
-        0.02, h - 0.04, mat['CN Negro mate'], nil, 'Pie')
-    box(e, cx - 0.20, cy - 0.20, cx + 0.20, cy + 0.20,
-        0.0, 0.02, mat['CN Negro mate'], nil, 'Base')
-    finish(g, nil, tag['12 Mobiliario sala (propuesta)'], 'Mesa 0,70 x 0,70')
-  end
-
-  def self.silla(ents, mat, tag, cx, cy, lado_respaldo)
-    g = ents.add_group
-    e = g.entities
-    a = 0.45
-    box(e, cx - a / 2, cy - a / 2, cx + a / 2, cy + a / 2,
-        0.42, 0.47, mat['CN Tapiceria'], nil, 'Asiento')
-    [[-1, -1], [1, -1], [-1, 1], [1, 1]].each do |sx, sy|
-      px = cx + sx * (a / 2 - 0.04)
-      py = cy + sy * (a / 2 - 0.04)
-      box(e, px - 0.02, py - 0.02, px + 0.02, py + 0.02,
-          0.0, 0.42, mat['CN Madera roble'], nil, 'Pata')
-    end
-    xr = cx + lado_respaldo * (a / 2 - 0.05)
-    box(e, xr, cy - a / 2, xr + lado_respaldo * 0.05, cy + a / 2,
-        0.47, 0.85, mat['CN Tapiceria'], nil, 'Respaldo')
-    finish(g, nil, tag['12 Mobiliario sala (propuesta)'], 'Silla')
-  end
-
-  def self.taburete(ents, mat, tag, cx, cy)
-    g = ents.add_group
-    e = g.entities
-    cyl(e, cx, cy, 0.17, 0.70, 0.75, mat['CN Madera roble'], nil, 'Asiento')
-    cyl(e, cx, cy, 0.03, 0.03, 0.70, mat['CN Negro mate'], nil, 'Pie')
-    cyl(e, cx, cy, 0.16, 0.0, 0.03, mat['CN Negro mate'], nil, 'Base')
-    finish(g, nil, tag['12 Mobiliario sala (propuesta)'], 'Taburete')
-  end
-
-  def self.mobiliario_sala(ents, mat, tag)
-    t = tag['12 Mobiliario sala (propuesta)']
-
-    # Zona bajo el forjado (altura libre 2,70 m)
-    [4.90, 6.50, 8.10].each do |cy|
-      [4.00, 6.00, 8.00].each do |cx|
-        mesa(ents, mat, tag, cx, cy)
-        silla(ents, mat, tag, cx - 0.66, cy, -1)
-        silla(ents, mat, tag, cx + 0.66, cy,  1)
-      end
-    end
-
-    # Zona a doble altura, frente al mostrador
-    [4.00, 6.00, 8.00].each do |cx|
-      mesa(ents, mat, tag, cx, 2.85)
-      silla(ents, mat, tag, cx - 0.66, 2.85, -1)
-      silla(ents, mat, tag, cx + 0.66, 2.85,  1)
-    end
-
-    # Barra alta de ventana + taburetes (imagen de referencia).
-    # Se apoya en el paño Este del escaparate, dejando libre el acceso.
-    x0 = ax(574.3) + 0.10
-    x1 = ax(688.8) - 0.10
-    y0 = ay(538.0)                       # cara interior del escaparate
-    box(ents, x0, y0, x1, y0 + 0.45, 1.01, 1.05,
-        mat['CN Madera roble'], t, 'Barra de ventana')
-    [x0 + 0.08, x1 - 0.14].each do |sx|
-      box(ents, sx, y0 + 0.02, sx + 0.06, y0 + 0.08, 0.0, 1.01,
-          mat['CN Negro mate'], t, 'Barra ventana - soporte')
-    end
-
-    n = 4
-    (0...n).each do |i|
-      cx = x0 + (x1 - x0) * (i + 0.5) / n
-      taburete(ents, mat, tag, cx, y0 + 0.45 + 0.27)
-    end
-  end
-
-  # --------------------------------------------------------------------------
-  #  ENCUADRE FINAL
+  #  ENCUADRE
   # --------------------------------------------------------------------------
 
   def self.encuadre(model)
     view = model.active_view
-    eye    = p3(-7.0, -8.0, 8.5)
-    target = p3(5.0, 4.6, 1.4)
-    view.camera = Sketchup::Camera.new(eye, target, Geom::Vector3d.new(0, 0, 1))
+    view.camera = Sketchup::Camera.new(p3(-7.0, -8.0, 8.5),
+                                       p3(5.0, 4.6, 1.4),
+                                       Geom::Vector3d.new(0, 0, 1))
     view.zoom_extents
   rescue StandardError
     nil
@@ -810,8 +652,8 @@ module CafeNapoliMalaga
 
 end
 
-# Al cargar el archivo desde la Consola Ruby se genera el modelo directamente.
-# Si el archivo se coloca en la carpeta Plugins, sólo se instala el menú.
+# Al cargar desde la Consola Ruby se genera el modelo. Si el archivo vive en la
+# carpeta Plugins, sólo se instala el menú.
 begin
   plugins_dir = Sketchup.find_support_file('Plugins').to_s.downcase
   here        = File.dirname(File.expand_path(__FILE__)).downcase
