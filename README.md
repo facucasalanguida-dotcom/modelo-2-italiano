@@ -5,6 +5,8 @@ Generador en Ruby (`cafe_napoli_malaga.rb`) que construye el modelo 3D completo 
 
 | | |
 |---|---|
+| ![Planta baja](docs/renders/sketchup_pb_top.png) | ![Planta alta](docs/renders/sketchup_pa_top.png) |
+| ![Planta baja iso](docs/renders/sketchup_pb_iso.png) | ![Planta alta iso](docs/renders/sketchup_pa_iso.png) |
 | ![Fachada](docs/renders/v1_fachada.png) | ![Sala](docs/renders/v2_sala.png) |
 | ![Mostrador](docs/renders/v3_mostrador.png) | ![Escalera](docs/renders/v4_escalera.png) |
 | ![Trasbarra](docs/renders/v5_trasbarra.png) | ![Planta baja](docs/renders/v6_pb_aerea.png) |
@@ -187,4 +189,6 @@ antes de entregarlo, que:
 
 Las plantas, secciones y vistas de este README están generadas **a partir de la geometría
 real que produce el script**, no dibujadas aparte: `docs/plantas.png`, `docs/secciones.png`,
-`docs/vistas.png` y las siete vistas en perspectiva de `docs/renders/`.
+`docs/vistas.png` y las once vistas de `docs/renders/` (vista superior e isométrica
+seccionada de cada planta, más siete perspectivas), todas con aristas y proyección
+paralela al estilo de SketchUp.
