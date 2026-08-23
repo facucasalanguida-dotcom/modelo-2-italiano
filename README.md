@@ -7,10 +7,15 @@ completa del local —planta baja y planta alta— a partir de los dos planos en
 
 | | |
 |---|---|
-| ![Planta baja](docs/vistas/e_pb_top.png) | ![Planta alta](docs/vistas/e_pa_top.png) |
-| ![PB cenital](docs/vistas/e_pb_aerea.png) | ![PA cenital](docs/vistas/e_pa_aerea.png) |
-| ![PB isométrica](docs/vistas/e_pb_iso.png) | ![PA isométrica](docs/vistas/e_pa_iso.png) |
-| ![Conjunto SO](docs/vistas/e_conjunto.png) | ![Conjunto NE](docs/vistas/e_conjunto_ne.png) |
+| planta baja | planta alta (+3.00) |
+|---|---|
+| ![PB suroeste](docs/vistas/v_pb_so.png) | ![PA suroeste](docs/vistas/v_pa_so.png) |
+| ![PB noreste](docs/vistas/v_pb_ne.png) | ![PA noreste](docs/vistas/v_pa_ne.png) |
+| ![PB cenital](docs/vistas/v_pb_alta.png) | ![PA cenital](docs/vistas/v_pa_alta.png) |
+| ![PB vista superior](docs/vistas/e_pb_top.png) | ![PA vista superior](docs/vistas/e_pa_top.png) |
+
+Diez puntos de vista más (cuatro esquinas por planta, isométricas, conjunto y
+secciones) en `docs/vistas/`, y dos láminas resumen en `docs/`.
 
 ---
 
