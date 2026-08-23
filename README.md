@@ -8,6 +8,7 @@ completa del local —planta baja y planta alta— a partir de los dos planos en
 | | |
 |---|---|
 | ![Planta baja](docs/vistas/e_pb_top.png) | ![Planta alta](docs/vistas/e_pa_top.png) |
+| ![PB cenital](docs/vistas/e_pb_aerea.png) | ![PA cenital](docs/vistas/e_pa_aerea.png) |
 | ![PB isométrica](docs/vistas/e_pb_iso.png) | ![PA isométrica](docs/vistas/e_pa_iso.png) |
 | ![Conjunto SO](docs/vistas/e_conjunto.png) | ![Conjunto NE](docs/vistas/e_conjunto_ne.png) |
 
