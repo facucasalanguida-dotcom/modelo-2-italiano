@@ -118,12 +118,12 @@ MAT = {
  'CN Tela azul':      plain('tela_azul', srgb('6C8AA8'), 0.9, 0.0, 1.0),
  'CN Negro mate':     plain('negro', srgb('262524'), 0.55),
  'CN Laton':          plain('laton', srgb('C69E54'), 0.25, 1.0),
- 'CN Opal':           emitm('opal', srgb('FFF4E0'), 2.2),
+ 'CN Opal':           emitm('opal', srgb('FFF4E0'), 1.7),
  'CN Planta':         plain('planta', srgb('6E8B5A'), 0.8),
  'CN Terracota':      plain('terracota', srgb('BA8263'), 0.7),
  'CN Azul Napoli':    plain('napoli', srgb('3E6B99'), 0.45),
  'CN Blanco roto':    wall('blanco', srgb('F7F5F0'), 0.8),
- 'CN Luz calida':     emitm('luzcalida', srgb('FFD9A0'), 6.0),
+ 'CN Luz calida':     emitm('luzcalida', srgb('FFD9A0'), 1.9),
  'CN Instalacion':    plain('instalacion', srgb('AAACAE'), 0.5, 0.6),
 }
 M_CERAMICA = plain('ceramica', srgb('F5F1E8'), 0.35)
@@ -243,9 +243,13 @@ for i, s in enumerate(productos):
         primitive('sphere', M_BOLLO, (cx, cy, z0 + 0.028),
                   (0.052, 0.052, 0.03))
     else:
-        r = math.radians(random.uniform(-25, 25))
+        r = math.radians(random.uniform(-30, 30))
+        sc = random.uniform(0.85, 1.15)
         primitive('sphere', M_CROISSANT, (cx, cy, z0 + 0.024),
-                  (0.075, 0.042, 0.026), (0, 0, r))
+                  (0.075*sc, 0.042*sc, 0.026), (0, 0, r))
+        primitive('sphere', M_CROISSANT,
+                  (cx + 0.05*sc*math.cos(r), cy + 0.05*sc*math.sin(r),
+                   z0 + 0.018), (0.03*sc, 0.028*sc, 0.018), (0, 0, r), seg=16)
 
 # botellas de vidrio en la estanteria
 for s in botellas:
