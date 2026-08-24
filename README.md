@@ -4,7 +4,7 @@ Generador en Ruby (`cafe_napoli_malaga.rb`) que construye el local completo
 —arquitectura, equipamiento, mobiliario, iluminación y decoración— a partir de
 los dos planos entregados.
 
-**668 sólidos** repartidos en **19 etiquetas**. Todo el modelo se levanta con una
+**648 sólidos** repartidos en **19 etiquetas**. Todo el modelo se levanta con una
 sola orden en la Consola Ruby de SketchUp.
 
 |  |  |
@@ -94,10 +94,12 @@ El cerramiento de la cocina hacia la sala es una **mampara de vidrio de 3,18 m**
 (`PB Mampara …`, etiqueta `07 Particiones planta baja`): arranca en el muro
 oeste, en x = 0,251, y muere exactamente donde empieza la barra, en x = 3,430.
 
-Va con **carpintería vista**, para que se lea como una carpintería acristalada
-y no como un hueco: cinco montantes de 5 cm —uno de ellos en el eje exacto del
-tabique que dibuja el plano—, zócalo de 10 cm, travesaño a 2,06 m y dintel a
-2,60 m. Cuatro paños de vidrio, cada uno partido por el travesaño.
+Es **un solo paño de vidrio** con un **borde exterior de 4 cm** y nada por
+dentro: sin montantes ni travesaños intermedios.
+
+**Corona a 2,40 m**, por debajo del frente del altillo —que arranca a 2,48 m—
+y del intradós del forjado —2,70 m—, de modo que no la corta nada de la
+planta primera.
 
 ![Mampara](docs/vistas/n_int_mampara.jpg)
 
@@ -169,9 +171,9 @@ geométricamente antes de entregarlo:
 
 | Prueba | Resultado |
 |---|---|
-| Sólidos generados | 668, ninguno degenerado, todos con material y etiqueta |
+| Sólidos generados | 648, ninguno degenerado, todos con material y etiqueta |
 | Cotas contra el plano | 22 comprobaciones, todas dentro de tolerancia |
-| **Solape entre sólidos de estructura** | **0,0000 m³** sobre 102,415 m³ (rejilla volumétrica de 5 cm) |
+| **Solape entre sólidos de estructura** | **0,0000 m³** sobre 102,367 m³ (rejilla volumétrica de 5 cm) |
 | **Huecos en la envolvente** | **0,0000 m²** a z = 0,30 / 1,50 / 2,50 / 3,50 / 4,50 / 5,30 m |
 | Interferencia mobiliario ↔ estructura | Sin colisiones. Los cuatro pares que marca el filtro por cajas envolventes —listones del machón este contra la escalera— se descartan con rejilla exacta de 1 cm: 0 celdas compartidas |
 | Solape real entre elementos de interiorismo | Ninguno. Los únicos que quedan son intencionados: mobiliario apoyado sobre los 2 cm de pavimento y las baldas dentro de las vitrinas |
