@@ -186,28 +186,6 @@ module CafeNapoliMalaga
     finish(g, mat, tag, name)
   end
 
-  # Extrusión en Y de un perfil definido en el plano X-Z: [[x,z], ...]
-  def self.profile_y(ents, prof, y0, y1, mat = nil, tag = nil, name = nil)
-    ya, yb = [y0, y1].minmax
-    return nil if (yb - ya) < 1e-6
-    prof = dedupe(prof)
-    return nil if prof.length < 3
-    g = ents.add_group
-    begin
-      f = g.entities.add_face(prof.map { |q| p3(q[0], ya, q[1]) })
-    rescue StandardError => e
-      puts "Café Napoli: perfil no válido en '#{name}' (#{e.message})"
-      f = nil
-    end
-    if f.nil?
-      g.erase!
-      return nil
-    end
-    f.reverse! if f.normal.y < 0
-    f.pushpull((yb - ya) * M_TO_IN)
-    finish(g, mat, tag, name)
-  end
-
   def self.cyl(ents, cx, cy, r, z0, z1, mat = nil, tag = nil, name = nil)
     za, zb = [z0, z1].minmax
     g = ents.add_group
@@ -273,6 +251,8 @@ module CafeNapoliMalaga
     'CN Azul Napoli'   => [ 62, 107, 153, 255],
     'CN Tela azul'     => [108, 138, 168, 255],
     'CN Opal'          => [246, 243, 236, 255],
+    'CN Luz calida'    => [246, 222, 174, 255],   # fondo retroiluminado
+    'CN Instalacion'   => [170, 172, 174, 255],
     'CN Blanco roto'   => [247, 245, 240, 255]
   }
 
@@ -287,6 +267,7 @@ module CafeNapoliMalaga
     '08 Escalera',
     '09 Barandillas',
     '10 Fachada - escaparate',
+    '11 Instalaciones',
     '20 Pavimento',
     '21 Cocina',
     '22 Barra',
@@ -345,6 +326,7 @@ module CafeNapoliMalaga
       barandillas(ents, mat, tag)
       fachada(ents, mat, tag)
       cubierta(ents, mat, tag)
+      instalaciones(ents, mat, tag)
 
       pavimento(ents, mat, tag)
       revestimientos(ents, mat, tag)
@@ -377,10 +359,11 @@ module CafeNapoliMalaga
         Escalera ................ 16 huellas de 0,26 · 17 tabicas de 0,1765
 
       Interiorismo: cocina con campana y revestimiento de inox, mampara de
-      vidrio, barra de 4,53 m con tabla de madera maciza, dos vitrinas,
-      estantería de tres hornacinas de medio punto forradas de azul Napoli,
-      listones en los cuatro soportes, 9 mesas con 18 sillas tapizadas,
-      iluminación y decoración.  La entrada queda despejada.
+      vidrio, barra de 4,53 m con tabla de madera maciza,
+      dos vitrinas de cristal curvo encastradas en la barra, estantería de
+      cajas de acero negro retroiluminada, listones de suelo a techo en los
+      soportes, 6 mesas con 12 sillas tapizadas, iluminación y decoración.
+      La entrada queda despejada.
     TXT
     puts txt
     txt
@@ -482,9 +465,11 @@ module CafeNapoliMalaga
     box(ents, ax(463.2), ay(505.1), ax(491.5), ay(559.5), 0.0, H_TOT, h, t,
         'Pilar de fachada')
 
-    # Viga descolgada del machón oeste al borde del forjado  (e = 0,25)
-    box(ents, ax(173.5), ay(271.6), ax(275.0), ay(285.8), Z_VIGA_INF, H_PA, h, t,
-        'Viga descolgada')
+    # Viga descolgada del machón oeste al borde del forjado  (e = 0,25).
+    # Muere en la cara vista del machón revestido, 3,8 cm al este del hormigón,
+    # para que los listones del machón puedan correr de suelo a techo.
+    box(ents, ax(173.5) + 0.038, ay(271.6), ax(275.0), ay(285.8),
+        Z_VIGA_INF, H_PA, h, t, 'Viga descolgada')
   end
 
   # --------------------------------------------------------------------------
@@ -697,6 +682,21 @@ module CafeNapoliMalaga
      [ax(173.5), ay(255.8)], [ax(152.5), ay(255.8)]]
   end
 
+  # --------------------------------------------------------------------------
+  #  11. INSTALACIONES
+  # --------------------------------------------------------------------------
+
+  # Bajante grafiada en el rincón noroeste del local (Ø exterior 0,20)
+  def self.bajante_xy
+    [ax(264.5), ay(57.6)]
+  end
+
+  def self.instalaciones(ents, mat, tag)
+    cx, cy = bajante_xy
+    cyl(ents, cx, cy, 0.1005, 0.0, H_TOT,
+        mat['CN Instalacion'], tag['11 Instalaciones'], 'Bajante (D 0,20)')
+  end
+
   def self.pavimento(ents, mat, tag)
     prism(ents, perimetro_interior, 0.0, 0.02,
           mat['CN Suelo roble'], tag['20 Pavimento'], 'Pavimento roble claro')
@@ -783,11 +783,12 @@ module CafeNapoliMalaga
     # Pilar central: las cuatro caras
     revestir(ents, ax(456.9), ay(292.6), ax(490.9), ay(241.5), h,
              [:s, :n, :o, :e], m, t, 'Listones pilar central')
-    # Machon del muro oeste: caras vistas
-    revestir(ents, ax(152.5), ay(289.7), ax(173.5), ay(255.8), h,
+    # Machon del muro oeste: caras vistas, de suelo a techo. Esta en la zona
+    # de doble altura, asi que el revestimiento sube los 5,50 m completos.
+    revestir(ents, ax(152.5), ay(289.7), ax(173.5), ay(255.8), H_TOT,
              [:s, :n, :e], m, t, 'Listones machon Oeste')
-    # Pilastra del muro sur
-    revestir(ents, ax(212.0), ay(456.9), ax(246.1), ay(440.0), h,
+    # Pilastra del muro sur: tambien en doble altura, hasta 5,50
+    revestir(ents, ax(212.0), ay(456.9), ax(246.1), ay(440.0), H_TOT,
              [:n, :o, :e], m, t, 'Listones pilastra Sur')
     # Machon de la medianera este
     # El machon Este esta dentro de la caja de escalera: los listones arrancan
@@ -795,8 +796,9 @@ module CafeNapoliMalaga
     revestir(ents, ax(687.6), ay(292.6), ax(699.0), ay(258.5), h,
              [:s, :n, :o], m, t, 'Listones machon Este', 0.026, 1.30)
 
-    # Viga descolgada: forro de madera en intrados y dos costados
-    vx0 = ax(173.5); vx1 = ax(275.0)
+    # Viga descolgada: forro de madera en intrados y dos costados.
+    # Arranca 3,8 cm mas al este, en la cara vista del machon revestido.
+    vx0 = ax(173.5) + 0.038; vx1 = ax(275.0)
     vy0 = ay(285.8); vy1 = ay(271.6)
     box(ents, vx0, vy0 - 0.028, vx1, vy1 + 0.028,
         Z_VIGA_INF - 0.028, Z_VIGA_INF, mat['CN Madera liston'], t,
@@ -825,30 +827,31 @@ module CafeNapoliMalaga
     # Revestimiento de acero inoxidable: muro de la coccion y el de su izquierda
     box(ents, xo, yn - 0.05, bx(326.5), yn, 0.0, 2.20, inox, t,
         'Inox muro Norte de cocina')
-    box(ents, bx(326.5), ynt - 0.05, xe, ynt, 0.0, 2.20, inox, t,
-        'Inox muro Norte de cocina (trasdosado)')
     box(ents, xo, ys, xo + 0.05, yn - 0.05, 0.0, 2.20, inox, t,
         'Inox muro Oeste de cocina')
 
-    # Bloque de coccion
-    box(ents, xo + 0.17, yn - 0.75, xo + 2.07, yn - 0.05, 0.0, 0.90, inox, t,
+    # Bloque de coccion. Muere antes de la bajante, que baja por este rincon.
+    xlim = bajante_xy[0] - 0.1005 - 0.06       # tope este libre de la bajante
+    xb0  = xo + 0.17
+    xb1  = xlim - 0.05
+    box(ents, xb0, yn - 0.75, xb1, yn - 0.05, 0.0, 0.90, inox, t,
         'Bloque de coccion')
-    box(ents, xo + 0.17, yn - 0.75, xo + 2.07, yn - 0.05, 0.90, 0.93, neg, t,
+    box(ents, xb0, yn - 0.75, xb1, yn - 0.05, 0.90, 0.93, neg, t,
         'Encimera de coccion')
     4.times do |i|
-      cyl(ents, xo + 0.42 + i * 0.46, yn - 0.38, 0.115, 0.93, 0.955,
-          neg, t, "Fuego #{i + 1}")
+      cyl(ents, xb0 + (i + 0.5) * (xb1 - xb0) / 4.0, yn - 0.38, 0.115,
+          0.93, 0.955, neg, t, "Fuego #{i + 1}")
     end
     # Horno bajo la encimera
-    box(ents, xo + 1.15, yn - 0.78, xo + 2.05, yn - 0.75, 0.18, 0.78,
+    box(ents, xo + 1.15, yn - 0.78, xb1 - 0.03, yn - 0.75, 0.18, 0.78,
         neg, t, 'Horno - puerta')
 
     # Campana extractora y conducto
-    box(ents, xo + 0.12, yn - 0.95, xo + 2.12, yn - 0.05, 1.95, 2.05, inox, t,
+    box(ents, xb0 - 0.05, yn - 0.95, xlim, yn - 0.05, 1.95, 2.05, inox, t,
         'Campana - faldon')
-    box(ents, xo + 0.22, yn - 0.85, xo + 2.02, yn - 0.05, 2.05, 2.32, inox, t,
-        'Campana - cuerpo')
-    box(ents, xo + 0.92, yn - 0.42, xo + 1.32, yn - 0.05, 2.32, Z_FORJ_INF,
+    box(ents, xb0 + 0.05, yn - 0.85, xlim - 0.10, yn - 0.05, 2.05, 2.32,
+        inox, t, 'Campana - cuerpo')
+    box(ents, xo + 0.85, yn - 0.42, xo + 1.25, yn - 0.05, 2.32, Z_FORJ_INF,
         inox, t, 'Campana - conducto')
 
     # Mesa de trabajo contra el muro oeste
@@ -871,13 +874,42 @@ module CafeNapoliMalaga
   BAR_Y1 = 7.43
   BAR_H  = 0.92
 
-  def self.barra(ents, mat, tag)
-    t = tag['22 Barra']
+  # Rebaje de las vitrinas dentro de la barra: quedan 0,22 m por debajo de la
+  # tabla de madera, encastradas, no apoyadas encima.
+  VIT_Y0 = BAR_Y0 + 0.06          # frente de cristal, lado sala
+  VIT_Y1 = BAR_Y1 - 0.08          # fondo, lado servicio
+  VIT_Z0 = BAR_H - 0.16           # 0,76 · fondo del rebaje
+  VIT_ZD = VIT_Z0 + 0.10          # 0,86 · cara alta de la bandeja de acero
+  VIT_ZS = VIT_ZD + 0.24          # 1,10 · arranque de la curva
+  VIT_R  = 0.30                   # radio del cristal curvo
+  VIT_ZT = VIT_ZS + VIT_R         # 1,40 · coronación
 
-    box(ents, BAR_X0, BAR_Y0, BAR_X1, BAR_Y1, 0.10, BAR_H,
-        mat['CN Madera clara'], t, 'Barra - cuerpo')
+  # Huella en planta de cada vitrina
+  def self.huecos_vitrina
+    [[3.62, 4.78], [4.86, 6.02]]
+  end
+
+  def self.barra(ents, mat, tag)
+    t  = tag['22 Barra']
+    hu = huecos_vitrina
+
+    # Zócalo retranqueado y cuerpo macizo hasta el fondo del rebaje
     box(ents, BAR_X0 + 0.05, BAR_Y0 + 0.05, BAR_X1 - 0.05, BAR_Y1 - 0.05,
         0.0, 0.10, mat['CN Negro mate'], t, 'Barra - zocalo retranqueado')
+    box(ents, BAR_X0, BAR_Y0, BAR_X1, BAR_Y1, 0.10, VIT_Z0,
+        mat['CN Madera clara'], t, 'Barra - cuerpo')
+
+    # Por encima del rebaje el cuerpo se parte para dejar los dos huecos
+    macizos_x(BAR_X0, BAR_X1, hu).each do |a, b|
+      box(ents, a, BAR_Y0, b, BAR_Y1, VIT_Z0, BAR_H,
+          mat['CN Madera clara'], t, 'Barra - cuerpo sobre el rebaje')
+    end
+    hu.each do |a, b|
+      box(ents, a, BAR_Y0, b, VIT_Y0, VIT_Z0, BAR_H,
+          mat['CN Madera clara'], t, 'Barra - antepecho del rebaje')
+      box(ents, a, VIT_Y1, b, BAR_Y1, VIT_Z0, BAR_H,
+          mat['CN Madera clara'], t, 'Barra - trasera del rebaje')
+    end
 
     # Frente de listones hacia la sala y en los dos testeros
     azul = mat.dup
@@ -885,37 +917,89 @@ module CafeNapoliMalaga
     revestir(ents, BAR_X0, BAR_Y0, BAR_X1, BAR_Y1, BAR_H, [:s, :o, :e],
              azul, t, 'Barra - listones', 0.026, 0.10)
 
-    # Tabla de madera maciza a lo largo de toda la barra
-    box(ents, BAR_X0 - 0.06, BAR_Y0 - 0.09, BAR_X1 + 0.06, BAR_Y1 + 0.04,
-        BAR_H, BAR_H + 0.06, mat['CN Madera tablero'], t,
-        'Barra - tabla de madera maciza')
+    # Tabla de madera maciza, recortada alrededor de los dos rebajes
+    tx0 = BAR_X0 - 0.06 ; tx1 = BAR_X1 + 0.06
+    ty0 = BAR_Y0 - 0.09 ; ty1 = BAR_Y1 + 0.04
+    macizos_x(tx0, tx1, hu).each do |a, b|
+      box(ents, a, ty0, b, ty1, BAR_H, BAR_H + 0.06,
+          mat['CN Madera tablero'], t, 'Barra - tabla de madera maciza')
+    end
+    hu.each do |a, b|
+      box(ents, a, ty0, b, VIT_Y0, BAR_H, BAR_H + 0.06,
+          mat['CN Madera tablero'], t, 'Barra - tabla, borde delantero')
+      box(ents, a, VIT_Y1, b, ty1, BAR_H, BAR_H + 0.06,
+          mat['CN Madera tablero'], t, 'Barra - tabla, borde trasero')
+    end
+  end
+
+  # Tramos macizos de [x0, x1] una vez descontados los huecos
+  def self.macizos_x(x0, x1, huecos)
+    cortes = [x0] + huecos.flatten + [x1]
+    (0...cortes.length).step(2).map { |i| [cortes[i], cortes[i + 1]] }
+                       .select { |a, b| b - a > 1e-6 }
   end
 
   # --------------------------------------------------------------------------
-  #  VITRINAS Y EQUIPOS DE BARRA
+  #  VITRINAS DE CRISTAL CURVO
+  #  Bandeja de acero en el fondo del rebaje, tres baldas escalonadas y un
+  #  cristal que sube recto y voltea en cuarto de círculo, como el de las
+  #  vitrinas de pastelería.
   # --------------------------------------------------------------------------
 
-  def self.vitrina(ents, mat, tag, x0, x1, nombre)
-    t = tag['23 Vitrinas y equipos']
-    z = BAR_H + 0.06
-    y0 = BAR_Y0 + 0.05
-    y1 = BAR_Y1 - 0.06
-    box(ents, x0, y0, x1, y1, z, z + 0.10, mat['CN Acero inox'], t,
-        "#{nombre} - base")
-    box(ents, x0, y0, x1, y1, z + 0.10, z + 0.58, mat['CN Vidrio'], t,
-        "#{nombre} - vitrina")
-    [0.20, 0.38].each_with_index do |dz, i|
-      box(ents, x0 + 0.04, y0 + 0.04, x1 - 0.04, y1 - 0.04,
-          z + dz, z + dz + 0.02, mat['CN Acero inox'], t,
-          "#{nombre} - balda #{i + 1}")
+  # Sección de la vitrina en el plano Y-Z, del frente al fondo
+  def self.vit_perfil_exterior(n = 12)
+    p = [[VIT_Y0, VIT_ZD], [VIT_Y0, VIT_ZS]]
+    (1..n).each do |i|
+      a = (Math::PI / 2) * i / n
+      p << [VIT_Y0 + VIT_R - VIT_R * Math.cos(a), VIT_ZS + VIT_R * Math.sin(a)]
     end
-    box(ents, x0, y0, x1, y1, z + 0.58, z + 0.62, mat['CN Acero inox'], t,
-        "#{nombre} - remate")
-    # Producto expuesto
-    6.times do |i|
-      cx = x0 + 0.12 + i * (x1 - x0 - 0.24) / 5.0
-      box(ents, cx - 0.05, y0 + 0.14, cx + 0.05, y0 + 0.34,
-          z + 0.22, z + 0.28, mat['CN Terracota'], t, "#{nombre} - producto")
+    p << [VIT_Y1, VIT_ZT]
+    p
+  end
+
+  def self.vitrina(ents, mat, tag, x0, x1, nombre)
+    t    = tag['23 Vitrinas y equipos']
+    inox = mat['CN Acero inox']
+    vid  = mat['CN Vidrio']
+    e    = 0.010                       # espesor del cristal
+    n    = 12
+
+    # Bandeja de acero en el fondo del rebaje
+    box(ents, x0, VIT_Y0, x1, VIT_Y1, VIT_Z0, VIT_ZD, inox, t,
+        "#{nombre} - bandeja")
+
+    # Cristal curvo: banda cerrada, cara exterior y cara interior
+    ext = vit_perfil_exterior(n)
+    int = [[VIT_Y1, VIT_ZT - e], [VIT_Y0 + VIT_R, VIT_ZT - e]]
+    n.downto(1) do |i|
+      a = (Math::PI / 2) * i / n
+      int << [VIT_Y0 + VIT_R - (VIT_R - e) * Math.cos(a),
+              VIT_ZS + (VIT_R - e) * Math.sin(a)]
+    end
+    int << [VIT_Y0 + e, VIT_ZS] << [VIT_Y0 + e, VIT_ZD]
+    profile_x(ents, ext + int, x0 + e, x1 - e, vid, t, "#{nombre} - cristal")
+
+    # Costados de cristal: el mismo perfil, macizo
+    lado = ext + [[VIT_Y1, VIT_ZD]]
+    profile_x(ents, lado, x0, x0 + e, vid, t, "#{nombre} - costado Oeste")
+    profile_x(ents, lado, x1 - e, x1, vid, t, "#{nombre} - costado Este")
+
+    # Trasera corredera, lado servicio
+    box(ents, x0 + e, VIT_Y1 - e, x1 - e, VIT_Y1, VIT_ZD, VIT_ZT - e, vid, t,
+        "#{nombre} - trasera")
+
+    # Tres baldas escalonadas, cada una un poco más atrás y más alta
+    3.times do |i|
+      ya = VIT_Y0 + 0.04 + i * 0.22
+      z  = VIT_ZD + 0.04 + i * 0.14
+      box(ents, x0 + 0.03, ya, x1 - 0.03, ya + 0.22, z, z + 0.02, inox, t,
+          "#{nombre} - balda #{i + 1}")
+      nb = ((x1 - x0 - 0.12) / 0.20).floor
+      nb.times do |j|
+        cx = x0 + 0.09 + (j + 0.5) * (x1 - x0 - 0.18) / nb
+        box(ents, cx - 0.07, ya + 0.04, cx + 0.07, ya + 0.18,
+            z + 0.02, z + 0.09, mat['CN Terracota'], t, "#{nombre} - producto")
+      end
     end
   end
 
@@ -925,8 +1009,9 @@ module CafeNapoliMalaga
     neg  = mat['CN Negro mate']
     z    = BAR_H + 0.06
 
-    vitrina(ents, mat, tag, 3.60, 4.75, 'Vitrina refrigerada')
-    vitrina(ents, mat, tag, 4.85, 6.00, 'Vitrina caliente')
+    hu = huecos_vitrina
+    vitrina(ents, mat, tag, hu[0][0], hu[0][1], 'Vitrina refrigerada')
+    vitrina(ents, mat, tag, hu[1][0], hu[1][1], 'Vitrina caliente')
 
     # Maquina de cafe
     box(ents, 6.30, BAR_Y0 + 0.20, 7.05, BAR_Y1 - 0.12, z, z + 0.46, inox, t,
@@ -949,129 +1034,121 @@ module CafeNapoliMalaga
 
   # --------------------------------------------------------------------------
   #  ESTANTERIA DE FONDO  (contra la medianera norte, detrás de la barra)
-  #  Mueble bajo cerrado + panel con tres hornacinas de medio punto forradas
-  #  de azul Napoli. Misma madera que la barra.
+  #  Mueble bajo liso de roble + rejilla de acero negro que forma cajas de
+  #  distinto tamaño, con el fondo retroiluminado en cálido.
   # --------------------------------------------------------------------------
 
-  EST_X0    = 4.20            # extremo oeste del mueble
-  EST_X1    = 7.40            # extremo este
-  EST_PROF  = 0.38            # fondo del mueble bajo
-  EST_Z_ENC = 0.99            # cara superior de la encimera
-  EST_Z_TOP = 2.50            # coronación del panel de hornacinas
-  EST_N     = 3               # número de hornacinas
-  EST_JAMBA = 0.16            # ancho de las jambas de los extremos
-  EST_ENTRE = 0.14            # ancho del entrepaño entre hornacinas
+  EST_X0   = 4.20             # extremo oeste del mueble bajo
+  EST_X1   = 7.60             # extremo este
+  EST_PROF = 0.36             # fondo del mueble bajo
+  EST_ENC  = 0.94             # cara superior de la encimera
 
-  # Enjuta de un arco de medio punto: perfil en el plano X-Z extruido en Y.
-  # El polígono va por el trasdós del arco y cierra por arriba, de modo que
-  # el hueco de la hornacina queda por debajo de la curva.
-  def self.arco(ents, x0, x1, zs, ztop, y0, y1, mat, tag, name, n = 28)
-    r  = (x1 - x0) / 2.0
-    cx = (x0 + x1) / 2.0
-    return nil if ztop <= zs + r + 1e-6
-    prof = (0..n).map do |i|
-      a = Math::PI * i / n
-      [cx - r * Math.cos(a), zs + r * Math.sin(a)]
-    end
-    prof << [x1, ztop] << [x0, ztop]
-    profile_y(ents, prof, y0, y1, mat, tag, name)
+  REJ_X0   = 4.30             # rejilla de cajas
+  REJ_X1   = 7.50
+  REJ_Z0   = 1.18
+  REJ_Z1   = 2.48
+  REJ_T    = 0.03             # escuadría del perfil
+  REJ_PROF = 0.30             # fondo de las cajas
+
+  # Montantes verticales: [x de la cara oeste, [[z0, z1], ...]]
+  #   el de 6,70 se interrumpe en la fila central para dejar una caja ancha
+  def self.rej_montantes
+    [[4.30, [[REJ_Z0, REJ_Z1]]],
+     [5.14, [[1.21, 2.45]]],
+     [5.92, [[1.21, 2.45]]],
+     [6.70, [[1.21, 1.64], [2.02, 2.45]]],
+     [REJ_X1 - REJ_T, [[REJ_Z0, REJ_Z1]]]]
   end
 
-  # Vanos de las hornacinas: [[x0, x1], ...]
-  def self.est_vanos
-    bw = (EST_X1 - EST_X0 - 2 * EST_JAMBA - (EST_N - 1) * EST_ENTRE) / EST_N
-    (0...EST_N).map do |i|
-      a = EST_X0 + EST_JAMBA + i * (bw + EST_ENTRE)
-      [a, a + bw]
-    end
+  # Huecos entre montantes y alturas de travesaño presentes en cada hueco.
+  #   en el primer hueco falta el travesaño de 1,61: es la caja alta
+  def self.rej_huecos
+    [[4.33, 5.14, [REJ_Z0, 2.02, 2.45]],
+     [5.17, 5.92, [REJ_Z0, 1.61, 2.02, 2.45]],
+     [5.95, 6.70, [REJ_Z0, 1.61, 2.02, 2.45]],
+     [6.73, REJ_X1 - REJ_T, [REJ_Z0, 1.61, 2.02, 2.45]]]
+  end
+
+  # Cajas resultantes: [x0, x1, z0, z1]
+  def self.rej_cajas
+    [[4.33, 5.14, 1.21, 2.02], [4.33, 5.14, 2.05, 2.45],
+     [5.17, 5.92, 1.21, 1.61], [5.17, 5.92, 1.64, 2.02],
+     [5.17, 5.92, 2.05, 2.45],
+     [5.95, 6.70, 1.21, 1.61], [6.73, 7.47, 1.21, 1.61],
+     [5.95, 7.47, 1.64, 2.02],
+     [5.95, 6.70, 2.05, 2.45], [6.73, 7.47, 2.05, 2.45]]
   end
 
   def self.estanteria(ents, mat, tag)
     t   = tag['24 Estanteria']
-    rob = mat['CN Madera tablero']     # cuerpo y panel
-    cla = mat['CN Madera clara']       # encimera y baldas
-    lis = mat['CN Madera liston']      # frentes del mueble bajo
-    azu = mat['CN Azul Napoli']
-    lat = mat['CN Laton']
+    rob = mat['CN Madera tablero']
+    cla = mat['CN Madera clara']
     neg = mat['CN Negro mate']
+    luz = mat['CN Luz calida']
+    vid = mat['CN Vidrio']
 
-    x0 = EST_X0
-    x1 = EST_X1
-    yb = by(62.4)                      # paramento del trasdosado norte
-    yf = yb - EST_PROF                 # frente del mueble bajo
-    yp = yf + 0.12                     # frente del panel de hornacinas
-    ya = yb - 0.05                     # cara vista del forro azul
+    yb = by(62.4)                       # paramento del trasdosado norte
+    yf = yb - EST_PROF                  # frente del mueble bajo
 
-    vanos = est_vanos
-    bw    = vanos.first[1] - vanos.first[0]
-    zs    = EST_Z_TOP - 0.20 - bw / 2.0        # línea de imposta
-
-    # 1 · mueble bajo cerrado, con zócalo retranqueado
-    box(ents, x0 + 0.05, yf + 0.05, x1 - 0.05, yb, 0.0, 0.10, neg, t,
+    # 1 · mueble bajo liso, sin molduras
+    box(ents, EST_X0 + 0.05, yf + 0.05, EST_X1 - 0.05, yb, 0.0, 0.10, neg, t,
         'Estanteria - zocalo')
-    box(ents, x0, yf, x1, yb, 0.10, 0.95, rob, t, 'Estanteria - mueble bajo')
-    vanos.each_with_index do |(a, b), i|
-      box(ents, a, yf - 0.018, b, yf, 0.14, 0.91, lis, t,
+    box(ents, EST_X0, yf, EST_X1, yb, 0.10, 0.90, rob, t,
+        'Estanteria - mueble bajo')
+    4.times do |i|
+      a = EST_X0 + 0.02 + i * (EST_X1 - EST_X0) / 4.0
+      b = a + (EST_X1 - EST_X0) / 4.0 - 0.04
+      box(ents, a, yf - 0.016, b, yf, 0.14, 0.86, cla, t,
           "Estanteria - puerta #{i + 1}")
-      cm = (a + b) / 2.0
-      box(ents, cm - 0.07, yf - 0.032, cm + 0.07, yf - 0.018, 0.79, 0.82,
-          lat, t, "Estanteria - tirador #{i + 1}")
     end
+    box(ents, EST_X0 - 0.03, yf - 0.04, EST_X1 + 0.03, yb, 0.90, EST_ENC,
+        cla, t, 'Estanteria - encimera')
 
-    # 2 · encimera volada: deja una repisa de 0,17 m delante de las hornacinas
-    box(ents, x0 - 0.04, yf - 0.05, x1 + 0.04, yb, 0.95, EST_Z_ENC, cla, t,
-        'Estanteria - encimera')
+    # 2 · fondo retroiluminado de la rejilla
+    box(ents, REJ_X0, yb - REJ_T, REJ_X1, yb, REJ_Z0, REJ_Z1, luz, t,
+        'Estanteria - fondo retroiluminado')
+    # linea de luz bajo la rejilla
+    box(ents, REJ_X0, yb - REJ_PROF, REJ_X1, yb - REJ_PROF + 0.03,
+        REJ_Z0 - 0.03, REJ_Z0, luz, t, 'Estanteria - linea de luz')
 
-    # 3 · forro azul del fondo: sólo se ve por los huecos de las hornacinas
-    box(ents, x0, ya, x1, yb, EST_Z_ENC, EST_Z_TOP, azu, t,
-        'Estanteria - fondo azul Napoli')
+    ry0 = yb - REJ_PROF
+    ry1 = yb - REJ_T
 
-    # 4 · jambas, entrepaños y arcos de medio punto
-    box(ents, x0, yp, x0 + EST_JAMBA, ya, EST_Z_ENC, EST_Z_TOP, rob, t,
-        'Estanteria - jamba Oeste')
-    box(ents, x1 - EST_JAMBA, yp, x1, ya, EST_Z_ENC, EST_Z_TOP, rob, t,
-        'Estanteria - jamba Este')
-    (EST_N - 1).times do |i|
-      box(ents, vanos[i][1], yp, vanos[i + 1][0], ya, EST_Z_ENC, EST_Z_TOP,
-          rob, t, "Estanteria - entrepaño #{i + 1}")
-    end
-    vanos.each_with_index do |(a, b), i|
-      arco(ents, a, b, zs, EST_Z_TOP, yp, ya, rob, t,
-           "Estanteria - arco #{i + 1}")
-    end
-
-    # 5 · cornisa de coronación
-    box(ents, x0 - 0.06, yp - 0.06, x1 + 0.06, yb, EST_Z_TOP, EST_Z_TOP + 0.08,
-        rob, t, 'Estanteria - cornisa')
-
-    # 6 · dos baldas por hornacina, con barandín de latón
-    baldas = [EST_Z_ENC + 0.34, EST_Z_ENC + 0.70]
-    vanos.each_with_index do |(a, b), i|
-      baldas.each_with_index do |z, j|
-        box(ents, a, yp + 0.02, b, ya, z, z + 0.03, cla, t,
-            "Estanteria - balda #{i + 1}.#{j + 1}")
-        box(ents, a, yp + 0.025, b, yp + 0.04, z + 0.03, z + 0.07, lat, t,
-            "Estanteria - barandin #{i + 1}.#{j + 1}")
+    # 3 · montantes
+    rej_montantes.each_with_index do |(x, tramos), i|
+      tramos.each_with_index do |(z0, z1), j|
+        box(ents, x, ry0, x + REJ_T, ry1, z0, z1, neg, t,
+            "Estanteria - montante #{i + 1}.#{j + 1}")
       end
     end
 
-    # 7 · botellas expuestas, siempre dentro de la curva del arco
-    vanos.each_with_index do |(a, b), i|
-      cm = (a + b) / 2.0
-      baldas.each_with_index do |z, j|
-        [-0.30, -0.15, 0.0, 0.15, 0.30].each_with_index do |dx, k|
-          next if (i + j + k) % 4 == 3
-          alto = 0.20 + 0.03 * ((i + j + k) % 3)
-          cyl(ents, cm + dx, yp + 0.11, 0.037, z + 0.03, z + 0.03 + alto,
-              (i + j + k).even? ? mat['CN Terracota'] : rob, t, 'Botella')
-        end
+    # 4 · travesaños, tramo a tramo entre montantes
+    rej_huecos.each_with_index do |(a, b, alturas), i|
+      alturas.each_with_index do |z, j|
+        box(ents, a, ry0, b, ry1, z, z + REJ_T, neg, t,
+            "Estanteria - travesano #{i + 1}.#{j + 1}")
       end
     end
 
-    # 8 · vajilla apilada sobre la repisa de la encimera
-    [x0 + 0.45, x0 + 1.35, x0 + 2.25, x0 + 2.95].each_with_index do |cx, i|
-      cyl(ents, cx, yf + 0.03, 0.05, EST_Z_ENC, EST_Z_ENC + 0.12 + 0.03 * (i % 3),
-          mat['CN Blanco roto'], t, "Vajilla #{i + 1}")
+    # 5 · botellas dentro de las cajas
+    rej_cajas.each_with_index do |(a, b, z0, z1), i|
+      nb = [((b - a) / 0.115).floor, 1].max
+      hueco = z1 - z0 - 0.03
+      nb.times do |j|
+        next if (i + j) % 5 == 4
+        cx = a + 0.055 + (j + 0.5) * (b - a - 0.11) / nb
+        alto = [0.24 + 0.04 * ((i + j) % 3), hueco].min
+        cyl(ents, cx, ry0 + 0.13, 0.037, z0, z0 + alto,
+            (i + j).even? ? mat['CN Terracota'] : rob, t, 'Botella')
+      end
+    end
+
+    # 6 · copas sobre la encimera
+    5.times do |i|
+      cx = EST_X0 + 0.55 + i * 0.62
+      cyl(ents, cx, yf + 0.14, 0.014, EST_ENC, EST_ENC + 0.08, vid, t, 'Copa')
+      cyl(ents, cx, yf + 0.14, 0.036, EST_ENC + 0.08, EST_ENC + 0.19, vid, t,
+          'Copa')
     end
   end
 
@@ -1122,15 +1199,15 @@ module CafeNapoliMalaga
   # Centros de mesa y eje de las sillas.
   #
   # EL CUELLO DE FACHADA (la entrada) QUEDA VACÍO: no hay ninguna mesa, ni
-  # banco, ni planta al sur de la línea del muro sur, y = 1,810 m. La mesa
-  # más adelantada arranca en y = 2,275 m, a 1,90 m del escaparate.
+  # banco, ni planta al sur de la línea del muro sur, y = 1,810 m.
   #
-  # Separación: 2,15 m entre ejes de columna en el bloque oeste, lo que deja
-  # 0,47 m libres entre respaldos, y 1,50/1,45 m entre filas.
+  # Sólo queda el bloque oeste, separado 0,55 m del muro oeste respecto a la
+  # versión anterior: el respaldo más cercano queda a 0,91 m del paramento.
+  # Separación entre ejes de columna 2,15 m -0,47 m libres entre respaldos-
+  # y 1,50 / 1,45 m entre filas.
   def self.mesas_sala
-    [[1.45, 2.65, :x], [1.45, 4.15, :x], [1.45, 5.60, :x],
-     [3.60, 2.65, :x], [3.60, 4.15, :x], [3.60, 5.60, :x],
-     [7.05, 2.70, :x], [8.90, 2.70, :y], [7.45, 5.30, :x]]
+    [[2.00, 2.65, :x], [2.00, 4.15, :x], [2.00, 5.60, :x],
+     [4.15, 2.65, :x], [4.15, 4.15, :x], [4.15, 5.60, :x]]
   end
 
   def self.mobiliario_sala(ents, mat, tag)
@@ -1222,9 +1299,10 @@ module CafeNapoliMalaga
     t = tag['28 Decoracion']
 
     # Plantas. Ninguna en el cuello de fachada: la entrada queda despejada.
-    planta(ents, mat, tag, 0.68, 3.40, 1.30)
-    planta(ents, mat, tag, 5.90, 2.35, 1.25)
-    planta(ents, mat, tag, 3.00, 6.45, 1.15)
+    planta(ents, mat, tag, 0.70, 2.60, 1.15)
+    planta(ents, mat, tag, 0.70, 6.30, 1.30)
+    planta(ents, mat, tag, 6.60, 2.60, 1.25)
+    planta(ents, mat, tag, 6.90, 5.90, 1.20)
 
     # Cuadros en el muro oeste
     [2.90, 3.75, 5.90].each_with_index do |cy, i|

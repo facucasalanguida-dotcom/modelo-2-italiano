@@ -4,15 +4,15 @@ Generador en Ruby (`cafe_napoli_malaga.rb`) que construye el local completo
 —arquitectura, equipamiento, mobiliario, iluminación y decoración— a partir de
 los dos planos entregados.
 
-**622 sólidos** repartidos en **19 etiquetas**. Todo el modelo se levanta con una
+**643 sólidos** repartidos en **19 etiquetas**. Todo el modelo se levanta con una
 sola orden en la Consola Ruby de SketchUp.
 
 |  |  |
 |---|---|
 | ![Vista suroeste](docs/vistas/n_pb_so.jpg) | ![Vista noreste](docs/vistas/n_pb_ne.jpg) |
-| ![Sala](docs/vistas/n_int_sala.jpg) | ![Estanteria](docs/vistas/n_int_estanteria.jpg) |
+| ![Vitrinas](docs/vistas/n_int_vitrina.jpg) | ![Estanteria](docs/vistas/n_int_estanteria.jpg) |
 
-Trece puntos de vista en `docs/vistas/` y una lámina resumen en `docs/`.
+Catorce puntos de vista en `docs/vistas/` y una lámina resumen en `docs/`.
 
 ---
 
@@ -58,12 +58,12 @@ El script fija las unidades en metros y encuadra una vista axonométrica.
 | `20 Pavimento` | Roble claro en planta baja y en el altillo |
 | `21 Cocina` | Bloque de cocción de 4 fuegos con horno, campana extractora, mesa de trabajo y estante mural. **Paramentos de acero inoxidable** en el muro de la cocina y en el de su izquierda, hasta 2,20 m |
 | `22 Barra` | Estructura corrida de 4,53 m: cuerpo macizo, zócalo retranqueado negro, frente de **listones azul Napoli** en los tres lados vistos y **tabla de madera maciza** de una pieza por encima |
-| `23 Vitrinas y equipos` | Vitrina refrigerada y vitrina caliente, máquina de café, molinillo y caja |
-| `24 Estanteria` | Mueble bajo cerrado con puertas y tiradores de latón, encimera volada, y encima un panel con **tres hornacinas de medio punto forradas de azul Napoli**, con dos baldas y barandín de latón cada una. Cornisa de coronación a 2,58 m |
-| `25 Revestimiento de madera` | Listones verticales cubriendo **los cuatro lados** del pilar central, el machón oeste, el machón este y la pilastra sur; forro de la viga descolgada y frente del altillo |
-| `26 Mesas y sillas` | 9 mesas de 0,75 × 0,75 y 18 sillas tapizadas, alternando **tela crema y tela azul** |
-| `27 Iluminacion` | 15 colgantes de pantalla ópalo con aro de latón (4 sobre la barra, 9 sobre las mesas y 2 altos en la entrada), 13 empotrados en el intradós del forjado y 3 apliques de latón en el muro oeste |
-| `28 Decoracion` | 3 plantas en maceta de terracota, 6 cuadros y pizarra de carta |
+| `23 Vitrinas y equipos` | Dos **vitrinas de cristal curvo** —refrigerada y caliente— **encastradas en la barra**: la bandeja queda 0,22 m por debajo de la tabla de madera, con tres baldas escalonadas dentro. Máquina de café, molinillo y caja |
+| `24 Estanteria` | Mueble bajo liso de roble con cuatro puertas y encimera, y encima una **rejilla de acero negro que forma diez cajas de distinto tamaño** sobre un fondo retroiluminado en cálido, con línea de luz bajo la rejilla. 2,48 m de coronación |
+| `25 Revestimiento de madera` | Listones verticales cubriendo **los cuatro lados** de cada soporte, **de suelo a techo**: pilar central y machón este hasta el intradós del forjado (2,70 m), machón oeste y pilastra sur —que están en la doble altura— hasta los 5,50 m. Forro de la viga descolgada y frente del altillo |
+| `26 Mesas y sillas` | 6 mesas de 0,75 × 0,75 y 12 sillas tapizadas, alternando **tela crema y tela azul** |
+| `27 Iluminacion` | 12 colgantes de pantalla ópalo con aro de latón (4 sobre la barra, 6 sobre las mesas y 2 altos en la entrada), 13 empotrados en el intradós del forjado y 3 apliques de latón en el muro oeste |
+| `28 Decoracion` | 4 plantas en maceta de terracota, 6 cuadros y pizarra de carta |
 
 Cada elemento es un grupo con nombre descriptivo, seleccionable desde el Outliner.
 
@@ -79,11 +79,14 @@ escaparate.
 
 | Holgura | Valor |
 |---|---|
-| Entre ejes de columna (bloque oeste) | 2,15 m |
+| Respaldo más cercano ↔ muro oeste | **0,91 m** |
+| Entre ejes de columna | 2,15 m |
 | Libre entre respaldos de mesas contiguas | 0,47 m |
 | Entre filas | 1,50 / 1,45 m |
-| Pasillo central junto al pilar revestido | 1,14 m |
 | Mesa más al norte ↔ canto de la barra | 0,49 m |
+
+Las tres mesas que había al este de la sala se han retirado: esa mitad queda
+como zona de paso libre entre la entrada, la barra y la escalera.
 
 ### Mampara de cristal
 
@@ -101,6 +104,7 @@ muere justo donde empieza la barra.
 | Acento azul Napoli (frente de barra, rótulo) | `#3E6B99` |
 | Tapicerías | crema `#E7DFD1` y azul `#6C8AA8` |
 | Pantallas ópalo · latón | `#F6F3EC` · `#C69E54` |
+| Rejilla de la estantería · fondo retroiluminado | `#302F2D` · `#F6DEAE` |
 
 ---
 
@@ -155,11 +159,12 @@ geométricamente antes de entregarlo:
 
 | Prueba | Resultado |
 |---|---|
-| Sólidos generados | 622, ninguno degenerado, todos con material y etiqueta |
+| Sólidos generados | 643, ninguno degenerado, todos con material y etiqueta |
 | Cotas contra el plano | 22 comprobaciones, todas dentro de tolerancia |
-| **Solape entre sólidos de estructura** | **0,0000 m³** sobre 102,325 m³ (rejilla volumétrica de 5 cm) |
+| **Solape entre sólidos de estructura** | **0,0000 m³** sobre 102,320 m³ (rejilla volumétrica de 5 cm) |
 | **Huecos en la envolvente** | **0,0000 m²** a z = 0,30 / 1,50 / 2,50 / 3,50 / 4,50 / 5,30 m |
-| Interferencia mobiliario ↔ estructura | Sin colisiones. Los pares que marca el filtro por cajas envolventes se descartan con rejilla exacta de 1 cm (0 celdas compartidas) |
+| Interferencia mobiliario ↔ estructura | Sin colisiones. Los cuatro pares que marca el filtro por cajas envolventes —listones del machón este contra la escalera— se descartan con rejilla exacta de 1 cm: 0 celdas compartidas |
+| Solape real entre elementos de interiorismo | Ninguno. Los únicos que quedan son intencionados: mobiliario apoyado sobre los 2 cm de pavimento y las baldas dentro de las vitrinas |
 | Superposición sobre el PDF | Cada elemento de la arquitectura cae sobre su trazado original |
 
 Las vistas de este README están generadas a partir de la geometría que produce el
