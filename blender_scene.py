@@ -49,11 +49,11 @@ def wood(name, c1, c2, scale=1.4, rough=0.35, rot=0.0):
     tc = nt.nodes.new('ShaderNodeTexCoord')
     mp = nt.nodes.new('ShaderNodeMapping')
     mp.inputs['Rotation'].default_value = (0, 0, rot)
-    mp.inputs['Scale'].default_value = (1, 6, 6)
+    mp.inputs['Scale'].default_value = (1, 8, 8)
     wv = nt.nodes.new('ShaderNodeTexWave')
     wv.inputs['Scale'].default_value = scale
-    wv.inputs['Distortion'].default_value = 5.0
-    wv.inputs['Detail'].default_value = 2.5
+    wv.inputs['Distortion'].default_value = 1.6
+    wv.inputs['Detail'].default_value = 1.0
     cr = nt.nodes.new('ShaderNodeValToRGB')
     cr.color_ramp.elements[0].color = (*c1, 1)
     cr.color_ramp.elements[1].color = (*c2, 1)
@@ -70,7 +70,7 @@ def wood(name, c1, c2, scale=1.4, rough=0.35, rot=0.0):
     nt.links.new(mr.outputs['Result'], b.inputs['Roughness'])
     return m
 
-def glassm(name, tint=(1, 1, 1), rough=0.03):
+def glassm(name, tint=(1, 1, 1), rough=0.0):
     m = new_mat(name); nt, b = _principled(m)
     set_in(b, 'Base Color', (*tint, 1)); set_in(b, 'Roughness', rough)
     set_in(b, 'Transmission Weight', 1.0); set_in(b, 'IOR', 1.45)
@@ -105,11 +105,11 @@ MAT = {
  'CN Medianera':      wall('medianera', srgb('D4D2C3')),
  'CN Tabique':        wall('tabique', srgb('E0DED0')),
  'CN Techo':          wall('techo', srgb('E8E6DA'), 0.9),
- 'CN Suelo roble':    wood('suelo', srgb('DCC098'), srgb('C3A171'), 1.5, 0.28),
+ 'CN Suelo roble':    wood('suelo', srgb('DCC098'), srgb('CFB287'), 2.2, 0.28),
  'CN Hormigon':       wall('hormigon', srgb('C6C1B8'), 0.9),
- 'CN Madera liston':  wood('liston', srgb('C99E69'), srgb('AA7E4C'), 2.2, 0.4),
- 'CN Madera tablero': wood('tablero', srgb('B2804A'), srgb('8F6132'), 1.8, 0.3),
- 'CN Madera clara':   wood('clara', srgb('D6B485'), srgb('BC9765'), 2.0, 0.42),
+ 'CN Madera liston':  wood('liston', srgb('C99E69'), srgb('B78D59'), 2.6, 0.4),
+ 'CN Madera tablero': wood('tablero', srgb('B2804A'), srgb('A0703E'), 2.2, 0.3),
+ 'CN Madera clara':   wood('clara', srgb('D6B485'), srgb('C7A473'), 2.4, 0.42),
  'CN Acero inox':     plain('inox', srgb('E8EAEC'), 0.28, 1.0),
  'CN Vidrio':         glassm('vidrio'),
  'CN Carpinteria':    plain('carpinteria', srgb('2A2A28'), 0.4, 0.4),
@@ -129,13 +129,13 @@ MAT = {
 M_CERAMICA = plain('ceramica', srgb('F5F1E8'), 0.35)
 M_CROISSANT = plain('croissant', srgb('C98B3F'), 0.55)
 M_BOLLO    = plain('bollo', srgb('8A5A33'), 0.5)
-M_VVERDE   = glassm('vidrio_verde', srgb('4A7A50'), 0.05)
-M_VAMBAR   = glassm('vidrio_ambar', srgb('B87828'), 0.05)
+M_VVERDE   = glassm('vidrio_verde', srgb('4A7A50'))
+M_VAMBAR   = glassm('vidrio_ambar', srgb('B87828'))
 M_CORCHO   = plain('corcho', srgb('C9A468'), 0.8)
 M_FLOR_B   = plain('flor_blanca', srgb('F2EEE2'), 0.7)
 M_FLOR_A   = plain('flor_amar', srgb('D9B84A'), 0.7)
 M_TALLO    = plain('tallo', srgb('5A7A42'), 0.8)
-M_FOLLAJE  = plain('follaje', srgb('5E7F4C'), 0.85)
+M_FOLLAJE  = plain('follaje', srgb('4F6B3E'), 0.9)
 M_CAFE     = plain('cafe_liquido', srgb('3A2417'), 0.15)
 
 # ---------------------------------------------------------------- geometría
@@ -276,12 +276,13 @@ for s in plantas:
     rr = (max(xs) - min(xs))/2
     cz = (z0 + z1)/2
     random.seed(int(cx*97 + cy*31))
-    for _ in range(7):
-        dx, dy, dz = [random.uniform(-.55, .55) for _ in range(3)]
-        rs = random.uniform(0.55, 0.85) * rr
+    for _ in range(16):
+        dx, dy = [random.uniform(-.7, .7) for _ in range(2)]
+        dz = random.uniform(-.8, .8)
+        rs = random.uniform(0.26, 0.44) * rr
         primitive('sphere', M_FOLLAJE,
-                  (cx + dx*rr, cy + dy*rr, cz + dz*(z1-z0)*0.42),
-                  (rs, rs, rs*0.85), seg=16)
+                  (cx + dx*rr*0.8, cy + dy*rr*0.8, cz + dz*(z1-z0)*0.45),
+                  (rs, rs, rs*0.9), seg=14)
 
 # taza con cafe + platillo
 def taza(x, y, z):
@@ -331,8 +332,13 @@ def texto(txt, loc, h, rot, mat, extrude=0.006):
     ob.location = loc; ob.rotation_euler = rot
     ob.data.materials.append(mat)
     col_pb.objects.link(ob)
-texto('CAFE  NAPOLI', (5.5, 3.884, 2.655), 0.15,
-      (math.radians(90), 0, math.radians(180)), plain('crema', srgb('F2EEE2'), .4))
+_t = bpy.data.curves.new('t', 'FONT'); _t.body = 'CAFE  NAPOLI'
+_t.size = 0.15; _t.extrude = 0.006; _t.align_x = 'CENTER'
+_to = bpy.data.objects.new('txt_altillo', _t)
+_to.location = (5.5, 3.884, 2.655)
+_to.rotation_euler = (math.radians(90), 0, math.radians(180))
+_to.data.materials.append(plain('crema', srgb('F2EEE2'), .4))
+col_pa.objects.link(_to)
 texto('CAFE  NAPOLI', (7.97, 0.325, 3.16), 0.26,
       (math.radians(90), 0, math.radians(180)), plain('crema2', srgb('F2EEE2'), .4))
 
@@ -363,7 +369,7 @@ for cx, cy, cz in apliques:
 
 # sol y cielo
 sun = bpy.data.lights.new('sun', 'SUN')
-sun.energy = 4.0; sun.angle = math.radians(2)
+sun.energy = 3.2; sun.angle = math.radians(2)
 so = bpy.data.objects.new('sun', sun)
 so.rotation_euler = (math.radians(52), 0, math.radians(-155))
 col_pb.objects.link(so)
@@ -386,6 +392,7 @@ light('AREA', (7.97, 0.30, 1.6), 260, (0.85, 0.90, 1.0), 2.6,
 # ---------------------------------------------------------------- camaras
 def render_view(fn, eye, target, lens=24, hide_pa=False):
     col_pa.hide_render = hide_pa
+    scene.view_settings.exposure = -0.45 if hide_pa else 0.0
     cd = bpy.data.cameras.new('c'); cd.lens = lens; cd.sensor_width = 36
     cd.clip_start = 0.03
     cam = bpy.data.objects.new('cam', cd)
@@ -401,7 +408,7 @@ def render_view(fn, eye, target, lens=24, hide_pa=False):
 
 import sys
 views = {
- 'R_entrada':   ((7.70, 1.60, 1.55), (3.80, 7.20, 1.05), 26, False),
+ 'R_entrada':   ((8.55, 1.30, 1.55), (4.90, 7.35, 1.05), 26, False),
  'R_barra':     ((2.55, 4.65, 1.50), (6.90, 7.30, 1.00), 27, False),
  'R_sala':      ((1.15, 6.55, 1.55), (6.50, 1.60, 1.10), 24, False),
  'R_vitrinas':  ((5.15, 5.45, 1.35), (4.35, 7.30, 0.95), 30, False),
