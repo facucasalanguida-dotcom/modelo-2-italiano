@@ -359,7 +359,8 @@ module CafeNapoliMalaga
         Escalera ................ 16 huellas de 0,26 · 17 tabicas de 0,1765
 
       Interiorismo: cocina con campana y revestimiento de inox, mampara de
-      vidrio de 3,18 m que muere en el arranque de la barra, barra de 4,53 m
+      vidrio de 3,18 m con carpintería vista -cinco montantes, zócalo,
+      travesaño y dintel- que muere en el arranque de la barra, barra de 4,53 m
       a dos niveles -el mostrador de las vitrinas baja 0,12 m- con dos
       vitrinas de cristal curvo encastradas, estantería de cajas de acero
       negro retroiluminada, listones de suelo a techo en los soportes,
@@ -538,33 +539,68 @@ module CafeNapoliMalaga
   #  6. PARTICIONES DE PLANTA BAJA  (recinto de cocina de la propuesta)
   # --------------------------------------------------------------------------
 
+  # Mampara de la cocina: montantes de carpintería y paños de vidrio.
+  MAMP_M   = 0.05          # escuadría de montantes, zócalo, travesaño y dintel
+  MAMP_ZOC = 0.10          # alto del zócalo
+  MAMP_TR0 = 2.06          # travesaño intermedio
+  MAMP_TR1 = 2.12
+  MAMP_DIN = 2.60          # arranque del dintel
+
+  # Ejes de los cinco montantes, de oeste a este: jamba del muro, dos
+  # intermedios, el del eje del tabique que dibuja el plano, y la jamba que
+  # muere contra la barra.
+  def self.mampara_montantes
+    x0 = bx(117.8)                       # 0,251 · cara interior del muro oeste
+    xt = bx(354.0)                       # 2,750 · eje del tabique del plano
+    x1 = BAR_X0 - 0.06                   # 3,430 · arranque de la barra
+    m  = MAMP_M
+    a  = x0 + m
+    b  = xt - m / 2.0
+    p  = (b - a - 2 * m) / 3.0           # ancho de paño del tramo largo
+    [[x0, x0 + m],
+     [a + p, a + p + m],
+     [a + 2 * p + m, a + 2 * p + 2 * m],
+     [xt - m / 2.0, xt + m / 2.0],
+     [x1 - m, x1]]
+  end
+
+  def self.mampara_panos
+    mo = mampara_montantes
+    (0...mo.length - 1).map { |i| [mo[i][1], mo[i + 1][0]] }
+  end
+
   def self.particiones_pb(ents, mat, tag)
-    t = tag['07 Particiones planta baja']
-    # El tabique este de la cocina se elimina: la cocina queda abierta al office,
-    # por donde entra el personal desde detrás de la barra.
-    # El tabique sur se sustituye por una mampara de vidrio corrida que arranca
-    # en el muro oeste y muere justo donde empieza la barra: 3,18 m de vidrio
-    # en dos paños, con montante intermedio en el eje del tabique del plano.
-    x0 = bx(117.8)
-    xi = bx(354.0)                     # montante intermedio, tabique del plano
-    x1 = BAR_X0 - 0.06                 # testero este: arranque de la barra
+    t   = tag['07 Particiones planta baja']
+    car = mat['CN Carpinteria']
+    vid = mat['CN Vidrio']
+
+    # El tabique este de la cocina se elimina: la cocina queda abierta al
+    # office, por donde entra el personal desde detrás de la barra.
+    #
+    # El tabique sur se sustituye por una MAMPARA DE VIDRIO corrida que
+    # arranca en el muro oeste y muere justo donde empieza la barra: 3,18 m
+    # de largo, cuatro paños entre cinco montantes de carpintería, con
+    # zócalo, travesaño a 2,06 y dintel. Uno de los montantes cae en el eje
+    # exacto del tabique que dibuja el plano.
     ya = by(254.6)
     yb = by(249.9)
 
-    # Dos paños de vidrio con montante intermedio y jambas de carpintería
-    box(ents, x0, ya, xi - 0.04, yb, 0.06, Z_FORJ_INF - 0.06,
-        mat['CN Vidrio'], t, 'PB Mampara de vidrio de la cocina (3,18 m)')
-    box(ents, xi, ya, x1 - 0.04, yb, 0.06, Z_FORJ_INF - 0.06,
-        mat['CN Vidrio'], t, 'PB Mampara de vidrio - pano Este')
-    box(ents, xi - 0.04, ya, xi, yb, 0.0, Z_FORJ_INF,
-        mat['CN Carpinteria'], t, 'PB Mampara - montante intermedio')
-    box(ents, x1 - 0.04, ya, x1, yb, 0.0, Z_FORJ_INF,
-        mat['CN Carpinteria'], t, 'PB Mampara - montante Este')
-    [[x0, xi - 0.04], [xi, x1 - 0.04]].each_with_index do |(a_, b_), i|
-      box(ents, a_, ya, b_, yb, 0.0, 0.06,
-          mat['CN Carpinteria'], t, "PB Mampara - zocalo #{i + 1}")
-      box(ents, a_, ya, b_, yb, Z_FORJ_INF - 0.06, Z_FORJ_INF,
-          mat['CN Carpinteria'], t, "PB Mampara - cabecero #{i + 1}")
+    mampara_montantes.each_with_index do |(a, b), i|
+      box(ents, a, ya, b, yb, 0.0, Z_FORJ_INF, car, t,
+          "PB Mampara - montante #{i + 1}")
+    end
+
+    mampara_panos.each_with_index do |(a, b), i|
+      box(ents, a, ya, b, yb, 0.0, MAMP_ZOC, car, t,
+          "PB Mampara - zocalo #{i + 1}")
+      box(ents, a, ya, b, yb, MAMP_ZOC, MAMP_TR0, vid, t,
+          "PB Mampara de vidrio de la cocina - pano #{i + 1}")
+      box(ents, a, ya, b, yb, MAMP_TR0, MAMP_TR1, car, t,
+          "PB Mampara - travesano #{i + 1}")
+      box(ents, a, ya, b, yb, MAMP_TR1, MAMP_DIN, vid, t,
+          "PB Mampara de vidrio de la cocina - montante alto #{i + 1}")
+      box(ents, a, ya, b, yb, MAMP_DIN, Z_FORJ_INF, car, t,
+          "PB Mampara - dintel #{i + 1}")
     end
   end
 

@@ -4,7 +4,7 @@ Generador en Ruby (`cafe_napoli_malaga.rb`) que construye el local completo
 —arquitectura, equipamiento, mobiliario, iluminación y decoración— a partir de
 los dos planos entregados.
 
-**651 sólidos** repartidos en **19 etiquetas**. Todo el modelo se levanta con una
+**668 sólidos** repartidos en **19 etiquetas**. Todo el modelo se levanta con una
 sola orden en la Consola Ruby de SketchUp.
 
 |  |  |
@@ -12,7 +12,7 @@ sola orden en la Consola Ruby de SketchUp.
 | ![Vista suroeste](docs/vistas/n_pb_so.jpg) | ![Vista noreste](docs/vistas/n_pb_ne.jpg) |
 | ![Vitrinas](docs/vistas/n_int_vitrina.jpg) | ![Estanteria](docs/vistas/n_int_estanteria.jpg) |
 
-Catorce puntos de vista en `docs/vistas/` y una lámina resumen en `docs/`.
+Quince puntos de vista en `docs/vistas/` y una lámina resumen en `docs/`.
 
 ---
 
@@ -91,10 +91,15 @@ como zona de paso libre entre la entrada, la barra y la escalera.
 ### Mampara de cristal
 
 El cerramiento de la cocina hacia la sala es una **mampara de vidrio de 3,18 m**
-(`PB Mampara de vidrio de la cocina`, etiqueta `07 Particiones planta baja`):
-arranca en el muro oeste, en x = 0,251, y muere exactamente donde empieza la
-barra, en x = 3,430. Son dos paños con montante intermedio en el eje del
-tabique que dibuja el plano, zócalo y cabecero de carpintería.
+(`PB Mampara …`, etiqueta `07 Particiones planta baja`): arranca en el muro
+oeste, en x = 0,251, y muere exactamente donde empieza la barra, en x = 3,430.
+
+Va con **carpintería vista**, para que se lea como una carpintería acristalada
+y no como un hueco: cinco montantes de 5 cm —uno de ellos en el eje exacto del
+tabique que dibuja el plano—, zócalo de 10 cm, travesaño a 2,06 m y dintel a
+2,60 m. Cuatro paños de vidrio, cada uno partido por el travesaño.
+
+![Mampara](docs/vistas/n_int_mampara.jpg)
 
 La cocina no tiene puerta al comedor: se entra por detrás de la barra, desde el
 office.
@@ -164,7 +169,7 @@ geométricamente antes de entregarlo:
 
 | Prueba | Resultado |
 |---|---|
-| Sólidos generados | 651, ninguno degenerado, todos con material y etiqueta |
+| Sólidos generados | 668, ninguno degenerado, todos con material y etiqueta |
 | Cotas contra el plano | 22 comprobaciones, todas dentro de tolerancia |
 | **Solape entre sólidos de estructura** | **0,0000 m³** sobre 102,415 m³ (rejilla volumétrica de 5 cm) |
 | **Huecos en la envolvente** | **0,0000 m²** a z = 0,30 / 1,50 / 2,50 / 3,50 / 4,50 / 5,30 m |
