@@ -4,15 +4,15 @@ Generador en Ruby (`cafe_napoli_malaga.rb`) que construye el local completo
 —arquitectura, equipamiento, mobiliario, iluminación y decoración— a partir de
 los dos planos entregados.
 
-**684 sólidos** repartidos en **19 etiquetas**. Todo el modelo se levanta con una
+**622 sólidos** repartidos en **19 etiquetas**. Todo el modelo se levanta con una
 sola orden en la Consola Ruby de SketchUp.
 
 |  |  |
 |---|---|
 | ![Vista suroeste](docs/vistas/n_pb_so.jpg) | ![Vista noreste](docs/vistas/n_pb_ne.jpg) |
-| ![Sala](docs/vistas/n_int_sala.jpg) | ![Barra](docs/vistas/n_int_barra.jpg) |
+| ![Sala](docs/vistas/n_int_sala.jpg) | ![Estanteria](docs/vistas/n_int_estanteria.jpg) |
 
-Doce puntos de vista en `docs/vistas/` y una lámina resumen en `docs/`.
+Trece puntos de vista en `docs/vistas/` y una lámina resumen en `docs/`.
 
 ---
 
@@ -59,13 +59,31 @@ El script fija las unidades en metros y encuadra una vista axonométrica.
 | `21 Cocina` | Bloque de cocción de 4 fuegos con horno, campana extractora, mesa de trabajo y estante mural. **Paramentos de acero inoxidable** en el muro de la cocina y en el de su izquierda, hasta 2,20 m |
 | `22 Barra` | Estructura corrida de 4,53 m: cuerpo macizo, zócalo retranqueado negro, frente de **listones azul Napoli** en los tres lados vistos y **tabla de madera maciza** de una pieza por encima |
 | `23 Vitrinas y equipos` | Vitrina refrigerada y vitrina caliente, máquina de café, molinillo y caja |
-| `24 Estanteria` | Expositor de 2,83 × 2,20 m en el mismo tono de madera que la barra, con botellas y producto |
+| `24 Estanteria` | Mueble bajo cerrado con puertas y tiradores de latón, encimera volada, y encima un panel con **tres hornacinas de medio punto forradas de azul Napoli**, con dos baldas y barandín de latón cada una. Cornisa de coronación a 2,58 m |
 | `25 Revestimiento de madera` | Listones verticales cubriendo **los cuatro lados** del pilar central, el machón oeste, el machón este y la pilastra sur; forro de la viga descolgada y frente del altillo |
-| `26 Mesas y sillas` | 14 mesas y 26 sillas tapizadas, alternando **tela crema y tela azul** |
-| `27 Iluminacion` | 18 colgantes de pantalla ópalo con aro de latón, 13 empotrados en el intradós del forjado y 3 apliques de latón en el muro oeste |
-| `28 Decoracion` | 4 plantas en maceta de terracota, 6 cuadros, pizarra de carta y banco corrido bajo el escaparate |
+| `26 Mesas y sillas` | 9 mesas de 0,75 × 0,75 y 18 sillas tapizadas, alternando **tela crema y tela azul** |
+| `27 Iluminacion` | 15 colgantes de pantalla ópalo con aro de latón (4 sobre la barra, 9 sobre las mesas y 2 altos en la entrada), 13 empotrados en el intradós del forjado y 3 apliques de latón en el muro oeste |
+| `28 Decoracion` | 3 plantas en maceta de terracota, 6 cuadros y pizarra de carta |
 
 Cada elemento es un grupo con nombre descriptivo, seleccionable desde el Outliner.
+
+### La entrada va vacía
+
+El cuello de fachada —desde el escaparate hasta la línea del muro sur,
+y = 1,810 m— **no lleva nada en el suelo**: ni mesas, ni banco, ni plantas.
+Lo único que hay son dos colgantes altos a 2,90 m, colgados del techo de la
+doble altura. La mesa más adelantada arranca en y = 2,275 m, a 1,90 m del
+escaparate.
+
+### Separación entre mesas
+
+| Holgura | Valor |
+|---|---|
+| Entre ejes de columna (bloque oeste) | 2,15 m |
+| Libre entre respaldos de mesas contiguas | 0,47 m |
+| Entre filas | 1,50 / 1,45 m |
+| Pasillo central junto al pilar revestido | 1,14 m |
+| Mesa más al norte ↔ canto de la barra | 0,49 m |
 
 ### Mampara de cristal
 
@@ -137,7 +155,7 @@ geométricamente antes de entregarlo:
 
 | Prueba | Resultado |
 |---|---|
-| Sólidos generados | 684, ninguno degenerado, todos con material y etiqueta |
+| Sólidos generados | 622, ninguno degenerado, todos con material y etiqueta |
 | Cotas contra el plano | 22 comprobaciones, todas dentro de tolerancia |
 | **Solape entre sólidos de estructura** | **0,0000 m³** sobre 102,325 m³ (rejilla volumétrica de 5 cm) |
 | **Huecos en la envolvente** | **0,0000 m²** a z = 0,30 / 1,50 / 2,50 / 3,50 / 4,50 / 5,30 m |

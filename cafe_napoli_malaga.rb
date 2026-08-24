@@ -2,13 +2,18 @@
 #
 # ============================================================================
 #  CAFÉ NAPOLI — MÁLAGA
-#  Modelo 3D ESTRUCTURAL para SketchUp  ·  planta baja + planta alta
+#  Modelo 3D completo para SketchUp  ·  planta baja + planta alta
 # ============================================================================
 #
-#  Contiene ÚNICAMENTE la caja arquitectónica: solera, muros, pilares,
-#  machones, forjado, viga, particiones, huecos de paso, escalera,
-#  barandillas, escaparate y bajante.
-#  NO contiene mobiliario ni equipamiento de ningún tipo.
+#  Caja arquitectónica (solera, muros, pilares, machones, forjado, viga,
+#  particiones, escalera, barandillas, escaparate y bajante) MÁS el
+#  interiorismo: pavimento, cocina con campana y revestimiento de inox,
+#  mampara de vidrio, barra, vitrinas, estantería de hornacinas,
+#  revestimientos de listones, mesas, sillas, iluminación y decoración.
+#
+#  EL CUELLO DE FACHADA (LA ENTRADA) SE DEJA VACÍO a propósito: sólo tiene
+#  dos colgantes altos. No hay mesas, ni banco, ni plantas al sur de la
+#  línea del muro sur (y = 1,810 m).
 #
 #  USO
 #  ---
@@ -181,6 +186,28 @@ module CafeNapoliMalaga
     finish(g, mat, tag, name)
   end
 
+  # Extrusión en Y de un perfil definido en el plano X-Z: [[x,z], ...]
+  def self.profile_y(ents, prof, y0, y1, mat = nil, tag = nil, name = nil)
+    ya, yb = [y0, y1].minmax
+    return nil if (yb - ya) < 1e-6
+    prof = dedupe(prof)
+    return nil if prof.length < 3
+    g = ents.add_group
+    begin
+      f = g.entities.add_face(prof.map { |q| p3(q[0], ya, q[1]) })
+    rescue StandardError => e
+      puts "Café Napoli: perfil no válido en '#{name}' (#{e.message})"
+      f = nil
+    end
+    if f.nil?
+      g.erase!
+      return nil
+    end
+    f.reverse! if f.normal.y < 0
+    f.pushpull((yb - ya) * M_TO_IN)
+    finish(g, mat, tag, name)
+  end
+
   def self.cyl(ents, cx, cy, r, z0, z1, mat = nil, tag = nil, name = nil)
     za, zb = [z0, z1].minmax
     g = ents.add_group
@@ -295,7 +322,7 @@ module CafeNapoliMalaga
 
   def self.build!
     model = Sketchup.active_model
-    model.start_operation('Generar Café Napoli Málaga (estructura)', true)
+    model.start_operation('Generar Café Napoli Málaga', true)
     begin
       begin
         uo = model.options['UnitsOptions']
@@ -349,10 +376,11 @@ module CafeNapoliMalaga
         Planta alta ............. +3,00 m    Cubierta ........ +5,50 m
         Escalera ................ 16 huellas de 0,26 · 17 tabicas de 0,1765
 
-      Estructura + interiorismo: cocina con campana y revestimiento inox,
-      mampara de vidrio, barra de 4,53 m con tabla de madera maciza, dos
-      vitrinas, estantería, revestimiento de listones en los cuatro soportes,
-      14 mesas con sillas tapizadas, banco corrido, iluminación y decoración.
+      Interiorismo: cocina con campana y revestimiento de inox, mampara de
+      vidrio, barra de 4,53 m con tabla de madera maciza, dos vitrinas,
+      estantería de tres hornacinas de medio punto forradas de azul Napoli,
+      listones en los cuatro soportes, 9 mesas con 18 sillas tapizadas,
+      iluminación y decoración.  La entrada queda despejada.
     TXT
     puts txt
     txt
@@ -799,29 +827,29 @@ module CafeNapoliMalaga
         'Inox muro Norte de cocina')
     box(ents, bx(326.5), ynt - 0.05, xe, ynt, 0.0, 2.20, inox, t,
         'Inox muro Norte de cocina (trasdosado)')
-    box(ents, xo, ys, xo + 0.05, yn, 0.0, 2.20, inox, t,
+    box(ents, xo, ys, xo + 0.05, yn - 0.05, 0.0, 2.20, inox, t,
         'Inox muro Oeste de cocina')
 
     # Bloque de coccion
-    box(ents, xo + 0.17, yn - 0.75, xo + 2.07, yn, 0.0, 0.90, inox, t,
+    box(ents, xo + 0.17, yn - 0.75, xo + 2.07, yn - 0.05, 0.0, 0.90, inox, t,
         'Bloque de coccion')
-    box(ents, xo + 0.17, yn - 0.75, xo + 2.07, yn, 0.90, 0.93, neg, t,
+    box(ents, xo + 0.17, yn - 0.75, xo + 2.07, yn - 0.05, 0.90, 0.93, neg, t,
         'Encimera de coccion')
     4.times do |i|
       cyl(ents, xo + 0.42 + i * 0.46, yn - 0.38, 0.115, 0.93, 0.955,
           neg, t, "Fuego #{i + 1}")
     end
     # Horno bajo la encimera
-    box(ents, xo + 1.15, yn - 0.77, xo + 2.05, yn - 0.74, 0.18, 0.78,
+    box(ents, xo + 1.15, yn - 0.78, xo + 2.05, yn - 0.75, 0.18, 0.78,
         neg, t, 'Horno - puerta')
 
     # Campana extractora y conducto
-    box(ents, xo + 0.12, yn - 0.95, xo + 2.12, yn, 1.95, 2.05, inox, t,
+    box(ents, xo + 0.12, yn - 0.95, xo + 2.12, yn - 0.05, 1.95, 2.05, inox, t,
         'Campana - faldon')
-    box(ents, xo + 0.22, yn - 0.85, xo + 2.02, yn, 2.05, 2.32, inox, t,
+    box(ents, xo + 0.22, yn - 0.85, xo + 2.02, yn - 0.05, 2.05, 2.32, inox, t,
         'Campana - cuerpo')
-    box(ents, xo + 0.92, yn - 0.42, xo + 1.32, yn, 2.32, Z_FORJ_INF, inox, t,
-        'Campana - conducto')
+    box(ents, xo + 0.92, yn - 0.42, xo + 1.32, yn - 0.05, 2.32, Z_FORJ_INF,
+        inox, t, 'Campana - conducto')
 
     # Mesa de trabajo contra el muro oeste
     box(ents, xo + 0.05, ys + 0.10, xo + 0.80, yn - 0.85, 0.0, 0.88, inox, t,
@@ -920,38 +948,130 @@ module CafeNapoliMalaga
   end
 
   # --------------------------------------------------------------------------
-  #  ESTANTERIA  (contra la medianera norte, misma madera que la barra)
+  #  ESTANTERIA DE FONDO  (contra la medianera norte, detrás de la barra)
+  #  Mueble bajo cerrado + panel con tres hornacinas de medio punto forradas
+  #  de azul Napoli. Misma madera que la barra.
   # --------------------------------------------------------------------------
 
-  def self.estanteria(ents, mat, tag)
-    t  = tag['24 Estanteria']
-    m  = mat['CN Madera clara']
-    x0 = 4.50
-    x1 = 7.33
-    y1 = by(62.4)            # cara del trasdosado norte
-    y0 = y1 - 0.48
-    h  = 2.20
+  EST_X0    = 4.20            # extremo oeste del mueble
+  EST_X1    = 7.40            # extremo este
+  EST_PROF  = 0.38            # fondo del mueble bajo
+  EST_Z_ENC = 0.99            # cara superior de la encimera
+  EST_Z_TOP = 2.50            # coronación del panel de hornacinas
+  EST_N     = 3               # número de hornacinas
+  EST_JAMBA = 0.16            # ancho de las jambas de los extremos
+  EST_ENTRE = 0.14            # ancho del entrepaño entre hornacinas
 
-    box(ents, x0, y0, x0 + 0.04, y1, 0.0, h, m, t, 'Estanteria - lateral Oeste')
-    box(ents, x1 - 0.04, y0, x1, y1, 0.0, h, m, t, 'Estanteria - lateral Este')
-    box(ents, x0 + 0.04, y1 - 0.04, x1 - 0.04, y1, 0.0, h, m, t,
-        'Estanteria - trasera')
-    [0.06, 0.48, 0.90, 1.32, 1.74, 2.16].each_with_index do |z, i|
-      box(ents, x0 + 0.04, y0, x1 - 0.04, y1 - 0.04, z, z + 0.035, m, t,
-          "Estanteria - balda #{i + 1}")
+  # Enjuta de un arco de medio punto: perfil en el plano X-Z extruido en Y.
+  # El polígono va por el trasdós del arco y cierra por arriba, de modo que
+  # el hueco de la hornacina queda por debajo de la curva.
+  def self.arco(ents, x0, x1, zs, ztop, y0, y1, mat, tag, name, n = 28)
+    r  = (x1 - x0) / 2.0
+    cx = (x0 + x1) / 2.0
+    return nil if ztop <= zs + r + 1e-6
+    prof = (0..n).map do |i|
+      a = Math::PI * i / n
+      [cx - r * Math.cos(a), zs + r * Math.sin(a)]
+    end
+    prof << [x1, ztop] << [x0, ztop]
+    profile_y(ents, prof, y0, y1, mat, tag, name)
+  end
+
+  # Vanos de las hornacinas: [[x0, x1], ...]
+  def self.est_vanos
+    bw = (EST_X1 - EST_X0 - 2 * EST_JAMBA - (EST_N - 1) * EST_ENTRE) / EST_N
+    (0...EST_N).map do |i|
+      a = EST_X0 + EST_JAMBA + i * (bw + EST_ENTRE)
+      [a, a + bw]
+    end
+  end
+
+  def self.estanteria(ents, mat, tag)
+    t   = tag['24 Estanteria']
+    rob = mat['CN Madera tablero']     # cuerpo y panel
+    cla = mat['CN Madera clara']       # encimera y baldas
+    lis = mat['CN Madera liston']      # frentes del mueble bajo
+    azu = mat['CN Azul Napoli']
+    lat = mat['CN Laton']
+    neg = mat['CN Negro mate']
+
+    x0 = EST_X0
+    x1 = EST_X1
+    yb = by(62.4)                      # paramento del trasdosado norte
+    yf = yb - EST_PROF                 # frente del mueble bajo
+    yp = yf + 0.12                     # frente del panel de hornacinas
+    ya = yb - 0.05                     # cara vista del forro azul
+
+    vanos = est_vanos
+    bw    = vanos.first[1] - vanos.first[0]
+    zs    = EST_Z_TOP - 0.20 - bw / 2.0        # línea de imposta
+
+    # 1 · mueble bajo cerrado, con zócalo retranqueado
+    box(ents, x0 + 0.05, yf + 0.05, x1 - 0.05, yb, 0.0, 0.10, neg, t,
+        'Estanteria - zocalo')
+    box(ents, x0, yf, x1, yb, 0.10, 0.95, rob, t, 'Estanteria - mueble bajo')
+    vanos.each_with_index do |(a, b), i|
+      box(ents, a, yf - 0.018, b, yf, 0.14, 0.91, lis, t,
+          "Estanteria - puerta #{i + 1}")
+      cm = (a + b) / 2.0
+      box(ents, cm - 0.07, yf - 0.032, cm + 0.07, yf - 0.018, 0.79, 0.82,
+          lat, t, "Estanteria - tirador #{i + 1}")
     end
 
-    # Botellas y producto expuesto
-    [0.515, 0.935, 1.355, 1.775].each_with_index do |z, fila|
-      n = 11
-      n.times do |i|
-        cx = x0 + 0.20 + i * (x1 - x0 - 0.40) / (n - 1).to_f
-        next if (i + fila) % 3 == 2
-        alto = 0.22 + 0.06 * ((i + fila) % 3)
-        cyl(ents, cx, y0 + 0.22, 0.038, z, z + alto,
-            (i + fila).even? ? mat['CN Terracota'] : mat['CN Madera tablero'],
-            t, 'Botella')
+    # 2 · encimera volada: deja una repisa de 0,17 m delante de las hornacinas
+    box(ents, x0 - 0.04, yf - 0.05, x1 + 0.04, yb, 0.95, EST_Z_ENC, cla, t,
+        'Estanteria - encimera')
+
+    # 3 · forro azul del fondo: sólo se ve por los huecos de las hornacinas
+    box(ents, x0, ya, x1, yb, EST_Z_ENC, EST_Z_TOP, azu, t,
+        'Estanteria - fondo azul Napoli')
+
+    # 4 · jambas, entrepaños y arcos de medio punto
+    box(ents, x0, yp, x0 + EST_JAMBA, ya, EST_Z_ENC, EST_Z_TOP, rob, t,
+        'Estanteria - jamba Oeste')
+    box(ents, x1 - EST_JAMBA, yp, x1, ya, EST_Z_ENC, EST_Z_TOP, rob, t,
+        'Estanteria - jamba Este')
+    (EST_N - 1).times do |i|
+      box(ents, vanos[i][1], yp, vanos[i + 1][0], ya, EST_Z_ENC, EST_Z_TOP,
+          rob, t, "Estanteria - entrepaño #{i + 1}")
+    end
+    vanos.each_with_index do |(a, b), i|
+      arco(ents, a, b, zs, EST_Z_TOP, yp, ya, rob, t,
+           "Estanteria - arco #{i + 1}")
+    end
+
+    # 5 · cornisa de coronación
+    box(ents, x0 - 0.06, yp - 0.06, x1 + 0.06, yb, EST_Z_TOP, EST_Z_TOP + 0.08,
+        rob, t, 'Estanteria - cornisa')
+
+    # 6 · dos baldas por hornacina, con barandín de latón
+    baldas = [EST_Z_ENC + 0.34, EST_Z_ENC + 0.70]
+    vanos.each_with_index do |(a, b), i|
+      baldas.each_with_index do |z, j|
+        box(ents, a, yp + 0.02, b, ya, z, z + 0.03, cla, t,
+            "Estanteria - balda #{i + 1}.#{j + 1}")
+        box(ents, a, yp + 0.025, b, yp + 0.04, z + 0.03, z + 0.07, lat, t,
+            "Estanteria - barandin #{i + 1}.#{j + 1}")
       end
+    end
+
+    # 7 · botellas expuestas, siempre dentro de la curva del arco
+    vanos.each_with_index do |(a, b), i|
+      cm = (a + b) / 2.0
+      baldas.each_with_index do |z, j|
+        [-0.30, -0.15, 0.0, 0.15, 0.30].each_with_index do |dx, k|
+          next if (i + j + k) % 4 == 3
+          alto = 0.20 + 0.03 * ((i + j + k) % 3)
+          cyl(ents, cm + dx, yp + 0.11, 0.037, z + 0.03, z + 0.03 + alto,
+              (i + j + k).even? ? mat['CN Terracota'] : rob, t, 'Botella')
+        end
+      end
+    end
+
+    # 8 · vajilla apilada sobre la repisa de la encimera
+    [x0 + 0.45, x0 + 1.35, x0 + 2.25, x0 + 2.95].each_with_index do |cx, i|
+      cyl(ents, cx, yf + 0.03, 0.05, EST_Z_ENC, EST_Z_ENC + 0.12 + 0.03 * (i % 3),
+          mat['CN Blanco roto'], t, "Vajilla #{i + 1}")
     end
   end
 
@@ -959,7 +1079,8 @@ module CafeNapoliMalaga
   #  MESAS Y SILLAS
   # --------------------------------------------------------------------------
 
-  def self.silla(ents, mat, tag, cx, cy, lado, azul = false)
+  # eje = :x  respaldo hacia el este/oeste   ·   eje = :y  hacia el norte/sur
+  def self.silla(ents, mat, tag, cx, cy, eje, lado, azul = false)
     t = tag['26 Mesas y sillas']
     tela = azul ? mat['CN Tela azul'] : mat['CN Tela']
     g = ents.add_group
@@ -967,9 +1088,15 @@ module CafeNapoliMalaga
     a = 0.44
     box(e, cx - a / 2, cy - a / 2, cx + a / 2, cy + a / 2, 0.43, 0.50,
         tela, nil, 'Asiento')
-    xr = cx + lado * (a / 2 - 0.06)
-    box(e, xr, cy - a / 2, xr + lado * 0.06, cy + a / 2, 0.50, 0.84,
-        tela, nil, 'Respaldo')
+    if eje == :y
+      yr = cy + lado * (a / 2 - 0.06)
+      box(e, cx - a / 2, yr, cx + a / 2, yr + lado * 0.06, 0.50, 0.84,
+          tela, nil, 'Respaldo')
+    else
+      xr = cx + lado * (a / 2 - 0.06)
+      box(e, xr, cy - a / 2, xr + lado * 0.06, cy + a / 2, 0.50, 0.84,
+          tela, nil, 'Respaldo')
+    end
     [[-1, -1], [1, -1], [-1, 1], [1, 1]].each do |sx, sy|
       px = cx + sx * (a / 2 - 0.05)
       py = cy + sy * (a / 2 - 0.05)
@@ -992,30 +1119,30 @@ module CafeNapoliMalaga
     finish(g, nil, t, 'Mesa 0,75 x 0,75')
   end
 
-  # Centros de mesa de la sala
+  # Centros de mesa y eje de las sillas.
+  #
+  # EL CUELLO DE FACHADA (la entrada) QUEDA VACÍO: no hay ninguna mesa, ni
+  # banco, ni planta al sur de la línea del muro sur, y = 1,810 m. La mesa
+  # más adelantada arranca en y = 2,275 m, a 1,90 m del escaparate.
+  #
+  # Separación: 2,15 m entre ejes de columna en el bloque oeste, lo que deja
+  # 0,47 m libres entre respaldos, y 1,50/1,45 m entre filas.
   def self.mesas_sala
-    puestos = []
-    [2.55, 4.00, 5.45].each do |cy|
-      [1.60, 3.15, 4.70, 7.45].each { |cx| puestos << [cx, cy] }
-    end
-    puestos
-  end
-
-  # Mesas del hueco de entrada: se sientan sobre el banco corrido de fachada,
-  # con una sola silla al norte porque el fondo util es de 1,43 m.
-  def self.mesas_entrada
-    [[7.10, 1.22], [8.70, 1.22]]
+    [[1.45, 2.65, :x], [1.45, 4.15, :x], [1.45, 5.60, :x],
+     [3.60, 2.65, :x], [3.60, 4.15, :x], [3.60, 5.60, :x],
+     [7.05, 2.70, :x], [8.90, 2.70, :y], [7.45, 5.30, :x]]
   end
 
   def self.mobiliario_sala(ents, mat, tag)
-    mesas_sala.each_with_index do |(cx, cy), i|
+    mesas_sala.each_with_index do |(cx, cy, eje), i|
       mesa(ents, mat, tag, cx, cy)
-      silla(ents, mat, tag, cx - 0.62, cy, -1, i.even?)
-      silla(ents, mat, tag, cx + 0.62, cy,  1, i.odd?)
-    end
-    mesas_entrada.each_with_index do |(cx, cy), i|
-      mesa(ents, mat, tag, cx, cy, 0.70)
-      silla(ents, mat, tag, cx, cy + 0.64, 1, i.even?)
+      if eje == :y
+        silla(ents, mat, tag, cx, cy - 0.62, :y, -1, i.even?)
+        silla(ents, mat, tag, cx, cy + 0.62, :y,  1, i.odd?)
+      else
+        silla(ents, mat, tag, cx - 0.62, cy, :x, -1, i.even?)
+        silla(ents, mat, tag, cx + 0.62, cy, :x,  1, i.odd?)
+      end
     end
   end
 
@@ -1046,14 +1173,20 @@ module CafeNapoliMalaga
       lampara(ents, mat, tag, cx, 6.99, Z_FORJ_INF, 2.02, 0.17)
     end
 
-    # Un colgante por mesa; el techo depende de si esta bajo el forjado
+    # Un colgante por mesa; el techo depende de si está bajo el forjado
     y_forj = ay(336.2)
-    (mesas_sala + mesas_entrada).each do |cx, cy|
+    mesas_sala.each do |cx, cy, _eje|
       techo = cy > y_forj ? Z_FORJ_INF : H_TOT
       lampara(ents, mat, tag, cx, cy, techo, cy > y_forj ? 1.98 : 2.25, 0.14)
     end
 
-    # Empotrados en el intrados del forjado
+    # Dos colgantes altos en el cuello de fachada. Es lo único que hay en la
+    # entrada: cuelgan a 2,90 m y dejan el suelo completamente libre.
+    [[7.30, 0.95], [8.90, 0.95]].each do |cx, cy|
+      lampara(ents, mat, tag, cx, cy, H_TOT, 2.90, 0.21)
+    end
+
+    # Empotrados en el intradós del forjado
     [4.60, 5.90, 7.20, 8.50].each do |cy|
       [1.10, 2.60, 4.10, 8.60].each do |cx|
         next if cx > 8.4 && cy > 3.9 && cy < 7.8      # hueco de escalera
@@ -1088,11 +1221,10 @@ module CafeNapoliMalaga
   def self.decoracion(ents, mat, tag)
     t = tag['28 Decoracion']
 
-    # Plantas
-    planta(ents, mat, tag, 0.78, 2.62, 1.35)
-    planta(ents, mat, tag, 0.62, 6.30, 1.20)
-    planta(ents, mat, tag, 6.55, 1.55, 1.30)
-    planta(ents, mat, tag, 9.35, 1.20, 1.10)
+    # Plantas. Ninguna en el cuello de fachada: la entrada queda despejada.
+    planta(ents, mat, tag, 0.68, 3.40, 1.30)
+    planta(ents, mat, tag, 5.90, 2.35, 1.25)
+    planta(ents, mat, tag, 3.00, 6.45, 1.15)
 
     # Cuadros en el muro oeste
     [2.90, 3.75, 5.90].each_with_index do |cy, i|
@@ -1108,17 +1240,11 @@ module CafeNapoliMalaga
           1.35, 1.95, mat['CN Madera tablero'], t, "Cuadro Sur #{i + 1}")
     end
 
-    # Pizarra de carta sobre la estanteria
-    box(ents, 7.55, by(62.4) - 0.05, 9.35, by(62.4), 1.45, 2.25,
+    # Pizarra de carta, al este de la estantería
+    box(ents, 7.62, by(62.4) - 0.05, 9.32, by(62.4), 1.45, 2.25,
         mat['CN Negro mate'], t, 'Pizarra de carta')
-    box(ents, 7.50, by(62.4) - 0.07, 9.40, by(62.4) - 0.05, 1.40, 2.30,
+    box(ents, 7.57, by(62.4) - 0.07, 9.37, by(62.4) - 0.05, 1.40, 2.30,
         mat['CN Madera tablero'], t, 'Pizarra - marco')
-
-    # Banco corrido bajo el escaparate
-    box(ents, 6.35, ay(538.0), 9.55, ay(538.0) + 0.46, 0.10, 0.44,
-        mat['CN Madera clara'], t, 'Banco corrido de fachada')
-    box(ents, 6.35, ay(538.0), 9.55, ay(538.0) + 0.46, 0.44, 0.50,
-        mat['CN Tela'], t, 'Banco corrido - cojin')
   end
 
   # --------------------------------------------------------------------------
