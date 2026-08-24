@@ -4,7 +4,7 @@ Generador en Ruby (`cafe_napoli_malaga.rb`) que construye el local completo
 —arquitectura, equipamiento, mobiliario, iluminación y decoración— a partir de
 los dos planos entregados.
 
-**643 sólidos** repartidos en **19 etiquetas**. Todo el modelo se levanta con una
+**651 sólidos** repartidos en **19 etiquetas**. Todo el modelo se levanta con una
 sola orden en la Consola Ruby de SketchUp.
 
 |  |  |
@@ -57,8 +57,8 @@ El script fija las unidades en metros y encuadra una vista axonométrica.
 |---|---|
 | `20 Pavimento` | Roble claro en planta baja y en el altillo |
 | `21 Cocina` | Bloque de cocción de 4 fuegos con horno, campana extractora, mesa de trabajo y estante mural. **Paramentos de acero inoxidable** en el muro de la cocina y en el de su izquierda, hasta 2,20 m |
-| `22 Barra` | Estructura corrida de 4,53 m: cuerpo macizo, zócalo retranqueado negro, frente de **listones azul Napoli** en los tres lados vistos y **tabla de madera maciza** de una pieza por encima |
-| `23 Vitrinas y equipos` | Dos **vitrinas de cristal curvo** —refrigerada y caliente— **encastradas en la barra**: la bandeja queda 0,22 m por debajo de la tabla de madera, con tres baldas escalonadas dentro. Máquina de café, molinillo y caja |
+| `22 Barra` | Estructura corrida de 4,53 m **a dos niveles**: el mostrador de las vitrinas está 0,12 m más bajo (tabla a 0,86 m) que el de la cafetera y la caja (0,98 m), con el frente del desnivel forrado de madera y la tabla alta volando 3 cm sobre él. Zócalo retranqueado negro, frente de **listones azul Napoli** y **tabla de madera maciza** por encima |
+| `23 Vitrinas y equipos` | Dos **vitrinas de cristal curvo** —refrigerada y caliente— **encastradas en el mostrador bajo**: la bandeja queda 0,22 m por debajo de su tabla, con tres baldas escalonadas dentro. Máquina de café, molinillo y caja, sobre el mostrador alto |
 | `24 Estanteria` | Mueble bajo liso de roble con cuatro puertas y encimera, y encima una **rejilla de acero negro que forma diez cajas de distinto tamaño** sobre un fondo retroiluminado en cálido, con línea de luz bajo la rejilla. 2,48 m de coronación |
 | `25 Revestimiento de madera` | Listones verticales cubriendo **los cuatro lados** de cada soporte, **de suelo a techo**: pilar central y machón este hasta el intradós del forjado (2,70 m), machón oeste y pilastra sur —que están en la doble altura— hasta los 5,50 m. Forro de la viga descolgada y frente del altillo |
 | `26 Mesas y sillas` | 6 mesas de 0,75 × 0,75 y 12 sillas tapizadas, alternando **tela crema y tela azul** |
@@ -90,9 +90,14 @@ como zona de paso libre entre la entrada, la barra y la escalera.
 
 ### Mampara de cristal
 
-El cerramiento de la cocina hacia la sala es una **mampara de vidrio de 2,46 m**
-de largo (`PB Mampara de vidrio de la cocina`), que arranca en el muro oeste y
-muere justo donde empieza la barra.
+El cerramiento de la cocina hacia la sala es una **mampara de vidrio de 3,18 m**
+(`PB Mampara de vidrio de la cocina`, etiqueta `07 Particiones planta baja`):
+arranca en el muro oeste, en x = 0,251, y muere exactamente donde empieza la
+barra, en x = 3,430. Son dos paños con montante intermedio en el eje del
+tabique que dibuja el plano, zócalo y cabecero de carpintería.
+
+La cocina no tiene puerta al comedor: se entra por detrás de la barra, desde el
+office.
 
 ### Paleta
 
@@ -159,9 +164,9 @@ geométricamente antes de entregarlo:
 
 | Prueba | Resultado |
 |---|---|
-| Sólidos generados | 643, ninguno degenerado, todos con material y etiqueta |
+| Sólidos generados | 651, ninguno degenerado, todos con material y etiqueta |
 | Cotas contra el plano | 22 comprobaciones, todas dentro de tolerancia |
-| **Solape entre sólidos de estructura** | **0,0000 m³** sobre 102,320 m³ (rejilla volumétrica de 5 cm) |
+| **Solape entre sólidos de estructura** | **0,0000 m³** sobre 102,415 m³ (rejilla volumétrica de 5 cm) |
 | **Huecos en la envolvente** | **0,0000 m²** a z = 0,30 / 1,50 / 2,50 / 3,50 / 4,50 / 5,30 m |
 | Interferencia mobiliario ↔ estructura | Sin colisiones. Los cuatro pares que marca el filtro por cajas envolventes —listones del machón este contra la escalera— se descartan con rejilla exacta de 1 cm: 0 celdas compartidas |
 | Solape real entre elementos de interiorismo | Ninguno. Los únicos que quedan son intencionados: mobiliario apoyado sobre los 2 cm de pavimento y las baldas dentro de las vitrinas |

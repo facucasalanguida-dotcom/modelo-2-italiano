@@ -359,10 +359,11 @@ module CafeNapoliMalaga
         Escalera ................ 16 huellas de 0,26 · 17 tabicas de 0,1765
 
       Interiorismo: cocina con campana y revestimiento de inox, mampara de
-      vidrio, barra de 4,53 m con tabla de madera maciza,
-      dos vitrinas de cristal curvo encastradas en la barra, estantería de
-      cajas de acero negro retroiluminada, listones de suelo a techo en los
-      soportes, 6 mesas con 12 sillas tapizadas, iluminación y decoración.
+      vidrio de 3,18 m que muere en el arranque de la barra, barra de 4,53 m
+      a dos niveles -el mostrador de las vitrinas baja 0,12 m- con dos
+      vitrinas de cristal curvo encastradas, estantería de cajas de acero
+      negro retroiluminada, listones de suelo a techo en los soportes,
+      6 mesas con 12 sillas tapizadas, iluminación y decoración.
       La entrada queda despejada.
     TXT
     puts txt
@@ -539,22 +540,32 @@ module CafeNapoliMalaga
 
   def self.particiones_pb(ents, mat, tag)
     t = tag['07 Particiones planta baja']
-    # El tabique este de la cocina se elimina: la cocina queda abierta al office.
-    # El tabique sur se sustituye por una mampara de vidrio completa de 2,50 m
-    # que llega hasta el paso de acceso a la barra.
+    # El tabique este de la cocina se elimina: la cocina queda abierta al office,
+    # por donde entra el personal desde detrás de la barra.
+    # El tabique sur se sustituye por una mampara de vidrio corrida que arranca
+    # en el muro oeste y muere justo donde empieza la barra: 3,18 m de vidrio
+    # en dos paños, con montante intermedio en el eje del tabique del plano.
     x0 = bx(117.8)
-    x1 = bx(354.0)
+    xi = bx(354.0)                     # montante intermedio, tabique del plano
+    x1 = BAR_X0 - 0.06                 # testero este: arranque de la barra
     ya = by(254.6)
     yb = by(249.9)
-    xm = x1 - 0.04                     # montante del testero este
-    box(ents, x0, ya, xm, yb, 0.06, Z_FORJ_INF - 0.06,
-        mat['CN Vidrio'], t, 'PB Mampara de vidrio de la cocina (2,46 m)')
-    box(ents, x0, ya, xm, yb, 0.0, 0.06,
-        mat['CN Carpinteria'], t, 'PB Mampara - zocalo')
-    box(ents, x0, ya, xm, yb, Z_FORJ_INF - 0.06, Z_FORJ_INF,
-        mat['CN Carpinteria'], t, 'PB Mampara - cabecero')
-    box(ents, xm, ya, x1, yb, 0.0, Z_FORJ_INF,
+
+    # Dos paños de vidrio con montante intermedio y jambas de carpintería
+    box(ents, x0, ya, xi - 0.04, yb, 0.06, Z_FORJ_INF - 0.06,
+        mat['CN Vidrio'], t, 'PB Mampara de vidrio de la cocina (3,18 m)')
+    box(ents, xi, ya, x1 - 0.04, yb, 0.06, Z_FORJ_INF - 0.06,
+        mat['CN Vidrio'], t, 'PB Mampara de vidrio - pano Este')
+    box(ents, xi - 0.04, ya, xi, yb, 0.0, Z_FORJ_INF,
+        mat['CN Carpinteria'], t, 'PB Mampara - montante intermedio')
+    box(ents, x1 - 0.04, ya, x1, yb, 0.0, Z_FORJ_INF,
         mat['CN Carpinteria'], t, 'PB Mampara - montante Este')
+    [[x0, xi - 0.04], [xi, x1 - 0.04]].each_with_index do |(a_, b_), i|
+      box(ents, a_, ya, b_, yb, 0.0, 0.06,
+          mat['CN Carpinteria'], t, "PB Mampara - zocalo #{i + 1}")
+      box(ents, a_, ya, b_, yb, Z_FORJ_INF - 0.06, Z_FORJ_INF,
+          mat['CN Carpinteria'], t, "PB Mampara - cabecero #{i + 1}")
+    end
   end
 
   # --------------------------------------------------------------------------
@@ -874,11 +885,17 @@ module CafeNapoliMalaga
   BAR_Y1 = 7.43
   BAR_H  = 0.92
 
-  # Rebaje de las vitrinas dentro de la barra: quedan 0,22 m por debajo de la
-  # tabla de madera, encastradas, no apoyadas encima.
+  # La barra tiene dos niveles: el tramo de las vitrinas baja 0,12 m respecto
+  # al de la cafetera y la caja, como en los mostradores de pastelería.
+  BAR_XSTEP = 6.16                # eje del desnivel
+  BAR_DZ    = 0.12                # cuánto baja el mostrador de las vitrinas
+  BAR_HB    = BAR_H - BAR_DZ      # 0,80 · coronación del cuerpo bajo
+
+  # Rebaje de las vitrinas dentro del mostrador bajo: quedan 0,22 m por debajo
+  # de su tabla de madera, encastradas, no apoyadas encima.
   VIT_Y0 = BAR_Y0 + 0.06          # frente de cristal, lado sala
   VIT_Y1 = BAR_Y1 - 0.08          # fondo, lado servicio
-  VIT_Z0 = BAR_H - 0.16           # 0,76 · fondo del rebaje
+  VIT_Z0 = BAR_HB - 0.16          # 0,64 · fondo del rebaje
   VIT_ZD = VIT_Z0 + 0.10          # 0,86 · cara alta de la bandeja de acero
   VIT_ZS = VIT_ZD + 0.24          # 1,10 · arranque de la curva
   VIT_R  = 0.30                   # radio del cristal curvo
@@ -890,46 +907,60 @@ module CafeNapoliMalaga
   end
 
   def self.barra(ents, mat, tag)
-    t  = tag['22 Barra']
-    hu = huecos_vitrina
+    t   = tag['22 Barra']
+    cla = mat['CN Madera clara']
+    tab = mat['CN Madera tablero']
+    hu  = huecos_vitrina
 
     # Zócalo retranqueado y cuerpo macizo hasta el fondo del rebaje
     box(ents, BAR_X0 + 0.05, BAR_Y0 + 0.05, BAR_X1 - 0.05, BAR_Y1 - 0.05,
         0.0, 0.10, mat['CN Negro mate'], t, 'Barra - zocalo retranqueado')
-    box(ents, BAR_X0, BAR_Y0, BAR_X1, BAR_Y1, 0.10, VIT_Z0,
-        mat['CN Madera clara'], t, 'Barra - cuerpo')
+    box(ents, BAR_X0, BAR_Y0, BAR_X1, BAR_Y1, 0.10, VIT_Z0, cla, t,
+        'Barra - cuerpo')
 
-    # Por encima del rebaje el cuerpo se parte para dejar los dos huecos
-    macizos_x(BAR_X0, BAR_X1, hu).each do |a, b|
-      box(ents, a, BAR_Y0, b, BAR_Y1, VIT_Z0, BAR_H,
-          mat['CN Madera clara'], t, 'Barra - cuerpo sobre el rebaje')
+    # Mostrador BAJO, el de las vitrinas: sube a 0,80 y se parte por los rebajes
+    macizos_x(BAR_X0, BAR_XSTEP, hu).each do |a, b|
+      box(ents, a, BAR_Y0, b, BAR_Y1, VIT_Z0, BAR_HB, cla, t,
+          'Barra - cuerpo del mostrador bajo')
     end
     hu.each do |a, b|
-      box(ents, a, BAR_Y0, b, VIT_Y0, VIT_Z0, BAR_H,
-          mat['CN Madera clara'], t, 'Barra - antepecho del rebaje')
-      box(ents, a, VIT_Y1, b, BAR_Y1, VIT_Z0, BAR_H,
-          mat['CN Madera clara'], t, 'Barra - trasera del rebaje')
+      box(ents, a, BAR_Y0, b, VIT_Y0, VIT_Z0, BAR_HB, cla, t,
+          'Barra - antepecho del rebaje')
+      box(ents, a, VIT_Y1, b, BAR_Y1, VIT_Z0, BAR_HB, cla, t,
+          'Barra - trasera del rebaje')
     end
 
-    # Frente de listones hacia la sala y en los dos testeros
+    # Mostrador ALTO, el de la cafetera y la caja
+    box(ents, BAR_XSTEP, BAR_Y0, BAR_X1, BAR_Y1, VIT_Z0, BAR_H, cla, t,
+        'Barra - cuerpo del mostrador alto')
+
+    # Frente de listones azules, en dos tramos por el desnivel
     azul = mat.dup
     azul['CN Madera liston'] = mat['CN Azul Napoli']   # listones azules
-    revestir(ents, BAR_X0, BAR_Y0, BAR_X1, BAR_Y1, BAR_H, [:s, :o, :e],
-             azul, t, 'Barra - listones', 0.026, 0.10)
+    revestir(ents, BAR_X0, BAR_Y0, BAR_XSTEP, BAR_Y1, BAR_HB, [:s, :o],
+             azul, t, 'Barra - listones del mostrador bajo', 0.026, 0.10)
+    revestir(ents, BAR_XSTEP, BAR_Y0, BAR_X1, BAR_Y1, BAR_H, [:s, :e],
+             azul, t, 'Barra - listones del mostrador alto', 0.026, 0.10)
 
-    # Tabla de madera maciza, recortada alrededor de los dos rebajes
+    # Tabla de madera maciza, a dos niveles, recortada por los dos rebajes
     tx0 = BAR_X0 - 0.06 ; tx1 = BAR_X1 + 0.06
     ty0 = BAR_Y0 - 0.09 ; ty1 = BAR_Y1 + 0.04
-    macizos_x(tx0, tx1, hu).each do |a, b|
-      box(ents, a, ty0, b, ty1, BAR_H, BAR_H + 0.06,
-          mat['CN Madera tablero'], t, 'Barra - tabla de madera maciza')
+    macizos_x(tx0, BAR_XSTEP, hu).each do |a, b|
+      box(ents, a, ty0, b, ty1, BAR_HB, BAR_HB + 0.06, tab, t,
+          'Barra - tabla del mostrador bajo')
     end
     hu.each do |a, b|
-      box(ents, a, ty0, b, VIT_Y0, BAR_H, BAR_H + 0.06,
-          mat['CN Madera tablero'], t, 'Barra - tabla, borde delantero')
-      box(ents, a, VIT_Y1, b, ty1, BAR_H, BAR_H + 0.06,
-          mat['CN Madera tablero'], t, 'Barra - tabla, borde trasero')
+      box(ents, a, ty0, b, VIT_Y0, BAR_HB, BAR_HB + 0.06, tab, t,
+          'Barra - tabla, borde delantero')
+      box(ents, a, VIT_Y1, b, ty1, BAR_HB, BAR_HB + 0.06, tab, t,
+          'Barra - tabla, borde trasero')
     end
+
+    # Frente del desnivel y tabla del mostrador alto, que vuela 3 cm sobre él
+    box(ents, BAR_XSTEP - 0.026, BAR_Y0, BAR_XSTEP, BAR_Y1,
+        BAR_HB + 0.06, BAR_H, tab, t, 'Barra - frente del desnivel')
+    box(ents, BAR_XSTEP - 0.03, ty0, tx1, ty1, BAR_H, BAR_H + 0.06, tab, t,
+        'Barra - tabla del mostrador alto')
   end
 
   # Tramos macizos de [x0, x1] una vez descontados los huecos
