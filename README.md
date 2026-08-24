@@ -14,6 +14,20 @@ sola orden en la Consola Ruby de SketchUp.
 
 Quince puntos de vista en `docs/vistas/` y una lámina resumen en `docs/`.
 
+## Render fotorrealista
+
+Además de las vistas de trabajo, `docs/render/` contiene **siete renders
+fotorrealistas** de la planta baja hechos con **Blender (Cycles)** a partir de
+la misma geometría que genera el script: suelo de roble claro, paredes en
+*light gray* #DAD8C9, maderas cálidas, frente de barra en azul Napoli, acero
+inoxidable, vidrio y latón, con las lámparas de pantalla ópalo encendidas, la
+estantería retroiluminada y atrezzo real —tazas, platillos, jarrones con
+flores, bollería en las vitrinas y botellas de vidrio en la estantería—.
+
+La escena se construye con `blender_scene.py` (incluido en el repositorio)
+leyendo la geometría exportada del generador, así que renders y modelo de
+SketchUp están siempre sincronizados.
+
 ---
 
 ## Cómo usarlo
