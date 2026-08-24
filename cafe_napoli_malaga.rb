@@ -186,6 +186,24 @@ module CafeNapoliMalaga
     finish(g, mat, tag, name)
   end
 
+  # Suaviza las aristas entre caras casi coplanarias. Las superficies curvas
+  # que salen de extruir un perfil poligonal se leen entonces como una
+  # superficie lisa, sin el rayado de las facetas.
+  def self.suavizar(g, limite = 45.0)
+    return g if g.nil?
+    return g unless defined?(Sketchup::Edge)
+    return g unless g.entities.respond_to?(:grep)
+    cos_lim = Math.cos(limite * Math::PI / 180.0)
+    g.entities.grep(Sketchup::Edge).each do |e|
+      caras = e.faces
+      next unless caras.length == 2
+      next if caras[0].normal.dot(caras[1].normal) < cos_lim
+      e.soft   = true
+      e.smooth = true
+    end
+    g
+  end
+
   def self.cyl(ents, cx, cy, r, z0, z1, mat = nil, tag = nil, name = nil)
     za, zb = [z0, z1].minmax
     g = ents.add_group
@@ -362,7 +380,7 @@ module CafeNapoliMalaga
       vidrio de 3,18 m con carpintería vista -cinco montantes, zócalo,
       travesaño y dintel- que muere en el arranque de la barra, barra de 4,53 m
       a dos niveles -el mostrador de las vitrinas baja 0,12 m- con dos
-      vitrinas de cristal curvo encastradas, estantería de cajas de acero
+      vitrinas de cristal curvo continuo encastradas, estantería de cajas de acero
       negro retroiluminada, listones de suelo a techo en los soportes,
       6 mesas con 12 sillas tapizadas, iluminación y decoración.
       La entrada queda despejada.
@@ -929,13 +947,14 @@ module CafeNapoliMalaga
 
   # Rebaje de las vitrinas dentro del mostrador bajo: quedan 0,22 m por debajo
   # de su tabla de madera, encastradas, no apoyadas encima.
-  VIT_Y0 = BAR_Y0 + 0.06          # frente de cristal, lado sala
-  VIT_Y1 = BAR_Y1 - 0.08          # fondo, lado servicio
-  VIT_Z0 = BAR_HB - 0.16          # 0,64 · fondo del rebaje
-  VIT_ZD = VIT_Z0 + 0.10          # 0,86 · cara alta de la bandeja de acero
-  VIT_ZS = VIT_ZD + 0.24          # 1,10 · arranque de la curva
-  VIT_R  = 0.30                   # radio del cristal curvo
-  VIT_ZT = VIT_ZS + VIT_R         # 1,40 · coronación
+  VIT_Y0  = BAR_Y0 + 0.06         # borde delantero del rebaje, lado sala
+  VIT_Y1  = BAR_Y1 - 0.08         # borde trasero, lado servicio
+  VIT_Z0  = BAR_HB - 0.16         # 0,64 · fondo del rebaje
+  VIT_REV = 0.02                  # holgura entre la vitrina y el rebaje
+  VIT_ZD  = VIT_Z0 + 0.10         # 0,74 · cara alta de la bandeja de acero
+  VIT_ZS  = VIT_ZD + 0.18         # 0,92 · arranque de la curva
+  VIT_R   = 0.24                  # radio del cristal curvo
+  VIT_ZT  = VIT_ZS + VIT_R        # 1,16 · coronación, 0,30 sobre la tabla
 
   # Huella en planta de cada vitrina
   def self.huecos_vitrina
@@ -1013,14 +1032,16 @@ module CafeNapoliMalaga
   #  vitrinas de pastelería.
   # --------------------------------------------------------------------------
 
-  # Sección de la vitrina en el plano Y-Z, del frente al fondo
-  def self.vit_perfil_exterior(n = 12)
-    p = [[VIT_Y0, VIT_ZD], [VIT_Y0, VIT_ZS]]
+  # Sección de la vitrina en el plano Y-Z, del frente al fondo. La curva es
+  # tangente al frente vertical y a la tapa plana, así que una vez suavizada
+  # se lee como un cristal continuo, sin aristas intermedias.
+  def self.vit_perfil(y0, y1, n = 20)
+    p = [[y0, VIT_ZD], [y0, VIT_ZS]]
     (1..n).each do |i|
       a = (Math::PI / 2) * i / n
-      p << [VIT_Y0 + VIT_R - VIT_R * Math.cos(a), VIT_ZS + VIT_R * Math.sin(a)]
+      p << [y0 + VIT_R - VIT_R * Math.cos(a), VIT_ZS + VIT_R * Math.sin(a)]
     end
-    p << [VIT_Y1, VIT_ZT]
+    p << [y1, VIT_ZT]
     p
   end
 
@@ -1029,43 +1050,53 @@ module CafeNapoliMalaga
     inox = mat['CN Acero inox']
     vid  = mat['CN Vidrio']
     e    = 0.010                       # espesor del cristal
-    n    = 12
+    n    = 20
+
+    # La vitrina se posa dentro del rebaje con holgura por los cuatro lados:
+    # ninguna cara queda a ras de la madera, así que nada se atraviesa.
+    gx0 = x0 + VIT_REV ; gx1 = x1 - VIT_REV
+    gy0 = VIT_Y0 + VIT_REV ; gy1 = VIT_Y1 - VIT_REV
+    paso = (gy1 - gy0 - 0.10) / 3.0    # fondo de cada balda escalonada
 
     # Bandeja de acero en el fondo del rebaje
-    box(ents, x0, VIT_Y0, x1, VIT_Y1, VIT_Z0, VIT_ZD, inox, t,
+    box(ents, gx0, gy0, gx1, gy1, VIT_Z0, VIT_ZD, inox, t,
         "#{nombre} - bandeja")
 
     # Cristal curvo: banda cerrada, cara exterior y cara interior
-    ext = vit_perfil_exterior(n)
-    int = [[VIT_Y1, VIT_ZT - e], [VIT_Y0 + VIT_R, VIT_ZT - e]]
+    ext = vit_perfil(gy0, gy1, n)
+    int = [[gy1, VIT_ZT - e], [gy0 + VIT_R, VIT_ZT - e]]
     n.downto(1) do |i|
       a = (Math::PI / 2) * i / n
-      int << [VIT_Y0 + VIT_R - (VIT_R - e) * Math.cos(a),
+      int << [gy0 + VIT_R - (VIT_R - e) * Math.cos(a),
               VIT_ZS + (VIT_R - e) * Math.sin(a)]
     end
-    int << [VIT_Y0 + e, VIT_ZS] << [VIT_Y0 + e, VIT_ZD]
-    profile_x(ents, ext + int, x0 + e, x1 - e, vid, t, "#{nombre} - cristal")
+    int << [gy0 + e, VIT_ZS] << [gy0 + e, VIT_ZD]
+    suavizar(profile_x(ents, ext + int, gx0 + e, gx1 - e, vid, t,
+                       "#{nombre} - cristal"))
 
     # Costados de cristal: el mismo perfil, macizo
-    lado = ext + [[VIT_Y1, VIT_ZD]]
-    profile_x(ents, lado, x0, x0 + e, vid, t, "#{nombre} - costado Oeste")
-    profile_x(ents, lado, x1 - e, x1, vid, t, "#{nombre} - costado Este")
+    lado = ext + [[gy1, VIT_ZD]]
+    suavizar(profile_x(ents, lado, gx0, gx0 + e, vid, t,
+                       "#{nombre} - costado Oeste"))
+    suavizar(profile_x(ents, lado, gx1 - e, gx1, vid, t,
+                       "#{nombre} - costado Este"))
 
     # Trasera corredera, lado servicio
-    box(ents, x0 + e, VIT_Y1 - e, x1 - e, VIT_Y1, VIT_ZD, VIT_ZT - e, vid, t,
+    box(ents, gx0 + e, gy1 - e, gx1 - e, gy1, VIT_ZD, VIT_ZT - e, vid, t,
         "#{nombre} - trasera")
 
     # Tres baldas escalonadas, cada una un poco más atrás y más alta
     3.times do |i|
-      ya = VIT_Y0 + 0.04 + i * 0.22
-      z  = VIT_ZD + 0.04 + i * 0.14
-      box(ents, x0 + 0.03, ya, x1 - 0.03, ya + 0.22, z, z + 0.02, inox, t,
+      ya = gy0 + 0.04 + i * paso
+      z  = VIT_ZD + 0.05 + i * 0.11
+      box(ents, gx0 + 0.03, ya, gx1 - 0.03, ya + paso, z, z + 0.02, inox, t,
           "#{nombre} - balda #{i + 1}")
-      nb = ((x1 - x0 - 0.12) / 0.20).floor
+      nb = ((gx1 - gx0 - 0.12) / 0.20).floor
       nb.times do |j|
-        cx = x0 + 0.09 + (j + 0.5) * (x1 - x0 - 0.18) / nb
-        box(ents, cx - 0.07, ya + 0.04, cx + 0.07, ya + 0.18,
-            z + 0.02, z + 0.09, mat['CN Terracota'], t, "#{nombre} - producto")
+        cx = gx0 + 0.09 + (j + 0.5) * (gx1 - gx0 - 0.18) / nb
+        box(ents, cx - 0.07, ya + 0.04, cx + 0.07, ya + paso - 0.04,
+            z + 0.02, z + 0.08, mat['CN Terracota'], t,
+            "#{nombre} - producto")
       end
     end
   end
