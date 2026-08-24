@@ -1,21 +1,18 @@
-# Café Napoli — Málaga · Modelo estructural 3D para SketchUp
+# Café Napoli — Málaga · Modelo 3D para SketchUp
 
-Generador en Ruby (`cafe_napoli_malaga.rb`) que construye la caja arquitectónica
-completa del local —planta baja y planta alta— a partir de los dos planos entregados.
+Generador en Ruby (`cafe_napoli_malaga.rb`) que construye el local completo
+—arquitectura, equipamiento, mobiliario, iluminación y decoración— a partir de
+los dos planos entregados.
 
-**Sólo estructura.** Sin mobiliario ni equipamiento de ningún tipo.
+**684 sólidos** repartidos en **19 etiquetas**. Todo el modelo se levanta con una
+sola orden en la Consola Ruby de SketchUp.
 
-| | |
+|  |  |
 |---|---|
-| planta baja | planta alta (+3.00) |
-|---|---|
-| ![PB suroeste](docs/vistas/v_pb_so.png) | ![PA suroeste](docs/vistas/v_pa_so.png) |
-| ![PB noreste](docs/vistas/v_pb_ne.png) | ![PA noreste](docs/vistas/v_pa_ne.png) |
-| ![PB cenital](docs/vistas/v_pb_alta.png) | ![PA cenital](docs/vistas/v_pa_alta.png) |
-| ![PB vista superior](docs/vistas/e_pb_top.png) | ![PA vista superior](docs/vistas/e_pa_top.png) |
+| ![Vista suroeste](docs/vistas/n_pb_so.jpg) | ![Vista noreste](docs/vistas/n_pb_ne.jpg) |
+| ![Sala](docs/vistas/n_int_sala.jpg) | ![Barra](docs/vistas/n_int_barra.jpg) |
 
-Diez puntos de vista más (cuatro esquinas por planta, isométricas, conjunto y
-secciones) en `docs/vistas/`, y dos láminas resumen en `docs/`.
+Doce puntos de vista en `docs/vistas/` y una lámina resumen en `docs/`.
 
 ---
 
@@ -38,11 +35,13 @@ El script fija las unidades en metros y encuadra una vista axonométrica.
 
 ## Qué contiene
 
+### Arquitectura — medida sobre los planos
+
 | Etiqueta | Contenido |
 |---|---|
 | `01 Solera` | Solera de 0,20 m bajo toda la huella |
 | `02 Muros perimetrales` | Medianeras norte y este, muro oeste, muro sur, muro del cuello y trasdosado |
-| `03 Pilares y machones` | **Pilar central**, pilar de fachada, machón oeste, **machón este**, pilastra sur y viga descolgada |
+| `03 Pilares y machones` | Pilar central, pilar de fachada, machón oeste, machón este, pilastra sur y viga descolgada |
 | `04 Forjado planta alta` | Forjado a +3.00 con el vacío y el hueco de escalera recortados |
 | `05 Cubierta` | Forjado de cubierta (etiqueta oculta por defecto) |
 | `06 Particiones planta alta` | Aseo, cabina de inodoro y almacén-2, con sus tres huecos de paso |
@@ -52,14 +51,46 @@ El script fija las unidades en metros y encuadra una vista axonométrica.
 | `10 Fachada - escaparate` | Acristalamiento con su montante, cercos, banda de rótulo y peto |
 | `11 Instalaciones` | Bajante Ø 0,20 grafiada en el rincón noroeste |
 
+### Interiorismo
+
+| Etiqueta | Contenido |
+|---|---|
+| `20 Pavimento` | Roble claro en planta baja y en el altillo |
+| `21 Cocina` | Bloque de cocción de 4 fuegos con horno, campana extractora, mesa de trabajo y estante mural. **Paramentos de acero inoxidable** en el muro de la cocina y en el de su izquierda, hasta 2,20 m |
+| `22 Barra` | Estructura corrida de 4,53 m: cuerpo macizo, zócalo retranqueado negro, frente de **listones azul Napoli** en los tres lados vistos y **tabla de madera maciza** de una pieza por encima |
+| `23 Vitrinas y equipos` | Vitrina refrigerada y vitrina caliente, máquina de café, molinillo y caja |
+| `24 Estanteria` | Expositor de 2,83 × 2,20 m en el mismo tono de madera que la barra, con botellas y producto |
+| `25 Revestimiento de madera` | Listones verticales cubriendo **los cuatro lados** del pilar central, el machón oeste, el machón este y la pilastra sur; forro de la viga descolgada y frente del altillo |
+| `26 Mesas y sillas` | 14 mesas y 26 sillas tapizadas, alternando **tela crema y tela azul** |
+| `27 Iluminacion` | 18 colgantes de pantalla ópalo con aro de latón, 13 empotrados en el intradós del forjado y 3 apliques de latón en el muro oeste |
+| `28 Decoracion` | 4 plantas en maceta de terracota, 6 cuadros, pizarra de carta y banco corrido bajo el escaparate |
+
 Cada elemento es un grupo con nombre descriptivo, seleccionable desde el Outliner.
+
+### Mampara de cristal
+
+El cerramiento de la cocina hacia la sala es una **mampara de vidrio de 2,46 m**
+de largo (`PB Mampara de vidrio de la cocina`), que arranca en el muro oeste y
+muere justo donde empieza la barra.
+
+### Paleta
+
+| Uso | Color |
+|---|---|
+| Muros | `#DAD8C9` |
+| Pavimento | roble claro `#D8BA8F` |
+| Maderas cálidas (barra, estantería, listones) | `#C99E69` / `#B2804A` |
+| Acento azul Napoli (frente de barra, rótulo) | `#3E6B99` |
+| Tapicerías | crema `#E7DFD1` y azul `#6C8AA8` |
+| Pantallas ópalo · latón | `#F6F3EC` · `#C69E54` |
 
 ---
 
 ## De dónde sale cada medida
 
-Ninguna cota es inventada: toda la geometría se ha medido **sobre los vectores de
-los PDF** y convertido a metros con la escala real de cada documento.
+Ninguna cota de la arquitectura es inventada: toda la geometría se ha medido
+**sobre los vectores de los PDF** y convertido a metros con la escala real de
+cada documento.
 
 | Documento | Contenido | Escala | Factor |
 |---|---|---|---|
@@ -97,8 +128,6 @@ Z = 0   planta baja                         Z =  3,000   planta alta (+3.00)
 
 Huella exterior **81,73 m²** · útil de planta baja **74,20 m²** · forjado de planta alta **33,74 m²**.
 
-![Secciones](docs/vistas/e_secciones.png)
-
 ---
 
 ## Verificación
@@ -108,21 +137,23 @@ geométricamente antes de entregarlo:
 
 | Prueba | Resultado |
 |---|---|
-| Sólidos generados | 48, ninguno degenerado, todos con material y etiqueta |
+| Sólidos generados | 684, ninguno degenerado, todos con material y etiqueta |
 | Cotas contra el plano | 22 comprobaciones, todas dentro de tolerancia |
-| **Solape entre sólidos** | **0,0000 m³** sobre 102,57 m³ (rejilla volumétrica de 5 cm) |
+| **Solape entre sólidos de estructura** | **0,0000 m³** sobre 102,325 m³ (rejilla volumétrica de 5 cm) |
 | **Huecos en la envolvente** | **0,0000 m²** a z = 0,30 / 1,50 / 2,50 / 3,50 / 4,50 / 5,30 m |
-| Superposición sobre el PDF | Cada elemento cae sobre su trazado original |
+| Interferencia mobiliario ↔ estructura | Sin colisiones. Los pares que marca el filtro por cajas envolventes se descartan con rejilla exacta de 1 cm (0 celdas compartidas) |
+| Superposición sobre el PDF | Cada elemento de la arquitectura cae sobre su trazado original |
 
 Las vistas de este README están generadas a partir de la geometría que produce el
-script, con proyección paralela y aristas, tal como se ve en SketchUp.
+script, con aristas y sección horizontal, tal como se ve en SketchUp.
 
 ---
 
 ## Cotas que los planos NO dan
 
-El plano sólo acota el nivel **+3.00**. El resto está agrupado como constantes al
-principio del archivo: se cambia el número y se vuelve a ejecutar `build!`.
+El plano sólo acota el nivel **+3.00**. La arquitectura que falta está agrupada
+como constantes al principio del archivo: se cambia el número y se vuelve a
+ejecutar `build!`.
 
 | Constante | Valor | Criterio |
 |---|---|---|
@@ -135,7 +166,13 @@ principio del archivo: se cambia el número y se vuelve a ejecutar `build!`.
 | `Z_VIGA_INF` | 2,60 m | Intradós de la viga descolgada |
 | `T_ZANCA` | 0,20 m | Canto de la losa de escalera |
 
-**Única libertad tomada:** la propuesta dibuja el recinto de cocina cerrado, sin
-ningún hueco (es un plano de equipamiento, no de arquitectura). Se ha abierto un
-paso de 0,80 m en el tabique sur, en la prolongación exacta del pasillo de
-servicio. Se mueve en `particiones_pb()`.
+El mobiliario y el equipamiento **no vienen acotados en los planos**: se han
+dimensionado con medidas de uso corriente y encajado dentro de la huella medida.
+Los valores están al principio de cada método (`BAR_X0`, `BAR_H`, `mesas_sala`,
+`iluminacion`…), de modo que mover una mesa o cambiar la altura de la barra es
+editar una línea.
+
+**Única libertad tomada en la arquitectura:** la propuesta dibuja el recinto de
+cocina cerrado, sin ningún hueco (es un plano de equipamiento, no de
+arquitectura). Se ha abierto un paso de 0,80 m en el tabique sur, en la
+prolongación exacta del pasillo de servicio. Se mueve en `particiones_pb()`.

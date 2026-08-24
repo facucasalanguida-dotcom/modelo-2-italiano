@@ -221,14 +221,32 @@ module CafeNapoliMalaga
   # ==========================================================================
 
   PALETA = {
-    'CN Muro'        => [238, 234, 227, 255],
-    'CN Medianera'   => [221, 216, 208, 255],
-    'CN Hormigon'    => [199, 196, 191, 255],
-    'CN Tabique'     => [244, 242, 238, 255],
-    'CN Vidrio'      => [186, 212, 228,  70],
-    'CN Carpinteria' => [ 62,  64,  66, 255],
-    'CN Rotulo'      => [ 62, 107, 153, 255],
-    'CN Instalacion' => [170, 172, 174, 255]
+    # Acabados generales pedidos por el cliente
+    'CN Muro'          => [218, 216, 201, 255],   # "Light Gray" #DAD8C9
+    'CN Medianera'     => [212, 210, 195, 255],
+    'CN Tabique'       => [224, 222, 208, 255],
+    'CN Techo'         => [228, 226, 214, 255],
+    'CN Suelo roble'   => [216, 186, 143, 255],   # roble claro
+    'CN Hormigon'      => [198, 193, 184, 255],
+    # Maderas calidas: listones, barra y estanteria comparten tono
+    'CN Madera liston' => [201, 158, 105, 255],
+    'CN Madera tablero'=> [178, 128,  74, 255],
+    'CN Madera clara'  => [214, 180, 133, 255],
+    # Materiales de equipamiento
+    'CN Acero inox'    => [199, 204, 209, 255],
+    'CN Vidrio'        => [186, 212, 228,  60],
+    'CN Carpinteria'   => [ 58,  58,  56, 255],
+    'CN Rotulo'        => [ 62, 107, 153, 255],
+    'CN Tela'          => [231, 223, 209, 255],
+    'CN Negro mate'    => [ 48,  47,  45, 255],
+    'CN Laton'         => [198, 158,  84, 255],
+    'CN Planta'        => [110, 139,  90, 255],
+    'CN Terracota'     => [186, 130,  99, 255],
+    # Acento azul de la identidad Café Napoli
+    'CN Azul Napoli'   => [ 62, 107, 153, 255],
+    'CN Tela azul'     => [108, 138, 168, 255],
+    'CN Opal'          => [246, 243, 236, 255],
+    'CN Blanco roto'   => [247, 245, 240, 255]
   }
 
   TAGS = [
@@ -242,7 +260,15 @@ module CafeNapoliMalaga
     '08 Escalera',
     '09 Barandillas',
     '10 Fachada - escaparate',
-    '11 Instalaciones'
+    '20 Pavimento',
+    '21 Cocina',
+    '22 Barra',
+    '23 Vitrinas y equipos',
+    '24 Estanteria',
+    '25 Revestimiento de madera',
+    '26 Mesas y sillas',
+    '27 Iluminacion',
+    '28 Decoracion'
   ]
 
   def self.setup_materials(model)
@@ -291,8 +317,19 @@ module CafeNapoliMalaga
       escalera(ents, mat, tag)
       barandillas(ents, mat, tag)
       fachada(ents, mat, tag)
-      instalaciones(ents, mat, tag)
       cubierta(ents, mat, tag)
+
+      pavimento(ents, mat, tag)
+      revestimientos(ents, mat, tag)
+      cocina(ents, mat, tag)
+      barra(ents, mat, tag)
+      equipos_barra(ents, mat, tag)
+      estanteria(ents, mat, tag)
+      mobiliario_sala(ents, mat, tag)
+      iluminacion(ents, mat, tag)
+      decoracion(ents, mat, tag)
+      frente_altillo(ents, mat, tag)
+      acabado_escalera(ents, mat, tag)
 
       encuadre(model)
     ensure
@@ -303,7 +340,7 @@ module CafeNapoliMalaga
 
   def self.informe
     txt = <<~TXT
-      CAFÉ NAPOLI — MÁLAGA · modelo estructural generado
+      CAFÉ NAPOLI — MÁLAGA · modelo generado
 
         Huella exterior ......... 81,73 m²
         Superficie útil PB ...... 74,20 m²
@@ -312,9 +349,10 @@ module CafeNapoliMalaga
         Planta alta ............. +3,00 m    Cubierta ........ +5,50 m
         Escalera ................ 16 huellas de 0,26 · 17 tabicas de 0,1765
 
-      Sin mobiliario ni equipamiento: sólo solera, muros, pilares, machones,
-      forjado, viga, particiones, huecos, escalera, barandillas, escaparate
-      y bajante.
+      Estructura + interiorismo: cocina con campana y revestimiento inox,
+      mampara de vidrio, barra de 4,53 m con tabla de madera maciza, dos
+      vitrinas, estantería, revestimiento de listones en los cuatro soportes,
+      14 mesas con sillas tapizadas, banco corrido, iluminación y decoración.
     TXT
     puts txt
     txt
@@ -438,7 +476,7 @@ module CafeNapoliMalaga
 
   def self.forjado_planta_alta(ents, mat, tag)
     prism(ents, planta_forjado, Z_FORJ_INF, H_PA,
-          mat['CN Hormigon'], tag['04 Forjado planta alta'],
+          mat['CN Techo'], tag['04 Forjado planta alta'],
           'Forjado planta alta (+3.00)')
   end
 
@@ -488,18 +526,22 @@ module CafeNapoliMalaga
 
   def self.particiones_pb(ents, mat, tag)
     t = tag['07 Particiones planta baja']
-    m = mat['CN Tabique']
-
-    box(ents, bx(349.2), by(62.4), bx(354.0), by(249.9), 0.0, Z_FORJ_INF, m, t,
-        'PB Tabique Este de la cocina')
-
-    # Tabique sur con paso de 0,80 m alineado con el pasillo de servicio
-    box(ents, bx(117.8), by(249.9), bx(181.6), by(254.6), 0.0, Z_FORJ_INF, m, t,
-        'PB Tabique Sur cocina - tramo Oeste')
-    box(ents, bx(257.2), by(249.9), bx(354.0), by(254.6), 0.0, Z_FORJ_INF, m, t,
-        'PB Tabique Sur cocina - tramo Este')
-    box(ents, bx(181.6), by(249.9), bx(257.2), by(254.6),
-        H_PUERTA, Z_FORJ_INF, m, t, 'PB Dintel paso cocina (hueco 0,80 m)')
+    # El tabique este de la cocina se elimina: la cocina queda abierta al office.
+    # El tabique sur se sustituye por una mampara de vidrio completa de 2,50 m
+    # que llega hasta el paso de acceso a la barra.
+    x0 = bx(117.8)
+    x1 = bx(354.0)
+    ya = by(254.6)
+    yb = by(249.9)
+    xm = x1 - 0.04                     # montante del testero este
+    box(ents, x0, ya, xm, yb, 0.06, Z_FORJ_INF - 0.06,
+        mat['CN Vidrio'], t, 'PB Mampara de vidrio de la cocina (2,46 m)')
+    box(ents, x0, ya, xm, yb, 0.0, 0.06,
+        mat['CN Carpinteria'], t, 'PB Mampara - zocalo')
+    box(ents, x0, ya, xm, yb, Z_FORJ_INF - 0.06, Z_FORJ_INF,
+        mat['CN Carpinteria'], t, 'PB Mampara - cabecero')
+    box(ents, xm, ya, x1, yb, 0.0, Z_FORJ_INF,
+        mat['CN Carpinteria'], t, 'PB Mampara - montante Este')
   end
 
   # --------------------------------------------------------------------------
@@ -612,14 +654,512 @@ module CafeNapoliMalaga
         mat['CN Muro'], t, 'Peto sobre el escaparate')
   end
 
+  # ==========================================================================
+  #                            I N T E R I O R I S M O
+  # ==========================================================================
+
+  # Perímetro interior de planta baja (para el pavimento)
+  def self.perimetro_interior
+    [[ax(152.5), ay( 48.8)], [ax(699.0), ay( 48.8)], [ax(699.0), ay(478.5)],
+     [ax(688.8), ay(478.5)], [ax(688.8), ay(538.0)], [ax(491.5), ay(538.0)],
+     [ax(491.5), ay(505.1)], [ax(477.3), ay(505.1)], [ax(477.3), ay(456.9)],
+     [ax(246.1), ay(456.9)], [ax(246.1), ay(440.0)], [ax(212.0), ay(440.0)],
+     [ax(212.0), ay(456.9)], [ax(167.2), ay(456.9)], [ax(167.2), ay(445.6)],
+     [ax(152.5), ay(445.6)], [ax(152.5), ay(289.7)], [ax(173.5), ay(289.7)],
+     [ax(173.5), ay(255.8)], [ax(152.5), ay(255.8)]]
+  end
+
+  def self.pavimento(ents, mat, tag)
+    prism(ents, perimetro_interior, 0.0, 0.02,
+          mat['CN Suelo roble'], tag['20 Pavimento'], 'Pavimento roble claro')
+    prism(ents, planta_forjado, H_PA, H_PA + 0.02,
+          mat['CN Suelo roble'], tag['20 Pavimento'], 'Pavimento roble planta alta')
+  end
+
   # --------------------------------------------------------------------------
-  #  10. INSTALACIONES
+  #  Listones de madera sobre una cara (revestimiento acanalado)
   # --------------------------------------------------------------------------
 
-  def self.instalaciones(ents, mat, tag)
-    # Bajante grafiada en el rincón noroeste del vacío (Ø exterior 0,20)
-    cyl(ents, ax(264.5), ay(57.6), 0.1005, 0.0, H_TOT,
-        mat['CN Instalacion'], tag['11 Instalaciones'], 'Bajante (D 0,20)')
+  def self.slat_run(ents, x0, y0, x1, y1, z0, z1, thick, mat, tag, name,
+                    pitch = 0.075, w = 0.048)
+    if (y1 - y0).abs < 1e-9
+      a0, a1 = [x0, x1].minmax
+      n = ((a1 - a0) / pitch).round
+      n = 1 if n < 1
+      step = (a1 - a0) / n
+      n.times do |i|
+        a = a0 + i * step + (step - w) / 2.0
+        box(ents, a, y0, a + w, y0 + thick, z0, z1, mat, tag, name)
+      end
+    else
+      a0, a1 = [y0, y1].minmax
+      n = ((a1 - a0) / pitch).round
+      n = 1 if n < 1
+      step = (a1 - a0) / n
+      n.times do |i|
+        a = a0 + i * step + (step - w) / 2.0
+        box(ents, x0, a, x0 + thick, a + w, z0, z1, mat, tag, name)
+      end
+    end
+  end
+
+  # Reviste un soporte: tablero de fondo que envuelve el soporte + listones
+  # sobre él + piezas de esquina que cierran la arista. Sin el fondo se vería
+  # el hormigón entre listón y listón; sin las esquinas, en los cantos.
+  def self.revestir(ents, x0, y0, x1, y1, z1, caras, mats, tag, name,
+                    t = 0.026, z0 = 0.0)
+    tc  = 0.012                                   # canto del tablero de fondo
+    fon = mats['CN Madera tablero']
+    lis = mats['CN Madera liston']
+    sx0 = caras.include?(:o) ? x0 - tc : x0
+    sx1 = caras.include?(:e) ? x1 + tc : x1
+    sy0 = caras.include?(:s) ? y0 - tc : y0
+    sy1 = caras.include?(:n) ? y1 + tc : y1
+    nf  = "#{name} - fondo"
+
+    box(ents, sx0, sy0, sx1, y0, z0, z1, fon, tag, nf) if caras.include?(:s)
+    box(ents, sx0, y1, sx1, sy1, z0, z1, fon, tag, nf) if caras.include?(:n)
+    box(ents, sx0, y0, x0, y1, z0, z1, fon, tag, nf) if caras.include?(:o)
+    box(ents, x1, y0, sx1, y1, z0, z1, fon, tag, nf) if caras.include?(:e)
+
+    slat_run(ents, sx0, sy0, sx1, sy0, z0, z1, -t, lis, tag, name) if caras.include?(:s)
+    slat_run(ents, sx0, sy1, sx1, sy1, z0, z1,  t, lis, tag, name) if caras.include?(:n)
+    slat_run(ents, sx0, sy0, sx0, sy1, z0, z1, -t, lis, tag, name) if caras.include?(:o)
+    slat_run(ents, sx1, sy0, sx1, sy1, z0, z1,  t, lis, tag, name) if caras.include?(:e)
+
+    g  = 0.0135
+    nm = "#{name} - esquina"
+    if caras.include?(:s) && caras.include?(:o)
+      box(ents, sx0 - t, sy0 - t, sx0, sy0 + g, z0, z1, lis, tag, nm)
+      box(ents, sx0, sy0 - t, sx0 + g, sy0, z0, z1, lis, tag, nm)
+    end
+    if caras.include?(:s) && caras.include?(:e)
+      box(ents, sx1, sy0 - t, sx1 + t, sy0 + g, z0, z1, lis, tag, nm)
+      box(ents, sx1 - g, sy0 - t, sx1, sy0, z0, z1, lis, tag, nm)
+    end
+    if caras.include?(:n) && caras.include?(:o)
+      box(ents, sx0 - t, sy1 - g, sx0, sy1 + t, z0, z1, lis, tag, nm)
+      box(ents, sx0, sy1, sx0 + g, sy1 + t, z0, z1, lis, tag, nm)
+    end
+    if caras.include?(:n) && caras.include?(:e)
+      box(ents, sx1, sy1 - g, sx1 + t, sy1 + t, z0, z1, lis, tag, nm)
+      box(ents, sx1 - g, sy1, sx1, sy1 + t, z0, z1, lis, tag, nm)
+    end
+  end
+
+  def self.revestimientos(ents, mat, tag)
+    t = tag['25 Revestimiento de madera']
+    m = mat
+    h = Z_FORJ_INF
+
+    # Pilar central: las cuatro caras
+    revestir(ents, ax(456.9), ay(292.6), ax(490.9), ay(241.5), h,
+             [:s, :n, :o, :e], m, t, 'Listones pilar central')
+    # Machon del muro oeste: caras vistas
+    revestir(ents, ax(152.5), ay(289.7), ax(173.5), ay(255.8), h,
+             [:s, :n, :e], m, t, 'Listones machon Oeste')
+    # Pilastra del muro sur
+    revestir(ents, ax(212.0), ay(456.9), ax(246.1), ay(440.0), h,
+             [:n, :o, :e], m, t, 'Listones pilastra Sur')
+    # Machon de la medianera este
+    # El machon Este esta dentro de la caja de escalera: los listones arrancan
+    # por encima del peldañeado para no atravesarlo.
+    revestir(ents, ax(687.6), ay(292.6), ax(699.0), ay(258.5), h,
+             [:s, :n, :o], m, t, 'Listones machon Este', 0.026, 1.30)
+
+    # Viga descolgada: forro de madera en intrados y dos costados
+    vx0 = ax(173.5); vx1 = ax(275.0)
+    vy0 = ay(285.8); vy1 = ay(271.6)
+    box(ents, vx0, vy0 - 0.028, vx1, vy1 + 0.028,
+        Z_VIGA_INF - 0.028, Z_VIGA_INF, mat['CN Madera liston'], t,
+        'Forro de la viga - intrados')
+    box(ents, vx0, vy0 - 0.028, vx1, vy0, Z_VIGA_INF, H_PA,
+        mat['CN Madera liston'], t, 'Forro de la viga - costado Sur')
+    box(ents, vx0, vy1, vx1, vy1 + 0.028, Z_VIGA_INF, H_PA,
+        mat['CN Madera liston'], t, 'Forro de la viga - costado Norte')
+  end
+
+  # --------------------------------------------------------------------------
+  #  COCINA  (bloque de coccion contra la medianera norte, con campana)
+  # --------------------------------------------------------------------------
+
+  def self.cocina(ents, mat, tag)
+    t    = tag['21 Cocina']
+    inox = mat['CN Acero inox']
+    neg  = mat['CN Negro mate']
+
+    yn  = ay(48.8)          # cara interior de la medianera norte
+    ynt = by(62.4)          # idem con trasdosado (X > 2,46)
+    xo  = bx(117.8)         # cara interior del muro oeste
+    xe  = bx(354.0)         # extremo este de la cocina
+    ys  = by(249.9)         # cara norte de la mampara de vidrio
+
+    # Revestimiento de acero inoxidable: muro de la coccion y el de su izquierda
+    box(ents, xo, yn - 0.05, bx(326.5), yn, 0.0, 2.20, inox, t,
+        'Inox muro Norte de cocina')
+    box(ents, bx(326.5), ynt - 0.05, xe, ynt, 0.0, 2.20, inox, t,
+        'Inox muro Norte de cocina (trasdosado)')
+    box(ents, xo, ys, xo + 0.05, yn, 0.0, 2.20, inox, t,
+        'Inox muro Oeste de cocina')
+
+    # Bloque de coccion
+    box(ents, xo + 0.17, yn - 0.75, xo + 2.07, yn, 0.0, 0.90, inox, t,
+        'Bloque de coccion')
+    box(ents, xo + 0.17, yn - 0.75, xo + 2.07, yn, 0.90, 0.93, neg, t,
+        'Encimera de coccion')
+    4.times do |i|
+      cyl(ents, xo + 0.42 + i * 0.46, yn - 0.38, 0.115, 0.93, 0.955,
+          neg, t, "Fuego #{i + 1}")
+    end
+    # Horno bajo la encimera
+    box(ents, xo + 1.15, yn - 0.77, xo + 2.05, yn - 0.74, 0.18, 0.78,
+        neg, t, 'Horno - puerta')
+
+    # Campana extractora y conducto
+    box(ents, xo + 0.12, yn - 0.95, xo + 2.12, yn, 1.95, 2.05, inox, t,
+        'Campana - faldon')
+    box(ents, xo + 0.22, yn - 0.85, xo + 2.02, yn, 2.05, 2.32, inox, t,
+        'Campana - cuerpo')
+    box(ents, xo + 0.92, yn - 0.42, xo + 1.32, yn, 2.32, Z_FORJ_INF, inox, t,
+        'Campana - conducto')
+
+    # Mesa de trabajo contra el muro oeste
+    box(ents, xo + 0.05, ys + 0.10, xo + 0.80, yn - 0.85, 0.0, 0.88, inox, t,
+        'Mesa de trabajo')
+    box(ents, xo + 0.05, ys + 0.10, xo + 0.80, yn - 0.85, 0.88, 0.92, inox, t,
+        'Mesa de trabajo - encimera')
+    # Estante mural
+    box(ents, xo + 0.05, ys + 0.35, xo + 0.42, yn - 1.10, 1.55, 1.59, inox, t,
+        'Estante mural de cocina')
+  end
+
+  # --------------------------------------------------------------------------
+  #  BARRA  (base con frente de listones + tabla de madera maciza encima)
+  # --------------------------------------------------------------------------
+
+  BAR_X0 = 3.49
+  BAR_X1 = 8.02
+  BAR_Y0 = 6.55
+  BAR_Y1 = 7.43
+  BAR_H  = 0.92
+
+  def self.barra(ents, mat, tag)
+    t = tag['22 Barra']
+
+    box(ents, BAR_X0, BAR_Y0, BAR_X1, BAR_Y1, 0.10, BAR_H,
+        mat['CN Madera clara'], t, 'Barra - cuerpo')
+    box(ents, BAR_X0 + 0.05, BAR_Y0 + 0.05, BAR_X1 - 0.05, BAR_Y1 - 0.05,
+        0.0, 0.10, mat['CN Negro mate'], t, 'Barra - zocalo retranqueado')
+
+    # Frente de listones hacia la sala y en los dos testeros
+    azul = mat.dup
+    azul['CN Madera liston'] = mat['CN Azul Napoli']   # listones azules
+    revestir(ents, BAR_X0, BAR_Y0, BAR_X1, BAR_Y1, BAR_H, [:s, :o, :e],
+             azul, t, 'Barra - listones', 0.026, 0.10)
+
+    # Tabla de madera maciza a lo largo de toda la barra
+    box(ents, BAR_X0 - 0.06, BAR_Y0 - 0.09, BAR_X1 + 0.06, BAR_Y1 + 0.04,
+        BAR_H, BAR_H + 0.06, mat['CN Madera tablero'], t,
+        'Barra - tabla de madera maciza')
+  end
+
+  # --------------------------------------------------------------------------
+  #  VITRINAS Y EQUIPOS DE BARRA
+  # --------------------------------------------------------------------------
+
+  def self.vitrina(ents, mat, tag, x0, x1, nombre)
+    t = tag['23 Vitrinas y equipos']
+    z = BAR_H + 0.06
+    y0 = BAR_Y0 + 0.05
+    y1 = BAR_Y1 - 0.06
+    box(ents, x0, y0, x1, y1, z, z + 0.10, mat['CN Acero inox'], t,
+        "#{nombre} - base")
+    box(ents, x0, y0, x1, y1, z + 0.10, z + 0.58, mat['CN Vidrio'], t,
+        "#{nombre} - vitrina")
+    [0.20, 0.38].each_with_index do |dz, i|
+      box(ents, x0 + 0.04, y0 + 0.04, x1 - 0.04, y1 - 0.04,
+          z + dz, z + dz + 0.02, mat['CN Acero inox'], t,
+          "#{nombre} - balda #{i + 1}")
+    end
+    box(ents, x0, y0, x1, y1, z + 0.58, z + 0.62, mat['CN Acero inox'], t,
+        "#{nombre} - remate")
+    # Producto expuesto
+    6.times do |i|
+      cx = x0 + 0.12 + i * (x1 - x0 - 0.24) / 5.0
+      box(ents, cx - 0.05, y0 + 0.14, cx + 0.05, y0 + 0.34,
+          z + 0.22, z + 0.28, mat['CN Terracota'], t, "#{nombre} - producto")
+    end
+  end
+
+  def self.equipos_barra(ents, mat, tag)
+    t    = tag['23 Vitrinas y equipos']
+    inox = mat['CN Acero inox']
+    neg  = mat['CN Negro mate']
+    z    = BAR_H + 0.06
+
+    vitrina(ents, mat, tag, 3.60, 4.75, 'Vitrina refrigerada')
+    vitrina(ents, mat, tag, 4.85, 6.00, 'Vitrina caliente')
+
+    # Maquina de cafe
+    box(ents, 6.30, BAR_Y0 + 0.20, 7.05, BAR_Y1 - 0.12, z, z + 0.46, inox, t,
+        'Maquina de cafe')
+    box(ents, 6.30, BAR_Y0 + 0.20, 7.05, BAR_Y0 + 0.26, z + 0.46, z + 0.52,
+        neg, t, 'Maquina de cafe - remate')
+    2.times do |i|
+      box(ents, 6.46 + i * 0.30, BAR_Y0 + 0.12, 6.60 + i * 0.30, BAR_Y0 + 0.22,
+          z + 0.10, z + 0.24, neg, t, "Grupo de cafe #{i + 1}")
+    end
+    # Molinillo
+    box(ents, 7.18, BAR_Y0 + 0.26, 7.36, BAR_Y0 + 0.46, z, z + 0.48, neg, t,
+        'Molinillo')
+    # Caja registradora
+    box(ents, 7.55, BAR_Y0 + 0.30, 7.95, BAR_Y0 + 0.62, z, z + 0.10, neg, t,
+        'Caja - base')
+    box(ents, 7.60, BAR_Y0 + 0.34, 7.90, BAR_Y0 + 0.40, z + 0.10, z + 0.34,
+        neg, t, 'Caja - pantalla')
+  end
+
+  # --------------------------------------------------------------------------
+  #  ESTANTERIA  (contra la medianera norte, misma madera que la barra)
+  # --------------------------------------------------------------------------
+
+  def self.estanteria(ents, mat, tag)
+    t  = tag['24 Estanteria']
+    m  = mat['CN Madera clara']
+    x0 = 4.50
+    x1 = 7.33
+    y1 = by(62.4)            # cara del trasdosado norte
+    y0 = y1 - 0.48
+    h  = 2.20
+
+    box(ents, x0, y0, x0 + 0.04, y1, 0.0, h, m, t, 'Estanteria - lateral Oeste')
+    box(ents, x1 - 0.04, y0, x1, y1, 0.0, h, m, t, 'Estanteria - lateral Este')
+    box(ents, x0 + 0.04, y1 - 0.04, x1 - 0.04, y1, 0.0, h, m, t,
+        'Estanteria - trasera')
+    [0.06, 0.48, 0.90, 1.32, 1.74, 2.16].each_with_index do |z, i|
+      box(ents, x0 + 0.04, y0, x1 - 0.04, y1 - 0.04, z, z + 0.035, m, t,
+          "Estanteria - balda #{i + 1}")
+    end
+
+    # Botellas y producto expuesto
+    [0.515, 0.935, 1.355, 1.775].each_with_index do |z, fila|
+      n = 11
+      n.times do |i|
+        cx = x0 + 0.20 + i * (x1 - x0 - 0.40) / (n - 1).to_f
+        next if (i + fila) % 3 == 2
+        alto = 0.22 + 0.06 * ((i + fila) % 3)
+        cyl(ents, cx, y0 + 0.22, 0.038, z, z + alto,
+            (i + fila).even? ? mat['CN Terracota'] : mat['CN Madera tablero'],
+            t, 'Botella')
+      end
+    end
+  end
+
+  # --------------------------------------------------------------------------
+  #  MESAS Y SILLAS
+  # --------------------------------------------------------------------------
+
+  def self.silla(ents, mat, tag, cx, cy, lado, azul = false)
+    t = tag['26 Mesas y sillas']
+    tela = azul ? mat['CN Tela azul'] : mat['CN Tela']
+    g = ents.add_group
+    e = g.entities
+    a = 0.44
+    box(e, cx - a / 2, cy - a / 2, cx + a / 2, cy + a / 2, 0.43, 0.50,
+        tela, nil, 'Asiento')
+    xr = cx + lado * (a / 2 - 0.06)
+    box(e, xr, cy - a / 2, xr + lado * 0.06, cy + a / 2, 0.50, 0.84,
+        tela, nil, 'Respaldo')
+    [[-1, -1], [1, -1], [-1, 1], [1, 1]].each do |sx, sy|
+      px = cx + sx * (a / 2 - 0.05)
+      py = cy + sy * (a / 2 - 0.05)
+      box(e, px - 0.022, py - 0.022, px + 0.022, py + 0.022, 0.0, 0.44,
+          mat['CN Madera clara'], nil, 'Pata')
+    end
+    finish(g, nil, t, 'Silla tapizada')
+  end
+
+  def self.mesa(ents, mat, tag, cx, cy, lado = 0.75)
+    t = tag['26 Mesas y sillas']
+    g = ents.add_group
+    e = g.entities
+    box(e, cx - lado / 2, cy - lado / 2, cx + lado / 2, cy + lado / 2,
+        0.72, 0.76, mat['CN Madera tablero'], nil, 'Tablero')
+    box(e, cx - 0.045, cy - 0.045, cx + 0.045, cy + 0.045, 0.03, 0.72,
+        mat['CN Negro mate'], nil, 'Pie')
+    box(e, cx - 0.22, cy - 0.22, cx + 0.22, cy + 0.22, 0.0, 0.03,
+        mat['CN Negro mate'], nil, 'Base')
+    finish(g, nil, t, 'Mesa 0,75 x 0,75')
+  end
+
+  # Centros de mesa de la sala
+  def self.mesas_sala
+    puestos = []
+    [2.55, 4.00, 5.45].each do |cy|
+      [1.60, 3.15, 4.70, 7.45].each { |cx| puestos << [cx, cy] }
+    end
+    puestos
+  end
+
+  # Mesas del hueco de entrada: se sientan sobre el banco corrido de fachada,
+  # con una sola silla al norte porque el fondo util es de 1,43 m.
+  def self.mesas_entrada
+    [[7.10, 1.22], [8.70, 1.22]]
+  end
+
+  def self.mobiliario_sala(ents, mat, tag)
+    mesas_sala.each_with_index do |(cx, cy), i|
+      mesa(ents, mat, tag, cx, cy)
+      silla(ents, mat, tag, cx - 0.62, cy, -1, i.even?)
+      silla(ents, mat, tag, cx + 0.62, cy,  1, i.odd?)
+    end
+    mesas_entrada.each_with_index do |(cx, cy), i|
+      mesa(ents, mat, tag, cx, cy, 0.70)
+      silla(ents, mat, tag, cx, cy + 0.64, 1, i.even?)
+    end
+  end
+
+  # --------------------------------------------------------------------------
+  #  ILUMINACION
+  # --------------------------------------------------------------------------
+
+  def self.lampara(ents, mat, tag, cx, cy, z_techo, z_lampara, r = 0.15)
+    t = tag['27 Iluminacion']
+    g = ents.add_group
+    e = g.entities
+    cyl(e, cx, cy, 0.012, z_lampara + 0.16, z_techo, mat['CN Negro mate'],
+        nil, 'Cable')
+    cyl(e, cx, cy, r, z_lampara + 0.02, z_lampara + 0.17, mat['CN Opal'],
+        nil, 'Pantalla')
+    cyl(e, cx, cy, r, z_lampara, z_lampara + 0.02, mat['CN Laton'],
+        nil, 'Aro')
+    cyl(e, cx, cy, r * 0.5, z_lampara - 0.04, z_lampara,
+        mat['CN Opal'], nil, 'Foco')
+    finish(g, nil, t, 'Lampara colgante')
+  end
+
+  def self.iluminacion(ents, mat, tag)
+    t = tag['27 Iluminacion']
+
+    # Colgantes sobre la barra
+    [4.15, 5.45, 6.75, 7.75].each do |cx|
+      lampara(ents, mat, tag, cx, 6.99, Z_FORJ_INF, 2.02, 0.17)
+    end
+
+    # Un colgante por mesa; el techo depende de si esta bajo el forjado
+    y_forj = ay(336.2)
+    (mesas_sala + mesas_entrada).each do |cx, cy|
+      techo = cy > y_forj ? Z_FORJ_INF : H_TOT
+      lampara(ents, mat, tag, cx, cy, techo, cy > y_forj ? 1.98 : 2.25, 0.14)
+    end
+
+    # Empotrados en el intrados del forjado
+    [4.60, 5.90, 7.20, 8.50].each do |cy|
+      [1.10, 2.60, 4.10, 8.60].each do |cx|
+        next if cx > 8.4 && cy > 3.9 && cy < 7.8      # hueco de escalera
+        cyl(ents, cx, cy, 0.055, Z_FORJ_INF - 0.02, Z_FORJ_INF,
+            mat['CN Tela'], t, 'Empotrado de techo')
+      end
+    end
+
+    # Apliques en el muro oeste
+    [2.30, 3.30, 6.20].each do |cy|
+      box(ents, ax(152.5), cy - 0.09, ax(152.5) + 0.12, cy + 0.09,
+          1.92, 2.10, mat['CN Laton'], t, 'Aplique de pared')
+    end
+  end
+
+  # --------------------------------------------------------------------------
+  #  DECORACION
+  # --------------------------------------------------------------------------
+
+  def self.planta(ents, mat, tag, cx, cy, alto = 1.25, r = 0.24)
+    t = tag['28 Decoracion']
+    g = ents.add_group
+    e = g.entities
+    cyl(e, cx, cy, r, 0.0, 0.34, mat['CN Terracota'], nil, 'Maceta')
+    cyl(e, cx, cy, 0.035, 0.34, 0.34 + alto * 0.45, mat['CN Madera tablero'],
+        nil, 'Tronco')
+    cyl(e, cx, cy, r * 1.5, 0.34 + alto * 0.40, 0.34 + alto, mat['CN Planta'],
+        nil, 'Copa')
+    finish(g, nil, t, 'Planta')
+  end
+
+  def self.decoracion(ents, mat, tag)
+    t = tag['28 Decoracion']
+
+    # Plantas
+    planta(ents, mat, tag, 0.78, 2.62, 1.35)
+    planta(ents, mat, tag, 0.62, 6.30, 1.20)
+    planta(ents, mat, tag, 6.55, 1.55, 1.30)
+    planta(ents, mat, tag, 9.35, 1.20, 1.10)
+
+    # Cuadros en el muro oeste
+    [2.90, 3.75, 5.90].each_with_index do |cy, i|
+      box(ents, ax(152.5), cy - 0.26, ax(152.5) + 0.035, cy + 0.26,
+          1.35, 1.95, mat['CN Madera tablero'], t, "Cuadro Oeste #{i + 1}")
+      box(ents, ax(152.5) + 0.035, cy - 0.22, ax(152.5) + 0.045, cy + 0.22,
+          1.40, 1.90, mat['CN Tela'], t, "Cuadro Oeste #{i + 1} - lamina")
+    end
+
+    # Cuadros en el muro sur
+    [2.60, 3.60, 4.60].each_with_index do |cx, i|
+      box(ents, cx - 0.26, ay(456.9), cx + 0.26, ay(456.9) + 0.045,
+          1.35, 1.95, mat['CN Madera tablero'], t, "Cuadro Sur #{i + 1}")
+    end
+
+    # Pizarra de carta sobre la estanteria
+    box(ents, 7.55, by(62.4) - 0.05, 9.35, by(62.4), 1.45, 2.25,
+        mat['CN Negro mate'], t, 'Pizarra de carta')
+    box(ents, 7.50, by(62.4) - 0.07, 9.40, by(62.4) - 0.05, 1.40, 2.30,
+        mat['CN Madera tablero'], t, 'Pizarra - marco')
+
+    # Banco corrido bajo el escaparate
+    box(ents, 6.35, ay(538.0), 9.55, ay(538.0) + 0.46, 0.10, 0.44,
+        mat['CN Madera clara'], t, 'Banco corrido de fachada')
+    box(ents, 6.35, ay(538.0), 9.55, ay(538.0) + 0.46, 0.44, 0.50,
+        mat['CN Tela'], t, 'Banco corrido - cojin')
+  end
+
+  # --------------------------------------------------------------------------
+  #  FRENTE DEL ALTILLO Y ACABADO DE LA ESCALERA
+  # --------------------------------------------------------------------------
+
+  def self.frente_altillo(ents, mat, tag)
+    t   = tag['28 Decoracion']
+    bl  = mat['CN Blanco roto']
+    az  = mat['CN Azul Napoli']
+    ys  = ay(336.2)            # borde sur del forjado
+    xo  = ax(275.0)            # borde oeste del forjado
+    xe  = ax(637.8)            # borde de la caja de escalera
+    z0  = 2.48
+
+    box(ents, xo, ys - 0.05, xe, ys, z0, H_PA, bl, t, 'Frente de altillo - Sur')
+    # El frente oeste se parte a ambos lados de la viga descolgada
+    box(ents, xo - 0.05, ys, xo, ay(285.8), z0, H_PA, bl, t,
+        'Frente de altillo - Oeste (tramo Sur)')
+    box(ents, xo - 0.05, ay(271.6), xo, ay(133.8), z0, H_PA, bl, t,
+        'Frente de altillo - Oeste (tramo Norte)')
+    # Banda de rótulo CAFÉ NAPOLI
+    box(ents, 4.00, ys - 0.062, 7.00, ys - 0.05, 2.58, 2.90, az, t,
+        'Banda de rotulo del altillo')
+  end
+
+  def self.acabado_escalera(ents, mat, tag)
+    t = tag['08 Escalera']
+    m = mat['CN Madera clara']
+    y_pie, _y_alto, huella, tabica = esc_datos
+    xa = ax(637.8)
+    (1..16).each do |i|
+      ya = y_pie + (i - 1) * huella
+      yb = ya + huella
+      # los peldaños 5 a 7 se acortan por el machón de la medianera este
+      xb = (5..7).include?(i) ? ax(687.6) : ax(699.0)
+      box(ents, xa, ya, xb, yb, i * tabica, i * tabica + 0.025, m, t,
+          "Escalera - huella de madera #{i}")
+    end
+    box(ents, ax(628.0), ay(356.6), xa, ay(341.9), tabica, tabica + 0.025,
+        m, t, 'Escalera - huella de arranque')
   end
 
   # --------------------------------------------------------------------------
