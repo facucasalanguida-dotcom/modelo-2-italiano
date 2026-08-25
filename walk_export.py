@@ -49,7 +49,9 @@ def mat_spec(m):
     sp['metal'] = float(pr.inputs['Metallic'].default_value)
     tw = pr.inputs.get('Transmission Weight')
     if tw is not None and tw.default_value > 0.5:
-        sp['alpha'] = 0.22
+        c = sp['color']
+        # el vidrio tintado (botellas) conserva su color; el claro casi no
+        sp['alpha'] = 0.55 if max(c) - min(c) > 0.12 else 0.22
         sp['rough'] = min(sp['rough'], 0.1)
     es = pr.inputs.get('Emission Strength')
     if es is not None and es.default_value > 0.05:
@@ -200,18 +202,12 @@ for s in S:
 # mobiliario parametrico
 for mx, my in MESAS_R:
     cols.append([mx - 0.32, my - 0.32, mx + 0.32, my + 0.32])
-    if (mx, my) == (9.00, 2.75):
-        for dy in (-0.63, 0.63):
-            cols.append([mx - 0.28, my + dy - 0.28, mx + 0.28, my + dy + 0.28])
-    else:
-        for dx in (-0.63, 0.63):
-            cols.append([mx + dx - 0.28, my - 0.28, mx + dx + 0.28, my + 0.28])
+    for dx in (-0.63, 0.63):
+        cols.append([mx + dx - 0.28, my - 0.28, mx + dx + 0.28, my + 0.28])
 for tx in (6.55, 7.15, 7.75):
     cols.append([tx - 0.2, 6.12 - 0.2, tx + 0.2, 6.12 + 0.2])
 cols.append([2.69, 8.21, 3.21, 8.83])          # carro bandejero
 cols.append([8.28, 3.85, 9.80, 7.95])          # escalera: planta alta cerrada
-for tx in (5.85, 10.15):                       # terraza
-    cols.append([tx - 0.95, -2.25, tx + 0.95, -0.35])
 
 meta = dict(
     mats=mats_meta,

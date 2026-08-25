@@ -545,7 +545,8 @@ def silla_real(cx, cy, ang, tela):
                   (0.019, 0.019, 0.40), (sx*0.05, -sy*0.05, 0), seg=12)
     # asiento pouf, liso y mullido como en las referencias
     st = primitive('sphere', tela, (cx, cy, 0.415), (0.215, 0.215, 0.085))
-    soften(st, 0, 2)
+    sbs = st.modifiers.new('s', 'SUBSURF')
+    sbs.levels = sbs.render_levels = 1 if LOW else 2
     # respaldo: tubo barrido en arco de 160 grados, seccion redondeada alta
     n, m = 22, 12
     R, rh, rv = 0.185, 0.052, 0.115
@@ -581,7 +582,7 @@ def silla_real(cx, cy, ang, tela):
     for mm in list(sh.modifiers):
         if mm.type == 'BEVEL': sh.modifiers.remove(mm)
     sb2 = sh.modifiers.new('s', 'SUBSURF')
-    sb2.levels = sb2.render_levels = 0 if LOW else 2
+    sb2.levels = sb2.render_levels = 1 if LOW else 2
 
 def mesa_real(cx, cy):
     b = primitive('cyl', MAT['CN Negro mate'], (cx, cy, 0.015),
@@ -735,20 +736,14 @@ def set_mesa(mx, my, seed):
                   (0.0145, 0.0145, 0.014), seg=12)
 
 MESAS_R = [(2.00, 2.65), (2.00, 4.15), (2.00, 5.60),
-           (4.15, 2.65), (4.15, 4.15), (4.15, 5.60),
-           (6.35, 1.75), (9.00, 2.75)]
+           (4.15, 2.65), (4.15, 4.15), (4.15, 5.60)]
 for i, (mx, my) in enumerate(MESAS_R):
     mesa_real(mx, my)
     t1 = MAT['CN Tela azul'] if i % 2 == 0 else MAT['CN Tela']
     t2 = MAT['CN Tela'] if i % 2 == 0 else MAT['CN Tela azul']
     j = (i * 37) % 13 - 6
-    if i == 7:
-        # mesa junto al muro este: sillas al norte y al sur
-        silla_real(mx, my - 0.63, math.radians(90 + j), t1)
-        silla_real(mx, my + 0.63, math.radians(-90 - j), t2)
-    else:
-        silla_real(mx - 0.63, my, math.radians(j), t1)
-        silla_real(mx + 0.63, my, math.pi + math.radians(-j), t2)
+    silla_real(mx - 0.63, my, math.radians(j), t1)
+    silla_real(mx + 0.63, my, math.pi + math.radians(-j), t2)
     if i == 4:
         set_mesa(mx, my, i * 11 + 3)
 
@@ -974,15 +969,6 @@ jarron(4.00, 4.07, ZT)
 pasteles(4.25, 5.54, ZT)
 latte(4.01, 5.66, ZT)
 vaso(4.10, 5.44, ZT)
-# mesa 6: portatil junto al escaparate
-portatil(6.35, 1.79, ZT, math.pi)
-latte(6.53, 1.65, ZT)
-movil(6.19, 1.63, ZT, math.radians(15))
-# mesa 7: vino y libro junto al muro este
-copa_vino(9.10, 2.85, ZT)
-garrafa(8.92, 2.65, ZT)
-libro(9.06, 2.61, ZT, math.radians(-75), 'A34A38')
-servilleta(8.86, 2.87, ZT, math.radians(-15))
 
 # platos y tazas junto a la cafetera (mostrador alto, tabla a 1.04)
 ZB = 0.98 + 0.06
@@ -1066,13 +1052,7 @@ add_mesh('Toldo', vs, fs, M_TOLDO, col_pb)
 box3('Toldo - faldon', tx0, ty0 - tproj - 0.02, tx1, ty0 - tproj,
      tz0 - 0.18, tz0, M_TOLDO)
 
-# terraza: dos mesas con sillas en el paseo, fuera del eje central de vistas
-for i, tx in enumerate((5.85, 10.15)):
-    mesa_real(tx, -1.30)
-    silla_real(tx, -0.67, math.radians(-90 + (7 if i else -5)), MAT['CN Tela'])
-    silla_real(tx, -1.93, math.radians(90 + (-6 if i else 8)),
-               MAT['CN Tela azul'])
-    set_mesa(tx, -1.30, 91 + i)
+# la terraza queda despejada, como en la referencia hacia el escaparate
 
 # ---------------------------------------------------------------- luces
 def light(kind, loc, power, color=(1.0, 0.78, 0.55), size=0.05, rot=None):
@@ -1201,7 +1181,7 @@ def render_view(fn, eye, target, lens=24, hide_pa=False, fstop=4.0):
 
 import sys, os
 views = {
- 'R_escaparate': ((4.85, 5.55, 1.48), (6.90, 0.50, 1.30), 24, False, 5.0),
+ 'R_escaparate': ((3.55, 4.95, 1.48), (6.90, 0.55, 1.28), 24, False, 5.0),
  'R_suroeste':   ((2.35, 2.05, 1.52), (6.55, 7.05, 1.08), 22, False, 5.0),
  'R_entrada':   ((8.55, 1.30, 1.55), (4.90, 7.35, 1.05), 26, False, 4.0),
  'R_barra':     ((2.55, 4.65, 1.50), (6.90, 7.30, 1.00), 27, False, 3.5),
