@@ -126,6 +126,10 @@ MAT = {
  'CN Luz calida':     emitm('luzcalida', srgb('FFD9A0'), 1.9),
  'CN Instalacion':    plain('instalacion', srgb('AAACAE'), 0.5, 0.6),
 }
+# vidrio arquitectónico: paños gruesos (mampara, escaparate) sin la
+# refracción de volumen que emborrona lo que hay detrás
+M_VIDRIO_ARQ = glassm('vidrio_arq')
+M_VIDRIO_ARQ.node_tree.nodes['Principled BSDF'].inputs['IOR'].default_value = 1.02
 M_CERAMICA = plain('ceramica', srgb('F5F1E8'), 0.35)
 M_CROISSANT = plain('croissant', srgb('C98B3F'), 0.55)
 M_BOLLO    = plain('bollo', srgb('8A5A33'), 0.5)
@@ -205,6 +209,9 @@ for s in S:
         botellas.append(s); continue
     if nm == 'Copa' and s['mat'] == 'CN Planta':
         plantas.append(s); continue
+    if s['mat'] == 'CN Vidrio' and nm.startswith(
+            ('PB Mampara de vidrio', 'Escaparate - pano', 'Barandilla')):
+        mat = M_VIDRIO_ARQ
     col = col_pa if is_pa(s) else col_pb
     prism(nm, s['poly'], s['n'], s['d'], mat, col)
 
@@ -336,11 +343,11 @@ _t = bpy.data.curves.new('t', 'FONT'); _t.body = 'CAFE  NAPOLI'
 _t.size = 0.15; _t.extrude = 0.006; _t.align_x = 'CENTER'
 _to = bpy.data.objects.new('txt_altillo', _t)
 _to.location = (5.5, 3.884, 2.655)
-_to.rotation_euler = (math.radians(90), 0, math.radians(180))
+_to.rotation_euler = (math.radians(90), 0, 0)
 _to.data.materials.append(plain('crema', srgb('F2EEE2'), .4))
 col_pa.objects.link(_to)
 texto('CAFE  NAPOLI', (7.97, 0.325, 3.16), 0.26,
-      (math.radians(90), 0, math.radians(180)), plain('crema2', srgb('F2EEE2'), .4))
+      (math.radians(90), 0, 0), plain('crema2', srgb('F2EEE2'), .4))
 
 # suelo exterior (acera) para la vista de fachada
 add_mesh('acera', [(-3, -6, -0.001), (14, -6, -0.001),
