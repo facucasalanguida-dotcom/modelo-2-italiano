@@ -128,3 +128,42 @@ for nm in ('wood_diff', 'wood_rough', 'wood_nrm'):
     im.save(f'tex/{nm}_v.png')
     print(nm + '_v')
 print('texturas horneadas')
+
+# ---------------------------------------------------------------- FOTOS B/N
+# Láminas fotográficas en blanco y negro con paspartú blanco, como las de
+# la referencia: horizonte de mar, faro y calle italiana en silueta.
+for i in range(3):
+    H, W = 520, 400
+    img = np.full((H, W, 3), 244.0, np.float32)
+    r = np.random.default_rng(70 + i)
+    m0, m1 = 58, 62            # margen del paspartú
+    ph, pw = H - m0*2, W - m0*2
+    yy2, xx2 = np.mgrid[0:ph, 0:pw]
+    # cielo en degradado
+    foto = 205 - 90 * (yy2 / ph)
+    hor = int(ph * (0.55 + 0.08*i))
+    foto[hor:, :] = 78 + 26 * ((yy2[hor:, :] - hor) / max(ph - hor, 1))
+    if i == 0:
+        # faro
+        cx = int(pw*0.62)
+        for dy in range(hor-90, hor):
+            w = 8 + (dy-(hor-90))//12
+            foto[dy, max(cx-w,0):min(cx+w,pw)] = 38
+        foto[hor-104:hor-90, cx-16:cx+16] = 30
+    elif i == 1:
+        # barca en el mar
+        bx0, by0 = int(pw*0.35), hor+18
+        foto[by0:by0+8, bx0:bx0+56] = 34
+        foto[by0-16:by0, bx0+24:bx0+28] = 40
+    else:
+        # skyline
+        x = 0
+        while x < pw:
+            w = int(r.integers(22, 48)); h2 = int(r.integers(30, 110))
+            foto[hor-h2:hor, x:min(x+w, pw)] = 30 + r.integers(0, 22)
+            x += w
+    g = np.asarray(Image.fromarray(foto.astype(np.uint8))
+                   .filter(ImageFilter.GaussianBlur(0.8)), np.float32)
+    img[m0:m0+ph, m0:m0+pw] = g[..., None]
+    save(f'art_{i}', img)
+print('fotos b/n horneadas')

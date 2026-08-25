@@ -270,6 +270,13 @@ def centro(s):
     cx, cy, cz = sum(xs)/len(xs), sum(ys)/len(ys), sum(zs)/len(zs)
     return (cx + n[0]*d/2, cy + n[1]*d/2, cz + n[2]*d/2)
 
+M_LED = emitm('led', srgb('FFE3B0'), 14.0)
+
+# tiras LED bajo el frente de cada balda de vitrina
+def led_strip(x0, x1, y, z):
+    verts = [(x0, y-0.006, z), (x1, y-0.006, z), (x1, y+0.006, z), (x0, y+0.006, z)]
+    add_mesh('LED', verts, [[0, 1, 2, 3]], M_LED, col_pb)
+
 lamparas, empotrados, apliques = [], [], []
 productos, botellas, plantas = [], [], []
 
@@ -284,15 +291,26 @@ for s in S:
         apliques.append(centro(s))
     if nm.endswith('- producto'):
         productos.append(s); continue
+    if 'Vitrina' in nm and '- balda' in nm:
+        xs_ = [p[0] for p in s['poly']]; ys_ = [p[1] for p in s['poly']]
+        zs_ = [p[2] for p in s['poly']]
+        z_ = min(min(zs_), min(zs_) + s['n'][2]*s['d'])
+        led_strip(min(xs_) + 0.02, max(xs_) - 0.02, min(ys_) + 0.02, z_ - 0.004)
     if nm == 'Botella':
         botellas.append(s); continue
     if nm == 'Copa' and s['mat'] == 'CN Planta':
         plantas.append(s); continue
+    if s['tag'] == '26 Mesas y sillas':
+        continue                       # mobiliario parametrico de alta calidad
+    if nm.startswith('Pizarra'):
+        continue                       # sustituida por la carta de menu
     if s['mat'] == 'CN Vidrio' and nm.startswith(
             ('PB Mampara de vidrio', 'Escaparate - pano', 'Barandilla')):
         mat = M_VIDRIO_ARQ
     if '- lamina' in nm:
         mat = ARTE[hash(nm) % 3]
+    elif nm.startswith('Cuadro'):
+        mat = MAT['CN Negro mate']
     col = col_pa if is_pa(s) else col_pb
     prism(nm, s['poly'], s['n'], s['d'], mat, col)
 
@@ -322,22 +340,43 @@ def primitive(kind, mat, loc, scale, rot=(0,0,0), col=col_pb, seg=24):
     col.objects.link(ob)
     return ob
 
-# bolleria en las vitrinas
+# bolleria en las vitrinas: croissants con forma de croissant, donuts y bollos
+def croissant(cx, cy, z0, ang, sc):
+    # cuerpo central y lobulos decrecientes siguiendo un arco
+    for k, (off, size) in enumerate([(0.0, 1.0), (0.042, 0.78), (0.078, 0.5),
+                                     (-0.042, 0.78), (-0.078, 0.5)]):
+        aa = ang + off * 16
+        px = cx + math.sin(off*13) * sc * 0.01
+        lx = cx + off * sc * math.cos(ang) - math.sin(ang) * abs(off) * 0.55 * sc
+        ly = cy + off * sc * math.sin(ang) + math.cos(ang) * abs(off) * 0.55 * sc
+        primitive('sphere', M_CROISSANT, (lx, ly, z0 + 0.019 * size + 0.004),
+                  (0.034*sc*size, 0.024*sc*size, 0.021*sc*size),
+                  (0, 0, aa), seg=16)
+
+def donut(cx, cy, z0, choc):
+    bpy.ops.mesh.primitive_torus_add(location=(cx, cy, z0 + 0.014),
+                                     major_radius=0.028, minor_radius=0.013,
+                                     major_segments=24, minor_segments=12)
+    ob = bpy.context.active_object
+    ob.scale = (1, 1, 0.82)
+    ob.data.materials.append(M_BOLLO if choc else M_CROISSANT)
+    for pg in ob.data.polygons: pg.use_smooth = True
+    for c in ob.users_collection: c.objects.unlink(ob)
+    col_pb.objects.link(ob)
+
 for i, s in enumerate(productos):
     cx, cy, cz = centro(s)
     zs = [p[2] for p in s['poly']]
     z0 = min(min(zs), min(zs) + s['n'][2]*s['d'])
-    if i % 3 == 2:
-        primitive('sphere', M_BOLLO, (cx, cy, z0 + 0.028),
-                  (0.052, 0.052, 0.03))
+    k = i % 4
+    if k == 0 or k == 1:
+        croissant(cx, cy, z0, math.radians(random.uniform(0, 360)),
+                  random.uniform(0.9, 1.1))
+    elif k == 2:
+        donut(cx, cy, z0, i % 8 < 4)
     else:
-        r = math.radians(random.uniform(-30, 30))
-        sc = random.uniform(0.85, 1.15)
-        primitive('sphere', M_CROISSANT, (cx, cy, z0 + 0.024),
-                  (0.075*sc, 0.042*sc, 0.026), (0, 0, r))
-        primitive('sphere', M_CROISSANT,
-                  (cx + 0.05*sc*math.cos(r), cy + 0.05*sc*math.sin(r),
-                   z0 + 0.018), (0.03*sc, 0.028*sc, 0.018), (0, 0, r), seg=16)
+        primitive('sphere', M_BOLLO, (cx, cy, z0 + 0.024),
+                  (0.045, 0.045, 0.026))
 
 # botellas de vidrio en la estanteria
 for s in botellas:
@@ -377,6 +416,114 @@ for s in plantas:
         sb = fo.modifiers.new('s', 'SUBSURF'); sb.levels = 2; sb.render_levels = 2
         dp = fo.modifiers.new('d', 'DISPLACE')
         dp.texture = _dtex; dp.strength = 0.5; dp.mid_level = 0.6
+
+M_PATA = pbr_tex('pata_madera', 'wood_diff', 'wood_rough', 'wood_nrm',
+                  0.6, tint=(1.02, 0.98, 0.92), nrm_str=0.3)
+
+def _rot2(px, py, ang):
+    c, si = math.cos(ang), math.sin(ang)
+    return px*c - py*si, px*si + py*c
+
+def bevelmod(ob, w, seg):
+    bv = ob.modifiers.new('bv', 'BEVEL')
+    bv.width = w; bv.segments = seg
+    bv.limit_method = 'ANGLE'; bv.angle_limit = math.radians(45)
+    return ob
+
+# Silla de casco curvo tapizado con patas de madera torneada
+def silla_real(cx, cy, ang, tela):
+    for sx, sy in ((-1, -1), (1, -1), (-1, 1), (1, 1)):
+        lx, ly = _rot2(sx*0.155, sy*0.155, ang)
+        primitive('cone', M_PATA, (cx + lx, cy + ly, 0.215),
+                  (0.017, 0.017, 0.43), (sx*0.06, -sy*0.06, 0), seg=12)
+    st = primitive('cyl', tela, (cx, cy, 0.455), (0.205, 0.205, 0.055))
+    bevelmod(st, 0.022, 3)
+    # respaldo: casco curvado de 150 grados alrededor del asiento
+    n = 20
+    r0, r1 = 0.205, 0.165
+    a0 = ang + math.pi - math.radians(75)
+    a1 = ang + math.pi + math.radians(75)
+    outer = []
+    inner = []
+    for i in range(n + 1):
+        t = a0 + (a1 - a0) * i / n
+        outer.append((cx + r0*math.cos(t), cy + r0*math.sin(t), 0.48))
+        inner.append((cx + r1*math.cos(t), cy + r1*math.sin(t), 0.48))
+    poly = [(px, py) for px, py, _ in outer] +            [(px, py) for px, py, _ in reversed(inner)]
+    sh = prism('Silla - respaldo', [(px, py, 0.48) for px, py in poly],
+               [0, 0, 1], 0.30, tela, col_pb)
+    for pg in sh.data.polygons: pg.use_smooth = True
+    try: sh.data.set_sharp_from_angle(angle=math.radians(46))
+    except Exception: pass
+    for m in sh.modifiers:
+        if m.type == 'BEVEL': m.width = 0.02; m.segments = 3
+
+def mesa_real(cx, cy):
+    b = primitive('cyl', MAT['CN Negro mate'], (cx, cy, 0.015),
+                  (0.20, 0.20, 0.03)); bevelmod(b, 0.008, 2)
+    primitive('cyl', MAT['CN Negro mate'], (cx, cy, 0.37), (0.026, 0.026, 0.68))
+    tp = primitive('cyl', MAT['CN Madera tablero'], (cx, cy, 0.735),
+                   (0.37, 0.37, 0.035), seg=48)
+    bevelmod(tp, 0.012, 3)
+
+def taburete(cx, cy):
+    for sx, sy in ((-1, -1), (1, -1), (-1, 1), (1, 1)):
+        primitive('cone', M_PATA, (cx + sx*0.12, cy + sy*0.12, 0.31),
+                  (0.017, 0.017, 0.62), (sx*0.09, -sy*0.09, 0), seg=12)
+    tor = primitive('torus', MAT['CN Negro mate'], (cx, cy, 0.24),
+                    (0.135, 0.135, 0.135), seg=24)
+    st = primitive('cyl', MAT['CN Madera tablero'], (cx, cy, 0.645),
+                   (0.165, 0.165, 0.045), seg=32)
+    bevelmod(st, 0.015, 3)
+
+MESAS_R = [(2.00, 2.65), (2.00, 4.15), (2.00, 5.60),
+           (4.15, 2.65), (4.15, 4.15), (4.15, 5.60)]
+for i, (mx, my) in enumerate(MESAS_R):
+    mesa_real(mx, my)
+    t1 = MAT['CN Tela azul'] if i % 2 == 0 else MAT['CN Tela']
+    t2 = MAT['CN Tela'] if i % 2 == 0 else MAT['CN Tela azul']
+    j = (i * 37) % 13 - 6
+    silla_real(mx - 0.63, my, math.radians(j), t1)
+    silla_real(mx + 0.63, my, math.pi + math.radians(-j), t2)
+
+# taburetes frente al mostrador alto de la barra
+for tx in (6.55, 7.15, 7.75):
+    taburete(tx, 6.12)
+
+# ---- carta de menu sobre la pared norte ------------------------------------
+def box3(name, x0, y0, x1, y1, z0, z1, mat):
+    verts = [(x0,y0,z0),(x1,y0,z0),(x1,y1,z0),(x0,y1,z0),
+             (x0,y0,z1),(x1,y0,z1),(x1,y1,z1),(x0,y1,z1)]
+    faces = [[0,1,2,3],[7,6,5,4],[0,4,5,1],[1,5,6,2],[2,6,7,3],[3,7,4,0]]
+    return add_mesh(name, verts, faces, mat, col_pb)
+
+def menu_board():
+    x0, x1 = 7.62, 9.32
+    y = 8.905
+    z0, z1 = 1.42, 2.28
+    box3('Carta - marco', x0 - 0.02, y - 0.052, x1 + 0.02, y - 0.04,
+         z0 - 0.02, z1 + 0.02, MAT['CN Negro mate'])
+    box3('Carta - panel', x0, y - 0.055, x1, y - 0.045, z0, z1,
+         plain('carta_blanca', srgb('F4F1E9'), 0.7))
+    m_txt = plain('carta_texto', srgb('3A3A38'), 0.6)
+    def linea(txt, tx, tz, h):
+        cu = bpy.data.curves.new('t', 'FONT'); cu.body = txt
+        cu.size = h; cu.extrude = 0.001; cu.align_x = 'LEFT'
+        ob = bpy.data.objects.new('carta_txt', cu)
+        ob.location = (tx, y - 0.058, tz)
+        ob.rotation_euler = (math.radians(90), 0, 0)
+        ob.data.materials.append(m_txt)
+        col_pb.objects.link(ob)
+    linea('CAFFE', 7.78, 2.08, 0.075)
+    for k, t in enumerate(['Espresso ........ 1,50', 'Cappuccino .... 2,20',
+                           'Caffe Latte ..... 2,80', 'Cortado ......... 1,80']):
+        linea(t, 7.78, 1.94 - k*0.115, 0.052)
+    linea('COLAZIONE', 8.62, 2.08, 0.075)
+    for k, t in enumerate(['Cornetto ........ 1,80', 'Tiramisu ........ 3,50',
+                           'Panini ............ 4,50', 'Spremuta ....... 3,00']):
+        linea(t, 8.62, 1.94 - k*0.115, 0.052)
+
+menu_board()
 
 # taza con cafe + platillo
 def taza(x, y, z):
@@ -474,19 +621,23 @@ try:
     sky.sun_elevation = math.radians(38); sky.sun_rotation = math.radians(25)
     sky.sun_intensity = 0.35
     w.node_tree.links.new(sky.outputs['Color'], bgn.inputs['Color'])
-    bgn.inputs['Strength'].default_value = 0.55
+    bgn.inputs['Strength'].default_value = 0.95
 except Exception:
     bgn.inputs['Color'].default_value = (0.75, 0.83, 0.92, 1)
     bgn.inputs['Strength'].default_value = 0.6
 
 # luz de dia entrando por el escaparate
-light('AREA', (7.97, 0.30, 1.6), 260, (0.85, 0.90, 1.0), 2.6,
+light('AREA', (7.97, 0.32, 1.6), 520, (0.88, 0.92, 1.0), 3.0,
       rot=(math.radians(-90), 0, 0))
+# relleno alto en la doble altura para el ambiente aireado de la referencia
+light('AREA', (7.9, 2.0, 5.2), 320, (1.0, 0.97, 0.92), 2.6,
+      rot=(0, 0, 0))
+light('AREA', (5.0, 5.0, 2.60), 140, (1.0, 0.96, 0.90), 2.2, rot=(0, 0, 0))
 
 # ---------------------------------------------------------------- camaras
 def render_view(fn, eye, target, lens=24, hide_pa=False, fstop=4.0):
     col_pa.hide_render = hide_pa
-    scene.view_settings.exposure = -0.45 if hide_pa else 0.0
+    scene.view_settings.exposure = -0.25 if hide_pa else 0.30
     cd = bpy.data.cameras.new('c'); cd.lens = lens; cd.sensor_width = 36
     cd.clip_start = 0.03
     cd.dof.use_dof = True
@@ -496,7 +647,13 @@ def render_view(fn, eye, target, lens=24, hide_pa=False, fstop=4.0):
     scene.collection.objects.link(cam)
     cam.location = eye
     d = Vector(target) - Vector(eye)
-    cam.rotation_euler = d.to_track_quat('-Z', 'Y').to_euler()
+    dh = Vector((d.x, d.y, 0.0))
+    pitch = math.atan2(d.z, dh.length)
+    if abs(pitch) < math.radians(26) and dh.length > 0.1:
+        cam.rotation_euler = dh.to_track_quat('-Z', 'Y').to_euler()
+        cd.shift_y = math.tan(pitch) * lens / cd.sensor_width
+    else:
+        cam.rotation_euler = d.to_track_quat('-Z', 'Y').to_euler()
     scene.camera = cam
     import os
     scene.render.filepath = os.path.join('/tmp/claude-0/-home-user-modelo-2-italiano/30d2763c-3169-519a-ac78-c5a47134634b/scratchpad', fn)
