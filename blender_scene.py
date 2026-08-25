@@ -344,6 +344,23 @@ def primitive(kind, mat, loc, scale, rot=(0,0,0), col=col_pb, seg=24):
     col.objects.link(ob)
     return ob
 
+_ptex = None
+def soften(ob, bev=0.004, sub=1, disp=0.0):
+    global _ptex
+    if bev:
+        bv = ob.modifiers.new('bv', 'BEVEL'); bv.width = bev; bv.segments = 2
+        bv.limit_method = 'ANGLE'; bv.angle_limit = math.radians(45)
+    if sub:
+        sb = ob.modifiers.new('s', 'SUBSURF'); sb.levels = sub
+        sb.render_levels = sub
+    if disp:
+        if _ptex is None:
+            _ptex = bpy.data.textures.new('pnoise', 'CLOUDS')
+            _ptex.noise_scale = 0.35
+        dp = ob.modifiers.new('d', 'DISPLACE')
+        dp.texture = _ptex; dp.strength = disp; dp.mid_level = 0.5
+    return ob
+
 # bolleria en las vitrinas: croissants con forma de croissant, donuts y bollos
 def croissant(cx, cy, z0, ang, sc):
     # cuerpo central y lobulos decrecientes siguiendo un arco
@@ -353,9 +370,10 @@ def croissant(cx, cy, z0, ang, sc):
         px = cx + math.sin(off*13) * sc * 0.01
         lx = cx + off * sc * math.cos(ang) - math.sin(ang) * abs(off) * 0.55 * sc
         ly = cy + off * sc * math.sin(ang) + math.cos(ang) * abs(off) * 0.55 * sc
-        primitive('sphere', M_CROISSANT, (lx, ly, z0 + 0.019 * size + 0.004),
+        soften(primitive('sphere', M_CROISSANT,
+                  (lx, ly, z0 + 0.019 * size + 0.004),
                   (0.034*sc*size, 0.024*sc*size, 0.021*sc*size),
-                  (0, 0, aa), seg=16)
+                  (0, 0, aa), seg=16), 0, 1, 0.12)
 
 def donut(cx, cy, z0, choc):
     bpy.ops.mesh.primitive_torus_add(location=(cx, cy, z0 + 0.014),
@@ -365,6 +383,7 @@ def donut(cx, cy, z0, choc):
     ob.scale = (1, 1, 0.82)
     ob.data.materials.append(M_BOLLO if choc else M_CROISSANT)
     for pg in ob.data.polygons: pg.use_smooth = True
+    soften(ob, 0, 1, 0.10)
     for c in ob.users_collection: c.objects.unlink(ob)
     col_pb.objects.link(ob)
 
@@ -390,8 +409,10 @@ for s in botellas:
     h = abs(s['d'])
     mat = M_VAMBAR if s['mat'] == 'CN Terracota' else M_VVERDE
     cuerpo = h * 0.62
-    primitive('cyl', mat, (cx, cy, z0 + cuerpo/2), (0.034, 0.034, cuerpo))
-    primitive('cone', mat, (cx, cy, z0 + cuerpo + h*0.14), (0.033, 0.033, h*0.28))
+    soften(primitive('cyl', mat, (cx, cy, z0 + cuerpo/2),
+                     (0.034, 0.034, cuerpo)), 0.006, 1)
+    soften(primitive('cone', mat, (cx, cy, z0 + cuerpo + h*0.14),
+                     (0.033, 0.033, h*0.28)), 0.004, 1)
     primitive('cyl', mat, (cx, cy, z0 + cuerpo + h*0.28 + h*0.05),
               (0.011, 0.011, h*0.10))
     primitive('cyl', M_CORCHO, (cx, cy, z0 + cuerpo + h*0.28 + h*0.115),
@@ -444,20 +465,22 @@ def silla_real(cx, cy, ang, tela):
         lx, ly = _rot2(sx*0.155, sy*0.155, ang)
         primitive('cone', M_PATA, (cx + lx, cy + ly, 0.215),
                   (0.017, 0.017, 0.43), (sx*0.06, -sy*0.06, 0), seg=12)
-    st = primitive('cyl', tela, (cx, cy, 0.455), (0.205, 0.205, 0.055))
-    bevelmod(st, 0.022, 3)
+    st = primitive('sphere', tela, (cx, cy, 0.455), (0.215, 0.215, 0.062))
+    soften(st, 0, 1)
     # respaldo: casco curvado de 150 grados, malla de quads limpia
     n = 20
     r0, r1 = 0.205, 0.165
     z0v, z1v = 0.48, 0.78
     a0 = ang + math.pi - math.radians(75)
     a1 = ang + math.pi + math.radians(75)
+    rx, ry = math.cos(ang + math.pi) * 0.05, math.sin(ang + math.pi) * 0.05
     vs = []
     for i in range(n + 1):
         t = a0 + (a1 - a0) * i / n
         co, si2 = math.cos(t), math.sin(t)
         vs += [(cx + r0*co, cy + r0*si2, z0v), (cx + r1*co, cy + r1*si2, z0v),
-               (cx + r0*co, cy + r0*si2, z1v), (cx + r1*co, cy + r1*si2, z1v)]
+               (cx + r0*co + rx, cy + r0*si2 + ry, z1v),
+               (cx + r1*co + rx, cy + r1*si2 + ry, z1v)]
     fs = []
     for i in range(n):
         k = i*4
@@ -471,7 +494,9 @@ def silla_real(cx, cy, ang, tela):
     try: sh.data.set_sharp_from_angle(angle=math.radians(40))
     except Exception: pass
     for m in sh.modifiers:
-        if m.type == 'BEVEL': m.width = 0.016; m.segments = 3
+        if m.type == 'BEVEL': m.width = 0.02; m.segments = 2
+    sb2 = sh.modifiers.new('s', 'SUBSURF'); sb2.levels = 1
+    sb2.render_levels = 1
 
 def mesa_real(cx, cy):
     b = primitive('cyl', MAT['CN Negro mate'], (cx, cy, 0.015),
@@ -591,8 +616,10 @@ menu_board()
 
 # taza con cafe + platillo
 def taza(x, y, z):
-    primitive('cyl', M_CERAMICA, (x, y, z + 0.004), (0.055, 0.055, 0.008))
-    primitive('cyl', M_CERAMICA, (x, y, z + 0.008 + 0.028), (0.037, 0.037, 0.056))
+    soften(primitive('cyl', M_CERAMICA, (x, y, z + 0.004),
+                     (0.055, 0.055, 0.008)), 0.003, 1)
+    soften(primitive('cyl', M_CERAMICA, (x, y, z + 0.008 + 0.028),
+                     (0.037, 0.037, 0.056)), 0.004, 1)
     primitive('cyl', M_CAFE, (x, y, z + 0.008 + 0.052), (0.031, 0.031, 0.004))
     primitive('torus', M_CERAMICA, (x + 0.040, y, z + 0.038),
               (0.016, 0.016, 0.016), (math.radians(90), 0, 0), seg=16)
@@ -741,6 +768,53 @@ light('AREA', (7.97, 0.32, 1.6), 520, (0.88, 0.92, 1.0), 3.0,
 light('AREA', (7.9, 2.0, 5.2), 320, (1.0, 0.97, 0.92), 2.6,
       rot=(0, 0, 0))
 light('AREA', (5.0, 5.0, 2.60), 140, (1.0, 0.96, 0.90), 2.2, rot=(0, 0, 0))
+
+# ------------------------------------------------------- compositor de foto
+# bloom suave en las luces, viñeteo y una pizca de dispersion de lente
+def compositor_foto():
+    try:
+        scene.use_nodes = True
+        nt = scene.node_tree
+        for n in list(nt.nodes): nt.nodes.remove(n)
+        rl = nt.nodes.new('CompositorNodeRLayers')
+        gl = nt.nodes.new('CompositorNodeGlare')
+        try:
+            gl.glare_type = 'FOG_GLOW'; gl.quality = 'MEDIUM'
+            gl.size = 7
+        except Exception: pass
+        for attr, val in (('threshold', 1.05), ('mix', -0.55)):
+            try: setattr(gl, attr, val)
+            except Exception:
+                try: gl.inputs[attr.title()].default_value = val
+                except Exception: pass
+        ld = nt.nodes.new('CompositorNodeLensdist')
+        try:
+            ld.inputs['Dispersion'].default_value = 0.006
+            ld.inputs['Distortion'].default_value = 0.004
+        except Exception: pass
+        el = nt.nodes.new('CompositorNodeEllipseMask')
+        el.width = 1.55; el.height = 1.35
+        bl = nt.nodes.new('CompositorNodeBlur')
+        bl.filter_type = 'FAST_GAUSS'; bl.size_x = 380; bl.size_y = 380
+        bl.use_relative = False
+        mr = nt.nodes.new('CompositorNodeMapRange')
+        mr.inputs['To Min'].default_value = 0.86
+        mr.inputs['To Max'].default_value = 1.0
+        mx = nt.nodes.new('CompositorNodeMixRGB')
+        mx.blend_type = 'MULTIPLY'; mx.inputs['Fac'].default_value = 1.0
+        cp = nt.nodes.new('CompositorNodeComposite')
+        nt.links.new(rl.outputs['Image'], gl.inputs['Image'])
+        nt.links.new(gl.outputs['Image'], ld.inputs['Image'])
+        nt.links.new(el.outputs['Mask'], bl.inputs['Image'])
+        nt.links.new(bl.outputs['Image'], mr.inputs['Value'])
+        nt.links.new(ld.outputs['Image'], mx.inputs[1])
+        nt.links.new(mr.outputs['Value'], mx.inputs[2])
+        nt.links.new(mx.outputs['Image'], cp.inputs['Image'])
+        print('compositor activo')
+    except Exception as e:
+        print('compositor omitido:', e)
+        scene.use_nodes = False
+compositor_foto()
 
 # ---------------------------------------------------------------- camaras
 def render_view(fn, eye, target, lens=24, hide_pa=False, fstop=4.0):
