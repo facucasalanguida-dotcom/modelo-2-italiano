@@ -15,15 +15,17 @@ def postfx(fn, pano=False):
     # sombras ligeramente calidas
     sh = np.clip(1 - a.mean(-1, keepdims=True)*1.6, 0, 1)
     a = np.clip(a + sh * np.array([0.012, 0.006, -0.006], np.float32), 0, 1)
-    # bloom: umbral de altas luces + desenfoque + mezcla screen
-    lum = a.max(-1)
-    hi = np.clip((lum - 0.82) / 0.18, 0, 1)[..., None] * a
-    bl = np.asarray(Image.fromarray((hi*255).astype(np.uint8))
-                    .filter(ImageFilter.GaussianBlur(w*0.008)), np.float32)/255.0
-    bl2 = np.asarray(Image.fromarray((hi*255).astype(np.uint8))
-                     .filter(ImageFilter.GaussianBlur(w*0.03)), np.float32)/255.0
-    glow = np.clip(bl*0.55 + bl2*0.35, 0, 1)
-    a = 1 - (1 - a) * (1 - glow)          # screen
+    if not pano:
+        # bloom: umbral de altas luces + desenfoque + mezcla screen
+        # (en equirectangular el desenfoque no envuelve y marcaria la costura)
+        lum = a.max(-1)
+        hi = np.clip((lum - 0.82) / 0.18, 0, 1)[..., None] * a
+        bl = np.asarray(Image.fromarray((hi*255).astype(np.uint8))
+                        .filter(ImageFilter.GaussianBlur(w*0.008)), np.float32)/255.0
+        bl2 = np.asarray(Image.fromarray((hi*255).astype(np.uint8))
+                         .filter(ImageFilter.GaussianBlur(w*0.03)), np.float32)/255.0
+        glow = np.clip(bl*0.55 + bl2*0.35, 0, 1)
+        a = 1 - (1 - a) * (1 - glow)      # screen
     if not pano:
         # dispersion: canales R y B escalados radialmente medio pixel
         yy, xx = np.mgrid[0:h, 0:w].astype(np.float32)
