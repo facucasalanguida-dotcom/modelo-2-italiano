@@ -309,6 +309,8 @@ for s in S:
         mat = M_VIDRIO_ARQ
     if '- lamina' in nm:
         mat = ARTE[hash(nm) % 3]
+    elif nm.startswith('Cuadro Sur'):
+        mat = ARTE[hash(nm) % 3]        # estos no llevan lamina separada
     elif nm.startswith('Cuadro'):
         mat = MAT['CN Negro mate']
     col = col_pa if is_pa(s) else col_pb
@@ -438,25 +440,32 @@ def silla_real(cx, cy, ang, tela):
                   (0.017, 0.017, 0.43), (sx*0.06, -sy*0.06, 0), seg=12)
     st = primitive('cyl', tela, (cx, cy, 0.455), (0.205, 0.205, 0.055))
     bevelmod(st, 0.022, 3)
-    # respaldo: casco curvado de 150 grados alrededor del asiento
+    # respaldo: casco curvado de 150 grados, malla de quads limpia
     n = 20
     r0, r1 = 0.205, 0.165
+    z0v, z1v = 0.48, 0.78
     a0 = ang + math.pi - math.radians(75)
     a1 = ang + math.pi + math.radians(75)
-    outer = []
-    inner = []
+    vs = []
     for i in range(n + 1):
         t = a0 + (a1 - a0) * i / n
-        outer.append((cx + r0*math.cos(t), cy + r0*math.sin(t), 0.48))
-        inner.append((cx + r1*math.cos(t), cy + r1*math.sin(t), 0.48))
-    poly = [(px, py) for px, py, _ in outer] +            [(px, py) for px, py, _ in reversed(inner)]
-    sh = prism('Silla - respaldo', [(px, py, 0.48) for px, py in poly],
-               [0, 0, 1], 0.30, tela, col_pb)
+        co, si2 = math.cos(t), math.sin(t)
+        vs += [(cx + r0*co, cy + r0*si2, z0v), (cx + r1*co, cy + r1*si2, z0v),
+               (cx + r0*co, cy + r0*si2, z1v), (cx + r1*co, cy + r1*si2, z1v)]
+    fs = []
+    for i in range(n):
+        k = i*4
+        fs += [[k, k+4, k+6, k+2],       # cara exterior
+               [k+1, k+3, k+7, k+5],     # cara interior
+               [k+2, k+6, k+7, k+3],     # canto superior
+               [k+4, k, k+1, k+5]]       # canto inferior
+    fs += [[0, 2, 3, 1], [4*n, 4*n+1, 4*n+3, 4*n+2]]
+    sh = add_mesh('Silla - respaldo', vs, fs, tela, col_pb, smooth=False)
     for pg in sh.data.polygons: pg.use_smooth = True
-    try: sh.data.set_sharp_from_angle(angle=math.radians(46))
+    try: sh.data.set_sharp_from_angle(angle=math.radians(40))
     except Exception: pass
     for m in sh.modifiers:
-        if m.type == 'BEVEL': m.width = 0.02; m.segments = 3
+        if m.type == 'BEVEL': m.width = 0.016; m.segments = 3
 
 def mesa_real(cx, cy):
     b = primitive('cyl', MAT['CN Negro mate'], (cx, cy, 0.015),
@@ -518,10 +527,10 @@ def menu_board():
     for k, t in enumerate(['Espresso ........ 1,50', 'Cappuccino .... 2,20',
                            'Caffe Latte ..... 2,80', 'Cortado ......... 1,80']):
         linea(t, 7.78, 1.94 - k*0.115, 0.052)
-    linea('COLAZIONE', 8.62, 2.08, 0.075)
+    linea('COLAZIONE', 8.55, 2.08, 0.075)
     for k, t in enumerate(['Cornetto ........ 1,80', 'Tiramisu ........ 3,50',
                            'Panini ............ 4,50', 'Spremuta ....... 3,00']):
-        linea(t, 8.62, 1.94 - k*0.115, 0.052)
+        linea(t, 8.55, 1.94 - k*0.115, 0.052)
 
 menu_board()
 

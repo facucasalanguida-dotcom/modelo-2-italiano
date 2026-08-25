@@ -51,11 +51,11 @@ for row in range(12):
         gr = np.asarray(Image.fromarray((g*255).astype(np.uint8))
                         .resize((N, N//14), Image.BICUBIC)
                         .resize((N, N), Image.BICUBIC), np.float32)/255.0
-        vet = 0.5 + 0.5*np.sin(gr*14 + xx/N*90 + rng.uniform(0, 9))
-        sh = (0.92 + 0.14*vet)
+        vet = 0.5 + 0.5*np.sin(gr*10 + xx/N*420 + rng.uniform(0, 9))
+        sh = (0.955 + 0.055*vet)
         for c in range(3):
             diff[..., c][m] = t[c] * sh[m]
-        rough[m] = 0.32 + 0.10*vet[m] + rng.uniform(-0.02, 0.02)
+        rough[m] = 0.33 + 0.05*vet[m] + rng.uniform(-0.02, 0.02)
         height[m] = rng.uniform(0.35, 0.65)
 # juntas oscuras entre tablas
 seamy = (yy % PLH < 2) | (yy % PLH > PLH-3)
