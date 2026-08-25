@@ -10,7 +10,7 @@ S = json.load(open('solids.json'))
 bpy.ops.wm.read_factory_settings(use_empty=True)
 scene = bpy.context.scene
 scene.render.engine = 'CYCLES'
-scene.cycles.samples = 128
+scene.cycles.samples = 208
 scene.cycles.use_denoising = True
 try: scene.cycles.denoiser = 'OPENIMAGEDENOISE'
 except Exception: pass
@@ -18,10 +18,10 @@ scene.cycles.sample_clamp_indirect = 10.0
 scene.cycles.max_bounces = 8
 scene.cycles.transmission_bounces = 8
 scene.cycles.transparent_max_bounces = 12
-scene.render.resolution_x = 1536
-scene.render.resolution_y = 960
+scene.render.resolution_x = 1792
+scene.render.resolution_y = 1120
 scene.view_settings.view_transform = 'AgX'
-scene.view_settings.look = 'AgX - Base Contrast'
+scene.view_settings.look = 'AgX - Punchy'
 
 # ---------------------------------------------------------------- materiales
 def _principled(m):
@@ -96,38 +96,95 @@ def wall(name, rgb, rough=0.85):
     set_in(b, 'Roughness', rough)
     return m
 
+TEXDIR = '/tmp/claude-0/-home-user-modelo-2-italiano/30d2763c-3169-519a-ac78-c5a47134634b/scratchpad/tex'
+_imgcache = {}
+def teximg(fn, noncolor=False):
+    key = (fn, noncolor)
+    if key not in _imgcache:
+        im = bpy.data.images.load(f'{TEXDIR}/{fn}.png')
+        if noncolor:
+            im.colorspace_settings.name = 'Non-Color'
+        _imgcache[key] = im
+    return _imgcache[key]
+
+def pbr_tex(name, diff=None, rough=None, nrm=None, tile=1.0, tint=None,
+            coat=0.0, nrm_str=0.6, color=None, base_rough=0.5, sheen=0.0,
+            metal=0.0, generated=False):
+    m = new_mat(name); nt, b = _principled(m)
+    tc = nt.nodes.new('ShaderNodeTexCoord')
+    mp = nt.nodes.new('ShaderNodeMapping')
+    mp.inputs['Scale'].default_value = (1.0/tile, 1.0/tile, 1.0/tile)
+    src = tc.outputs['Generated' if generated else 'Object']
+    nt.links.new(src, mp.inputs['Vector'])
+    def img_node(fn, noncolor):
+        n = nt.nodes.new('ShaderNodeTexImage')
+        n.image = teximg(fn, noncolor)
+        n.projection = 'BOX'; n.projection_blend = 0.3
+        nt.links.new(mp.outputs['Vector'], n.inputs['Vector'])
+        return n
+    if diff:
+        d = img_node(diff, False)
+        if tint:
+            mx = nt.nodes.new('ShaderNodeMix'); mx.data_type = 'RGBA'
+            mx.blend_type = 'MULTIPLY'; mx.inputs['Factor'].default_value = 1.0
+            mx.inputs[7].default_value = (*tint, 1)
+            nt.links.new(d.outputs['Color'], mx.inputs[6])
+            nt.links.new(mx.outputs[2], b.inputs['Base Color'])
+        else:
+            nt.links.new(d.outputs['Color'], b.inputs['Base Color'])
+    elif color:
+        set_in(b, 'Base Color', (*color, 1))
+    if rough:
+        r = img_node(rough, True)
+        nt.links.new(r.outputs['Color'], b.inputs['Roughness'])
+    else:
+        set_in(b, 'Roughness', base_rough)
+    if nrm:
+        n = img_node(nrm, True)
+        nm_ = nt.nodes.new('ShaderNodeNormalMap')
+        nm_.inputs['Strength'].default_value = nrm_str
+        nt.links.new(n.outputs['Color'], nm_.inputs['Color'])
+        nt.links.new(nm_.outputs['Normal'], b.inputs['Normal'])
+    if coat: set_in(b, 'Coat Weight', coat)
+    if sheen: set_in(b, 'Sheen Weight', sheen)
+    if metal: set_in(b, 'Metallic', metal)
+    return m
+
 def srgb(hexs):
     v = [int(hexs[i:i+2], 16)/255 for i in (0, 2, 4)]
     return tuple(c/12.92 if c <= 0.04045 else ((c+0.055)/1.055)**2.4 for c in v)
 
 MAT = {
- 'CN Muro':           wall('muro', srgb('DAD8C9')),
- 'CN Medianera':      wall('medianera', srgb('D4D2C3')),
- 'CN Tabique':        wall('tabique', srgb('E0DED0')),
- 'CN Techo':          wall('techo', srgb('E8E6DA'), 0.9),
- 'CN Suelo roble':    wood('suelo', srgb('DCC098'), srgb('CFB287'), 2.2, 0.28),
- 'CN Hormigon':       wall('hormigon', srgb('C6C1B8'), 0.9),
- 'CN Madera liston':  wood('liston', srgb('C99E69'), srgb('B78D59'), 2.6, 0.4),
- 'CN Madera tablero': wood('tablero', srgb('B2804A'), srgb('A0703E'), 2.2, 0.3),
- 'CN Madera clara':   wood('clara', srgb('D6B485'), srgb('C7A473'), 2.4, 0.42),
- 'CN Acero inox':     plain('inox', srgb('E8EAEC'), 0.28, 1.0),
+ 'CN Muro':           pbr_tex('muro', 'wall_diff', 'wall_rough', 'wall_nrm', 3.0, nrm_str=0.5),
+ 'CN Medianera':      pbr_tex('medianera', 'wall_diff', 'wall_rough', 'wall_nrm', 3.0, tint=(0.93, 0.93, 0.92), nrm_str=0.5),
+ 'CN Tabique':        pbr_tex('tabique', 'wall_diff', 'wall_rough', 'wall_nrm', 3.0, tint=(1.03, 1.03, 1.02), nrm_str=0.4),
+ 'CN Techo':          pbr_tex('techo', 'wall_diff', 'wall_rough', 'wall_nrm', 3.0, tint=(1.06, 1.06, 1.04), nrm_str=0.3),
+ 'CN Suelo roble':    pbr_tex('suelo', 'floor_diff', 'floor_rough', 'floor_nrm', 2.4, coat=0.12, nrm_str=0.9),
+ 'CN Hormigon':       pbr_tex('hormigon', 'wall_diff', 'wall_rough', 'wall_nrm', 3.0, tint=(0.82, 0.80, 0.78), nrm_str=0.7),
+ 'CN Madera liston':  pbr_tex('liston', 'wood_diff_v', 'wood_rough_v', 'wood_nrm_v', 1.3, nrm_str=0.6),
+ 'CN Madera tablero': pbr_tex('tablero', 'wood_diff', 'wood_rough', 'wood_nrm', 1.1, tint=(0.82, 0.72, 0.60), coat=0.1, nrm_str=0.55),
+ 'CN Madera clara':   pbr_tex('clara', 'wood_diff', 'wood_rough', 'wood_nrm', 1.5, tint=(1.06, 1.03, 0.98), nrm_str=0.5),
+ 'CN Acero inox':     plain('inox', srgb('E8EAEC'), 0.17, 1.0),
  'CN Vidrio':         glassm('vidrio'),
  'CN Carpinteria':    plain('carpinteria', srgb('2A2A28'), 0.4, 0.4),
  'CN Rotulo':         plain('rotulo', srgb('3E6B99'), 0.35),
- 'CN Tela':           plain('tela', srgb('E7DFD1'), 0.9, 0.0, 1.0),
- 'CN Tela azul':      plain('tela_azul', srgb('6C8AA8'), 0.9, 0.0, 1.0),
+ 'CN Tela':           pbr_tex('tela', None, 'fabric_rough', 'fabric_nrm', 1.0, color=srgb('E7DFD1'), sheen=1.0, nrm_str=0.5),
+ 'CN Tela azul':      pbr_tex('tela_azul', None, 'fabric_rough', 'fabric_nrm', 1.0, color=srgb('6C8AA8'), sheen=1.0, nrm_str=0.5),
  'CN Negro mate':     plain('negro', srgb('262524'), 0.55),
  'CN Laton':          plain('laton', srgb('C69E54'), 0.25, 1.0),
  'CN Opal':           emitm('opal', srgb('FFF4E0'), 1.7),
  'CN Planta':         plain('planta', srgb('6E8B5A'), 0.8),
  'CN Terracota':      plain('terracota', srgb('BA8263'), 0.7),
- 'CN Azul Napoli':    plain('napoli', srgb('3E6B99'), 0.45),
- 'CN Blanco roto':    wall('blanco', srgb('F7F5F0'), 0.8),
+ 'CN Azul Napoli':    pbr_tex('napoli', None, 'wood_rough_v', 'wood_nrm_v', 1.3, color=srgb('3E6B99'), nrm_str=0.35, base_rough=0.45),
+ 'CN Blanco roto':    pbr_tex('blanco', 'wall_diff', 'wall_rough', 'wall_nrm', 3.0, tint=(1.10, 1.09, 1.07), nrm_str=0.3),
  'CN Luz calida':     emitm('luzcalida', srgb('FFD9A0'), 1.9),
  'CN Instalacion':    plain('instalacion', srgb('AAACAE'), 0.5, 0.6),
 }
-# vidrio arquitectónico: paños gruesos (mampara, escaparate) sin la
-# refracción de volumen que emborrona lo que hay detrás
+ARTE = [pbr_tex(f'arte{i}', f'art_{i}', None, None, 1.0, generated=True,
+                base_rough=0.65) for i in range(3)]
+
+# vidrio arquitectónico: Transparent BSDF + un 7 % de glossy, para que el
+# denoiser vea a través y los paños grandes queden transparentes de verdad
 def arch_glass():
     m = bpy.data.materials.new('vidrio_arq'); m.use_nodes = True
     nt = m.node_tree
@@ -186,6 +243,13 @@ def add_mesh(name, verts, faces, mat, col, smooth=False):
     ob = bpy.data.objects.new(name, me)
     if mat: me.materials.append(mat)
     col.objects.link(ob)
+    if name.startswith(('Asiento', 'Respaldo')) or 'cojin' in name:
+        bv = ob.modifiers.new('bv', 'BEVEL')
+        bv.width = 0.018; bv.segments = 3
+    else:
+        bv = ob.modifiers.new('bv', 'BEVEL')
+        bv.width = 0.004; bv.segments = 2
+    bv.limit_method = 'ANGLE'; bv.angle_limit = math.radians(45)
     return ob
 
 def prism(name, poly, n, d, mat, col):
@@ -227,6 +291,8 @@ for s in S:
     if s['mat'] == 'CN Vidrio' and nm.startswith(
             ('PB Mampara de vidrio', 'Escaparate - pano', 'Barandilla')):
         mat = M_VIDRIO_ARQ
+    if '- lamina' in nm:
+        mat = ARTE[hash(nm) % 3]
     col = col_pa if is_pa(s) else col_pb
     prism(nm, s['poly'], s['n'], s['d'], mat, col)
 
@@ -289,6 +355,9 @@ for s in botellas:
               (0.012, 0.012, 0.012))
 
 # follaje de las plantas
+_dtex = bpy.data.textures.new('dnoise', 'CLOUDS')
+_dtex.noise_scale = 0.09
+
 for s in plantas:
     xs = [p[0] for p in s['poly']]; ys = [p[1] for p in s['poly']]
     cx, cy = sum(xs)/len(xs), sum(ys)/len(ys)
@@ -302,9 +371,12 @@ for s in plantas:
         dx, dy = [random.uniform(-.7, .7) for _ in range(2)]
         dz = random.uniform(-.8, .8)
         rs = random.uniform(0.26, 0.44) * rr
-        primitive('sphere', M_FOLLAJE,
+        fo = primitive('sphere', M_FOLLAJE,
                   (cx + dx*rr*0.8, cy + dy*rr*0.8, cz + dz*(z1-z0)*0.45),
                   (rs, rs, rs*0.9), seg=14)
+        sb = fo.modifiers.new('s', 'SUBSURF'); sb.levels = 2; sb.render_levels = 2
+        dp = fo.modifiers.new('d', 'DISPLACE')
+        dp.texture = _dtex; dp.strength = 0.5; dp.mid_level = 0.6
 
 # taza con cafe + platillo
 def taza(x, y, z):
@@ -391,9 +463,9 @@ for cx, cy, cz in apliques:
 
 # sol y cielo
 sun = bpy.data.lights.new('sun', 'SUN')
-sun.energy = 3.2; sun.angle = math.radians(2)
+sun.energy = 3.8; sun.angle = math.radians(2)
 so = bpy.data.objects.new('sun', sun)
-so.rotation_euler = (math.radians(52), 0, math.radians(-155))
+so.rotation_euler = (math.radians(62), 0, math.radians(-155))
 col_pb.objects.link(so)
 w = bpy.data.worlds.new('w'); scene.world = w; w.use_nodes = True
 bgn = w.node_tree.nodes['Background']
@@ -412,11 +484,14 @@ light('AREA', (7.97, 0.30, 1.6), 260, (0.85, 0.90, 1.0), 2.6,
       rot=(math.radians(-90), 0, 0))
 
 # ---------------------------------------------------------------- camaras
-def render_view(fn, eye, target, lens=24, hide_pa=False):
+def render_view(fn, eye, target, lens=24, hide_pa=False, fstop=4.0):
     col_pa.hide_render = hide_pa
     scene.view_settings.exposure = -0.45 if hide_pa else 0.0
     cd = bpy.data.cameras.new('c'); cd.lens = lens; cd.sensor_width = 36
     cd.clip_start = 0.03
+    cd.dof.use_dof = True
+    cd.dof.focus_distance = (Vector(target) - Vector(eye)).length * 0.85
+    cd.dof.aperture_fstop = fstop
     cam = bpy.data.objects.new('cam', cd)
     scene.collection.objects.link(cam)
     cam.location = eye
@@ -430,15 +505,15 @@ def render_view(fn, eye, target, lens=24, hide_pa=False):
 
 import sys
 views = {
- 'R_entrada':   ((8.55, 1.30, 1.55), (4.90, 7.35, 1.05), 26, False),
- 'R_barra':     ((2.55, 4.65, 1.50), (6.90, 7.30, 1.00), 27, False),
- 'R_sala':      ((1.15, 6.55, 1.55), (6.50, 1.60, 1.10), 24, False),
- 'R_vitrinas':  ((5.15, 5.45, 1.35), (4.35, 7.30, 0.95), 30, False),
- 'R_mampara':   ((4.90, 4.30, 1.60), (1.00, 8.10, 1.10), 25, False),
- 'R_aerea':     ((11.5, -1.8, 9.5), (4.6, 5.2, 0.4), 30, True),
- 'R_fachada':   ((8.6, -4.6, 1.55), (7.6, 0.5, 2.3), 27, False),
+ 'R_entrada':   ((8.55, 1.30, 1.55), (4.90, 7.35, 1.05), 26, False, 4.0),
+ 'R_barra':     ((2.55, 4.65, 1.50), (6.90, 7.30, 1.00), 27, False, 3.5),
+ 'R_sala':      ((1.15, 6.55, 1.55), (6.50, 1.60, 1.10), 24, False, 4.5),
+ 'R_vitrinas':  ((5.15, 5.45, 1.35), (4.35, 7.30, 0.95), 30, False, 2.6),
+ 'R_mampara':   ((4.90, 4.30, 1.60), (1.00, 8.10, 1.10), 25, False, 3.5),
+ 'R_aerea':     ((11.5, -1.8, 9.5), (4.6, 5.2, 0.4), 30, True, 11.0),
+ 'R_fachada':   ((8.6, -4.6, 1.55), (7.6, 0.5, 2.3), 27, False, 8.0),
 }
 which = sys.argv[sys.argv.index('--')+1:] if '--' in sys.argv else list(views)
 for k in which:
-    eye, tgt, lens, hide = views[k]
-    render_view(k + '.png', eye, tgt, lens, hide)
+    eye, tgt, lens, hide, fs = views[k]
+    render_view(k + '.png', eye, tgt, lens, hide, fs)
