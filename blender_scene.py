@@ -180,7 +180,7 @@ MAT = {
  'CN Medianera':      pbr_tex('medianera', 'wall_diff', 'wall_rough', 'wall_nrm', 3.0, tint=(0.93, 0.93, 0.92), nrm_str=0.5),
  'CN Tabique':        pbr_tex('tabique', 'wall_diff', 'wall_rough', 'wall_nrm', 3.0, tint=(1.07, 1.045, 1.00), nrm_str=0.4),
  'CN Techo':          pbr_tex('techo', 'wall_diff', 'wall_rough', 'wall_nrm', 3.0, tint=(1.08, 1.06, 1.02), nrm_str=0.3),
- 'CN Suelo roble':    pbr_tex('suelo', 'floor_diff', 'floor_rough', 'floor_nrm', 2.4, coat=0.12, nrm_str=0.9),
+ 'CN Suelo roble':    pbr_tex('suelo', 'floor_diff', 'floor_rough', 'floor_nrm', 2.4, tint=(1.02, 0.96, 0.88), coat=0.12, nrm_str=0.9),
  'CN Hormigon':       pbr_tex('hormigon', 'wall_diff', 'wall_rough', 'wall_nrm', 3.0, tint=(0.82, 0.80, 0.78), nrm_str=0.7),
  'CN Madera liston':  pbr_tex('liston', 'wood_diff_v', 'wood_rough_v', 'wood_nrm_v', 1.3, nrm_str=0.6),
  'CN Madera tablero': pbr_tex('tablero', 'wood_diff', 'wood_rough', 'wood_nrm', 1.1, tint=(0.82, 0.72, 0.60), coat=0.1, nrm_str=0.55),
@@ -189,11 +189,11 @@ MAT = {
  'CN Vidrio':         glassm('vidrio'),
  'CN Carpinteria':    plain('carpinteria', srgb('2A2A28'), 0.4, 0.4),
  'CN Rotulo':         plain('rotulo', srgb('3E6B99'), 0.35),
- 'CN Tela':           boucle('boucle_crema', 'EDE5D4'),
- 'CN Tela azul':      boucle('boucle_arena', 'DCCDB4'),
+ 'CN Tela':           boucle('boucle_crema', 'E9DFC9'),
+ 'CN Tela azul':      boucle('boucle_arena', 'D9C5A4'),
  'CN Negro mate':     plain('negro', srgb('262524'), 0.55),
  'CN Laton':          plain('laton', srgb('C69E54'), 0.25, 1.0),
- 'CN Opal':           emitm('opal', srgb('FFF4E0'), 2.3),
+ 'CN Opal':           emitm('opal', srgb('FFF4E0'), 2.0),
  'CN Planta':         plain('planta', srgb('6E8B5A'), 0.8),
  'CN Terracota':      plain('terracota', srgb('A9714F'), 0.7),
  'CN Azul Napoli':    pbr_tex('napoli', None, 'wood_rough_v', 'wood_nrm_v', 1.3, color=srgb('3E6B99'), nrm_str=0.35, base_rough=0.45),
@@ -337,7 +337,8 @@ for s in S:
         botellas.append(s); continue
     if nm == 'Copa' and s['mat'] == 'CN Planta':
         plantas.append(s); continue
-    if s['tag'] == '26 Mesas y sillas':
+    if s['tag'] == '26 Mesas y sillas' or nm.split(' ')[0] in (
+            'Asiento', 'Respaldo', 'Pata', 'Base', 'Pie', 'Tablero'):
         continue                       # mobiliario parametrico de alta calidad
     if nm.startswith('Pizarra'):
         continue                       # sustituida por la carta de menu
@@ -542,9 +543,9 @@ def silla_real(cx, cy, ang, tela):
         lx, ly = _rot2(sx*0.15, sy*0.15, ang)
         primitive('cone', M_PATA, (cx + lx, cy + ly, 0.20),
                   (0.019, 0.019, 0.40), (sx*0.05, -sy*0.05, 0), seg=12)
-    # asiento pouf, bien mullido, con bultitos de borrego
+    # asiento pouf, liso y mullido como en las referencias
     st = primitive('sphere', tela, (cx, cy, 0.415), (0.215, 0.215, 0.085))
-    soften(st, 0, 2, 0.010)
+    soften(st, 0, 2)
     # respaldo: tubo barrido en arco de 160 grados, seccion redondeada alta
     n, m = 22, 12
     R, rh, rv = 0.185, 0.052, 0.115
@@ -581,19 +582,14 @@ def silla_real(cx, cy, ang, tela):
         if mm.type == 'BEVEL': sh.modifiers.remove(mm)
     sb2 = sh.modifiers.new('s', 'SUBSURF')
     sb2.levels = sb2.render_levels = 0 if LOW else 2
-    global _ptex
-    if _ptex is None:
-        _ptex = bpy.data.textures.new('pnoise', 'CLOUDS')
-        _ptex.noise_scale = 0.35
-    dp2 = sh.modifiers.new('d', 'DISPLACE')
-    dp2.texture = _ptex; dp2.strength = 0.008; dp2.mid_level = 0.5
 
 def mesa_real(cx, cy):
     b = primitive('cyl', MAT['CN Negro mate'], (cx, cy, 0.015),
                   (0.20, 0.20, 0.03)); bevelmod(b, 0.008, 2)
     primitive('cyl', MAT['CN Negro mate'], (cx, cy, 0.37), (0.026, 0.026, 0.68))
-    tp = primitive('cyl', MAT['CN Madera tablero'], (cx, cy, 0.735),
-                   (0.37, 0.37, 0.035), seg=48)
+    # tablero cuadrado de madera, como en las referencias
+    tp = primitive('cube', MAT['CN Madera tablero'], (cx, cy, 0.735),
+                   (0.70, 0.70, 0.035))
     bevelmod(tp, 0.012, 3)
 
 def taburete(cx, cy):
@@ -1115,7 +1111,7 @@ try:
     sky.sun_elevation = math.radians(38); sky.sun_rotation = math.radians(25)
     sky.sun_intensity = 0.35
     w.node_tree.links.new(sky.outputs['Color'], bgn.inputs['Color'])
-    bgn.inputs['Strength'].default_value = 1.10
+    bgn.inputs['Strength'].default_value = 0.95
 except Exception:
     bgn.inputs['Color'].default_value = (0.75, 0.83, 0.92, 1)
     bgn.inputs['Strength'].default_value = 0.6
@@ -1123,7 +1119,7 @@ except Exception:
 # luz de dia entrando por el escaparate y por el nuevo ventanal sur
 light('AREA', (7.97, 0.32, 1.6), 520, (0.88, 0.92, 1.0), 3.0,
       rot=(math.radians(-90), 0, 0))
-light('AREA', (3.25, 1.54, 1.55), 440, (0.88, 0.92, 1.0), 2.8,
+light('AREA', (3.25, 1.54, 1.55), 300, (0.88, 0.92, 1.0), 2.8,
       rot=(math.radians(-90), 0, 0))
 # relleno alto en la doble altura para el ambiente aireado de la referencia
 light('AREA', (7.9, 2.0, 5.2), 320, (1.0, 0.97, 0.92), 2.6,
