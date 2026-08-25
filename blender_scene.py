@@ -304,6 +304,8 @@ for s in S:
         continue                       # mobiliario parametrico de alta calidad
     if nm.startswith('Pizarra'):
         continue                       # sustituida por la carta de menu
+    if nm.startswith(('Maquina de cafe', 'Grupo de cafe', 'Molinillo')):
+        continue                       # cafetera y molinillo parametricos
     if s['mat'] == 'CN Vidrio' and nm.startswith(
             ('PB Mampara de vidrio', 'Escaparate - pano', 'Barandilla')):
         mat = M_VIDRIO_ARQ
@@ -395,9 +397,23 @@ for s in botellas:
     primitive('cyl', M_CORCHO, (cx, cy, z0 + cuerpo + h*0.28 + h*0.115),
               (0.012, 0.012, 0.012))
 
-# follaje de las plantas
-_dtex = bpy.data.textures.new('dnoise', 'CLOUDS')
-_dtex.noise_scale = 0.09
+# follaje de las plantas: racimos densos de esferitas en tres verdes
+M_HOJAS = [plain('hoja_oscura', srgb('3F5A32'), 0.85),
+           plain('hoja_media', srgb('557440'), 0.85),
+           plain('hoja_clara', srgb('6E8B52'), 0.85)]
+
+def copa_hojas(cx, cy, cz, rx, rz, n, rmin, rmax, seed):
+    rl = random.Random(seed)
+    for _ in range(n):
+        a = rl.uniform(0, 2*math.pi)
+        u = rl.uniform(0, 1) ** 0.6
+        dz = rl.uniform(-1, 1)
+        px = cx + math.cos(a) * u * rx
+        py = cy + math.sin(a) * u * rx
+        pz = cz + dz * rz
+        rs = rl.uniform(rmin, rmax)
+        primitive('sphere', M_HOJAS[rl.randrange(3)], (px, py, pz),
+                  (rs, rs, rs*0.9), seg=10)
 
 for s in plantas:
     xs = [p[0] for p in s['poly']]; ys = [p[1] for p in s['poly']]
@@ -406,18 +422,8 @@ for s in plantas:
     z0 = min(min(zs), min(zs) + s['n'][2]*s['d'])
     z1 = max(max(zs), max(zs) + s['n'][2]*s['d'])
     rr = (max(xs) - min(xs))/2
-    cz = (z0 + z1)/2
-    random.seed(int(cx*97 + cy*31))
-    for _ in range(16):
-        dx, dy = [random.uniform(-.7, .7) for _ in range(2)]
-        dz = random.uniform(-.8, .8)
-        rs = random.uniform(0.26, 0.44) * rr
-        fo = primitive('sphere', M_FOLLAJE,
-                  (cx + dx*rr*0.8, cy + dy*rr*0.8, cz + dz*(z1-z0)*0.45),
-                  (rs, rs, rs*0.9), seg=14)
-        sb = fo.modifiers.new('s', 'SUBSURF'); sb.levels = 2; sb.render_levels = 2
-        dp = fo.modifiers.new('d', 'DISPLACE')
-        dp.texture = _dtex; dp.strength = 0.5; dp.mid_level = 0.6
+    copa_hojas(cx, cy, (z0+z1)/2, rr*0.85, (z1-z0)*0.5, 60, rr*0.16, rr*0.30,
+               int(cx*97 + cy*31))
 
 M_PATA = pbr_tex('pata_madera', 'wood_diff', 'wood_rough', 'wood_nrm',
                   0.6, tint=(1.02, 0.98, 0.92), nrm_str=0.3)
@@ -485,6 +491,60 @@ def taburete(cx, cy):
                    (0.165, 0.165, 0.045), seg=32)
     bevelmod(st, 0.015, 3)
 
+def box3(name, x0, y0, x1, y1, z0, z1, mat):
+    verts = [(x0,y0,z0),(x1,y0,z0),(x1,y1,z0),(x0,y1,z0),
+             (x0,y0,z1),(x1,y0,z1),(x1,y1,z1),(x0,y1,z1)]
+    faces = [[0,1,2,3],[7,6,5,4],[0,4,5,1],[1,5,6,2],[2,6,7,3],[3,7,4,0]]
+    return add_mesh(name, verts, faces, mat, col_pb)
+
+M_CROMO = plain('cromo', srgb('D9DDE0'), 0.12, 1.0)
+
+def cafetera():
+    zb = 1.04
+    bx3 = box3('Cafetera - cuerpo', 6.32, 6.80, 7.02, 7.28, zb, zb + 0.36,
+               M_CROMO)
+    for m in bx3.modifiers:
+        if m.type == 'BEVEL': m.width = 0.02; m.segments = 3
+    box3('Cafetera - bandeja', 6.34, 6.72, 7.00, 6.90, zb, zb + 0.02,
+         MAT['CN Negro mate'])
+    box3('Cafetera - panel', 6.34, 6.79, 7.00, 6.81, zb + 0.10, zb + 0.34,
+         MAT['CN Negro mate'])
+    for i, gx in enumerate((6.52, 6.82)):
+        primitive('cyl', M_CROMO, (gx, 6.83, zb + 0.115), (0.045, 0.045, 0.07))
+        primitive('cyl', M_CROMO, (gx, 6.80, zb + 0.075), (0.05, 0.05, 0.018))
+        primitive('cyl', MAT['CN Negro mate'],
+                  (gx, 6.70, zb + 0.065), (0.013, 0.013, 0.13),
+                  (math.radians(80), 0, 0), seg=12)
+    primitive('cyl', M_CROMO, (7.06, 6.95, zb + 0.16), (0.008, 0.008, 0.22),
+              (math.radians(25), math.radians(10), 0), seg=10)
+    box3('Cafetera - calientatazas', 6.34, 6.82, 7.00, 7.26,
+         zb + 0.36, zb + 0.375, M_CROMO)
+    for k, (dx, dy) in enumerate(((0.12, 0.10), (0.28, 0.16), (0.45, 0.09),
+                                  (0.20, 0.30), (0.38, 0.28))):
+        primitive('cyl', M_CERAMICA, (6.36 + dx, 6.84 + dy, zb + 0.405),
+                  (0.033, 0.033, 0.05))
+    # molinillo
+    primitive('cyl', MAT['CN Negro mate'], (7.27, 6.98, zb + 0.15),
+              (0.055, 0.055, 0.30))
+    primitive('cone', glassm('tolva'), (7.27, 6.98, zb + 0.37),
+              (0.055, 0.055, 0.14), (math.pi, 0, 0))
+
+cafetera()
+
+# azucarero, salero y servilletero en cada mesa
+M_METAL = plain('tapa_metal', srgb('B9BDC0'), 0.3, 1.0)
+def set_mesa(mx, my, seed):
+    rl = random.Random(seed)
+    a = rl.uniform(0, 2*math.pi)
+    px, py = mx + 0.20*math.cos(a), my + 0.20*math.sin(a)
+    box3('Servilletero', px - 0.055, py - 0.02, px + 0.055, py + 0.02,
+         0.76, 0.845, M_CERAMICA)
+    for k in (-1, 1):
+        primitive('cyl', glassm('frasco'), (px + k*0.03, py - 0.06, 0.795),
+                  (0.014, 0.014, 0.06), seg=12)
+        primitive('cyl', M_METAL, (px + k*0.03, py - 0.06, 0.833),
+                  (0.0145, 0.0145, 0.014), seg=12)
+
 MESAS_R = [(2.00, 2.65), (2.00, 4.15), (2.00, 5.60),
            (4.15, 2.65), (4.15, 4.15), (4.15, 5.60)]
 for i, (mx, my) in enumerate(MESAS_R):
@@ -494,18 +554,13 @@ for i, (mx, my) in enumerate(MESAS_R):
     j = (i * 37) % 13 - 6
     silla_real(mx - 0.63, my, math.radians(j), t1)
     silla_real(mx + 0.63, my, math.pi + math.radians(-j), t2)
+    set_mesa(mx, my, i * 11 + 3)
 
 # taburetes frente al mostrador alto de la barra
 for tx in (6.55, 7.15, 7.75):
     taburete(tx, 6.12)
 
 # ---- carta de menu sobre la pared norte ------------------------------------
-def box3(name, x0, y0, x1, y1, z0, z1, mat):
-    verts = [(x0,y0,z0),(x1,y0,z0),(x1,y1,z0),(x0,y1,z0),
-             (x0,y0,z1),(x1,y0,z1),(x1,y1,z1),(x0,y1,z1)]
-    faces = [[0,1,2,3],[7,6,5,4],[0,4,5,1],[1,5,6,2],[2,6,7,3],[3,7,4,0]]
-    return add_mesh(name, verts, faces, mat, col_pb)
-
 def menu_board():
     x0, x1 = 7.62, 9.32
     y = 8.905
@@ -592,10 +647,54 @@ col_pa.objects.link(_to)
 texto('CAFE  NAPOLI', (7.97, 0.325, 3.16), 0.26,
       (math.radians(90), 0, 0), plain('crema2', srgb('F2EEE2'), .4))
 
-# suelo exterior (acera) para la vista de fachada
-add_mesh('acera', [(-3, -6, -0.001), (14, -6, -0.001),
-                   (14, 0.38, -0.001), (-3, 0.38, -0.001)],
-         [[0, 1, 2, 3]], wall('acera', srgb('9B9891'), 0.9), col_pb)
+# ---- contexto exterior: acera, calzada, edificio de enfrente ---------------
+M_ACERA = pbr_tex('acera_tx', 'wall_diff', 'wall_rough', 'wall_nrm', 2.0,
+                  tint=(0.62, 0.61, 0.59), nrm_str=0.5)
+M_ASFAL = plain('asfalto', srgb('4A4A48'), 0.9)
+add_mesh('acera', [(-4, -2.2, -0.001), (15, -2.2, -0.001),
+                   (15, 0.38, -0.001), (-4, 0.38, -0.001)],
+         [[0, 1, 2, 3]], M_ACERA, col_pb)
+add_mesh('calzada', [(-4, -8.5, -0.012), (15, -8.5, -0.012),
+                     (15, -2.2, -0.012), (-4, -2.2, -0.012)],
+         [[0, 1, 2, 3]], M_ASFAL, col_pb)
+M_FACHV = pbr_tex('fachada_vecina', 'facade', None, None, 7.0,
+                  base_rough=0.8)
+add_mesh('edificio_enfrente', [(-4, -8.6, 0), (15, -8.6, 0),
+                               (15, -8.6, 8.5), (-4, -8.6, 8.5)],
+         [[0, 1, 2, 3]], M_FACHV, col_pb)
+
+# arboles de calle con alcorque
+for tx in (5.35, 11.3):
+    box3('Alcorque', tx - 0.5, -1.95, tx + 0.5, -0.95, -0.003, 0.008,
+         plain('alcorque', srgb('5A5248'), 0.9))
+    primitive('cyl', pbr_tex('tronco_arbol', 'wood_diff_v', None, 'wood_nrm_v',
+                             0.5, tint=(0.55, 0.45, 0.36), base_rough=0.8),
+              (tx, -1.45, 1.30), (0.09, 0.09, 2.6), seg=14)
+    copa_hojas(tx, -1.45, 3.15, 0.95, 0.75, 90, 0.14, 0.26, int(tx*13))
+
+# toldo azul sobre el escaparate, como el de la referencia
+M_TOLDO = pbr_tex('toldo', None, 'fabric_rough', 'fabric_nrm', 0.8,
+                  color=srgb('3E6B99'), sheen=0.6, nrm_str=0.4)
+tx0, tx1 = 6.23, 9.71
+ty0, tproj = 0.33, 1.15
+tz1, tz0 = 2.98, 2.55
+vs = [(tx0, ty0, tz1), (tx1, ty0, tz1),
+      (tx1, ty0 - tproj, tz0), (tx0, ty0 - tproj, tz0),
+      (tx0, ty0, tz1 - 0.02), (tx1, ty0, tz1 - 0.02),
+      (tx1, ty0 - tproj, tz0 - 0.02), (tx0, ty0 - tproj, tz0 - 0.02)]
+fs = [[0, 1, 2, 3], [7, 6, 5, 4], [0, 4, 5, 1], [1, 5, 6, 2],
+      [2, 6, 7, 3], [3, 7, 4, 0]]
+add_mesh('Toldo', vs, fs, M_TOLDO, col_pb)
+box3('Toldo - faldon', tx0, ty0 - tproj - 0.02, tx1, ty0 - tproj,
+     tz0 - 0.18, tz0, M_TOLDO)
+
+# terraza: dos mesas con sillas en la acera
+for i, tx in enumerate((6.85, 9.05)):
+    mesa_real(tx, -1.05)
+    silla_real(tx, -0.42, math.radians(-90 + (7 if i else -5)), MAT['CN Tela'])
+    silla_real(tx, -1.68, math.radians(90 + (-6 if i else 8)),
+               MAT['CN Tela azul'])
+    set_mesa(tx, -1.05, 91 + i)
 
 # ---------------------------------------------------------------- luces
 def light(kind, loc, power, color=(1.0, 0.78, 0.55), size=0.05, rot=None):
@@ -678,6 +777,12 @@ views = {
  'R_mampara':   ((4.90, 4.30, 1.60), (1.00, 8.10, 1.10), 25, False, 3.5),
  'R_aerea':     ((11.5, -1.8, 9.5), (4.6, 5.2, 0.4), 30, True, 11.0),
  'R_fachada':   ((8.6, -4.6, 1.55), (7.6, 0.5, 2.3), 27, False, 8.0),
+ 'R_barra_frontal': ((5.75, 4.35, 1.45), (5.75, 7.43, 1.02), 28, False, 5.0),
+ 'R_rincon':        ((0.72, 2.15, 1.52), (6.60, 7.10, 1.05), 22, False, 5.0),
+ 'R_detalle':       ((2.95, 2.02, 1.12), (2.02, 2.70, 0.80), 50, False, 2.2),
+ 'R_estanteria':    ((5.90, 5.72, 1.30), (5.90, 8.95, 1.48), 24, False, 4.5),
+ 'R_escalera':      ((7.00, 2.85, 1.50), (9.45, 6.55, 1.75), 24, False, 5.0),
+ 'R_terraza':       ((3.40, -3.90, 1.60), (8.30, 0.20, 2.00), 28, False, 6.0),
 }
 which = sys.argv[sys.argv.index('--')+1:] if '--' in sys.argv else list(views)
 for k in which:

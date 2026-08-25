@@ -167,3 +167,20 @@ for i in range(3):
     img[m0:m0+ph, m0:m0+pw] = g[..., None]
     save(f'art_{i}', img)
 print('fotos b/n horneadas')
+
+# ---------------------------------------------------------------- FACHADA VECINA
+# Edificio de enfrente para el fondo de las vistas por el escaparate.
+fw, fh = 1024, 768
+fac = np.full((fh, fw, 3), (232, 228, 218), np.float32)
+r = np.random.default_rng(21)
+fac *= (0.96 + 0.06*fbm((fh, fw), 4, 6, seed=31))[..., None]
+for fila in range(4):
+    for colu in range(9):
+        x0 = 40 + colu*110; y0 = 80 + fila*170
+        w, h = 70, 110
+        tone = 52 + r.integers(0, 30)
+        fac[y0:y0+h, x0:x0+w] = tone
+        fac[y0:y0+h, x0:x0+6] = tone + 40      # brillo lateral del cristal
+        fac[y0+h:y0+h+8, x0-6:x0+w+6] = 190    # vierteaguas
+save('facade', fac)
+print('fachada vecina horneada')
