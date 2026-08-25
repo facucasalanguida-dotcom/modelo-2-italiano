@@ -263,3 +263,39 @@ dr.text((cw/2, 258), 'NAPOLI', font=f_c1, fill=oro, anchor='mm')
 dr.text((cw/2, 330), 'MALAGA', font=f_c2, fill=oro, anchor='mm')
 save('carta', np.asarray(pil, np.float32))
 print('carta horneada')
+
+# ---------------------------------------------------------------- PIEDRA
+# Losa de travertino beige con despiece 1,20 x 0,60 (tile = 1,2 m).
+N3 = 1024
+r = np.random.default_rng(63)
+base = np.full((N3, N3, 3), (209, 199, 181), np.float32)
+# vetas horizontales del travertino: fbm estirado en horizontal
+v = fbm((N3 // 6, N3), 5, 4, seed=64)
+v = np.asarray(Image.fromarray((v*255).astype(np.uint8))
+               .resize((N3, N3), Image.BICUBIC), np.float32) / 255.0
+base *= (0.93 + 0.12 * v)[..., None]
+# poros pequenos caracteristicos
+poro = fbm((N3, N3), 3, 96, seed=65)
+mask_p = (poro > 0.62).astype(np.float32)
+base *= (1 - 0.10 * mask_p)[..., None]
+# manchas suaves de tono
+base *= (0.96 + 0.07 * fbm((N3, N3), 3, 3, seed=66))[..., None]
+# juntas del despiece: 1 vertical + 2 horizontales por repeticion
+alto_h = np.zeros((N3, N3), np.float32)
+J = 5
+for yy0 in (0, N3 // 2):
+    base[yy0:yy0+J, :] *= 0.72
+    alto_h[yy0:yy0+J, :] = 1.0
+base[:, 0:J] *= 0.72
+alto_h[:, 0:J] = 1.0
+# medio corrido: desplaza la junta vertical en la fila inferior
+base[N3//2:, N3//2:N3//2+J] *= 0.72
+alto_h[N3//2:, N3//2:N3//2+J] = 1.0
+save('stone_diff', base)
+h = (1 - alto_h) * (0.5 + 0.25 * v + 0.10 * poro)
+hblur2 = np.asarray(Image.fromarray((h*255).astype(np.uint8))
+                    .filter(ImageFilter.GaussianBlur(1.2)), np.float32) / 255.0
+save('stone_nrm', normal_from_height(hblur2, 2.2))
+rough = 0.52 + 0.10 * v + 0.25 * alto_h + 0.10 * mask_p
+save('stone_rough', np.clip(rough, 0, 1)[..., None].repeat(3, 2) * 255)
+print('piedra horneada')

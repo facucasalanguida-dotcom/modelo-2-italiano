@@ -251,6 +251,7 @@ module CafeNapoliMalaga
     'CN Techo'         => [228, 226, 214, 255],
     'CN Suelo roble'   => [216, 186, 143, 255],   # roble claro
     'CN Hormigon'      => [198, 193, 184, 255],
+    'CN Piedra'        => [206, 196, 178, 255],   # losa de piedra tipo travertino
     # Maderas calidas: listones, barra y estanteria comparten tono
     'CN Madera liston' => [201, 158, 105, 255],
     'CN Madera tablero'=> [178, 128,  74, 255],
@@ -839,6 +840,17 @@ module CafeNapoliMalaga
     end
   end
 
+  # Aplacado de losa de piedra sobre las caras vistas de un soporte. El
+  # despiece de las losas lo dibuja la textura; aqui solo va la costra.
+  def self.aplacar(ents, x0, y0, x1, y1, z1, caras, mats, tag, name,
+                   t = 0.02, z0 = 0.0)
+    pie = mats['CN Piedra']
+    box(ents, x0 - t, y0 - t, x1 + t, y0, z0, z1, pie, tag, name) if caras.include?(:s)
+    box(ents, x0 - t, y1, x1 + t, y1 + t, z0, z1, pie, tag, name) if caras.include?(:n)
+    box(ents, x0 - t, y0, x0, y1, z0, z1, pie, tag, name) if caras.include?(:o)
+    box(ents, x1, y0, x1 + t, y1, z0, z1, pie, tag, name) if caras.include?(:e)
+  end
+
   def self.revestimientos(ents, mat, tag)
     t = tag['25 Revestimiento de madera']
     m = mat
@@ -851,17 +863,29 @@ module CafeNapoliMalaga
     revestir(ents, ax(456.9), ay(292.6), ax(490.9), ay(241.5), H_TOT,
              [:s, :n, :o, :e], m, t, 'Listones pilar central PA',
              0.026, H_PA + 0.02)
-    # Machon del muro oeste: caras vistas, de suelo a techo. Esta en la zona
-    # de doble altura, asi que el revestimiento sube los 5,50 m completos.
-    revestir(ents, ax(152.5), ay(289.7), ax(173.5), ay(255.8), H_TOT,
-             [:s, :n, :e], m, t, 'Listones machon Oeste')
-    # Pilastra del muro sur: caras norte, oeste y este en doble altura; la
-    # cara sur (vista al convertirse el muro en ventanal) sube hasta el
-    # cabecero, donde arranca el peto del ventanal.
-    revestir(ents, ax(212.0), ay(456.9), ax(246.1), ay(440.0), H_TOT,
-             [:n, :o, :e], m, t, 'Listones pilastra Sur')
-    revestir(ents, ax(212.0), ay(456.9), ax(246.1), ay(440.0), H_ESCAPARATE,
-             [:s], m, t, 'Listones pilastra Sur')
+    # Machon del muro oeste: aplacado de losa de piedra de suelo a techo.
+    # El grosor iguala el arranque de la viga (3,8 cm) para que el forro
+    # de madera muera contra la piedra sin rendija.
+    aplacar(ents, ax(152.5), ay(289.7), ax(173.5), ay(255.8), H_TOT,
+            [:s, :n, :e], m, t, 'Aplacado machon Oeste', 0.038)
+    # Pilastra del muro sur: losa de piedra por las cuatro caras; la sur
+    # sube hasta el cabecero, donde arranca el peto del ventanal.
+    aplacar(ents, ax(212.0), ay(456.9), ax(246.1), ay(440.0), H_TOT,
+            [:n, :o, :e], m, t, 'Aplacado pilastra Sur')
+    aplacar(ents, ax(212.0), ay(456.9), ax(246.1), ay(440.0), H_ESCAPARATE,
+            [:s], m, t, 'Aplacado pilastra Sur')
+    # Pilar de fachada y machon del cuello: losa de piedra en todas las
+    # caras vistas, como el pilar real de la foto de fachada.
+    aplacar(ents, ax(463.2), ay(559.5), ax(491.5), ay(505.1), H_TOT,
+            [:s, :o], m, t, 'Aplacado pilar fachada')
+    aplacar(ents, ax(463.2), ay(505.1), ax(477.3), ay(471.0), H_TOT,
+            [:o, :e], m, t, 'Aplacado machon cuello')
+    box(ents, ax(477.3), ay(505.1), ax(491.5) + 0.02, ay(505.1) + 0.02,
+        0.0, H_TOT, m['CN Piedra'], t, 'Aplacado pilar fachada - cara norte')
+    box(ents, ax(491.5), ay(538.0) + 0.04, ax(491.5) + 0.02, ay(505.1),
+        0.0, H_TOT, m['CN Piedra'], t, 'Aplacado pilar fachada - cara este')
+    box(ents, ax(491.5), ay(559.5), ax(491.5) + 0.02, ay(538.0) - 0.01,
+        0.0, H_TOT, m['CN Piedra'], t, 'Aplacado pilar fachada - cara este')
     # Machon de la medianera este: revestido sobre el peldañeado hasta el
     # forjado, y de nuevo en el tramo de planta alta hasta la cubierta.
     revestir(ents, ax(687.6), ay(292.6), ax(699.0), ay(258.5), h,

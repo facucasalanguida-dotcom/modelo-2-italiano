@@ -187,6 +187,7 @@ MAT = {
  'CN Techo':          pbr_tex('techo', 'wall_diff', 'wall_rough', 'wall_nrm', 3.0, tint=(1.08, 1.06, 1.02), nrm_str=0.3),
  'CN Suelo roble':    pbr_tex('suelo', 'floor_diff', 'floor_rough', 'floor_nrm', 2.4, tint=(0.98, 0.88, 0.74), coat=0.12, nrm_str=0.9),
  'CN Hormigon':       pbr_tex('hormigon', 'wall_diff', 'wall_rough', 'wall_nrm', 3.0, tint=(0.82, 0.80, 0.78), nrm_str=0.7),
+ 'CN Piedra':         pbr_tex('piedra', 'stone_diff', 'stone_rough', 'stone_nrm', 1.2, coat=0.06, nrm_str=0.8),
  'CN Madera liston':  pbr_tex('liston', 'wood_diff_v', 'wood_rough_v', 'wood_nrm_v', 1.3, nrm_str=0.6),
  'CN Madera tablero': pbr_tex('tablero', 'wood_diff', 'wood_rough', 'wood_nrm', 1.1, tint=(0.72, 0.60, 0.47), coat=0.1, nrm_str=0.55),
  'CN Madera clara':   pbr_tex('clara', 'wood_diff', 'wood_rough', 'wood_nrm', 1.5, tint=(1.06, 1.03, 0.98), nrm_str=0.5),
