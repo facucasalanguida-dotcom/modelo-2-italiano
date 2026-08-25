@@ -27,6 +27,11 @@ scene.render.resolution_x = 1664
 scene.render.resolution_y = 936
 scene.view_settings.view_transform = 'AgX'
 scene.view_settings.look = 'AgX - Punchy'
+try:
+    scene.view_settings.use_white_balance = True
+    scene.view_settings.white_balance_temperature = 5600
+except Exception:
+    pass
 
 # ---------------------------------------------------------------- materiales
 def _principled(m):
@@ -180,10 +185,10 @@ MAT = {
  'CN Medianera':      pbr_tex('medianera', 'wall_diff', 'wall_rough', 'wall_nrm', 3.0, tint=(0.93, 0.93, 0.92), nrm_str=0.5),
  'CN Tabique':        pbr_tex('tabique', 'wall_diff', 'wall_rough', 'wall_nrm', 3.0, tint=(1.07, 1.045, 1.00), nrm_str=0.4),
  'CN Techo':          pbr_tex('techo', 'wall_diff', 'wall_rough', 'wall_nrm', 3.0, tint=(1.08, 1.06, 1.02), nrm_str=0.3),
- 'CN Suelo roble':    pbr_tex('suelo', 'floor_diff', 'floor_rough', 'floor_nrm', 2.4, tint=(1.02, 0.96, 0.88), coat=0.12, nrm_str=0.9),
+ 'CN Suelo roble':    pbr_tex('suelo', 'floor_diff', 'floor_rough', 'floor_nrm', 2.4, tint=(0.98, 0.88, 0.74), coat=0.12, nrm_str=0.9),
  'CN Hormigon':       pbr_tex('hormigon', 'wall_diff', 'wall_rough', 'wall_nrm', 3.0, tint=(0.82, 0.80, 0.78), nrm_str=0.7),
  'CN Madera liston':  pbr_tex('liston', 'wood_diff_v', 'wood_rough_v', 'wood_nrm_v', 1.3, nrm_str=0.6),
- 'CN Madera tablero': pbr_tex('tablero', 'wood_diff', 'wood_rough', 'wood_nrm', 1.1, tint=(0.82, 0.72, 0.60), coat=0.1, nrm_str=0.55),
+ 'CN Madera tablero': pbr_tex('tablero', 'wood_diff', 'wood_rough', 'wood_nrm', 1.1, tint=(0.72, 0.60, 0.47), coat=0.1, nrm_str=0.55),
  'CN Madera clara':   pbr_tex('clara', 'wood_diff', 'wood_rough', 'wood_nrm', 1.5, tint=(1.06, 1.03, 0.98), nrm_str=0.5),
  'CN Acero inox':     plain('inox', srgb('E8EAEC'), 0.17, 1.0),
  'CN Vidrio':         glassm('vidrio'),
@@ -198,7 +203,7 @@ MAT = {
  'CN Terracota':      plain('terracota', srgb('A9714F'), 0.7),
  'CN Azul Napoli':    pbr_tex('napoli', None, 'wood_rough_v', 'wood_nrm_v', 1.3, color=srgb('3E6B99'), nrm_str=0.35, base_rough=0.45),
  'CN Blanco roto':    pbr_tex('blanco', 'wall_diff', 'wall_rough', 'wall_nrm', 3.0, tint=(1.10, 1.09, 1.07), nrm_str=0.3),
- 'CN Luz calida':     emitm('luzcalida', srgb('FFDCA6'), 2.8),
+ 'CN Luz calida':     emitm('luzcalida', srgb('FFDCA6'), 2.2),
  'CN Instalacion':    plain('instalacion', srgb('AAACAE'), 0.5, 0.6),
 }
 ARTE = [pbr_tex(f'arte{i}', f'art_{i}', None, None, 1.0, generated=True,
@@ -304,7 +309,7 @@ def centro(s):
     cx, cy, cz = sum(xs)/len(xs), sum(ys)/len(ys), sum(zs)/len(zs)
     return (cx + n[0]*d/2, cy + n[1]*d/2, cz + n[2]*d/2)
 
-M_LED = emitm('led', srgb('FFE3B0'), 14.0)
+M_LED = emitm('led', srgb('FFE3B0'), 9.0)
 
 # tiras LED bajo el frente de cada balda de vitrina
 def led_strip(x0, x1, y, z):
@@ -1068,7 +1073,7 @@ def light(kind, loc, power, color=(1.0, 0.78, 0.55), size=0.05, rot=None):
     return ob
 
 for cx, cy, cz, _rs in lamparas:
-    light('POINT', (cx, cy, cz - 0.05), 22)
+    light('POINT', (cx, cy, cz - 0.05), 24)
 for cx, cy, cz in empotrados:
     light('SPOT', (cx, cy, cz - 0.04), 9, rot=(0, 0, 0))
 for cx, cy, cz in apliques:
@@ -1080,7 +1085,8 @@ light('POINT', (1.75, 8.35, 2.35), 40, (1.0, 0.95, 0.88), 0.07)
 
 # sol y cielo
 sun = bpy.data.lights.new('sun', 'SUN')
-sun.energy = 3.8; sun.angle = math.radians(2)
+sun.energy = 4.6; sun.angle = math.radians(2)
+sun.color = (1.0, 0.88, 0.72)
 so = bpy.data.objects.new('sun', sun)
 so.rotation_euler = (math.radians(62), 0, math.radians(-155))
 col_pb.objects.link(so)
@@ -1091,20 +1097,20 @@ try:
     sky.sun_elevation = math.radians(38); sky.sun_rotation = math.radians(25)
     sky.sun_intensity = 0.35
     w.node_tree.links.new(sky.outputs['Color'], bgn.inputs['Color'])
-    bgn.inputs['Strength'].default_value = 0.95
+    bgn.inputs['Strength'].default_value = 0.45
 except Exception:
     bgn.inputs['Color'].default_value = (0.75, 0.83, 0.92, 1)
     bgn.inputs['Strength'].default_value = 0.6
 
 # luz de dia entrando por el escaparate y por el nuevo ventanal sur
-light('AREA', (7.97, 0.32, 1.6), 520, (0.88, 0.92, 1.0), 3.0,
+light('AREA', (7.97, 0.32, 1.6), 300, (0.94, 0.90, 0.84), 3.0,
       rot=(math.radians(-90), 0, 0))
-light('AREA', (3.25, 1.54, 1.55), 300, (0.88, 0.92, 1.0), 2.8,
+light('AREA', (3.25, 1.54, 1.55), 150, (0.92, 0.90, 0.86), 2.8,
       rot=(math.radians(-90), 0, 0))
 # relleno alto en la doble altura para el ambiente aireado de la referencia
-light('AREA', (7.9, 2.0, 5.2), 320, (1.0, 0.97, 0.92), 2.6,
+light('AREA', (7.9, 2.0, 5.2), 150, (1.0, 0.94, 0.86), 2.6,
       rot=(0, 0, 0))
-light('AREA', (5.0, 5.0, 2.60), 140, (1.0, 0.96, 0.90), 2.2, rot=(0, 0, 0))
+light('AREA', (5.0, 5.0, 2.60), 70, (1.0, 0.93, 0.84), 2.2, rot=(0, 0, 0))
 
 # ------------------------------------------------------- compositor de foto
 # bloom suave en las luces, viñeteo y una pizca de dispersion de lente
@@ -1156,7 +1162,7 @@ compositor_foto()
 # ---------------------------------------------------------------- camaras
 def render_view(fn, eye, target, lens=24, hide_pa=False, fstop=4.0):
     col_pa.hide_render = hide_pa
-    scene.view_settings.exposure = -0.25 if hide_pa else 0.30
+    scene.view_settings.exposure = -0.35 if hide_pa else -0.45
     cd = bpy.data.cameras.new('c'); cd.lens = lens; cd.sensor_width = 36
     cd.clip_start = 0.03
     cd.dof.use_dof = True
