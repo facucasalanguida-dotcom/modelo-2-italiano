@@ -459,42 +459,49 @@ def bevelmod(ob, w, seg):
     bv.limit_method = 'ANGLE'; bv.angle_limit = math.radians(45)
     return ob
 
-# Silla de casco curvo tapizado con patas de madera torneada
+# Silla tapizada redonda: pouf esférico y respaldo de rulo envolvente
 def silla_real(cx, cy, ang, tela):
     for sx, sy in ((-1, -1), (1, -1), (-1, 1), (1, 1)):
-        lx, ly = _rot2(sx*0.155, sy*0.155, ang)
-        primitive('cone', M_PATA, (cx + lx, cy + ly, 0.215),
-                  (0.017, 0.017, 0.43), (sx*0.06, -sy*0.06, 0), seg=12)
-    st = primitive('sphere', tela, (cx, cy, 0.455), (0.215, 0.215, 0.062))
+        lx, ly = _rot2(sx*0.15, sy*0.15, ang)
+        primitive('cone', M_PATA, (cx + lx, cy + ly, 0.20),
+                  (0.019, 0.019, 0.40), (sx*0.05, -sy*0.05, 0), seg=12)
+    # asiento pouf, bien mullido
+    st = primitive('sphere', tela, (cx, cy, 0.415), (0.215, 0.215, 0.085))
     soften(st, 0, 1)
-    # respaldo: casco curvado de 150 grados, malla de quads limpia
-    n = 20
-    r0, r1 = 0.205, 0.165
-    z0v, z1v = 0.48, 0.78
-    a0 = ang + math.pi - math.radians(75)
-    a1 = ang + math.pi + math.radians(75)
-    rx, ry = math.cos(ang + math.pi) * 0.05, math.sin(ang + math.pi) * 0.05
-    vs = []
+    # respaldo: tubo barrido en arco de 160 grados, seccion redondeada alta
+    n, m = 22, 12
+    R, rh, rv = 0.185, 0.052, 0.115
+    zc = 0.60
+    lean = 0.05                       # reclinado hacia atras
+    a0 = ang + math.pi - math.radians(80)
+    a1 = ang + math.pi + math.radians(80)
+    bx, byv = math.cos(ang + math.pi), math.sin(ang + math.pi)
+    vs, fs = [], []
     for i in range(n + 1):
         t = a0 + (a1 - a0) * i / n
         co, si2 = math.cos(t), math.sin(t)
-        vs += [(cx + r0*co, cy + r0*si2, z0v), (cx + r1*co, cy + r1*si2, z0v),
-               (cx + r0*co + rx, cy + r0*si2 + ry, z1v),
-               (cx + r1*co + rx, cy + r1*si2 + ry, z1v)]
-    fs = []
+        # cuanto mas alto el punto de la seccion, mas se recuesta el rulo
+        for j in range(m):
+            ph = 2*math.pi*j/m
+            up = math.sin(ph)
+            vs.append((cx + co*(R + rh*math.cos(ph)) + bx*lean*max(up, 0),
+                       cy + si2*(R + rh*math.cos(ph)) + byv*lean*max(up, 0),
+                       zc + rv*up))
     for i in range(n):
-        k = i*4
-        fs += [[k, k+4, k+6, k+2],       # cara exterior
-               [k+1, k+3, k+7, k+5],     # cara interior
-               [k+2, k+6, k+7, k+3],     # canto superior
-               [k+4, k, k+1, k+5]]       # canto inferior
-    fs += [[0, 2, 3, 1], [4*n, 4*n+1, 4*n+3, 4*n+2]]
+        for j in range(m):
+            k0 = i*m + j; k1 = i*m + (j+1) % m
+            fs.append([k0, k1, k1 + m, k0 + m])
+    # tapas de los extremos, en abanico
+    c0 = len(vs); vs.append((cx + math.cos(a0)*R, cy + math.sin(a0)*R, zc))
+    c1 = len(vs); vs.append((cx + math.cos(a1)*R, cy + math.sin(a1)*R, zc))
+    for j in range(m):
+        fs.append([c0, (j+1) % m, j])
+        base = n*m
+        fs.append([c1, base + j, base + (j+1) % m])
     sh = add_mesh('Silla - respaldo', vs, fs, tela, col_pb, smooth=False)
     for pg in sh.data.polygons: pg.use_smooth = True
-    try: sh.data.set_sharp_from_angle(angle=math.radians(40))
-    except Exception: pass
-    for m in sh.modifiers:
-        if m.type == 'BEVEL': m.width = 0.02; m.segments = 2
+    for mm in list(sh.modifiers):
+        if mm.type == 'BEVEL': sh.modifiers.remove(mm)
     sb2 = sh.modifiers.new('s', 'SUBSURF'); sb2.levels = 1
     sb2.render_levels = 1
 
