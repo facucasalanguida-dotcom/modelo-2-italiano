@@ -184,3 +184,82 @@ for fila in range(4):
         fac[y0+h:y0+h+8, x0-6:x0+w+6] = 190    # vierteaguas
 save('facade', fac)
 print('fachada vecina horneada')
+
+# ---------------------------------------------------------------- LATTE ART
+# Rosetta/corazon de leche sobre la crema del capuchino (se ve desde arriba).
+from PIL import ImageDraw, ImageFont
+N2 = 512
+yy, xx = np.mgrid[0:N2, 0:N2].astype(np.float32)
+u = (xx - N2/2) / (N2*0.36)
+v = (N2/2 - yy) / (N2*0.36)
+crema = np.zeros((N2, N2, 3), np.float32)
+crema[..., 0] = 178; crema[..., 1] = 128; crema[..., 2] = 82
+rr2 = u*u + v*v
+crema *= (1.0 - 0.18*np.clip(rr2, 0, 1))[..., None]
+# corazon: (x^2+y^2-1)^3 - x^2 y^3 < 0
+hu, hv = u/0.78, v/0.78 - 0.12
+heart = (hu*hu + hv*hv - 1)**3 - hu*hu*hv**3
+mask = np.clip(-heart*6, 0, 1)
+# tallo del rosetta
+tallo = np.exp(-(hu/0.05)**2) * np.clip(1 - np.abs(hv+0.55)/0.75, 0, 1) * 0.9
+mask = np.clip(mask + tallo, 0, 1)
+mask = np.asarray(Image.fromarray((mask*255).astype(np.uint8))
+                  .filter(ImageFilter.GaussianBlur(4)), np.float32)/255
+leche = np.array((244, 238, 226), np.float32)
+img = crema*(1-mask[..., None]) + leche*mask[..., None]
+img *= (0.97 + 0.05*fbm((N2, N2), 3, 8, seed=77))[..., None]
+save('latte', img)
+print('latte art horneado')
+
+# ---------------------------------------------------------------- DIARIO SUR
+pw, ph = 768, 560
+pap = np.full((ph, pw, 3), (238, 235, 228), np.float32)
+pap *= (0.97 + 0.05*fbm((ph, pw), 3, 6, seed=41))[..., None]
+pil = Image.fromarray(pap.astype(np.uint8))
+dr = ImageDraw.Draw(pil)
+f_mast = ImageFont.truetype('/usr/share/fonts/truetype/dejavu/DejaVuSerif-Bold.ttf', 84)
+f_head = ImageFont.truetype('/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf', 34)
+f_sub  = ImageFont.truetype('/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf', 16)
+dr.text((pw/2, 66), 'Diario SUR', font=f_mast, fill=(20, 20, 24), anchor='mm')
+dr.line((40, 122, pw-40, 122), fill=(30, 30, 34), width=4)
+dr.line((40, 130, pw-40, 130), fill=(30, 30, 34), width=2)
+dr.text((44, 128), 'MALAGA', font=f_sub, fill=(60, 60, 64), anchor='ls')
+dr.text((pw-44, 128), 'EDICION DE LA MANANA', font=f_sub, fill=(60, 60, 64), anchor='rs')
+dr.text((44, 175), 'Malaga estrena su paseo maritimo', font=f_head, fill=(25, 25, 28), anchor='lm')
+dr.text((44, 213), 'renovado frente al Mediterraneo', font=f_head, fill=(25, 25, 28), anchor='lm')
+# foto del articulo
+dr.rectangle((44, 250, 370, 452), fill=(120, 138, 150))
+dr.rectangle((44, 380, 370, 452), fill=(96, 110, 118))
+dr.rectangle((44, 250, 370, 300), fill=(168, 186, 196))
+# columnas de texto simulado
+rng2 = np.random.default_rng(5)
+for cx0 in (396, 586):
+    yy0 = 258
+    while yy0 < 530:
+        wln = int(rng2.integers(120, 172))
+        dr.line((cx0, yy0, cx0 + wln, yy0), fill=(94, 92, 90), width=3)
+        yy0 += 11
+for cx0 in (44,):
+    yy0 = 470
+    while yy0 < 530:
+        wln = int(rng2.integers(240, 322))
+        dr.line((cx0, yy0, cx0 + wln, yy0), fill=(94, 92, 90), width=3)
+        yy0 += 11
+save('diario', np.asarray(pil, np.float32))
+print('diario horneado')
+
+# ---------------------------------------------------------------- CARTA
+cw, chh = 384, 512
+cara = np.full((chh, cw, 3), (58, 44, 36), np.float32)
+cara *= (0.92 + 0.14*fbm((chh, cw), 4, 5, seed=51))[..., None]
+pil = Image.fromarray(cara.astype(np.uint8))
+dr = ImageDraw.Draw(pil)
+f_c1 = ImageFont.truetype('/usr/share/fonts/truetype/dejavu/DejaVuSerif-Bold.ttf', 44)
+f_c2 = ImageFont.truetype('/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf', 22)
+oro = (196, 158, 84)
+dr.rectangle((28, 28, cw-28, chh-28), outline=oro, width=3)
+dr.text((cw/2, 200), 'CAFE', font=f_c1, fill=oro, anchor='mm')
+dr.text((cw/2, 258), 'NAPOLI', font=f_c1, fill=oro, anchor='mm')
+dr.text((cw/2, 330), 'MALAGA', font=f_c2, fill=oro, anchor='mm')
+save('carta', np.asarray(pil, np.float32))
+print('carta horneada')

@@ -1,7 +1,10 @@
 # Construye la escena fotorrealista del Café Napoli en Blender (bpy headless)
 # a partir de solids.json (geometría exacta del generador de SketchUp).
-import bpy, bmesh, json, math, random
+import bpy, bmesh, json, math, random, os
 from mathutils import Vector
+
+# modo de bajo detalle para la exportacion del recorrido en tiempo real
+LOW = bool(os.environ.get('NAPOLI_LOW'))
 
 random.seed(7)
 S = json.load(open('solids.json'))
@@ -156,11 +159,27 @@ def srgb(hexs):
     v = [int(hexs[i:i+2], 16)/255 for i in (0, 2, 4)]
     return tuple(c/12.92 if c <= 0.04045 else ((c+0.055)/1.055)**2.4 for c in v)
 
+# tejido boucle: rizo fino por voronoi en el bump + sheen alto
+def boucle(name, hexcol):
+    m = new_mat(name); nt, b = _principled(m)
+    set_in(b, 'Base Color', (*srgb(hexcol), 1))
+    set_in(b, 'Roughness', 0.88)
+    set_in(b, 'Sheen Weight', 1.0)
+    set_in(b, 'Sheen Roughness', 0.45)
+    vor = nt.nodes.new('ShaderNodeTexVoronoi')
+    vor.inputs['Scale'].default_value = 430.0
+    bmp = nt.nodes.new('ShaderNodeBump')
+    bmp.inputs['Strength'].default_value = 0.55
+    bmp.inputs['Distance'].default_value = 0.0016
+    nt.links.new(vor.outputs['Distance'], bmp.inputs['Height'])
+    nt.links.new(bmp.outputs['Normal'], b.inputs['Normal'])
+    return m
+
 MAT = {
- 'CN Muro':           pbr_tex('muro', 'wall_diff', 'wall_rough', 'wall_nrm', 3.0, nrm_str=0.5),
+ 'CN Muro':           pbr_tex('muro', 'wall_diff', 'wall_rough', 'wall_nrm', 3.0, tint=(1.05, 1.02, 0.965), nrm_str=0.5),
  'CN Medianera':      pbr_tex('medianera', 'wall_diff', 'wall_rough', 'wall_nrm', 3.0, tint=(0.93, 0.93, 0.92), nrm_str=0.5),
- 'CN Tabique':        pbr_tex('tabique', 'wall_diff', 'wall_rough', 'wall_nrm', 3.0, tint=(1.03, 1.03, 1.02), nrm_str=0.4),
- 'CN Techo':          pbr_tex('techo', 'wall_diff', 'wall_rough', 'wall_nrm', 3.0, tint=(1.06, 1.06, 1.04), nrm_str=0.3),
+ 'CN Tabique':        pbr_tex('tabique', 'wall_diff', 'wall_rough', 'wall_nrm', 3.0, tint=(1.07, 1.045, 1.00), nrm_str=0.4),
+ 'CN Techo':          pbr_tex('techo', 'wall_diff', 'wall_rough', 'wall_nrm', 3.0, tint=(1.08, 1.06, 1.02), nrm_str=0.3),
  'CN Suelo roble':    pbr_tex('suelo', 'floor_diff', 'floor_rough', 'floor_nrm', 2.4, coat=0.12, nrm_str=0.9),
  'CN Hormigon':       pbr_tex('hormigon', 'wall_diff', 'wall_rough', 'wall_nrm', 3.0, tint=(0.82, 0.80, 0.78), nrm_str=0.7),
  'CN Madera liston':  pbr_tex('liston', 'wood_diff_v', 'wood_rough_v', 'wood_nrm_v', 1.3, nrm_str=0.6),
@@ -170,16 +189,16 @@ MAT = {
  'CN Vidrio':         glassm('vidrio'),
  'CN Carpinteria':    plain('carpinteria', srgb('2A2A28'), 0.4, 0.4),
  'CN Rotulo':         plain('rotulo', srgb('3E6B99'), 0.35),
- 'CN Tela':           pbr_tex('tela', None, 'fabric_rough', 'fabric_nrm', 1.0, color=srgb('E7DFD1'), sheen=1.0, nrm_str=0.5),
- 'CN Tela azul':      pbr_tex('tela_azul', None, 'fabric_rough', 'fabric_nrm', 1.0, color=srgb('6C8AA8'), sheen=1.0, nrm_str=0.5),
+ 'CN Tela':           boucle('boucle_crema', 'EDE5D4'),
+ 'CN Tela azul':      boucle('boucle_arena', 'DCCDB4'),
  'CN Negro mate':     plain('negro', srgb('262524'), 0.55),
  'CN Laton':          plain('laton', srgb('C69E54'), 0.25, 1.0),
- 'CN Opal':           emitm('opal', srgb('FFF4E0'), 1.7),
+ 'CN Opal':           emitm('opal', srgb('FFF4E0'), 2.3),
  'CN Planta':         plain('planta', srgb('6E8B5A'), 0.8),
- 'CN Terracota':      plain('terracota', srgb('BA8263'), 0.7),
+ 'CN Terracota':      plain('terracota', srgb('A9714F'), 0.7),
  'CN Azul Napoli':    pbr_tex('napoli', None, 'wood_rough_v', 'wood_nrm_v', 1.3, color=srgb('3E6B99'), nrm_str=0.35, base_rough=0.45),
  'CN Blanco roto':    pbr_tex('blanco', 'wall_diff', 'wall_rough', 'wall_nrm', 3.0, tint=(1.10, 1.09, 1.07), nrm_str=0.3),
- 'CN Luz calida':     emitm('luzcalida', srgb('FFD9A0'), 1.9),
+ 'CN Luz calida':     emitm('luzcalida', srgb('FFDCA6'), 2.8),
  'CN Instalacion':    plain('instalacion', srgb('AAACAE'), 0.5, 0.6),
 }
 ARTE = [pbr_tex(f'arte{i}', f'art_{i}', None, None, 1.0, generated=True,
@@ -215,6 +234,19 @@ M_FLOR_A   = plain('flor_amar', srgb('D9B84A'), 0.7)
 M_TALLO    = plain('tallo', srgb('5A7A42'), 0.8)
 M_FOLLAJE  = plain('follaje', srgb('4F6B3E'), 0.9)
 M_CAFE     = plain('cafe_liquido', srgb('3A2417'), 0.15)
+M_VCLARO   = glassm('vidrio_claro', srgb('E9EFEA'))
+M_CREMA    = plain('crema_past', srgb('EFD98F'), 0.35)
+M_FRUTA_R  = plain('fruta_roja', srgb('A32638'), 0.25)
+M_FRUTA_D  = plain('fruta_oscura', srgb('3A2440'), 0.3)
+M_BLONDA   = plain('blonda', srgb('F7F4EC'), 0.8)
+M_TAG      = plain('etiqueta', srgb('1E1E20'), 0.5)
+M_ROSA     = plain('glaseado_rosa', srgb('D65A8C'), 0.3)
+M_OLIVA    = plain('oliva', srgb('5A6B2E'), 0.35)
+M_ALU      = plain('aluminio', srgb('C8CACC'), 0.35, 1.0)
+M_PANTALLA = plain('pantalla_neg', srgb('0B0B0C'), 0.2)
+M_CRISTAL  = glassm('cristal_fino')
+M_AGUA     = glassm('agua', srgb('D7E4E8'))
+M_SUCU     = plain('suculenta', srgb('7E9B6A'), 0.6)
 
 # ---------------------------------------------------------------- geometría
 col_pb = bpy.data.collections.new('PB'); scene.collection.children.link(col_pb)
@@ -286,7 +318,10 @@ for s in S:
     nm = s['name'] or 'solido'
     mat = MAT.get(s['mat'])
     if nm == 'Foco':
-        lamparas.append(centro(s))
+        xs_f = [p[0] for p in s['poly']]
+        cxf, cyf, czf = centro(s)
+        # el foco interior mide la mitad que la pantalla del colgante
+        lamparas.append((cxf, cyf, czf, max(xs_f) - min(xs_f)))
     if nm == 'Empotrado de techo':
         empotrados.append(centro(s))
     if nm == 'Aplique de pared':
@@ -322,6 +357,8 @@ for s in S:
 
 # ---------------------------------------------------------------- props
 def primitive(kind, mat, loc, scale, rot=(0,0,0), col=col_pb, seg=24):
+    if LOW:
+        seg = min(seg, 12)
     if kind == 'sphere':
         bpy.ops.mesh.primitive_uv_sphere_add(segments=seg, ring_count=seg//2,
                                              radius=1, location=loc)
@@ -335,6 +372,8 @@ def primitive(kind, mat, loc, scale, rot=(0,0,0), col=col_pb, seg=24):
         bpy.ops.mesh.primitive_torus_add(location=loc,
                                          major_radius=1, minor_radius=0.18,
                                          major_segments=seg, minor_segments=10)
+    elif kind == 'cube':
+        bpy.ops.mesh.primitive_cube_add(size=1, location=loc)
     ob = bpy.context.active_object
     ob.scale = scale
     ob.rotation_euler = rot
@@ -346,9 +385,15 @@ def primitive(kind, mat, loc, scale, rot=(0,0,0), col=col_pb, seg=24):
     col.objects.link(ob)
     return ob
 
+def _rot2(px, py, ang):
+    c, si = math.cos(ang), math.sin(ang)
+    return px*c - py*si, px*si + py*c
+
 _ptex = None
 def soften(ob, bev=0.004, sub=1, disp=0.0):
     global _ptex
+    if LOW:
+        sub = 0; bev = 0
     if bev:
         bv = ob.modifiers.new('bv', 'BEVEL'); bv.width = bev; bv.segments = 2
         bv.limit_method = 'ANGLE'; bv.angle_limit = math.radians(45)
@@ -389,27 +434,58 @@ def donut(cx, cy, z0, choc):
     for c in ob.users_collection: c.objects.unlink(ob)
     col_pb.objects.link(ob)
 
+def napolitana(cx, cy, z0, ang):
+    ob = primitive('cube', M_CROISSANT, (cx, cy, z0 + 0.012),
+                   (0.088, 0.052, 0.024), (0, 0, ang))
+    soften(ob, 0.010, 1, 0.05)
+    for k in (-1, 1):
+        dx, dy = _rot2(k*0.022, 0, ang)
+        soften(primitive('cube', M_BOLLO, (cx + dx, cy + dy, z0 + 0.025),
+                         (0.010, 0.048, 0.006), (0, 0, ang)), 0.004, 1)
+
+def tartaleta(cx, cy, z0):
+    soften(primitive('cyl', M_CROISSANT, (cx, cy, z0 + 0.010),
+                     (0.036, 0.036, 0.020), seg=20), 0.006, 1, 0.04)
+    primitive('cyl', M_CREMA, (cx, cy, z0 + 0.022), (0.030, 0.030, 0.008),
+              seg=20)
+    for k, mm in enumerate((M_FRUTA_R, M_FRUTA_D, M_FRUTA_R)):
+        a = k*2.1 + cx*7
+        primitive('sphere', mm, (cx + 0.013*math.cos(a), cy + 0.013*math.sin(a),
+                                 z0 + 0.030), (0.008, 0.008, 0.007), seg=12)
+
 for i, s in enumerate(productos):
     cx, cy, cz = centro(s)
     zs = [p[2] for p in s['poly']]
     z0 = min(min(zs), min(zs) + s['n'][2]*s['d'])
-    k = i % 4
-    if k == 0 or k == 1:
-        croissant(cx, cy, z0, math.radians(random.uniform(0, 360)),
+    # blonda de papel bajo cada pieza y etiqueta de precio delante
+    primitive('cyl', M_BLONDA, (cx, cy, z0 + 0.0012), (0.050, 0.050, 0.0018),
+              seg=28)
+    primitive('cube', M_TAG, (cx, cy - 0.055, z0 + 0.013),
+              (0.044, 0.0022, 0.026), (math.radians(-16), 0, 0))
+    k = i % 6
+    if k == 0 or k == 3:
+        croissant(cx, cy, z0 + 0.002, math.radians(random.uniform(0, 360)),
                   random.uniform(0.9, 1.1))
+    elif k == 1:
+        napolitana(cx, cy, z0 + 0.002, math.radians(random.uniform(-25, 25)))
     elif k == 2:
-        donut(cx, cy, z0, i % 8 < 4)
+        tartaleta(cx, cy, z0 + 0.002)
+    elif k == 4:
+        soften(primitive('sphere', M_BOLLO, (cx, cy, z0 + 0.026),
+                         (0.042, 0.042, 0.026)), 0, 1, 0.05)
     else:
-        primitive('sphere', M_BOLLO, (cx, cy, z0 + 0.024),
-                  (0.045, 0.045, 0.026))
+        donut(cx, cy, z0 + 0.002, i % 12 < 6)
 
 # botellas de vidrio en la estanteria
-for s in botellas:
+for bi, s in enumerate(botellas):
     xs = [p[0] for p in s['poly']]; ys = [p[1] for p in s['poly']]
     cx, cy = sum(xs)/len(xs), sum(ys)/len(ys)
     z0 = s['poly'][0][2]
     h = abs(s['d'])
-    mat = M_VAMBAR if s['mat'] == 'CN Terracota' else M_VVERDE
+    if s['mat'] == 'CN Terracota':
+        mat = M_VAMBAR
+    else:
+        mat = M_VCLARO if bi % 3 == 0 else M_VVERDE
     cuerpo = h * 0.62
     soften(primitive('cyl', mat, (cx, cy, z0 + cuerpo/2),
                      (0.034, 0.034, cuerpo)), 0.006, 1)
@@ -426,6 +502,8 @@ M_HOJAS = [plain('hoja_oscura', srgb('3F5A32'), 0.85),
            plain('hoja_clara', srgb('6E8B52'), 0.85)]
 
 def copa_hojas(cx, cy, cz, rx, rz, n, rmin, rmax, seed):
+    if LOW:
+        n = n // 2
     rl = random.Random(seed)
     for _ in range(n):
         a = rl.uniform(0, 2*math.pi)
@@ -451,10 +529,6 @@ for s in plantas:
 M_PATA = pbr_tex('pata_madera', 'wood_diff', 'wood_rough', 'wood_nrm',
                   0.6, tint=(1.02, 0.98, 0.92), nrm_str=0.3)
 
-def _rot2(px, py, ang):
-    c, si = math.cos(ang), math.sin(ang)
-    return px*c - py*si, px*si + py*c
-
 def bevelmod(ob, w, seg):
     bv = ob.modifiers.new('bv', 'BEVEL')
     bv.width = w; bv.segments = seg
@@ -467,9 +541,9 @@ def silla_real(cx, cy, ang, tela):
         lx, ly = _rot2(sx*0.15, sy*0.15, ang)
         primitive('cone', M_PATA, (cx + lx, cy + ly, 0.20),
                   (0.019, 0.019, 0.40), (sx*0.05, -sy*0.05, 0), seg=12)
-    # asiento pouf, bien mullido
+    # asiento pouf, bien mullido, con bultitos de borrego
     st = primitive('sphere', tela, (cx, cy, 0.415), (0.215, 0.215, 0.085))
-    soften(st, 0, 1)
+    soften(st, 0, 2, 0.010)
     # respaldo: tubo barrido en arco de 160 grados, seccion redondeada alta
     n, m = 22, 12
     R, rh, rv = 0.185, 0.052, 0.115
@@ -504,8 +578,14 @@ def silla_real(cx, cy, ang, tela):
     for pg in sh.data.polygons: pg.use_smooth = True
     for mm in list(sh.modifiers):
         if mm.type == 'BEVEL': sh.modifiers.remove(mm)
-    sb2 = sh.modifiers.new('s', 'SUBSURF'); sb2.levels = 1
-    sb2.render_levels = 1
+    sb2 = sh.modifiers.new('s', 'SUBSURF')
+    sb2.levels = sb2.render_levels = 0 if LOW else 2
+    global _ptex
+    if _ptex is None:
+        _ptex = bpy.data.textures.new('pnoise', 'CLOUDS')
+        _ptex.noise_scale = 0.35
+    dp2 = sh.modifiers.new('d', 'DISPLACE')
+    dp2.texture = _ptex; dp2.strength = 0.008; dp2.mid_level = 0.5
 
 def mesa_real(cx, cy):
     b = primitive('cyl', MAT['CN Negro mate'], (cx, cy, 0.015),
@@ -516,14 +596,20 @@ def mesa_real(cx, cy):
     bevelmod(tp, 0.012, 3)
 
 def taburete(cx, cy):
+    # taburete rustico de madera torneada, como el de la referencia
     for sx, sy in ((-1, -1), (1, -1), (-1, 1), (1, 1)):
-        primitive('cone', M_PATA, (cx + sx*0.12, cy + sy*0.12, 0.31),
-                  (0.017, 0.017, 0.62), (sx*0.09, -sy*0.09, 0), seg=12)
-    tor = primitive('torus', MAT['CN Negro mate'], (cx, cy, 0.24),
-                    (0.135, 0.135, 0.135), seg=24)
+        primitive('cone', M_PATA, (cx + sx*0.125, cy + sy*0.125, 0.31),
+                  (0.026, 0.026, 0.62), (sx*0.11, -sy*0.11, 0), seg=14)
+    tor = primitive('torus', M_PATA, (cx, cy, 0.22),
+                    (0.14, 0.14, 0.14), seg=24)
+    tor.scale.z = 0.09
     st = primitive('cyl', MAT['CN Madera tablero'], (cx, cy, 0.645),
-                   (0.165, 0.165, 0.045), seg=32)
-    bevelmod(st, 0.015, 3)
+                   (0.17, 0.17, 0.055), seg=32)
+    bevelmod(st, 0.022, 3)
+    # ligero abombado del asiento
+    dm = primitive('sphere', MAT['CN Madera tablero'], (cx, cy, 0.665),
+                   (0.155, 0.155, 0.022), seg=24)
+    soften(dm, 0, 1)
 
 def box3(name, x0, y0, x1, y1, z0, z1, mat):
     verts = [(x0,y0,z0),(x1,y0,z0),(x1,y1,z0),(x0,y1,z0),
@@ -565,6 +651,89 @@ def cafetera():
 
 cafetera()
 
+# ---- aros de laton de los colgantes (pantalla blanca + doble aro dorado) ----
+M_LATON = MAT['CN Laton']
+for cxl, cyl_, czl, rs in lamparas:
+    zl = czl + 0.02                    # base de la pantalla
+    primitive('cyl', M_LATON, (cxl, cyl_, zl + 0.177), (rs*1.03, rs*1.03, 0.014))
+    primitive('cyl', M_LATON, (cxl, cyl_, zl + 0.21), (rs*0.42, rs*0.42, 0.05))
+    primitive('torus', M_LATON, (cxl, cyl_, zl + 0.012),
+              (rs*1.01, rs*1.01, 0.040), seg=32)
+    primitive('torus', M_LATON, (cxl, cyl_, zl - 0.004),
+              (rs*0.54, rs*0.54, 0.034), seg=24)
+
+# ---- cocina equipada: ollas al fuego, utensilios colgados, carro bandejero --
+M_INOX = MAT['CN Acero inox']
+def olla(cx, cy, z, r, h):
+    soften(primitive('cyl', M_INOX, (cx, cy, z + h/2), (r, r, h)), 0.006, 1)
+    primitive('cyl', M_INOX, (cx, cy, z + h + 0.006), (r*1.04, r*1.04, 0.010))
+    primitive('sphere', MAT['CN Negro mate'], (cx, cy, z + h + 0.020),
+              (0.012, 0.012, 0.010), seg=12)
+
+olla(0.615, 8.625, 0.955, 0.095, 0.13)
+olla(1.415, 8.625, 0.955, 0.115, 0.10)
+# sarten en el fuego 2
+primitive('cyl', M_INOX, (1.015, 8.625, 0.972), (0.105, 0.105, 0.034))
+primitive('cyl', MAT['CN Negro mate'], (1.015, 8.45, 0.985),
+          (0.009, 0.009, 0.20), (math.radians(88), 0, 0), seg=10)
+
+# barra de utensilios sobre la mesa de trabajo (muro oeste de la cocina)
+primitive('cyl', M_CROMO, (0.36, 7.60, 1.88), (0.008, 0.008, 1.00),
+          (math.radians(90), 0, 0), seg=12)
+for ui, uy in enumerate((7.22, 7.38, 7.54, 7.70, 7.86, 8.02)):
+    primitive('cyl', M_CROMO, (0.36, uy, 1.80), (0.005, 0.005, 0.16), seg=8)
+    if ui % 3 == 0:      # cazo
+        primitive('sphere', M_INOX, (0.36, uy, 1.705), (0.030, 0.030, 0.024),
+                  seg=14)
+    elif ui % 3 == 1:    # espumadera
+        primitive('cyl', M_INOX, (0.36, uy, 1.705), (0.030, 0.030, 0.005),
+                  seg=14)
+    else:                # espatula
+        primitive('cube', M_INOX, (0.36, uy, 1.695), (0.008, 0.048, 0.075))
+
+# carro bandejero con panes tras la barra
+CBX, CBY = 2.95, 8.52
+for sx, sy in ((-1, -1), (1, -1), (-1, 1), (1, 1)):
+    primitive('cube', M_CROMO, (CBX + sx*0.24, CBY + sy*0.29, 0.80),
+              (0.022, 0.022, 1.56))
+for li in range(7):
+    zt = 0.22 + li*0.21
+    primitive('cube', M_INOX, (CBX, CBY, zt), (0.50, 0.60, 0.012))
+    if li in (1, 3, 5):
+        for bx_ in (-0.15, 0.0, 0.15):
+            for by_ in (-0.18, 0.02, 0.22):
+                soften(primitive('sphere', M_CROISSANT,
+                                 (CBX + bx_, CBY + by_, zt + 0.032),
+                                 (0.052, 0.040, 0.030), seg=14), 0, 1, 0.05)
+primitive('sphere', M_CROMO, (CBX - 0.24, CBY - 0.29, 0.045),
+          (0.032, 0.032, 0.032), seg=12)
+primitive('sphere', M_CROMO, (CBX + 0.24, CBY + 0.29, 0.045),
+          (0.032, 0.032, 0.032), seg=12)
+
+# caja registradora en el extremo este de la barra
+primitive('cube', MAT['CN Negro mate'], (7.62, 7.08, 1.055), (0.17, 0.14, 0.03))
+primitive('cube', M_PANTALLA, (7.62, 7.11, 1.13), (0.165, 0.014, 0.115),
+          (math.radians(-14), 0, 0))
+
+# soportes de tarta junto a las vitrinas, sobre la barra
+def soporte_tarta(cx, cy, z):
+    primitive('cyl', M_CERAMICA, (cx, cy, z + 0.042), (0.019, 0.019, 0.085))
+    pl = primitive('cyl', M_CERAMICA, (cx, cy, z + 0.090), (0.105, 0.105, 0.009),
+                   seg=36)
+    bevelmod(pl, 0.004, 2)
+    soften(primitive('cyl', M_CROISSANT, (cx, cy, z + 0.108),
+                     (0.082, 0.082, 0.028), seg=28), 0.008, 1, 0.04)
+    primitive('cyl', M_CREMA, (cx, cy, z + 0.126), (0.074, 0.074, 0.008),
+              seg=28)
+    for k in range(8):
+        a = k*math.pi/4
+        primitive('sphere', (M_FRUTA_R, M_FRUTA_D)[k % 2],
+                  (cx + 0.052*math.cos(a), cy + 0.052*math.sin(a), z + 0.135),
+                  (0.009, 0.009, 0.008), seg=12)
+
+soporte_tarta(3.85, 6.75, 1.04)
+soporte_tarta(4.05, 7.14, 1.04)
+
 # azucarero, salero y servilletero en cada mesa
 M_METAL = plain('tapa_metal', srgb('B9BDC0'), 0.3, 1.0)
 def set_mesa(mx, my, seed):
@@ -580,15 +749,22 @@ def set_mesa(mx, my, seed):
                   (0.0145, 0.0145, 0.014), seg=12)
 
 MESAS_R = [(2.00, 2.65), (2.00, 4.15), (2.00, 5.60),
-           (4.15, 2.65), (4.15, 4.15), (4.15, 5.60)]
+           (4.15, 2.65), (4.15, 4.15), (4.15, 5.60),
+           (6.35, 1.75), (9.00, 2.75)]
 for i, (mx, my) in enumerate(MESAS_R):
     mesa_real(mx, my)
     t1 = MAT['CN Tela azul'] if i % 2 == 0 else MAT['CN Tela']
     t2 = MAT['CN Tela'] if i % 2 == 0 else MAT['CN Tela azul']
     j = (i * 37) % 13 - 6
-    silla_real(mx - 0.63, my, math.radians(j), t1)
-    silla_real(mx + 0.63, my, math.pi + math.radians(-j), t2)
-    set_mesa(mx, my, i * 11 + 3)
+    if i == 7:
+        # mesa junto al muro este: sillas al norte y al sur
+        silla_real(mx, my - 0.63, math.radians(90 + j), t1)
+        silla_real(mx, my + 0.63, math.radians(-90 - j), t2)
+    else:
+        silla_real(mx - 0.63, my, math.radians(j), t1)
+        silla_real(mx + 0.63, my, math.pi + math.radians(-j), t2)
+    if i == 4:
+        set_mesa(mx, my, i * 11 + 3)
 
 # taburetes frente al mostrador alto de la barra
 for tx in (6.55, 7.15, 7.75):
@@ -596,13 +772,15 @@ for tx in (6.55, 7.15, 7.75):
 
 # ---- carta de menu sobre la pared norte ------------------------------------
 def menu_board():
-    x0, x1 = 7.62, 9.32
     y = 8.905
     z0, z1 = 1.42, 2.28
-    box3('Carta - marco', x0 - 0.02, y - 0.052, x1 + 0.02, y - 0.04,
-         z0 - 0.02, z1 + 0.02, MAT['CN Negro mate'])
-    box3('Carta - panel', x0, y - 0.055, x1, y - 0.045, z0, z1,
-         plain('carta_blanca', srgb('F4F1E9'), 0.7))
+    m_marco = plain('carta_marco', srgb('CFCBC2'), 0.55)
+    m_blanca = plain('carta_blanca', srgb('F4F1E9'), 0.7)
+    # dos tableros blancos independientes, como en la referencia
+    for a, bx_ in ((7.62, 8.40), (8.50, 9.28)):
+        box3('Carta - marco', a - 0.018, y - 0.052, bx_ + 0.018, y - 0.04,
+             z0 - 0.018, z1 + 0.018, m_marco)
+        box3('Carta - panel', a, y - 0.055, bx_, y - 0.045, z0, z1, m_blanca)
     m_txt = plain('carta_texto', srgb('3A3A38'), 0.6)
     def linea(txt, tx, tz, h):
         cu = bpy.data.curves.new('t', 'FONT'); cu.body = txt
@@ -646,15 +824,179 @@ def jarron(x, y, z):
         primitive('sphere', (M_FLOR_B, M_FLOR_A)[k % 2],
                   (fx, fy, z + 0.05 + h + 0.008), (0.011, 0.011, 0.009), seg=12)
 
-MESAS = [(2.00, 2.65), (2.00, 4.15), (2.00, 5.60),
-         (4.15, 2.65), (4.15, 4.15), (4.15, 5.60)]
-ZT = 0.76
-for i, (mx, my) in enumerate(MESAS):
-    jarron(mx - 0.10, my + 0.11, ZT)
-    if i % 3 != 1:
-        taza(mx + 0.14, my - 0.10, ZT)
-    if i % 3 == 0:
-        taza(mx - 0.16, my - 0.13, ZT)
+# ---- props de mesa: cada mesa cuenta una escena distinta --------------------
+M_LATTE  = pbr_tex('latte_m', 'latte', None, None, generated=True,
+                   base_rough=0.35)
+M_DIARIO = pbr_tex('diario_m', 'diario', None, None, generated=True,
+                   base_rough=0.65)
+M_CARTA  = pbr_tex('carta_m', 'carta', None, None, generated=True,
+                   base_rough=0.5, coat=0.15)
+M_PAPEL  = plain('papel', srgb('E4E1D9'), 0.7)
+
+def latte(x, y, z):
+    soften(primitive('cyl', M_CERAMICA, (x, y, z + 0.004),
+                     (0.055, 0.055, 0.008)), 0.003, 1)
+    soften(primitive('cyl', M_CERAMICA, (x, y, z + 0.036),
+                     (0.037, 0.037, 0.056)), 0.004, 1)
+    primitive('cyl', M_LATTE, (x, y, z + 0.060), (0.0315, 0.0315, 0.004))
+    primitive('torus', M_CERAMICA, (x + 0.040, y, z + 0.038),
+              (0.016, 0.016, 0.016), (math.radians(90), 0, 0), seg=16)
+    primitive('cube', M_METAL, (x - 0.012, y - 0.046, z + 0.008),
+              (0.012, 0.050, 0.003), (0, 0, math.radians(28)))
+
+def periodico(x, y, z, ang):
+    primitive('cube', M_PAPEL, (x + 0.012, y - 0.010, z + 0.0018),
+              (0.25, 0.18, 0.0035), (0, 0, ang + math.radians(6)))
+    primitive('cube', M_DIARIO, (x, y, z + 0.006), (0.245, 0.175, 0.006),
+              (0, 0, ang))
+
+def carta_menu(x, y, z, ang):
+    primitive('cube', M_CARTA, (x, y, z + 0.005), (0.115, 0.185, 0.009),
+              (0, 0, ang))
+
+def portatil(x, y, z, ang):
+    primitive('cube', M_ALU, (x, y, z + 0.006), (0.30, 0.215, 0.011),
+              (0, 0, ang))
+    kx, ky = _rot2(0, -0.012, ang)
+    primitive('cube', M_PANTALLA, (x + kx, y + ky, z + 0.0125),
+              (0.26, 0.16, 0.002), (0, 0, ang))
+    sx, sy = _rot2(0, 0.138, ang)
+    primitive('cube', M_ALU, (x + sx, y + sy, z + 0.105),
+              (0.30, 0.010, 0.205), (math.radians(-20), 0, ang))
+    fx, fy = _rot2(0, 0.130, ang)
+    primitive('cube', M_PANTALLA, (x + fx, y + fy, z + 0.105),
+              (0.28, 0.010, 0.185), (math.radians(-20), 0, ang))
+
+def tetera(x, y, z):
+    soften(primitive('sphere', M_CERAMICA, (x, y, z + 0.072),
+                     (0.072, 0.072, 0.060)), 0, 1)
+    primitive('cyl', M_CERAMICA, (x, y, z + 0.008), (0.045, 0.045, 0.016))
+    primitive('cyl', M_CERAMICA, (x, y, z + 0.132), (0.024, 0.024, 0.012))
+    primitive('sphere', M_CERAMICA, (x, y, z + 0.145), (0.012, 0.012, 0.010),
+              seg=12)
+    primitive('cone', M_CERAMICA, (x + 0.082, y, z + 0.095),
+              (0.016, 0.016, 0.075), (0, math.radians(52), 0), seg=14)
+    primitive('torus', M_CERAMICA, (x - 0.085, y, z + 0.075),
+              (0.038, 0.038, 0.038), (math.radians(90), 0, 0), seg=20)
+
+def libro(x, y, z, ang, colhex):
+    primitive('cube', plain('tapa_' + colhex, srgb(colhex), 0.5),
+              (x, y, z + 0.013), (0.165, 0.235, 0.026), (0, 0, ang))
+    dx, dy = _rot2(0.006, 0, ang)
+    primitive('cube', M_PAPEL, (x + dx, y + dy, z + 0.013),
+              (0.158, 0.226, 0.019), (0, 0, ang))
+
+def aceitunas(x, y, z):
+    bw = primitive('cyl', M_CERAMICA, (x, y, z + 0.016), (0.048, 0.048, 0.032))
+    bevelmod(bw, 0.008, 2)
+    primitive('cyl', plain('salmuera', srgb('6E7A3A'), 0.25),
+              (x, y, z + 0.030), (0.042, 0.042, 0.004))
+    rl = random.Random(int(x*31 + y*7))
+    for _ in range(6):
+        a = rl.uniform(0, 6.28); rr_ = rl.uniform(0, 0.026)
+        primitive('sphere', M_OLIVA,
+                  (x + rr_*math.cos(a), y + rr_*math.sin(a), z + 0.037),
+                  (0.0085, 0.0085, 0.0075), seg=10)
+
+def succulenta(x, y, z):
+    primitive('cone', MAT['CN Terracota'], (x, y, z + 0.028),
+              (0.034, 0.034, 0.056), (math.pi, 0, 0), seg=18)
+    primitive('cyl', plain('tierra', srgb('4A3A2C'), 0.9),
+              (x, y, z + 0.052), (0.028, 0.028, 0.006))
+    for k in range(9):
+        a = k*2*math.pi/9
+        primitive('sphere', M_SUCU,
+                  (x + 0.017*math.cos(a), y + 0.017*math.sin(a), z + 0.066),
+                  (0.017, 0.008, 0.020), (0, math.radians(38), a), seg=10)
+    primitive('sphere', M_SUCU, (x, y, z + 0.075), (0.012, 0.012, 0.014),
+              seg=10)
+
+def movil(x, y, z, ang):
+    ob = primitive('cube', M_PANTALLA, (x, y, z + 0.005),
+                   (0.074, 0.152, 0.009), (0, 0, ang))
+    bevelmod(ob, 0.004, 2)
+
+def copa_vino(x, y, z):
+    primitive('cyl', M_CRISTAL, (x, y, z + 0.003), (0.032, 0.032, 0.005))
+    primitive('cyl', M_CRISTAL, (x, y, z + 0.045), (0.004, 0.004, 0.080),
+              seg=12)
+    soften(primitive('sphere', M_CRISTAL, (x, y, z + 0.118),
+                     (0.030, 0.030, 0.040), seg=20), 0, 1)
+
+def garrafa(x, y, z):
+    soften(primitive('cyl', M_CRISTAL, (x, y, z + 0.095),
+                     (0.042, 0.042, 0.19), seg=20), 0.008, 1)
+    primitive('cyl', M_AGUA, (x, y, z + 0.060), (0.037, 0.037, 0.105), seg=18)
+    primitive('cyl', M_CRISTAL, (x, y, z + 0.215), (0.019, 0.019, 0.05),
+              seg=14)
+
+def vaso(x, y, z):
+    primitive('cyl', M_CRISTAL, (x, y, z + 0.042), (0.029, 0.029, 0.084),
+              seg=18)
+    primitive('cyl', M_AGUA, (x, y, z + 0.026), (0.025, 0.025, 0.046), seg=16)
+
+def pasteles(x, y, z):
+    pl = primitive('cyl', M_CERAMICA, (x, y, z + 0.005), (0.085, 0.085, 0.009),
+                   seg=32)
+    bevelmod(pl, 0.004, 2)
+    soften(primitive('sphere', M_ROSA, (x - 0.030, y + 0.012, z + 0.026),
+                     (0.023, 0.023, 0.019), seg=16), 0, 1)
+    primitive('sphere', M_FRUTA_R, (x - 0.030, y + 0.012, z + 0.046),
+              (0.005, 0.005, 0.005), seg=10)
+    soften(primitive('cube', M_BOLLO, (x + 0.028, y - 0.010, z + 0.021),
+                     (0.032, 0.032, 0.024)), 0.006, 1)
+    primitive('cube', MAT['CN Laton'], (x + 0.010, y + 0.058, z + 0.011),
+              (0.013, 0.078, 0.0028), (0, 0, math.radians(80)))
+
+def croissant_plato(x, y, z):
+    pl = primitive('cyl', M_CERAMICA, (x, y, z + 0.005), (0.080, 0.080, 0.009),
+                   seg=32)
+    bevelmod(pl, 0.004, 2)
+    croissant(x, y, z + 0.010, math.radians(35), 1.15)
+    primitive('cube', MAT['CN Laton'], (x + 0.062, y - 0.020, z + 0.011),
+              (0.012, 0.075, 0.0025), (0, 0, math.radians(70)))
+
+def servilleta(x, y, z, ang):
+    primitive('cube', plain('servilleta_t', srgb('EDE8DB'), 0.85),
+              (x, y, z + 0.002), (0.115, 0.115, 0.0045), (0, 0, ang))
+
+ZT = 0.753
+# mesa 0: desayuno con el Diario SUR
+periodico(1.95, 2.61, ZT, math.radians(12))
+latte(2.20, 2.81, ZT)
+movil(2.16, 2.47, ZT, math.radians(30))
+succulenta(1.80, 2.79, ZT)
+# mesa 1: agua, aceitunas y la carta
+garrafa(1.90, 4.25, ZT)
+vaso(2.06, 4.31, ZT); vaso(2.12, 4.19, ZT)
+aceitunas(2.10, 4.03, ZT)
+carta_menu(1.90, 4.01, ZT, math.radians(-8))
+# mesa 2: capuchino y croissant
+latte(1.88, 5.52, ZT)
+servilleta(2.12, 5.68, ZT, math.radians(20))
+croissant_plato(2.12, 5.68, ZT + 0.004)
+jarron(1.88, 5.74, ZT)
+# mesa 3: te y lectura
+tetera(4.05, 2.75, ZT)
+latte(4.29, 2.59, ZT)
+libro(4.17, 2.49, ZT, math.radians(80), '7A5C42')
+# mesa 4: carta y cafe
+carta_menu(4.15, 4.27, ZT, math.radians(5))
+latte(4.30, 4.05, ZT)
+jarron(4.00, 4.07, ZT)
+# mesa 5: pasteles
+pasteles(4.25, 5.54, ZT)
+latte(4.01, 5.66, ZT)
+vaso(4.10, 5.44, ZT)
+# mesa 6: portatil junto al escaparate
+portatil(6.35, 1.79, ZT, math.pi)
+latte(6.53, 1.65, ZT)
+movil(6.19, 1.63, ZT, math.radians(15))
+# mesa 7: vino y libro junto al muro este
+copa_vino(9.10, 2.85, ZT)
+garrafa(8.92, 2.65, ZT)
+libro(9.06, 2.61, ZT, math.radians(-75), 'A34A38')
+servilleta(8.86, 2.87, ZT, math.radians(-15))
 
 # platos y tazas junto a la cafetera (mostrador alto, tabla a 1.04)
 ZB = 0.98 + 0.06
@@ -683,26 +1025,36 @@ col_pa.objects.link(_to)
 texto('CAFE  NAPOLI', (7.97, 0.325, 3.16), 0.26,
       (math.radians(90), 0, 0), plain('crema2', srgb('F2EEE2'), .4))
 
-# ---- contexto exterior: acera, calzada, edificio de enfrente ---------------
+# ---- contexto exterior: paseo maritimo blanco frente al Mediterraneo -------
 M_ACERA = pbr_tex('acera_tx', 'wall_diff', 'wall_rough', 'wall_nrm', 2.0,
-                  tint=(0.62, 0.61, 0.59), nrm_str=0.5)
-M_ASFAL = plain('asfalto', srgb('4A4A48'), 0.9)
-add_mesh('acera', [(-4, -2.2, -0.001), (15, -2.2, -0.001),
-                   (15, 0.38, -0.001), (-4, 0.38, -0.001)],
+                  tint=(0.97, 0.955, 0.92), nrm_str=0.4)
+add_mesh('paseo', [(-12, -5.6, -0.001), (25, -5.6, -0.001),
+                   (25, 0.38, -0.001), (-12, 0.38, -0.001)],
          [[0, 1, 2, 3]], M_ACERA, col_pb)
-add_mesh('calzada', [(-4, -8.5, -0.012), (15, -8.5, -0.012),
-                     (15, -2.2, -0.012), (-4, -2.2, -0.012)],
-         [[0, 1, 2, 3]], M_ASFAL, col_pb)
-M_FACHV = pbr_tex('fachada_vecina', 'facade', None, None, 7.0,
-                  base_rough=0.8)
-add_mesh('edificio_enfrente', [(-4, -8.6, 0), (15, -8.6, 0),
-                               (15, -8.6, 8.5), (-4, -8.6, 8.5)],
-         [[0, 1, 2, 3]], M_FACHV, col_pb)
+# peto blanco bajo al borde del paseo, y el mar detras
+box3('parapeto', -12, -5.75, 25, -5.58, 0.0, 0.45,
+     plain('peto_blanco', srgb('EDEAE2'), 0.6))
+def sea_mat():
+    m = new_mat('mar'); nt, b = _principled(m)
+    set_in(b, 'Base Color', (*srgb('154868'), 1))
+    set_in(b, 'Roughness', 0.16)
+    ns = nt.nodes.new('ShaderNodeTexNoise')
+    ns.inputs['Scale'].default_value = 0.8
+    ns.inputs['Detail'].default_value = 8.0
+    bmp = nt.nodes.new('ShaderNodeBump')
+    bmp.inputs['Strength'].default_value = 0.35
+    bmp.inputs['Distance'].default_value = 0.08
+    nt.links.new(ns.outputs['Fac'], bmp.inputs['Height'])
+    nt.links.new(bmp.outputs['Normal'], b.inputs['Normal'])
+    return m
+add_mesh('mar', [(-60, -90, -0.30), (70, -90, -0.30),
+                 (70, -5.7, -0.30), (-60, -5.7, -0.30)],
+         [[0, 1, 2, 3]], sea_mat(), col_pb)
 
-# arboles de calle con alcorque
-for tx in (5.35, 11.3):
+# arboles del paseo con alcorque, apartados del eje del escaparate
+for tx in (4.55, 11.5):
     box3('Alcorque', tx - 0.5, -1.95, tx + 0.5, -0.95, -0.003, 0.008,
-         plain('alcorque', srgb('5A5248'), 0.9))
+         plain('alcorque', srgb('8A8378'), 0.9))
     primitive('cyl', pbr_tex('tronco_arbol', 'wood_diff_v', None, 'wood_nrm_v',
                              0.5, tint=(0.55, 0.45, 0.36), base_rough=0.8),
               (tx, -1.45, 1.30), (0.09, 0.09, 2.6), seg=14)
@@ -724,13 +1076,13 @@ add_mesh('Toldo', vs, fs, M_TOLDO, col_pb)
 box3('Toldo - faldon', tx0, ty0 - tproj - 0.02, tx1, ty0 - tproj,
      tz0 - 0.18, tz0, M_TOLDO)
 
-# terraza: dos mesas con sillas en la acera
-for i, tx in enumerate((6.85, 9.05)):
-    mesa_real(tx, -1.05)
-    silla_real(tx, -0.42, math.radians(-90 + (7 if i else -5)), MAT['CN Tela'])
-    silla_real(tx, -1.68, math.radians(90 + (-6 if i else 8)),
+# terraza: dos mesas con sillas en el paseo, fuera del eje central de vistas
+for i, tx in enumerate((5.85, 10.15)):
+    mesa_real(tx, -1.30)
+    silla_real(tx, -0.67, math.radians(-90 + (7 if i else -5)), MAT['CN Tela'])
+    silla_real(tx, -1.93, math.radians(90 + (-6 if i else 8)),
                MAT['CN Tela azul'])
-    set_mesa(tx, -1.05, 91 + i)
+    set_mesa(tx, -1.30, 91 + i)
 
 # ---------------------------------------------------------------- luces
 def light(kind, loc, power, color=(1.0, 0.78, 0.55), size=0.05, rot=None):
@@ -745,7 +1097,7 @@ def light(kind, loc, power, color=(1.0, 0.78, 0.55), size=0.05, rot=None):
     col_pb.objects.link(ob)
     return ob
 
-for cx, cy, cz in lamparas:
+for cx, cy, cz, _rs in lamparas:
     light('POINT', (cx, cy, cz - 0.05), 22)
 for cx, cy, cz in empotrados:
     light('SPOT', (cx, cy, cz - 0.04), 9, rot=(0, 0, 0))
@@ -765,7 +1117,7 @@ try:
     sky.sun_elevation = math.radians(38); sky.sun_rotation = math.radians(25)
     sky.sun_intensity = 0.35
     w.node_tree.links.new(sky.outputs['Color'], bgn.inputs['Color'])
-    bgn.inputs['Strength'].default_value = 0.95
+    bgn.inputs['Strength'].default_value = 1.10
 except Exception:
     bgn.inputs['Color'].default_value = (0.75, 0.83, 0.92, 1)
     bgn.inputs['Strength'].default_value = 0.6
@@ -851,8 +1203,10 @@ def render_view(fn, eye, target, lens=24, hide_pa=False, fstop=4.0):
     bpy.ops.render.render(write_still=True)
     print('RENDER OK', fn, flush=True)
 
-import sys
+import sys, os
 views = {
+ 'R_escaparate': ((4.85, 5.55, 1.48), (6.90, 0.50, 1.30), 24, False, 5.0),
+ 'R_suroeste':   ((2.35, 2.05, 1.52), (6.55, 7.05, 1.08), 22, False, 5.0),
  'R_entrada':   ((8.55, 1.30, 1.55), (4.90, 7.35, 1.05), 26, False, 4.0),
  'R_barra':     ((2.55, 4.65, 1.50), (6.90, 7.30, 1.00), 27, False, 3.5),
  'R_sala':      ((1.15, 6.55, 1.55), (6.50, 1.60, 1.10), 24, False, 4.5),
@@ -873,7 +1227,8 @@ views = {
  'fpv_05': ((3.90, 5.00, 2.10), (6.00, 6.99, 2.02), 30, False, 4.0),
  'fpv_06': ((8.60, 1.20, 3.60), (3.80, 6.60, 0.80), 20, False, 8.0),
 }
-which = sys.argv[sys.argv.index('--')+1:] if '--' in sys.argv else list(views)
-for k in which:
-    eye, tgt, lens, hide, fs = views[k]
-    render_view(k + '.png', eye, tgt, lens, hide, fs)
+if not os.environ.get('NAPOLI_NO_RENDER'):
+    which = sys.argv[sys.argv.index('--')+1:] if '--' in sys.argv else list(views)
+    for k in which:
+        eye, tgt, lens, hide, fs = views[k]
+        render_view(k + '.png', eye, tgt, lens, hide, fs)
