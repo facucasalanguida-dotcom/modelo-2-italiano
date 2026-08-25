@@ -128,8 +128,23 @@ MAT = {
 }
 # vidrio arquitectónico: paños gruesos (mampara, escaparate) sin la
 # refracción de volumen que emborrona lo que hay detrás
-M_VIDRIO_ARQ = glassm('vidrio_arq')
-M_VIDRIO_ARQ.node_tree.nodes['Principled BSDF'].inputs['IOR'].default_value = 1.02
+def arch_glass():
+    m = bpy.data.materials.new('vidrio_arq'); m.use_nodes = True
+    nt = m.node_tree
+    for n in list(nt.nodes):
+        if n.type != 'OUTPUT_MATERIAL': nt.nodes.remove(n)
+    out = nt.nodes['Material Output']
+    mix = nt.nodes.new('ShaderNodeMixShader')
+    tr  = nt.nodes.new('ShaderNodeBsdfTransparent')
+    tr.inputs['Color'].default_value = (0.96, 0.98, 0.99, 1)
+    gl  = nt.nodes.new('ShaderNodeBsdfGlossy')
+    gl.inputs['Roughness'].default_value = 0.02
+    mix.inputs['Fac'].default_value = 0.07
+    nt.links.new(tr.outputs[0], mix.inputs[1])
+    nt.links.new(gl.outputs[0], mix.inputs[2])
+    nt.links.new(mix.outputs[0], out.inputs['Surface'])
+    return m
+M_VIDRIO_ARQ = arch_glass()
 M_CERAMICA = plain('ceramica', srgb('F5F1E8'), 0.35)
 M_CROISSANT = plain('croissant', srgb('C98B3F'), 0.55)
 M_BOLLO    = plain('bollo', srgb('8A5A33'), 0.5)
