@@ -844,9 +844,13 @@ module CafeNapoliMalaga
     m = mat
     h = Z_FORJ_INF
 
-    # Pilar central: las cuatro caras
+    # Pilar central: las cuatro caras, en planta baja y de nuevo en el
+    # tramo de planta alta (el forjado lo interrumpe entre medias)
     revestir(ents, ax(456.9), ay(292.6), ax(490.9), ay(241.5), h,
              [:s, :n, :o, :e], m, t, 'Listones pilar central')
+    revestir(ents, ax(456.9), ay(292.6), ax(490.9), ay(241.5), H_TOT,
+             [:s, :n, :o, :e], m, t, 'Listones pilar central PA',
+             0.026, H_PA + 0.02)
     # Machon del muro oeste: caras vistas, de suelo a techo. Esta en la zona
     # de doble altura, asi que el revestimiento sube los 5,50 m completos.
     revestir(ents, ax(152.5), ay(289.7), ax(173.5), ay(255.8), H_TOT,
@@ -858,32 +862,13 @@ module CafeNapoliMalaga
              [:n, :o, :e], m, t, 'Listones pilastra Sur')
     revestir(ents, ax(212.0), ay(456.9), ax(246.1), ay(440.0), H_ESCAPARATE,
              [:s], m, t, 'Listones pilastra Sur')
-    # Machon de la medianera este: los listones arrancan por encima del
-    # peldañeado, cuyas losas cruzan sus caras.
+    # Machon de la medianera este: revestido sobre el peldañeado hasta el
+    # forjado, y de nuevo en el tramo de planta alta hasta la cubierta.
     revestir(ents, ax(687.6), ay(292.6), ax(699.0), ay(258.5), h,
              [:s, :n, :o], m, t, 'Listones machon Este', 0.026, 1.30)
-
-    # Pilar de fachada y machon del cuello: listones en las caras vistas
-    # desde el interior y el soportal; la cara de calle se queda de piedra,
-    # como en la foto de la fachada real.
-    revestir(ents, ax(463.2), ay(559.5), ax(491.5), ay(505.1), H_TOT,
-             [:o], m, t, 'Listones pilar fachada')
-    revestir(ents, ax(463.2), ay(505.1), ax(477.3), ay(471.0), H_TOT,
-             [:o, :e], m, t, 'Listones machon cuello')
-    tcb = 0.012
-    lisb = m['CN Madera liston']
-    fonb = m['CN Madera tablero']
-    # cara norte vista del pilar (tramo libre del machon del cuello)
-    box(ents, ax(477.3), ay(505.1), ax(491.5) + tcb, ay(505.1) + tcb,
-        0.0, H_TOT, fonb, t, 'Listones pilar fachada - fondo')
-    slat_run(ents, ax(477.3), ay(505.1) + tcb, ax(491.5) + tcb,
-             ay(505.1) + tcb, 0.0, H_TOT, 0.026, lisb, t,
-             'Listones pilar fachada')
-    # cara este del pilar, por encima del arranque del escaparate
-    box(ents, ax(491.5), ay(538.0) + 0.04, ax(491.5) + tcb, ay(505.1),
-        0.0, H_TOT, fonb, t, 'Listones pilar fachada - fondo')
-    slat_run(ents, ax(491.5) + tcb, ay(538.0) + 0.04, ax(491.5) + tcb,
-             ay(505.1), 0.0, H_TOT, 0.026, lisb, t, 'Listones pilar fachada')
+    revestir(ents, ax(687.6), ay(292.6), ax(699.0), ay(258.5), H_TOT,
+             [:s, :n, :o], m, t, 'Listones machon Este PA',
+             0.026, H_PA + 0.02)
 
     # Viga descolgada: forro de madera en intrados y dos costados.
     # Arranca 3,8 cm mas al este, en la cara vista del machon revestido.
