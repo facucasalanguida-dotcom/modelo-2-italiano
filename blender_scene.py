@@ -10,16 +10,18 @@ S = json.load(open('solids.json'))
 bpy.ops.wm.read_factory_settings(use_empty=True)
 scene = bpy.context.scene
 scene.render.engine = 'CYCLES'
-scene.cycles.samples = 208
+scene.cycles.samples = 128
+scene.cycles.use_adaptive_sampling = True
+scene.cycles.adaptive_threshold = 0.05
 scene.cycles.use_denoising = True
 try: scene.cycles.denoiser = 'OPENIMAGEDENOISE'
 except Exception: pass
 scene.cycles.sample_clamp_indirect = 10.0
-scene.cycles.max_bounces = 8
-scene.cycles.transmission_bounces = 8
-scene.cycles.transparent_max_bounces = 12
-scene.render.resolution_x = 1792
-scene.render.resolution_y = 1120
+scene.cycles.max_bounces = 6
+scene.cycles.transmission_bounces = 6
+scene.cycles.transparent_max_bounces = 8
+scene.render.resolution_x = 1664
+scene.render.resolution_y = 1040
 scene.view_settings.view_transform = 'AgX'
 scene.view_settings.look = 'AgX - Punchy'
 
