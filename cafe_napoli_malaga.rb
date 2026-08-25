@@ -434,9 +434,34 @@ module CafeNapoliMalaga
     box(ents, ax(138.3), ay(445.6), ax(167.2), ay(471.0), 0.0, H_TOT, mu, t,
         'Muro Oeste - esquina SO')
 
-    # Muro sur del cuerpo posterior  (e = 0,249)
-    box(ents, ax(167.2), ay(456.9), ax(477.3), ay(471.0), 0.0, H_TOT, mu, t,
-        'Muro Sur')
+    # Muro sur del cuerpo posterior: en la realidad no es un muro ciego sino
+    # el ventanal corrido de la cafeteria (foto de la fachada). Carpinteria
+    # con el mismo lenguaje del escaparate: umbral, cuatro panos de vidrio
+    # con montantes, cabecero, banda de rotulo y peto de muro arriba.
+    vx0  = ax(167.2)
+    vx1  = ax(477.3)
+    vye  = ay(471.0)                   # cara exterior del cerramiento
+    vyi  = vye + 0.06                  # profundidad de la carpinteria
+    vid  = mat['CN Vidrio']
+    carp = mat['CN Carpinteria']
+    paso = (vx1 - vx0 - 3 * 0.05) / 4.0
+    x = vx0
+    4.times do |i|
+      box(ents, x, vye, x + paso, vyi, 0.06, H_ESCAPARATE - 0.08, vid, t,
+          "Ventanal Sur - pano #{i + 1}")
+      if i < 3
+        box(ents, x + paso, vye, x + paso + 0.05, vyi, 0.0, H_ESCAPARATE,
+            carp, t, "Ventanal Sur - montante #{i + 1}")
+      end
+      x += paso + 0.05
+    end
+    box(ents, vx0, vye, vx1, vyi, 0.0, 0.06, carp, t, 'Ventanal Sur - umbral')
+    box(ents, vx0, vye, vx1, vyi, H_ESCAPARATE - 0.08, H_ESCAPARATE, carp, t,
+        'Ventanal Sur - cabecero')
+    box(ents, vx0, vye, vx1, ay(456.9), H_ESCAPARATE, H_ESCAPARATE + 0.55,
+        mat['CN Rotulo'], t, 'Ventanal Sur - banda de rotulo')
+    box(ents, vx0, vye, vx1, ay(456.9), H_ESCAPARATE + 0.55, H_TOT, mu, t,
+        'Ventanal Sur - peto alto')
 
     # Muro oeste del cuello de fachada
     box(ents, ax(463.2), ay(471.0), ax(477.3), ay(505.1), 0.0, H_TOT, mu, t,
@@ -711,11 +736,12 @@ module CafeNapoliMalaga
 
   # Perímetro interior de planta baja (para el pavimento)
   def self.perimetro_interior
+    # el borde sur de la sala llega ahora hasta la cara interior del ventanal
+    yv = ay(471.0) + 0.06
     [[ax(152.5), ay( 48.8)], [ax(699.0), ay( 48.8)], [ax(699.0), ay(478.5)],
      [ax(688.8), ay(478.5)], [ax(688.8), ay(538.0)], [ax(491.5), ay(538.0)],
-     [ax(491.5), ay(505.1)], [ax(477.3), ay(505.1)], [ax(477.3), ay(456.9)],
-     [ax(246.1), ay(456.9)], [ax(246.1), ay(440.0)], [ax(212.0), ay(440.0)],
-     [ax(212.0), ay(456.9)], [ax(167.2), ay(456.9)], [ax(167.2), ay(445.6)],
+     [ax(491.5), ay(505.1)], [ax(477.3), ay(505.1)], [ax(477.3), yv],
+     [ax(167.2), yv], [ax(167.2), ay(445.6)],
      [ax(152.5), ay(445.6)], [ax(152.5), ay(289.7)], [ax(173.5), ay(289.7)],
      [ax(173.5), ay(255.8)], [ax(152.5), ay(255.8)]]
   end
@@ -1381,12 +1407,6 @@ module CafeNapoliMalaga
           1.35, 1.95, mat['CN Madera tablero'], t, "Cuadro Oeste #{i + 1}")
       box(ents, ax(152.5) + 0.035, cy - 0.22, ax(152.5) + 0.045, cy + 0.22,
           1.40, 1.90, mat['CN Tela'], t, "Cuadro Oeste #{i + 1} - lamina")
-    end
-
-    # Cuadros en el muro sur
-    [2.60, 3.60, 4.60].each_with_index do |cx, i|
-      box(ents, cx - 0.26, ay(456.9), cx + 0.26, ay(456.9) + 0.045,
-          1.35, 1.95, mat['CN Madera tablero'], t, "Cuadro Sur #{i + 1}")
     end
 
     # Pizarra de carta, al este de la estantería

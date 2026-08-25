@@ -217,7 +217,7 @@ def arch_glass():
     tr.inputs['Color'].default_value = (0.96, 0.98, 0.99, 1)
     gl  = nt.nodes.new('ShaderNodeBsdfGlossy')
     gl.inputs['Roughness'].default_value = 0.02
-    mix.inputs['Fac'].default_value = 0.07
+    mix.inputs['Fac'].default_value = 0.015
     nt.links.new(tr.outputs[0], mix.inputs[1])
     nt.links.new(gl.outputs[0], mix.inputs[2])
     nt.links.new(mix.outputs[0], out.inputs['Surface'])
@@ -344,7 +344,8 @@ for s in S:
     if nm.startswith(('Maquina de cafe', 'Grupo de cafe', 'Molinillo')):
         continue                       # cafetera y molinillo parametricos
     if s['mat'] == 'CN Vidrio' and nm.startswith(
-            ('PB Mampara de vidrio', 'Escaparate - pano', 'Barandilla')):
+            ('PB Mampara de vidrio', 'Escaparate - pano', 'Barandilla',
+             'Ventanal Sur - pano')):
         mat = M_VIDRIO_ARQ
     if '- lamina' in nm:
         mat = ARTE[hash(nm) % 3]
@@ -650,17 +651,6 @@ def cafetera():
               (0.055, 0.055, 0.14), (math.pi, 0, 0))
 
 cafetera()
-
-# ---- aros de laton de los colgantes (pantalla blanca + doble aro dorado) ----
-M_LATON = MAT['CN Laton']
-for cxl, cyl_, czl, rs in lamparas:
-    zl = czl + 0.02                    # base de la pantalla
-    primitive('cyl', M_LATON, (cxl, cyl_, zl + 0.177), (rs*1.03, rs*1.03, 0.014))
-    primitive('cyl', M_LATON, (cxl, cyl_, zl + 0.21), (rs*0.42, rs*0.42, 0.05))
-    primitive('torus', M_LATON, (cxl, cyl_, zl + 0.012),
-              (rs*1.01, rs*1.01, 0.040), seg=32)
-    primitive('torus', M_LATON, (cxl, cyl_, zl - 0.004),
-              (rs*0.54, rs*0.54, 0.034), seg=24)
 
 # ---- cocina equipada: ollas al fuego, utensilios colgados, carro bandejero --
 M_INOX = MAT['CN Acero inox']
@@ -1031,6 +1021,10 @@ M_ACERA = pbr_tex('acera_tx', 'wall_diff', 'wall_rough', 'wall_nrm', 2.0,
 add_mesh('paseo', [(-12, -5.6, -0.001), (25, -5.6, -0.001),
                    (25, 0.38, -0.001), (-12, 0.38, -0.001)],
          [[0, 1, 2, 3]], M_ACERA, col_pb)
+# soportal cubierto delante del ventanal sur
+add_mesh('soportal', [(-12, 0.375, -0.0008), (5.905, 0.375, -0.0008),
+                      (5.905, 1.585, -0.0008), (-12, 1.585, -0.0008)],
+         [[0, 1, 2, 3]], M_ACERA, col_pb)
 # peto blanco bajo al borde del paseo, y el mar detras
 box3('parapeto', -12, -5.75, 25, -5.58, 0.0, 0.45,
      plain('peto_blanco', srgb('EDEAE2'), 0.6))
@@ -1104,6 +1098,10 @@ for cx, cy, cz in empotrados:
 for cx, cy, cz in apliques:
     light('POINT', (cx + 0.14, cy, cz + 0.06), 6, size=0.03)
 
+# la cocina bien iluminada, para que se vea a traves de la mampara
+light('POINT', (1.05, 7.75, 2.35), 40, (1.0, 0.95, 0.88), 0.07)
+light('POINT', (1.75, 8.35, 2.35), 40, (1.0, 0.95, 0.88), 0.07)
+
 # sol y cielo
 sun = bpy.data.lights.new('sun', 'SUN')
 sun.energy = 3.8; sun.angle = math.radians(2)
@@ -1122,8 +1120,10 @@ except Exception:
     bgn.inputs['Color'].default_value = (0.75, 0.83, 0.92, 1)
     bgn.inputs['Strength'].default_value = 0.6
 
-# luz de dia entrando por el escaparate
+# luz de dia entrando por el escaparate y por el nuevo ventanal sur
 light('AREA', (7.97, 0.32, 1.6), 520, (0.88, 0.92, 1.0), 3.0,
+      rot=(math.radians(-90), 0, 0))
+light('AREA', (3.25, 1.54, 1.55), 440, (0.88, 0.92, 1.0), 2.8,
       rot=(math.radians(-90), 0, 0))
 # relleno alto en la doble altura para el ambiente aireado de la referencia
 light('AREA', (7.9, 2.0, 5.2), 320, (1.0, 0.97, 0.92), 2.6,
