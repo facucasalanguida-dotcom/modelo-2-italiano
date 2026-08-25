@@ -21,7 +21,7 @@ scene.cycles.max_bounces = 6
 scene.cycles.transmission_bounces = 6
 scene.cycles.transparent_max_bounces = 8
 scene.render.resolution_x = 1664
-scene.render.resolution_y = 1040
+scene.render.resolution_y = 936
 scene.view_settings.view_transform = 'AgX'
 scene.view_settings.look = 'AgX - Punchy'
 
@@ -866,6 +866,12 @@ views = {
  'R_estanteria':    ((5.90, 5.72, 1.30), (5.90, 8.95, 1.48), 24, False, 4.5),
  'R_escalera':      ((7.00, 2.85, 1.50), (9.45, 6.55, 1.75), 24, False, 5.0),
  'R_terraza':       ((3.40, -3.90, 1.60), (8.30, 0.20, 2.00), 28, False, 6.0),
+ 'fpv_01': ((7.95, -2.60, 1.40), (7.90, 1.20, 1.55), 24, False, 5.6),
+ 'fpv_02': ((7.90, 0.05, 1.42), (5.60, 4.40, 1.15), 22, False, 4.5),
+ 'fpv_03': ((4.90, 2.35, 1.02), (2.30, 4.40, 0.85), 28, False, 2.8),
+ 'fpv_04': ((5.55, 5.75, 1.22), (6.75, 6.95, 1.18), 35, False, 2.8),
+ 'fpv_05': ((3.90, 5.00, 2.10), (6.00, 6.99, 2.02), 30, False, 4.0),
+ 'fpv_06': ((8.60, 1.20, 3.60), (3.80, 6.60, 0.80), 20, False, 8.0),
 }
 which = sys.argv[sys.argv.index('--')+1:] if '--' in sys.argv else list(views)
 for k in which:
