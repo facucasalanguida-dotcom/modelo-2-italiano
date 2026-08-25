@@ -45,14 +45,14 @@ for row in range(12):
         m = (yy // PLH == row) & (xx >= x0) & (xx < x1)
         if not m.any(): continue
         t = np.array(tonos[rng.integers(len(tonos))], np.float32)
-        t = t * rng.uniform(0.94, 1.06)
+        t = t * rng.uniform(0.97, 1.04)
         g = fbm((N, N), 5, 3, seed=int(rng.integers(9999)))
         # veta estirada a lo largo de la tabla
         gr = np.asarray(Image.fromarray((g*255).astype(np.uint8))
                         .resize((N, N//14), Image.BICUBIC)
                         .resize((N, N), Image.BICUBIC), np.float32)/255.0
-        vet = 0.5 + 0.5*np.sin(gr*22 + xx/N*40 + rng.uniform(0, 9))
-        sh = (0.88 + 0.24*vet)
+        vet = 0.5 + 0.5*np.sin(gr*14 + xx/N*90 + rng.uniform(0, 9))
+        sh = (0.92 + 0.14*vet)
         for c in range(3):
             diff[..., c][m] = t[c] * sh[m]
         rough[m] = 0.32 + 0.10*vet[m] + rng.uniform(-0.02, 0.02)
@@ -78,13 +78,13 @@ save('floor_nrm', normal_from_height(hblur, 3.0))
 # ---------------------------------------------------------------- MADERA FINA
 g = fbm((N, N), 6, 4, seed=77)
 gr = np.asarray(Image.fromarray((g*255).astype(np.uint8))
-                .resize((N, N//20), Image.BICUBIC)
+                .resize((N, N//44), Image.BICUBIC)
                 .resize((N, N), Image.BICUBIC), np.float32)/255.0
-vet = 0.5 + 0.5*np.sin(gr*30 + xx/N*46)
+vet = 0.5 + 0.5*np.sin(gr*16 + xx/N*130)
 fino = fbm((N, N), 6, 32, seed=78)
 base = np.array([201, 158, 105], np.float32)
 d2 = np.zeros((N, N, 3), np.float32)
-sh = (0.86 + 0.22*vet) * (0.95 + 0.10*fino)
+sh = (0.93 + 0.11*vet) * (0.97 + 0.06*fino)
 for c in range(3): d2[..., c] = base[c] * sh
 save('wood_diff', d2)
 save('wood_rough', np.dstack([(0.34 + 0.12*vet + 0.06*fino)*255]*3))
