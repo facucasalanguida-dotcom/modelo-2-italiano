@@ -197,7 +197,7 @@ html = '''<title>Café Napoli Málaga</title>
 </style>
 
 <header class="hero">
-  <img src="data:image/jpeg;base64,__HERO__" alt="La sala del Café Napoli desde el rincón suroeste">
+  <img src="data:image/jpeg;base64,__HERO__" alt="La sala del Café Napoli al atardecer, vista desde la entrada">
   <div class="cuerpo hero-texto">
     <p class="ojal">Grupo Suma · Proyecto de interiorismo</p>
     <h1>Café Napoli</h1>
@@ -350,7 +350,7 @@ __TARJETAS__
 </script>
 '''
 
-html = html.replace('__HERO__', imgs['f_suroeste'])
+html = html.replace('__HERO__', imgs['f_entrada'])
 html = html.replace('__POSTER__', imgs['f_barra'])
 html = html.replace('__TARJETAS__', tarjetas_html)
 html = html.replace('__TOURJSON__', tour_json)
