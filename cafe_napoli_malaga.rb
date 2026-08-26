@@ -874,8 +874,20 @@ module CafeNapoliMalaga
     # resto de soportes revestidos (esta en la doble altura).
     revestir(ents, ax(152.5), ay(289.7), ax(173.5), ay(255.8), H_TOT,
              [:s, :n, :e], m, t, 'Listones machon Oeste')
-    # La pilastra del muro sur y el machon del cuello quedan con el color
-    # de la pared: solo el pilar central de la entrada lleva piedra.
+    # El machon del cuello queda con el color de la pared. La pilastra del
+    # muro sur va con listones de madera; el machon de la esquina SO lleva
+    # losa de piedra en sus caras vistas, salvo la franja del ventanal.
+    revestir(ents, ax(212.0), ay(456.9), ax(246.1), ay(440.0), H_TOT,
+             [:n, :o, :e], m, t, 'Listones pilastra Sur')
+    revestir(ents, ax(212.0), ay(456.9), ax(246.1), ay(440.0), H_ESCAPARATE,
+             [:s], m, t, 'Listones pilastra Sur')
+    aplacar(ents, ax(138.3), ay(471.0), ax(167.2), ay(445.6), H_TOT,
+            [:s, :n], m, t, 'Aplacado esquina SO')
+    box(ents, ax(167.2), ay(471.0) + 0.07, ax(167.2) + 0.02, ay(445.6),
+        0.0, H_ESCAPARATE, m['CN Piedra'], t, 'Aplacado esquina SO - cara este')
+    box(ents, ax(167.2), ay(456.9) + 0.005, ax(167.2) + 0.02, ay(445.6),
+        H_ESCAPARATE, H_TOT, m['CN Piedra'], t,
+        'Aplacado esquina SO - cara este alta')
     # Pilar de fachada: losa de piedra en todas las caras vistas, como el
     # pilar real de la foto de fachada.
     aplacar(ents, ax(463.2), ay(559.5), ax(491.5), ay(505.1), H_TOT,
@@ -884,7 +896,7 @@ module CafeNapoliMalaga
         0.0, H_TOT, m['CN Piedra'], t, 'Aplacado pilar fachada - cara norte')
     box(ents, ax(491.5), ay(538.0) + 0.04, ax(491.5) + 0.02, ay(505.1),
         0.0, H_TOT, m['CN Piedra'], t, 'Aplacado pilar fachada - cara este')
-    box(ents, ax(491.5), ay(559.5), ax(491.5) + 0.02, ay(538.0) - 0.01,
+    box(ents, ax(491.5), ay(559.5), ax(491.5) + 0.02, ay(538.0) - 0.06,
         0.0, H_TOT, m['CN Piedra'], t, 'Aplacado pilar fachada - cara este')
     # Machon de la medianera este: revestido sobre el peldañeado hasta el
     # forjado, y de nuevo en el tramo de planta alta hasta la cubierta.
