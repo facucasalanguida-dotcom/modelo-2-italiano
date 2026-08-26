@@ -1,0 +1,3 @@
+cafe-napoli landing
+version: galeria-mejorada-v2
+fecha: 2026-08-26
