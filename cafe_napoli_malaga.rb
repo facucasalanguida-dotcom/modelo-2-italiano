@@ -870,23 +870,16 @@ module CafeNapoliMalaga
     revestir(ents, ax(456.9), ay(292.6), ax(490.9), ay(241.5), H_TOT,
              [:s, :n, :o, :e], m, t, 'Listones pilar central PA',
              0.026, H_PA + 0.02)
-    # Machon del muro oeste: aplacado de losa de piedra de suelo a techo.
-    # El grosor iguala el arranque de la viga (3,8 cm) para que el forro
-    # de madera muera contra la piedra sin rendija.
-    aplacar(ents, ax(152.5), ay(289.7), ax(173.5), ay(255.8), H_TOT,
-            [:s, :n, :e], m, t, 'Aplacado machon Oeste', 0.038)
-    # Pilastra del muro sur: losa de piedra por las cuatro caras; la sur
-    # sube hasta el cabecero, donde arranca el peto del ventanal.
-    aplacar(ents, ax(212.0), ay(456.9), ax(246.1), ay(440.0), H_TOT,
-            [:n, :o, :e], m, t, 'Aplacado pilastra Sur')
-    aplacar(ents, ax(212.0), ay(456.9), ax(246.1), ay(440.0), H_ESCAPARATE,
-            [:s], m, t, 'Aplacado pilastra Sur')
-    # Pilar de fachada y machon del cuello: losa de piedra en todas las
-    # caras vistas, como el pilar real de la foto de fachada.
+    # Machon del muro oeste: listones de madera de suelo a techo, como el
+    # resto de soportes revestidos (esta en la doble altura).
+    revestir(ents, ax(152.5), ay(289.7), ax(173.5), ay(255.8), H_TOT,
+             [:s, :n, :e], m, t, 'Listones machon Oeste')
+    # La pilastra del muro sur y el machon del cuello quedan con el color
+    # de la pared: solo el pilar central de la entrada lleva piedra.
+    # Pilar de fachada: losa de piedra en todas las caras vistas, como el
+    # pilar real de la foto de fachada.
     aplacar(ents, ax(463.2), ay(559.5), ax(491.5), ay(505.1), H_TOT,
             [:s, :o], m, t, 'Aplacado pilar fachada')
-    aplacar(ents, ax(463.2), ay(505.1), ax(477.3), ay(471.0), H_TOT,
-            [:o, :e], m, t, 'Aplacado machon cuello')
     box(ents, ax(477.3), ay(505.1), ax(491.5) + 0.02, ay(505.1) + 0.02,
         0.0, H_TOT, m['CN Piedra'], t, 'Aplacado pilar fachada - cara norte')
     box(ents, ax(491.5), ay(538.0) + 0.04, ax(491.5) + 0.02, ay(505.1),
@@ -901,17 +894,17 @@ module CafeNapoliMalaga
              [:s, :n, :o], m, t, 'Listones machon Este PA',
              0.026, H_PA + 0.02)
 
-    # Viga descolgada: forro de madera en intrados y dos costados.
+    # Viga descolgada: aplacado de losa de piedra en intrados y costados.
     # Arranca 3,8 cm mas al este, en la cara vista del machon revestido.
     vx0 = ax(173.5) + 0.038; vx1 = ax(275.0)
     vy0 = ay(285.8); vy1 = ay(271.6)
     box(ents, vx0, vy0 - 0.028, vx1, vy1 + 0.028,
-        Z_VIGA_INF - 0.028, Z_VIGA_INF, mat['CN Madera liston'], t,
-        'Forro de la viga - intrados')
+        Z_VIGA_INF - 0.028, Z_VIGA_INF, mat['CN Piedra'], t,
+        'Aplacado de la viga - intrados')
     box(ents, vx0, vy0 - 0.028, vx1, vy0, Z_VIGA_INF, H_PA,
-        mat['CN Madera liston'], t, 'Forro de la viga - costado Sur')
+        mat['CN Piedra'], t, 'Aplacado de la viga - costado Sur')
     box(ents, vx0, vy1, vx1, vy1 + 0.028, Z_VIGA_INF, H_PA,
-        mat['CN Madera liston'], t, 'Forro de la viga - costado Norte')
+        mat['CN Piedra'], t, 'Aplacado de la viga - costado Norte')
   end
 
   # --------------------------------------------------------------------------
