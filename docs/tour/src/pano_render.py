@@ -14,7 +14,7 @@ PANOS = {
  'p_ventanal': (4.90, 2.20),
  'p_sala':     (3.05, 3.45),
  'p_mampara':  (2.30, 5.85),
- 'p_barra':    (5.90, 5.45),
+ 'p_barra':    (5.35, 6.10),
  'p_escalera': (7.55, 4.35),
  'p_tras_barra': (5.60, 7.95),
  'p_cocina':   (1.75, 7.55),
