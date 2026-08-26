@@ -696,6 +696,13 @@ module CafeNapoliMalaga
     # (y = 120,8 pt) para dejar libre el paso del rellano a la zona de paso.
     box(ents, ax(634.9), ay(120.8), ax(637.8), ay(336.2),
         H_PA, H_PA + H_BARANDA, v, t, 'Barandilla de la caja de escalera')
+
+    # Barandilla de vidrio del tramo inclinado: continua el mismo plano de
+    # la caja, siguiendo la pendiente de la losa desde el arranque.
+    y_pie, y_alto, _hu, _ta = esc_datos
+    profile_x(ents, [[y_pie, 0.0], [y_alto, H_PA],
+                     [y_alto, H_PA + H_BARANDA], [y_pie, H_BARANDA]],
+              ax(634.9), ax(637.8), v, t, 'Barandilla de la escalera')
   end
 
   # --------------------------------------------------------------------------

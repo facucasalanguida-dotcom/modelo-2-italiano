@@ -229,6 +229,8 @@ def arch_glass():
     nt.links.new(mix.outputs[0], out.inputs['Surface'])
     return m
 M_VIDRIO_ARQ = arch_glass()
+# vidrio de barandilla: con cuerpo, reflejo y tinte verdoso, que se vea
+M_VIDRIO_BARAN = glassm('vidrio_barandilla', srgb('DDE9E3'), 0.015)
 M_CERAMICA = plain('ceramica', srgb('F5F1E8'), 0.35)
 M_CROISSANT = plain('croissant', srgb('A96524'), 0.5)
 M_BOLLO    = plain('bollo', srgb('5E3A1E'), 0.5)
@@ -350,8 +352,10 @@ for s in S:
         continue                       # sustituida por la carta de menu
     if nm.startswith(('Maquina de cafe', 'Grupo de cafe', 'Molinillo')):
         continue                       # cafetera y molinillo parametricos
-    if s['mat'] == 'CN Vidrio' and nm.startswith(
-            ('PB Mampara de vidrio', 'Escaparate - pano', 'Barandilla',
+    if s['mat'] == 'CN Vidrio' and nm.startswith('Barandilla'):
+        mat = M_VIDRIO_BARAN
+    elif s['mat'] == 'CN Vidrio' and nm.startswith(
+            ('PB Mampara de vidrio', 'Escaparate - pano',
              'Ventanal Sur - pano')):
         mat = M_VIDRIO_ARQ
     if '- lamina' in nm:
