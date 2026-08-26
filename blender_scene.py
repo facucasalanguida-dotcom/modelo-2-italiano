@@ -1035,10 +1035,10 @@ box3('edificio_A', -9.0, -14.5, 1.5, -8.45, 0.0, 7.6, M_FACHV2)
 box3('edificio_B', 1.7, -14.5, 8.6, -8.45, 0.0, 9.3, M_FACHV)
 box3('edificio_C', 8.8, -14.5, 18.0, -8.45, 0.0, 6.8, M_FACHV3)
 
-# farolas en el borde de la acera
+# farolas en el borde de la acera, fuera del eje de la entrada
 M_FAROLA = plain('farola', srgb('3A3C3E'), 0.5, 0.6)
 M_FAROLA_LUZ = emitm('farola_luz', srgb('FFE2B0'), 1.2)
-for fx in (2.6, 7.0, 12.2):
+for fx in (2.6, 5.6, 10.9, 15.2):
     primitive('cyl', M_FAROLA, (fx, -2.35, 2.25), (0.045, 0.045, 4.5), seg=12)
     primitive('cyl', M_FAROLA, (fx, -2.35, 4.55), (0.10, 0.10, 0.06), seg=12)
     primitive('cyl', M_FAROLA_LUZ, (fx, -2.35, 4.47), (0.085, 0.085, 0.12),
