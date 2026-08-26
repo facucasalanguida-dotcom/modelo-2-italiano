@@ -1007,40 +1007,47 @@ col_pa.objects.link(_to)
 texto('CAFE  NAPOLI', (7.97, 0.325, 3.16), 0.26,
       (math.radians(90), 0, 0), plain('crema2', srgb('F2EEE2'), .4))
 
-# ---- contexto exterior: paseo maritimo blanco frente al Mediterraneo -------
-M_ACERA = pbr_tex('acera_tx', 'wall_diff', 'wall_rough', 'wall_nrm', 2.0,
-                  tint=(0.97, 0.955, 0.92), nrm_str=0.4)
-add_mesh('paseo', [(-12, -5.6, -0.001), (25, -5.6, -0.001),
+# ---- contexto exterior urbano: acera de losetas, calzada y edificios -------
+M_ACERA = pbr_tex('acera_tx', 'stone_diff', 'stone_rough', 'stone_nrm', 0.8,
+                  tint=(0.72, 0.72, 0.71), nrm_str=0.6)
+add_mesh('acera', [(-12, -2.6, -0.001), (25, -2.6, -0.001),
                    (25, 0.38, -0.001), (-12, 0.38, -0.001)],
          [[0, 1, 2, 3]], M_ACERA, col_pb)
 # soportal cubierto delante del ventanal sur
 add_mesh('soportal', [(-12, 0.375, -0.0008), (5.905, 0.375, -0.0008),
                       (5.905, 1.585, -0.0008), (-12, 1.585, -0.0008)],
          [[0, 1, 2, 3]], M_ACERA, col_pb)
-# peto blanco bajo al borde del paseo, y el mar detras
-box3('parapeto', -12, -5.75, 25, -5.58, 0.0, 0.45,
-     plain('peto_blanco', srgb('EDEAE2'), 0.6))
-def sea_mat():
-    m = new_mat('mar'); nt, b = _principled(m)
-    set_in(b, 'Base Color', (*srgb('154868'), 1))
-    set_in(b, 'Roughness', 0.16)
-    ns = nt.nodes.new('ShaderNodeTexNoise')
-    ns.inputs['Scale'].default_value = 0.8
-    ns.inputs['Detail'].default_value = 8.0
-    bmp = nt.nodes.new('ShaderNodeBump')
-    bmp.inputs['Strength'].default_value = 0.35
-    bmp.inputs['Distance'].default_value = 0.08
-    nt.links.new(ns.outputs['Fac'], bmp.inputs['Height'])
-    nt.links.new(bmp.outputs['Normal'], b.inputs['Normal'])
-    return m
-add_mesh('mar', [(-60, -90, -0.30), (70, -90, -0.30),
-                 (70, -5.7, -0.30), (-60, -5.7, -0.30)],
-         [[0, 1, 2, 3]], sea_mat(), col_pb)
+M_ASFAL = plain('asfalto', srgb('4A4A48'), 0.9)
+add_mesh('calzada', [(-12, -7.4, -0.012), (25, -7.4, -0.012),
+                     (25, -2.6, -0.012), (-12, -2.6, -0.012)],
+         [[0, 1, 2, 3]], M_ASFAL, col_pb)
+add_mesh('acera_norte', [(-12, -8.45, -0.001), (25, -8.45, -0.001),
+                         (25, -7.4, -0.001), (-12, -7.4, -0.001)],
+         [[0, 1, 2, 3]], M_ACERA, col_pb)
 
-# arboles del paseo con alcorque, apartados del eje del escaparate
-for tx in (4.55, 11.5):
+# edificios de enfrente, tres volumenes con alturas y tonos distintos
+M_FACHV = pbr_tex('fachada_vecina', 'facade', None, None, 7.0, base_rough=0.8)
+M_FACHV2 = pbr_tex('fachada_vecina2', 'facade', None, None, 7.0,
+                   tint=(0.90, 0.88, 0.85), base_rough=0.8)
+M_FACHV3 = pbr_tex('fachada_vecina3', 'facade', None, None, 7.0,
+                   tint=(1.02, 0.96, 0.88), base_rough=0.8)
+box3('edificio_A', -9.0, -14.5, 1.5, -8.45, 0.0, 7.6, M_FACHV2)
+box3('edificio_B', 1.7, -14.5, 8.6, -8.45, 0.0, 9.3, M_FACHV)
+box3('edificio_C', 8.8, -14.5, 18.0, -8.45, 0.0, 6.8, M_FACHV3)
+
+# farolas en el borde de la acera
+M_FAROLA = plain('farola', srgb('3A3C3E'), 0.5, 0.6)
+M_FAROLA_LUZ = emitm('farola_luz', srgb('FFE2B0'), 1.2)
+for fx in (2.6, 7.0, 12.2):
+    primitive('cyl', M_FAROLA, (fx, -2.35, 2.25), (0.045, 0.045, 4.5), seg=12)
+    primitive('cyl', M_FAROLA, (fx, -2.35, 4.55), (0.10, 0.10, 0.06), seg=12)
+    primitive('cyl', M_FAROLA_LUZ, (fx, -2.35, 4.47), (0.085, 0.085, 0.12),
+              seg=12)
+
+# arboles de alcorque en la acera, apartados del eje del escaparate
+for tx in (0.2, 4.55, 11.5, 15.6):
     box3('Alcorque', tx - 0.5, -1.95, tx + 0.5, -0.95, -0.003, 0.008,
-         plain('alcorque', srgb('8A8378'), 0.9))
+         plain('alcorque', srgb('6A645C'), 0.9))
     primitive('cyl', pbr_tex('tronco_arbol', 'wood_diff_v', None, 'wood_nrm_v',
                              0.5, tint=(0.55, 0.45, 0.36), base_rough=0.8),
               (tx, -1.45, 1.30), (0.09, 0.09, 2.6), seg=14)

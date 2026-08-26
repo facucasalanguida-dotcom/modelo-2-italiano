@@ -875,12 +875,12 @@ module CafeNapoliMalaga
     revestir(ents, ax(152.5), ay(289.7), ax(173.5), ay(255.8), H_TOT,
              [:s, :n, :e], m, t, 'Listones machon Oeste')
     # El machon del cuello queda con el color de la pared. La pilastra del
-    # muro sur va con listones de madera; el machon de la esquina SO lleva
-    # losa de piedra en sus caras vistas, salvo la franja del ventanal.
-    revestir(ents, ax(212.0), ay(456.9), ax(246.1), ay(440.0), H_TOT,
-             [:n, :o, :e], m, t, 'Listones pilastra Sur')
-    revestir(ents, ax(212.0), ay(456.9), ax(246.1), ay(440.0), H_ESCAPARATE,
-             [:s], m, t, 'Listones pilastra Sur')
+    # muro sur y el machon de la esquina SO llevan losa de piedra en sus
+    # caras vistas (la franja del vidrio del ventanal queda libre).
+    aplacar(ents, ax(212.0), ay(456.9), ax(246.1), ay(440.0), H_TOT,
+            [:n, :o, :e], m, t, 'Aplacado pilastra Sur')
+    aplacar(ents, ax(212.0), ay(456.9), ax(246.1), ay(440.0), H_ESCAPARATE,
+            [:s], m, t, 'Aplacado pilastra Sur')
     aplacar(ents, ax(138.3), ay(471.0), ax(167.2), ay(445.6), H_TOT,
             [:s, :n], m, t, 'Aplacado esquina SO')
     box(ents, ax(167.2), ay(471.0) + 0.07, ax(167.2) + 0.02, ay(445.6),
