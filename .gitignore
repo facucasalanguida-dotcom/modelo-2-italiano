@@ -1,3 +1,5 @@
 *.skp
 *.skb
 .DS_Store
+__pycache__/
+*.pyc
