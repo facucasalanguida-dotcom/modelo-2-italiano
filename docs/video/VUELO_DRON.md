@@ -1,9 +1,12 @@
 # Vuelo de dron por la planta baja — estado y cómo retomarlo
 
-**Estado: PARADO** a petición del cliente (27/08), a la espera de una
-reorganización de objetos del modelo prevista para el sábado.
-El render se detuvo en 5 de 1800 fotogramas; no se conserva nada de esa
-tanda porque el modelo va a cambiar.
+**Estado: CANCELADO** por el cliente (28/08): finalmente no se hace el
+vídeo. No se conserva ningún fotograma.
+
+La tubería queda guardada y al día: la trayectoria de `ruta_dron.py` ya
+está **rediseñada y validada contra la planta reorganizada** (12
+estaciones, holgura mínima 0,23 m con un downlight de techo y libre de
+todo lo demás), así que retomarlo es solo lanzar el render.
 
 ## Qué hay hecho y sirve igual tras el cambio
 
