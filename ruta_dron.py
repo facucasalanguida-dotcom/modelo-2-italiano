@@ -1,23 +1,23 @@
 """Trayectoria del dron por la planta baja + comprobacion de colisiones."""
 import json, math, os
 
-SP = os.path.dirname(os.path.abspath(__file__))
+SP = '/tmp/claude-0/-home-user-modelo-2-italiano/30d2763c-3169-519a-ac78-c5a47134634b/scratchpad'
 
 # Estaciones del vuelo: (x, y, z de camara) -> (x, y, z del punto mirado)
 # Recorre: entrada -> ventanal -> sala -> cocina -> barra -> escalera -> vista alta
 ESTACIONES = [
-    ((8.30, 1.30, 2.25), (4.60, 3.30, 1.40)),   # 1  entrada, en el vacio de doble altura
-    ((6.35, 1.96, 1.94), (3.20, 3.10, 1.30)),   # 2  baja entre el cristal y el arbol
-    ((4.80, 2.35, 1.72), (1.90, 4.30, 1.30)),   # 3  ventanal, gira al oeste
-    ((3.05, 3.30, 1.68), (2.10, 6.30, 1.35)),   # 4  entra en la sala hacia el norte
-    ((2.48, 5.35, 1.54), (1.70, 7.90, 1.45)),   # 5  mampara, cocina al fondo
-    ((3.20, 6.15, 1.75), (5.80, 6.85, 1.10)),   # 6  gira al este, frente de barra
-    ((4.90, 6.10, 1.82), (7.20, 6.75, 1.15)),   # 7  sobrevuela la barra
-    ((6.20, 6.30, 1.95), (7.90, 5.40, 1.30)),   # 8  rodea el pilar por el norte
-    ((7.75, 4.95, 2.00), (6.10, 3.70, 1.35)),   # 9  pasa alto sobre el arbol
-    ((7.68, 3.45, 2.05), (5.20, 3.90, 1.40)),   # 10 cruza bajo el canto del altillo
-    ((7.50, 2.55, 3.10), (4.60, 4.30, 1.35)),   # 11 ya en el vacio, empieza a subir
-    ((7.20, 2.00, 4.10), (3.20, 4.60, 1.20)),   # 12 plano final alto y abierto
+    ((8.30, 1.30, 2.25), (3.50, 4.50, 1.40)),   # 1  entrada, en la doble altura
+    ((6.30, 2.00, 1.90), (3.20, 3.20, 1.30)),   # 2  baja y avanza junto al ventanal
+    ((4.40, 2.30, 1.75), (2.50, 4.00, 1.10)),   # 3  encara la barra
+    ((3.60, 3.60, 1.70), (2.40, 5.50, 1.05)),   # 4  recorre el frente de barra
+    ((3.45, 5.60, 1.70), (2.20, 7.60, 1.20)),   # 5  pasa el extremo norte de la barra
+    ((2.70, 6.70, 1.65), (1.70, 8.20, 1.30)),   # 6  se asoma a la cocina
+    ((4.50, 6.95, 1.80), (7.00, 6.00, 1.20)),   # 7  gira al este por el fondo
+    ((7.25, 5.85, 1.72), (8.60, 4.30, 1.40)),   # 8  rodea el pilar por el norte
+    ((7.55, 4.60, 1.70), (8.20, 3.40, 1.35)),   # 9  libra el arbol por el oeste
+    ((7.90, 3.05, 1.80), (5.50, 3.00, 1.30)),   # 10 baja bajo los colgantes
+    ((7.60, 2.40, 2.90), (4.20, 4.00, 1.30)),   # 11 entra en el vacio y sube
+    ((7.20, 1.95, 4.10), (3.00, 4.60, 1.10)),   # 12 plano final alto y abierto
 ]
 
 
