@@ -1038,7 +1038,9 @@ module CafeNapoliMalaga
 
   # Huella en planta de cada vitrina
   def self.huecos_vitrina
-    [[3.62, 4.78], [4.86, 6.02]]
+    # Retranqueadas 35 cm respecto al arranque de la barra: contra el
+    # ventanal queda un remate macizo de mueble, no el cristal de la vitrina.
+    [[3.84, 4.89], [4.97, 6.02]]
   end
 
   def self.barra(ents, mat, tag)
@@ -1381,8 +1383,8 @@ module CafeNapoliMalaga
   # Separación entre ejes de columna 2,15 m -0,47 m libres entre respaldos-
   # y 1,50 / 1,45 m entre filas.
   def self.mesas_sala
-    [[4.60, 2.60, :x], [4.60, 4.60, :x], [4.60, 6.60, :x],
-     [7.30, 2.60, :x], [7.30, 4.60, :x], [7.30, 6.60, :x]]
+    [[4.60, 3.20, :x], [4.60, 5.50, :x], [4.60, 7.80, :x],
+     [7.60, 3.20, :x], [7.60, 5.50, :x], [7.60, 7.80, :x]]
   end
 
   def self.mobiliario_sala(ents, mat, tag)

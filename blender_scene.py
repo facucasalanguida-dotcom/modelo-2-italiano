@@ -757,8 +757,8 @@ def set_mesa(mx, my, seed):
         primitive('cyl', M_METAL, (px + k*0.03, py - 0.06, 0.833),
                   (0.0145, 0.0145, 0.014), seg=12)
 
-MESAS_R = [(4.60, 2.60), (4.60, 4.60), (4.60, 6.60),
-           (7.30, 2.60), (7.30, 4.60), (7.30, 6.60)]
+MESAS_R = [(4.60, 3.20), (4.60, 5.50), (4.60, 7.80),
+           (7.60, 3.20), (7.60, 5.50), (7.60, 7.80)]
 for i, (mx, my) in enumerate(MESAS_R):
     mesa_real(mx, my)
     t1 = MAT['CN Tela azul'] if i % 2 == 0 else MAT['CN Tela']
@@ -967,32 +967,32 @@ def servilleta(x, y, z, ang):
 
 ZT = 0.753
 # mesa 0: desayuno con el Diario SUR
-periodico(4.55, 2.56, ZT, math.radians(12))
-latte(4.80, 2.76, ZT)
-movil(4.76, 2.42, ZT, math.radians(30))
-succulenta(4.40, 2.74, ZT)
+periodico(4.55, 3.16, ZT, math.radians(12))
+latte(4.80, 3.36, ZT)
+movil(4.76, 3.02, ZT, math.radians(30))
+succulenta(4.40, 3.34, ZT)
 # mesa 1: agua, aceitunas y la carta
-garrafa(4.50, 4.70, ZT)
-vaso(4.66, 4.76, ZT); vaso(4.72, 4.64, ZT)
-aceitunas(4.70, 4.48, ZT)
-carta_menu(4.50, 4.46, ZT, math.radians(-8))
+garrafa(4.50, 5.60, ZT)
+vaso(4.66, 5.66, ZT); vaso(4.72, 5.54, ZT)
+aceitunas(4.70, 5.38, ZT)
+carta_menu(4.50, 5.36, ZT, math.radians(-8))
 # mesa 2: capuchino y croissant
-latte(4.48, 6.52, ZT)
-servilleta(4.72, 6.68, ZT, math.radians(20))
-croissant_plato(4.72, 6.68, ZT + 0.004)
-jarron(4.48, 6.74, ZT)
+latte(4.48, 7.72, ZT)
+servilleta(4.72, 7.88, ZT, math.radians(20))
+croissant_plato(4.72, 7.88, ZT + 0.004)
+jarron(4.48, 7.94, ZT)
 # mesa 3: te y lectura
-tetera(7.20, 2.70, ZT)
-latte(7.44, 2.54, ZT)
-libro(7.32, 2.44, ZT, math.radians(80), '7A5C42')
+tetera(7.50, 3.30, ZT)
+latte(7.74, 3.14, ZT)
+libro(7.62, 3.04, ZT, math.radians(80), '7A5C42')
 # mesa 4: carta y cafe
-carta_menu(7.30, 4.72, ZT, math.radians(5))
-latte(7.45, 4.50, ZT)
-jarron(7.15, 4.52, ZT)
+carta_menu(7.60, 5.62, ZT, math.radians(5))
+latte(7.75, 5.40, ZT)
+jarron(7.45, 5.42, ZT)
 # mesa 5: pasteles
-pasteles(7.40, 6.54, ZT)
-latte(7.16, 6.66, ZT)
-vaso(7.25, 6.44, ZT)
+pasteles(7.70, 7.74, ZT)
+latte(7.46, 7.86, ZT)
+vaso(7.55, 7.64, ZT)
 
 # platos y tazas junto a la cafetera (mostrador alto, tabla a 1.04)
 ZB = 0.98 + 0.06
