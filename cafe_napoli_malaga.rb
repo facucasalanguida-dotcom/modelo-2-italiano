@@ -110,7 +110,27 @@ module CafeNapoliMalaga
   #  UTILIDADES DE CONSTRUCCIÓN
   # ==========================================================================
 
+  # Giro de 90 grados para el bloque de la barra y la estanteria: se siguen
+  # construyendo en su marco local -corriendo en X, con el frente al sur- y
+  # se llevan girados a su sitio. Asi el despiece, las vitrinas y los equipos
+  # no cambian ni una cota.
+  #
+  #   @giro = [ox, oy, sx, sy]   X = ox - (y - sy)   Y = oy + (x - sx)
+  @giro = nil
+
+  def self.girar(ox, oy, sx, sy)
+    previo = @giro
+    @giro  = [ox, oy, sx, sy]
+    yield
+  ensure
+    @giro = previo
+  end
+
   def self.p3(x, y, z)
+    if @giro
+      ox, oy, sx, sy = @giro
+      x, y = ox - (y - sy), oy + (x - sx)
+    end
     Geom::Point3d.new(x * M_TO_IN, y * M_TO_IN, z * M_TO_IN)
   end
 
@@ -181,7 +201,11 @@ module CafeNapoliMalaga
       g.erase!
       return nil
     end
-    f.reverse! if f.normal.x < 0
+    if @giro
+      f.reverse! if f.normal.y < 0        # local +X se convierte en +Y
+    else
+      f.reverse! if f.normal.x < 0
+    end
     f.pushpull((xb - xa) * M_TO_IN)
     finish(g, mat, tag, name)
   end
@@ -350,9 +374,13 @@ module CafeNapoliMalaga
       pavimento(ents, mat, tag)
       revestimientos(ents, mat, tag)
       cocina(ents, mat, tag)
-      barra(ents, mat, tag)
-      equipos_barra(ents, mat, tag)
-      estanteria(ents, mat, tag)
+      girar(NB_XF, NB_Y0, BAR_X0, BAR_Y0) do
+        barra(ents, mat, tag)
+        equipos_barra(ents, mat, tag)
+      end
+      girar(NE_XB, NE_Y0, EST_X0, by(62.4)) do
+        estanteria(ents, mat, tag)
+      end
       mobiliario_sala(ents, mat, tag)
       iluminacion(ents, mat, tag)
       decoracion(ents, mat, tag)
@@ -593,32 +621,29 @@ module CafeNapoliMalaga
     car = mat['CN Carpinteria']
     vid = mat['CN Vidrio']
 
-    # El tabique este de la cocina se elimina: la cocina queda abierta al
-    # office, por donde entra el personal desde detrás de la barra.
+    # La MAMPARA DE VIDRIO pasa a la cara ESTE de la cocina: un unico pano
+    # corrido de sur a norte, de 2,09 m, que cierra la cocina hacia la sala.
+    # La cocina queda abierta por el SUR, que es por donde entra el personal
+    # desde el pasillo de detras de la barra.
     #
-    # El tabique sur se sustituye por una MAMPARA DE VIDRIO corrida que
-    # arranca en el muro oeste y muere justo donde empieza la barra: 3,18 m
-    # de largo, un único paño, con borde exterior de 4 cm y nada por dentro.
-    #
-    # Corona a 2,40 m, por debajo del frente del altillo -que arranca a
-    # 2,48- y del intradós del forjado -2,70-, para que no la corte nada
-    # de la planta primera.
-    x0 = bx(117.8)                       # 0,251 · cara interior del muro oeste
-    x1 = BAR_X0 - 0.06                   # 3,430 · arranque de la barra
-    ya = by(254.6)
-    yb = by(249.9)
+    # Corona a 2,40 m, por debajo del intrados del forjado -2,70- para que no
+    # la corte nada de la planta primera.
+    xa = 2.41                            # cara oeste de la mampara
+    xb = 2.46                            # cara este, a haces con la cocina
+    y0 = 6.92                            # esquina sureste de la cocina
+    y1 = 8.96                            # muere contra el inox de la cocina
     b  = MAMP_B
 
-    box(ents, x0, ya, x0 + b, yb, 0.0, MAMP_ALT, car, t,
-        'PB Mampara - borde Oeste')
-    box(ents, x1 - b, ya, x1, yb, 0.0, MAMP_ALT, car, t,
-        'PB Mampara - borde Este')
-    box(ents, x0 + b, ya, x1 - b, yb, 0.0, b, car, t,
+    box(ents, xa, y0, xb, y0 + b, 0.0, MAMP_ALT, car, t,
+        'PB Mampara - borde Sur')
+    box(ents, xa, y1 - b, xb, y1, 0.0, MAMP_ALT, car, t,
+        'PB Mampara - borde Norte')
+    box(ents, xa, y0 + b, xb, y1 - b, 0.0, b, car, t,
         'PB Mampara - borde inferior')
-    box(ents, x0 + b, ya, x1 - b, yb, MAMP_ALT - b, MAMP_ALT, car, t,
+    box(ents, xa, y0 + b, xb, y1 - b, MAMP_ALT - b, MAMP_ALT, car, t,
         'PB Mampara - borde superior')
-    box(ents, x0 + b, ya, x1 - b, yb, b, MAMP_ALT - b, vid, t,
-        'PB Mampara de vidrio de la cocina (3,18 m)')
+    box(ents, xa, y0 + b, xb, y1 - b, b, MAMP_ALT - b, vid, t,
+        'PB Mampara de vidrio de la cocina (2,09 m)')
   end
 
   # --------------------------------------------------------------------------
@@ -979,7 +1004,7 @@ module CafeNapoliMalaga
   # --------------------------------------------------------------------------
 
   BAR_X0 = 3.49
-  BAR_X1 = 8.02
+  BAR_X1 = 7.75          # acortada 27 cm: deja el paso de servicio al norte
   BAR_Y0 = 6.55
   BAR_Y1 = 7.43
   BAR_H  = 0.92
@@ -987,6 +1012,16 @@ module CafeNapoliMalaga
   # La barra tiene dos niveles: el tramo de las vitrinas baja 0,12 m respecto
   # al de la cafetera y la caja, como en los mostradores de pastelería.
   BAR_XSTEP = 6.16                # eje del desnivel
+
+  # Colocacion del bloque de servicio, girado 90 grados respecto al original.
+  # La barra corre de sur a norte pegada al ventanal, con el frente al este;
+  # la estanteria queda detras, contra el muro oeste, y entre ambas queda el
+  # pasillo de trabajo.
+  NB_XF = 2.88                    # frente al este; la tabla trasera (1,96)
+                                  # libra la pilastra de piedra (1,92)
+  NB_Y0 = 1.68                    # la tabla vuela 6 cm y toca el ventanal
+  NE_XB = 0.251                   # respaldo de la estanteria: muro oeste
+  NE_Y0 = 2.06                    # cabe entre la esquina SO y el machon
   BAR_DZ    = 0.12                # cuánto baja el mostrador de las vitrinas
   BAR_HB    = BAR_H - BAR_DZ      # 0,80 · coronación del cuerpo bajo
 
@@ -1169,9 +1204,9 @@ module CafeNapoliMalaga
     box(ents, 7.18, BAR_Y0 + 0.26, 7.36, BAR_Y0 + 0.46, z, z + 0.48, neg, t,
         'Molinillo')
     # Caja registradora
-    box(ents, 7.55, BAR_Y0 + 0.30, 7.95, BAR_Y0 + 0.62, z, z + 0.10, neg, t,
+    box(ents, 7.32, BAR_Y0 + 0.30, 7.72, BAR_Y0 + 0.62, z, z + 0.10, neg, t,
         'Caja - base')
-    box(ents, 7.60, BAR_Y0 + 0.34, 7.90, BAR_Y0 + 0.40, z + 0.10, z + 0.34,
+    box(ents, 7.37, BAR_Y0 + 0.34, 7.67, BAR_Y0 + 0.40, z + 0.10, z + 0.34,
         neg, t, 'Caja - pantalla')
   end
 
@@ -1182,12 +1217,12 @@ module CafeNapoliMalaga
   # --------------------------------------------------------------------------
 
   EST_X0   = 4.20             # extremo oeste del mueble bajo
-  EST_X1   = 7.60             # extremo este
+  EST_X1   = 6.80             # extremo este (2,60 m de largo)
   EST_PROF = 0.36             # fondo del mueble bajo
   EST_ENC  = 0.94             # cara superior de la encimera
 
   REJ_X0   = 4.30             # rejilla de cajas
-  REJ_X1   = 7.50
+  REJ_X1   = 6.73
   REJ_Z0   = 1.18
   REJ_Z1   = 2.48
   REJ_T    = 0.03             # escuadría del perfil
@@ -1199,7 +1234,6 @@ module CafeNapoliMalaga
     [[4.30, [[REJ_Z0, REJ_Z1]]],
      [5.14, [[1.21, 2.45]]],
      [5.92, [[1.21, 2.45]]],
-     [6.70, [[1.21, 1.64], [2.02, 2.45]]],
      [REJ_X1 - REJ_T, [[REJ_Z0, REJ_Z1]]]]
   end
 
@@ -1208,8 +1242,7 @@ module CafeNapoliMalaga
   def self.rej_huecos
     [[4.33, 5.14, [REJ_Z0, 2.02, 2.45]],
      [5.17, 5.92, [REJ_Z0, 1.61, 2.02, 2.45]],
-     [5.95, 6.70, [REJ_Z0, 1.61, 2.02, 2.45]],
-     [6.73, REJ_X1 - REJ_T, [REJ_Z0, 1.61, 2.02, 2.45]]]
+     [5.95, REJ_X1 - REJ_T, [REJ_Z0, 1.61, 2.02, 2.45]]]
   end
 
   # Cajas resultantes: [x0, x1, z0, z1]
@@ -1217,9 +1250,8 @@ module CafeNapoliMalaga
     [[4.33, 5.14, 1.21, 2.02], [4.33, 5.14, 2.05, 2.45],
      [5.17, 5.92, 1.21, 1.61], [5.17, 5.92, 1.64, 2.02],
      [5.17, 5.92, 2.05, 2.45],
-     [5.95, 6.70, 1.21, 1.61], [6.73, 7.47, 1.21, 1.61],
-     [5.95, 7.47, 1.64, 2.02],
-     [5.95, 6.70, 2.05, 2.45], [6.73, 7.47, 2.05, 2.45]]
+     [5.95, 6.70, 1.21, 1.61], [5.95, 6.70, 1.64, 2.02],
+     [5.95, 6.70, 2.05, 2.45]]
   end
 
   def self.estanteria(ents, mat, tag)
@@ -1287,7 +1319,7 @@ module CafeNapoliMalaga
     end
 
     # 6 · copas sobre la encimera
-    5.times do |i|
+    4.times do |i|
       cx = EST_X0 + 0.55 + i * 0.62
       cyl(ents, cx, yf + 0.14, 0.014, EST_ENC, EST_ENC + 0.08, vid, t, 'Copa')
       cyl(ents, cx, yf + 0.14, 0.036, EST_ENC + 0.08, EST_ENC + 0.19, vid, t,
@@ -1349,8 +1381,8 @@ module CafeNapoliMalaga
   # Separación entre ejes de columna 2,15 m -0,47 m libres entre respaldos-
   # y 1,50 / 1,45 m entre filas.
   def self.mesas_sala
-    [[2.00, 2.65, :x], [2.00, 4.15, :x], [2.00, 5.60, :x],
-     [4.15, 2.65, :x], [4.15, 4.15, :x], [4.15, 5.60, :x]]
+    [[4.60, 2.60, :x], [4.60, 4.60, :x], [4.60, 6.60, :x],
+     [7.30, 2.60, :x], [7.30, 4.60, :x], [7.30, 6.60, :x]]
   end
 
   def self.mobiliario_sala(ents, mat, tag)
@@ -1388,9 +1420,13 @@ module CafeNapoliMalaga
   def self.iluminacion(ents, mat, tag)
     t = tag['27 Iluminacion']
 
-    # Colgantes sobre la barra
-    [4.15, 5.45, 6.75, 7.75].each do |cx|
-      lampara(ents, mat, tag, cx, 6.99, Z_FORJ_INF, 2.02, 0.17)
+    # Colgantes sobre la barra, ahora alineados con su nuevo eje norte-sur.
+    # Los dos del sur estan en la doble altura y cuelgan algo mas largos.
+    y_barra = ay(336.2)
+    [2.28, 3.58, 4.88, 5.88].each do |cy|
+      bajo = cy > y_barra
+      lampara(ents, mat, tag, 2.04, cy, bajo ? Z_FORJ_INF : H_TOT,
+              bajo ? 2.02 : 2.30, 0.17)
     end
 
     # Un colgante por mesa; el techo depende de si está bajo el forjado
@@ -1415,8 +1451,9 @@ module CafeNapoliMalaga
       end
     end
 
-    # Apliques en el muro oeste
-    [2.30, 3.30, 6.20].each do |cy|
+    # Apliques en el tramo de muro oeste que dejan libres la estanteria
+    # de botellas (y = 2,03 a 4,69) y el machon de listones (4,72 a 5,39)
+    [5.75, 6.45].each do |cy|
       box(ents, ax(152.5), cy - 0.09, ax(152.5) + 0.12, cy + 0.09,
           1.92, 2.10, mat['CN Laton'], t, 'Aplique de pared')
     end
@@ -1442,17 +1479,19 @@ module CafeNapoliMalaga
     t = tag['28 Decoracion']
 
     # Plantas. Ninguna en el cuello de fachada: la entrada queda despejada.
-    planta(ents, mat, tag, 0.70, 2.60, 1.15)
-    planta(ents, mat, tag, 0.70, 6.30, 1.30)
-    planta(ents, mat, tag, 6.60, 2.60, 1.25)
-    planta(ents, mat, tag, 6.90, 5.90, 1.20)
+    planta(ents, mat, tag, 3.30, 8.35, 1.15)
+    planta(ents, mat, tag, 8.25, 2.45, 1.30)
+    planta(ents, mat, tag, 8.15, 5.30, 1.25)
+    planta(ents, mat, tag, 6.00, 7.90, 1.20)
 
-    # Cuadros en el muro oeste
-    [2.90, 3.75, 5.90].each_with_index do |cy, i|
-      box(ents, ax(152.5), cy - 0.26, ax(152.5) + 0.035, cy + 0.26,
-          1.35, 1.95, mat['CN Madera tablero'], t, "Cuadro Oeste #{i + 1}")
-      box(ents, ax(152.5) + 0.035, cy - 0.22, ax(152.5) + 0.045, cy + 0.22,
-          1.40, 1.90, mat['CN Tela'], t, "Cuadro Oeste #{i + 1} - lamina")
+    # Cuadros en el muro norte: el oeste queda ocupado por la estanteria de
+    # botellas, y este paramento lo deja libre la mudanza. Miran a la sala.
+    ycu = by(62.4)
+    [4.30, 5.15, 6.00].each_with_index do |cx, i|
+      box(ents, cx - 0.26, ycu - 0.035, cx + 0.26, ycu,
+          1.35, 1.95, mat['CN Madera tablero'], t, "Cuadro Norte #{i + 1}")
+      box(ents, cx - 0.22, ycu - 0.045, cx + 0.22, ycu - 0.035,
+          1.40, 1.90, mat['CN Tela'], t, "Cuadro Norte #{i + 1} - lamina")
     end
 
     # Pizarra de carta, al este de la estantería

@@ -368,9 +368,27 @@ for s in S:
     prism(nm, s['poly'], s['n'], s['d'], mat, col)
 
 # ---------------------------------------------------------------- props
+# Giro del bloque de la barra, el mismo que aplica el modelo .rb: los enseres
+# se siguen describiendo en el marco original -la barra corriendo en X, de
+# 3,49 a 7,75, con el frente al sur- y se emiten girados a su sitio.
+GIRO = None
+BAR_GIRO = (2.88, 1.68, 3.49, 6.55)     # ox, oy, sx, sy
+
+
+def gxy(x, y):
+    if GIRO is None:
+        return x, y
+    ox, oy, sx, sy = GIRO
+    return ox - (y - sy), oy + (x - sx)
+
+
 def primitive(kind, mat, loc, scale, rot=(0,0,0), col=col_pb, seg=24):
     if LOW:
         seg = min(seg, 12)
+    if GIRO is not None:
+        gx, gy = gxy(loc[0], loc[1])
+        loc = (gx, gy, loc[2])
+        rot = (rot[0], rot[1], rot[2] + math.pi/2)
     if kind == 'sphere':
         bpy.ops.mesh.primitive_uv_sphere_add(segments=seg, ring_count=seg//2,
                                              radius=1, location=loc)
@@ -472,8 +490,8 @@ for i, s in enumerate(productos):
     # blonda de papel bajo cada pieza y etiqueta de precio delante
     primitive('cyl', M_BLONDA, (cx, cy, z0 + 0.0012), (0.050, 0.050, 0.0018),
               seg=28)
-    primitive('cube', M_TAG, (cx, cy - 0.055, z0 + 0.013),
-              (0.044, 0.0022, 0.026), (math.radians(-16), 0, 0))
+    primitive('cube', M_TAG, (cx + 0.055, cy, z0 + 0.013),
+              (0.044, 0.0022, 0.026), (math.radians(-16), 0, math.pi/2))
     k = i % 6
     if k == 0 or k == 3:
         croissant(cx, cy, z0 + 0.002, math.radians(random.uniform(0, 360)),
@@ -620,6 +638,11 @@ def taburete(cx, cy):
     soften(dm, 0, 1)
 
 def box3(name, x0, y0, x1, y1, z0, z1, mat):
+    if GIRO is not None:
+        ax, ay = gxy(x0, y0)
+        bx, by = gxy(x1, y1)
+        x0, x1 = min(ax, bx), max(ax, bx)
+        y0, y1 = min(ay, by), max(ay, by)
     verts = [(x0,y0,z0),(x1,y0,z0),(x1,y1,z0),(x0,y1,z0),
              (x0,y0,z1),(x1,y0,z1),(x1,y1,z1),(x0,y1,z1)]
     faces = [[0,1,2,3],[7,6,5,4],[0,4,5,1],[1,5,6,2],[2,6,7,3],[3,7,4,0]]
@@ -657,7 +680,9 @@ def cafetera():
     primitive('cone', glassm('tolva'), (7.27, 6.98, zb + 0.37),
               (0.055, 0.055, 0.14), (math.pi, 0, 0))
 
+GIRO = BAR_GIRO
 cafetera()
+GIRO = None
 
 # ---- cocina equipada: ollas al fuego, utensilios colgados, carro bandejero --
 M_INOX = MAT['CN Acero inox']
@@ -688,29 +713,14 @@ for ui, uy in enumerate((7.22, 7.38, 7.54, 7.70, 7.86, 8.02)):
     else:                # espatula
         primitive('cube', M_INOX, (0.36, uy, 1.695), (0.008, 0.048, 0.075))
 
-# carro bandejero con panes tras la barra
-CBX, CBY = 2.95, 8.52
-for sx, sy in ((-1, -1), (1, -1), (-1, 1), (1, 1)):
-    primitive('cube', M_CROMO, (CBX + sx*0.24, CBY + sy*0.29, 0.80),
-              (0.022, 0.022, 1.56))
-for li in range(7):
-    zt = 0.22 + li*0.21
-    primitive('cube', M_INOX, (CBX, CBY, zt), (0.50, 0.60, 0.012))
-    if li in (1, 3, 5):
-        for bx_ in (-0.15, 0.0, 0.15):
-            for by_ in (-0.18, 0.02, 0.22):
-                soften(primitive('sphere', M_CROISSANT,
-                                 (CBX + bx_, CBY + by_, zt + 0.032),
-                                 (0.052, 0.040, 0.030), seg=14), 0, 1, 0.05)
-primitive('sphere', M_CROMO, (CBX - 0.24, CBY - 0.29, 0.045),
-          (0.032, 0.032, 0.032), seg=12)
-primitive('sphere', M_CROMO, (CBX + 0.24, CBY + 0.29, 0.045),
-          (0.032, 0.032, 0.032), seg=12)
+# (el carro bandejero con panes se retira a peticion del cliente)
 
-# caja registradora en el extremo este de la barra
-primitive('cube', MAT['CN Negro mate'], (7.62, 7.08, 1.055), (0.17, 0.14, 0.03))
-primitive('cube', M_PANTALLA, (7.62, 7.11, 1.13), (0.165, 0.014, 0.115),
+# caja registradora en el extremo norte de la barra
+GIRO = BAR_GIRO
+primitive('cube', MAT['CN Negro mate'], (7.42, 7.08, 1.055), (0.17, 0.14, 0.03))
+primitive('cube', M_PANTALLA, (7.42, 7.11, 1.13), (0.165, 0.014, 0.115),
           (math.radians(-14), 0, 0))
+GIRO = None
 
 # soportes de tarta junto a las vitrinas, sobre la barra
 def soporte_tarta(cx, cy, z):
@@ -728,8 +738,10 @@ def soporte_tarta(cx, cy, z):
                   (cx + 0.052*math.cos(a), cy + 0.052*math.sin(a), z + 0.135),
                   (0.009, 0.009, 0.008), seg=12)
 
+GIRO = BAR_GIRO
 soporte_tarta(3.85, 6.75, 1.04)
 soporte_tarta(4.05, 7.14, 1.04)
+GIRO = None
 
 # azucarero, salero y servilletero en cada mesa
 M_METAL = plain('tapa_metal', srgb('B9BDC0'), 0.3, 1.0)
@@ -745,8 +757,8 @@ def set_mesa(mx, my, seed):
         primitive('cyl', M_METAL, (px + k*0.03, py - 0.06, 0.833),
                   (0.0145, 0.0145, 0.014), seg=12)
 
-MESAS_R = [(2.00, 2.65), (2.00, 4.15), (2.00, 5.60),
-           (4.15, 2.65), (4.15, 4.15), (4.15, 5.60)]
+MESAS_R = [(4.60, 2.60), (4.60, 4.60), (4.60, 6.60),
+           (7.30, 2.60), (7.30, 4.60), (7.30, 6.60)]
 for i, (mx, my) in enumerate(MESAS_R):
     mesa_real(mx, my)
     t1 = MAT['CN Tela azul'] if i % 2 == 0 else MAT['CN Tela']
@@ -758,8 +770,10 @@ for i, (mx, my) in enumerate(MESAS_R):
         set_mesa(mx, my, i * 11 + 3)
 
 # taburetes frente al mostrador alto de la barra
-for tx in (6.55, 7.15, 7.75):
+GIRO = BAR_GIRO
+for tx in (6.40, 7.00, 7.60):
     taburete(tx, 6.12)
+GIRO = None
 
 # ---- carta de menu sobre la pared norte ------------------------------------
 def menu_board():
@@ -953,41 +967,43 @@ def servilleta(x, y, z, ang):
 
 ZT = 0.753
 # mesa 0: desayuno con el Diario SUR
-periodico(1.95, 2.61, ZT, math.radians(12))
-latte(2.20, 2.81, ZT)
-movil(2.16, 2.47, ZT, math.radians(30))
-succulenta(1.80, 2.79, ZT)
+periodico(4.55, 2.56, ZT, math.radians(12))
+latte(4.80, 2.76, ZT)
+movil(4.76, 2.42, ZT, math.radians(30))
+succulenta(4.40, 2.74, ZT)
 # mesa 1: agua, aceitunas y la carta
-garrafa(1.90, 4.25, ZT)
-vaso(2.06, 4.31, ZT); vaso(2.12, 4.19, ZT)
-aceitunas(2.10, 4.03, ZT)
-carta_menu(1.90, 4.01, ZT, math.radians(-8))
+garrafa(4.50, 4.70, ZT)
+vaso(4.66, 4.76, ZT); vaso(4.72, 4.64, ZT)
+aceitunas(4.70, 4.48, ZT)
+carta_menu(4.50, 4.46, ZT, math.radians(-8))
 # mesa 2: capuchino y croissant
-latte(1.88, 5.52, ZT)
-servilleta(2.12, 5.68, ZT, math.radians(20))
-croissant_plato(2.12, 5.68, ZT + 0.004)
-jarron(1.88, 5.74, ZT)
+latte(4.48, 6.52, ZT)
+servilleta(4.72, 6.68, ZT, math.radians(20))
+croissant_plato(4.72, 6.68, ZT + 0.004)
+jarron(4.48, 6.74, ZT)
 # mesa 3: te y lectura
-tetera(4.05, 2.75, ZT)
-latte(4.29, 2.59, ZT)
-libro(4.17, 2.49, ZT, math.radians(80), '7A5C42')
+tetera(7.20, 2.70, ZT)
+latte(7.44, 2.54, ZT)
+libro(7.32, 2.44, ZT, math.radians(80), '7A5C42')
 # mesa 4: carta y cafe
-carta_menu(4.15, 4.27, ZT, math.radians(5))
-latte(4.30, 4.05, ZT)
-jarron(4.00, 4.07, ZT)
+carta_menu(7.30, 4.72, ZT, math.radians(5))
+latte(7.45, 4.50, ZT)
+jarron(7.15, 4.52, ZT)
 # mesa 5: pasteles
-pasteles(4.25, 5.54, ZT)
-latte(4.01, 5.66, ZT)
-vaso(4.10, 5.44, ZT)
+pasteles(7.40, 6.54, ZT)
+latte(7.16, 6.66, ZT)
+vaso(7.25, 6.44, ZT)
 
 # platos y tazas junto a la cafetera (mostrador alto, tabla a 1.04)
 ZB = 0.98 + 0.06
+GIRO = BAR_GIRO
 for k in range(4):
-    primitive('cyl', M_CERAMICA, (7.55, 6.80, ZB + 0.008 + k*0.016),
+    primitive('cyl', M_CERAMICA, (7.05, 6.80, ZB + 0.008 + k*0.016),
               (0.062, 0.062, 0.014))
 for dx, dy in ((0.0, 0.0), (0.11, 0.05), (0.05, -0.09)):
-    primitive('cyl', M_CERAMICA, (7.72 + dx, 6.72 + dy, ZB + 0.026),
+    primitive('cyl', M_CERAMICA, (7.20 + dx, 6.72 + dy, ZB + 0.026),
               (0.036, 0.036, 0.052))
+GIRO = None
 
 # texto del rotulo del altillo (mirando a la entrada)
 def texto(txt, loc, h, rot, mat, extrude=0.006):
@@ -1199,27 +1215,20 @@ def render_view(fn, eye, target, lens=24, hide_pa=False, fstop=4.0):
 
 import sys, os
 views = {
- 'R_escaparate': ((3.55, 4.95, 1.48), (6.90, 0.55, 1.28), 24, False, 5.0),
- 'R_suroeste':   ((2.35, 2.05, 1.52), (6.55, 7.05, 1.08), 22, False, 5.0),
- 'R_entrada':   ((8.55, 1.30, 1.55), (4.90, 7.35, 1.05), 26, False, 4.0),
- 'R_barra':     ((2.55, 4.65, 1.50), (6.90, 7.30, 1.00), 27, False, 3.5),
- 'R_sala':      ((1.15, 6.55, 1.55), (6.50, 1.60, 1.10), 24, False, 4.5),
- 'R_vitrinas':  ((5.15, 5.45, 1.35), (4.35, 7.30, 0.95), 30, False, 2.6),
- 'R_mampara':   ((4.90, 4.30, 1.60), (1.00, 8.10, 1.10), 25, False, 3.5),
- 'R_aerea':     ((11.5, -1.8, 9.5), (4.6, 5.2, 0.4), 30, True, 11.0),
- 'R_fachada':   ((8.6, -4.6, 1.55), (7.6, 0.5, 2.3), 27, False, 8.0),
- 'R_barra_frontal': ((5.75, 4.35, 1.45), (5.75, 7.43, 1.02), 28, False, 5.0),
- 'R_rincon':        ((0.72, 2.15, 1.52), (6.60, 7.10, 1.05), 22, False, 5.0),
- 'R_detalle':       ((2.95, 2.02, 1.12), (2.02, 2.70, 0.80), 50, False, 2.2),
- 'R_estanteria':    ((5.90, 5.72, 1.30), (5.90, 8.95, 1.48), 24, False, 4.5),
- 'R_escalera':      ((7.00, 2.85, 1.50), (9.45, 6.55, 1.75), 24, False, 5.0),
- 'R_terraza':       ((3.40, -3.90, 1.60), (8.30, 0.20, 2.00), 28, False, 6.0),
- 'fpv_01': ((7.95, -2.60, 1.40), (7.90, 1.20, 1.55), 24, False, 5.6),
- 'fpv_02': ((7.90, 0.05, 1.42), (5.60, 4.40, 1.15), 22, False, 4.5),
- 'fpv_03': ((4.90, 2.35, 1.02), (2.30, 4.40, 0.85), 28, False, 2.8),
- 'fpv_04': ((5.55, 5.75, 1.22), (6.75, 6.95, 1.18), 35, False, 2.8),
- 'fpv_05': ((3.90, 5.00, 2.10), (6.00, 6.99, 2.02), 30, False, 4.0),
- 'fpv_06': ((8.60, 1.20, 3.60), (3.80, 6.60, 0.80), 20, False, 8.0),
+ # Vistas ajustadas a la nueva planta: barra corrida de sur a norte pegada al
+ # ventanal (x 1,96-2,97), estanteria contra el muro oeste y mampara de la
+ # cocina en su cara este (x 2,41-2,46, y 6,92-8,96).
+ 'R_entrada':    ((8.45, 1.35, 1.55), (3.20, 4.80, 1.10), 24, False, 5.0),
+ 'R_barra':      ((5.20, 3.60, 1.52), (2.45, 4.90, 1.05), 26, False, 4.5),
+ 'R_vitrinas':   ((4.05, 2.45, 1.32), (2.45, 3.05, 0.98), 32, False, 2.6),
+ 'R_escaparate': ((4.30, 5.40, 1.50), (5.65, 1.20, 1.25), 24, False, 5.0),
+ 'R_escaparate2':((6.60, 3.60, 1.45), (3.90, 1.30, 1.20), 26, False, 4.0),
+ 'R_mampara':    ((5.00, 7.60, 1.58), (2.20, 8.30, 1.15), 26, False, 4.0),
+ 'R_suroeste':   ((3.65, 2.20, 1.58), (7.40, 6.90, 1.15), 22, False, 5.5),
+ 'R_aerea':      ((11.5, -1.8, 9.5), (4.6, 5.2, 0.4), 30, True, 11.0),
+ 'R_fachada':    ((8.6, -4.6, 1.55), (7.6, 0.5, 2.3), 27, False, 8.0),
+ 'R_escalera':   ((7.20, 3.40, 1.50), (9.45, 6.55, 1.75), 24, False, 5.0),
+ 'R_estanteria': ((1.35, 5.60, 1.45), (0.55, 3.20, 1.40), 26, False, 3.5),
 }
 if not os.environ.get('NAPOLI_NO_RENDER'):
     which = sys.argv[sys.argv.index('--')+1:] if '--' in sys.argv else list(views)
