@@ -6,29 +6,33 @@ SP = os.path.dirname(os.path.abspath(__file__))
 SCRATCH = os.path.dirname(SP)
 
 NODES = {
- 'p_entrada':  [8.15, 1.55],
- 'p_ventanal': [4.90, 2.20],
- 'p_sala':     [3.05, 3.45],
- 'p_mampara':  [2.30, 5.85],
- 'p_barra':    [5.35, 6.10],
- 'p_escalera': [7.55, 4.35],
- 'p_tras_barra': [5.60, 7.95],
- 'p_cocina':   [1.75, 7.55],
+ 'p_entrada':    [8.20, 1.65],
+ 'p_ventanal':   [4.55, 2.15],
+ 'p_sala':       [5.60, 4.00],
+ 'p_barra':      [3.55, 4.40],
+ 'p_fondo':      [3.50, 6.60],
+ 'p_paso':       [1.55, 6.40],
+ 'p_tras_barra': [1.30, 3.60],
+ 'p_cocina':     [1.70, 7.80],
+ 'p_escalera':   [8.05, 4.50],
 }
+# Solo enlaces que son un camino realmente andable: comprobado que la recta
+# entre cada par queda libre de muebles a 0,35 / 1,10 / 1,60 m de altura.
 LINKS = {
- 'p_entrada':  ['p_ventanal', 'p_escalera'],
- 'p_ventanal': ['p_entrada', 'p_sala', 'p_escalera'],
- 'p_sala':     ['p_ventanal', 'p_mampara', 'p_barra'],
- 'p_mampara':  ['p_sala', 'p_barra', 'p_cocina'],
- 'p_barra':    ['p_mampara', 'p_sala', 'p_escalera', 'p_tras_barra'],
- 'p_escalera': ['p_barra', 'p_entrada', 'p_ventanal', 'p_tras_barra'],
- 'p_tras_barra': ['p_barra', 'p_escalera', 'p_cocina'],
- 'p_cocina':   ['p_tras_barra', 'p_mampara'],
+ 'p_entrada':    ['p_ventanal'],
+ 'p_ventanal':   ['p_entrada', 'p_escalera'],
+ 'p_sala':       ['p_barra', 'p_escalera'],
+ 'p_barra':      ['p_sala', 'p_fondo', 'p_escalera'],
+ 'p_fondo':      ['p_barra', 'p_paso'],
+ 'p_paso':       ['p_fondo', 'p_tras_barra', 'p_cocina'],
+ 'p_tras_barra': ['p_paso', 'p_cocina'],
+ 'p_cocina':     ['p_paso', 'p_tras_barra'],
+ 'p_escalera':   ['p_ventanal', 'p_sala', 'p_barra'],
 }
 
 panos = {}
 for name in NODES:
-    p = os.path.join(SCRATCH, name + '.png')
+    p = os.path.join(SCRATCH, 'panos', name + '.png')
     im = Image.open(p).convert('RGB')
     b = io.BytesIO()
     im.save(b, 'JPEG', quality=88, optimize=True)
