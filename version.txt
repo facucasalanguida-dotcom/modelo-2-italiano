@@ -1,3 +1,5 @@
 cafe-napoli landing
-version: galeria-mejorada-v2
-fecha: 2026-08-26
+version: planta-reorganizada-v3
+fecha: 2026-08-28
+galeria: 7 imagenes mejoradas
+recorrido: 9 paradas 360
