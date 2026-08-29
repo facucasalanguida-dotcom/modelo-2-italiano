@@ -4,7 +4,6 @@
 import json, os
 
 SP = os.path.dirname(os.path.abspath(__file__))
-fotos = json.load(open(f'{SP}/fotos.json'))
 logo = json.load(open(f'{SP}/logo.json'))
 
 CAPITULOS = [
@@ -71,10 +70,6 @@ pagos = ''.join(
     f'<td>{c}</td><td class="fec">{f}</td></tr>'
     for p, i, c, f in PAGOS)
 
-tiras = ''.join(
-    f'<figure><img src="data:image/jpeg;base64,{f["d"]}" alt="{f["t"]}">'
-    f'<figcaption>{f["t"]}</figcaption></figure>' for f in fotos)
-
 html = f'''<!doctype html>
 <html lang="es"><head><meta charset="utf-8"><title>Presupuesto F26082502</title>
 <style>
@@ -86,7 +81,7 @@ html = f'''<!doctype html>
   * {{ box-sizing:border-box; margin:0; }}
   body {{
     font-family:'Liberation Sans', Arial, sans-serif;
-    color:var(--tinta); font-size:8.4pt; line-height:1.45;
+    color:var(--tinta); font-size:8.8pt; line-height:1.47;
     -webkit-print-color-adjust:exact; print-color-adjust:exact;
   }}
   h1,h2,h3 {{ font-family:'Bitstream Charter', Charter, Georgia, serif; font-weight:700; }}
@@ -103,44 +98,30 @@ html = f'''<!doctype html>
   /* ------------------------------------------------------------ titulo */
   .titulo {{ margin-top:6mm; display:flex; justify-content:space-between;
     align-items:flex-start; gap:8mm; }}
-  .titulo h1 {{ font-size:17pt; line-height:1.12; letter-spacing:-.01em; }}
-  .titulo .sub {{ margin-top:1.5mm; font-size:8.6pt; color:var(--suave); }}
-  .ref {{ border:.6pt solid var(--linea); background:var(--fondo);
-    padding:3mm 4mm; min-width:52mm; }}
-  .ref dl {{ display:grid; grid-template-columns:auto 1fr; gap:.8mm 3mm; margin:0; }}
-  .ref dt {{ font-size:6.6pt; letter-spacing:.1em; text-transform:uppercase;
-    color:var(--tenue); align-self:center; }}
-  .ref dd {{ margin:0; font-size:8.4pt; font-weight:700; text-align:right; }}
-
+  .titulo h1 {{ font-size:21pt; line-height:1.12; letter-spacing:-.01em; }}
+  .titulo .sub {{ margin-top:1.5mm; font-size:10.4pt; color:var(--suave); }}
+  .refline {{ margin-top:2.5mm; font-size:9pt; color:var(--suave);
+    letter-spacing:.02em; }}
+  .refline b {{ color:var(--tinta); letter-spacing:.04em; }}
   /* ------------------------------------------------------------ bloques */
-  .rot {{ font-size:7pt; letter-spacing:.16em; text-transform:uppercase;
+  .rot {{ font-size:7.8pt; letter-spacing:.16em; text-transform:uppercase;
     color:var(--rojo); font-weight:700; margin-bottom:2mm;
     padding-bottom:1.2mm; border-bottom:.6pt solid var(--linea); }}
   .objeto {{ margin-top:5mm; }}
   .objeto p {{ font-family:'Bitstream Charter', Charter, Georgia, serif;
-    font-size:10pt; line-height:1.5; }}
+    font-size:11.5pt; line-height:1.5; }}
 
   .caps {{ margin-top:5mm; column-count:2; column-gap:8mm; }}
-  .cap {{ break-inside:avoid; margin-bottom:3.2mm; }}
-  .cap h3 {{ font-size:8.6pt; display:flex; align-items:baseline; gap:2mm;
+  .cap {{ break-inside:avoid; margin-bottom:3.8mm; }}
+  .cap h3 {{ font-size:9.4pt; display:flex; align-items:baseline; gap:2mm;
     padding-bottom:1mm; border-bottom:.6pt solid var(--linea-f); margin-bottom:1.4mm; }}
-  .cnum {{ font-family:'Liberation Sans',Arial,sans-serif; font-size:6.8pt;
+  .cnum {{ font-family:'Liberation Sans',Arial,sans-serif; font-size:7.4pt;
     color:#fff; background:var(--tinta); padding:.5mm 1.4mm; border-radius:1pt;
     letter-spacing:.04em; }}
   .cap ul {{ margin:0; padding-left:3.4mm; list-style:none; }}
-  .cap li {{ position:relative; margin-bottom:.5mm; color:var(--suave); }}
+  .cap li {{ position:relative; margin-bottom:.8mm; color:var(--suave); }}
   .cap li::before {{ content:"—"; position:absolute; left:-3.4mm;
     color:var(--linea); }}
-
-  /* ------------------------------------------------------------- fotos */
-  .fotos {{ margin-top:4mm; }}
-  .rejilla {{ display:grid; grid-template-columns:repeat(4,1fr); gap:2.4mm; }}
-  .rejilla figure {{ margin:0; }}
-  .rejilla img {{ width:100%; display:block; aspect-ratio:16/9; object-fit:cover;
-    border:.5pt solid var(--linea); }}
-  .rejilla figcaption {{ font-size:6.2pt; color:var(--tenue); margin-top:.8mm;
-    letter-spacing:.03em; }}
-  .rejilla figure:nth-child(n+5) {{ grid-column:span 1; }}
 
   /* ---------------------------------------------------------- economico */
   .dos {{ display:grid; grid-template-columns:1fr 1fr; gap:8mm; margin-top:5mm; }}
@@ -175,20 +156,20 @@ html = f'''<!doctype html>
   table.pagos .fec {{ text-align:right; white-space:nowrap; }}
 
   /* ------------------------------------------------------------ firmas */
-  .conformidad {{ margin-top:6mm; }}
+  .conformidad {{ margin-top:5mm; }}
   .conformidad p {{ color:var(--suave); max-width:none; }}
   .firmas {{ display:grid; grid-template-columns:1fr 1fr; gap:10mm; margin-top:5mm; }}
-  .firma {{ border:.6pt solid var(--linea); padding:3.4mm 4mm 3mm; }}
+  .firma {{ border:.6pt solid var(--linea); padding:3mm 4mm 2.6mm; }}
   .firma h4 {{ font-family:'Bitstream Charter',Charter,Georgia,serif;
     font-size:9pt; margin-bottom:1mm; }}
   .firma .rolet {{ font-size:6.6pt; letter-spacing:.1em; text-transform:uppercase;
     color:var(--tenue); margin-bottom:3mm; }}
-  .campo {{ margin-bottom:3.4mm; }}
+  .campo {{ margin-bottom:2.8mm; }}
   .campo .lab {{ font-size:6.6pt; letter-spacing:.08em; text-transform:uppercase;
     color:var(--tenue); }}
   .campo .raya {{ border-bottom:.6pt solid var(--tinta); height:4.2mm; }}
   .campo.dato .raya {{ border-bottom-style:dotted; }}
-  .rubrica {{ height:17mm; border-bottom:.6pt solid var(--tinta); }}
+  .rubrica {{ height:14mm; border-bottom:.6pt solid var(--tinta); }}
   .rubrica-lab {{ font-size:6.6pt; letter-spacing:.08em; text-transform:uppercase;
     color:var(--tenue); margin-top:1mm; }}
 
@@ -212,14 +193,7 @@ html = f'''<!doctype html>
     <div>
       <h1>Presupuesto y contrato de obra</h1>
       <p class="sub">Reforma y ambientación de local comercial</p>
-    </div>
-    <div class="ref">
-      <dl>
-        <dt>Presupuesto</dt><dd>F26082502</dd>
-        <dt>Fecha</dt><dd>29·08·2026</dd>
-        <dt>Plazo</dt><dd>45 días</dd>
-        <dt>Importe</dt><dd>27.000,00 € <span style="font-weight:400">+ IVA</span></dd>
-      </dl>
+      <p class="refline">Presupuesto n.º <b>F26082502</b> &nbsp;·&nbsp; 29 de agosto de 2026</p>
     </div>
   </div>
 
@@ -232,11 +206,6 @@ html = f'''<!doctype html>
   <div style="margin-top:5mm">
     <div class="rot">Trabajos incluidos en la cotización</div>
     <div class="caps">{''.join(caps)}</div>
-  </div>
-
-  <div class="fotos">
-    <div class="rot">El proyecto — visualización del diseño</div>
-    <div class="rejilla">{tiras}</div>
   </div>
 
   <footer>
@@ -310,7 +279,7 @@ html = f'''<!doctype html>
         <div class="campo dato"><div class="lab">DNI / NIF</div><div class="raya"></div></div>
         <div class="campo dato"><div class="lab">Lugar y fecha</div><div class="raya"></div></div>
         <div class="rubrica"></div>
-        <div class="rubrica-lab">Firma y sello</div>
+        <div class="rubrica-lab">Firma</div>
       </div>
       <div class="firma">
         <h4>La propiedad</h4>
