@@ -94,6 +94,15 @@
     font-variant-numeric:tabular-nums; }
   table.pagos .fec { text-align:right; white-space:nowrap; }
 
+  /* ------------------------------------------------------ datos banco */
+  .banco { margin-top:5mm; }
+  .banco dl { margin:0; display:grid; grid-template-columns:auto 1fr;
+    gap:1.2mm 3.4mm; }
+  .banco dt { font-size:6.6pt; letter-spacing:.08em; text-transform:uppercase;
+    color:var(--tenue); align-self:center; }
+  .banco dd { margin:0; color:var(--tinta); font-variant-numeric:tabular-nums;
+    letter-spacing:.01em; }
+
   /* ------------------------------------------------------------ firmas */
   .conformidad { margin-top:5mm; }
   .conformidad p { color:var(--suave); max-width:none; }
@@ -106,9 +115,15 @@
   .campo { margin-bottom:2.8mm; }
   .campo .lab { font-size:6.6pt; letter-spacing:.08em; text-transform:uppercase;
     color:var(--tenue); }
-  .campo .raya { border-bottom:.6pt solid var(--tinta); height:4.2mm; }
+  .campo .raya { border-bottom:.6pt solid var(--tinta); height:4.2mm;
+    display:flex; align-items:flex-end; }
   .campo.dato .raya { border-bottom-style:dotted; }
-  .rubrica { height:14mm; border-bottom:.6pt solid var(--tinta); }
+  .campo .val { font-size:9pt; line-height:1.1; padding-bottom:.5mm;
+    white-space:nowrap; }
+  .rubrica { height:14mm; border-bottom:.6pt solid var(--tinta);
+    display:flex; align-items:flex-end; justify-content:center; }
+  .rubrica .rub { height:12.5mm; width:auto; display:block;
+    margin-bottom:.5mm; }
   .rubrica-lab { font-size:6.6pt; letter-spacing:.08em; text-transform:uppercase;
     color:var(--tenue); margin-top:1mm; }
 
@@ -208,9 +223,15 @@
       </div>
     </div>
 
-    <div class="noinc">
-      <div class="rot">Materiales y elementos no incluidos</div>
-      <ul contenteditable="true"><li>Revestimiento de acero inoxidable en paredes de cocina (ya solicitado)</li><li>Mesas</li><li>Sillones</li><li>Sillas</li><li>Taburetes</li><li>Elementos decorativos</li><li>Luminarias colgantes</li><li>Neveras</li><li>Muebles, biblioteca</li><li>Mobiliario y demás equipos de funcionamiento de cocina</li></ul>
+    <div>
+      <div class="noinc">
+        <div class="rot">Materiales y elementos no incluidos</div>
+        <ul><li>Revestimiento de acero inoxidable en paredes de cocina (ya solicitado)</li><li>Mesas</li><li>Sillones</li><li>Sillas</li><li>Taburetes</li><li>Elementos decorativos</li><li>Luminarias colgantes</li><li>Neveras</li><li>Muebles, biblioteca</li><li>Mobiliario y demás equipos de funcionamiento de cocina</li></ul>
+      </div>
+      <div class="banco">
+        <div class="rot">Datos bancarios</div>
+        <dl contenteditable="true"><dt>Banco</dt><dd>[entidad]</dd><dt>Titular</dt><dd>[titular de la cuenta]</dd><dt>IBAN</dt><dd>[ES00 0000 0000 0000 0000 0000]</dd><dt>SWIFT</dt><dd>[XXXXXXXXXXX]</dd></dl>
+      </div>
     </div>
   </div>
 
@@ -235,18 +256,14 @@
       <div class="firma">
         <h4>Grupo SUMA</h4>
         <div class="rolet">La empresa contratista</div>
-        <div class="campo"><div class="lab">Nombre y apellidos</div><div class="raya"></div></div>
-        <div class="campo dato"><div class="lab">DNI / NIF</div><div class="raya"></div></div>
-        <div class="campo dato"><div class="lab">Lugar y fecha</div><div class="raya"></div></div>
+        <div class="campo"><div class="lab">Nombre y apellidos</div><div class="raya"></div></div><div class="campo dato"><div class="lab">DNI / NIF</div><div class="raya"></div></div><div class="campo dato"><div class="lab">Lugar y fecha</div><div class="raya"></div></div>
         <div class="rubrica"></div>
         <div class="rubrica-lab">Firma</div>
       </div>
       <div class="firma">
         <h4>La propiedad</h4>
         <div class="rolet">El cliente</div>
-        <div class="campo"><div class="lab">Nombre y apellidos</div><div class="raya"></div></div>
-        <div class="campo dato"><div class="lab">DNI / NIF</div><div class="raya"></div></div>
-        <div class="campo dato"><div class="lab">Lugar y fecha</div><div class="raya"></div></div>
+        <div class="campo"><div class="lab">Nombre y apellidos</div><div class="raya"></div></div><div class="campo dato"><div class="lab">DNI / NIF</div><div class="raya"></div></div><div class="campo dato"><div class="lab">Lugar y fecha</div><div class="raya"></div></div>
         <div class="rubrica"></div>
         <div class="rubrica-lab">Firma</div>
       </div>

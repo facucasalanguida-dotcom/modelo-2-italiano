@@ -39,6 +39,16 @@ base, n = _re.subn(r'\n\s*<div class="vistas">.*?</div>\n\s*</div>\n',
                    '\n', base, flags=_re.S)
 assert n == 1, f'bloque de vistas no encontrado ({n})'
 
+# la plantilla sale en blanco: fuera la rubrica y los datos ya firmados
+# (si se genero sin privado.json ya vienen en blanco y no hay nada que quitar)
+base, n = _re.subn(r'<img class="rub"[^>]*>', '', base)
+assert n in (0, 1), f'rubricas encontradas: {n}'
+base, n = _re.subn(r'<span class="val">.*?</span>', '', base)
+assert n in (0, 3), f'campos firmados encontrados: {n}'
+
+# la cuenta es la de la propia empresa: se queda, pero editable
+base = base.replace('<dl>', '<dl contenteditable="true">', 1)
+
 # capitulos, no incluidos y tabla de pagos: bloques editables enteros
 base = base.replace('<div class="caps">', '<div class="caps" contenteditable="true">', 1)
 base = base.replace('<div class="rot">Materiales y elementos no incluidos</div>\n      <ul>',

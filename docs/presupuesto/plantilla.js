@@ -4,7 +4,7 @@ const fs = require('fs');
 const {
   Document, Packer, Paragraph, TextRun, ImageRun, Table, TableRow, TableCell,
   WidthType, BorderStyle, AlignmentType, ShadingType, LevelFormat,
-  VerticalAlign, PageBreak,
+  VerticalAlign, PageBreak, Tab, TabStopType,
 } = require('docx');
 
 const TINTA = '1B2733';
@@ -191,12 +191,32 @@ const celdaIzq = [
      txt(' desde el comienzo de los trabajos.', { color: SUAVE })]),
 ];
 
+// La cuenta real vive en privado.json, fuera de git; sin ese fichero la
+// plantilla sale con marcadores, como el resto de campos.
+const PRIV = __dirname + '/privado.json';
+const BANCO = fs.existsSync(PRIV)
+  ? JSON.parse(fs.readFileSync(PRIV, 'utf8')).banco
+  : [['Banco', '[entidad]'], ['Titular', '[titular de la cuenta]'],
+     ['IBAN', '[ES00 0000 0000 0000 0000 0000]'], ['SWIFT', '[XXXXXXXXXXX]']];
+
+// Etiqueta pequena y valor alineado a un tabulador fijo
+const lineaBanco = ([et, val]) => new Paragraph({
+  children: [new TextRun({ text: et.toUpperCase(), font: SANS, size: 13,
+               color: TENUE, characterSpacing: 20 }),
+             new TextRun({ children: [new Tab()] }),
+             txt(val)],
+  tabStops: [{ type: TabStopType.LEFT, position: 1100 }],
+  spacing: { after: 40, line: 250 },
+});
+
 const celdaDer = [rotulo('Materiales y elementos no incluidos')].concat(
   NO_INCLUIDO.map((x) => new Paragraph({
     children: [txt(x, { color: SUAVE })],
     numbering: { reference: 'cruz', level: 0 },
     spacing: { after: 30, line: 250 },
-  })));
+  })),
+  [rotulo('Datos bancarios')],
+  BANCO.map(lineaBanco));
 
 const dosColumnas = new Table({
   columnWidths: [4846, 400, 4846],

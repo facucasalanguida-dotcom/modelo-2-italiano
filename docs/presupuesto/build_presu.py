@@ -7,6 +7,20 @@ SP = os.path.dirname(os.path.abspath(__file__))
 logo = json.load(open(f'{SP}/logo.json'))
 vistas = json.load(open(f'{SP}/vistas.json'))
 
+# La cuenta, el DNI y la rubrica escaneada no se versionan: viven en
+# privado.json, que queda fuera de git. Sin ese fichero el documento se
+# genera igual, con la cuenta y las firmas en blanco para rellenar a mano.
+CAMPOS_FIRMA = ['Nombre y apellidos', 'DNI / NIF', 'Lugar y fecha']
+EN_BLANCO = {
+    'banco': [['Banco', '[entidad]'], ['Titular', '[titular de la cuenta]'],
+              ['IBAN', '[ES00 0000 0000 0000 0000 0000]'], ['SWIFT', '[XXXXXXXXXXX]']],
+    'contratista': [], 'firma': None,
+}
+ruta_privado = f'{SP}/privado.json'
+privado = (json.load(open(ruta_privado, encoding='utf-8'))
+           if os.path.exists(ruta_privado) else EN_BLANCO)
+BANCO, firma = privado['banco'], privado.get('firma')
+
 CAPITULOS = [
     ('01', 'Actuaciones previas', [
         'Limpieza y retiro de luminarias',
@@ -73,6 +87,23 @@ vistas_html = ''.join(
     f'<figcaption>{v["t"]}</figcaption></figure>' for v in vistas)
 
 no_inc = ''.join(f'<li>{x}</li>' for x in NO_INCLUIDO)
+
+banco = ''.join(f'<dt>{k}</dt><dd>{v}</dd>' for k, v in BANCO)
+
+def campos(datos=None):
+    """Los tres campos de un recuadro de firma, con valor o en blanco."""
+    val = dict(datos or [])
+    filas = []
+    for i, lab in enumerate(CAMPOS_FIRMA):
+        dato = ' dato' if i else ''
+        v = val.get(lab, '')
+        v = f'<span class="val">{v}</span>' if v else ''
+        filas.append(f'<div class="campo{dato}"><div class="lab">{lab}</div>'
+                     f'<div class="raya">{v}</div></div>')
+    return ''.join(filas)
+
+rubrica_suma = (f'<img class="rub" src="data:image/png;base64,{firma}" alt="Firma">'
+                if firma else '')
 
 pagos = ''.join(
     f'<tr><td class="pct">{p}</td><td class="imp">{i}</td>'
@@ -175,6 +206,15 @@ html = f'''<!doctype html>
     font-variant-numeric:tabular-nums; }}
   table.pagos .fec {{ text-align:right; white-space:nowrap; }}
 
+  /* ------------------------------------------------------ datos banco */
+  .banco {{ margin-top:5mm; }}
+  .banco dl {{ margin:0; display:grid; grid-template-columns:auto 1fr;
+    gap:1.2mm 3.4mm; }}
+  .banco dt {{ font-size:6.6pt; letter-spacing:.08em; text-transform:uppercase;
+    color:var(--tenue); align-self:center; }}
+  .banco dd {{ margin:0; color:var(--tinta); font-variant-numeric:tabular-nums;
+    letter-spacing:.01em; }}
+
   /* ------------------------------------------------------------ firmas */
   .conformidad {{ margin-top:5mm; }}
   .conformidad p {{ color:var(--suave); max-width:none; }}
@@ -187,9 +227,15 @@ html = f'''<!doctype html>
   .campo {{ margin-bottom:2.8mm; }}
   .campo .lab {{ font-size:6.6pt; letter-spacing:.08em; text-transform:uppercase;
     color:var(--tenue); }}
-  .campo .raya {{ border-bottom:.6pt solid var(--tinta); height:4.2mm; }}
+  .campo .raya {{ border-bottom:.6pt solid var(--tinta); height:4.2mm;
+    display:flex; align-items:flex-end; }}
   .campo.dato .raya {{ border-bottom-style:dotted; }}
-  .rubrica {{ height:14mm; border-bottom:.6pt solid var(--tinta); }}
+  .campo .val {{ font-size:9pt; line-height:1.1; padding-bottom:.5mm;
+    white-space:nowrap; }}
+  .rubrica {{ height:14mm; border-bottom:.6pt solid var(--tinta);
+    display:flex; align-items:flex-end; justify-content:center; }}
+  .rubrica .rub {{ height:12.5mm; width:auto; display:block;
+    margin-bottom:.5mm; }}
   .rubrica-lab {{ font-size:6.6pt; letter-spacing:.08em; text-transform:uppercase;
     color:var(--tenue); margin-top:1mm; }}
 
@@ -276,9 +322,15 @@ html = f'''<!doctype html>
       </div>
     </div>
 
-    <div class="noinc">
-      <div class="rot">Materiales y elementos no incluidos</div>
-      <ul>{no_inc}</ul>
+    <div>
+      <div class="noinc">
+        <div class="rot">Materiales y elementos no incluidos</div>
+        <ul>{no_inc}</ul>
+      </div>
+      <div class="banco">
+        <div class="rot">Datos bancarios</div>
+        <dl>{banco}</dl>
+      </div>
     </div>
   </div>
 
@@ -303,18 +355,14 @@ html = f'''<!doctype html>
       <div class="firma">
         <h4>Grupo SUMA</h4>
         <div class="rolet">La empresa contratista</div>
-        <div class="campo"><div class="lab">Nombre y apellidos</div><div class="raya"></div></div>
-        <div class="campo dato"><div class="lab">DNI / NIF</div><div class="raya"></div></div>
-        <div class="campo dato"><div class="lab">Lugar y fecha</div><div class="raya"></div></div>
-        <div class="rubrica"></div>
+        {campos(privado['contratista'])}
+        <div class="rubrica">{rubrica_suma}</div>
         <div class="rubrica-lab">Firma</div>
       </div>
       <div class="firma">
         <h4>La propiedad</h4>
         <div class="rolet">El cliente</div>
-        <div class="campo"><div class="lab">Nombre y apellidos</div><div class="raya"></div></div>
-        <div class="campo dato"><div class="lab">DNI / NIF</div><div class="raya"></div></div>
-        <div class="campo dato"><div class="lab">Lugar y fecha</div><div class="raya"></div></div>
+        {campos()}
         <div class="rubrica"></div>
         <div class="rubrica-lab">Firma</div>
       </div>
