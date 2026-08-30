@@ -39,7 +39,9 @@
   .objeto p { font-family:'Bitstream Charter', Charter, Georgia, serif;
     font-size:11.5pt; line-height:1.5; }
 
-  .caps { margin-top:5mm; column-count:2; column-gap:8mm; }
+  .caps { margin-top:5mm; display:grid; grid-template-columns:1fr 1fr;
+    gap:0 8mm; align-items:start; }
+  .caps > div { min-width:0; }
   .cap { break-inside:avoid; margin-bottom:3.8mm; }
   .cap h3 { font-size:9.4pt; display:flex; align-items:baseline; gap:2mm;
     padding-bottom:1mm; border-bottom:.6pt solid var(--linea-f); margin-bottom:1.4mm; }
@@ -50,6 +52,15 @@
   .cap li { position:relative; margin-bottom:.8mm; color:var(--suave); }
   .cap li::before { content:"—"; position:absolute; left:-3.4mm;
     color:var(--linea); }
+
+  /* --------------------------------------------- vistas de referencia */
+  .vistas { margin-top:5mm; break-inside:avoid; }
+  .vistas .rejilla { display:grid; grid-template-columns:1fr 1fr; gap:2.6mm; }
+  .vistas figure { margin:0; }
+  .vistas img { width:100%; display:block; aspect-ratio:16/9;
+    object-fit:cover; border:.5pt solid var(--linea); }
+  .vistas figcaption { font-size:6.4pt; color:var(--tenue); margin-top:.9mm;
+    letter-spacing:.03em; }
 
   /* ---------------------------------------------------------- economico */
   .dos { display:grid; grid-template-columns:1fr 1fr; gap:8mm; margin-top:5mm; }
@@ -132,7 +143,8 @@
 
   <div style="margin-top:5mm">
     <div class="rot">Trabajos incluidos en la cotización</div>
-    <div class="caps" contenteditable="true"><section class="cap">
+    <div class="caps" contenteditable="true">
+      <div><section class="cap">
       <h3><span class="cnum">01</span>Actuaciones previas</h3>
       <ul><li>Limpieza y retiro de luminarias</li><li>Retiro de cartelería existente en frente</li><li>Contratación de cuba para materiales y escombros</li><li>Andamio para trabajo en altura</li></ul>
     </section><section class="cap">
@@ -141,7 +153,8 @@
     </section><section class="cap">
       <h3><span class="cnum">03</span>Carpintería</h3>
       <ul><li>Suelo de tarima de alto tránsito de uso comercial en salones y escalera</li><li>Rodapiés</li><li>Palillería en columnas</li><li>Adecuación de barra a nueva zona</li><li>Revestimiento en barra</li><li>Mampara separadora de cristal templado para cocina</li></ul>
-    </section><section class="cap">
+    </section></div>
+      <div><section class="cap">
       <h3><span class="cnum">04</span>Fontanería y saneamiento</h3>
       <ul><li>Revisión de tuberías y desagües</li></ul>
     </section><section class="cap">
@@ -150,7 +163,9 @@
     </section><section class="cap">
       <h3><span class="cnum">06</span>Electricidad</h3>
       <ul><li>Revisión de circuitos</li><li>Adecuación de enchufes</li><li>Colocación de led en barra</li><li>Colocación de luminaria en techo</li><li>Colocación de luz en escalera</li></ul>
-    </section></div>
+    </section>
+      </div>
+    </div>
   </div>
 
   <footer>

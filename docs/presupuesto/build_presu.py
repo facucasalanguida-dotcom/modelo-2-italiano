@@ -5,6 +5,7 @@ import json, os
 
 SP = os.path.dirname(os.path.abspath(__file__))
 logo = json.load(open(f'{SP}/logo.json'))
+vistas = json.load(open(f'{SP}/vistas.json'))
 
 CAPITULOS = [
     ('01', 'Actuaciones previas', [
@@ -55,13 +56,21 @@ PAGOS = [
     ('10 %', '2.700,00 €', 'A la entrega final', 'Fin de obra'),
 ]
 
-caps = []
-for num, tit, items in CAPITULOS:
+def bloque_cap(num, tit, items):
     lis = ''.join(f'<li>{x}</li>' for x in items)
-    caps.append(f'''<section class="cap">
+    return f'''<section class="cap">
       <h3><span class="cnum">{num}</span>{tit}</h3>
       <ul>{lis}</ul>
-    </section>''')
+    </section>'''
+
+# Se reparten a mano para dejar el hueco de la columna derecha libre
+# para las vistas de referencia.
+caps_izq = ''.join(bloque_cap(*c) for c in CAPITULOS[:3])
+caps_der = ''.join(bloque_cap(*c) for c in CAPITULOS[3:])
+
+vistas_html = ''.join(
+    f'<figure><img src="data:image/jpeg;base64,{v["d"]}" alt="{v["t"]}">'
+    f'<figcaption>{v["t"]}</figcaption></figure>' for v in vistas)
 
 no_inc = ''.join(f'<li>{x}</li>' for x in NO_INCLUIDO)
 
@@ -111,7 +120,9 @@ html = f'''<!doctype html>
   .objeto p {{ font-family:'Bitstream Charter', Charter, Georgia, serif;
     font-size:11.5pt; line-height:1.5; }}
 
-  .caps {{ margin-top:5mm; column-count:2; column-gap:8mm; }}
+  .caps {{ margin-top:5mm; display:grid; grid-template-columns:1fr 1fr;
+    gap:0 8mm; align-items:start; }}
+  .caps > div {{ min-width:0; }}
   .cap {{ break-inside:avoid; margin-bottom:3.8mm; }}
   .cap h3 {{ font-size:9.4pt; display:flex; align-items:baseline; gap:2mm;
     padding-bottom:1mm; border-bottom:.6pt solid var(--linea-f); margin-bottom:1.4mm; }}
@@ -122,6 +133,15 @@ html = f'''<!doctype html>
   .cap li {{ position:relative; margin-bottom:.8mm; color:var(--suave); }}
   .cap li::before {{ content:"—"; position:absolute; left:-3.4mm;
     color:var(--linea); }}
+
+  /* --------------------------------------------- vistas de referencia */
+  .vistas {{ margin-top:5mm; break-inside:avoid; }}
+  .vistas .rejilla {{ display:grid; grid-template-columns:1fr 1fr; gap:2.6mm; }}
+  .vistas figure {{ margin:0; }}
+  .vistas img {{ width:100%; display:block; aspect-ratio:16/9;
+    object-fit:cover; border:.5pt solid var(--linea); }}
+  .vistas figcaption {{ font-size:6.4pt; color:var(--tenue); margin-top:.9mm;
+    letter-spacing:.03em; }}
 
   /* ---------------------------------------------------------- economico */
   .dos {{ display:grid; grid-template-columns:1fr 1fr; gap:8mm; margin-top:5mm; }}
@@ -205,7 +225,15 @@ html = f'''<!doctype html>
 
   <div style="margin-top:5mm">
     <div class="rot">Trabajos incluidos en la cotización</div>
-    <div class="caps">{''.join(caps)}</div>
+    <div class="caps">
+      <div>{caps_izq}</div>
+      <div>{caps_der}
+        <div class="vistas">
+          <div class="rot">Vistas de referencia</div>
+          <div class="rejilla">{vistas_html}</div>
+        </div>
+      </div>
+    </div>
   </div>
 
   <footer>

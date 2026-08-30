@@ -33,6 +33,12 @@ for viejo, nuevo in REEMPLAZOS:
     assert viejo in base, viejo[:50]
     base = base.replace(viejo, nuevo, 1)
 
+# las vistas de referencia son fotos de un proyecto concreto: fuera de la plantilla
+import re as _re
+base, n = _re.subn(r'\n\s*<div class="vistas">.*?</div>\n\s*</div>\n',
+                   '\n', base, flags=_re.S)
+assert n == 1, f'bloque de vistas no encontrado ({n})'
+
 # capitulos, no incluidos y tabla de pagos: bloques editables enteros
 base = base.replace('<div class="caps">', '<div class="caps" contenteditable="true">', 1)
 base = base.replace('<div class="rot">Materiales y elementos no incluidos</div>\n      <ul>',
