@@ -2,12 +2,12 @@
   width="411mm" height="390mm">
 <rect x="0" y="0" width="4110" height="3900" fill="#EFE7D8"/>
 <g transform="translate(760,0)">
-<rect x="100" y="100" width="3150" height="3700" fill="none" stroke="#C29A5B" stroke-width="5"/>
-<rect x="150" y="150" width="3050" height="3600" fill="none" stroke="#C29A5B" stroke-width="2.5"/>
+<rect x="100" y="100" width="3150" height="3540" fill="none" stroke="#C29A5B" stroke-width="5"/>
+<rect x="150" y="150" width="3050" height="3440" fill="none" stroke="#C29A5B" stroke-width="2.5"/>
 <rect x="128" y="128" width="44" height="44" fill="#3A6B89" transform="rotate(45 150 150)"/>
-<rect x="128" y="3728" width="44" height="44" fill="#3A6B89" transform="rotate(45 150 3750)"/>
+<rect x="128" y="3568" width="44" height="44" fill="#3A6B89" transform="rotate(45 150 3590)"/>
 <rect x="3178" y="128" width="44" height="44" fill="#3A6B89" transform="rotate(45 3200 150)"/>
-<rect x="3178" y="3728" width="44" height="44" fill="#3A6B89" transform="rotate(45 3200 3750)"/>
+<rect x="3178" y="3568" width="44" height="44" fill="#3A6B89" transform="rotate(45 3200 3590)"/>
 <rect x="1655" y="450" width="40" height="40" fill="#C29A5B" transform="rotate(45 1675 470)"/>
 <svg x="650" y="640" width="2050" height="1114" viewBox="163.2 527.0 1593.6 866.1" preserveAspectRatio="xMidYMid meet"><defs>
 <clipPath id="clip_1">

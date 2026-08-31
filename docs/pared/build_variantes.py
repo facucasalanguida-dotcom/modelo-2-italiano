@@ -64,10 +64,11 @@ def abrir(fondo):
 
 # ================================================= A. GALLERIA (crema total)
 p = abrir(CREMA)
-p.append(f'<rect x="100" y="100" width="{W-200}" height="{H-200}" fill="none" stroke="{LATON}" stroke-width="5"/>')
-p.append(f'<rect x="150" y="150" width="{W-300}" height="{H-300}" fill="none" stroke="{LATON}" stroke-width="2.5"/>')
+BOT = 3640            # el marco remata por encima del corte contra el suelo
+p.append(f'<rect x="100" y="100" width="{W-200}" height="{BOT-100}" fill="none" stroke="{LATON}" stroke-width="5"/>')
+p.append(f'<rect x="150" y="150" width="{W-300}" height="{BOT-200}" fill="none" stroke="{LATON}" stroke-width="2.5"/>')
 for x in (150, W-150):
-    for y in (150, H-150):
+    for y in (150, BOT-50):
         p.append(rombo(x, y, 44, AZUL))
 p.append(rombo(CX, 470, 40, LATON))
 p.append(logo_svg(CX-1025, 640, 2050))
@@ -87,9 +88,10 @@ p = abrir(AZUL)
 for i in range(-5, 24):
     x = i * 140
     p.append(f'<line x1="{x}" y1="0" x2="{x}" y2="{H}" stroke="{AZUL2}" stroke-width="7"/>')
-p.append(f'<rect x="100" y="100" width="{W-200}" height="{H-200}" fill="none" stroke="{LATON}" stroke-width="5"/>')
+BOT = 3640
+p.append(f'<rect x="100" y="100" width="{W-200}" height="{BOT-100}" fill="none" stroke="{LATON}" stroke-width="5"/>')
 for x in (100, W-100):
-    for y in (100, H-100):
+    for y in (100, BOT):
         p.append(rombo(x, y, 52, CREMA))
 PW = 2400; PX0 = CX-PW/2; PX1 = CX+PW/2; ARR = PW/2; YARR = 380+ARR; PYB = 2740
 p.append(f'''<path fill="{CREMA}" d="M {PX0} {PYB} L {PX0} {YARR}
