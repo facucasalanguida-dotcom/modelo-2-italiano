@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3350 3900"
+  width="335mm" height="390mm" font-family="'Bitstream Charter', Charter, Georgia, serif">
+<rect x="120" y="120" width="3110" height="3660" fill="none" stroke="#C29A5B" stroke-width="5"/>
+<rect x="94" y="94" width="52" height="52" fill="#EFE7D8" transform="rotate(45 120 120)"/>
+<rect x="94" y="3754" width="52" height="52" fill="#EFE7D8" transform="rotate(45 120 3780)"/>
+<rect x="3204" y="94" width="52" height="52" fill="#EFE7D8" transform="rotate(45 3230 120)"/>
+<rect x="3204" y="3754" width="52" height="52" fill="#EFE7D8" transform="rotate(45 3230 3780)"/>
+<circle cx="1675.0" cy="1210" r="760" fill="none" stroke="#EFE7D8" stroke-width="12"/>
+<circle cx="1675.0" cy="1210" r="706" fill="none" stroke="#C29A5B" stroke-width="4"/>
+<clipPath id="esc"><circle cx="1675.0" cy="1210" r="690"/></clipPath>
+<g clip-path="url(#esc)">
+<circle cx="1260.0" cy="855" r="165" fill="#C29A5B"/>
+<path fill="#3A6B89" d="M 1015.0 1360
+  L 1285.0 1010 L 1370.0 945 L 1455.0 960
+  L 1570.0 1050 L 1645.0 1015
+  L 1765.0 855 L 1910.0 870
+  L 2075.0 1060 L 2335.0 1360 Z"/>
+<path fill="none" stroke="#EFE7D8" stroke-width="15" stroke-linecap="round"
+  d="M 1800.0 815 C 1730.0 735 1840.0 680 1770.0 600"/>
+<path fill="none" stroke="#EFE7D8" stroke-width="11" stroke-linecap="round"
+  d="M 1880.0 820 C 1945.0 745 1860.0 705 1925.0 630"/>
+<path fill="#EFE7D8" d="M 2030.0 1512 L 2030.0 1398
+  L 2103.0 1512 Z"/>
+<path fill="#C29A5B" d="M 1993.0 1524 L 2137.0 1524
+  L 2111.0 1566 L 2019.0 1566 Z"/>
+<path fill="none" stroke="#EFE7D8" stroke-width="15" stroke-linecap="round" d="M 975.0 1455 q 70.0 26 140.0 0 q 70.0 -26 140.0 0 q 70.0 26 140.0 0 q 70.0 -26 140.0 0 q 70.0 26 140.0 0 q 70.0 -26 140.0 0 q 70.0 26 140.0 0 q 70.0 -26 140.0 0 q 70.0 26 140.0 0 q 70.0 -26 140.0 0"/>
+<path fill="none" stroke="#3A6B89" stroke-width="13" stroke-linecap="round" d="M 975.0 1565 q 70.0 26 140.0 0 q 70.0 -26 140.0 0 q 70.0 26 140.0 0 q 70.0 -26 140.0 0 q 70.0 26 140.0 0 q 70.0 -26 140.0 0 q 70.0 26 140.0 0 q 70.0 -26 140.0 0 q 70.0 26 140.0 0 q 70.0 -26 140.0 0"/>
+<path fill="none" stroke="#EFE7D8" stroke-width="15" stroke-linecap="round" d="M 975.0 1675 q 70.0 26 140.0 0 q 70.0 -26 140.0 0 q 70.0 26 140.0 0 q 70.0 -26 140.0 0 q 70.0 26 140.0 0 q 70.0 -26 140.0 0 q 70.0 26 140.0 0 q 70.0 -26 140.0 0 q 70.0 26 140.0 0 q 70.0 -26 140.0 0"/>
+</g>
+<rect x="1550.0" y="2115.0" width="30" height="30" fill="#C29A5B" transform="rotate(45 1565.0 2130)"/>
+<rect x="1654.0" y="2109.0" width="42" height="42" fill="#C29A5B" transform="rotate(45 1675.0 2130)"/>
+<rect x="1770.0" y="2115.0" width="30" height="30" fill="#C29A5B" transform="rotate(45 1785.0 2130)"/>
+<text x="1616.0" y="2372" text-anchor="middle" fill="#C29A5B"
+  font-size="150" letter-spacing="118">CAFÉ</text>
+<line x1="1175.0" y1="2322" x2="495.0" y2="2322" stroke="#C29A5B" stroke-width="5"/>
+<line x1="2175.0" y1="2322" x2="2855.0" y2="2322" stroke="#C29A5B" stroke-width="5"/>
+<text x="1647.0" y="2860" text-anchor="middle" fill="#EFE7D8"
+  font-size="500" font-weight="bold" letter-spacing="56">NAPOLI</text>
+<text x="1665.0" y="3082" text-anchor="middle" fill="#EFE7D8"
+  font-family="'Liberation Sans', Arial, sans-serif" font-weight="bold"
+  font-size="76" letter-spacing="20">UN OBRADOR ITALIANO A PIE DE CALLE</text>
+<path fill="#3A6B89" d="M 1007.0 3600 L 1007.0 3486.3 Q 1007.0 3439.0 1036.24 3419.68 L 1036.24 3383.8 L 1063.76 3383.8 L 1063.76 3419.68 Q 1093.0 3439.0 1093.0 3486.3 L 1093.0 3600 Z"/><rect fill="#3A6B89" x="1032.24" y="3370" width="35.519999999999996" height="11.5" rx="6"/>
+<path fill="#C29A5B" d="M 1161.0 3600 L 1161.0 3440.6 Q 1161.0 3390.0 1192.28 3364.8 L 1192.28 3318.0 L 1221.72 3318.0 L 1221.72 3364.8 Q 1253.0 3390.0 1253.0 3440.6 L 1253.0 3600 Z"/><rect fill="#C29A5B" x="1188.28" y="3300" width="37.44" height="15.0" rx="6"/>
+<path fill="#EFE7D8" d="M 1321.0 3600 L 1321.0 3460.9 Q 1321.0 3418.0 1347.52 3396.16 L 1347.52 3355.6 L 1372.48 3355.6 L 1372.48 3396.16 Q 1399.0 3418.0 1399.0 3460.9 L 1399.0 3600 Z"/><rect fill="#EFE7D8" x="1343.52" y="3340" width="32.96" height="13.0" rx="6"/>
+<path fill="#3A6B89" d="M 1467.0 3600 L 1467.0 3426.4 Q 1467.0 3372.5 1500.32 3345.2 L 1500.32 3294.5 L 1531.68 3294.5 L 1531.68 3345.2 Q 1565.0 3372.5 1565.0 3426.4 L 1565.0 3600 Z"/><rect fill="#3A6B89" x="1496.32" y="3275" width="39.36" height="16.25" rx="6"/>
+<path fill="#C29A5B" d="M 1633.0 3600 L 1633.0 3474.7 Q 1633.0 3428.5 1661.56 3407.92 L 1661.56 3369.7 L 1688.44 3369.7 L 1688.44 3407.92 Q 1717.0 3428.5 1717.0 3474.7 L 1717.0 3600 Z"/><rect fill="#C29A5B" x="1657.56" y="3355" width="34.879999999999995" height="12.25" rx="6"/>
+<path fill="#3A6B89" d="M 1785.0 3600 L 1785.0 3426.4 Q 1785.0 3372.5 1818.32 3345.2 L 1818.32 3294.5 L 1849.68 3294.5 L 1849.68 3345.2 Q 1883.0 3372.5 1883.0 3426.4 L 1883.0 3600 Z"/><rect fill="#3A6B89" x="1814.32" y="3275" width="39.36" height="16.25" rx="6"/>
+<path fill="#EFE7D8" d="M 1951.0 3600 L 1951.0 3460.9 Q 1951.0 3418.0 1977.52 3396.16 L 1977.52 3355.6 L 2002.48 3355.6 L 2002.48 3396.16 Q 2029.0 3418.0 2029.0 3460.9 L 2029.0 3600 Z"/><rect fill="#EFE7D8" x="1973.52" y="3340" width="32.96" height="13.0" rx="6"/>
+<path fill="#C29A5B" d="M 2097.0 3600 L 2097.0 3440.6 Q 2097.0 3390.0 2128.28 3364.8 L 2128.28 3318.0 L 2157.72 3318.0 L 2157.72 3364.8 Q 2189.0 3390.0 2189.0 3440.6 L 2189.0 3600 Z"/><rect fill="#C29A5B" x="2124.28" y="3300" width="37.44" height="15.0" rx="6"/>
+<path fill="#3A6B89" d="M 2257.0 3600 L 2257.0 3486.3 Q 2257.0 3439.0 2286.24 3419.68 L 2286.24 3383.8 L 2313.76 3383.8 L 2313.76 3419.68 Q 2343.0 3439.0 2343.0 3486.3 L 2343.0 3600 Z"/><rect fill="#3A6B89" x="2282.24" y="3370" width="35.519999999999996" height="11.5" rx="6"/>
+<line x1="937.0" y1="3626" x2="2413.0" y2="3626" stroke="#C29A5B" stroke-width="8"/>
+<text x="1666.0" y="3212" text-anchor="middle" fill="#C29A5B"
+  font-family="'Liberation Sans', Arial, sans-serif" font-weight="bold"
+  font-size="56" letter-spacing="20">MÁLAGA · CIUDAD DE LA JUSTICIA</text>
+</svg>
