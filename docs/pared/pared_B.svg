@@ -1,6 +1,13 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3350 3900"
-  width="335mm" height="390mm">
-<rect x="0" y="0" width="3350" height="3900" fill="#3A6B89"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 4110 3900"
+  width="411mm" height="390mm">
+<rect x="0" y="0" width="4110" height="3900" fill="#3A6B89"/>
+<g transform="translate(760,0)">
+<line x1="-700" y1="0" x2="-700" y2="3900" stroke="#2F5872" stroke-width="7"/>
+<line x1="-560" y1="0" x2="-560" y2="3900" stroke="#2F5872" stroke-width="7"/>
+<line x1="-420" y1="0" x2="-420" y2="3900" stroke="#2F5872" stroke-width="7"/>
+<line x1="-280" y1="0" x2="-280" y2="3900" stroke="#2F5872" stroke-width="7"/>
+<line x1="-140" y1="0" x2="-140" y2="3900" stroke="#2F5872" stroke-width="7"/>
+<line x1="0" y1="0" x2="0" y2="3900" stroke="#2F5872" stroke-width="7"/>
 <line x1="140" y1="0" x2="140" y2="3900" stroke="#2F5872" stroke-width="7"/>
 <line x1="280" y1="0" x2="280" y2="3900" stroke="#2F5872" stroke-width="7"/>
 <line x1="420" y1="0" x2="420" y2="3900" stroke="#2F5872" stroke-width="7"/>
@@ -57,4 +64,4 @@
 <text x="1659.0" y="2290" text-anchor="middle" fill="#3A6B89" font-family="'Liberation Sans', Arial, sans-serif" font-weight="bold" font-size="96" letter-spacing="31">CUCINA ITALIANA</text>
 <text x="1665.0" y="2430" text-anchor="middle" fill="#3A6B89" font-family="'Liberation Sans', Arial, sans-serif" font-weight="bold" font-size="56" letter-spacing="20">MÁLAGA · CIUDAD DE LA JUSTICIA</text>
 <path fill="#EFE7D8" d="M 974 3450 L 974 3331 Q 974 3281 1004 3261 L 1004 3223 L 1033 3223 L 1033 3261 Q 1064 3281 1064 3331 L 1064 3450 Z"/><rect fill="#EFE7D8" x="1000" y="3208" width="37" height="12" rx="6"/><path fill="#C29A5B" d="M 1135 3450 L 1135 3283 Q 1135 3230 1168 3203 L 1168 3154 L 1199 3154 L 1199 3203 Q 1232 3230 1232 3283 L 1232 3450 Z"/><rect fill="#C29A5B" x="1164" y="3135" width="39" height="16" rx="6"/><path fill="#EFE7D8" d="M 1303 3450 L 1303 3304 Q 1303 3259 1331 3236 L 1331 3193 L 1357 3193 L 1357 3236 Q 1385 3259 1385 3304 L 1385 3450 Z"/><rect fill="#EFE7D8" x="1327" y="3177" width="34" height="14" rx="6"/><path fill="#C29A5B" d="M 1457 3450 L 1457 3268 Q 1457 3211 1492 3182 L 1492 3129 L 1525 3129 L 1525 3182 Q 1560 3211 1560 3268 L 1560 3450 Z"/><rect fill="#C29A5B" x="1488" y="3109" width="41" height="17" rx="6"/><path fill="#EFE7D8" d="M 1631 3450 L 1631 3318 Q 1631 3270 1661 3248 L 1661 3208 L 1689 3208 L 1689 3248 Q 1719 3270 1719 3318 L 1719 3450 Z"/><rect fill="#EFE7D8" x="1657" y="3193" width="36" height="13" rx="6"/><path fill="#C29A5B" d="M 1790 3450 L 1790 3268 Q 1790 3211 1825 3182 L 1825 3129 L 1858 3129 L 1858 3182 Q 1893 3211 1893 3268 L 1893 3450 Z"/><rect fill="#C29A5B" x="1821" y="3109" width="41" height="17" rx="6"/><path fill="#EFE7D8" d="M 1965 3450 L 1965 3304 Q 1965 3259 1993 3236 L 1993 3193 L 2019 3193 L 2019 3236 Q 2047 3259 2047 3304 L 2047 3450 Z"/><rect fill="#EFE7D8" x="1989" y="3177" width="34" height="14" rx="6"/><path fill="#C29A5B" d="M 2118 3450 L 2118 3283 Q 2118 3230 2151 3203 L 2151 3154 L 2182 3154 L 2182 3203 Q 2215 3230 2215 3283 L 2215 3450 Z"/><rect fill="#C29A5B" x="2147" y="3135" width="39" height="16" rx="6"/><path fill="#EFE7D8" d="M 2286 3450 L 2286 3331 Q 2286 3281 2317 3261 L 2317 3223 L 2346 3223 L 2346 3261 Q 2376 3281 2376 3331 L 2376 3450 Z"/><rect fill="#EFE7D8" x="2313" y="3208" width="37" height="12" rx="6"/><line x1="904" y1="3476" x2="2446" y2="3476" stroke="#C29A5B" stroke-width="8"/>
-</svg>
+</g></svg>
