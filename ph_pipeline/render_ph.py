@@ -230,9 +230,15 @@ def importar(aid, nombres):
     for img_ in bpy.data.images:
         if img_.name in antes or not img_.filepath: continue
         fp = img_.filepath
-        if fp.startswith('//'):
-            cand = os.path.join(f'{PH}/{aid}', fp[2:].replace('\\', '/'))
-            if os.path.exists(cand): img_.filepath = cand; img_.reload()
+        cand = os.path.join(f'{PH}/{aid}', fp[2:].replace('\\', '/')) if fp.startswith('//') else fp
+        if not os.path.exists(cand):
+            # el .blend pide .exr y aqui hay .png/.jpg (o al reves): misma base, otra extension
+            base_ = os.path.join(f'{PH}/{aid}/textures', os.path.splitext(os.path.basename(cand))[0])
+            cand = next((base_ + ext for ext in ('.png', '.jpg', '.exr') if os.path.exists(base_ + ext)), None)
+        if cand and cand != fp:
+            img_.filepath = cand; img_.reload()
+        elif not cand:
+            print('   AVISO textura ausente:', aid, os.path.basename(fp), flush=True)
     return obs
 
 def instanciar(obs, loc, escala=1.0, rotz=0.0, primera=False):
