@@ -683,8 +683,50 @@ for attr, val in (('use_light_tree', True), ('denoising_prefilter', 'ACCURATE'),
 scene.render.use_persistent_data = True
 scene.render.image_settings.file_format = 'PNG'; scene.render.image_settings.color_depth = '16'
 
-for v in VISTA.split(','):
-    eye, tgt, lens, hide, fs = ns['views'][v]
-    fn = SALIDA if ',' not in VISTA else SALIDA.replace('.png', f'_{v}.png')
-    ns['render_view'](fn, eye, tgt, lens, hide, fs)
-print('LISTO', SALIDA, flush=True)
+PASADAS = int(os.environ.get('PH_PASADAS', '0'))
+if PASADAS:
+    # render por pasadas reanudable: cada pasada escribe (via nodo File Output del compositor) un EXR
+    # multiparte lineal en media precision con la imagen, el albedo y la normal de denoise, con semilla
+    # distinta; fusionar.py las promedia y pasa el denoiser. Si la maquina se cae solo se pierde la
+    # pasada en curso: las ya escritas se saltan al relanzar.
+    c.use_denoising = False
+    for vl in scene.view_layers: vl.cycles.denoising_store_passes = True
+    scene.render.image_settings.file_format = 'PNG'; scene.render.image_settings.color_depth = '8'
+    ntc = bpy.data.node_groups.new('comp_pasadas', 'CompositorNodeTree')
+    scene.compositing_node_group = ntc; scene.render.use_compositing = True
+    rlay = ntc.nodes.new('CompositorNodeRLayers'); rlay.scene = scene
+    ntc.interface.new_socket('Image', in_out='OUTPUT', socket_type='NodeSocketColor')
+    gout = ntc.nodes.new('NodeGroupOutput'); ntc.links.new(rlay.outputs['Image'], gout.inputs['Image'])
+    fout = ntc.nodes.new('CompositorNodeOutputFile')
+    fout.format.file_format = 'OPEN_EXR_MULTILAYER'; fout.format.color_depth = '16'; fout.format.exr_codec = 'ZIP'
+    fout.save_as_render = False
+    for it in list(fout.file_output_items): fout.file_output_items.remove(it)
+    for nm_, sock_ in (('img', 'Image'), ('alb', 'Denoising Albedo'), ('nor', 'Denoising Normal')):
+        fout.file_output_items.new('RGBA', nm_); ntc.links.new(rlay.outputs[sock_], fout.inputs[nm_])
+    os.makedirs(f'{SP}/pasadas', exist_ok=True); fout.directory = f'{SP}/pasadas/'
+    import json as _json
+    vs_ = scene.view_settings
+    _json.dump({'view_transform': vs_.view_transform, 'look': vs_.look,
+                'exposure': EXPO, 'gamma': vs_.gamma,
+                'use_white_balance': getattr(vs_, 'use_white_balance', False),
+                'white_balance_temperature': getattr(vs_, 'white_balance_temperature', 6500),
+                'white_balance_tint': getattr(vs_, 'white_balance_tint', 10),
+                'w': scene.render.resolution_x, 'h': scene.render.resolution_y},
+               open(f'{SP}/pasadas/vista.json', 'w'))
+    scene.frame_set(1)
+    for v in VISTA.split(','):
+        eye, tgt, lens, hide, fs = ns['views'][v]
+        for k in range(PASADAS):
+            nombre = f'{v}_p{k:02d}'
+            if os.path.exists(f'{SP}/pasadas/{nombre}.exr'): print('   pasada ya hecha:', nombre, flush=True); continue
+            fout.file_name = nombre
+            c.seed = 1 + 7919 * k
+            ns['render_view'](f'pasadas/{nombre}.png', eye, tgt, lens, hide, fs)
+            print(f'PASADA OK {v} {k+1}/{PASADAS}', flush=True)
+    print('LISTO pasadas', VISTA, flush=True)
+else:
+    for v in VISTA.split(','):
+        eye, tgt, lens, hide, fs = ns['views'][v]
+        fn = SALIDA if ',' not in VISTA else SALIDA.replace('.png', f'_{v}.png')
+        ns['render_view'](fn, eye, tgt, lens, hide, fs)
+    print('LISTO', SALIDA, flush=True)

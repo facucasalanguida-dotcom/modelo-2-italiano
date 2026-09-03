@@ -42,3 +42,21 @@ salida.jpg` genera el antes/despues.
 Al instanciar una pieza suelta de un `.blend` se anula su desplazamiento
 interno (las botellas de `wine_bottles_01` traen 0,2-0,6 m; las piezas del
 juego de te tambien): sin eso acaban lejos de donde se colocan.
+
+## Render por pasadas (reanudable)
+
+`PH_PASADAS=24 PH_SMP=64 python3 render_ph.py` renderiza cada vista en
+pasadas de 64 muestras con semilla distinta. Cada pasada escribe, via un
+nodo File Output del compositor (Blender 5.0: `scene.compositing_node_group`),
+un EXR multiparte lineal en media precision con la imagen y el albedo y la
+normal de denoise (`pasadas/<vista>_pNN.exr`); las pasadas ya escritas se
+saltan al relanzar, asi que una caida de la maquina solo cuesta la pasada
+en curso. `fusionar.py <vista> salida.png [n]` promedia las pasadas en
+lineal, pasa OIDN (con albedo y normal) y aplica la misma gestion de color
+del render directo (AgX, look, exposicion y balance de blancos, guardados
+en `pasadas/vista.json`). Promediar N pasadas de S muestras equivale a una
+tirada de N*S muestras.
+
+`reducir_texturas.py` deja los mapas en 8 bits (Blender carga los PNG de
+16 bits como float, cuatro veces mas memoria) y baja a 2K lo que esta
+lejos o es pequeno: el pico de memoria pasa de 13,5 a 9,5 GB.
