@@ -713,16 +713,38 @@ if PASADAS:
                 'white_balance_tint': getattr(vs_, 'white_balance_tint', 10),
                 'w': scene.render.resolution_x, 'h': scene.render.resolution_y},
                open(f'{SP}/pasadas/vista.json', 'w'))
-    scene.frame_set(1)
+    # las pasadas se renderizan como fotogramas de una animacion: Cycles conserva la escena
+    # sincronizada entre pasadas (persistent data) y salta los fotogramas ya escritos
+    from mathutils import Vector as _V
+    def preparar_camara(eye, target, lens, hide_pa, fstop):     # calcado de render_view, sin renderizar
+        ns['col_pa'].hide_render = hide_pa
+        scene.view_settings.exposure = EXPO
+        cd = bpy.data.cameras.new('c'); cd.lens = lens; cd.sensor_width = 36; cd.clip_start = 0.03
+        cd.dof.use_dof = True; cd.dof.focus_distance = (_V(target) - _V(eye)).length * 0.85; cd.dof.aperture_fstop = fstop
+        cam = bpy.data.objects.new('cam', cd); scene.collection.objects.link(cam); cam.location = eye
+        d = _V(target) - _V(eye); dh = _V((d.x, d.y, 0.0)); pitch = math.atan2(d.z, dh.length)
+        if abs(pitch) < math.radians(26) and dh.length > 0.1:
+            cam.rotation_euler = dh.to_track_quat('-Z', 'Y').to_euler(); cd.shift_y = math.tan(pitch) * lens / cd.sensor_width
+        else:
+            cam.rotation_euler = d.to_track_quat('-Z', 'Y').to_euler()
+        scene.camera = cam
+    # con persistent data Cycles ignora los cambios de semilla hechos a mano o con use_animated_seed:
+    # solo respeta la semilla con fotogramas clave (comprobado); una clave por pasada
+    c.use_animated_seed = False
+    for k_ in range(1, PASADAS + 1):
+        c.seed = 1 + 7919 * k_; c.keyframe_insert('seed', frame=k_)
+    # (la interpolacion entre claves da igual: se evalua justo en los fotogramas clave)
+    scene.render.use_overwrite = False; scene.render.use_placeholder = False
+    scene.frame_start, scene.frame_end = 1, PASADAS
     for v in VISTA.split(','):
         eye, tgt, lens, hide, fs = ns['views'][v]
-        for k in range(PASADAS):
-            nombre = f'{v}_p{k:02d}'
-            if os.path.exists(f'{SP}/pasadas/{nombre}.exr'): print('   pasada ya hecha:', nombre, flush=True); continue
-            fout.file_name = nombre
-            c.seed = 1 + 7919 * k
-            ns['render_view'](f'pasadas/{nombre}.png', eye, tgt, lens, hide, fs)
-            print(f'PASADA OK {v} {k+1}/{PASADAS}', flush=True)
+        preparar_camara(eye, tgt, lens, hide, fs)
+        fout.file_name = f'{v}_p##'
+        scene.render.filepath = f'{SP}/pasadas/{v}_p##.png'
+        hechas = len(glob.glob(f'{SP}/pasadas/{v}_p[0-9][0-9].png'))
+        print(f'   {v}: {hechas} pasadas ya hechas de {PASADAS}', flush=True)
+        bpy.ops.render.render(animation=True)
+        print(f'PASADAS LISTAS {v}', flush=True)
     print('LISTO pasadas', VISTA, flush=True)
 else:
     for v in VISTA.split(','):

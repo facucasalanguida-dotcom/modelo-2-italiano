@@ -55,7 +55,11 @@ en curso. `fusionar.py <vista> salida.png [n]` promedia las pasadas en
 lineal, pasa OIDN (con albedo y normal) y aplica la misma gestion de color
 del render directo (AgX, look, exposicion y balance de blancos, guardados
 en `pasadas/vista.json`). Promediar N pasadas de S muestras equivale a una
-tirada de N*S muestras.
+tirada de N*S muestras. Las pasadas se renderizan como fotogramas de una
+animacion (persistent data: Cycles no vuelve a sincronizar la escena en cada
+pasada) y la semilla va con fotogramas clave: con persistent data Cycles
+ignora `use_animated_seed` y los cambios de semilla desde Python, y sin las
+claves todos los fotogramas salen identicos (comprobado).
 
 `reducir_texturas.py` deja los mapas en 8 bits (Blender carga los PNG de
 16 bits como float, cuatro veces mas memoria) y baja a 2K lo que esta
