@@ -1,0 +1,787 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Visualizacion arquitectonica y documentacion tecnica de obra. Renders en Cycles, recorridos 360, planos acotados y grafica de obra a partir del levantamiento real.">
+<meta name="color-scheme" content="dark">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Facundo Casalanguida">
+<meta property="og:description" content="Visualizacion arquitectonica y documentacion tecnica de obra. Renders en Cycles, recorridos 360, planos acotados y grafica de obra a partir del levantamiento real.">
+<meta property="og:image" content="img/hero-barra.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<style>
+  html{color-scheme:dark}
+  body{margin:0;font:14px system-ui,sans-serif}
+  img{max-width:100%}
+  [hidden]{display:none!important}
+</style>
+<title>Facundo Casalanguida</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap">
+
+<style>
+/* ───────────────────────────────────────────────────────────────
+   Casalanguida · visualización arquitectónica
+   Fondo único y calibrado: el gris tinta sobre el que se juzga un
+   render. Todo color se declara explícitamente, así que la página
+   se sostiene sobre cualquier fondo de la aplicación anfitriona.
+   ─────────────────────────────────────────────────────────────── */
+:root{
+  --ground:#0C0F14;
+  --ground-2:#10151D;
+  --panel:#141A23;
+  --line:#222B38;
+  --line-soft:#1A212B;
+  --ink:#ECEFF4;
+  --ink-2:#93A0B0;
+  --ink-3:#6B7787;
+  --brass:#D0A15C;
+  --brass-dim:#8A6A3A;
+  --petrol:#5C9BBE;
+
+  --f-disp:'Archivo','Helvetica Neue',Arial,sans-serif;
+  --f-body:'Source Serif 4',Georgia,'Times New Roman',serif;
+  --f-mono:'IBM Plex Mono','SFMono-Regular',Consolas,monospace;
+
+  --pad:clamp(20px,5vw,64px);
+  --maxw:1240px;
+  --rail:152px;
+}
+
+*{box-sizing:border-box}
+body{
+  margin:0;
+  background:var(--ground);
+  color:var(--ink);
+  font-family:var(--f-body);
+  font-size:17px;
+  line-height:1.62;
+  -webkit-font-smoothing:antialiased;
+}
+img,video{max-width:100%;display:block}
+a{color:var(--petrol);text-decoration:none}
+a:hover{color:var(--brass)}
+:focus-visible{outline:2px solid var(--brass);outline-offset:3px;border-radius:2px}
+
+.wrap{max-width:var(--maxw);margin:0 auto;padding-inline:var(--pad)}
+
+/* ── tipografía ─────────────────────────────────────────────── */
+h1,h2,h3,h4{font-family:var(--f-disp);font-weight:600;letter-spacing:-.025em;text-wrap:balance;margin:0}
+h2{font-size:clamp(26px,3.4vw,40px);line-height:1.1}
+h3{font-size:clamp(19px,2vw,23px);line-height:1.22;letter-spacing:-.018em}
+h4{font-size:15px;line-height:1.3;letter-spacing:-.01em}
+p{margin:0}
+.lead{font-size:clamp(18px,1.9vw,21px);line-height:1.56;color:var(--ink)}
+.muted{color:var(--ink-2)}
+.mono{font-family:var(--f-mono);font-size:11.5px;letter-spacing:.13em;text-transform:uppercase;color:var(--ink-3)}
+.num{font-family:var(--f-mono);font-variant-numeric:tabular-nums}
+
+/* ── cabecera ───────────────────────────────────────────────── */
+.top{
+  position:sticky;top:0;z-index:40;
+  background:color-mix(in srgb,var(--ground) 88%,transparent);
+  backdrop-filter:blur(14px);
+  border-bottom:1px solid var(--line-soft);
+}
+.top-in{display:flex;align-items:center;gap:24px;height:62px}
+.brand{font-family:var(--f-disp);font-weight:700;font-size:15.5px;letter-spacing:-.01em;
+  color:var(--ink);white-space:nowrap;min-width:0;overflow:hidden;text-overflow:ellipsis}
+.brand span{color:var(--ink-3);font-weight:500}
+.nav{margin-left:auto;display:flex;gap:22px;align-items:center}
+.nav a{font-family:var(--f-mono);font-size:11.5px;letter-spacing:.13em;text-transform:uppercase;color:var(--ink-2)}
+.nav a:hover{color:var(--ink)}
+.nav .cta{
+  color:var(--ground);background:var(--brass);
+  padding:8px 15px;border-radius:2px;font-weight:500;
+}
+.nav .cta:hover{background:#E2B573;color:var(--ground)}
+@media(max-width:860px){.nav a:not(.cta){display:none}}
+/* En el movil el rotulo se queda solo con el nombre: el subtitulo
+   empujaba el boton fuera de la pantalla. */
+@media(max-width:640px){.brand span{display:none}.top-in{gap:14px}}
+
+/* ── portada ────────────────────────────────────────────────── */
+.hero{padding-block:clamp(46px,7vw,86px) 0}
+.hero-grid{display:grid;grid-template-columns:var(--rail) 1fr;gap:32px}
+.hero-grid>*{min-width:0}
+.hero h1{font-size:clamp(38px,6.6vw,74px);line-height:.99;font-weight:700;letter-spacing:-.038em}
+.hero .role{
+  font-family:var(--f-disp);font-weight:500;
+  font-size:clamp(18px,2.3vw,26px);line-height:1.25;
+  letter-spacing:-.02em;color:var(--brass);margin-top:14px;
+}
+.hero .lead{margin-top:22px;max-width:60ch}
+.status{display:flex;flex-wrap:wrap;gap:10px 26px;margin-top:26px;align-items:center}
+.dot{width:6px;height:6px;border-radius:50%;background:var(--brass);display:inline-block;margin-right:8px;vertical-align:middle}
+
+/* ── figuras ────────────────────────────────────────────────── */
+figure{margin:0}
+.shot{border:1px solid var(--line);background:var(--panel)}
+.shot img,.shot video{width:100%;height:auto}
+.cap{
+  display:flex;flex-wrap:wrap;gap:6px 18px;justify-content:space-between;
+  padding:10px 14px;border-top:1px solid var(--line);
+  font-family:var(--f-mono);font-size:11px;letter-spacing:.075em;
+  color:var(--ink-3);line-height:1.5;
+}
+.cap b{color:var(--ink-2);font-weight:500}
+.hero-shot{margin-top:clamp(34px,5vw,56px)}
+
+/* ── secciones ──────────────────────────────────────────────── */
+section{padding-block:clamp(54px,8vw,104px)}
+section+section{border-top:1px solid var(--line-soft)}
+.band{display:grid;grid-template-columns:var(--rail) 1fr;gap:32px;align-items:start}
+.band>*{min-width:0}
+.band-head{position:sticky;top:88px}
+.band-head .mono{display:block;color:var(--brass-dim)}
+.band-head .sheet{
+  font-family:var(--f-mono);font-size:11.5px;color:var(--ink-3);
+  margin-top:8px;padding-top:8px;border-top:1px solid var(--line);
+  letter-spacing:.08em;
+}
+.intro{max-width:66ch;margin-bottom:clamp(28px,4vw,46px)}
+.intro h2+p{margin-top:16px}
+@media(max-width:860px){
+  .hero-grid,.band{grid-template-columns:1fr;gap:18px}
+  .band-head{position:static;display:flex;align-items:baseline;gap:14px}
+  .band-head .sheet{border:0;margin:0;padding:0}
+}
+
+/* ── rejilla de servicios ───────────────────────────────────── */
+.svc{display:grid;grid-template-columns:repeat(auto-fit,minmax(258px,1fr));gap:1px;background:var(--line-soft);border:1px solid var(--line-soft)}
+.svc>div{background:var(--ground);padding:24px 22px 26px}
+.svc h4{color:var(--ink);margin-bottom:9px}
+.svc .mono{display:block;margin-bottom:13px;color:var(--brass-dim)}
+.svc p{font-size:15.5px;line-height:1.58;color:var(--ink-2)}
+
+/* ── ficha de datos ─────────────────────────────────────────── */
+.facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(168px,1fr));gap:26px 30px;margin-top:34px}
+.facts .v{font-family:var(--f-disp);font-weight:600;font-size:clamp(22px,2.6vw,29px);letter-spacing:-.03em;color:var(--ink);line-height:1.05;font-variant-numeric:tabular-nums}
+.facts .k{margin-top:7px}
+
+/* ── tabla técnica ──────────────────────────────────────────── */
+.tbl-scroll{overflow-x:auto;margin-top:30px;border:1px solid var(--line);max-width:100%}
+table{border-collapse:collapse;width:100%;min-width:520px;font-size:15px}
+th,td{text-align:left;padding:12px 16px;border-bottom:1px solid var(--line-soft);vertical-align:top}
+thead th{
+  font-family:var(--f-mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--ink-3);background:var(--ground-2);border-bottom:1px solid var(--line);font-weight:500;
+}
+tbody tr:last-child td{border-bottom:0}
+td:first-child{color:var(--ink-2);width:34%}
+td:last-child{font-family:var(--f-mono);font-size:13px;color:var(--ink);font-variant-numeric:tabular-nums;line-height:1.55}
+
+/* ── galería ────────────────────────────────────────────────── */
+.gal{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px;margin-top:8px;align-items:start}
+.gal .wide{grid-column:1/-1}
+.gal figure{transition:border-color .25s ease}
+.gal figure:hover{border-color:var(--brass-dim)}
+
+/* ── proceso ────────────────────────────────────────────────── */
+.steps{counter-reset:s;margin-top:8px}
+.steps>li{
+  list-style:none;counter-increment:s;
+  display:grid;grid-template-columns:58px 1fr;gap:22px;
+  padding:22px 0;border-top:1px solid var(--line-soft);
+}
+.steps>li:first-child{border-top:1px solid var(--line)}
+.steps>li::before{
+  content:counter(s,decimal-leading-zero);
+  font-family:var(--f-mono);font-size:13px;color:var(--brass);letter-spacing:.06em;padding-top:3px;
+}
+.steps h4{color:var(--ink);margin-bottom:6px}
+.steps p{color:var(--ink-2);font-size:15.5px;line-height:1.58}
+.steps .when{font-family:var(--f-mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);margin-top:8px}
+
+/* ── formulario ─────────────────────────────────────────────── */
+.form{display:grid;grid-template-columns:repeat(auto-fit,minmax(228px,1fr));gap:18px 22px;margin-top:8px}
+.field{display:flex;flex-direction:column;gap:7px}
+.field.full{grid-column:1/-1}
+label{font-family:var(--f-mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3)}
+input,select,textarea{
+  font-family:var(--f-body);font-size:16px;color:var(--ink);
+  background:var(--ground-2);border:1px solid var(--line);border-radius:2px;
+  padding:11px 13px;width:100%;
+}
+select{font-family:var(--f-mono);font-size:13.5px}
+textarea{resize:vertical;min-height:112px;line-height:1.55}
+input:focus,select:focus,textarea:focus{border-color:var(--brass-dim);outline:none;box-shadow:0 0 0 2px rgba(208,161,92,.16)}
+input::placeholder,textarea::placeholder{color:var(--ink-3)}
+.actions{grid-column:1/-1;display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin-top:4px}
+button{
+  font-family:var(--f-mono);font-size:12px;letter-spacing:.13em;text-transform:uppercase;
+  padding:13px 22px;border-radius:2px;border:1px solid var(--brass);
+  background:var(--brass);color:var(--ground);cursor:pointer;
+}
+button:hover{background:#E2B573}
+button.ghost{background:transparent;color:var(--ink-2);border-color:var(--line)}
+button.ghost:hover{background:var(--ground-2);color:var(--ink);border-color:var(--ink-3)}
+.note{font-size:13.5px;color:var(--ink-3);line-height:1.5}
+.note[data-state="ok"]{color:var(--brass)}
+
+/* ── pie ────────────────────────────────────────────────────── */
+footer{border-top:1px solid var(--line);padding-block:38px 46px}
+.foot{display:flex;flex-wrap:wrap;gap:16px 40px;align-items:baseline;justify-content:space-between}
+
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}
+}
+</style>
+
+</head>
+<body>
+<header class="top">
+  <div class="wrap top-in">
+    <div class="brand">Facundo Casalanguida <span>· visualización arquitectónica</span></div>
+    <nav class="nav">
+      <a href="#trabajo">Trabajo</a>
+      <a href="#pipeline">Pipeline</a>
+      <a href="#documentacion">Documentación</a>
+      <a href="#proceso">Proceso</a>
+      <a class="cta" href="#contacto">Pedir presupuesto</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+<!-- ══ PORTADA ══════════════════════════════════════════════ -->
+<section class="hero">
+  <div class="wrap">
+    <div class="hero-grid">
+      <div class="mono">Málaga · ES</div>
+      <div>
+        <h1>Renders que se miden,<br>no solo se miran.</h1>
+        <p class="role">Visualización arquitectónica y documentación técnica de obra</p>
+        <p class="lead muted">
+          Modelo el local a partir del levantamiento real, sin inventar una sola cota, y lo llevo
+          hasta la imagen final con trazado de rayos en Cycles. Del mismo modelo salen los renders,
+          el recorrido en 360°, los planos acotados y la gráfica de obra: todo cuadra porque todo
+          nace de la misma geometría.
+        </p>
+        <div class="status">
+          <span class="mono"><span class="dot"></span>Disponible para encargos</span>
+          <span class="mono">Blender · Cycles · SketchUp</span>
+          <span class="mono">Entrega en 4K y 16 bits</span>
+        </div>
+      </div>
+    </div>
+
+    <figure class="shot hero-shot">
+      <img src="img/hero-barra.jpg" alt="Render fotorrealista de la barra de una cafetería con cafetera de acero, botellero iluminado y frente de lamas en azul petróleo." width="2000" height="1125">
+      <figcaption class="cap">
+        <span><b>Casa Margot</b> · barra y trasbarra · Málaga</span>
+        <span>2560 × 1440 · 1536 muestras adaptativas · OIDN albedo + normal · AgX</span>
+      </figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- ══ SERVICIOS ════════════════════════════════════════════ -->
+<section id="servicios">
+  <div class="wrap band">
+    <div class="band-head">
+      <span class="mono">Servicios</span>
+      <div class="sheet">01 / 05</div>
+    </div>
+    <div>
+      <div class="intro">
+        <h2>Lo que entrego</h2>
+        <p class="muted">
+          Trabajo para estudios de arquitectura, empresas de reformas e interiorismo y promotoras.
+          El encargo puede ser una sola imagen o el paquete completo de un local.
+        </p>
+      </div>
+
+      <div class="svc">
+        <div>
+          <span class="mono">Imagen fija</span>
+          <h4>Render fotorrealista de interiores</h4>
+          <p>Trazado de rayos en Cycles con iluminación por HDRI de 8K orientado según el soleamiento
+             real del hueco, materiales PBR escaneados a 4K y muestreo adaptativo hasta 1536 muestras.</p>
+        </div>
+        <div>
+          <span class="mono">Interactivo</span>
+          <h4>Recorrido 360° en el navegador</h4>
+          <p>Panorámicas equirrectangulares de 3072 × 1536 desde puntos comprobados contra la geometría,
+             con salto entre estaciones. Un solo archivo HTML: se abre en el móvil sin instalar nada.</p>
+        </div>
+        <div>
+          <span class="mono">Movimiento</span>
+          <h4>Vuelos de cámara y animación</h4>
+          <p>Trayectoria por interpolación Catmull-Rom con arranque y frenada suaves, verificada contra
+             colisiones antes de renderizar. Render reanudable en orden de bisección progresiva.</p>
+        </div>
+        <div>
+          <span class="mono">Modelado</span>
+          <h4>Modelo a partir del levantamiento</h4>
+          <p>Geometría construida por código desde los vectores del PDF del proyecto, con las escalas
+             validadas contra las cotas rotuladas del propio plano. Ninguna medida se estima a ojo.</p>
+        </div>
+        <div>
+          <span class="mono">Delineación</span>
+          <h4>Planos técnicos acotados</h4>
+          <p>Láminas A3 vectoriales a 1:50 con cadenas de cotas en los cuatro lados, cajetín, leyenda,
+             cuadro de superficies y alturas, cuadro de pilares, escala gráfica y norte.</p>
+        </div>
+        <div>
+          <span class="mono">Obra</span>
+          <h4>Documentación y gráfica</h4>
+          <p>Presupuestos e informes maquetados en PDF con plantilla propia, y gráfica de obra lista
+             para el instalador: vinilos y rotulación a escala 1:1 y 1:10.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ PROYECTO ═════════════════════════════════════════════ -->
+<section id="trabajo">
+  <div class="wrap band">
+    <div class="band-head">
+      <span class="mono">Proyecto</span>
+      <div class="sheet">02 / 05</div>
+    </div>
+    <div>
+      <div class="intro">
+        <h2>Casa Margot · cucina italiana</h2>
+        <p class="muted">
+          Reforma integral de un local de hostelería en Málaga, junto a la Ciudad de la Justicia.
+          Planta baja con doble altura sobre la sala y un altillo con aseo y almacén. Se partió del
+          levantamiento en PDF y del local vacío en obra, y se entregó el paquete completo de
+          visualización y documentación.
+        </p>
+
+        <div class="facts">
+          <div><div class="v">81,72 m²</div><div class="k mono">Superficie del solar</div></div>
+          <div><div class="v">75,63 m²</div><div class="k mono">Planta baja útil</div></div>
+          <div><div class="v">33,74 m²</div><div class="k mono">Forjado del altillo</div></div>
+          <div><div class="v">5,50 m</div><div class="k mono">Altura en doble altura</div></div>
+        </div>
+      </div>
+
+      <div class="gal">
+        <figure class="shot wide">
+          <img src="img/sala-general.jpg" alt="Vista general de la sala con mesas, sillas tapizadas, columna de lamas de madera y escalera al altillo." width="1600" height="900" loading="lazy">
+          <figcaption class="cap">
+            <span><b>Sala</b> · vista general desde el acceso</span>
+            <span>Cycles · 12 rebotes · HDRI 8K</span>
+          </figcaption>
+        </figure>
+        <figure class="shot">
+          <img src="img/barra-fpv.jpg" alt="Barra vista desde una mesa, con vitrinas de bollería y botellero al fondo." width="1600" height="900" loading="lazy">
+          <figcaption class="cap"><span><b>Barra</b> · desde la mesa</span><span>50 mm · f/2,8</span></figcaption>
+        </figure>
+        <figure class="shot">
+          <img src="img/ventanal-mesa.jpg" alt="Mesa junto al ventanal con la calle y los árboles al otro lado del vidrio." width="1364" height="768" loading="lazy">
+          <figcaption class="cap"><span><b>Ventanal sur</b> · luz de mediodía</span><span>HDRI orientado</span></figcaption>
+        </figure>
+        <figure class="shot">
+          <img src="img/vitrinas.jpg" alt="Vitrinas refrigeradas de bollería con cristal curvo sobre el frente de lamas azul." width="1376" height="768" loading="lazy">
+          <figcaption class="cap"><span><b>Vitrinas</b> · detalle de mostrador</span><span>Vidrio con dispersión</span></figcaption>
+        </figure>
+        <figure class="shot">
+          <img src="img/suroeste.jpg" alt="Rincón suroeste de la sala con la escalera de vidrio y acero hacia el altillo." width="1364" height="768" loading="lazy">
+          <figcaption class="cap"><span><b>Escalera</b> · rincón suroeste</span><span>Doble altura 5,50 m</span></figcaption>
+        </figure>
+        <figure class="shot">
+          <img src="img/entrada.jpg" alt="Vista desde la entrada hacia la barra con la columna de lamas en primer término." width="1364" height="768" loading="lazy">
+          <figcaption class="cap"><span><b>Acceso</b> · eje de entrada</span><span>Composición a un punto</span></figcaption>
+        </figure>
+        <figure class="shot">
+          <img src="img/cocina.jpg" alt="Zona de cocina tras la mampara de vidrio, con campana extractora de acero." width="1364" height="768" loading="lazy">
+          <figcaption class="cap"><span><b>Cocina</b> · tras la mampara</span><span>Profundidad de campo</span></figcaption>
+        </figure>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ PIPELINE ═════════════════════════════════════════════ -->
+<section id="pipeline">
+  <div class="wrap band">
+    <div class="band-head">
+      <span class="mono">Método</span>
+      <div class="sheet">03 / 05</div>
+    </div>
+    <div>
+      <div class="intro">
+        <h2>Cómo se construye la imagen</h2>
+        <p class="muted">
+          La escena no se monta a mano en el visor: se genera por código, así que es reproducible,
+          auditable y se vuelve a lanzar entera cuando el cliente cambia algo. Esto es lo que hay
+          detrás de cada imagen de arriba.
+        </p>
+      </div>
+
+      <div class="gal" style="margin-bottom:34px">
+        <figure class="shot">
+          <img src="img/axono.jpg" alt="Axonometría seccionada del local mostrando planta baja, altillo y escalera." width="1400" height="1050" loading="lazy">
+          <figcaption class="cap"><span><b>Axonometría seccionada</b></span><span>Comprobación de volumen</span></figcaption>
+        </figure>
+        <figure class="shot">
+          <video src="video/vuelo.mp4" autoplay muted loop playsinline width="640" height="360" aria-label="Previsualización del vuelo de cámara por la planta baja"></video>
+          <figcaption class="cap"><span><b>Vuelo de cámara</b> · previsualización</span><span>12 estaciones · Catmull-Rom</span></figcaption>
+        </figure>
+      </div>
+
+      <div class="svc">
+        <div>
+          <span class="mono">Paso 1 · geometría</span>
+          <h4>Del PDF a la cota</h4>
+          <p>El modelo se escribe como 1.586 líneas de Ruby en las que cada coordenada es una medida
+             tomada sobre los vectores del plano entregado. Las escalas se validan contra las cotas
+             rotuladas: el aseo sale 3,92 m² frente a los 3,90 m² del plano.</p>
+        </div>
+        <div>
+          <span class="mono">Paso 2 · escena</span>
+          <h4>Escena generada por código</h4>
+          <p>1.237 líneas de Python levantan la escena completa en Blender: geometría, materiales,
+             cámaras y luces. Un cambio de distribución se reconstruye entero en segundos, sin
+             arrastrar los errores de haber movido cosas a mano.</p>
+        </div>
+        <div>
+          <span class="mono">Paso 3 · luz</span>
+          <h4>Iluminación medida, no inventada</h4>
+          <p>Un HDRI de calle de 8K hace de sol y de fondo, girado para que el soleamiento entre por
+             el hueco real. Fuerza 3,0 para iluminar la escena y 1,4 para lo que ve la cámara, de modo
+             que el exterior no quema el encuadre.</p>
+        </div>
+        <div>
+          <span class="mono">Paso 4 · materia</span>
+          <h4>Materiales escaneados</h4>
+          <p>Texturas PBR escaneadas a 4K, acero cepillado con anisotropía real, latón con velo de uso
+             y variación de rugosidad por desgaste en suelo, barra y listones. Bisel global de 2,5 mm
+             en toda la geometría: ninguna arista matemáticamente perfecta.</p>
+        </div>
+        <div>
+          <span class="mono">Paso 5 · control</span>
+          <h4>Nada flotando</h4>
+          <p>Un pase de asentado lanza un rayo desde cada objeto contra sus posibles apoyos, ignorando
+             su propia geometría, y corrige huecos de entre 0,5 y 15 mm. Se sondea la altura real de
+             cada mostrador antes de posar nada encima.</p>
+        </div>
+        <div>
+          <span class="mono">Paso 6 · render</span>
+          <h4>Render por pasadas reanudable</h4>
+          <p>La imagen se calcula en 24 pasadas de 64 muestras con semilla distinta, guardadas como EXR
+             multiparte lineal en media precisión. Se promedian en lineal y se denoisan con OIDN usando
+             albedo y normal. Una caída de la máquina cuesta solo la pasada en curso.</p>
+        </div>
+      </div>
+
+      <div class="tbl-scroll">
+        <table>
+          <caption class="mono" style="text-align:left;padding:12px 16px;background:var(--ground-2);border-bottom:1px solid var(--line)">Ficha técnica de entrega</caption>
+          <thead>
+            <tr><th scope="col">Parámetro</th><th scope="col">Valor</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Motor de render</td><td>Cycles · trazado de rayos por CPU y GPU</td></tr>
+            <tr><td>Resolución de entrega</td><td>2560 × 1440 (ampliable a 4K)</td></tr>
+            <tr><td>Muestreo</td><td>1536 muestras adaptativas · umbral 0,005</td></tr>
+            <tr><td>Rebotes de luz</td><td>12 totales</td></tr>
+            <tr><td>Reducción de ruido</td><td>OIDN con pases de albedo y normal</td></tr>
+            <tr><td>Gestión de color</td><td>AgX · exposición y balance de blancos fijados</td></tr>
+            <tr><td>Profundidad de bit</td><td>PNG de 16 bits y EXR lineal en media precisión</td></tr>
+            <tr><td>Panorámicas 360°</td><td>Equirrectangular · 3072 × 1536 · 9 estaciones</td></tr>
+            <tr><td>Animación</td><td>1800 fotogramas · 30 s a 60 fps</td></tr>
+            <tr><td>Planos</td><td>A3 vectorial a 1:50 · PDF y SVG</td></tr>
+            <tr><td>Pico de memoria</td><td>9,5 GB tras optimizar los mapas</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ DOCUMENTACIÓN ════════════════════════════════════════ -->
+<section id="documentacion">
+  <div class="wrap band">
+    <div class="band-head">
+      <span class="mono">Documentación</span>
+      <div class="sheet">04 / 05</div>
+    </div>
+    <div>
+      <div class="intro">
+        <h2>El render no viaja solo</h2>
+        <p class="muted">
+          Del mismo modelo salen las láminas acotadas que va a usar el industrial, la gráfica que
+          imprime el rotulista y el presupuesto que firma el cliente. Un único origen de medidas
+          para todo el encargo, que es la única forma de que en obra no aparezcan sorpresas.
+        </p>
+      </div>
+
+      <div class="gal">
+        <figure class="shot wide">
+          <img src="img/plano-pb.jpg" alt="Lámina A3 de planta baja a escala 1:50 con cadenas de cotas, cajetín, leyenda y cuadro de superficies." width="1800" height="1273" loading="lazy">
+          <figcaption class="cap">
+            <span><b>Planta baja</b> · estructura · lámina 01 / 02</span>
+            <span>A3 vectorial · 1:50 · cotas en metros</span>
+          </figcaption>
+        </figure>
+        <figure class="shot">
+          <img src="img/plano-pa.jpg" alt="Lámina A3 de planta alta a escala 1:50 con el altillo, el aseo, el almacén y el vacío a doble altura." width="1800" height="1273" loading="lazy">
+          <figcaption class="cap"><span><b>Altillo +3,00</b> · lámina 02 / 02</span><span>Sección a 1,20 m</span></figcaption>
+        </figure>
+        <figure class="shot">
+          <img src="img/cenital.jpg" alt="Vista cenital renderizada de la planta baja amueblada." width="1200" height="1200" loading="lazy">
+          <figcaption class="cap"><span><b>Planta amueblada</b> · cenital</span><span>Replanteo de mobiliario</span></figcaption>
+        </figure>
+        <figure class="shot">
+          <img src="img/vinilo.jpg" alt="Diseño del vinilo de pared de Casa Margot, con el logo de la marca sobre fondo azul y una fila de botellas." width="1100" height="1043" loading="lazy">
+          <figcaption class="cap"><span><b>Vinilo de pared</b> · hueco de la escalera</span><span>3,35 × 3,90 m · 1:1 y 1:10</span></figcaption>
+        </figure>
+        <figure class="shot">
+          <img src="img/informe-1.jpg" alt="Fotografía del local antes de la reforma, con horno de pizza, columna de ladrillo visto y barra existente." width="1100" height="446" loading="lazy">
+          <figcaption class="cap"><span><b>Estado previo</b> · informe de reforma</span><span>Levantamiento en obra</span></figcaption>
+        </figure>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ PROCESO ══════════════════════════════════════════════ -->
+<section id="proceso">
+  <div class="wrap band">
+    <div class="band-head">
+      <span class="mono">Proceso</span>
+      <div class="sheet">05 / 05</div>
+    </div>
+    <div>
+      <div class="intro">
+        <h2>Cómo trabajamos juntos</h2>
+        <p class="muted">
+          Cinco pasos, en este orden. Los plazos son sobre un local de hostelería o retail de tamaño
+          medio, contados desde que recibo la documentación completa.
+        </p>
+      </div>
+
+      <ol class="steps">
+        <li>
+          <div>
+            <h4>Documentación y encaje</h4>
+            <p>Me mandas el plano del estado actual, el proyecto de reforma y las referencias de
+               materiales. Reviso qué falta y te digo qué hace falta medir antes de empezar.</p>
+            <p class="when">1 día · sin coste</p>
+          </div>
+        </li>
+        <li>
+          <div>
+            <h4>Modelo y encuadres</h4>
+            <p>Levanto la geometría sobre tus cotas y te enseño las vistas en gris, sin materiales,
+               para cerrar los encuadres antes de gastar una sola hora de render.</p>
+            <p class="when">2 a 4 días</p>
+          </div>
+        </li>
+        <li>
+          <div>
+            <h4>Materiales e iluminación</h4>
+            <p>Aplico los acabados reales del proyecto y ajusto la luz. Vuelta de correcciones sobre
+               previos rápidos, que es donde se decide de verdad la imagen.</p>
+            <p class="when">2 a 3 días · 2 rondas incluidas</p>
+          </div>
+        </li>
+        <li>
+          <div>
+            <h4>Render final</h4>
+            <p>Tirada a máxima calidad por pasadas, reducción de ruido y gradación de color.
+               Entrega en PNG de 16 bits y JPEG listo para presentar.</p>
+            <p class="when">1 a 2 días</p>
+          </div>
+        </li>
+        <li>
+          <div>
+            <h4>Extras del mismo modelo</h4>
+            <p>Con el modelo ya construido, el recorrido 360°, el vuelo de cámara, las láminas
+               acotadas o la gráfica de obra salen mucho más baratos que encargados por separado.</p>
+            <p class="when">A convenir</p>
+          </div>
+        </li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<!-- ══ CONTACTO ═════════════════════════════════════════════ -->
+<section id="contacto">
+  <div class="wrap band">
+    <div class="band-head">
+      <span class="mono">Contacto</span>
+      <div class="sheet">Málaga · ES</div>
+    </div>
+    <div>
+      <div class="intro">
+        <h2>Cuéntame el encargo</h2>
+        <p class="muted">
+          Rellena lo que sepas y te contesto con un presupuesto cerrado y un plazo. Si todavía no
+          tienes planos, dímelo igual: en la mayoría de los casos se puede empezar con lo que haya.
+        </p>
+      </div>
+
+      <form class="form" id="brief" novalidate>
+        <div class="field">
+          <label for="f-nombre">Nombre</label>
+          <input id="f-nombre" name="nombre" type="text" autocomplete="name" placeholder="Nombre y apellido" required>
+        </div>
+        <div class="field">
+          <label for="f-empresa">Empresa o estudio</label>
+          <input id="f-empresa" name="empresa" type="text" autocomplete="organization" placeholder="Opcional">
+        </div>
+        <div class="field">
+          <label for="f-email">Correo de respuesta</label>
+          <input id="f-email" name="email" type="email" autocomplete="email" placeholder="nombre@empresa.com" required>
+        </div>
+        <div class="field">
+          <label for="f-tipo">Tipo de encargo</label>
+          <select id="f-tipo" name="tipo">
+            <option>Renders de interior</option>
+            <option>Renders de exterior o fachada</option>
+            <option>Recorrido 360° interactivo</option>
+            <option>Vuelo de cámara o animación</option>
+            <option>Planos técnicos acotados</option>
+            <option>Gráfica de obra y rotulación</option>
+            <option>Paquete completo</option>
+            <option>Todavía no lo tengo claro</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="f-alcance">Superficie o número de vistas</label>
+          <input id="f-alcance" name="alcance" type="text" placeholder="Por ejemplo, 80 m² y 6 vistas">
+        </div>
+        <div class="field">
+          <label for="f-plazo">Fecha de entrega</label>
+          <input id="f-plazo" name="plazo" type="text" placeholder="Por ejemplo, primera semana de marzo">
+        </div>
+        <div class="field full">
+          <label for="f-mensaje">El encargo</label>
+          <textarea id="f-mensaje" name="mensaje" placeholder="Qué local es, en qué punto está el proyecto y qué documentación tienes."></textarea>
+        </div>
+        <div class="actions">
+          <button type="submit">Enviar el encargo</button>
+          <button type="button" class="ghost" id="copiar">Copiar el resumen</button>
+          <p class="note" id="aviso" role="status" aria-live="polite">
+            Al enviar se abre tu programa de correo con el resumen ya escrito. No se guarda nada en esta página.
+          </p>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap foot">
+    <div class="mono">Facundo Casalanguida · Visualización arquitectónica · Málaga</div>
+    <div class="mono">Blender · Cycles · SketchUp · Python</div>
+  </div>
+</footer>
+
+<script>
+(function () {
+  'use strict';
+
+  /* La dirección no se escribe en el documento: se compone al pulsar,
+     así el rastreador de correo que barre la página no encuentra nada. */
+  var BUZON = ['facu.casalanguida', 'gmail.com'];
+
+  var form   = document.getElementById('brief');
+  var aviso  = document.getElementById('aviso');
+  var copiar = document.getElementById('copiar');
+  if (!form) return;
+
+  var CAMPOS = [
+    ['nombre',  'Nombre'],
+    ['empresa', 'Empresa'],
+    ['email',   'Correo'],
+    ['tipo',    'Tipo de encargo'],
+    ['alcance', 'Alcance'],
+    ['plazo',   'Plazo'],
+    ['mensaje', 'El encargo']
+  ];
+
+  function valor(n) {
+    var el = form.elements[n];
+    return el && el.value ? el.value.trim() : '';
+  }
+
+  function resumen() {
+    var lineas = [];
+    CAMPOS.forEach(function (c) {
+      var v = valor(c[0]);
+      if (v) lineas.push(c[1] + ': ' + v);
+    });
+    return lineas.join('\n');
+  }
+
+  function decir(txt, ok) {
+    aviso.textContent = txt;
+    if (ok) { aviso.setAttribute('data-state', 'ok'); }
+    else { aviso.removeAttribute('data-state'); }
+  }
+
+  form.addEventListener('submit', function (ev) {
+    ev.preventDefault();
+
+    if (!valor('nombre') || !valor('email')) {
+      decir('Faltan el nombre y el correo de respuesta. Sin eso no puedo contestarte.');
+      (form.elements[valor('nombre') ? 'email' : 'nombre'] || {}).focus?.();
+      return;
+    }
+
+    var asunto = 'Encargo de visualización · ' + (valor('empresa') || valor('nombre'));
+    var url = 'mailto:' + BUZON.join('@')
+            + '?subject=' + encodeURIComponent(asunto)
+            + '&body=' + encodeURIComponent(resumen());
+
+    window.location.href = url;
+    decir('Se ha abierto tu programa de correo con el resumen escrito. Solo queda darle a enviar.', true);
+  });
+
+  copiar.addEventListener('click', function () {
+    var txt = resumen();
+    if (!txt) { decir('Rellena algún campo antes de copiar.'); return; }
+
+    function aviso_ok() { decir('Resumen copiado al portapapeles.', true); }
+
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(txt).then(aviso_ok, manual);
+    } else {
+      manual();
+    }
+
+    function manual() {
+      var ta = document.createElement('textarea');
+      ta.value = txt;
+      ta.setAttribute('readonly', '');
+      ta.style.position = 'fixed';
+      ta.style.opacity = '0';
+      document.body.appendChild(ta);
+      ta.select();
+      var hecho = false;
+      try { hecho = document.execCommand('copy'); } catch (e) { hecho = false; }
+      document.body.removeChild(ta);
+      if (hecho) { aviso_ok(); }
+      else { decir('No he podido copiarlo. Selecciona el texto del formulario y cópialo a mano.'); }
+    }
+  });
+
+  /* Desplazamiento suave desde la barra superior, respetando la
+     preferencia de movimiento reducido del sistema. */
+  var suave = !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  document.querySelectorAll('.nav a[href^="#"]').forEach(function (a) {
+    a.addEventListener('click', function (ev) {
+      var destino = document.querySelector(a.getAttribute('href'));
+      if (!destino) return;
+      ev.preventDefault();
+      destino.scrollIntoView({ behavior: suave ? 'smooth' : 'auto', block: 'start' });
+    });
+  });
+})();
+</script>
+
+</body>
+</html>
