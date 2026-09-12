@@ -1,0 +1,363 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="420.0mm" height="297.0mm" viewBox="0 0 420.0 297.0">
+<rect width="420.0" height="297.0" fill="white"/>
+<defs>
+<pattern id="doble" width="3.2" height="3.2" patternTransform="rotate(45)"
+         patternUnits="userSpaceOnUse">
+  <line x1="0" y1="0" x2="0" y2="3.2" stroke="#c3ced6" stroke-width="0.28"/>
+</pattern>
+<pattern id="vacio" width="2.4" height="2.4" patternTransform="rotate(45)"
+         patternUnits="userSpaceOnUse">
+  <line x1="0" y1="0" x2="0" y2="2.4" stroke="#b9c6cf" stroke-width="0.35"/>
+</pattern>
+<pattern id="horm" width="1.6" height="1.6" patternTransform="rotate(45)"
+         patternUnits="userSpaceOnUse">
+  <line x1="0" y1="0" x2="0" y2="1.6" stroke="#ffffff" stroke-width="0.30"/>
+</pattern>
+</defs>
+<g id="hoja">
+<rect x="8.000" y="8.000" width="404.000" height="281.000" fill="none" stroke="#111111" stroke-width="0.5"/>
+<rect x="9.200" y="9.200" width="401.600" height="278.600" fill="none" stroke="#111111" stroke-width="0.1"/>
+</g>
+<g id="trama">
+<polygon points="67.000,55.840 111.220,55.840 111.220,85.820 110.220,85.820 110.220,157.220 259.800,157.220 259.800,207.420 256.200,207.420 256.200,228.420 186.600,228.420 186.600,216.800 181.600,216.800 181.600,203.580 72.200,203.580 72.200,195.820 67.000,195.820" fill="url(#doble)" stroke="none"/>
+</g>
+<g id="proyeccion">
+<polygon points="111.220,55.840 259.800,55.840 259.800,81.240 238.220,81.240 238.220,157.220 110.220,157.220 110.220,85.820 111.220,85.820" fill="none" stroke="#8a8a8a" stroke-width="0.18" stroke-dasharray="3.2 1.6"/>
+<rect x="75.180" y="134.440" width="35.040" height="5.000" fill="none" stroke="#8a8a8a" stroke-width="0.18" stroke-dasharray="3.2 1.6"/>
+</g>
+<g id="muros">
+<rect x="62.000" y="52.880" width="200.800" height="2.960" fill="#6f6f6f" stroke="#111111" stroke-width="0.5"/>
+<rect x="62.000" y="55.840" width="5.000" height="139.980" fill="#6f6f6f" stroke="#111111" stroke-width="0.5"/>
+<rect x="62.000" y="195.820" width="10.200" height="8.960" fill="#6f6f6f" stroke="#111111" stroke-width="0.5"/>
+<rect x="72.200" y="199.800" width="109.400" height="4.980" fill="#6f6f6f" stroke="#111111" stroke-width="0.5"/>
+<rect x="176.620" y="204.780" width="4.980" height="12.020" fill="#6f6f6f" stroke="#111111" stroke-width="0.5"/>
+<rect x="259.800" y="55.840" width="3.000" height="151.580" fill="#6f6f6f" stroke="#111111" stroke-width="0.5"/>
+<rect x="256.200" y="207.420" width="6.600" height="21.980" fill="#6f6f6f" stroke="#111111" stroke-width="0.5"/>
+<polygon points="67.000,55.840 259.800,55.840 259.800,207.420 256.200,207.420 256.200,228.420 186.600,228.420 186.600,216.800 181.600,216.800 181.600,203.580 72.200,203.580 72.200,195.820 67.000,195.820" fill="none" stroke="#111111" stroke-width="0.18"/>
+</g>
+<g id="pilares">
+<rect x="67.000" y="128.860" width="7.420" height="11.960" fill="#2b2b2b" stroke="#111111" stroke-width="0.5"/>
+<rect x="67.000" y="128.860" width="7.420" height="11.960" fill="url(#horm)" stroke="none"/>
+<rect x="88.000" y="193.840" width="12.020" height="5.960" fill="#2b2b2b" stroke="#111111" stroke-width="0.5"/>
+<rect x="88.000" y="193.840" width="12.020" height="5.960" fill="url(#horm)" stroke="none"/>
+<rect x="174.400" y="123.820" width="11.980" height="18.020" fill="#2b2b2b" stroke="#111111" stroke-width="0.5"/>
+<rect x="174.400" y="123.820" width="11.980" height="18.020" fill="url(#horm)" stroke="none"/>
+<rect x="255.780" y="129.820" width="4.020" height="12.020" fill="#2b2b2b" stroke="#111111" stroke-width="0.5"/>
+<rect x="255.780" y="129.820" width="4.020" height="12.020" fill="url(#horm)" stroke="none"/>
+<rect x="176.620" y="216.800" width="9.980" height="19.200" fill="#2b2b2b" stroke="#111111" stroke-width="0.5"/>
+<rect x="176.620" y="216.800" width="9.980" height="19.200" fill="url(#horm)" stroke="none"/>
+</g>
+<g id="carpinteria">
+<rect x="72.200" y="203.820" width="26.600" height="0.720" fill="#7fb4c9" stroke="#3d6b80" stroke-width="0.18"/>
+<rect x="98.800" y="203.580" width="1.000" height="1.200" fill="#111111" stroke="#111111" stroke-width="0.1"/>
+<rect x="99.800" y="203.820" width="26.600" height="0.720" fill="#7fb4c9" stroke="#3d6b80" stroke-width="0.18"/>
+<rect x="126.400" y="203.580" width="1.000" height="1.200" fill="#111111" stroke="#111111" stroke-width="0.1"/>
+<rect x="127.400" y="203.820" width="26.600" height="0.720" fill="#7fb4c9" stroke="#3d6b80" stroke-width="0.18"/>
+<rect x="154.000" y="203.580" width="1.000" height="1.200" fill="#111111" stroke="#111111" stroke-width="0.1"/>
+<rect x="155.000" y="203.820" width="26.600" height="0.720" fill="#7fb4c9" stroke="#3d6b80" stroke-width="0.18"/>
+<rect x="186.600" y="228.620" width="28.180" height="0.580" fill="#7fb4c9" stroke="#3d6b80" stroke-width="0.18"/>
+<rect x="215.800" y="228.620" width="40.400" height="0.580" fill="#7fb4c9" stroke="#3d6b80" stroke-width="0.18"/>
+<rect x="214.780" y="228.420" width="1.020" height="0.980" fill="#111111" stroke="#111111" stroke-width="0.1"/>
+</g>
+<g id="escalera">
+<rect x="234.760" y="159.240" width="3.460" height="5.180" fill="none" stroke="#111111" stroke-width="0.25"/>
+<line x1="238.220" y1="164.420" x2="259.800" y2="164.420" stroke="#111111" stroke-width="0.25"/>
+<line x1="238.220" y1="159.221" x2="259.800" y2="159.221" stroke="#111111" stroke-width="0.25"/>
+<line x1="238.220" y1="154.022" x2="259.800" y2="154.022" stroke="#111111" stroke-width="0.25"/>
+<line x1="238.220" y1="148.824" x2="259.800" y2="148.824" stroke="#111111" stroke-width="0.25"/>
+<line x1="238.220" y1="143.625" x2="259.800" y2="143.625" stroke="#111111" stroke-width="0.25"/>
+<line x1="238.220" y1="138.426" x2="259.800" y2="138.426" stroke="#111111" stroke-width="0.25"/>
+<line x1="238.220" y1="133.227" x2="259.800" y2="133.227" stroke="#111111" stroke-width="0.25"/>
+<line x1="238.220" y1="128.029" x2="259.800" y2="128.029" stroke="#111111" stroke-width="0.25"/>
+<line x1="238.220" y1="122.830" x2="259.800" y2="122.830" stroke="#9a9a9a" stroke-width="0.18" stroke-dasharray="1.2 1.0"/>
+<line x1="238.220" y1="117.631" x2="259.800" y2="117.631" stroke="#9a9a9a" stroke-width="0.18" stroke-dasharray="1.2 1.0"/>
+<line x1="238.220" y1="112.432" x2="259.800" y2="112.432" stroke="#9a9a9a" stroke-width="0.18" stroke-dasharray="1.2 1.0"/>
+<line x1="238.220" y1="107.234" x2="259.800" y2="107.234" stroke="#9a9a9a" stroke-width="0.18" stroke-dasharray="1.2 1.0"/>
+<line x1="238.220" y1="102.035" x2="259.800" y2="102.035" stroke="#9a9a9a" stroke-width="0.18" stroke-dasharray="1.2 1.0"/>
+<line x1="238.220" y1="96.836" x2="259.800" y2="96.836" stroke="#9a9a9a" stroke-width="0.18" stroke-dasharray="1.2 1.0"/>
+<line x1="238.220" y1="91.637" x2="259.800" y2="91.637" stroke="#9a9a9a" stroke-width="0.18" stroke-dasharray="1.2 1.0"/>
+<line x1="238.220" y1="86.439" x2="259.800" y2="86.439" stroke="#9a9a9a" stroke-width="0.18" stroke-dasharray="1.2 1.0"/>
+<line x1="238.220" y1="81.240" x2="259.800" y2="81.240" stroke="#9a9a9a" stroke-width="0.18" stroke-dasharray="1.2 1.0"/>
+<line x1="238.220" y1="164.420" x2="238.220" y2="81.240" stroke="#111111" stroke-width="0.25"/>
+<line x1="259.800" y1="164.420" x2="259.800" y2="81.240" stroke="#111111" stroke-width="0.25"/>
+<line x1="237.420" y1="131.429" x2="260.600" y2="119.429" stroke="#111111" stroke-width="0.25"/>
+<line x1="237.420" y1="127.029" x2="260.600" y2="115.029" stroke="#111111" stroke-width="0.25"/>
+<line x1="249.010" y1="160.420" x2="249.010" y2="131.429" stroke="#111111" stroke-width="0.18"/>
+<polygon points="249.010,131.429 247.210,134.629 250.810,134.629" fill="#111111" stroke="#111111" stroke-width="0.1"/>
+<circle cx="249.010" cy="160.420" r="1.100" fill="#ffffff" stroke="#111111" stroke-width="0.18"/>
+</g>
+<g id="luces">
+<circle cx="84.000" cy="144.000" r="1.700" fill="none" stroke="#7d7d7d" stroke-width="0.18"/>
+<line x1="82.800" y1="144.000" x2="85.200" y2="144.000" stroke="#7d7d7d" stroke-width="0.1"/>
+<line x1="84.000" y1="145.200" x2="84.000" y2="142.800" stroke="#7d7d7d" stroke-width="0.1"/>
+<circle cx="114.000" cy="144.000" r="1.700" fill="none" stroke="#7d7d7d" stroke-width="0.18"/>
+<line x1="112.800" y1="144.000" x2="115.200" y2="144.000" stroke="#7d7d7d" stroke-width="0.1"/>
+<line x1="114.000" y1="145.200" x2="114.000" y2="142.800" stroke="#7d7d7d" stroke-width="0.1"/>
+<circle cx="144.000" cy="144.000" r="1.700" fill="none" stroke="#7d7d7d" stroke-width="0.18"/>
+<line x1="142.800" y1="144.000" x2="145.200" y2="144.000" stroke="#7d7d7d" stroke-width="0.1"/>
+<line x1="144.000" y1="145.200" x2="144.000" y2="142.800" stroke="#7d7d7d" stroke-width="0.1"/>
+<circle cx="84.000" cy="118.000" r="1.700" fill="none" stroke="#7d7d7d" stroke-width="0.18"/>
+<line x1="82.800" y1="118.000" x2="85.200" y2="118.000" stroke="#7d7d7d" stroke-width="0.1"/>
+<line x1="84.000" y1="119.200" x2="84.000" y2="116.800" stroke="#7d7d7d" stroke-width="0.1"/>
+<circle cx="114.000" cy="118.000" r="1.700" fill="none" stroke="#7d7d7d" stroke-width="0.18"/>
+<line x1="112.800" y1="118.000" x2="115.200" y2="118.000" stroke="#7d7d7d" stroke-width="0.1"/>
+<line x1="114.000" y1="119.200" x2="114.000" y2="116.800" stroke="#7d7d7d" stroke-width="0.1"/>
+<circle cx="144.000" cy="118.000" r="1.700" fill="none" stroke="#7d7d7d" stroke-width="0.18"/>
+<line x1="142.800" y1="118.000" x2="145.200" y2="118.000" stroke="#7d7d7d" stroke-width="0.1"/>
+<line x1="144.000" y1="119.200" x2="144.000" y2="116.800" stroke="#7d7d7d" stroke-width="0.1"/>
+<circle cx="84.000" cy="92.000" r="1.700" fill="none" stroke="#7d7d7d" stroke-width="0.18"/>
+<line x1="82.800" y1="92.000" x2="85.200" y2="92.000" stroke="#7d7d7d" stroke-width="0.1"/>
+<line x1="84.000" y1="93.200" x2="84.000" y2="90.800" stroke="#7d7d7d" stroke-width="0.1"/>
+<circle cx="114.000" cy="92.000" r="1.700" fill="none" stroke="#7d7d7d" stroke-width="0.18"/>
+<line x1="112.800" y1="92.000" x2="115.200" y2="92.000" stroke="#7d7d7d" stroke-width="0.1"/>
+<line x1="114.000" y1="93.200" x2="114.000" y2="90.800" stroke="#7d7d7d" stroke-width="0.1"/>
+<circle cx="144.000" cy="92.000" r="1.700" fill="none" stroke="#7d7d7d" stroke-width="0.18"/>
+<line x1="142.800" y1="92.000" x2="145.200" y2="92.000" stroke="#7d7d7d" stroke-width="0.1"/>
+<line x1="144.000" y1="93.200" x2="144.000" y2="90.800" stroke="#7d7d7d" stroke-width="0.1"/>
+<circle cx="84.000" cy="66.000" r="1.700" fill="none" stroke="#7d7d7d" stroke-width="0.18"/>
+<line x1="82.800" y1="66.000" x2="85.200" y2="66.000" stroke="#7d7d7d" stroke-width="0.1"/>
+<line x1="84.000" y1="67.200" x2="84.000" y2="64.800" stroke="#7d7d7d" stroke-width="0.1"/>
+<circle cx="114.000" cy="66.000" r="1.700" fill="none" stroke="#7d7d7d" stroke-width="0.18"/>
+<line x1="112.800" y1="66.000" x2="115.200" y2="66.000" stroke="#7d7d7d" stroke-width="0.1"/>
+<line x1="114.000" y1="67.200" x2="114.000" y2="64.800" stroke="#7d7d7d" stroke-width="0.1"/>
+<circle cx="144.000" cy="66.000" r="1.700" fill="none" stroke="#7d7d7d" stroke-width="0.18"/>
+<line x1="142.800" y1="66.000" x2="145.200" y2="66.000" stroke="#7d7d7d" stroke-width="0.1"/>
+<line x1="144.000" y1="67.200" x2="144.000" y2="64.800" stroke="#7d7d7d" stroke-width="0.1"/>
+<circle cx="234.000" cy="66.000" r="1.700" fill="none" stroke="#7d7d7d" stroke-width="0.18"/>
+<line x1="232.800" y1="66.000" x2="235.200" y2="66.000" stroke="#7d7d7d" stroke-width="0.1"/>
+<line x1="234.000" y1="67.200" x2="234.000" y2="64.800" stroke="#7d7d7d" stroke-width="0.1"/>
+<circle cx="102.800" cy="190.400" r="2.000" fill="none" stroke="#7d7d7d" stroke-width="0.18"/>
+<circle cx="102.800" cy="190.400" r="0.560" fill="#7d7d7d" stroke="#7d7d7d" stroke-width="0.1"/>
+<circle cx="102.800" cy="164.400" r="2.000" fill="none" stroke="#7d7d7d" stroke-width="0.18"/>
+<circle cx="102.800" cy="164.400" r="0.560" fill="#7d7d7d" stroke="#7d7d7d" stroke-width="0.1"/>
+<circle cx="154.000" cy="172.000" r="2.000" fill="none" stroke="#7d7d7d" stroke-width="0.18"/>
+<circle cx="154.000" cy="172.000" r="0.560" fill="#7d7d7d" stroke="#7d7d7d" stroke-width="0.1"/>
+<circle cx="214.000" cy="172.000" r="2.000" fill="none" stroke="#7d7d7d" stroke-width="0.18"/>
+<circle cx="214.000" cy="172.000" r="0.560" fill="#7d7d7d" stroke="#7d7d7d" stroke-width="0.1"/>
+<circle cx="208.000" cy="217.000" r="2.000" fill="none" stroke="#7d7d7d" stroke-width="0.18"/>
+<circle cx="208.000" cy="217.000" r="0.560" fill="#7d7d7d" stroke="#7d7d7d" stroke-width="0.1"/>
+<circle cx="240.000" cy="217.000" r="2.000" fill="none" stroke="#7d7d7d" stroke-width="0.18"/>
+<circle cx="240.000" cy="217.000" r="0.560" fill="#7d7d7d" stroke="#7d7d7d" stroke-width="0.1"/>
+</g>
+<g id="cotas">
+<line x1="62.000" y1="246.000" x2="262.800" y2="246.000" stroke="#9a2b2b" stroke-width="0.13"/>
+<line x1="60.900" y1="247.100" x2="63.100" y2="244.900" stroke="#9a2b2b" stroke-width="0.13"/>
+<line x1="62.000" y1="236.000" x2="62.000" y2="247.600" stroke="#9a2b2b" stroke-width="0.1"/>
+<line x1="71.100" y1="247.100" x2="73.300" y2="244.900" stroke="#9a2b2b" stroke-width="0.13"/>
+<line x1="72.200" y1="236.000" x2="72.200" y2="247.600" stroke="#9a2b2b" stroke-width="0.1"/>
+<line x1="175.520" y1="247.100" x2="177.720" y2="244.900" stroke="#9a2b2b" stroke-width="0.13"/>
+<line x1="176.620" y1="236.000" x2="176.620" y2="247.600" stroke="#9a2b2b" stroke-width="0.1"/>
+<line x1="180.500" y1="247.100" x2="182.700" y2="244.900" stroke="#9a2b2b" stroke-width="0.13"/>
+<line x1="181.600" y1="236.000" x2="181.600" y2="247.600" stroke="#9a2b2b" stroke-width="0.1"/>
+<line x1="185.500" y1="247.100" x2="187.700" y2="244.900" stroke="#9a2b2b" stroke-width="0.13"/>
+<line x1="186.600" y1="236.000" x2="186.600" y2="247.600" stroke="#9a2b2b" stroke-width="0.1"/>
+<line x1="255.100" y1="247.100" x2="257.300" y2="244.900" stroke="#9a2b2b" stroke-width="0.13"/>
+<line x1="256.200" y1="236.000" x2="256.200" y2="247.600" stroke="#9a2b2b" stroke-width="0.1"/>
+<line x1="261.700" y1="247.100" x2="263.900" y2="244.900" stroke="#9a2b2b" stroke-width="0.13"/>
+<line x1="262.800" y1="236.000" x2="262.800" y2="247.600" stroke="#9a2b2b" stroke-width="0.1"/>
+<text x="67.100" y="245.000" font-size="2.0" text-anchor="middle" fill="#9a2b2b" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">0,51</text>
+<text x="124.410" y="245.000" font-size="2.0" text-anchor="middle" fill="#9a2b2b" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">5,22</text>
+<text x="179.110" y="245.000" font-size="2.0" text-anchor="middle" fill="#9a2b2b" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">0,25</text>
+<text x="184.100" y="245.000" font-size="2.0" text-anchor="middle" fill="#9a2b2b" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">0,25</text>
+<text x="221.400" y="245.000" font-size="2.0" text-anchor="middle" fill="#9a2b2b" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">3,48</text>
+<text x="259.500" y="245.000" font-size="2.0" text-anchor="middle" fill="#9a2b2b" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">0,33</text>
+<line x1="62.000" y1="254.000" x2="262.800" y2="254.000" stroke="#9a2b2b" stroke-width="0.13"/>
+<line x1="60.900" y1="255.100" x2="63.100" y2="252.900" stroke="#9a2b2b" stroke-width="0.13"/>
+<line x1="261.700" y1="255.100" x2="263.900" y2="252.900" stroke="#9a2b2b" stroke-width="0.13"/>
+<text x="162.400" y="253.000" font-size="2.4" text-anchor="middle" fill="#9a2b2b" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">10,04</text>
+<line x1="62.000" y1="44.880" x2="262.800" y2="44.880" stroke="#9a2b2b" stroke-width="0.13"/>
+<line x1="60.900" y1="45.980" x2="63.100" y2="43.780" stroke="#9a2b2b" stroke-width="0.13"/>
+<line x1="62.000" y1="52.880" x2="62.000" y2="43.280" stroke="#9a2b2b" stroke-width="0.1"/>
+<line x1="65.900" y1="45.980" x2="68.100" y2="43.780" stroke="#9a2b2b" stroke-width="0.13"/>
+<line x1="67.000" y1="52.880" x2="67.000" y2="43.280" stroke="#9a2b2b" stroke-width="0.1"/>
+<line x1="109.120" y1="45.980" x2="111.320" y2="43.780" stroke="#9a2b2b" stroke-width="0.13"/>
+<line x1="110.220" y1="52.880" x2="110.220" y2="43.280" stroke="#9a2b2b" stroke-width="0.1"/>
+<line x1="110.120" y1="45.980" x2="112.320" y2="43.780" stroke="#9a2b2b" stroke-width="0.13"/>
+<line x1="111.220" y1="52.880" x2="111.220" y2="43.280" stroke="#9a2b2b" stroke-width="0.1"/>
+<line x1="173.300" y1="45.980" x2="175.500" y2="43.780" stroke="#9a2b2b" stroke-width="0.13"/>
+<line x1="174.400" y1="52.880" x2="174.400" y2="43.280" stroke="#9a2b2b" stroke-width="0.1"/>
+<line x1="185.280" y1="45.980" x2="187.480" y2="43.780" stroke="#9a2b2b" stroke-width="0.13"/>
+<line x1="186.380" y1="52.880" x2="186.380" y2="43.280" stroke="#9a2b2b" stroke-width="0.1"/>
+<line x1="237.120" y1="45.980" x2="239.320" y2="43.780" stroke="#9a2b2b" stroke-width="0.13"/>
+<line x1="238.220" y1="52.880" x2="238.220" y2="43.280" stroke="#9a2b2b" stroke-width="0.1"/>
+<line x1="258.700" y1="45.980" x2="260.900" y2="43.780" stroke="#9a2b2b" stroke-width="0.13"/>
+<line x1="259.800" y1="52.880" x2="259.800" y2="43.280" stroke="#9a2b2b" stroke-width="0.1"/>
+<line x1="261.700" y1="45.980" x2="263.900" y2="43.780" stroke="#9a2b2b" stroke-width="0.13"/>
+<line x1="262.800" y1="52.880" x2="262.800" y2="43.280" stroke="#9a2b2b" stroke-width="0.1"/>
+<text x="64.500" y="43.880" font-size="1.9" text-anchor="middle" fill="#9a2b2b" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">0,25</text>
+<text x="88.610" y="43.880" font-size="1.9" text-anchor="middle" fill="#9a2b2b" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">2,16</text>
+<text x="110.720" y="43.880" font-size="1.9" text-anchor="middle" fill="#9a2b2b" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">0,05</text>
+<text x="142.810" y="43.880" font-size="1.9" text-anchor="middle" fill="#9a2b2b" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">3,16</text>
+<text x="180.390" y="43.880" font-size="1.9" text-anchor="middle" fill="#9a2b2b" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">0,60</text>
+<text x="212.300" y="43.880" font-size="1.9" text-anchor="middle" fill="#9a2b2b" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">2,59</text>
+<text x="249.010" y="43.880" font-size="1.9" text-anchor="middle" fill="#9a2b2b" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">1,08</text>
+<text x="261.300" y="43.880" font-size="1.9" text-anchor="middle" fill="#9a2b2b" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">0,15</text>
+<line x1="53.000" y1="236.000" x2="53.000" y2="52.880" stroke="#9a2b2b" stroke-width="0.13"/>
+<line x1="51.900" y1="237.100" x2="54.100" y2="234.900" stroke="#9a2b2b" stroke-width="0.13"/>
+<line x1="62.000" y1="236.000" x2="51.400" y2="236.000" stroke="#9a2b2b" stroke-width="0.1"/>
+<line x1="51.900" y1="205.880" x2="54.100" y2="203.680" stroke="#9a2b2b" stroke-width="0.13"/>
+<line x1="62.000" y1="204.780" x2="51.400" y2="204.780" stroke="#9a2b2b" stroke-width="0.1"/>
+<line x1="51.900" y1="196.920" x2="54.100" y2="194.720" stroke="#9a2b2b" stroke-width="0.13"/>
+<line x1="62.000" y1="195.820" x2="51.400" y2="195.820" stroke="#9a2b2b" stroke-width="0.1"/>
+<line x1="51.900" y1="141.920" x2="54.100" y2="139.720" stroke="#9a2b2b" stroke-width="0.13"/>
+<line x1="62.000" y1="140.820" x2="51.400" y2="140.820" stroke="#9a2b2b" stroke-width="0.1"/>
+<line x1="51.900" y1="129.960" x2="54.100" y2="127.760" stroke="#9a2b2b" stroke-width="0.13"/>
+<line x1="62.000" y1="128.860" x2="51.400" y2="128.860" stroke="#9a2b2b" stroke-width="0.1"/>
+<line x1="51.900" y1="56.940" x2="54.100" y2="54.740" stroke="#9a2b2b" stroke-width="0.13"/>
+<line x1="62.000" y1="55.840" x2="51.400" y2="55.840" stroke="#9a2b2b" stroke-width="0.1"/>
+<line x1="51.900" y1="53.980" x2="54.100" y2="51.780" stroke="#9a2b2b" stroke-width="0.13"/>
+<line x1="62.000" y1="52.880" x2="51.400" y2="52.880" stroke="#9a2b2b" stroke-width="0.1"/>
+<text x="52.000" y="220.390" font-size="2.0" text-anchor="middle" fill="#9a2b2b" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal" transform="rotate(-90 52.000 220.390)">1,56</text>
+<text x="52.000" y="200.300" font-size="2.0" text-anchor="middle" fill="#9a2b2b" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal" transform="rotate(-90 52.000 200.300)">0,45</text>
+<text x="52.000" y="168.320" font-size="2.0" text-anchor="middle" fill="#9a2b2b" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal" transform="rotate(-90 52.000 168.320)">2,75</text>
+<text x="52.000" y="134.840" font-size="2.0" text-anchor="middle" fill="#9a2b2b" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal" transform="rotate(-90 52.000 134.840)">0,60</text>
+<text x="52.000" y="92.350" font-size="2.0" text-anchor="middle" fill="#9a2b2b" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal" transform="rotate(-90 52.000 92.350)">3,65</text>
+<text x="52.000" y="54.360" font-size="2.0" text-anchor="middle" fill="#9a2b2b" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal" transform="rotate(-90 52.000 54.360)">0,15</text>
+<line x1="45.000" y1="236.000" x2="45.000" y2="52.880" stroke="#9a2b2b" stroke-width="0.13"/>
+<line x1="43.900" y1="237.100" x2="46.100" y2="234.900" stroke="#9a2b2b" stroke-width="0.13"/>
+<line x1="43.900" y1="53.980" x2="46.100" y2="51.780" stroke="#9a2b2b" stroke-width="0.13"/>
+<text x="44.000" y="144.440" font-size="2.0" text-anchor="middle" fill="#9a2b2b" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal" transform="rotate(-90 44.000 144.440)">9,16</text>
+<line x1="271.800" y1="229.400" x2="271.800" y2="52.880" stroke="#9a2b2b" stroke-width="0.13"/>
+<line x1="270.700" y1="230.500" x2="272.900" y2="228.300" stroke="#9a2b2b" stroke-width="0.13"/>
+<line x1="262.800" y1="229.400" x2="273.400" y2="229.400" stroke="#9a2b2b" stroke-width="0.1"/>
+<line x1="270.700" y1="208.520" x2="272.900" y2="206.320" stroke="#9a2b2b" stroke-width="0.13"/>
+<line x1="262.800" y1="207.420" x2="273.400" y2="207.420" stroke="#9a2b2b" stroke-width="0.1"/>
+<line x1="270.700" y1="165.520" x2="272.900" y2="163.320" stroke="#9a2b2b" stroke-width="0.13"/>
+<line x1="262.800" y1="164.420" x2="273.400" y2="164.420" stroke="#9a2b2b" stroke-width="0.1"/>
+<line x1="270.700" y1="158.320" x2="272.900" y2="156.120" stroke="#9a2b2b" stroke-width="0.13"/>
+<line x1="262.800" y1="157.220" x2="273.400" y2="157.220" stroke="#9a2b2b" stroke-width="0.1"/>
+<line x1="270.700" y1="142.940" x2="272.900" y2="140.740" stroke="#9a2b2b" stroke-width="0.13"/>
+<line x1="262.800" y1="141.840" x2="273.400" y2="141.840" stroke="#9a2b2b" stroke-width="0.1"/>
+<line x1="270.700" y1="130.920" x2="272.900" y2="128.720" stroke="#9a2b2b" stroke-width="0.13"/>
+<line x1="262.800" y1="129.820" x2="273.400" y2="129.820" stroke="#9a2b2b" stroke-width="0.1"/>
+<line x1="270.700" y1="82.340" x2="272.900" y2="80.140" stroke="#9a2b2b" stroke-width="0.13"/>
+<line x1="262.800" y1="81.240" x2="273.400" y2="81.240" stroke="#9a2b2b" stroke-width="0.1"/>
+<line x1="270.700" y1="53.980" x2="272.900" y2="51.780" stroke="#9a2b2b" stroke-width="0.13"/>
+<line x1="262.800" y1="52.880" x2="273.400" y2="52.880" stroke="#9a2b2b" stroke-width="0.1"/>
+<text x="270.800" y="218.410" font-size="1.9" text-anchor="middle" fill="#9a2b2b" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal" transform="rotate(-90 270.800 218.410)">1,10</text>
+<text x="270.800" y="185.920" font-size="1.9" text-anchor="middle" fill="#9a2b2b" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal" transform="rotate(-90 270.800 185.920)">2,15</text>
+<text x="270.800" y="160.820" font-size="1.9" text-anchor="middle" fill="#9a2b2b" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal" transform="rotate(-90 270.800 160.820)">0,36</text>
+<text x="270.800" y="149.530" font-size="1.9" text-anchor="middle" fill="#9a2b2b" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal" transform="rotate(-90 270.800 149.530)">0,77</text>
+<text x="270.800" y="135.830" font-size="1.9" text-anchor="middle" fill="#9a2b2b" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal" transform="rotate(-90 270.800 135.830)">0,60</text>
+<text x="270.800" y="105.530" font-size="1.9" text-anchor="middle" fill="#9a2b2b" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal" transform="rotate(-90 270.800 105.530)">2,43</text>
+<text x="270.800" y="67.060" font-size="1.9" text-anchor="middle" fill="#9a2b2b" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal" transform="rotate(-90 270.800 67.060)">1,42</text>
+<line x1="67.000" y1="190.000" x2="181.600" y2="190.000" stroke="#9a2b2b" stroke-width="0.13"/>
+<line x1="65.900" y1="191.100" x2="68.100" y2="188.900" stroke="#9a2b2b" stroke-width="0.13"/>
+<line x1="86.900" y1="191.100" x2="89.100" y2="188.900" stroke="#9a2b2b" stroke-width="0.13"/>
+<line x1="98.920" y1="191.100" x2="101.120" y2="188.900" stroke="#9a2b2b" stroke-width="0.13"/>
+<line x1="180.500" y1="191.100" x2="182.700" y2="188.900" stroke="#9a2b2b" stroke-width="0.13"/>
+<text x="77.500" y="189.000" font-size="1.9" text-anchor="middle" fill="#9a2b2b" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">1,05</text>
+<text x="94.010" y="189.000" font-size="1.9" text-anchor="middle" fill="#9a2b2b" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">0,60</text>
+<text x="140.810" y="189.000" font-size="1.9" text-anchor="middle" fill="#9a2b2b" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">4,08</text>
+<line x1="128.000" y1="203.580" x2="128.000" y2="157.220" stroke="#9a2b2b" stroke-width="0.13"/>
+<line x1="126.900" y1="204.680" x2="129.100" y2="202.480" stroke="#9a2b2b" stroke-width="0.13"/>
+<line x1="126.900" y1="158.320" x2="129.100" y2="156.120" stroke="#9a2b2b" stroke-width="0.13"/>
+<text x="127.000" y="180.400" font-size="1.9" text-anchor="middle" fill="#9a2b2b" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal" transform="rotate(-90 127.000 180.400)">2,32</text>
+</g>
+<g id="rotulos">
+<text x="92.700" y="133.040" font-size="2.0" text-anchor="middle" fill="#5f5f5f" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">VIGA DESCOLGADA  intradós +2,60</text>
+<text x="70.710" y="135.940" font-size="3.0" text-anchor="middle" fill="#ffffff" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">P1</text>
+<text x="94.010" y="197.920" font-size="3.0" text-anchor="middle" fill="#ffffff" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">P2</text>
+<text x="180.390" y="133.930" font-size="3.0" text-anchor="middle" fill="#ffffff" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">P3</text>
+<text x="257.790" y="136.930" font-size="3.0" text-anchor="middle" fill="#ffffff" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">P4</text>
+<text x="181.610" y="227.500" font-size="3.0" text-anchor="middle" fill="#ffffff" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">P5</text>
+<text x="245.610" y="145.925" font-size="2.1" text-anchor="middle" fill="#111111" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold" transform="rotate(-90 245.610 145.925)">SUBE</text>
+<text x="158.000" y="104.000" font-size="2.6" text-anchor="middle" fill="#4a4a4a" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">ZONA CON FORJADO SUPERIOR</text>
+<text x="158.000" y="107.400" font-size="2.3" text-anchor="middle" fill="#4a4a4a" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">altura libre 2,70 m</text>
+<text x="148.000" y="183.000" font-size="2.6" text-anchor="middle" fill="#3c5a68" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">DOBLE ALTURA · 5,50 m</text>
+<text x="221.000" y="211.600" font-size="2.3" text-anchor="middle" fill="#3c5a68" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">VESTÍBULO DE ACCESO</text>
+<text x="88.600" y="98.000" font-size="2.3" text-anchor="middle" fill="#3c5a68" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold" transform="rotate(-90 88.600 98.000)">DOBLE ALTURA</text>
+<polygon points="221.0,221.6 219.3,218.7 222.7,218.7" fill="none" stroke="#111111" stroke-width="0.25"/>
+<polygon points="221.0,221.6 219.3,218.7 221.0,218.7" fill="#111111"/>
+<text x="224.000" y="221.200" font-size="2.6" text-anchor="start" fill="#111111" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">±0,00</text>
+<text x="162.400" y="54.360" font-size="2.0" text-anchor="middle" fill="#ffffff" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">MEDIANERA NORTE  e=0,148</text>
+<text x="64.500" y="118.000" font-size="2.0" text-anchor="middle" fill="#ffffff" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal" transform="rotate(-90 64.500 118.000)">MURO OESTE  e=0,25</text>
+<text x="261.300" y="118.000" font-size="2.0" text-anchor="middle" fill="#ffffff" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal" transform="rotate(-90 261.300 118.000)">MEDIANERA ESTE  e=0,15</text>
+<text x="127.000" y="209.380" font-size="2.1" text-anchor="middle" fill="#26485a" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">VENTANAL SUR  ·  4 paños  ·  h = 3,00</text>
+<text x="221.400" y="234.000" font-size="2.1" text-anchor="middle" fill="#26485a" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">ESCAPARATE  ·  2 paños  ·  h = 3,00</text>
+<text x="249.000" y="90.000" font-size="1.95" text-anchor="middle" fill="#111111" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal" transform="rotate(-90 249.000 90.000)">ESCALERA  16 huellas × 0,26</text>
+<text x="252.000" y="90.000" font-size="1.95" text-anchor="middle" fill="#111111" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal" transform="rotate(-90 252.000 90.000)">17 tabicas × 0,176</text>
+</g>
+<g id="cajetin">
+<rect x="316.000" y="8.000" width="96.000" height="281.000" fill="#ffffff" stroke="#111111" stroke-width="0.5"/>
+<text x="321.000" y="17.000" font-size="6.2" text-anchor="start" fill="#111111" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold" letter-spacing="1.2">GRUPO SUMA</text>
+<text x="321.000" y="21.600" font-size="2.5" text-anchor="start" fill="#666666" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Reformas y proyectos · Málaga</text>
+<line x1="321.000" y1="24.800" x2="407.000" y2="24.800" stroke="#111111" stroke-width="0.25"/>
+<text x="321.000" y="30.000" font-size="2.1" text-anchor="start" fill="#777777" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">PROYECTO</text>
+<text x="321.000" y="34.000" font-size="3.2" text-anchor="start" fill="#111111" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">Reforma integral de local</text>
+<text x="321.000" y="38.200" font-size="3.2" text-anchor="start" fill="#111111" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">de hostelería</text>
+<text x="321.000" y="43.400" font-size="2.1" text-anchor="start" fill="#777777" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">EMPLAZAMIENTO</text>
+<text x="321.000" y="47.400" font-size="2.9" text-anchor="start" fill="#111111" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Local en planta baja y altillo</text>
+<text x="321.000" y="51.300" font-size="2.9" text-anchor="start" fill="#111111" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Málaga</text>
+<text x="321.000" y="56.500" font-size="2.1" text-anchor="start" fill="#777777" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">PLANO</text>
+<text x="321.000" y="60.500" font-size="4.4" text-anchor="start" fill="#111111" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">PLANTA BAJA</text>
+<text x="321.000" y="65.100" font-size="2.5" text-anchor="start" fill="#555555" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Estado actual · estructura</text>
+<line x1="321.000" y1="67.500" x2="407.000" y2="67.500" stroke="#111111" stroke-width="0.1"/>
+<text x="321.000" y="73.000" font-size="2.1" text-anchor="start" fill="#777777" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">LEYENDA</text>
+<rect x="321.000" y="76.200" width="8.000" height="3.600" fill="#6f6f6f" stroke="#111111" stroke-width="0.18"/>
+<text x="331.500" y="79.600" font-size="2.4" text-anchor="start" fill="#111111" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Muro de carga / medianera</text>
+<rect x="321.000" y="81.200" width="8.000" height="3.600" fill="#2b2b2b" stroke="#111111" stroke-width="0.18"/>
+<text x="331.500" y="84.600" font-size="2.4" text-anchor="start" fill="#111111" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Pilar o machón de hormigón</text>
+<rect x="321.000" y="86.200" width="8.000" height="3.600" fill="#7fb4c9" stroke="#3d6b80" stroke-width="0.18"/>
+<text x="331.500" y="89.600" font-size="2.4" text-anchor="start" fill="#111111" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Carpintería acristalada</text>
+<rect x="321.000" y="91.200" width="8.000" height="3.600" fill="url(#doble)" stroke="#c3ced6" stroke-width="0.18"/>
+<text x="331.500" y="94.600" font-size="2.4" text-anchor="start" fill="#111111" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Espacio de doble altura</text>
+<line x1="321.000" y1="98.400" x2="329.000" y2="98.400" stroke="#8a8a8a" stroke-width="0.18" stroke-dasharray="1.6 1.1"/>
+<text x="331.500" y="99.600" font-size="2.4" text-anchor="start" fill="#111111" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Forjado y viga sobre el corte</text>
+<circle cx="325.00" cy="103.40" r="1.5" fill="none" stroke="#7d7d7d" stroke-width="0.25"/>
+<text x="331.500" y="104.600" font-size="2.4" text-anchor="start" fill="#111111" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Punto de luz s/ proyecto</text>
+<line x1="321.000" y1="109.600" x2="407.000" y2="109.600" stroke="#111111" stroke-width="0.1"/>
+<text x="321.000" y="114.200" font-size="2.1" text-anchor="start" fill="#777777" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">SUPERFICIES Y ALTURAS</text>
+<text x="321.000" y="118.400" font-size="2.4" text-anchor="start" fill="#333333" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Planta baja, dentro de muros</text>
+<text x="407.000" y="118.400" font-size="2.4" text-anchor="end" fill="#111111" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">75,63 m²</text>
+<text x="321.000" y="122.600" font-size="2.4" text-anchor="start" fill="#333333" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Zona de doble altura</text>
+<text x="407.000" y="122.600" font-size="2.4" text-anchor="end" fill="#111111" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">37,80 m²</text>
+<text x="321.000" y="126.800" font-size="2.4" text-anchor="start" fill="#333333" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Altura libre bajo forjado</text>
+<text x="407.000" y="126.800" font-size="2.4" text-anchor="end" fill="#111111" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">2,70 m</text>
+<text x="321.000" y="131.000" font-size="2.4" text-anchor="start" fill="#333333" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Altura en doble altura</text>
+<text x="407.000" y="131.000" font-size="2.4" text-anchor="end" fill="#111111" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">5,50 m</text>
+<text x="321.000" y="135.200" font-size="2.4" text-anchor="start" fill="#333333" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Acristalamiento de fachada</text>
+<text x="407.000" y="135.200" font-size="2.4" text-anchor="end" fill="#111111" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">3,00 m</text>
+<line x1="321.000" y1="138.600" x2="407.000" y2="138.600" stroke="#111111" stroke-width="0.1"/>
+<text x="321.000" y="143.200" font-size="2.1" text-anchor="start" fill="#777777" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">PILARES Y MACHONES  (secciones en m)</text>
+<text x="321.000" y="147.400" font-size="2.3" text-anchor="start" fill="#333333" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">P1  Machón del muro Oeste</text>
+<text x="407.000" y="147.400" font-size="2.3" text-anchor="end" fill="#111111" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">0,37 × 0,60</text>
+<text x="321.000" y="151.600" font-size="2.3" text-anchor="start" fill="#333333" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">P2  Pilastra del muro Sur</text>
+<text x="407.000" y="151.600" font-size="2.3" text-anchor="end" fill="#111111" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">0,60 × 0,30</text>
+<text x="321.000" y="155.800" font-size="2.3" text-anchor="start" fill="#333333" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">P3  Pilar central</text>
+<text x="407.000" y="155.800" font-size="2.3" text-anchor="end" fill="#111111" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">0,60 × 0,90</text>
+<text x="321.000" y="160.000" font-size="2.3" text-anchor="start" fill="#333333" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">P4  Machón de la medianera Este</text>
+<text x="407.000" y="160.000" font-size="2.3" text-anchor="end" fill="#111111" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">0,20 × 0,60</text>
+<text x="321.000" y="164.200" font-size="2.3" text-anchor="start" fill="#333333" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">P5  Pilar de fachada</text>
+<text x="407.000" y="164.200" font-size="2.3" text-anchor="end" fill="#111111" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">0,50 × 0,96</text>
+<line x1="321.000" y1="167.600" x2="407.000" y2="167.600" stroke="#111111" stroke-width="0.1"/>
+<text x="321.000" y="172.200" font-size="2.1" text-anchor="start" fill="#777777" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">NOTAS</text>
+<text x="321.000" y="176.000" font-size="2.3" text-anchor="start" fill="#333333" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Cotas en metros, tomadas sobre el levantamiento.</text>
+<text x="321.000" y="179.800" font-size="2.3" text-anchor="start" fill="#333333" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Plano de estructura: no se representa mobiliario</text>
+<text x="321.000" y="183.600" font-size="2.3" text-anchor="start" fill="#333333" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">ni equipamiento. Cota de referencia ±0,00 en el</text>
+<text x="321.000" y="187.400" font-size="2.3" text-anchor="start" fill="#333333" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">pavimento de planta baja.</text>
+<text x="321.000" y="191.200" font-size="2.3" text-anchor="start" fill="#333333" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Sección horizontal a 1,20 m sobre el pavimento.</text>
+<text x="321.000" y="195.000" font-size="2.3" text-anchor="start" fill="#333333" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Los puntos de luz proceden del proyecto de reforma,</text>
+<text x="321.000" y="198.800" font-size="2.3" text-anchor="start" fill="#333333" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">no están replanteados en obra.</text>
+<line x1="321.000" y1="253.000" x2="407.000" y2="253.000" stroke="#111111" stroke-width="0.1"/>
+<rect x="321.000" y="259.000" width="10.000" height="2.200" fill="#111111" stroke="#111111" stroke-width="0.1"/>
+<rect x="331.000" y="259.000" width="10.000" height="2.200" fill="#ffffff" stroke="#111111" stroke-width="0.1"/>
+<rect x="341.000" y="259.000" width="10.000" height="2.200" fill="#111111" stroke="#111111" stroke-width="0.1"/>
+<rect x="351.000" y="259.000" width="10.000" height="2.200" fill="#ffffff" stroke="#111111" stroke-width="0.1"/>
+<rect x="361.000" y="259.000" width="10.000" height="2.200" fill="#111111" stroke="#111111" stroke-width="0.1"/>
+<text x="321.000" y="257.800" font-size="2.1" text-anchor="middle" fill="#111111" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">0</text>
+<text x="341.000" y="257.800" font-size="2.1" text-anchor="middle" fill="#111111" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">1</text>
+<text x="361.000" y="257.800" font-size="2.1" text-anchor="middle" fill="#111111" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">2</text>
+<text x="373.000" y="261.000" font-size="2.1" text-anchor="start" fill="#111111" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">m</text>
+<circle cx="399.0" cy="260.0" r="7.2" fill="none" stroke="#111111" stroke-width="0.25"/>
+<polygon points="399.0,253.6 396.4,264.4 399.0,262.0 401.6,264.4" fill="#111111"/>
+<text x="399.000" y="251.800" font-size="3.0" text-anchor="middle" fill="#111111" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">N</text>
+<line x1="316.000" y1="272.000" x2="412.000" y2="272.000" stroke="#111111" stroke-width="0.25"/>
+<text x="321.000" y="277.000" font-size="2.1" text-anchor="start" fill="#777777" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">ESCALA</text>
+<text x="321.000" y="282.400" font-size="3.6" text-anchor="start" fill="#111111" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">1:50  (A3)</text>
+<text x="361.000" y="277.000" font-size="2.1" text-anchor="start" fill="#777777" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">FECHA</text>
+<text x="361.000" y="282.400" font-size="2.8" text-anchor="start" fill="#111111" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">12 set. 2026</text>
+<text x="407.000" y="277.000" font-size="2.1" text-anchor="end" fill="#777777" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">PLANO</text>
+<text x="407.000" y="282.400" font-size="3.6" text-anchor="end" fill="#111111" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">01 / 02</text>
+</g>
+</svg>
