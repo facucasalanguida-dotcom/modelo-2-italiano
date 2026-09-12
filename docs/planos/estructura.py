@@ -21,8 +21,11 @@ T_FORJADO     = 0.300     # canto del forjado
 Z_FORJ_INF    = 2.700     # intrados del forjado = altura libre en planta baja
 H_LIBRE_PA    = 2.500     # altura libre en planta alta
 H_TOT         = 5.500     # cara inferior del forjado de cubierta
-H_ESCAPARATE  = 3.000     # coronacion del acristalamiento de fachada
-H_BANDA       = 0.550     # banda de rotulo sobre el acristalamiento
+# El acristalamiento de fachada NO termina en +3,00 como suponia el modelo:
+# los videos de obra lo muestran de DOBLE ALTURA, con la cabeza del vidrio a
+# 0,4-0,8 m del techo del altillo. Cota pendiente de medir en obra.
+H_ESCAPARATE  = 4.700     # coronacion aproximada del acristalamiento (comprobar)
+H_BANDA       = 0.550     # banda de rotulo, a la altura de los ojos del altillo
 Z_VIGA_INF    = 2.600     # intrados de la viga descolgada
 H_PUERTA      = 2.100     # huecos de paso
 H_BARANDA     = 1.000     # antepechos de vidrio

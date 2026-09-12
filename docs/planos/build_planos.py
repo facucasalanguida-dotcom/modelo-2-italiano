@@ -321,9 +321,9 @@ def planta_baja():
             rot=-90)
     L.texto('rotulos', 9.965, 5.9, 'MEDIANERA ESTE  e=0,15', 2.0, 'middle', '#ffffff',
             rot=-90)
-    L.texto('rotulos', 3.25, 1.561, 'VENTANAL SUR  ·  4 paños  ·  h = 3,00', 2.1,
-            'middle', '#26485a', dy=4.6)
-    L.texto('rotulos', 7.97, 0.330, 'ESCAPARATE  ·  2 paños  ·  h = 3,00', 2.1,
+    L.texto('rotulos', 3.25, 1.561, 'VENTANAL SUR  ·  acristalamiento de doble altura',
+            2.1, 'middle', '#26485a', dy=4.6)
+    L.texto('rotulos', 7.97, 0.330, 'ESCAPARATE  ·  doble altura', 2.1,
             'middle', '#26485a', dy=4.6)
     L.texto('rotulos', 9.35, 7.30,
             f'ESCALERA  {E.ESC_N_HUELLAS} huellas × 0,26', 1.95, 'middle', TINTA,
@@ -373,7 +373,7 @@ def planta_baja():
             ('Zona de doble altura', f'{E.SUP_DOBLE_ALT:.2f} m²'.replace('.', ',')),
             ('Altura libre bajo forjado', '2,70 m'),
             ('Altura en doble altura', '5,50 m'),
-            ('Acristalamiento de fachada', '3,00 m')]))
+            ('Acristalamiento de fachada', '≈ 4,70 m')]))
     return L
 
 
