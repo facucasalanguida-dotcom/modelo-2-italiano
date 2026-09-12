@@ -25,6 +25,11 @@ H_TOT         = 5.500     # cara inferior del forjado de cubierta
 # los videos de obra lo muestran de DOBLE ALTURA, con la cabeza del vidrio a
 # 0,4-0,8 m del techo del altillo. Cota pendiente de medir en obra.
 H_ESCAPARATE  = 4.700     # coronacion aproximada del acristalamiento (comprobar)
+# El ventanal sur, en cambio, tiene un travesaño corrido a media altura: en los
+# videos se ve un montante horizontal continuo por encima del cual el hueco
+# sigue subiendo. Altura del travesaño pendiente de medir.
+H_TRAVESANO   = 2.300     # travesaño del ventanal sur (comprobar)
+H_ZOCALO      = 0.130     # zocalo de piedra oscura bajo toda la carpinteria
 H_BANDA       = 0.550     # banda de rotulo, a la altura de los ojos del altillo
 Z_VIGA_INF    = 2.600     # intrados de la viga descolgada
 H_PUERTA      = 2.100     # huecos de paso
@@ -66,8 +71,10 @@ PILARES = [
     ('P4', 'Machón de la medianera Este', 9.689, 4.708, 9.890, 5.309),
     ('P5', 'Pilar de fachada',             5.731, 0.000, 6.230, 0.960),
 ]
-# P3 llega solo al intrados del forjado y reaparece en planta alta.
-PILARES_PA = ['P3', 'P4']
+# Pilares que atraviesan el forjado y siguen en planta alta. P5 es el machon
+# de fachada entre el ventanal sur y el escaparate: en los videos se ve subir
+# hasta el techo del altillo, por encima de la coronacion del vidrio.
+PILARES_PA = ['P3', 'P4', 'P5']
 
 # Viga descolgada (intrados 2,60 · pasa a 3,00)
 VIGA = ('Viga descolgada', 0.659, 4.828, 2.411, 5.078)
@@ -123,3 +130,27 @@ SUP_DOBLE_ALT = 37.80     # m2 de vacio a doble altura
 SUP_SOLAR     = 81.72     # m2 dentro del contorno exterior
 RECINTOS_PA = [('Aseo (lavabo + inodoro)', 3.92), ('Almacen', 2.59),
                ('Paso / rellano', 3.33), ('Altillo diafano', 26.17)]
+
+# ------------------------------------------------- discrepancias por resolver
+# Puntos en los que los videos del local en obra no cuadran con el
+# levantamiento, o que el levantamiento no recoge. Se dibuja el levantamiento
+# (es la unica fuente acotada) y se listan aqui para medir en obra.
+COMPROBAR = [
+    'Retranqueo de 1,23 m entre el ventanal sur (y=1,561) y el escaparate '
+    '(y=0,330): en obra los dos vidrios parecen casi coplanarios. Medir el '
+    'fondo del pilar P5.',
+    'Frente real a la calle. El levantamiento da 10,04 m entre medianeras; '
+    'el acristalamiento visible en obra es sensiblemente menor.',
+    'Puerta de acceso: no figura en el levantamiento. En obra hay una hoja '
+    'practicable en el escaparate. Situarla y acotarla.',
+    'Chapados de piedra: jamba oscura al oeste, pilastra de arenisca sobre '
+    'P5 y revestimiento del pilar de esquina. Espesores sin medir.',
+    'Coronación del acristalamiento (≈4,70) y travesaño del ventanal '
+    '(≈2,30). Solo el nivel +3,00 está acotado en el levantamiento.',
+    'Puntos de luz: en el techo hay más de 20 taladros en retícula de '
+    '1,2-1,5 m. El plano recoge los 13 del proyecto de reforma.',
+    'Puerta del aseo: en obra parece situada hacia x=3,9-4,5; el '
+    'levantamiento la coloca entre 3,09 y 3,85.',
+    'Machones trasdosados con placa de yeso nueva: la sección de hormigón '
+    'no es verificable a la vista.',
+]

@@ -161,6 +161,31 @@ def marco(L, titulo, numero, subtitulo, notas, leyenda, cuadro=None):
     L.p_texto('cajetin', x1 - 5, yp + 10.4, numero, 3.6, 'end', TINTA, 'bold')
 
 
+def comprobar(L, y0=258.5, y1=287.0, x0=11.0, x1=W - 8.0 - 96.0 - 2.0):
+    """Banda de comprobaciones en obra, al pie de la lamina."""
+    import textwrap
+    L.p_rect('cajetin', x0, y0, x1, y1, '#fbf6ee', '#9a2b2b', 'fino')
+    L.p_texto('cajetin', x0 + 3.5, y0 + 4.6, 'COMPROBAR EN OBRA', 2.6, 'start',
+              '#9a2b2b', 'bold', espaciado='0.6')
+    L.p_texto('cajetin', x0 + 46, y0 + 4.6,
+              'Puntos en los que los vídeos del local no cuadran con el '
+              'levantamiento, o que el levantamiento no recoge. Se dibuja el '
+              'levantamiento por ser la única fuente acotada.',
+              2.0, 'start', '#7a5a3a')
+    L.p_linea('cajetin', x0 + 3.5, y0 + 6.4, x1 - 3.5, y0 + 6.4, '#d8c6ae', 'cota')
+
+    ncol, porcol = 4, 2
+    ancho = (x1 - x0 - 7.0) / ncol
+    for i, txt in enumerate(E.COMPROBAR):
+        col, fila = divmod(i, porcol)
+        cx = x0 + 3.5 + col * ancho
+        cy = y0 + 11.2 + fila * 10.2
+        L.p_texto('cajetin', cx, cy, f'{i + 1}', 2.2, 'start', '#9a2b2b', 'bold')
+        for j, linea in enumerate(textwrap.wrap(txt, 62)[:3]):
+            L.p_texto('cajetin', cx + 4.2, cy + j * 2.8, linea, 2.0, 'start',
+                      '#3a3a3a')
+
+
 def nivel(L, x, y, txt):
     """Simbolo de cota de nivel: triangulo sobre linea."""
     X, Y = L.px(x), L.py(y)
@@ -186,8 +211,15 @@ def zona_doble_altura():
             (5.980, 1.621), (0.510, 1.621), (0.510, 2.009), (0.250, 2.009)]
 
 
+# El tramo sur esta ocupado en toda su longitud por el ventanal: el plano de
+# seccion lo corta por el vidrio, asi que no se macizan.
+SIN_POCHE = ('Muro Sur (con ventanal)',)
+
+
 def muros(L, capa='muros'):
     for nm, x0, y0, x1, y1, _e in E.MUROS:
+        if nm in SIN_POCHE:
+            continue
         L.rect(capa, x0, y0, x1, y1, POCHE, TINTA, 'corte')
 
 
@@ -321,9 +353,9 @@ def planta_baja():
             rot=-90)
     L.texto('rotulos', 9.965, 5.9, 'MEDIANERA ESTE  e=0,15', 2.0, 'middle', '#ffffff',
             rot=-90)
-    L.texto('rotulos', 3.25, 1.561, 'VENTANAL SUR  ·  acristalamiento de doble altura',
+    L.texto('rotulos', 3.25, 1.561, 'VENTANAL SUR  ·  4 paños  ·  travesaño ≈ +2,30',
             2.1, 'middle', '#26485a', dy=4.6)
-    L.texto('rotulos', 7.97, 0.330, 'ESCAPARATE  ·  doble altura', 2.1,
+    L.texto('rotulos', 7.97, 0.330, 'ESCAPARATE  ·  acristalamiento de doble altura', 2.1,
             'middle', '#26485a', dy=4.6)
     L.texto('rotulos', 9.35, 7.30,
             f'ESCALERA  {E.ESC_N_HUELLAS} huellas × 0,26', 1.95, 'middle', TINTA,
@@ -374,6 +406,7 @@ def planta_baja():
             ('Altura libre bajo forjado', '2,70 m'),
             ('Altura en doble altura', '5,50 m'),
             ('Acristalamiento de fachada', '≈ 4,70 m')]))
+    comprobar(L)
     return L
 
 
@@ -388,8 +421,11 @@ def planta_alta():
     L.poly('trama', zona_doble_altura(), 'url(#vacio)', None)
 
     # contorno del local en planta alta (muros que siguen subiendo)
-    for nm, x0, y0, x1, y1, _e in E.MUROS:
-        L.rect('muros', x0, y0, x1, y1, POCHE, TINTA, 'corte')
+    muros(L)
+    # el acristalamiento de fachada es de doble altura: el plano de seccion a
+    # +4,20 lo sigue cortando
+    ventanal_sur(L)
+    escaparate(L)
 
     # borde del forjado
     L.poly('proyeccion', E.FORJADO, 'none', TINTA, 'medio')
@@ -426,6 +462,7 @@ def planta_alta():
 
     pilares(L, solo=E.PILARES_PA)
     escalera(L, 'alta')
+    L.poly('muros', interior_pb(), 'none', '#8a8a8a', 'auxiliar')
 
     # ---- rotulos
     nivel(L, 4.30, 5.10, '+3,00')
@@ -448,6 +485,10 @@ def planta_alta():
             rot=-90, dx=2.6)
     L.texto('rotulos', 9.35, 5.95, 'ESCALERA · llegada +3,00', 2.0, 'middle', TINTA,
             rot=-90, dx=3.4)
+    L.texto('rotulos', 3.25, 1.561, 'VENTANAL SUR · doble altura', 2.1, 'middle',
+            '#26485a', dy=4.6)
+    L.texto('rotulos', 7.97, 0.330, 'ESCAPARATE · doble altura', 2.1, 'middle',
+            '#26485a', dy=4.6)
     # ---- cotas
     yn = L.py(9.156) - 8.0
     L.cota_h('cotas', [0.0, 0.250, 2.461, 2.560, 3.089, 3.849, 4.461, 4.560,
@@ -475,7 +516,7 @@ def planta_alta():
            'ni equipamiento.',
            'El forjado del altillo no cubre todo el local: la',
            'franja sur y oeste es un vacío a doble altura.',
-           'Sección horizontal a 1,20 m sobre el forjado.'],
+           'Sección horizontal a 1,20 m sobre el forjado (+4,20).'],
           [(POCHE, TINTA, 'Muro de carga / medianera'),
            (POCHE_PIL, TINTA, 'Pilar o machón de hormigón'),
            (POCHE_TAB, TINTA, 'Tabiquería'),
@@ -487,6 +528,7 @@ def planta_alta():
             ('Aseo (lavabo + inodoro)', '3,92 m²'),
             ('Almacén', '2,59 m²'),
             ('Altura libre de planta alta', '2,50 m')]))
+    comprobar(L)
     return L
 
 

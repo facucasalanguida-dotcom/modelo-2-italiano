@@ -29,7 +29,6 @@
 <rect x="62.000" y="52.880" width="200.800" height="2.960" fill="#6f6f6f" stroke="#111111" stroke-width="0.5"/>
 <rect x="62.000" y="55.840" width="5.000" height="139.980" fill="#6f6f6f" stroke="#111111" stroke-width="0.5"/>
 <rect x="62.000" y="195.820" width="10.200" height="8.960" fill="#6f6f6f" stroke="#111111" stroke-width="0.5"/>
-<rect x="72.200" y="199.800" width="109.400" height="4.980" fill="#6f6f6f" stroke="#111111" stroke-width="0.5"/>
 <rect x="176.620" y="204.780" width="4.980" height="12.020" fill="#6f6f6f" stroke="#111111" stroke-width="0.5"/>
 <rect x="259.800" y="55.840" width="3.000" height="151.580" fill="#6f6f6f" stroke="#111111" stroke-width="0.5"/>
 <rect x="256.200" y="207.420" width="6.600" height="21.980" fill="#6f6f6f" stroke="#111111" stroke-width="0.5"/>
@@ -273,8 +272,8 @@
 <text x="162.400" y="54.360" font-size="2.0" text-anchor="middle" fill="#ffffff" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">MEDIANERA NORTE  e=0,148</text>
 <text x="64.500" y="118.000" font-size="2.0" text-anchor="middle" fill="#ffffff" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal" transform="rotate(-90 64.500 118.000)">MURO OESTE  e=0,25</text>
 <text x="261.300" y="118.000" font-size="2.0" text-anchor="middle" fill="#ffffff" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal" transform="rotate(-90 261.300 118.000)">MEDIANERA ESTE  e=0,15</text>
-<text x="127.000" y="209.380" font-size="2.1" text-anchor="middle" fill="#26485a" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">VENTANAL SUR  ·  acristalamiento de doble altura</text>
-<text x="221.400" y="234.000" font-size="2.1" text-anchor="middle" fill="#26485a" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">ESCAPARATE  ·  doble altura</text>
+<text x="127.000" y="209.380" font-size="2.1" text-anchor="middle" fill="#26485a" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">VENTANAL SUR  ·  4 paños  ·  travesaño ≈ +2,30</text>
+<text x="221.400" y="234.000" font-size="2.1" text-anchor="middle" fill="#26485a" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">ESCAPARATE  ·  acristalamiento de doble altura</text>
 <text x="249.000" y="90.000" font-size="1.95" text-anchor="middle" fill="#111111" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal" transform="rotate(-90 249.000 90.000)">ESCALERA  16 huellas × 0,26</text>
 <text x="252.000" y="90.000" font-size="1.95" text-anchor="middle" fill="#111111" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal" transform="rotate(-90 252.000 90.000)">17 tabicas × 0,176</text>
 </g>
@@ -359,5 +358,37 @@
 <text x="361.000" y="282.400" font-size="2.8" text-anchor="start" fill="#111111" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">12 set. 2026</text>
 <text x="407.000" y="277.000" font-size="2.1" text-anchor="end" fill="#777777" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">PLANO</text>
 <text x="407.000" y="282.400" font-size="3.6" text-anchor="end" fill="#111111" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">01 / 02</text>
+<rect x="11.000" y="258.500" width="303.000" height="28.500" fill="#fbf6ee" stroke="#9a2b2b" stroke-width="0.18"/>
+<text x="14.500" y="263.100" font-size="2.6" text-anchor="start" fill="#9a2b2b" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold" letter-spacing="0.6">COMPROBAR EN OBRA</text>
+<text x="57.000" y="263.100" font-size="2.0" text-anchor="start" fill="#7a5a3a" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Puntos en los que los vídeos del local no cuadran con el levantamiento, o que el levantamiento no recoge. Se dibuja el levantamiento por ser la única fuente acotada.</text>
+<line x1="14.500" y1="264.900" x2="310.500" y2="264.900" stroke="#d8c6ae" stroke-width="0.13"/>
+<text x="14.500" y="269.700" font-size="2.2" text-anchor="start" fill="#9a2b2b" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">1</text>
+<text x="18.700" y="269.700" font-size="2.0" text-anchor="start" fill="#3a3a3a" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Retranqueo de 1,23 m entre el ventanal sur (y=1,561) y el</text>
+<text x="18.700" y="272.500" font-size="2.0" text-anchor="start" fill="#3a3a3a" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">escaparate (y=0,330): en obra los dos vidrios parecen casi</text>
+<text x="18.700" y="275.300" font-size="2.0" text-anchor="start" fill="#3a3a3a" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">coplanarios. Medir el fondo del pilar P5.</text>
+<text x="14.500" y="279.900" font-size="2.2" text-anchor="start" fill="#9a2b2b" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">2</text>
+<text x="18.700" y="279.900" font-size="2.0" text-anchor="start" fill="#3a3a3a" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Frente real a la calle. El levantamiento da 10,04 m entre</text>
+<text x="18.700" y="282.700" font-size="2.0" text-anchor="start" fill="#3a3a3a" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">medianeras; el acristalamiento visible en obra es</text>
+<text x="18.700" y="285.500" font-size="2.0" text-anchor="start" fill="#3a3a3a" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">sensiblemente menor.</text>
+<text x="88.500" y="269.700" font-size="2.2" text-anchor="start" fill="#9a2b2b" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">3</text>
+<text x="92.700" y="269.700" font-size="2.0" text-anchor="start" fill="#3a3a3a" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Puerta de acceso: no figura en el levantamiento. En obra hay</text>
+<text x="92.700" y="272.500" font-size="2.0" text-anchor="start" fill="#3a3a3a" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">una hoja practicable en el escaparate. Situarla y acotarla.</text>
+<text x="88.500" y="279.900" font-size="2.2" text-anchor="start" fill="#9a2b2b" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">4</text>
+<text x="92.700" y="279.900" font-size="2.0" text-anchor="start" fill="#3a3a3a" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Chapados de piedra: jamba oscura al oeste, pilastra de</text>
+<text x="92.700" y="282.700" font-size="2.0" text-anchor="start" fill="#3a3a3a" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">arenisca sobre P5 y revestimiento del pilar de esquina.</text>
+<text x="92.700" y="285.500" font-size="2.0" text-anchor="start" fill="#3a3a3a" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Espesores sin medir.</text>
+<text x="162.500" y="269.700" font-size="2.2" text-anchor="start" fill="#9a2b2b" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">5</text>
+<text x="166.700" y="269.700" font-size="2.0" text-anchor="start" fill="#3a3a3a" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Coronación del acristalamiento (≈4,70) y travesaño del</text>
+<text x="166.700" y="272.500" font-size="2.0" text-anchor="start" fill="#3a3a3a" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">ventanal (≈2,30). Solo el nivel +3,00 está acotado en el</text>
+<text x="166.700" y="275.300" font-size="2.0" text-anchor="start" fill="#3a3a3a" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">levantamiento.</text>
+<text x="162.500" y="279.900" font-size="2.2" text-anchor="start" fill="#9a2b2b" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">6</text>
+<text x="166.700" y="279.900" font-size="2.0" text-anchor="start" fill="#3a3a3a" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Puntos de luz: en el techo hay más de 20 taladros en retícula</text>
+<text x="166.700" y="282.700" font-size="2.0" text-anchor="start" fill="#3a3a3a" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">de 1,2-1,5 m. El plano recoge los 13 del proyecto de reforma.</text>
+<text x="236.500" y="269.700" font-size="2.2" text-anchor="start" fill="#9a2b2b" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">7</text>
+<text x="240.700" y="269.700" font-size="2.0" text-anchor="start" fill="#3a3a3a" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Puerta del aseo: en obra parece situada hacia x=3,9-4,5; el</text>
+<text x="240.700" y="272.500" font-size="2.0" text-anchor="start" fill="#3a3a3a" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">levantamiento la coloca entre 3,09 y 3,85.</text>
+<text x="236.500" y="279.900" font-size="2.2" text-anchor="start" fill="#9a2b2b" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">8</text>
+<text x="240.700" y="279.900" font-size="2.0" text-anchor="start" fill="#3a3a3a" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Machones trasdosados con placa de yeso nueva: la sección de</text>
+<text x="240.700" y="282.700" font-size="2.0" text-anchor="start" fill="#3a3a3a" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">hormigón no es verificable a la vista.</text>
 </g>
 </svg>

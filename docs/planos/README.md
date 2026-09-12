@@ -31,6 +31,16 @@ los propios planos: aseo 3,92 m2 (rotulado 3,90), almacen 2,59 m2 (rotulado
 2,60), huella de peldano 0,260 m, 17 tabicas de 3,00/17 = 0,1765 m. La
 geometria se ha contrastado despues con los videos del local en obra.
 
+## Comprobar en obra
+
+Las dos laminas llevan al pie un bloque **COMPROBAR EN OBRA** con los puntos
+en los que los videos del local grabados en obra no cuadran con el
+levantamiento, o que el levantamiento no recoge (retranqueo entre el ventanal
+y el escaparate, frente real a la calle, puerta de acceso, chapados de piedra,
+alturas de coronacion, puntos de luz). Se dibuja siempre el levantamiento por
+ser la unica fuente acotada; esos puntos se miden en obra y se corrigen sobre
+el papel.
+
 ## Regenerar
 
 ```bash
