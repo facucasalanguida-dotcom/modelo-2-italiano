@@ -23,7 +23,6 @@
 </g>
 <g id="proyeccion">
 <polygon points="111.220,55.840 259.800,55.840 259.800,81.240 238.220,81.240 238.220,157.220 110.220,157.220 110.220,85.820 111.220,85.820" fill="none" stroke="#8a8a8a" stroke-width="0.18" stroke-dasharray="3.2 1.6"/>
-<rect x="75.180" y="134.440" width="35.040" height="5.000" fill="none" stroke="#8a8a8a" stroke-width="0.18" stroke-dasharray="3.2 1.6"/>
 </g>
 <g id="muros">
 <rect x="62.000" y="52.880" width="200.800" height="2.960" fill="#6f6f6f" stroke="#111111" stroke-width="0.5"/>
@@ -32,31 +31,36 @@
 <rect x="176.620" y="204.780" width="4.980" height="12.020" fill="#6f6f6f" stroke="#111111" stroke-width="0.5"/>
 <rect x="259.800" y="55.840" width="3.000" height="151.580" fill="#6f6f6f" stroke="#111111" stroke-width="0.5"/>
 <rect x="256.200" y="207.420" width="6.600" height="21.980" fill="#6f6f6f" stroke="#111111" stroke-width="0.5"/>
+<rect x="109.400" y="55.840" width="2.000" height="72.000" fill="#a8a8a8" stroke="#111111" stroke-width="0.35"/>
+<rect x="96.600" y="125.840" width="14.800" height="2.000" fill="#a8a8a8" stroke="#111111" stroke-width="0.35"/>
 <polygon points="67.000,55.840 259.800,55.840 259.800,207.420 256.200,207.420 256.200,228.420 186.600,228.420 186.600,216.800 181.600,216.800 181.600,203.580 72.200,203.580 72.200,195.820 67.000,195.820" fill="none" stroke="#111111" stroke-width="0.18"/>
 </g>
 <g id="pilares">
-<rect x="67.000" y="128.860" width="7.420" height="11.960" fill="#2b2b2b" stroke="#111111" stroke-width="0.5"/>
-<rect x="67.000" y="128.860" width="7.420" height="11.960" fill="url(#horm)" stroke="none"/>
-<rect x="88.000" y="193.840" width="12.020" height="5.960" fill="#2b2b2b" stroke="#111111" stroke-width="0.5"/>
-<rect x="88.000" y="193.840" width="12.020" height="5.960" fill="url(#horm)" stroke="none"/>
-<rect x="174.400" y="123.820" width="11.980" height="18.020" fill="#2b2b2b" stroke="#111111" stroke-width="0.5"/>
-<rect x="174.400" y="123.820" width="11.980" height="18.020" fill="url(#horm)" stroke="none"/>
+<rect x="67.000" y="128.860" width="6.000" height="11.960" fill="#2b2b2b" stroke="#111111" stroke-width="0.5"/>
+<rect x="67.000" y="128.860" width="6.000" height="11.960" fill="url(#horm)" stroke="none"/>
+<rect x="73.000" y="132.340" width="36.600" height="5.000" fill="#2b2b2b" stroke="#111111" stroke-width="0.5"/>
+<rect x="73.000" y="132.340" width="36.600" height="5.000" fill="url(#horm)" stroke="none"/>
+<rect x="87.800" y="195.780" width="11.600" height="9.000" fill="#2b2b2b" stroke="#111111" stroke-width="0.5"/>
+<rect x="87.800" y="195.780" width="11.600" height="9.000" fill="url(#horm)" stroke="none"/>
+<rect x="170.200" y="118.840" width="13.000" height="21.400" fill="#2b2b2b" stroke="#111111" stroke-width="0.5"/>
+<rect x="170.200" y="118.840" width="13.000" height="21.400" fill="url(#horm)" stroke="none"/>
 <rect x="255.780" y="129.820" width="4.020" height="12.020" fill="#2b2b2b" stroke="#111111" stroke-width="0.5"/>
 <rect x="255.780" y="129.820" width="4.020" height="12.020" fill="url(#horm)" stroke="none"/>
-<rect x="176.620" y="216.800" width="9.980" height="19.200" fill="#2b2b2b" stroke="#111111" stroke-width="0.5"/>
-<rect x="176.620" y="216.800" width="9.980" height="19.200" fill="url(#horm)" stroke="none"/>
+<rect x="176.620" y="216.000" width="12.000" height="20.000" fill="#2b2b2b" stroke="#111111" stroke-width="0.5"/>
+<rect x="176.620" y="216.000" width="12.000" height="20.000" fill="url(#horm)" stroke="none"/>
 </g>
 <g id="carpinteria">
-<rect x="72.200" y="203.820" width="26.600" height="0.720" fill="#7fb4c9" stroke="#3d6b80" stroke-width="0.18"/>
-<rect x="98.800" y="203.580" width="1.000" height="1.200" fill="#111111" stroke="#111111" stroke-width="0.1"/>
-<rect x="99.800" y="203.820" width="26.600" height="0.720" fill="#7fb4c9" stroke="#3d6b80" stroke-width="0.18"/>
-<rect x="126.400" y="203.580" width="1.000" height="1.200" fill="#111111" stroke="#111111" stroke-width="0.1"/>
-<rect x="127.400" y="203.820" width="26.600" height="0.720" fill="#7fb4c9" stroke="#3d6b80" stroke-width="0.18"/>
-<rect x="154.000" y="203.580" width="1.000" height="1.200" fill="#111111" stroke="#111111" stroke-width="0.1"/>
-<rect x="155.000" y="203.820" width="26.600" height="0.720" fill="#7fb4c9" stroke="#3d6b80" stroke-width="0.18"/>
-<rect x="186.600" y="228.620" width="28.180" height="0.580" fill="#7fb4c9" stroke="#3d6b80" stroke-width="0.18"/>
-<rect x="215.800" y="228.620" width="40.400" height="0.580" fill="#7fb4c9" stroke="#3d6b80" stroke-width="0.18"/>
-<rect x="214.780" y="228.420" width="1.020" height="0.980" fill="#111111" stroke="#111111" stroke-width="0.1"/>
+<rect x="72.200" y="203.820" width="15.600" height="0.720" fill="#7fb4c9" stroke="#3d6b80" stroke-width="0.18"/>
+<rect x="99.400" y="203.820" width="80.000" height="0.720" fill="#7fb4c9" stroke="#3d6b80" stroke-width="0.18"/>
+<rect x="179.400" y="199.800" width="2.200" height="4.980" fill="#6f6f6f" stroke="#111111" stroke-width="0.35"/>
+<rect x="230.620" y="227.820" width="25.580" height="0.580" fill="#7fb4c9" stroke="#3d6b80" stroke-width="0.18"/>
+<rect x="230.120" y="227.620" width="1.000" height="0.980" fill="#111111" stroke="#111111" stroke-width="0.1"/>
+<rect x="188.220" y="208.600" width="0.800" height="20.000" fill="#111111" stroke="none"/>
+<line x1="188.620" y1="228.600" x2="209.620" y2="228.600" stroke="#111111" stroke-width="0.18"/>
+<path d="M 209.620 228.600 A 20.000 20.000 0 0 0 188.620 208.600" fill="none" stroke="#111111" stroke-width="0.1" stroke-dasharray="1.2 0.9"/>
+<rect x="230.220" y="208.600" width="0.800" height="20.000" fill="#111111" stroke="none"/>
+<line x1="230.620" y1="228.600" x2="209.620" y2="228.600" stroke="#111111" stroke-width="0.18"/>
+<path d="M 209.620 228.600 A 20.000 20.000 0 0 1 230.620 208.600" fill="none" stroke="#111111" stroke-width="0.1" stroke-dasharray="1.2 0.9"/>
 </g>
 <g id="escalera">
 <rect x="234.760" y="159.240" width="3.460" height="5.180" fill="none" stroke="#111111" stroke-width="0.25"/>
@@ -84,6 +88,13 @@
 <line x1="249.010" y1="160.420" x2="249.010" y2="131.429" stroke="#111111" stroke-width="0.18"/>
 <polygon points="249.010,131.429 247.210,134.629 250.810,134.629" fill="#111111" stroke="#111111" stroke-width="0.1"/>
 <circle cx="249.010" cy="160.420" r="1.100" fill="#ffffff" stroke="#111111" stroke-width="0.18"/>
+</g>
+<g id="reservas">
+<rect x="99.400" y="136.780" width="12.000" height="68.000" fill="none" stroke="#7a6a4a" stroke-width="0.25" stroke-dasharray="2.6 1.4"/>
+<line x1="99.400" y1="136.780" x2="111.400" y2="136.780" stroke="#7a6a4a" stroke-width="0.18" stroke-dasharray="2.6 1.4"/>
+<line x1="99.400" y1="127.840" x2="111.400" y2="127.840" stroke="#7a6a4a" stroke-width="0.18" stroke-dasharray="2.6 1.4"/>
+<line x1="111.400" y1="132.310" x2="121.600" y2="132.310" stroke="#7a6a4a" stroke-width="0.1"/>
+<rect x="111.400" y="55.840" width="97.800" height="12.000" fill="none" stroke="#7a6a4a" stroke-width="0.25" stroke-dasharray="2.6 1.4"/>
 </g>
 <g id="luces">
 <circle cx="84.000" cy="144.000" r="1.700" fill="none" stroke="#7d7d7d" stroke-width="0.18"/>
@@ -144,22 +155,31 @@
 <line x1="62.000" y1="236.000" x2="62.000" y2="247.600" stroke="#9a2b2b" stroke-width="0.1"/>
 <line x1="71.100" y1="247.100" x2="73.300" y2="244.900" stroke="#9a2b2b" stroke-width="0.13"/>
 <line x1="72.200" y1="236.000" x2="72.200" y2="247.600" stroke="#9a2b2b" stroke-width="0.1"/>
-<line x1="175.520" y1="247.100" x2="177.720" y2="244.900" stroke="#9a2b2b" stroke-width="0.13"/>
-<line x1="176.620" y1="236.000" x2="176.620" y2="247.600" stroke="#9a2b2b" stroke-width="0.1"/>
+<line x1="86.700" y1="247.100" x2="88.900" y2="244.900" stroke="#9a2b2b" stroke-width="0.13"/>
+<line x1="87.800" y1="236.000" x2="87.800" y2="247.600" stroke="#9a2b2b" stroke-width="0.1"/>
+<line x1="98.300" y1="247.100" x2="100.500" y2="244.900" stroke="#9a2b2b" stroke-width="0.13"/>
+<line x1="99.400" y1="236.000" x2="99.400" y2="247.600" stroke="#9a2b2b" stroke-width="0.1"/>
+<line x1="178.300" y1="247.100" x2="180.500" y2="244.900" stroke="#9a2b2b" stroke-width="0.13"/>
+<line x1="179.400" y1="236.000" x2="179.400" y2="247.600" stroke="#9a2b2b" stroke-width="0.1"/>
 <line x1="180.500" y1="247.100" x2="182.700" y2="244.900" stroke="#9a2b2b" stroke-width="0.13"/>
 <line x1="181.600" y1="236.000" x2="181.600" y2="247.600" stroke="#9a2b2b" stroke-width="0.1"/>
-<line x1="185.500" y1="247.100" x2="187.700" y2="244.900" stroke="#9a2b2b" stroke-width="0.13"/>
-<line x1="186.600" y1="236.000" x2="186.600" y2="247.600" stroke="#9a2b2b" stroke-width="0.1"/>
+<line x1="187.520" y1="247.100" x2="189.720" y2="244.900" stroke="#9a2b2b" stroke-width="0.13"/>
+<line x1="188.620" y1="236.000" x2="188.620" y2="247.600" stroke="#9a2b2b" stroke-width="0.1"/>
+<line x1="229.520" y1="247.100" x2="231.720" y2="244.900" stroke="#9a2b2b" stroke-width="0.13"/>
+<line x1="230.620" y1="236.000" x2="230.620" y2="247.600" stroke="#9a2b2b" stroke-width="0.1"/>
 <line x1="255.100" y1="247.100" x2="257.300" y2="244.900" stroke="#9a2b2b" stroke-width="0.13"/>
 <line x1="256.200" y1="236.000" x2="256.200" y2="247.600" stroke="#9a2b2b" stroke-width="0.1"/>
 <line x1="261.700" y1="247.100" x2="263.900" y2="244.900" stroke="#9a2b2b" stroke-width="0.13"/>
 <line x1="262.800" y1="236.000" x2="262.800" y2="247.600" stroke="#9a2b2b" stroke-width="0.1"/>
-<text x="67.100" y="245.000" font-size="2.0" text-anchor="middle" fill="#9a2b2b" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">0,51</text>
-<text x="124.410" y="245.000" font-size="2.0" text-anchor="middle" fill="#9a2b2b" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">5,22</text>
-<text x="179.110" y="245.000" font-size="2.0" text-anchor="middle" fill="#9a2b2b" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">0,25</text>
-<text x="184.100" y="245.000" font-size="2.0" text-anchor="middle" fill="#9a2b2b" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">0,25</text>
-<text x="221.400" y="245.000" font-size="2.0" text-anchor="middle" fill="#9a2b2b" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">3,48</text>
-<text x="259.500" y="245.000" font-size="2.0" text-anchor="middle" fill="#9a2b2b" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">0,33</text>
+<text x="67.100" y="245.000" font-size="1.8" text-anchor="middle" fill="#9a2b2b" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">0,51</text>
+<text x="80.000" y="245.000" font-size="1.8" text-anchor="middle" fill="#9a2b2b" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">0,78</text>
+<text x="93.600" y="245.000" font-size="1.8" text-anchor="middle" fill="#9a2b2b" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">0,58</text>
+<text x="139.400" y="245.000" font-size="1.8" text-anchor="middle" fill="#9a2b2b" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">4,00</text>
+<text x="180.500" y="245.000" font-size="1.8" text-anchor="middle" fill="#9a2b2b" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">0,11</text>
+<text x="185.110" y="245.000" font-size="1.8" text-anchor="middle" fill="#9a2b2b" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">0,35</text>
+<text x="209.620" y="245.000" font-size="1.8" text-anchor="middle" fill="#9a2b2b" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">2,10</text>
+<text x="243.410" y="245.000" font-size="1.8" text-anchor="middle" fill="#9a2b2b" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">1,28</text>
+<text x="259.500" y="245.000" font-size="1.8" text-anchor="middle" fill="#9a2b2b" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">0,33</text>
 <line x1="62.000" y1="254.000" x2="262.800" y2="254.000" stroke="#9a2b2b" stroke-width="0.13"/>
 <line x1="60.900" y1="255.100" x2="63.100" y2="252.900" stroke="#9a2b2b" stroke-width="0.13"/>
 <line x1="261.700" y1="255.100" x2="263.900" y2="252.900" stroke="#9a2b2b" stroke-width="0.13"/>
@@ -169,14 +189,14 @@
 <line x1="62.000" y1="52.880" x2="62.000" y2="43.280" stroke="#9a2b2b" stroke-width="0.1"/>
 <line x1="65.900" y1="45.980" x2="68.100" y2="43.780" stroke="#9a2b2b" stroke-width="0.13"/>
 <line x1="67.000" y1="52.880" x2="67.000" y2="43.280" stroke="#9a2b2b" stroke-width="0.1"/>
-<line x1="109.120" y1="45.980" x2="111.320" y2="43.780" stroke="#9a2b2b" stroke-width="0.13"/>
-<line x1="110.220" y1="52.880" x2="110.220" y2="43.280" stroke="#9a2b2b" stroke-width="0.1"/>
-<line x1="110.120" y1="45.980" x2="112.320" y2="43.780" stroke="#9a2b2b" stroke-width="0.13"/>
-<line x1="111.220" y1="52.880" x2="111.220" y2="43.280" stroke="#9a2b2b" stroke-width="0.1"/>
-<line x1="173.300" y1="45.980" x2="175.500" y2="43.780" stroke="#9a2b2b" stroke-width="0.13"/>
-<line x1="174.400" y1="52.880" x2="174.400" y2="43.280" stroke="#9a2b2b" stroke-width="0.1"/>
-<line x1="185.280" y1="45.980" x2="187.480" y2="43.780" stroke="#9a2b2b" stroke-width="0.13"/>
-<line x1="186.380" y1="52.880" x2="186.380" y2="43.280" stroke="#9a2b2b" stroke-width="0.1"/>
+<line x1="108.300" y1="45.980" x2="110.500" y2="43.780" stroke="#9a2b2b" stroke-width="0.13"/>
+<line x1="109.400" y1="52.880" x2="109.400" y2="43.280" stroke="#9a2b2b" stroke-width="0.1"/>
+<line x1="110.300" y1="45.980" x2="112.500" y2="43.780" stroke="#9a2b2b" stroke-width="0.13"/>
+<line x1="111.400" y1="52.880" x2="111.400" y2="43.280" stroke="#9a2b2b" stroke-width="0.1"/>
+<line x1="169.100" y1="45.980" x2="171.300" y2="43.780" stroke="#9a2b2b" stroke-width="0.13"/>
+<line x1="170.200" y1="52.880" x2="170.200" y2="43.280" stroke="#9a2b2b" stroke-width="0.1"/>
+<line x1="182.100" y1="45.980" x2="184.300" y2="43.780" stroke="#9a2b2b" stroke-width="0.13"/>
+<line x1="183.200" y1="52.880" x2="183.200" y2="43.280" stroke="#9a2b2b" stroke-width="0.1"/>
 <line x1="237.120" y1="45.980" x2="239.320" y2="43.780" stroke="#9a2b2b" stroke-width="0.13"/>
 <line x1="238.220" y1="52.880" x2="238.220" y2="43.280" stroke="#9a2b2b" stroke-width="0.1"/>
 <line x1="258.700" y1="45.980" x2="260.900" y2="43.780" stroke="#9a2b2b" stroke-width="0.13"/>
@@ -184,11 +204,11 @@
 <line x1="261.700" y1="45.980" x2="263.900" y2="43.780" stroke="#9a2b2b" stroke-width="0.13"/>
 <line x1="262.800" y1="52.880" x2="262.800" y2="43.280" stroke="#9a2b2b" stroke-width="0.1"/>
 <text x="64.500" y="43.880" font-size="1.9" text-anchor="middle" fill="#9a2b2b" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">0,25</text>
-<text x="88.610" y="43.880" font-size="1.9" text-anchor="middle" fill="#9a2b2b" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">2,16</text>
-<text x="110.720" y="43.880" font-size="1.9" text-anchor="middle" fill="#9a2b2b" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">0,05</text>
-<text x="142.810" y="43.880" font-size="1.9" text-anchor="middle" fill="#9a2b2b" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">3,16</text>
-<text x="180.390" y="43.880" font-size="1.9" text-anchor="middle" fill="#9a2b2b" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">0,60</text>
-<text x="212.300" y="43.880" font-size="1.9" text-anchor="middle" fill="#9a2b2b" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">2,59</text>
+<text x="88.200" y="43.880" font-size="1.9" text-anchor="middle" fill="#9a2b2b" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">2,12</text>
+<text x="110.400" y="43.880" font-size="1.9" text-anchor="middle" fill="#9a2b2b" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">0,10</text>
+<text x="140.800" y="43.880" font-size="1.9" text-anchor="middle" fill="#9a2b2b" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">2,94</text>
+<text x="176.700" y="43.880" font-size="1.9" text-anchor="middle" fill="#9a2b2b" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">0,65</text>
+<text x="210.710" y="43.880" font-size="1.9" text-anchor="middle" fill="#9a2b2b" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">2,75</text>
 <text x="249.010" y="43.880" font-size="1.9" text-anchor="middle" fill="#9a2b2b" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">1,08</text>
 <text x="261.300" y="43.880" font-size="1.9" text-anchor="middle" fill="#9a2b2b" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">0,15</text>
 <line x1="53.000" y1="236.000" x2="53.000" y2="52.880" stroke="#9a2b2b" stroke-width="0.13"/>
@@ -216,66 +236,93 @@
 <line x1="43.900" y1="237.100" x2="46.100" y2="234.900" stroke="#9a2b2b" stroke-width="0.13"/>
 <line x1="43.900" y1="53.980" x2="46.100" y2="51.780" stroke="#9a2b2b" stroke-width="0.13"/>
 <text x="44.000" y="144.440" font-size="2.0" text-anchor="middle" fill="#9a2b2b" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal" transform="rotate(-90 44.000 144.440)">9,16</text>
-<line x1="271.800" y1="229.400" x2="271.800" y2="52.880" stroke="#9a2b2b" stroke-width="0.13"/>
-<line x1="270.700" y1="230.500" x2="272.900" y2="228.300" stroke="#9a2b2b" stroke-width="0.13"/>
-<line x1="262.800" y1="229.400" x2="273.400" y2="229.400" stroke="#9a2b2b" stroke-width="0.1"/>
+<line x1="271.800" y1="228.600" x2="271.800" y2="52.880" stroke="#9a2b2b" stroke-width="0.13"/>
+<line x1="270.700" y1="229.700" x2="272.900" y2="227.500" stroke="#9a2b2b" stroke-width="0.13"/>
+<line x1="262.800" y1="228.600" x2="273.400" y2="228.600" stroke="#9a2b2b" stroke-width="0.1"/>
 <line x1="270.700" y1="208.520" x2="272.900" y2="206.320" stroke="#9a2b2b" stroke-width="0.13"/>
 <line x1="262.800" y1="207.420" x2="273.400" y2="207.420" stroke="#9a2b2b" stroke-width="0.1"/>
 <line x1="270.700" y1="165.520" x2="272.900" y2="163.320" stroke="#9a2b2b" stroke-width="0.13"/>
 <line x1="262.800" y1="164.420" x2="273.400" y2="164.420" stroke="#9a2b2b" stroke-width="0.1"/>
 <line x1="270.700" y1="158.320" x2="272.900" y2="156.120" stroke="#9a2b2b" stroke-width="0.13"/>
 <line x1="262.800" y1="157.220" x2="273.400" y2="157.220" stroke="#9a2b2b" stroke-width="0.1"/>
-<line x1="270.700" y1="142.940" x2="272.900" y2="140.740" stroke="#9a2b2b" stroke-width="0.13"/>
-<line x1="262.800" y1="141.840" x2="273.400" y2="141.840" stroke="#9a2b2b" stroke-width="0.1"/>
-<line x1="270.700" y1="130.920" x2="272.900" y2="128.720" stroke="#9a2b2b" stroke-width="0.13"/>
-<line x1="262.800" y1="129.820" x2="273.400" y2="129.820" stroke="#9a2b2b" stroke-width="0.1"/>
+<line x1="270.700" y1="141.340" x2="272.900" y2="139.140" stroke="#9a2b2b" stroke-width="0.13"/>
+<line x1="262.800" y1="140.240" x2="273.400" y2="140.240" stroke="#9a2b2b" stroke-width="0.1"/>
+<line x1="270.700" y1="119.940" x2="272.900" y2="117.740" stroke="#9a2b2b" stroke-width="0.13"/>
+<line x1="262.800" y1="118.840" x2="273.400" y2="118.840" stroke="#9a2b2b" stroke-width="0.1"/>
 <line x1="270.700" y1="82.340" x2="272.900" y2="80.140" stroke="#9a2b2b" stroke-width="0.13"/>
 <line x1="262.800" y1="81.240" x2="273.400" y2="81.240" stroke="#9a2b2b" stroke-width="0.1"/>
 <line x1="270.700" y1="53.980" x2="272.900" y2="51.780" stroke="#9a2b2b" stroke-width="0.13"/>
 <line x1="262.800" y1="52.880" x2="273.400" y2="52.880" stroke="#9a2b2b" stroke-width="0.1"/>
-<text x="270.800" y="218.410" font-size="1.9" text-anchor="middle" fill="#9a2b2b" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal" transform="rotate(-90 270.800 218.410)">1,10</text>
+<text x="270.800" y="218.010" font-size="1.9" text-anchor="middle" fill="#9a2b2b" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal" transform="rotate(-90 270.800 218.010)">1,06</text>
 <text x="270.800" y="185.920" font-size="1.9" text-anchor="middle" fill="#9a2b2b" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal" transform="rotate(-90 270.800 185.920)">2,15</text>
 <text x="270.800" y="160.820" font-size="1.9" text-anchor="middle" fill="#9a2b2b" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal" transform="rotate(-90 270.800 160.820)">0,36</text>
-<text x="270.800" y="149.530" font-size="1.9" text-anchor="middle" fill="#9a2b2b" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal" transform="rotate(-90 270.800 149.530)">0,77</text>
-<text x="270.800" y="135.830" font-size="1.9" text-anchor="middle" fill="#9a2b2b" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal" transform="rotate(-90 270.800 135.830)">0,60</text>
-<text x="270.800" y="105.530" font-size="1.9" text-anchor="middle" fill="#9a2b2b" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal" transform="rotate(-90 270.800 105.530)">2,43</text>
+<text x="270.800" y="148.730" font-size="1.9" text-anchor="middle" fill="#9a2b2b" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal" transform="rotate(-90 270.800 148.730)">0,85</text>
+<text x="270.800" y="129.540" font-size="1.9" text-anchor="middle" fill="#9a2b2b" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal" transform="rotate(-90 270.800 129.540)">1,07</text>
+<text x="270.800" y="100.040" font-size="1.9" text-anchor="middle" fill="#9a2b2b" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal" transform="rotate(-90 270.800 100.040)">1,88</text>
 <text x="270.800" y="67.060" font-size="1.9" text-anchor="middle" fill="#9a2b2b" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal" transform="rotate(-90 270.800 67.060)">1,42</text>
-<line x1="67.000" y1="190.000" x2="181.600" y2="190.000" stroke="#9a2b2b" stroke-width="0.13"/>
-<line x1="65.900" y1="191.100" x2="68.100" y2="188.900" stroke="#9a2b2b" stroke-width="0.13"/>
-<line x1="86.900" y1="191.100" x2="89.100" y2="188.900" stroke="#9a2b2b" stroke-width="0.13"/>
-<line x1="98.920" y1="191.100" x2="101.120" y2="188.900" stroke="#9a2b2b" stroke-width="0.13"/>
-<line x1="180.500" y1="191.100" x2="182.700" y2="188.900" stroke="#9a2b2b" stroke-width="0.13"/>
-<text x="77.500" y="189.000" font-size="1.9" text-anchor="middle" fill="#9a2b2b" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">1,05</text>
-<text x="94.010" y="189.000" font-size="1.9" text-anchor="middle" fill="#9a2b2b" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">0,60</text>
-<text x="140.810" y="189.000" font-size="1.9" text-anchor="middle" fill="#9a2b2b" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">4,08</text>
-<line x1="128.000" y1="203.580" x2="128.000" y2="157.220" stroke="#9a2b2b" stroke-width="0.13"/>
-<line x1="126.900" y1="204.680" x2="129.100" y2="202.480" stroke="#9a2b2b" stroke-width="0.13"/>
-<line x1="126.900" y1="158.320" x2="129.100" y2="156.120" stroke="#9a2b2b" stroke-width="0.13"/>
-<text x="127.000" y="180.400" font-size="1.9" text-anchor="middle" fill="#9a2b2b" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal" transform="rotate(-90 127.000 180.400)">2,32</text>
+<line x1="72.200" y1="187.600" x2="99.400" y2="187.600" stroke="#9a2b2b" stroke-width="0.13"/>
+<line x1="71.100" y1="188.700" x2="73.300" y2="186.500" stroke="#9a2b2b" stroke-width="0.13"/>
+<line x1="86.700" y1="188.700" x2="88.900" y2="186.500" stroke="#9a2b2b" stroke-width="0.13"/>
+<line x1="98.300" y1="188.700" x2="100.500" y2="186.500" stroke="#9a2b2b" stroke-width="0.13"/>
+<text x="80.000" y="186.600" font-size="1.8" text-anchor="middle" fill="#9a2b2b" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">0,78</text>
+<text x="93.600" y="186.600" font-size="1.8" text-anchor="middle" fill="#9a2b2b" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">0,58</text>
+<line x1="67.000" y1="63.600" x2="111.400" y2="63.600" stroke="#9a2b2b" stroke-width="0.13"/>
+<line x1="65.900" y1="64.700" x2="68.100" y2="62.500" stroke="#9a2b2b" stroke-width="0.13"/>
+<line x1="110.300" y1="64.700" x2="112.500" y2="62.500" stroke="#9a2b2b" stroke-width="0.13"/>
+<text x="89.200" y="62.600" font-size="1.9" text-anchor="middle" fill="#9a2b2b" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">2,22</text>
+<line x1="111.400" y1="83.600" x2="238.220" y2="83.600" stroke="#9a2b2b" stroke-width="0.13"/>
+<line x1="110.300" y1="84.700" x2="112.500" y2="82.500" stroke="#9a2b2b" stroke-width="0.13"/>
+<line x1="169.100" y1="84.700" x2="171.300" y2="82.500" stroke="#9a2b2b" stroke-width="0.13"/>
+<line x1="182.100" y1="84.700" x2="184.300" y2="82.500" stroke="#9a2b2b" stroke-width="0.13"/>
+<line x1="237.120" y1="84.700" x2="239.320" y2="82.500" stroke="#9a2b2b" stroke-width="0.13"/>
+<text x="140.800" y="82.600" font-size="1.9" text-anchor="middle" fill="#9a2b2b" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">2,94</text>
+<text x="176.700" y="82.600" font-size="1.9" text-anchor="middle" fill="#9a2b2b" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">0,65</text>
+<text x="210.710" y="82.600" font-size="1.9" text-anchor="middle" fill="#9a2b2b" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">2,75</text>
+<line x1="88.400" y1="204.780" x2="88.400" y2="55.840" stroke="#9a2b2b" stroke-width="0.13"/>
+<line x1="87.300" y1="205.880" x2="89.500" y2="203.680" stroke="#9a2b2b" stroke-width="0.13"/>
+<line x1="87.300" y1="137.880" x2="89.500" y2="135.680" stroke="#9a2b2b" stroke-width="0.13"/>
+<line x1="87.300" y1="128.940" x2="89.500" y2="126.740" stroke="#9a2b2b" stroke-width="0.13"/>
+<line x1="87.300" y1="56.940" x2="89.500" y2="54.740" stroke="#9a2b2b" stroke-width="0.13"/>
+<text x="87.400" y="170.780" font-size="1.9" text-anchor="middle" fill="#9a2b2b" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal" transform="rotate(-90 87.400 170.780)">3,40</text>
+<text x="87.400" y="132.310" font-size="1.9" text-anchor="middle" fill="#9a2b2b" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal" transform="rotate(-90 87.400 132.310)">0,45</text>
+<text x="87.400" y="91.840" font-size="1.9" text-anchor="middle" fill="#9a2b2b" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal" transform="rotate(-90 87.400 91.840)">3,60</text>
+<line x1="176.400" y1="118.840" x2="176.400" y2="55.840" stroke="#9a2b2b" stroke-width="0.13"/>
+<line x1="175.300" y1="119.940" x2="177.500" y2="117.740" stroke="#9a2b2b" stroke-width="0.13"/>
+<line x1="175.300" y1="56.940" x2="177.500" y2="54.740" stroke="#9a2b2b" stroke-width="0.13"/>
+<text x="175.400" y="87.340" font-size="1.9" text-anchor="middle" fill="#9a2b2b" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal" transform="rotate(-90 175.400 87.340)">3,15</text>
+<line x1="265.800" y1="207.420" x2="265.800" y2="141.420" stroke="#9a2b2b" stroke-width="0.13"/>
+<line x1="264.700" y1="208.520" x2="266.900" y2="206.320" stroke="#9a2b2b" stroke-width="0.13"/>
+<line x1="264.700" y1="142.520" x2="266.900" y2="140.320" stroke="#9a2b2b" stroke-width="0.13"/>
+<text x="264.800" y="174.420" font-size="1.9" text-anchor="middle" fill="#9a2b2b" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal" transform="rotate(-90 264.800 174.420)">3,30</text>
 </g>
 <g id="rotulos">
-<text x="92.700" y="133.040" font-size="2.0" text-anchor="middle" fill="#5f5f5f" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">VIGA DESCOLGADA  intradós +2,60</text>
-<text x="70.710" y="135.940" font-size="3.0" text-anchor="middle" fill="#ffffff" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">P1</text>
-<text x="94.010" y="197.920" font-size="3.0" text-anchor="middle" fill="#ffffff" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">P2</text>
-<text x="180.390" y="133.930" font-size="3.0" text-anchor="middle" fill="#ffffff" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">P3</text>
+<text x="70.000" y="135.940" font-size="3.0" text-anchor="middle" fill="#ffffff" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">P1</text>
+<text x="91.300" y="135.940" font-size="2.4" text-anchor="middle" fill="#ffffff" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">P1b</text>
+<text x="93.600" y="201.380" font-size="3.0" text-anchor="middle" fill="#ffffff" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">P2</text>
+<text x="176.700" y="130.640" font-size="3.0" text-anchor="middle" fill="#ffffff" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">P3</text>
 <text x="257.790" y="136.930" font-size="3.0" text-anchor="middle" fill="#ffffff" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">P4</text>
-<text x="181.610" y="227.500" font-size="3.0" text-anchor="middle" fill="#ffffff" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">P5</text>
+<text x="182.620" y="227.100" font-size="3.0" text-anchor="middle" fill="#ffffff" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">P5</text>
 <text x="245.610" y="145.925" font-size="2.1" text-anchor="middle" fill="#111111" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold" transform="rotate(-90 245.610 145.925)">SUBE</text>
-<text x="158.000" y="104.000" font-size="2.6" text-anchor="middle" fill="#4a4a4a" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">ZONA CON FORJADO SUPERIOR</text>
-<text x="158.000" y="107.400" font-size="2.3" text-anchor="middle" fill="#4a4a4a" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">altura libre 2,70 m</text>
-<text x="148.000" y="183.000" font-size="2.6" text-anchor="middle" fill="#3c5a68" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">DOBLE ALTURA · 5,50 m</text>
+<text x="105.400" y="170.780" font-size="2.1" text-anchor="middle" fill="#7a6a4a" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold" transform="rotate(-90 105.400 170.780)">BARRA  ·  3,40</text>
+<text x="131.000" y="133.110" font-size="2.0" text-anchor="middle" fill="#7a6a4a" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">PASO PERSONAL  ·  medido 0,60</text>
+<text x="160.300" y="62.640" font-size="2.0" text-anchor="middle" fill="#7a6a4a" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">SILLÓN CORRIDO  ·  4,89  ·  fondo por medir</text>
+<text x="174.000" y="104.000" font-size="2.6" text-anchor="middle" fill="#4a4a4a" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">ZONA CON FORJADO SUPERIOR</text>
+<text x="174.000" y="107.400" font-size="2.3" text-anchor="middle" fill="#4a4a4a" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">suelo a suelo +2,56  ·  altura libre por medir</text>
+<text x="148.000" y="183.000" font-size="2.6" text-anchor="middle" fill="#3c5a68" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">DOBLE ALTURA</text>
 <text x="221.000" y="211.600" font-size="2.3" text-anchor="middle" fill="#3c5a68" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">VESTÍBULO DE ACCESO</text>
-<text x="88.600" y="98.000" font-size="2.3" text-anchor="middle" fill="#3c5a68" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold" transform="rotate(-90 88.600 98.000)">DOBLE ALTURA</text>
+<text x="84.000" y="88.000" font-size="2.3" text-anchor="middle" fill="#3c5a68" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold" transform="rotate(-90 84.000 88.000)">DOBLE ALTURA</text>
+<text x="117.600" y="78.000" font-size="2.0" text-anchor="middle" fill="#4a4a4a" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal" transform="rotate(-90 117.600 78.000)">PARED EN L  ·  3,60 + 0,74  ·  vidrio h=1,35</text>
 <polygon points="221.0,221.6 219.3,218.7 222.7,218.7" fill="none" stroke="#111111" stroke-width="0.25"/>
 <polygon points="221.0,221.6 219.3,218.7 221.0,218.7" fill="#111111"/>
 <text x="224.000" y="221.200" font-size="2.6" text-anchor="start" fill="#111111" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">±0,00</text>
 <text x="162.400" y="54.360" font-size="2.0" text-anchor="middle" fill="#ffffff" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">MEDIANERA NORTE  e=0,148</text>
 <text x="64.500" y="118.000" font-size="2.0" text-anchor="middle" fill="#ffffff" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal" transform="rotate(-90 64.500 118.000)">MURO OESTE  e=0,25</text>
 <text x="261.300" y="118.000" font-size="2.0" text-anchor="middle" fill="#ffffff" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal" transform="rotate(-90 261.300 118.000)">MEDIANERA ESTE  e=0,15</text>
-<text x="127.000" y="209.380" font-size="2.1" text-anchor="middle" fill="#26485a" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">VENTANAL SUR  ·  4 paños  ·  travesaño ≈ +2,30</text>
-<text x="221.400" y="234.000" font-size="2.1" text-anchor="middle" fill="#26485a" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">ESCAPARATE  ·  acristalamiento de doble altura</text>
+<text x="139.400" y="209.380" font-size="2.1" text-anchor="middle" fill="#26485a" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">VENTANAL SUR  ·  paño de 4,00  ·  travesaño ≈ +2,30</text>
+<text x="243.400" y="233.200" font-size="2.1" text-anchor="middle" fill="#26485a" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">ESCAPARATE</text>
+<text x="209.600" y="233.200" font-size="2.0" text-anchor="middle" fill="#26485a" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">PUERTA  2,10  ·  barrido 1,00</text>
 <text x="249.000" y="90.000" font-size="1.95" text-anchor="middle" fill="#111111" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal" transform="rotate(-90 249.000 90.000)">ESCALERA  16 huellas × 0,26</text>
-<text x="252.000" y="90.000" font-size="1.95" text-anchor="middle" fill="#111111" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal" transform="rotate(-90 252.000 90.000)">17 tabicas × 0,176</text>
+<text x="252.000" y="90.000" font-size="1.95" text-anchor="middle" fill="#111111" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal" transform="rotate(-90 252.000 90.000)">17 tabicas × 0,151</text>
 </g>
 <g id="cajetin">
 <rect x="316.000" y="8.000" width="96.000" height="281.000" fill="#ffffff" stroke="#111111" stroke-width="0.5"/>
@@ -297,47 +344,59 @@
 <text x="331.500" y="79.600" font-size="2.4" text-anchor="start" fill="#111111" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Muro de carga / medianera</text>
 <rect x="321.000" y="81.200" width="8.000" height="3.600" fill="#2b2b2b" stroke="#111111" stroke-width="0.18"/>
 <text x="331.500" y="84.600" font-size="2.4" text-anchor="start" fill="#111111" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Pilar o machón de hormigón</text>
-<rect x="321.000" y="86.200" width="8.000" height="3.600" fill="#7fb4c9" stroke="#3d6b80" stroke-width="0.18"/>
-<text x="331.500" y="89.600" font-size="2.4" text-anchor="start" fill="#111111" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Carpintería acristalada</text>
-<rect x="321.000" y="91.200" width="8.000" height="3.600" fill="url(#doble)" stroke="#c3ced6" stroke-width="0.18"/>
-<text x="331.500" y="94.600" font-size="2.4" text-anchor="start" fill="#111111" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Espacio de doble altura</text>
-<line x1="321.000" y1="98.400" x2="329.000" y2="98.400" stroke="#8a8a8a" stroke-width="0.18" stroke-dasharray="1.6 1.1"/>
-<text x="331.500" y="99.600" font-size="2.4" text-anchor="start" fill="#111111" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Forjado y viga sobre el corte</text>
-<circle cx="325.00" cy="103.40" r="1.5" fill="none" stroke="#7d7d7d" stroke-width="0.25"/>
-<text x="331.500" y="104.600" font-size="2.4" text-anchor="start" fill="#111111" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Punto de luz s/ proyecto</text>
-<line x1="321.000" y1="109.600" x2="407.000" y2="109.600" stroke="#111111" stroke-width="0.1"/>
-<text x="321.000" y="114.200" font-size="2.1" text-anchor="start" fill="#777777" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">SUPERFICIES Y ALTURAS</text>
-<text x="321.000" y="118.400" font-size="2.4" text-anchor="start" fill="#333333" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Planta baja, dentro de muros</text>
-<text x="407.000" y="118.400" font-size="2.4" text-anchor="end" fill="#111111" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">75,63 m²</text>
-<text x="321.000" y="122.600" font-size="2.4" text-anchor="start" fill="#333333" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Zona de doble altura</text>
-<text x="407.000" y="122.600" font-size="2.4" text-anchor="end" fill="#111111" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">37,80 m²</text>
-<text x="321.000" y="126.800" font-size="2.4" text-anchor="start" fill="#333333" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Altura libre bajo forjado</text>
-<text x="407.000" y="126.800" font-size="2.4" text-anchor="end" fill="#111111" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">2,70 m</text>
-<text x="321.000" y="131.000" font-size="2.4" text-anchor="start" fill="#333333" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Altura en doble altura</text>
-<text x="407.000" y="131.000" font-size="2.4" text-anchor="end" fill="#111111" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">5,50 m</text>
-<text x="321.000" y="135.200" font-size="2.4" text-anchor="start" fill="#333333" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Acristalamiento de fachada</text>
-<text x="407.000" y="135.200" font-size="2.4" text-anchor="end" fill="#111111" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">≈ 4,70 m</text>
-<line x1="321.000" y1="138.600" x2="407.000" y2="138.600" stroke="#111111" stroke-width="0.1"/>
-<text x="321.000" y="143.200" font-size="2.1" text-anchor="start" fill="#777777" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">PILARES Y MACHONES  (secciones en m)</text>
-<text x="321.000" y="147.400" font-size="2.3" text-anchor="start" fill="#333333" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">P1  Machón del muro Oeste</text>
-<text x="407.000" y="147.400" font-size="2.3" text-anchor="end" fill="#111111" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">0,37 × 0,60</text>
-<text x="321.000" y="151.600" font-size="2.3" text-anchor="start" fill="#333333" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">P2  Pilastra del muro Sur</text>
-<text x="407.000" y="151.600" font-size="2.3" text-anchor="end" fill="#111111" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">0,60 × 0,30</text>
-<text x="321.000" y="155.800" font-size="2.3" text-anchor="start" fill="#333333" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">P3  Pilar central</text>
-<text x="407.000" y="155.800" font-size="2.3" text-anchor="end" fill="#111111" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">0,60 × 0,90</text>
-<text x="321.000" y="160.000" font-size="2.3" text-anchor="start" fill="#333333" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">P4  Machón de la medianera Este</text>
-<text x="407.000" y="160.000" font-size="2.3" text-anchor="end" fill="#111111" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">0,20 × 0,60</text>
-<text x="321.000" y="164.200" font-size="2.3" text-anchor="start" fill="#333333" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">P5  Pilar de fachada</text>
-<text x="407.000" y="164.200" font-size="2.3" text-anchor="end" fill="#111111" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">0,50 × 0,96</text>
-<line x1="321.000" y1="167.600" x2="407.000" y2="167.600" stroke="#111111" stroke-width="0.1"/>
-<text x="321.000" y="172.200" font-size="2.1" text-anchor="start" fill="#777777" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">NOTAS</text>
-<text x="321.000" y="176.000" font-size="2.3" text-anchor="start" fill="#333333" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Cotas en metros, tomadas sobre el levantamiento.</text>
-<text x="321.000" y="179.800" font-size="2.3" text-anchor="start" fill="#333333" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Plano de estructura: no se representa mobiliario</text>
-<text x="321.000" y="183.600" font-size="2.3" text-anchor="start" fill="#333333" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">ni equipamiento. Cota de referencia ±0,00 en el</text>
-<text x="321.000" y="187.400" font-size="2.3" text-anchor="start" fill="#333333" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">pavimento de planta baja.</text>
-<text x="321.000" y="191.200" font-size="2.3" text-anchor="start" fill="#333333" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Sección horizontal a 1,20 m sobre el pavimento.</text>
-<text x="321.000" y="195.000" font-size="2.3" text-anchor="start" fill="#333333" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Los puntos de luz proceden del proyecto de reforma,</text>
-<text x="321.000" y="198.800" font-size="2.3" text-anchor="start" fill="#333333" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">no están replanteados en obra.</text>
+<rect x="321.000" y="86.200" width="8.000" height="3.600" fill="#a8a8a8" stroke="#111111" stroke-width="0.18"/>
+<text x="331.500" y="89.600" font-size="2.4" text-anchor="start" fill="#111111" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Pared en L nueva (apoyo del vidrio)</text>
+<rect x="321.000" y="91.200" width="8.000" height="3.600" fill="#7fb4c9" stroke="#3d6b80" stroke-width="0.18"/>
+<text x="331.500" y="94.600" font-size="2.4" text-anchor="start" fill="#111111" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Carpintería acristalada</text>
+<rect x="321.000" y="96.200" width="8.000" height="3.600" fill="url(#doble)" stroke="#c3ced6" stroke-width="0.18"/>
+<text x="331.500" y="99.600" font-size="2.4" text-anchor="start" fill="#111111" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Espacio de doble altura</text>
+<line x1="321.000" y1="103.400" x2="329.000" y2="103.400" stroke="#8a8a8a" stroke-width="0.18" stroke-dasharray="1.6 1.1"/>
+<text x="331.500" y="104.600" font-size="2.4" text-anchor="start" fill="#111111" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Forjado sobre el corte</text>
+<line x1="321.000" y1="108.400" x2="329.000" y2="108.400" stroke="#7a6a4a" stroke-width="0.18" stroke-dasharray="1.6 1.1"/>
+<text x="331.500" y="109.600" font-size="2.4" text-anchor="start" fill="#111111" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Reserva de espacio del cliente</text>
+<circle cx="325.00" cy="113.40" r="1.5" fill="none" stroke="#7d7d7d" stroke-width="0.25"/>
+<text x="331.500" y="114.600" font-size="2.4" text-anchor="start" fill="#111111" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Punto de luz s/ proyecto</text>
+<line x1="321.000" y1="119.600" x2="407.000" y2="119.600" stroke="#111111" stroke-width="0.1"/>
+<text x="321.000" y="124.200" font-size="2.1" text-anchor="start" fill="#777777" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">SUPERFICIES Y ALTURAS</text>
+<text x="321.000" y="128.400" font-size="2.4" text-anchor="start" fill="#333333" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Planta baja, dentro de muros</text>
+<text x="407.000" y="128.400" font-size="2.4" text-anchor="end" fill="#111111" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">75,63 m²</text>
+<text x="321.000" y="132.600" font-size="2.4" text-anchor="start" fill="#333333" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Zona de doble altura</text>
+<text x="407.000" y="132.600" font-size="2.4" text-anchor="end" fill="#111111" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">37,80 m²</text>
+<text x="321.000" y="136.800" font-size="2.4" text-anchor="start" fill="#333333" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Suelo a suelo, medido en obra</text>
+<text x="407.000" y="136.800" font-size="2.4" text-anchor="end" fill="#111111" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">2,56 m</text>
+<text x="321.000" y="141.000" font-size="2.4" text-anchor="start" fill="#333333" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Altura libre bajo forjado</text>
+<text x="407.000" y="141.000" font-size="2.4" text-anchor="end" fill="#111111" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">2,56 − canto</text>
+<text x="321.000" y="145.200" font-size="2.4" text-anchor="start" fill="#333333" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Panel de vidrio de la pared en L</text>
+<text x="407.000" y="145.200" font-size="2.4" text-anchor="end" fill="#111111" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">1,35 m</text>
+<text x="321.000" y="149.400" font-size="2.4" text-anchor="start" fill="#333333" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Acristalamiento de fachada</text>
+<text x="407.000" y="149.400" font-size="2.4" text-anchor="end" fill="#111111" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">≈ 4,70 m</text>
+<line x1="321.000" y1="152.800" x2="407.000" y2="152.800" stroke="#111111" stroke-width="0.1"/>
+<text x="321.000" y="157.400" font-size="2.1" text-anchor="start" fill="#777777" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">PILARES Y MACHONES  (secciones en m)</text>
+<text x="321.000" y="161.600" font-size="2.3" text-anchor="start" fill="#333333" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">P1  Machón del muro Oeste</text>
+<text x="407.000" y="161.600" font-size="2.3" text-anchor="end" fill="#111111" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">0,30 × 0,60</text>
+<text x="321.000" y="165.800" font-size="2.3" text-anchor="start" fill="#333333" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">P1b  Machón sobre P1, al forjado</text>
+<text x="407.000" y="165.800" font-size="2.3" text-anchor="end" fill="#111111" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">1,83 × 0,25</text>
+<text x="321.000" y="170.000" font-size="2.3" text-anchor="start" fill="#333333" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">P2  Pilastra del muro Sur</text>
+<text x="407.000" y="170.000" font-size="2.3" text-anchor="end" fill="#111111" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">0,58 × 0,45</text>
+<text x="321.000" y="174.200" font-size="2.3" text-anchor="start" fill="#333333" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">P3  Pilar central</text>
+<text x="407.000" y="174.200" font-size="2.3" text-anchor="end" fill="#111111" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">0,65 × 1,07</text>
+<text x="321.000" y="178.400" font-size="2.3" text-anchor="start" fill="#333333" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">P4  Machón de la medianera Este</text>
+<text x="407.000" y="178.400" font-size="2.3" text-anchor="end" fill="#111111" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">0,20 × 0,60</text>
+<text x="321.000" y="182.600" font-size="2.3" text-anchor="start" fill="#333333" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">P5  Pilar de fachada</text>
+<text x="407.000" y="182.600" font-size="2.3" text-anchor="end" fill="#111111" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">0,60 × 1,00</text>
+<line x1="321.000" y1="186.000" x2="407.000" y2="186.000" stroke="#111111" stroke-width="0.1"/>
+<text x="321.000" y="190.600" font-size="2.1" text-anchor="start" fill="#777777" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">NOTAS</text>
+<text x="321.000" y="194.400" font-size="2.3" text-anchor="start" fill="#333333" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Cotas en metros. Las de los pilares, la pared en L,</text>
+<text x="321.000" y="198.200" font-size="2.3" text-anchor="start" fill="#333333" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">el ventanal y la puerta están medidas en obra</text>
+<text x="321.000" y="202.000" font-size="2.3" text-anchor="start" fill="#333333" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">(revisión del 14 set. 2026); el resto procede del</text>
+<text x="321.000" y="205.800" font-size="2.3" text-anchor="start" fill="#333333" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">levantamiento previo.</text>
+<text x="321.000" y="209.600" font-size="2.3" text-anchor="start" fill="#333333" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Cota de referencia ±0,00 en el pavimento de planta</text>
+<text x="321.000" y="213.400" font-size="2.3" text-anchor="start" fill="#333333" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">baja. Sección horizontal a 1,20 m.</text>
+<text x="321.000" y="217.200" font-size="2.3" text-anchor="start" fill="#333333" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Las reservas de espacio en trazos no son estructura:</text>
+<text x="321.000" y="221.000" font-size="2.3" text-anchor="start" fill="#333333" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">sólo marcan dónde van la barra, el paso de personal</text>
+<text x="321.000" y="224.800" font-size="2.3" text-anchor="start" fill="#333333" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">y el sillón corrido.</text>
+<text x="321.000" y="228.600" font-size="2.3" text-anchor="start" fill="#333333" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Los puntos de luz proceden del proyecto de reforma,</text>
+<text x="321.000" y="232.400" font-size="2.3" text-anchor="start" fill="#333333" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">no están replanteados en obra.</text>
 <line x1="321.000" y1="253.000" x2="407.000" y2="253.000" stroke="#111111" stroke-width="0.1"/>
 <rect x="321.000" y="259.000" width="10.000" height="2.200" fill="#111111" stroke="#111111" stroke-width="0.1"/>
 <rect x="331.000" y="259.000" width="10.000" height="2.200" fill="#ffffff" stroke="#111111" stroke-width="0.1"/>
@@ -355,40 +414,38 @@
 <text x="321.000" y="277.000" font-size="2.1" text-anchor="start" fill="#777777" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">ESCALA</text>
 <text x="321.000" y="282.400" font-size="3.6" text-anchor="start" fill="#111111" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">1:50  (A3)</text>
 <text x="361.000" y="277.000" font-size="2.1" text-anchor="start" fill="#777777" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">FECHA</text>
-<text x="361.000" y="282.400" font-size="2.8" text-anchor="start" fill="#111111" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">12 set. 2026</text>
+<text x="361.000" y="282.400" font-size="2.8" text-anchor="start" fill="#111111" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">14 set. 2026</text>
 <text x="407.000" y="277.000" font-size="2.1" text-anchor="end" fill="#777777" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">PLANO</text>
 <text x="407.000" y="282.400" font-size="3.6" text-anchor="end" fill="#111111" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">01 / 02</text>
-<rect x="11.000" y="258.500" width="303.000" height="28.500" fill="#fbf6ee" stroke="#9a2b2b" stroke-width="0.18"/>
-<text x="14.500" y="263.100" font-size="2.6" text-anchor="start" fill="#9a2b2b" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold" letter-spacing="0.6">COMPROBAR EN OBRA</text>
-<text x="57.000" y="263.100" font-size="2.0" text-anchor="start" fill="#7a5a3a" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Puntos en los que los vídeos del local no cuadran con el levantamiento, o que el levantamiento no recoge. Se dibuja el levantamiento por ser la única fuente acotada.</text>
-<line x1="14.500" y1="264.900" x2="310.500" y2="264.900" stroke="#d8c6ae" stroke-width="0.13"/>
-<text x="14.500" y="269.700" font-size="2.2" text-anchor="start" fill="#9a2b2b" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">1</text>
-<text x="18.700" y="269.700" font-size="2.0" text-anchor="start" fill="#3a3a3a" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Retranqueo de 1,23 m entre el ventanal sur (y=1,561) y el</text>
-<text x="18.700" y="272.500" font-size="2.0" text-anchor="start" fill="#3a3a3a" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">escaparate (y=0,330): en obra los dos vidrios parecen casi</text>
-<text x="18.700" y="275.300" font-size="2.0" text-anchor="start" fill="#3a3a3a" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">coplanarios. Medir el fondo del pilar P5.</text>
-<text x="14.500" y="279.900" font-size="2.2" text-anchor="start" fill="#9a2b2b" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">2</text>
-<text x="18.700" y="279.900" font-size="2.0" text-anchor="start" fill="#3a3a3a" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Frente real a la calle. El levantamiento da 10,04 m entre</text>
-<text x="18.700" y="282.700" font-size="2.0" text-anchor="start" fill="#3a3a3a" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">medianeras; el acristalamiento visible en obra es</text>
-<text x="18.700" y="285.500" font-size="2.0" text-anchor="start" fill="#3a3a3a" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">sensiblemente menor.</text>
-<text x="88.500" y="269.700" font-size="2.2" text-anchor="start" fill="#9a2b2b" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">3</text>
-<text x="92.700" y="269.700" font-size="2.0" text-anchor="start" fill="#3a3a3a" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Puerta de acceso: no figura en el levantamiento. En obra hay</text>
-<text x="92.700" y="272.500" font-size="2.0" text-anchor="start" fill="#3a3a3a" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">una hoja practicable en el escaparate. Situarla y acotarla.</text>
-<text x="88.500" y="279.900" font-size="2.2" text-anchor="start" fill="#9a2b2b" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">4</text>
-<text x="92.700" y="279.900" font-size="2.0" text-anchor="start" fill="#3a3a3a" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Chapados de piedra: jamba oscura al oeste, pilastra de</text>
-<text x="92.700" y="282.700" font-size="2.0" text-anchor="start" fill="#3a3a3a" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">arenisca sobre P5 y revestimiento del pilar de esquina.</text>
-<text x="92.700" y="285.500" font-size="2.0" text-anchor="start" fill="#3a3a3a" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Espesores sin medir.</text>
-<text x="162.500" y="269.700" font-size="2.2" text-anchor="start" fill="#9a2b2b" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">5</text>
-<text x="166.700" y="269.700" font-size="2.0" text-anchor="start" fill="#3a3a3a" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Coronación del acristalamiento (≈4,70) y travesaño del</text>
-<text x="166.700" y="272.500" font-size="2.0" text-anchor="start" fill="#3a3a3a" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">ventanal (≈2,30). Solo el nivel +3,00 está acotado en el</text>
-<text x="166.700" y="275.300" font-size="2.0" text-anchor="start" fill="#3a3a3a" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">levantamiento.</text>
-<text x="162.500" y="279.900" font-size="2.2" text-anchor="start" fill="#9a2b2b" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">6</text>
-<text x="166.700" y="279.900" font-size="2.0" text-anchor="start" fill="#3a3a3a" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Puntos de luz: en el techo hay más de 20 taladros en retícula</text>
-<text x="166.700" y="282.700" font-size="2.0" text-anchor="start" fill="#3a3a3a" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">de 1,2-1,5 m. El plano recoge los 13 del proyecto de reforma.</text>
-<text x="236.500" y="269.700" font-size="2.2" text-anchor="start" fill="#9a2b2b" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">7</text>
-<text x="240.700" y="269.700" font-size="2.0" text-anchor="start" fill="#3a3a3a" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Puerta del aseo: en obra parece situada hacia x=3,9-4,5; el</text>
-<text x="240.700" y="272.500" font-size="2.0" text-anchor="start" fill="#3a3a3a" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">levantamiento la coloca entre 3,09 y 3,85.</text>
-<text x="236.500" y="279.900" font-size="2.2" text-anchor="start" fill="#9a2b2b" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">8</text>
-<text x="240.700" y="279.900" font-size="2.0" text-anchor="start" fill="#3a3a3a" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Machones trasdosados con placa de yeso nueva: la sección de</text>
-<text x="240.700" y="282.700" font-size="2.0" text-anchor="start" fill="#3a3a3a" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">hormigón no es verificable a la vista.</text>
+<rect x="11.000" y="256.000" width="303.000" height="31.000" fill="#fbf6ee" stroke="#9a2b2b" stroke-width="0.18"/>
+<text x="14.500" y="260.600" font-size="2.6" text-anchor="start" fill="#9a2b2b" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold" letter-spacing="0.6">COMPROBAR EN OBRA</text>
+<text x="57.000" y="260.600" font-size="2.0" text-anchor="start" fill="#7a5a3a" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Puntos en los que los vídeos del local no cuadran con el levantamiento, o que el levantamiento no recoge. Se dibuja el levantamiento por ser la única fuente acotada.</text>
+<line x1="14.500" y1="262.400" x2="310.500" y2="262.400" stroke="#d8c6ae" stroke-width="0.13"/>
+<text x="14.500" y="266.400" font-size="2.2" text-anchor="start" fill="#9a2b2b" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">1</text>
+<text x="18.700" y="266.400" font-size="2.0" text-anchor="start" fill="#3a3a3a" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">La cota de 2,70 anotada contra la medianera norte no cuadra: mide la misma distancia</text>
+<text x="18.700" y="269.200" font-size="2.0" text-anchor="start" fill="#3a3a3a" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">que el 2,22 aplicado (muro Oeste a pared en L). Aclarar qué mide ese 2,70.</text>
+<text x="14.500" y="273.400" font-size="2.2" text-anchor="start" fill="#9a2b2b" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">2</text>
+<text x="18.700" y="273.400" font-size="2.0" text-anchor="start" fill="#3a3a3a" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Canto del forjado del altillo. Con 2,56 m de suelo a suelo, la altura libre de</text>
+<text x="18.700" y="276.200" font-size="2.0" text-anchor="start" fill="#3a3a3a" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">planta baja es 2,56 menos ese canto, no los 2,70 supuestos.</text>
+<text x="14.500" y="280.400" font-size="2.2" text-anchor="start" fill="#9a2b2b" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">3</text>
+<text x="18.700" y="280.400" font-size="2.0" text-anchor="start" fill="#3a3a3a" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Espesor de la pared en L y del panel de vidrio de 1,35 m que sostiene.</text>
+<text x="113.167" y="266.400" font-size="2.2" text-anchor="start" fill="#9a2b2b" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">4</text>
+<text x="117.367" y="266.400" font-size="2.0" text-anchor="start" fill="#3a3a3a" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Posición de P3: el 3,15 de la planta baja y el 1,90 de la planta alta se llevan</text>
+<text x="117.367" y="269.200" font-size="2.0" text-anchor="start" fill="#3a3a3a" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">0,15; el 2,94 y el 3,20 se llevan 0,26. Se dibuja con la cadena de planta baja.</text>
+<text x="113.167" y="273.400" font-size="2.2" text-anchor="start" fill="#9a2b2b" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">5</text>
+<text x="117.367" y="273.400" font-size="2.0" text-anchor="start" fill="#3a3a3a" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Del P3 a la escalera se midió 2,35 y en el plano salen 2,75. Los 0,40 de diferencia</text>
+<text x="117.367" y="276.200" font-size="2.0" text-anchor="start" fill="#3a3a3a" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">no cierran contra la medianera Este.</text>
+<text x="113.167" y="280.400" font-size="2.2" text-anchor="start" fill="#9a2b2b" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">6</text>
+<text x="117.367" y="280.400" font-size="2.0" text-anchor="start" fill="#3a3a3a" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">P5: se dibuja 0,60 x 1,00 con la cara Oeste a plomo con el muro del cuello. El</text>
+<text x="117.367" y="283.200" font-size="2.0" text-anchor="start" fill="#3a3a3a" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">resalto de 0,20 al Este anotado da 0,35 en esa posición.</text>
+<text x="211.833" y="266.400" font-size="2.2" text-anchor="start" fill="#9a2b2b" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">7</text>
+<text x="216.033" y="266.400" font-size="2.0" text-anchor="start" fill="#3a3a3a" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Escaparate: bajo él aparece un 2,70 sin aclarar. Se dibuja el hueco completo con la</text>
+<text x="216.033" y="269.200" font-size="2.0" text-anchor="start" fill="#3a3a3a" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">puerta de 2,10 pegada a P5.</text>
+<text x="211.833" y="273.400" font-size="2.2" text-anchor="start" fill="#9a2b2b" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">8</text>
+<text x="216.033" y="273.400" font-size="2.0" text-anchor="start" fill="#3a3a3a" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Tabica de la escalera: 2,56/17 = 0,151 m. Contar los peldaños en obra para confirmar</text>
+<text x="216.033" y="276.200" font-size="2.0" text-anchor="start" fill="#3a3a3a" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">que son 17.</text>
+<text x="211.833" y="280.400" font-size="2.2" text-anchor="start" fill="#9a2b2b" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">9</text>
+<text x="216.033" y="280.400" font-size="2.0" text-anchor="start" fill="#3a3a3a" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Machones trasdosados con placa de yeso nueva: la sección de hormigón no es</text>
+<text x="216.033" y="283.200" font-size="2.0" text-anchor="start" fill="#3a3a3a" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">verificable a la vista.</text>
 </g>
 </svg>
