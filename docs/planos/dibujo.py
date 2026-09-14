@@ -151,8 +151,37 @@ class Lienzo:
             self.p_texto(capa, x_papel - 1.0, Y, self._fmt(d), alto, 'middle',
                          color, rot=-90)
 
+    def absorber(self, otro, clip=None):
+        """Funde las capas de otro lienzo del mismo papel en este.
+
+        `clip` recorta lo absorbido a un rectangulo de papel: es lo que
+        permite montar varios detalles a distinta escala en una hoja sin
+        que cada uno se salga por encima del de al lado.
+        """
+        ini = fin = ''
+        if clip:
+            cid = f'clip{len(self.capas)}_{id(otro) % 10000}'
+            x0, y0, x1, y1 = clip
+            self.capa('_defs').append(
+                f'<clipPath id="{cid}"><rect x="{min(x0,x1):.2f}" '
+                f'y="{min(y0,y1):.2f}" width="{abs(x1-x0):.2f}" '
+                f'height="{abs(y1-y0):.2f}"/></clipPath>')
+            ini, fin = f'<g clip-path="url(#{cid})">', '</g>'
+        for n in otro.orden:
+            if not otro.capas[n]:
+                continue
+            capa = self.capa(n)
+            if ini:
+                capa.append(ini)
+            capa.extend(otro.capas[n])
+            if fin:
+                capa.append(fin)
+
     # ---- salida
     def svg(self, defs=''):
+        if '_defs' in self.capas:
+            defs += '\n<defs>' + '\n'.join(self.capas['_defs']) + '</defs>'
+            self.orden.remove('_defs')
         cuerpo = '\n'.join(
             f'<g id="{n}">\n' + '\n'.join(self.capas[n]) + '\n</g>'
             for n in self.orden)

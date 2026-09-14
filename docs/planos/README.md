@@ -10,7 +10,9 @@ equipamiento.
 |---|---|
 | `PLANTA_BAJA.pdf` | Planta baja, cota ±0,00 |
 | `PLANTA_ALTA.pdf` | Altillo, cota +3,00 |
-| `Planos_Estructura.pdf` | Los dos planos en un solo documento |
+| `EQUIPAMIENTO.pdf` | Barra y cocina a 1:25, con el cuadro de equipos |
+| `Planos_Estructura.pdf` | Las dos plantas en un solo documento |
+| `Planos_Completos.pdf` | Las tres laminas en un solo documento |
 
 ## Sistema de coordenadas
 
@@ -65,9 +67,34 @@ el papel.
 ## Regenerar
 
 ```bash
-python3 build_planos.py      # necesita cairosvg y pymupdf
+python3 build_equipamiento.py   # genera las tres laminas y los dos PDF
 ```
+
+Necesita `cairosvg` y `pymupdf`. `build_planos.py` por si solo genera
+unicamente las dos laminas de estructura.
 
 - `estructura.py` — todas las cotas en metros, una unica fuente de verdad.
 - `dibujo.py` — lienzo SVG en milimetros de papel, cotas y tramas.
-- `build_planos.py` — montaje de las dos laminas y exportacion a PDF y PNG.
+- `build_planos.py` — montaje de las dos laminas de estructura.
+- `equipamiento.py` — anchos y fondos de los muebles y aparatos.
+- `build_equipamiento.py` — lamina 03 a 1:25 y union de los PDF.
+
+## Equipamiento (lamina 03)
+
+Dos detalles a 1:25 en la misma hoja, cada uno con su origen de obra y
+recortado a su caja de papel.
+
+- **Barra.** Trasbarra contra el muro Oeste, 2,75 m de mueble corrido bajo
+  una sola encimera: modulo tecnico de 0,60 bajo la cafetera, lavavajillas,
+  fregadero, frigorifico bajo mostrador y cajonera. Encima, cafetera de 2
+  grupos, fregadero pequeno, exprimidor y tirador de cerveza. En el
+  mostrador delantero, vitrina expositora, caja y mostrador de servicio.
+  Paso de servicio de 1,02 m.
+- **Cocina.** Linea de coccion completa contra el muro Oeste bajo la campana
+  (fuegos, cocedor de pasta, plancha y freidora). Fregadero en la medianera
+  Norte. Lavavajillas, horno, mesa refrigerada y apoyo contra la pared en L,
+  con encimera corrida de acero inoxidable. Pasillo de trabajo de 0,92 m.
+
+Los anchos son de serie de hosteleria, no medidos sobre aparato: el cuadro
+de equipamiento al pie de la lamina esta para sustituirlos por los del
+equipo que se acabe eligiendo.

@@ -48,7 +48,8 @@ DEFS = '''<defs>
 
 
 # ============================================================ hoja y cajetin
-def marco(L, titulo, numero, subtitulo, notas, leyenda, cuadro=None):
+def marco(L, titulo, numero, subtitulo, notas, leyenda, cuadro=None,
+          tabla=None, esc_dibujo=None, esc_txt='1:50  (A3)'):
     L.p_rect('hoja', MARGEN, MARGEN, W - MARGEN, H - MARGEN, 'none', TINTA, 'corte')
     L.p_rect('hoja', MARGEN + 1.2, MARGEN + 1.2, W - MARGEN - 1.2, H - MARGEN - 1.2,
              'none', TINTA, 'auxiliar')
@@ -112,16 +113,17 @@ def marco(L, titulo, numero, subtitulo, notas, leyenda, cuadro=None):
         y += 3.4
         L.p_linea('cajetin', x0 + 5, y, x1 - 5, y, TINTA, 'auxiliar')
 
-    # --- cuadro de pilares
+    # --- cuadro de pilares, o la tabla que se pase en su lugar
+    if tabla is None:
+        tabla = ('PILARES Y MACHONES  (secciones en m)',
+                 [(f'{t}  {n}', f'{c - a:.2f} × {d - b:.2f}'.replace('.', ','))
+                  for t, n, a, b, c, d in E.PILARES])
     y += 4.6
-    L.p_texto('cajetin', x0 + 5, y, 'PILARES Y MACHONES  (secciones en m)', 2.1,
-              'start', '#777777')
-    for tag, nm, a, b, c, d in E.PILARES:
-        y += 4.2
-        L.p_texto('cajetin', x0 + 5, y, f'{tag}  {nm}', 2.3, 'start', '#333333')
-        L.p_texto('cajetin', x1 - 5, y,
-                  f'{c - a:.2f} × {d - b:.2f}'.replace('.', ','), 2.3, 'end',
-                  TINTA, 'bold')
+    L.p_texto('cajetin', x0 + 5, y, tabla[0], 2.1, 'start', '#777777')
+    for etq, val in tabla[1]:
+        y += 4.0
+        L.p_texto('cajetin', x0 + 5, y, etq, 2.2, 'start', '#333333')
+        L.p_texto('cajetin', x1 - 5, y, val, 2.2, 'end', TINTA, 'bold')
     y += 3.4
     L.p_linea('cajetin', x0 + 5, y, x1 - 5, y, TINTA, 'auxiliar')
 
@@ -134,15 +136,19 @@ def marco(L, titulo, numero, subtitulo, notas, leyenda, cuadro=None):
 
     # --- escala grafica + norte, al pie del cajetin
     yb = y1 - 30.0
+    ed = ESC if esc_dibujo is None else esc_dibujo
+    # el paso se ajusta para que la barra grafica quepa siempre en el cajetin
+    paso = 0.5 if ed * 2.5 <= 60 else 0.25
+    rot = ('0', '', '1', '', '2') if paso == 0.5 else ('0', '', '0,5', '', '1')
     L.p_linea('cajetin', x0 + 5, yb - 6.0, x1 - 5, yb - 6.0, TINTA, 'auxiliar')
     for i in range(5):
-        xa = x0 + 5 + i * ESC * 0.5
-        L.p_rect('cajetin', xa, yb, xa + ESC * 0.5, yb + 2.2,
+        xa = x0 + 5 + i * ed * paso
+        L.p_rect('cajetin', xa, yb, xa + ed * paso, yb + 2.2,
                  TINTA if i % 2 == 0 else '#ffffff', TINTA, 'auxiliar')
-    for i, t in enumerate(('0', '', '1', '', '2')):
+    for i, t in enumerate(rot):
         if t:
-            L.p_texto('cajetin', x0 + 5 + i * ESC * 0.5, yb - 1.2, t, 2.1, 'middle')
-    L.p_texto('cajetin', x0 + 5 + 5 * ESC * 0.5 + 2, yb + 2.0, 'm', 2.1, 'start')
+            L.p_texto('cajetin', x0 + 5 + i * ed * paso, yb - 1.2, t, 2.1, 'middle')
+    L.p_texto('cajetin', x0 + 5 + 5 * ed * paso + 2, yb + 2.0, 'm', 2.1, 'start')
 
     cx, cy = x1 - 13.0, yb + 1.0
     L._add('cajetin', f'<circle cx="{cx}" cy="{cy}" r="7.2" fill="none" '
@@ -155,7 +161,7 @@ def marco(L, titulo, numero, subtitulo, notas, leyenda, cuadro=None):
     yp = y1 - 17.0
     L.p_linea('cajetin', x0, yp, x1, yp, TINTA, 'medio')
     L.p_texto('cajetin', x0 + 5, yp + 5.0, 'ESCALA', 2.1, 'start', '#777777')
-    L.p_texto('cajetin', x0 + 5, yp + 10.4, '1:50  (A3)', 3.6, 'start', TINTA, 'bold')
+    L.p_texto('cajetin', x0 + 5, yp + 10.4, esc_txt, 3.6, 'start', TINTA, 'bold')
     L.p_texto('cajetin', x0 + 45, yp + 5.0, 'FECHA', 2.1, 'start', '#777777')
     L.p_texto('cajetin', x0 + 45, yp + 10.4, FECHA.split(' de ')[0] + ' set. 2026',
               2.8, 'start', TINTA)
@@ -445,7 +451,7 @@ def planta_baja():
     L.cota_v('cotas', [5.858, 9.008], L.px(5.72), 1.9)
     L.cota_v('cotas', [1.429, 4.729], L.px(10.19), 1.9)
 
-    marco(L, 'PLANTA BAJA', '01 / 02', 'Estado actual · estructura',
+    marco(L, 'PLANTA BAJA', '01 / 03', 'Estado actual · estructura',
           ['Cotas en metros. Las de los pilares, la pared en L,',
            'el ventanal y la puerta están medidas en obra',
            '(revisión del 14 set. 2026); el resto procede del',
@@ -576,7 +582,7 @@ def planta_alta():
 
     L.cota_v('cotas', [7.509, 9.008], L.px(2.72), 1.9)
 
-    marco(L, 'PLANTA ALTA', '02 / 02', 'Altillo +2,56 · estructura',
+    marco(L, 'PLANTA ALTA', '02 / 03', 'Altillo +2,56 · estructura',
           ['Cotas en metros, tomadas sobre el levantamiento.',
            'Plano de estructura: no se representa mobiliario',
            'ni equipamiento.',
