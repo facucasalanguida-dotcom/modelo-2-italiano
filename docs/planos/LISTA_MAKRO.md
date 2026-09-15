@@ -51,3 +51,36 @@ Mismas fuentes y mismas reservas que la tabla anterior.
 - Barra de madera del mostrador delantero: 1,19 × 0,60.
 - Tabla de P2 al muro: 0,78 × 0,45.
 - Módulo técnico T1 bajo la cafetera: 0,60 de ancho.
+
+## Enlaces verificados el 15/09/2026
+
+makro.es devuelve 403 a cualquier petición desde un servidor (curl, Playwright o 
+un navegador real en la nube), así que los enlaces no se pueden abrir desde aquí. 
+La verificación se hizo buscando cada identificador de ficha con el buscador 
+restringido a makro.es: los 21 devuelven exactamente su URL con este título. 
+Si un enlace fallara al abrirlo, buscar el título en makro.es.
+
+| Rótulo | Título literal de la ficha en makro.es | Enlace |
+|---|---|---|
+| K1 | Placa de inducción eléctrica de acero inoxidable 2 x (Ø)230 mm, independiente, 6000 W, 400 V - TRI | https://www.makro.es/marketplace/product/623ef78b-af50-4e27-a2c5-b3a45089ba59 |
+| K2 | METRO Professional Cocedor de pasta eléctrico GNC1008, acero inoxidable, 47 x 55 x 38 cm, 4 cestos, 8 L | https://www.makro.es/marketplace/product/85f3fb44-3f09-463c-ab29-53822c8c1ce7 |
+| K3 | Freidora profesional para hostelería, 1 cuba de 7 litros de aceite, eléctrica | https://www.makro.es/marketplace/product/57e9d9ed-d483-4f88-a049-5597b3a7ad18 |
+| K4 | Cleiton® Plancha Industrial de Acero Inoxidable Eléctrica 50 cm Sobremesa Top, placa de 8 mm | https://www.makro.es/marketplace/product/acd212b2-73a4-42bc-bea7-329d5ab4771d |
+| KC | Campana Extractora Industrial Recta Sin Turbina 2000x1200x500 Acabado satinado | https://www.makro.es/marketplace/product/a8240770-cb5f-491b-926d-83b1e1e00a22 |
+| K5 | Horno industrial de conveccion electrico 4 bandejas 45x33cm | https://www.makro.es/marketplace/product/e3c35b3b-14d3-4e2b-a109-373a863ddff9 |
+| K6 | Lavavajillas industrial cesta 50x50 cm monofásico - trifásico ST500 | https://www.makro.es/marketplace/product/b6893f6e-6c55-499e-8e8b-4e246d107961 |
+| K7 | Fregadero Industrial de Acero Inox 1 Cubeta con Puerta Gama 600 Distform (600x600x850, cubeta 500x400x250) | https://www.makro.es/marketplace/product/3efac5b4-e702-4af6-9dd9-533709488190 |
+| K8 | Armario refrigerado APS-451 I (626 x 740 x 1865 mm, 395 L) | https://www.makro.es/marketplace/product/2e636462-1801-45f6-a3d8-15413909cb8c |
+| K9 | Armario refrigerado APS-451 I (626 x 740 x 1865 mm, 395 L) | https://www.makro.es/marketplace/product/2e636462-1801-45f6-a3d8-15413909cb8c |
+| K10 | Mesa Refrigerada de 4 puertas - 350W - 2542x600x850mm | https://www.makro.es/marketplace/product/764bc52f-1287-4e08-89dc-c2e453dfea49 |
+| A2 | Lavamanos De Acero Inoxidable Con Grifo Y Pulsador De Pedal Cuba Circular 340 X 130Mm Y Medidas 400 X 400 X 850Mm | https://www.makro.es/marketplace/product/6105678f-3159-4172-a17a-f400760f0b35 |
+| A3 | Fabricador de cubitos de hielo 28Kg/24Hr Gastro M CT694 | https://www.makro.es/marketplace/product/e3db53e1-8f64-4495-bb2c-59fe355a32e2 |
+| A4 | Exprimidor De Naranjas Profesional Mizumo Next Gen Negro (48 x 35 x 73,5 cm) | https://www.makro.es/marketplace/product/a7c3e878-0cdd-4f7e-b013-897ae4f6120d |
+| A3b | Licuadora de frutas industrial Li-240 de Sammic | https://www.makro.es/marketplace/product/2b8d9850-b422-4738-b716-c30da9857300 |
+| B1 | Lavavasos industrial cesta 40x40 Elettrobar FAST 40 | https://www.makro.es/marketplace/product/e858e346-8373-4e64-aa03-6f9a559e168e |
+| B4 | Columna tirador completo para dispensar bebidas modelo en Te de 3 grifos | https://www.makro.es/marketplace/product/f2d9d7ba-6f4f-4feb-b032-641cc4d828fe |
+| K10 alt | Mesa refrigerada de 4 puertas, acero inoxidable, refrigeración por aire, 85 x 223 x 70 cm, GN1/1, 380 W, EASYLINE, 553L, Vaiotec | https://www.makro.es/marketplace/product/230e627d-7291-43e0-a2b4-ebbf6e783f27 |
+| K10 alt | METRO Professional Mesa refrigerada GCC3100, Inox, 179.5 x 70 x 85 cm, 334 L, refrigeración por ventilación, 400 W | https://www.makro.es/marketplace/product/176b30f1-81b0-4a52-916e-80722d9a9240 |
+| K8/K9 alt | Armario frigorífico, ventilado, 400 litros. acero inoxidable (626 x 740 x 1925 mm) | https://www.makro.es/marketplace/product/8969b667-b5cb-4e83-b599-3dd45c112547 |
+| K8/K9 alt | Armario Refrigerado Ar400l Clima Hostelería | https://www.makro.es/marketplace/product/d48c3c0c-7975-4c22-89c7-64676c23681f |
+| K7 alt | Royal Catering Fregadero industrial - 1 cubeta - acero inoxidable - 70 x 70 cm | https://www.makro.es/marketplace/product/987fd316-3c44-48e2-a628-d88809ed245c |
