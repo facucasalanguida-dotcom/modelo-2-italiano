@@ -15,17 +15,17 @@ import equipamiento as Q
 AQUI = os.path.dirname(os.path.abspath(__file__))
 
 UBICACION = {
-    'K1': 'Cocina · línea de cocción, medianera Norte, bajo la campana (1º desde el Oeste)',
-    'K2': 'Cocina · línea de cocción, bajo la campana (2º)',
-    'K3': 'Cocina · línea de cocción, bajo la campana (3º)',
-    'K4': 'Cocina · línea de cocción, bajo la campana (4º, contra la pared en L)',
+    'K1': 'Cocina · cocción, medianera Norte, bajo la campana, 1º desde el Oeste',
+    'K2': 'Cocina · cocción, bajo la campana, 2º',
+    'K3': 'Cocina · cocción, bajo la campana, 3º',
+    'K4': 'Cocina · cocción, bajo la campana, 4º, contra la pared en L',
     'KC': 'Cocina · campana mural corrida sobre K1 a K4, borde inferior a +2,00',
     'K5': 'Cocina · muro Oeste, esquina Norte, sobre soporte',
     'K6': 'Cocina · muro Oeste, bajo la tabla que enlaza fregadero y horno',
-    'K7': 'Cocina · muro Oeste, al Sur de la tabla (baja a 0,60 para que entren los dos frigoríficos inox)',
+    'K7': 'Cocina · muro Oeste, al Sur de la tabla (0,60 para que entren K8 y K9)',
     'K8': 'Cocina · muro Oeste, vertical, al Sur del fregadero',
     'K9': 'Cocina · muro Oeste, vertical, contra P1',
-    'K10': 'Cocina · pared en L, de una sola pieza (2,54) usada como mesada; 0,42 libres junto al doblez',
+    'K10': 'Cocina · pared en L, de una pieza, como mesada; 0,42 libres junto al doblez',
     'A1': 'Barra · trasbarra, extremo Norte, sobre el módulo técnico T1',
     'A2': 'Barra · trasbarra, al Sur de la cafetera',
     'A3': 'Barra · trasbarra, bajo la encimera, al Sur del lavamanos',
@@ -35,7 +35,7 @@ UBICACION = {
     'V1': 'Barra · mostrador delantero, al Norte de V2; barriles debajo',
     'B1': 'Barra · bajo la vitrina V2',
     'B2': 'Barra · bajo la vitrina V1',
-    'B3': 'Barra · barra de madera, extremo Norte (junto a la viga P1b)',
+    'B3': 'Barra · barra de madera, extremo Norte, junto a la viga P1b',
     'B4': 'Barra · barra de madera, extremo Sur',
 }
 
@@ -68,8 +68,36 @@ TITULOS_MAKRO = {
 }
 
 
+# Donde iria cada alternativa, por identificador de ficha
+UBICACION_ALT = {
+    '230e627d-7291-43e0-a2b4-ebbf6e783f27': 'Cocina · pared en L, en lugar de K10; fondo 0,70 como la foto; 0,73 libres',
+    '176b30f1-81b0-4a52-916e-80722d9a9240': 'Cocina · pared en L, en lugar de K10; deja 1,16 libres',
+    '8969b667-b5cb-4e83-b599-3dd45c112547': 'Cocina · muro Oeste, en lugar de K8 y K9; misma huella que el Edenox',
+    'd48c3c0c-7975-4c22-89c7-64676c23681f': 'Cocina · muro Oeste, en lugar de K8 y K9; con éste cabe el fregadero de 0,70',
+    '987fd316-3c44-48e2-a628-d88809ed245c': 'Cocina · muro Oeste, en lugar de K7; sólo con los frigoríficos AR400L',
+}
+
+
+def donde(p):
+    """Texto de ubicacion de un producto dibujado o de una alternativa."""
+    if p['tag'] in UBICACION:
+        return UBICACION[p['tag']]
+    return UBICACION_ALT.get((p.get('url') or '').rsplit('/', 1)[-1], '')
+
+
 def fmt(v):
     return f'{v:.2f}'.replace('.', ',')
+
+
+A_MEDIDA = [
+    'Bancada de apoyo de la línea de cocción: 2,12 × 0,60, acero inoxidable.',
+    'Tabla de madera sobre el lavavajillas K6, del fregadero al horno: 0,57 × 0,66.',
+    'Encimera única de la trasbarra: 2,75 × 0,60.',
+    'Barra de madera del mostrador delantero: '
+    f"{fmt(Q.BARRA_MADERA['y1'] - Q.BARRA_MADERA['y0'])} × 0,60.",
+    'Tabla de P2 al muro: 0,78 × 0,45.',
+    'Módulo técnico T1 bajo la cafetera: 0,60 de ancho.',
+]
 
 
 def titulo(p):
@@ -81,7 +109,9 @@ def main():
               'Medidas en metros, ancho × fondo × alto, tomadas de la ficha de makro.es. ',
               'La web de Makro bloquea el acceso directo desde servidores: las medidas se ',
               'leyeron de las fichas tal y como las indexa su buscador y se verificaron una ',
-              'por una con un segundo pase. Confirmar en la ficha antes de comprar.', '',
+              'por una con un segundo pase. Confirmar en la ficha antes de comprar. ',
+              'La misma lista está en la lámina 04 de `Planos_Completos.pdf`, con los ',
+              'enlaces clicables.', '',
               '| Rótulo | Producto | Medidas | Dónde va | Ficha |',
               '|---|---|---|---|---|']
     for p in Q.todos():
@@ -91,18 +121,12 @@ def main():
     lineas += ['', '## Alternativas con la misma función (no dibujadas)', '',
                'Por si se prefiere otro fondo, otro acabado o el modelo de la foto de referencia. ',
                'Mismas fuentes y mismas reservas que la tabla anterior.', '',
-               '| Sustituye a | Producto | Medidas | Ficha |', '|---|---|---|---|']
+               '| Sustituye a | Producto | Medidas | Dónde iría | Ficha |', '|---|---|---|---|---|']
     for p in Q.ESTE_ALT + Q.OESTE_ALT:
         lineas.append(f"| {p['tag'].replace(' alt', '')} | {p['nombre']} | {fmt(p['a'])} × {fmt(p['f'])} × {fmt(p['h'])} "
-                      f"| [makro.es]({p['url']}) |")
-    lineas += ['', '## A medida, no se compran en Makro', '',
-               '- Bancada de apoyo de la línea de cocción: 2,12 × 0,60, acero inoxidable.',
-               '- Tabla de madera sobre el lavavajillas K6, del fregadero al horno: 0,57 × 0,66.',
-               '- Encimera única de la trasbarra: 2,75 × 0,60.',
-               '- Barra de madera del mostrador delantero: '
-               f"{fmt(Q.BARRA_MADERA['y1'] - Q.BARRA_MADERA['y0'])} × 0,60.",
-               '- Tabla de P2 al muro: 0,78 × 0,45.',
-               '- Módulo técnico T1 bajo la cafetera: 0,60 de ancho.']
+                      f"| {donde(p)} | [makro.es]({p['url']}) |")
+    lineas += ['', '## A medida, no se compran en Makro', ''] + \
+              ['- ' + t for t in A_MEDIDA]
     lineas += ['', '## Enlaces verificados el 15/09/2026', '',
                'makro.es devuelve 403 a cualquier petición desde un servidor (curl, Playwright o ',
                'un navegador real en la nube), así que los enlaces no se pueden abrir desde aquí. ',

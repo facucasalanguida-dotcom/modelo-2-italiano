@@ -112,6 +112,14 @@ de referencia de la mesa refrigerada (METRO GCF3100BS, 179,5 x 70 x 85).
   GCC3100, frigorifico Diamond, AR400L, fregadero 70 x 70).
 - **`makro_fichas.py`**: script para descargar las fichas desde un ordenador
   con conexion normal (Playwright) y devolver `makro_fichas.json`.
+- **Mesa M3** (doble): estaba delante del arranque de la escalera y se lleva
+  junto a M2, con 0,30 entre cantos, para dejar libre el camino de la puerta
+  a la escalera (2,29 hasta la medianera). Los dos empotrados de esa zona se
+  recolocan en ese camino (x 8,30) y el rotulo DOBLE ALTURA se mueve.
+- **Lamina 04** (`LISTA_EQUIPAMIENTO`): toda la maquinaria con medidas, sitio
+  en el plano y la ficha de makro.es, con los enlaces clicables en el PDF
+  (anotaciones anadidas con pymupdf tras exportar el SVG; cairosvg no las
+  genera). Las cuatro laminas van en `Planos_Completos.pdf`.
 
 ## Comprobar en obra
 
@@ -126,7 +134,7 @@ el papel.
 ## Regenerar
 
 ```bash
-python3 build_equipamiento.py   # genera las tres laminas y los dos PDF
+python3 build_equipamiento.py   # genera las cuatro laminas y los dos PDF
 ```
 
 Necesita `cairosvg` y `pymupdf`. `build_planos.py` por si solo genera
@@ -137,10 +145,11 @@ unicamente las dos laminas de estructura.
 - `build_planos.py` — montaje de las dos laminas de estructura.
 - `equipamiento.py` — anchos y fondos de los muebles y aparatos.
 - `build_equipamiento.py` — lamina 03 a 1:25 y union de los PDF.
-- `lista_makro.py` — genera `LISTA_MAKRO.md` (lista de compra con enlaces).
+- `lista_makro.py` — genera `LISTA_MAKRO.md` y aporta los textos de la
+  lamina 04 (ubicaciones, titulos de ficha, elementos a medida).
 - `makro_fichas.py` — descarga las fichas de Makro desde un PC normal.
 
-## Equipamiento (lamina 03)
+## Equipamiento (laminas 03 y 04)
 
 Dos detalles a 1:25 en la misma hoja, cada uno con su origen de obra y
 recortado a su caja de papel. Cada aparato es un producto real de makro.es

@@ -25,7 +25,9 @@ MESAS_PB = [
     # despegadas del ventanal (croquis del 15/09): 0,52 libres junto al vidrio
     ('M1', 'cuadruple', 3.700, 2.550, 4.900, 3.250, 'NS'),
     ('M2', 'cuadruple', 5.400, 2.550, 6.600, 3.250, 'NS'),
-    ('M3', 'doble',     9.050, 2.350, 9.750, 3.050, 'NS'),
+    # la doble va junto a M2 (0,30 entre cantos): delante del arranque de la
+    # escalera no estorba el paso desde la puerta
+    ('M3', 'doble',     6.900, 2.550, 7.600, 3.250, 'NS'),
     # fila central bajo el forjado
     ('M4', 'cuadruple', 3.550, 5.300, 4.750, 6.000, 'NS'),
     ('M5', 'cuadruple', 6.300, 5.300, 7.500, 6.000, 'NS'),
@@ -63,7 +65,8 @@ EMPOTRADOS_PB = [
     (3.100, 4.450), (4.950, 4.450), (7.000, 4.450),      # pasillo barra-sala
     (8.250, 4.450),
     (3.100, 6.900), (5.450, 6.900), (8.050, 6.950),      # pasillo del sillon
-    (4.400, 1.950), (7.200, 2.100), (7.700, 3.550),      # sala sur y paso del ventanal
+    (4.400, 1.950), (8.300, 2.250), (8.300, 3.450),      # paso del ventanal y camino
+                                                         # puerta - escalera
     (8.600, 8.400),                                      # bano
     (9.350, 6.500),                                      # escalera
 ]

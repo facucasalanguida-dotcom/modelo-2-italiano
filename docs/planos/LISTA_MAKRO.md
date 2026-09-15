@@ -3,21 +3,23 @@
 Medidas en metros, ancho × fondo × alto, tomadas de la ficha de makro.es. 
 La web de Makro bloquea el acceso directo desde servidores: las medidas se 
 leyeron de las fichas tal y como las indexa su buscador y se verificaron una 
-por una con un segundo pase. Confirmar en la ficha antes de comprar.
+por una con un segundo pase. Confirmar en la ficha antes de comprar. 
+La misma lista está en la lámina 04 de `Planos_Completos.pdf`, con los 
+enlaces clicables.
 
 | Rótulo | Producto | Medidas | Dónde va | Ficha |
 |---|---|---|---|---|
-| K1 | Placa de inducción Bartscher, 2 zonas Ø230, 6 kW, 400 V | 0,70 × 0,46 × 0,12 | Cocina · línea de cocción, medianera Norte, bajo la campana (1º desde el Oeste) | [makro.es](https://www.makro.es/marketplace/product/623ef78b-af50-4e27-a2c5-b3a45089ba59) |
-| K2 | Cocedor de pasta eléctrico METRO Professional GNC1008, 8 L, 4 cestos | 0,47 × 0,55 × 0,38 | Cocina · línea de cocción, bajo la campana (2º) | [makro.es](https://www.makro.es/marketplace/product/85f3fb44-3f09-463c-ab29-53822c8c1ce7) |
-| K3 | Freidora profesional 1 cuba de 7 L, eléctrica | 0,27 × 0,46 × 0,37 | Cocina · línea de cocción, bajo la campana (3º) | [makro.es](https://www.makro.es/marketplace/product/57e9d9ed-d483-4f88-a049-5597b3a7ad18) |
-| K4 | Plancha eléctrica Cleiton 50 cm, placa de 8 mm, sobremesa | 0,55 × 0,50 × 0,33 | Cocina · línea de cocción, bajo la campana (4º, contra la pared en L) | [makro.es](https://www.makro.es/marketplace/product/acd212b2-73a4-42bc-bea7-329d5ab4771d) |
+| K1 | Placa de inducción Bartscher, 2 zonas Ø230, 6 kW, 400 V | 0,70 × 0,46 × 0,12 | Cocina · cocción, medianera Norte, bajo la campana, 1º desde el Oeste | [makro.es](https://www.makro.es/marketplace/product/623ef78b-af50-4e27-a2c5-b3a45089ba59) |
+| K2 | Cocedor de pasta eléctrico METRO Professional GNC1008, 8 L, 4 cestos | 0,47 × 0,55 × 0,38 | Cocina · cocción, bajo la campana, 2º | [makro.es](https://www.makro.es/marketplace/product/85f3fb44-3f09-463c-ab29-53822c8c1ce7) |
+| K3 | Freidora profesional 1 cuba de 7 L, eléctrica | 0,27 × 0,46 × 0,37 | Cocina · cocción, bajo la campana, 3º | [makro.es](https://www.makro.es/marketplace/product/57e9d9ed-d483-4f88-a049-5597b3a7ad18) |
+| K4 | Plancha eléctrica Cleiton 50 cm, placa de 8 mm, sobremesa | 0,55 × 0,50 × 0,33 | Cocina · cocción, bajo la campana, 4º, contra la pared en L | [makro.es](https://www.makro.es/marketplace/product/acd212b2-73a4-42bc-bea7-329d5ab4771d) |
 | KC | Campana extractora industrial recta, sin turbina, AISI-304 satinado, 2 × 1,2 m | 2,00 × 1,20 × 0,50 | Cocina · campana mural corrida sobre K1 a K4, borde inferior a +2,00 | [makro.es](https://www.makro.es/marketplace/product/a8240770-cb5f-491b-926d-83b1e1e00a22) |
 | K5 | Horno de convección eléctrico industrial, 4 bandejas 45 × 33 | 0,59 × 0,59 × 0,57 | Cocina · muro Oeste, esquina Norte, sobre soporte | [makro.es](https://www.makro.es/marketplace/product/e3c35b3b-14d3-4e2b-a109-373a863ddff9) |
 | K6 | Lavavajillas industrial ST500, cesta 50 × 50, bajo la tabla | 0,56 × 0,65 × 0,86 | Cocina · muro Oeste, bajo la tabla que enlaza fregadero y horno | [makro.es](https://www.makro.es/marketplace/product/b6893f6e-6c55-499e-8e8b-4e246d107961) |
-| K7 | Fregadero industrial Distform gama 600, 1 cubeta 50 × 40, con puerta, peto 105 | 0,60 × 0,60 × 0,85 | Cocina · muro Oeste, al Sur de la tabla (baja a 0,60 para que entren los dos frigoríficos inox) | [makro.es](https://www.makro.es/marketplace/product/3efac5b4-e702-4af6-9dd9-533709488190) |
+| K7 | Fregadero industrial Distform gama 600, 1 cubeta 50 × 40, con puerta, peto 105 | 0,60 × 0,60 × 0,85 | Cocina · muro Oeste, al Sur de la tabla (0,60 para que entren K8 y K9) | [makro.es](https://www.makro.es/marketplace/product/3efac5b4-e702-4af6-9dd9-533709488190) |
 | K8 | Armario refrigerado vertical Edenox APS-451 I, inox, 1 puerta, 395 L | 0,63 × 0,74 × 1,86 | Cocina · muro Oeste, vertical, al Sur del fregadero | [makro.es](https://www.makro.es/marketplace/product/2e636462-1801-45f6-a3d8-15413909cb8c) |
 | K9 | Armario refrigerado vertical Edenox APS-451 I, inox, 1 puerta, 395 L | 0,63 × 0,74 × 1,86 | Cocina · muro Oeste, vertical, contra P1 | [makro.es](https://www.makro.es/marketplace/product/2e636462-1801-45f6-a3d8-15413909cb8c) |
-| K10 | Mesa refrigerada Infrico 4 puertas, AISI-304, peto 100 mm, -2/+8 ºC, 530 L | 2,54 × 0,60 × 0,85 | Cocina · pared en L, de una sola pieza (2,54) usada como mesada; 0,42 libres junto al doblez | [makro.es](https://www.makro.es/marketplace/product/764bc52f-1287-4e08-89dc-c2e453dfea49) |
+| K10 | Mesa refrigerada Infrico 4 puertas, AISI-304, peto 100 mm, -2/+8 ºC, 530 L | 2,54 × 0,60 × 0,85 | Cocina · pared en L, de una pieza, como mesada; 0,42 libres junto al doblez | [makro.es](https://www.makro.es/marketplace/product/764bc52f-1287-4e08-89dc-c2e453dfea49) |
 | A1 | Cafetera (comprada), 2 grupos | 1,20 × 0,60 × 0,50 | Barra · trasbarra, extremo Norte, sobre el módulo técnico T1 | ya comprado / medida promedio |
 | A2 | Lavamanos inox con grifo y pulsador de pedal, cuba Ø340 | 0,40 × 0,40 × 0,85 | Barra · trasbarra, al Sur de la cafetera | [makro.es](https://www.makro.es/marketplace/product/6105678f-3159-4172-a17a-f400760f0b35) |
 | A3 | Fabricador de hielo Gastro M CT694, 28 kg/24 h (bajo encimera) | 0,40 × 0,46 × 0,67 | Barra · trasbarra, bajo la encimera, al Sur del lavamanos | [makro.es](https://www.makro.es/marketplace/product/e3db53e1-8f64-4495-bb2c-59fe355a32e2) |
@@ -27,7 +29,7 @@ por una con un segundo pase. Confirmar en la ficha antes de comprar.
 | V1 | Vitrina refrigerada (comprada), 1,00 × 0,70; debajo, barriles | 1,00 × 0,70 × 1,25 | Barra · mostrador delantero, al Norte de V2; barriles debajo | ya comprado / medida promedio |
 | B1 | Lavavasos Elettrobar FAST 40, cesta 40 × 40 (bajo la vitrina V2) | 0,44 × 0,54 × 0,67 | Barra · bajo la vitrina V2 | [makro.es](https://www.makro.es/marketplace/product/e858e346-8373-4e64-aa03-6f9a559e168e) |
 | B2 | Barriles de cerveza de 30 L, Ø 0,32 (bajo la vitrina V1) | 0,32 × 0,32 × 0,60 | Barra · bajo la vitrina V1 | ya comprado / medida promedio |
-| B3 | Caja: tablet sobre soporte | 0,25 × 0,20 × 0,25 | Barra · barra de madera, extremo Norte (junto a la viga P1b) | ya comprado / medida promedio |
+| B3 | Caja: tablet sobre soporte | 0,25 × 0,20 × 0,25 | Barra · barra de madera, extremo Norte, junto a la viga P1b | ya comprado / medida promedio |
 | B4 | Columna de cerveza en T de 3 grifos, bandeja 40 × 40 (no la hay de 2 en Makro) | 0,40 × 0,40 × 0,55 | Barra · barra de madera, extremo Sur | [makro.es](https://www.makro.es/marketplace/product/f2d9d7ba-6f4f-4feb-b032-641cc4d828fe) |
 
 ## Alternativas con la misma función (no dibujadas)
@@ -35,13 +37,13 @@ por una con un segundo pase. Confirmar en la ficha antes de comprar.
 Por si se prefiere otro fondo, otro acabado o el modelo de la foto de referencia. 
 Mismas fuentes y mismas reservas que la tabla anterior.
 
-| Sustituye a | Producto | Medidas | Ficha |
-|---|---|---|---|
-| K10 | Mesa refrigerada Vaiotec EASYLINE, inox, 4 puertas, GN 1/1, 553 L | 2,23 × 0,70 × 0,85 | [makro.es](https://www.makro.es/marketplace/product/230e627d-7291-43e0-a2b4-ebbf6e783f27) |
-| K10 | METRO Professional mesa refrigerada GCC3100, inox, 3 puertas, 334 L (gemela refrigerada de la foto) | 1,79 × 0,70 × 0,85 | [makro.es](https://www.makro.es/marketplace/product/176b30f1-81b0-4a52-916e-80722d9a9240) |
-| K8/K9 | Armario frigorífico ventilado 400 L, acero inoxidable (Diamond), misma huella | 0,63 × 0,74 × 1,93 | [makro.es](https://www.makro.es/marketplace/product/8969b667-b5cb-4e83-b599-3dd45c112547) |
-| K8/K9 | Armario refrigerado AR400L Clima Hostelería, lacado blanco (no inox), 360 L; cabe con fregadero de 0,70 | 0,60 × 0,61 × 1,87 | [makro.es](https://www.makro.es/marketplace/product/d48c3c0c-7975-4c22-89c7-64676c23681f) |
-| K7 | Fregadero Royal Catering 1 cubeta 50 × 50, 70 × 70 (alto sin dato en ficha) | 0,70 × 0,70 × 0,85 | [makro.es](https://www.makro.es/marketplace/product/987fd316-3c44-48e2-a628-d88809ed245c) |
+| Sustituye a | Producto | Medidas | Dónde iría | Ficha |
+|---|---|---|---|---|
+| K10 | Mesa refrigerada Vaiotec EASYLINE, inox, 4 puertas, GN 1/1, 553 L | 2,23 × 0,70 × 0,85 | Cocina · pared en L, en lugar de K10; fondo 0,70 como la foto; 0,73 libres | [makro.es](https://www.makro.es/marketplace/product/230e627d-7291-43e0-a2b4-ebbf6e783f27) |
+| K10 | METRO Professional GCC3100, inox, 3 puertas, 334 L (la de la foto, refrigerada) | 1,79 × 0,70 × 0,85 | Cocina · pared en L, en lugar de K10; deja 1,16 libres | [makro.es](https://www.makro.es/marketplace/product/176b30f1-81b0-4a52-916e-80722d9a9240) |
+| K8/K9 | Armario frigorífico ventilado 400 L, acero inoxidable (Diamond) | 0,63 × 0,74 × 1,93 | Cocina · muro Oeste, en lugar de K8 y K9; misma huella que el Edenox | [makro.es](https://www.makro.es/marketplace/product/8969b667-b5cb-4e83-b599-3dd45c112547) |
+| K8/K9 | Armario refrigerado AR400L Clima Hostelería, lacado blanco (no inox), 360 L | 0,60 × 0,61 × 1,87 | Cocina · muro Oeste, en lugar de K8 y K9; con éste cabe el fregadero de 0,70 | [makro.es](https://www.makro.es/marketplace/product/d48c3c0c-7975-4c22-89c7-64676c23681f) |
+| K7 | Fregadero Royal Catering, 1 cubeta 50 × 50, 70 × 70 (alto sin dato en ficha) | 0,70 × 0,70 × 0,85 | Cocina · muro Oeste, en lugar de K7; sólo con los frigoríficos AR400L | [makro.es](https://www.makro.es/marketplace/product/987fd316-3c44-48e2-a628-d88809ed245c) |
 
 ## A medida, no se compran en Makro
 

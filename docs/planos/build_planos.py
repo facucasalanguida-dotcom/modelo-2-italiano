@@ -51,7 +51,7 @@ DEFS = '''<defs>
 
 # ============================================================ hoja y cajetin
 def marco(L, titulo, numero, subtitulo, notas, leyenda, cuadro=None,
-          tabla=None, esc_dibujo=None, esc_txt='1:50  (A3)'):
+          tabla=None, esc_dibujo=None, esc_txt='1:50  (A3)', escala=True):
     L.p_rect('hoja', MARGEN, MARGEN, W - MARGEN, H - MARGEN, 'none', TINTA, 'corte')
     L.p_rect('hoja', MARGEN + 1.2, MARGEN + 1.2, W - MARGEN - 1.2, H - MARGEN - 1.2,
              'none', TINTA, 'auxiliar')
@@ -84,25 +84,26 @@ def marco(L, titulo, numero, subtitulo, notas, leyenda, cuadro=None,
     y += 7.0
     L.p_linea('cajetin', x0 + 5, y, x1 - 5, y, TINTA, 'auxiliar')
 
-    # --- leyenda
-    y += 5.5
-    L.p_texto('cajetin', x0 + 5, y, 'LEYENDA', 2.1, 'start', '#777777')
-    y += 1.6
-    for relleno, trazo, txt in leyenda:
-        y += 5.0
-        if relleno == 'linea':
-            L.p_linea('cajetin', x0 + 5, y - 1.2, x0 + 13, y - 1.2, trazo, 'fino',
-                      ' stroke-dasharray="1.6 1.1"')
-        elif relleno == 'punto':
-            L._add('cajetin', f'<circle cx="{x0 + 9:.2f}" cy="{y - 1.2:.2f}" '
-                              f'r="1.5" fill="none" stroke="{trazo}" stroke-width="0.25"/>')
-        else:
-            L.p_rect('cajetin', x0 + 5, y - 3.4, x0 + 13, y + 0.2, relleno, trazo,
-                     'fino')
-        L.p_texto('cajetin', x0 + 15.5, y, txt, 2.4, 'start', TINTA)
+    # --- leyenda (solo si hay entradas)
+    if leyenda:
+        y += 5.5
+        L.p_texto('cajetin', x0 + 5, y, 'LEYENDA', 2.1, 'start', '#777777')
+        y += 1.6
+        for relleno, trazo, txt in leyenda:
+            y += 5.0
+            if relleno == 'linea':
+                L.p_linea('cajetin', x0 + 5, y - 1.2, x0 + 13, y - 1.2, trazo, 'fino',
+                          ' stroke-dasharray="1.6 1.1"')
+            elif relleno == 'punto':
+                L._add('cajetin', f'<circle cx="{x0 + 9:.2f}" cy="{y - 1.2:.2f}" '
+                                  f'r="1.5" fill="none" stroke="{trazo}" stroke-width="0.25"/>')
+            else:
+                L.p_rect('cajetin', x0 + 5, y - 3.4, x0 + 13, y + 0.2, relleno, trazo,
+                         'fino')
+            L.p_texto('cajetin', x0 + 15.5, y, txt, 2.4, 'start', TINTA)
 
-    y += 5.0
-    L.p_linea('cajetin', x0 + 5, y, x1 - 5, y, TINTA, 'auxiliar')
+        y += 5.0
+        L.p_linea('cajetin', x0 + 5, y, x1 - 5, y, TINTA, 'auxiliar')
 
     # --- cuadro de superficies / alturas
     if cuadro:
@@ -136,9 +137,12 @@ def marco(L, titulo, numero, subtitulo, notas, leyenda, cuadro=None,
         y += 3.8
         L.p_texto('cajetin', x0 + 5, y, n, 2.3, 'start', '#333333')
 
-    # --- escala grafica + norte, al pie del cajetin
+    # --- escala grafica + norte, al pie del cajetin (no en las laminas de texto)
     yb = y1 - 30.0
     ed = ESC if esc_dibujo is None else esc_dibujo
+    if not escala:
+        _pie(L, x0, x1, y1, esc_txt, numero)
+        return
     # el paso se ajusta para que la barra grafica quepa siempre en el cajetin
     paso = 0.5 if ed * 2.5 <= 60 else 0.25
     rot = ('0', '', '1', '', '2') if paso == 0.5 else ('0', '', '0,5', '', '1')
@@ -159,7 +163,10 @@ def marco(L, titulo, numero, subtitulo, notas, leyenda, cuadro=None,
                       f'{cx},{cy + 2.0} {cx + 2.6},{cy + 4.4}" fill="{TINTA}"/>')
     L.p_texto('cajetin', cx, cy - 8.2, 'N', 3.0, 'middle', TINTA, 'bold')
 
-    # --- pie
+    _pie(L, x0, x1, y1, esc_txt, numero)
+
+
+def _pie(L, x0, x1, y1, esc_txt, numero):
     yp = y1 - 17.0
     L.p_linea('cajetin', x0, yp, x1, yp, TINTA, 'medio')
     L.p_texto('cajetin', x0 + 5, yp + 5.0, 'ESCALA', 2.1, 'start', '#777777')
@@ -464,7 +471,7 @@ def planta_baja():
     # ---- rotulos
     L.texto('rotulos', 6.10, 4.20, 'ZONA CON FORJADO SUPERIOR  ·  suelo a suelo +2,56',
             2.2, 'middle', '#4a4a4a', 'bold')
-    L.texto('rotulos', 7.65, 3.80, 'DOBLE ALTURA', 2.6, 'middle', '#3c5a68',
+    L.texto('rotulos', 8.80, 2.70, 'DOBLE ALTURA', 2.6, 'middle', '#3c5a68',
             'bold')
     L.texto('rotulos', 1.30, 6.90, 'COCINA', 2.6, 'middle', '#3c5a68', 'bold',
             rot=-90)
@@ -522,7 +529,7 @@ def planta_baja():
     L.cota_v('cotas', [5.858, 9.008], L.px(5.72), 1.9)
     L.cota_v('cotas', [1.429, 4.729], L.px(10.19), 1.9)
 
-    marco(L, 'PLANTA BAJA', '01 / 03', 'Estado actual · estructura',
+    marco(L, 'PLANTA BAJA', '01 / 04', 'Estado actual · estructura',
           ['Cotas en metros. Las de los pilares, la pared en L,',
            'el ventanal y la puerta están medidas en obra',
            '(revisión del 14 set. 2026); el resto procede del',
@@ -533,7 +540,8 @@ def planta_baja():
            'cuádruple 1,20 × 0,70). Puntos de luz replanteados',
            'sobre el mobiliario: un colgante por mesa, tres',
            'sobre la barra y empotrados en pasillos y cocina.',
-           'El equipamiento de barra y cocina va en la lámina 03.'],
+           'Equipamiento de barra y cocina en la lámina 03;',
+           'lista de compra con enlaces en la lámina 04.'],
           [(POCHE, TINTA, 'Muro de carga / medianera'),
            (POCHE_PIL, TINTA, 'Pilar o machón de hormigón'),
            (POCHE_TAB, TINTA, 'Pared en L nueva (apoyo del vidrio)'),
@@ -658,7 +666,7 @@ def planta_alta():
 
     L.cota_v('cotas', [7.509, 9.008], L.px(2.72), 1.9)
 
-    marco(L, 'PLANTA ALTA', '02 / 03', 'Altillo +2,56 · estructura',
+    marco(L, 'PLANTA ALTA', '02 / 04', 'Altillo +2,56 · estructura',
           ['Cotas en metros, tomadas sobre el levantamiento.',
            'Nivel del forjado +2,56, medido en obra.',
            'El forjado del altillo no cubre todo el local: la',

@@ -1,12 +1,13 @@
 # -*- coding: utf-8 -*-
 """
-Lamina 03: equipamiento de barra y cocina, con productos reales de Makro.
+Laminas 03 y 04: equipamiento de barra y cocina con productos reales de
+Makro, y la lista de compra con enlaces clicables.
 
 Dos detalles a 1:25 sobre la misma hoja A3, cada uno con su propio origen de
 coordenadas de obra y recortado a su caja de papel. La geometria de los
 muros sale de `estructura.py` y los aparatos de `equipamiento.py`.
 
-    python3 build_equipamiento.py      # genera las tres laminas y los PDF
+    python3 build_equipamiento.py      # genera las cuatro laminas y los PDF
 """
 
 import os
@@ -17,8 +18,9 @@ import estructura as E
 import equipamiento as Q
 from dibujo import (Lienzo, TRAZO, TINTA, POCHE, POCHE_PIL, POCHE_TAB,
                     VIDRIO, COTA_COL)
-from build_planos import (W, H, MARGEN, DEFS, marco, exportar, muros, pilares,
-                          pared_l, ventanal_sur, viga)
+from build_planos import (W, H, MARGEN, CAJ_X, DEFS, marco, exportar, muros,
+                          pilares, pared_l, ventanal_sur, viga)
+import lista_makro as LM
 
 AQUI = os.path.dirname(os.path.abspath(__file__))
 
@@ -247,7 +249,7 @@ def cuadro_equipos(L, x0=14.0, x1=W - 8.0 - 96.0 - 4.0, y0=235.0):
               TINTA, 'bold', espaciado='0.6')
     L.p_texto('rotulos', x0 + 52, y0 + 5.2,
               'Ancho × fondo × alto en metros, de la ficha de makro.es. Vitrinas y '
-              'cafetera ya compradas. Tablet y barriles con medida promedio. Enlaces en LISTA_MAKRO.md.',
+              'cafetera ya compradas. Tablet y barriles con medida promedio. Enlaces en la lámina 04.',
               1.9, 'start', '#7a6a4a')
     L.p_linea('rotulos', x0 + 4, y0 + 7.0, x1 - 4, y0 + 7.0, '#cfc6b6', 'cota')
     ncol = 2
@@ -276,7 +278,7 @@ def lamina():
     L.absorber(B, clip=(160.0, 26.0, 292.0, 232.0))
     cuadro_equipos(L)
 
-    marco(L, 'EQUIPAMIENTO', '03 / 03', 'Barra y cocina · productos Makro',
+    marco(L, 'EQUIPAMIENTO', '03 / 04', 'Barra y cocina · productos Makro',
           ['Cada máquina es un producto real de makro.es con',
            'sus medidas de ficha; la web bloquea el acceso',
            'directo, así que las medidas vienen de su buscador.',
@@ -304,15 +306,130 @@ def lamina():
     return L
 
 
+# ======================================================= LAMINA 04: LISTA
+ENLACE = '#1f4e79'                # color de los enlaces clicables
+
+
+def lamina_lista():
+    """Lamina 04: toda la maquinaria con su ficha de makro.es. Devuelve el
+    lienzo y la lista de zonas de enlace (mm de papel + url) para el PDF."""
+    L = Lienzo(W, H, 1.0, 0.0, 0.0)
+    for c in ('hoja', 'fondo', 'rotulos', 'cajetin'):
+        L.capa(c)
+    enlaces = []
+    x0, x1 = 14.0, CAJ_X - 6.0
+    c_tag, c_nom, c_med, c_ubi, c_url = x0, x0 + 14.0, x0 + 98.0, x0 + 118.0, x0 + 206.0
+    paso = 4.9
+
+    L.p_texto('rotulos', x0, 36.0, 'LISTA DE EQUIPAMIENTO  ·  MAKRO', 4.2, 'start',
+              TINTA, 'bold', espaciado='0.8')
+    L.p_texto('rotulos', x0, 41.8,
+              'Todo lo que hay que comprar para la barra y la cocina, con la ficha de '
+              'makro.es de cada producto. Medidas en metros, ancho × fondo × alto. '
+              'Los enlaces de la última columna son clicables en el PDF.',
+              2.3, 'start', '#666666')
+
+    def seccion(y, titulo):
+        L.p_texto('rotulos', x0, y, titulo, 2.7, 'start', TINTA, 'bold', espaciado='0.5')
+        return y + 5.6
+
+    def cabecera(y, primera='RÓTULO'):
+        for cx, t in ((c_tag, primera), (c_nom, 'PRODUCTO'), (c_med, 'MEDIDAS'),
+                      (c_ubi, 'DÓNDE VA'), (c_url, 'FICHA EN MAKRO.ES')):
+            L.p_texto('rotulos', cx, y, t, 1.9, 'start', '#7a6a4a', 'bold')
+        L.p_linea('rotulos', x0, y + 1.4, x1, y + 1.4, '#cfc6b6', 'cota')
+        return y + paso + 0.6
+
+    def fila(y, i, p, tag=None):
+        if i % 2 == 0:
+            L.p_rect('fondo', x0 - 1.5, y - 3.4, x1, y + 1.3, '#f7f4ee', None)
+        L.p_texto('rotulos', c_tag, y, tag or p['tag'], 2.1, 'start', APARATO, 'bold')
+        L.p_texto('rotulos', c_nom, y, p['nombre'], 2.1, 'start', '#222222')
+        L.p_texto('rotulos', c_med, y, f"{_fmt(p['a'])} × {_fmt(p['f'])} × {_fmt(p['h'])}",
+                  2.1, 'start', TINTA, 'bold')
+        L.p_texto('rotulos', c_ubi, y, LM.donde(p), 2.1, 'start', '#444444')
+        if p.get('url'):
+            L.p_texto('rotulos', c_url, y, p['url'], 2.0, 'start', ENLACE)
+            enlaces.append((c_url - 1.0, y - 2.8, x1, y + 1.1, p['url']))
+        else:
+            L.p_texto('rotulos', c_url, y, 'ya comprado / medida promedio, sin ficha', 2.0,
+                      'start', '#8a8a8a')
+        return y + paso
+
+    y = seccion(52.0, 'EQUIPOS DIBUJADOS EN LAS LÁMINAS 01 Y 03')
+    y = cabecera(y)
+    for i, p in enumerate(Q.todos()):
+        y = fila(y, i, p)
+
+    y = seccion(y + 5.0, 'ALTERNATIVAS CON LA MISMA FUNCIÓN  ·  no dibujadas')
+    y = cabecera(y, 'SUSTITUYE')
+    for i, p in enumerate(Q.ESTE_ALT + Q.OESTE_ALT):
+        y = fila(y, i, p, tag=p['tag'].replace(' alt', ''))
+
+    y = seccion(y + 5.0, 'A MEDIDA  ·  no se compran en Makro')
+    for t in LM.A_MEDIDA:
+        L.p_texto('rotulos', c_nom, y, '·  ' + t, 2.0, 'start', '#222222')
+        y += 4.0
+
+    y = seccion(y + 4.0, 'VERIFICACIÓN DE LOS ENLACES')
+    for t in ('makro.es responde 403 a cualquier acceso desde un servidor (curl, Playwright o un '
+              'navegador en la nube), así que las fichas no se pueden abrir desde el entorno de trabajo.',
+              'Cada enlace se verificó buscando su identificador con el buscador restringido a makro.es: '
+              'los 21 devuelven exactamente su URL con el título del producto (LISTA_MAKRO.md).',
+              'Precios y stock no se han podido leer con fiabilidad: confirmar en la ficha antes de '
+              'comprar. Si un enlace dejara de funcionar, buscar el título literal de la ficha en makro.es.'):
+        L.p_texto('rotulos', c_nom, y, t, 2.0, 'start', '#444444')
+        y += 4.0
+
+    n_fichas = len({p['url'] for p in Q.todos() if p.get('url')})
+    n_unid = len([p for p in Q.todos() if p.get('url')])
+    marco(L, 'EQUIPAMIENTO', '04 / 04', 'Lista de compra · enlaces a makro.es',
+          ['Medidas ancho × fondo × alto en metros,',
+           'tomadas de la ficha de makro.es.',
+           'Los enlaces de la última columna son',
+           'clicables en el PDF; en papel, copiar la',
+           'dirección o buscar el título en makro.es.',
+           'Vitrinas y cafetera ya compradas, con las',
+           'medidas del cliente. Barriles y tablet con',
+           'medida promedio.',
+           'Confirmar precio y stock antes de comprar.'],
+          [], ('RESUMEN',
+               [('Fichas distintas de Makro', f'{n_fichas}'),
+                ('Unidades a comprar en Makro', f'{n_unid}'),
+                ('Ya comprado', 'cafetera y 2 vitrinas'),
+                ('Medida promedio', 'barriles y tablet'),
+                ('A medida', f'{len(LM.A_MEDIDA)} elementos')]),
+          tabla=('', []), esc_txt='sin escala', escala=False)
+    return L, enlaces
+
+
+def exportar_lista(nombre='LISTA_EQUIPAMIENTO'):
+    L, enlaces = lamina_lista()
+    pdf = exportar(L, nombre)
+    import pymupdf
+    k = 72.0 / 25.4
+    doc = pymupdf.open(pdf)
+    pg = doc[0]
+    for a, b, c, d, url in enlaces:
+        pg.insert_link({'kind': pymupdf.LINK_URI,
+                        'from': pymupdf.Rect(a * k, b * k, c * k, d * k), 'uri': url})
+    tmp = pdf + '.tmp'
+    doc.save(tmp); doc.close()
+    os.replace(tmp, pdf)
+    print(f'  {nombre}.pdf  ·  {len(enlaces)} enlaces clicables')
+    return pdf
+
+
 if __name__ == '__main__':
     import build_planos
-    print('Generando las tres láminas...')
+    print('Generando las cuatro láminas...')
     pb = exportar(build_planos.planta_baja(), 'PLANTA_BAJA')
     pa = exportar(build_planos.planta_alta(), 'PLANTA_ALTA')
     eq = exportar(lamina(), 'EQUIPAMIENTO')
+    li = exportar_lista()
     import pymupdf
     for nombre, hojas in (('Planos_Estructura.pdf', (pb, pa)),
-                          ('Planos_Completos.pdf', (pb, pa, eq))):
+                          ('Planos_Completos.pdf', (pb, pa, eq, li))):
         doc = pymupdf.open()
         for f in hojas:
             doc.insert_pdf(pymupdf.open(f))

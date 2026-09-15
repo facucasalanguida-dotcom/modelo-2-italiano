@@ -90,15 +90,15 @@ ESTE = [
 ESTE_ALT = [
     P('K10 alt', 'Mesa refrigerada Vaiotec EASYLINE, inox, 4 puertas, GN 1/1, 553 L',
       2.230, 0.700, 0.850, '230e627d-7291-43e0-a2b4-ebbf6e783f27'),
-    P('K10 alt', 'METRO Professional mesa refrigerada GCC3100, inox, 3 puertas, 334 L (gemela refrigerada de la foto)',
+    P('K10 alt', 'METRO Professional GCC3100, inox, 3 puertas, 334 L (la de la foto, refrigerada)',
       1.795, 0.700, 0.850, '176b30f1-81b0-4a52-916e-80722d9a9240'),
 ]
 OESTE_ALT = [
-    P('K8/K9 alt', 'Armario frigorífico ventilado 400 L, acero inoxidable (Diamond), misma huella',
+    P('K8/K9 alt', 'Armario frigorífico ventilado 400 L, acero inoxidable (Diamond)',
       0.626, 0.740, 1.925, '8969b667-b5cb-4e83-b599-3dd45c112547'),
-    P('K8/K9 alt', 'Armario refrigerado AR400L Clima Hostelería, lacado blanco (no inox), 360 L; cabe con fregadero de 0,70',
+    P('K8/K9 alt', 'Armario refrigerado AR400L Clima Hostelería, lacado blanco (no inox), 360 L',
       0.600, 0.615, 1.870, 'd48c3c0c-7975-4c22-89c7-64676c23681f'),
-    P('K7 alt', 'Fregadero Royal Catering 1 cubeta 50 × 50, 70 × 70 (alto sin dato en ficha)',
+    P('K7 alt', 'Fregadero Royal Catering, 1 cubeta 50 × 50, 70 × 70 (alto sin dato en ficha)',
       0.700, 0.700, 0.850, '987fd316-3c44-48e2-a628-d88809ed245c'),
 ]
 ESTE_SOBRE = []
