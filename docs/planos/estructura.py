@@ -74,7 +74,6 @@ TRASDOSADO = ('Trasdosado Norte', 2.459, 8.907, 9.890, 9.008)
 # P1b es el machon que sube desde P1 hasta el forjado del altillo.
 PILARES = [
     ('P1',  'Machón del muro Oeste',       0.250, 4.759, 0.550, 5.357),
-    ('P1b', 'Machón sobre P1, al forjado', 0.550, 4.933, 2.380, 5.183),
     ('P2',  'Pilastra del muro Sur',       1.290, 1.561, 1.870, 2.011),
     ('P3',  'Pilar central',               5.410, 4.788, 6.060, 5.858),
     ('P4',  'Machón de la medianera Este', 9.689, 4.708, 9.890, 5.309),
@@ -85,9 +84,10 @@ PILARES = [
 # hasta el techo del altillo, por encima de la coronacion del vidrio.
 PILARES_PA = ['P3', 'P4', 'P5']
 
-# La antigua "viga descolgada" resulta ser el machon P1b, medido en obra
-# (1,83 x 0,25), que sube de P1 al forjado. Se dibuja ya como pilar.
-VIGA = None
+# Viga P1b: el elemento de 1,83 x 0,25 que sale de P1 hasta la pared en L y
+# sube al forjado. Al ser viga no corta el plano de seccion: por debajo de
+# ella se entra a la cocina, entre P1 y el doblez de la pared en L.
+VIGA = ('Viga P1b', 0.550, 4.933, 2.380, 5.183)
 
 # ------------------------------------------- pared en L de apoyo del vidrio
 # Estructura nueva: tramo largo de 3,60 paralelo al muro Oeste, a 2,22 m de
@@ -95,10 +95,13 @@ VIGA = None
 # Sostiene el panel de vidrio de 1,35 m de alto. Espesor sin medir.
 PARED_L_E   = 0.100                     # espesor supuesto, comprobar
 PARED_L_X   = 0.250 + 2.220             # cara Este del tramo largo = 2,470
-PARED_L_LAR = ('Tramo largo 3,60',
-               PARED_L_X - PARED_L_E, 9.008 - 3.600, PARED_L_X, 9.008)
+PARED_L_LARGO = 4.220                   # medido el 15/09 (antes 3,60)
+PARED_L_LAR = ('Tramo largo 4,22',
+               PARED_L_X - PARED_L_E, 9.008 - PARED_L_LARGO, PARED_L_X, 9.008)
 PARED_L_DOB = ('Doblez 0,74',
-               PARED_L_X - 0.740, 9.008 - 3.600, PARED_L_X, 9.008 - 3.600 + PARED_L_E)
+               PARED_L_X - 0.740, 9.008 - PARED_L_LARGO, PARED_L_X,
+               9.008 - PARED_L_LARGO + PARED_L_E)
+H_PARED_L   = 1.220                     # altura de la pared en L, medida
 H_VIDRIO_L  = 1.350                     # panel de vidrio que sostiene
 
 # ---------------------------------------------------- forjado de planta alta
@@ -138,7 +141,9 @@ VENTANAL_SUR = dict(y=1.561, e=0.060, panos=[(0.510, 1.290), (1.870, 5.870)],
 # Escaparate: arranca en la cara Este de P5. La puerta de entrada mide 2,10 de
 # ancho y barre 1,00 hacia el vestibulo; va pegada a P5.
 ESCAPARATE = dict(x0=6.331, x1=9.710, y=0.370, e=0.049)
-PUERTA_ACCESO = dict(x0=6.331, x1=8.431, y=0.370, ancho=2.100, barrido=1.000,
+# La puerta va a la DERECHA (contra la medianera Este) y el escaparate a la
+# izquierda, pegado a P5. Croquis del cliente del 15/09.
+PUERTA_ACCESO = dict(x0=7.610, x1=9.710, y=0.370, ancho=2.100, barrido=1.000,
                      alto=2.100, hojas=2)
 
 # ------------------------------------------------ puntos de luz en el techo
@@ -155,9 +160,23 @@ APLIQUES = [(0.31, 5.75), (0.31, 6.45)]
 # ------------------------------------------- reservas de espacio (no estructura)
 # El cliente marca donde van tres cosas. No son estructura: se grafian como
 # reserva, con linea de trazos, para que el plano siga siendo estructural.
-BARRA      = dict(x=2.470, y0=1.561, y1=1.561 + 3.400, largo=3.400)
-PASO_PERS  = dict(x=2.470, y0=1.561 + 3.400, y1=9.008 - 3.600, medido=0.600)
+# Pared en L de 4,22 desde el Norte, paso de 0,60 y barra hasta el ventanal:
+# quedan 2,63 de barra (medidos 2,80: los 0,17 no cierran contra el ventanal).
+PASO_PERS  = dict(x=2.470, y0=9.008 - 4.220 - 0.600, y1=9.008 - 4.220, medido=0.600)
+BARRA      = dict(x=2.470, y0=1.561, y1=9.008 - 4.220 - 0.600, largo=2.800)
 SILLON     = dict(x0=2.470, x1=2.470 + 4.890, y=9.008, fondo=0.600, largo=4.890)
+
+# ------------------------------------------------------ bano de planta baja
+# Nuevo, croquis del cliente del 15/09: rincon NE, entre la medianera Norte,
+# la medianera Este y el desembarco de la escalera. Puerta de 0,70 abriendo
+# hacia dentro, bisagra en la jamba Este.
+BANO = dict(x0=7.400, x1=9.890, y0=7.730, y1=9.008, e=0.100)
+BANO_TABIQUES = [
+    ('Tabique Oeste del baño', 7.400, 7.730, 7.500, 9.008),
+    ('Tabique Sur - tramo Oeste', 7.400, 7.730, 7.770, 7.830),
+    ('Tabique Sur - tramo Este', 8.470, 7.730, 9.890, 7.830),
+]
+BANO_PUERTA = dict(x0=7.770, x1=8.470, y=7.730, ancho=0.700, bisagra='E')
 
 # --------------------------------------------------------------- superficies
 SUP_PB_UTIL   = 75.63     # m2 dentro de muros, planta baja
@@ -172,23 +191,21 @@ RECINTOS_PA = [('Aseo (lavabo + inodoro)', 3.92), ('Almacen', 2.59),
 # levantamiento, o que el levantamiento no recoge. Se dibuja el levantamiento
 # (es la unica fuente acotada) y se listan aqui para medir en obra.
 COMPROBAR = [
-    'La cota de 2,70 anotada contra la medianera norte no cuadra: mide la '
-    'misma distancia que el 2,22 aplicado (muro Oeste a pared en L). '
-    'Aclarar qué mide ese 2,70.',
+    'Barra: medida 2,80 y dibujada 2,63, porque entre la pared en L de 4,22, '
+    'el paso de 0,60 y el ventanal sólo quedan 2,63. Los 0,17 no cierran.',
     'Canto del forjado del altillo. Con 2,56 m de suelo a suelo, la altura '
     'libre de planta baja es 2,56 menos ese canto, no los 2,70 supuestos.',
-    'Espesor de la pared en L y del panel de vidrio de 1,35 m que sostiene.',
-    'Posición de P3: el 3,15 de la planta baja y el 1,90 de la planta alta se '
-    'llevan 0,15; el 2,94 y el 3,20 se llevan 0,26. Se dibuja con la cadena '
-    'de planta baja.',
-    'Del P3 a la escalera se midió 2,35 y en el plano salen 2,75. Los 0,40 de '
-    'diferencia no cierran contra la medianera Este.',
-    'P5: se dibuja 0,60 x 1,00 con la cara Oeste a plomo con el muro del '
-    'cuello. El resalto de 0,20 al Este anotado da 0,35 en esa posición.',
-    'Escaparate: bajo él aparece un 2,70 sin aclarar. Se dibuja el hueco '
-    'completo con la puerta de 2,10 pegada a P5.',
-    'Tabica de la escalera: 2,56/17 = 0,151 m. Contar los peldaños en obra '
-    'para confirmar que son 17.',
-    'Machones trasdosados con placa de yeso nueva: la sección de hormigón '
-    'no es verificable a la vista.',
+    'P1b se dibuja como viga (1,83 × 0,25) y no como pilar: si fuera macizo '
+    'hasta el suelo, la cocina no tendría entrada. Medir su intradós.',
+    'Baño nuevo: tabiques de 0,10 y puerta de 0,70 tomados del croquis, sin '
+    'medir. Comprobar que la puerta abre hacia dentro sin chocar.',
+    'Posición de P3: el 3,15 de planta baja y el 1,90 de planta alta se '
+    'llevan 0,15; el 2,94 y el 3,20 se llevan 0,26. Se usa la cadena de PB.',
+    'Del P3 a la escalera se midió 2,35 y en el plano salen 2,75. Los 0,40 '
+    'no cierran contra la medianera Este.',
+    'Pasillo de cocina: 0,77 m en el lavavajillas (0,651 de fondo) y 0,82 '
+    'en el resto. Por debajo de 0,90 con permiso del cliente.',
+    'Tabica de la escalera: 2,56/17 = 0,151 m. Contar los peldaños en obra.',
+    'Máquinas: medidas de las fichas de makro.es tal y como las indexa su '
+    'buscador; la web bloquea el acceso directo. Confirmar en la ficha.',
 ]

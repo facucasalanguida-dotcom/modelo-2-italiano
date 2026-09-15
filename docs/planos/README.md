@@ -54,6 +54,30 @@ Sobre el PDF anotado a mano por el cliente se aplicaron:
   barra (3,40 a lo largo de la pared en L), el paso de personal y el sillon
   corrido de 4,89 contra la medianera norte.
 
+## Revision del 15 set. 2026 sobre el segundo croquis
+
+- **Pared en L de 4,22** (antes 3,60) y 1,22 de alto; paso de personal de
+  0,60; la barra queda en 2,63 (medida 2,80). P1b pasa a dibujarse como viga:
+  si fuera macizo la cocina no tendria entrada.
+- **Bano nuevo** en el rincon NE, entre la medianera Norte, la Este y el
+  desembarco de la escalera, con puerta de 0,70 hacia dentro.
+- **Puerta a la derecha** (contra la medianera Este) y escaparate a la
+  izquierda, pegado a P5.
+- **Mesas** con medidas promedio: 9 en planta baja (32 plazas, tres de ellas
+  contra el sillon corrido) y en el altillo una mesa de cowork de 2,40 x 1,00
+  con 8 puestos mas dos redondas. `mobiliario.py`.
+- **Luces** replanteadas sobre el mobiliario: un colgante por mesa, tres sobre
+  la barra y empotrados en pasillos, cocina, bano y escalera.
+- **Equipamiento con productos de Makro** (`equipamiento.py`): cada maquina
+  lleva el enlace a su ficha y sus medidas. La web de Makro bloquea el acceso
+  directo desde servidores, asi que las medidas salen de las fichas tal y como
+  las indexa su buscador; confirmar antes de comprar. Coccion corrida en la
+  medianera Norte bajo campana de 2,00; horno, lavavajillas bajo tabla,
+  fregadero y dos armarios frigorificos en el muro Oeste; nevera corrida de
+  acero como mesada en la pared en L. En la barra, dos vitrinas con lavavasos
+  y barriles debajo, barra de madera con tablet y chopera, y en la trasbarra
+  cafetera, lavamanos, hielera con licuadora y exprimidor.
+
 ## Comprobar en obra
 
 Las dos laminas llevan al pie un bloque **COMPROBAR EN OBRA** con los puntos

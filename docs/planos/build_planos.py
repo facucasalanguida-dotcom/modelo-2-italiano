@@ -16,9 +16,11 @@ import sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import estructura as E
+import mobiliario as MB
 from dibujo import (Lienzo, TRAZO, TINTA, POCHE, POCHE_PIL, POCHE_TAB,
                     VIDRIO, COTA_COL)
 RESERVA = '#7a6a4a'   # reservas de espacio marcadas por el cliente
+MOB = '#8a6f4e'       # mobiliario de sala
 
 AQUI = os.path.dirname(os.path.abspath(__file__))
 
@@ -29,7 +31,7 @@ MARGEN = 8.0
 CAJ_X = W - MARGEN - 96.0       # borde izquierdo del cajetin
 OX, OY = 62.0, 236.0            # papel del origen de obra
 
-FECHA = '14 de septiembre de 2026'
+FECHA = '15 de septiembre de 2026'
 
 DEFS = '''<defs>
 <pattern id="doble" width="3.2" height="3.2" patternTransform="rotate(45)"
@@ -257,9 +259,9 @@ def escaparate(L, con_puerta=True):
     seccion de planta alta pasa muy por encima de su dintel."""
     s, p = E.ESCAPARATE, E.PUERTA_ACCESO
     if con_puerta:
-        L.rect('carpinteria', p['x1'], s['y'] + 0.010, s['x1'],
+        L.rect('carpinteria', s['x0'], s['y'] + 0.010, p['x0'],
                s['y'] + s['e'] - 0.010, VIDRIO, '#3d6b80', 'fino')
-        L.rect('carpinteria', p['x1'] - 0.025, s['y'], p['x1'] + 0.025,
+        L.rect('carpinteria', p['x0'] - 0.025, s['y'], p['x0'] + 0.025,
                s['y'] + s['e'], TINTA, TINTA, 'auxiliar')
         puerta_acceso(L)
     else:
@@ -318,6 +320,69 @@ def reservas(L):
             RESERVA, 'bold', dy=0.8)
 
 
+def viga(L):
+    """Viga P1b, de P1 a la pared en L. Sobre el plano de seccion."""
+    nm, x0, y0, x1, y1 = E.VIGA
+    L.rect('proyeccion', x0, y0, x1, y1, 'none', '#6a6a6a', 'fino',
+           ' stroke-dasharray="2.4 1.4"')
+    L.texto('rotulos', (x0 + x1) / 2, (y0 + y1) / 2, 'VIGA P1b  1,83 × 0,25 · sobre el corte',
+            1.9, 'middle', '#5f5f5f', dy=0.7)
+
+
+def bano(L):
+    """Bano nuevo de planta baja, con su puerta y los aparatos en reserva."""
+    for nm, x0, y0, x1, y1 in E.BANO_TABIQUES:
+        L.rect('tabiques', x0, y0, x1, y1, POCHE_TAB, TINTA, 'tabique')
+    p = E.BANO_PUERTA
+    xh, ya, an = p['x1'], p['y'], p['ancho']
+    L.rect('tabiques', p['x0'], ya, p['x1'], ya + 0.10, '#ffffff', 'none', 'auxiliar')
+    L.rect('tabiques', xh - 0.02, ya, xh + 0.02, ya + an, TINTA, None)
+    L.linea('tabiques', xh, ya, xh - an, ya, TINTA, 'fino')
+    L._add('tabiques', f'<path d="M {L.px(xh - an):.3f} {L.py(ya):.3f} '
+                       f'A {L.mm(an):.3f} {L.mm(an):.3f} 0 0 0 '
+                       f'{L.px(xh):.3f} {L.py(ya + an):.3f}" fill="none" '
+                       f'stroke="{TINTA}" stroke-width="{TRAZO["auxiliar"]}" '
+                       f'stroke-dasharray="1.2 0.9"/>')
+    b = E.BANO
+    d = ' stroke-dasharray="1.6 1.0"'
+    # inodoro contra la medianera Este y lavabo en el tabique Oeste
+    L.rect('reservas', b['x1'] - 0.70, b['y1'] - 0.75, b['x1'] - 0.05, b['y1'] - 0.35,
+           'none', RESERVA, 'fino', d)
+    L.circulo('reservas', b['x1'] - 0.42, b['y1'] - 0.62, 0.17, 'none', RESERVA, 'fino', d)
+    L.rect('reservas', b['x0'] + 0.10, b['y1'] - 0.55, b['x0'] + 0.55, b['y1'] - 0.15,
+           'none', RESERVA, 'fino', d)
+    L.texto('rotulos', 8.55, 8.72, 'BAÑO', 2.4, 'middle', '#4a4a4a', 'bold')
+
+
+def mobiliario(L, mesas):
+    """Mesas y sillas con medidas promedio, en su propia capa."""
+    for m in mesas:
+        tag, tipo, x0, y0, x1, y1, lados = m
+        if tipo == 'redonda':
+            L.circulo('mobiliario', (x0 + x1) / 2, (y0 + y1) / 2, (x1 - x0) / 2,
+                      '#f4efe6', MOB, 'medio')
+        else:
+            L.rect('mobiliario', x0, y0, x1, y1, '#f4efe6', MOB, 'medio')
+        for sx0, sy0, sx1, sy1 in MB.sillas(m):
+            L.rect('mobiliario', sx0, sy0, sx1, sy1, 'none', MOB, 'fino',
+                   ' rx="0.6"')
+        L.texto('rotulos', (x0 + x1) / 2, (y0 + y1) / 2, tag, 2.0, 'middle', MOB,
+                'bold', dy=0.7)
+
+
+def luces_nuevas(L, colgantes, empotrados, apliques=()):
+    for x, y in empotrados:
+        L.circulo('luces', x, y, 0.085, 'none', '#7d7d7d', 'fino')
+        L.linea('luces', x - 0.06, y, x + 0.06, y, '#7d7d7d', 'auxiliar')
+        L.linea('luces', x, y - 0.06, x, y + 0.06, '#7d7d7d', 'auxiliar')
+    for x, y in colgantes:
+        L.circulo('luces', x, y, 0.10, 'none', '#7d7d7d', 'fino')
+        L.circulo('luces', x, y, 0.028, '#7d7d7d', '#7d7d7d', 'auxiliar')
+    for x, y in apliques:
+        L.poly('luces', [(x - 0.08, y - 0.10), (x - 0.08, y + 0.10), (x + 0.06, y)],
+               'none', '#7d7d7d', 'fino')
+
+
 def escalera(L, planta):
     """planta: 'baja' dibuja el tramo con linea de rotura; 'alta' la llegada."""
     x0, x1 = E.ESC_X0, E.ESC_X1
@@ -369,8 +434,9 @@ def luces(L, empotrados=True):
 # ============================================================== PLANTA BAJA
 def planta_baja():
     L = Lienzo(W, H, ESC, OX, OY)
-    for c in ('hoja', 'trama', 'proyeccion', 'muros', 'pilares', 'carpinteria',
-              'escalera', 'reservas', 'luces', 'cotas', 'rotulos', 'cajetin'):
+    for c in ('hoja', 'trama', 'proyeccion', 'muros', 'pilares', 'tabiques',
+              'carpinteria', 'escalera', 'reservas', 'mobiliario', 'luces',
+              'cotas', 'rotulos', 'cajetin'):
         L.capa(c)
 
     # zona de doble altura
@@ -383,27 +449,30 @@ def planta_baja():
     muros(L)
     pared_l(L)
     pilares(L)
+    viga(L)
+    bano(L)
     ventanal_sur(L)
     escaparate(L)
     escalera(L, 'baja')
     reservas(L)
-    luces(L)
+    mobiliario(L, MB.MESAS_PB)
+    luces_nuevas(L, MB.COLGANTES_PB, MB.EMPOTRADOS_PB, MB.APLIQUES_PB)
 
     # contorno interior, para reforzar el recinto
     L.poly('muros', interior_pb(), 'none', TINTA, 'fino')
 
     # ---- rotulos
-    L.texto('rotulos', 5.6, 6.6, 'ZONA CON FORJADO SUPERIOR', 2.6, 'middle',
-            '#4a4a4a', 'bold')
-    L.texto('rotulos', 5.6, 6.6, 'suelo a suelo +2,56  ·  altura libre por medir',
-            2.3, 'middle', '#4a4a4a', dy=3.4)
-    L.texto('rotulos', 4.3, 2.65, 'DOBLE ALTURA', 2.6, 'middle', '#3c5a68',
+    L.texto('rotulos', 6.10, 4.20, 'ZONA CON FORJADO SUPERIOR  ·  suelo a suelo +2,56',
+            2.2, 'middle', '#4a4a4a', 'bold')
+    L.texto('rotulos', 7.30, 3.45, 'DOBLE ALTURA', 2.6, 'middle', '#3c5a68',
             'bold')
+    L.texto('rotulos', 1.30, 6.90, 'COCINA', 2.6, 'middle', '#3c5a68', 'bold',
+            rot=-90)
+    L.texto('rotulos', 1.35, 3.30, 'BARRA', 2.4, 'middle', '#3c5a68', 'bold',
+            rot=-90)
     L.texto('rotulos', 7.95, 1.22, 'VESTÍBULO DE ACCESO', 2.3, 'middle', '#3c5a68',
             'bold')
-    L.texto('rotulos', 1.10, 7.40, 'DOBLE ALTURA', 2.3, 'middle', '#3c5a68', 'bold',
-            rot=-90)
-    L.texto('rotulos', 2.470, 7.90, 'PARED EN L  ·  3,60 + 0,74  ·  vidrio h=1,35',
+    L.texto('rotulos', 2.470, 6.60, 'PARED EN L  ·  4,22 + 0,74  ·  h=1,22  ·  vidrio 1,35',
             2.0, 'middle', '#4a4a4a', rot=-90, dx=6.2)
     nivel(L, 7.95, 0.72, '±0,00')
 
@@ -414,8 +483,8 @@ def planta_baja():
             rot=-90)
     L.texto('rotulos', 3.87, 1.561, 'VENTANAL SUR  ·  paño de 4,00  ·  travesaño ≈ +2,30',
             2.1, 'middle', '#26485a', dy=4.6)
-    L.texto('rotulos', 9.07, 0.370, 'ESCAPARATE', 2.1, 'middle', '#26485a', dy=4.6)
-    L.texto('rotulos', 7.38, 0.370, 'PUERTA  2,10  ·  barrido 1,00', 2.0,
+    L.texto('rotulos', 6.97, 0.370, 'ESCAPARATE', 2.1, 'middle', '#26485a', dy=4.6)
+    L.texto('rotulos', 8.66, 0.370, 'PUERTA  2,10  ·  barrido 1,00', 2.0,
             'middle', '#26485a', dy=4.6)
     L.texto('rotulos', 9.35, 7.30,
             f'ESCALERA  {E.ESC_N_HUELLAS} huellas × 0,26', 1.95, 'middle', TINTA,
@@ -426,13 +495,13 @@ def planta_baja():
 
     # ---- cotas
     ys = L.py(0.0) + 10.0
-    L.cota_h('cotas', [0.0, 0.510, 1.290, 1.870, 5.870, 5.980, 6.331, 8.431,
+    L.cota_h('cotas', [0.0, 0.510, 1.290, 1.870, 5.870, 5.980, 6.331, 7.610,
                        9.710, 10.040], ys, 1.8, ext_desde=0.0)
     L.cota_h('cotas', [0.0, 10.040], ys + 8.0, 2.4)
 
     yn = L.py(9.156) - 8.0
-    L.cota_h('cotas', [0.0, 0.250, 2.370, 2.470, 5.410, 6.060, 8.811, 9.890,
-                       10.040], yn, 1.9, ext_desde=9.156)
+    L.cota_h('cotas', [0.0, 0.250, 2.370, 2.470, 5.410, 6.060, 7.400, 8.811,
+                       9.890, 10.040], yn, 1.9, ext_desde=9.156)
 
     xw = L.px(0.0) - 9.0
     L.cota_v('cotas', [0.0, 1.561, 2.009, 4.759, 5.357, 9.008, 9.156], xw,
@@ -446,8 +515,10 @@ def planta_baja():
     # cotas interiores medidas en obra
     L.cota_h('cotas', [0.510, 1.290, 1.870], L.py(2.42), 1.8)
     L.cota_h('cotas', [0.250, 2.470], L.py(8.62), 1.9)
-    L.cota_h('cotas', [2.470, 5.410, 6.060, 8.811], L.py(7.62), 1.9)
-    L.cota_v('cotas', [1.561, 4.961, 5.408, 9.008], L.px(1.32), 1.9)
+    L.cota_h('cotas', [2.470, 5.410, 6.060, 8.811], L.py(7.02), 1.9)
+    L.cota_v('cotas', [1.561, 4.188, 4.788, 9.008], L.px(1.32), 1.9)
+    L.cota_h('cotas', [7.400, 7.770, 8.470, 9.890], L.py(7.55), 1.8)
+    L.cota_v('cotas', [7.730, 9.008], L.px(9.75), 1.8)
     L.cota_v('cotas', [5.858, 9.008], L.px(5.72), 1.9)
     L.cota_v('cotas', [1.429, 4.729], L.px(10.19), 1.9)
 
@@ -458,11 +529,11 @@ def planta_baja():
            'levantamiento previo.',
            'Cota de referencia ±0,00 en el pavimento de planta',
            'baja. Sección horizontal a 1,20 m.',
-           'Las reservas de espacio en trazos no son estructura:',
-           'sólo marcan dónde van la barra, el paso de personal',
-           'y el sillón corrido.',
-           'Los puntos de luz proceden del proyecto de reforma,',
-           'no están replanteados en obra.'],
+           'Mesas con medidas promedio (doble 0,70 × 0,70;',
+           'cuádruple 1,20 × 0,70). Puntos de luz replanteados',
+           'sobre el mobiliario: un colgante por mesa, tres',
+           'sobre la barra y empotrados en pasillos y cocina.',
+           'El equipamiento de barra y cocina va en la lámina 03.'],
           [(POCHE, TINTA, 'Muro de carga / medianera'),
            (POCHE_PIL, TINTA, 'Pilar o machón de hormigón'),
            (POCHE_TAB, TINTA, 'Pared en L nueva (apoyo del vidrio)'),
@@ -470,13 +541,15 @@ def planta_baja():
            ('url(#doble)', '#c3ced6', 'Espacio de doble altura'),
            ('linea', '#8a8a8a', 'Forjado sobre el corte'),
            ('linea', RESERVA, 'Reserva de espacio del cliente'),
-           ('punto', '#7d7d7d', 'Punto de luz s/ proyecto')],
+           ('#f4efe6', MOB, 'Mesas y sillas (medidas promedio)'),
+           ('punto', '#7d7d7d', 'Punto de luz: colgante / empotrado')],
           ('SUPERFICIES Y ALTURAS',
            [('Planta baja, dentro de muros', f'{E.SUP_PB_UTIL:.2f} m²'.replace('.', ',')),
             ('Zona de doble altura', f'{E.SUP_DOBLE_ALT:.2f} m²'.replace('.', ',')),
             ('Suelo a suelo, medido en obra', '2,56 m'),
             ('Altura libre bajo forjado', '2,56 − canto'),
-            ('Panel de vidrio de la pared en L', '1,35 m'),
+            ('Pared en L, altura', '1,22 m'),
+            ('Plazas sentadas en planta baja', f'{MB.PLAZAS_PB}'),
             ('Acristalamiento de fachada', '≈ 4,70 m')]))
     comprobar(L)
     return L
@@ -486,7 +559,8 @@ def planta_baja():
 def planta_alta():
     L = Lienzo(W, H, ESC, OX, OY)
     for c in ('hoja', 'trama', 'proyeccion', 'muros', 'pilares', 'tabiques',
-              'carpinteria', 'escalera', 'luces', 'cotas', 'rotulos', 'cajetin'):
+              'carpinteria', 'escalera', 'mobiliario', 'luces', 'cotas',
+              'rotulos', 'cajetin'):
         L.capa(c)
 
     # vacio sobre planta baja
@@ -535,13 +609,15 @@ def planta_alta():
     pilares(L, solo=E.PILARES_PA)
     escalera(L, 'alta')
     L.poly('muros', interior_pb(), 'none', '#8a8a8a', 'auxiliar')
+    mobiliario(L, MB.MESAS_PA)
+    luces_nuevas(L, MB.COLGANTES_PA, MB.EMPOTRADOS_PA)
 
     # ---- rotulos
-    nivel(L, 4.30, 5.10, '+2,56')
-    L.texto('rotulos', 5.9, 6.30, 'ALTILLO · PLANTA ALTA', 3.0, 'middle', '#4a4a4a',
+    nivel(L, 5.75, 6.55, '+2,56')
+    L.texto('rotulos', 5.75, 7.22, 'ALTILLO · COWORK', 2.8, 'middle', '#4a4a4a',
             'bold')
-    L.texto('rotulos', 5.9, 6.30, 'nivel +2,56  ·  altura libre 2,50 m (por medir)',
-            2.4, 'middle', '#4a4a4a', dy=3.8)
+    L.texto('rotulos', 5.75, 7.22, 'nivel +2,56  ·  altura libre por medir',
+            2.2, 'middle', '#4a4a4a', dy=3.4)
     L.texto('rotulos', 5.6, 2.55, 'VACÍO SOBRE PLANTA BAJA', 2.8, 'middle', '#3c5a68',
             'bold')
     L.texto('rotulos', 5.6, 2.55, 'altura total por medir', 2.3, 'middle',
@@ -584,16 +660,18 @@ def planta_alta():
 
     marco(L, 'PLANTA ALTA', '02 / 03', 'Altillo +2,56 · estructura',
           ['Cotas en metros, tomadas sobre el levantamiento.',
-           'Plano de estructura: no se representa mobiliario',
-           'ni equipamiento.',
+           'Nivel del forjado +2,56, medido en obra.',
            'El forjado del altillo no cubre todo el local: la',
            'franja sur y oeste es un vacío a doble altura.',
-           'Nivel del forjado +2,56, medido en obra.',
-           'Sección horizontal a 1,20 m sobre el forjado.'],
+           'Mesa de cowork 2,40 × 1,00 para 8 puestos y dos',
+           'redondas de Ø 0,80 con 3 sillas. Medidas promedio.',
+           'Un colgante por mesa y empotrados en el resto.'],
           [(POCHE, TINTA, 'Muro de carga / medianera'),
            (POCHE_PIL, TINTA, 'Pilar o machón de hormigón'),
            (POCHE_TAB, TINTA, 'Tabiquería'),
            (VIDRIO, '#3d6b80', 'Barandilla de vidrio'),
+           ('#f4efe6', MOB, 'Mesas y sillas (medidas promedio)'),
+           ('punto', '#7d7d7d', 'Punto de luz'),
            ('url(#vacio)', '#b9c6cf', 'Vacío sobre planta baja')],
           ('SUPERFICIES Y ALTURAS',
            [('Forjado de planta alta', f'{E.SUP_FORJADO:.2f} m²'.replace('.', ',')),
@@ -601,7 +679,7 @@ def planta_alta():
             ('Aseo (lavabo + inodoro)', '3,92 m²'),
             ('Almacén', '2,59 m²'),
             ('Nivel del forjado, medido', '+2,56 m'),
-            ('Altura libre de planta alta', '2,50 m (por medir)')]))
+            ('Puestos de cowork', f'{MB.PLAZAS_PA}')]))
     comprobar(L)
     return L
 
