@@ -389,8 +389,8 @@
 <text x="57.000" y="260.600" font-size="2.0" text-anchor="start" fill="#7a5a3a" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Puntos en los que los vídeos del local no cuadran con el levantamiento, o que el levantamiento no recoge. Se dibuja el levantamiento por ser la única fuente acotada.</text>
 <line x1="14.500" y1="262.400" x2="310.500" y2="262.400" stroke="#d8c6ae" stroke-width="0.13"/>
 <text x="14.500" y="266.400" font-size="2.2" text-anchor="start" fill="#9a2b2b" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">1</text>
-<text x="18.700" y="266.400" font-size="2.0" text-anchor="start" fill="#3a3a3a" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Barra: medida 2,80 y dibujada 2,63, porque entre la pared en L de 4,22, el paso de</text>
-<text x="18.700" y="269.200" font-size="2.0" text-anchor="start" fill="#3a3a3a" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">0,60 y el ventanal sólo quedan 2,63. Los 0,17 no cierran.</text>
+<text x="18.700" y="266.400" font-size="2.0" text-anchor="start" fill="#3a3a3a" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Pared en L: en el segundo croquis termina en y=5,35 (3,66 m) y la barra sube hasta</text>
+<text x="18.700" y="269.200" font-size="2.0" text-anchor="start" fill="#3a3a3a" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">4,75 con el paso de 0,60 entre ambas. Antes se midió 4,22.</text>
 <text x="14.500" y="273.400" font-size="2.2" text-anchor="start" fill="#9a2b2b" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">2</text>
 <text x="18.700" y="273.400" font-size="2.0" text-anchor="start" fill="#3a3a3a" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Canto del forjado del altillo. Con 2,56 m de suelo a suelo, la altura libre de</text>
 <text x="18.700" y="276.200" font-size="2.0" text-anchor="start" fill="#3a3a3a" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">planta baja es 2,56 menos ese canto, no los 2,70 supuestos.</text>
@@ -407,12 +407,12 @@
 <text x="117.367" y="280.400" font-size="2.0" text-anchor="start" fill="#3a3a3a" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Del P3 a la escalera se midió 2,35 y en el plano salen 2,75. Los 0,40 no cierran</text>
 <text x="117.367" y="283.200" font-size="2.0" text-anchor="start" fill="#3a3a3a" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">contra la medianera Este.</text>
 <text x="211.833" y="266.400" font-size="2.2" text-anchor="start" fill="#9a2b2b" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">7</text>
-<text x="216.033" y="266.400" font-size="2.0" text-anchor="start" fill="#3a3a3a" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Pasillo de cocina: 0,77 m en el lavavajillas (0,651 de fondo) y 0,82 en el resto.</text>
-<text x="216.033" y="269.200" font-size="2.0" text-anchor="start" fill="#3a3a3a" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Por debajo de 0,90 con permiso del cliente.</text>
+<text x="216.033" y="266.400" font-size="2.0" text-anchor="start" fill="#3a3a3a" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Pasillo de cocina: 0,78 m frente a los frigoríficos (0,74 de fondo) y hasta 0,92 en</text>
+<text x="216.033" y="269.200" font-size="2.0" text-anchor="start" fill="#3a3a3a" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">el resto. Por debajo de 0,90 con permiso del cliente.</text>
 <text x="211.833" y="273.400" font-size="2.2" text-anchor="start" fill="#9a2b2b" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">8</text>
 <text x="216.033" y="273.400" font-size="2.0" text-anchor="start" fill="#3a3a3a" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Tabica de la escalera: 2,56/17 = 0,151 m. Contar los peldaños en obra.</text>
 <text x="211.833" y="280.400" font-size="2.2" text-anchor="start" fill="#9a2b2b" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">9</text>
-<text x="216.033" y="280.400" font-size="2.0" text-anchor="start" fill="#3a3a3a" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Máquinas: medidas de las fichas de makro.es tal y como las indexa su buscador; la</text>
-<text x="216.033" y="283.200" font-size="2.0" text-anchor="start" fill="#3a3a3a" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">web bloquea el acceso directo. Confirmar en la ficha.</text>
+<text x="216.033" y="280.400" font-size="2.0" text-anchor="start" fill="#3a3a3a" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Máquinas: medidas de las fichas de makro.es según su buscador (la web bloquea el</text>
+<text x="216.033" y="283.200" font-size="2.0" text-anchor="start" fill="#3a3a3a" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">acceso directo). Sin dato: alto de la columna B4, 0,55 estimado.</text>
 </g>
 </svg>

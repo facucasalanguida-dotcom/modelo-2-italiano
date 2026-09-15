@@ -95,8 +95,8 @@ VIGA = ('Viga P1b', 0.550, 4.933, 2.380, 5.183)
 # Sostiene el panel de vidrio de 1,35 m de alto. Espesor sin medir.
 PARED_L_E   = 0.100                     # espesor supuesto, comprobar
 PARED_L_X   = 0.250 + 2.220             # cara Este del tramo largo = 2,470
-PARED_L_LARGO = 4.220                   # medido el 15/09 (antes 3,60)
-PARED_L_LAR = ('Tramo largo 4,22',
+PARED_L_LARGO = 9.008 - 5.350           # croquis del 15/09: termina en y=5,35 (3,66)
+PARED_L_LAR = ('Tramo largo 3,66',
                PARED_L_X - PARED_L_E, 9.008 - PARED_L_LARGO, PARED_L_X, 9.008)
 PARED_L_DOB = ('Doblez 0,74',
                PARED_L_X - 0.740, 9.008 - PARED_L_LARGO, PARED_L_X,
@@ -160,10 +160,11 @@ APLIQUES = [(0.31, 5.75), (0.31, 6.45)]
 # ------------------------------------------- reservas de espacio (no estructura)
 # El cliente marca donde van tres cosas. No son estructura: se grafian como
 # reserva, con linea de trazos, para que el plano siga siendo estructural.
-# Pared en L de 4,22 desde el Norte, paso de 0,60 y barra hasta el ventanal:
-# quedan 2,63 de barra (medidos 2,80: los 0,17 no cierran contra el ventanal).
-PASO_PERS  = dict(x=2.470, y0=9.008 - 4.220 - 0.600, y1=9.008 - 4.220, medido=0.600)
-BARRA      = dict(x=2.470, y0=1.561, y1=9.008 - 4.220 - 0.600, largo=2.800)
+# Croquis del 15/09 (segundo): la barra sube hasta y=4,75, el paso de personal
+# de 0,60 queda entre la barra y el final de la pared en L, y la pared termina
+# en 5,35 con el doblez ahi.
+PASO_PERS  = dict(x=2.470, y0=4.750, y1=5.350, medido=0.600)
+BARRA      = dict(x=2.470, y0=1.561, y1=4.750, largo=4.750 - 1.561)
 SILLON     = dict(x0=2.470, x1=2.470 + 4.890, y=9.008, fondo=0.600, largo=4.890)
 
 # ------------------------------------------------------ bano de planta baja
@@ -191,8 +192,8 @@ RECINTOS_PA = [('Aseo (lavabo + inodoro)', 3.92), ('Almacen', 2.59),
 # levantamiento, o que el levantamiento no recoge. Se dibuja el levantamiento
 # (es la unica fuente acotada) y se listan aqui para medir en obra.
 COMPROBAR = [
-    'Barra: medida 2,80 y dibujada 2,63, porque entre la pared en L de 4,22, '
-    'el paso de 0,60 y el ventanal sólo quedan 2,63. Los 0,17 no cierran.',
+    'Pared en L: en el segundo croquis termina en y=5,35 (3,66 m) y la barra '
+    'sube hasta 4,75 con el paso de 0,60 entre ambas. Antes se midió 4,22.',
     'Canto del forjado del altillo. Con 2,56 m de suelo a suelo, la altura '
     'libre de planta baja es 2,56 menos ese canto, no los 2,70 supuestos.',
     'P1b se dibuja como viga (1,83 × 0,25) y no como pilar: si fuera macizo '
@@ -203,9 +204,9 @@ COMPROBAR = [
     'llevan 0,15; el 2,94 y el 3,20 se llevan 0,26. Se usa la cadena de PB.',
     'Del P3 a la escalera se midió 2,35 y en el plano salen 2,75. Los 0,40 '
     'no cierran contra la medianera Este.',
-    'Pasillo de cocina: 0,77 m en el lavavajillas (0,651 de fondo) y 0,82 '
-    'en el resto. Por debajo de 0,90 con permiso del cliente.',
+    'Pasillo de cocina: 0,78 m frente a los frigoríficos (0,74 de fondo) y '
+    'hasta 0,92 en el resto. Por debajo de 0,90 con permiso del cliente.',
     'Tabica de la escalera: 2,56/17 = 0,151 m. Contar los peldaños en obra.',
-    'Máquinas: medidas de las fichas de makro.es tal y como las indexa su '
-    'buscador; la web bloquea el acceso directo. Confirmar en la ficha.',
+    'Máquinas: medidas de las fichas de makro.es según su buscador (la web '
+    'bloquea el acceso directo). Sin dato: alto de la columna B4, 0,55 estimado.',
 ]

@@ -306,10 +306,10 @@ def reservas(L):
     p = E.PASO_PERS
     L.linea('reservas', p['x'] - 0.60, p['y0'], p['x'], p['y0'], RESERVA, 'fino', d)
     L.linea('reservas', p['x'] - 0.60, p['y1'], p['x'], p['y1'], RESERVA, 'fino', d)
-    L.texto('rotulos', 3.45, (p['y0'] + p['y1']) / 2,
-            f"PASO PERSONAL  ·  medido {p['medido']:.2f}".replace('.', ','),
-            2.0, 'middle', RESERVA, 'bold', dy=0.8)
-    L.linea('reservas', p['x'], (p['y0'] + p['y1']) / 2, 2.98,
+    L.texto('rotulos', 2.95, (p['y0'] + p['y1']) / 2,
+            f"PASO {p['medido']:.2f}".replace('.', ','), 2.0, 'middle', RESERVA,
+            'bold', dy=0.8)
+    L.linea('reservas', p['x'], (p['y0'] + p['y1']) / 2, 2.66,
             (p['y0'] + p['y1']) / 2, RESERVA, 'auxiliar')
 
     s = E.SILLON
@@ -464,7 +464,7 @@ def planta_baja():
     # ---- rotulos
     L.texto('rotulos', 6.10, 4.20, 'ZONA CON FORJADO SUPERIOR  ·  suelo a suelo +2,56',
             2.2, 'middle', '#4a4a4a', 'bold')
-    L.texto('rotulos', 7.30, 3.45, 'DOBLE ALTURA', 2.6, 'middle', '#3c5a68',
+    L.texto('rotulos', 7.65, 3.80, 'DOBLE ALTURA', 2.6, 'middle', '#3c5a68',
             'bold')
     L.texto('rotulos', 1.30, 6.90, 'COCINA', 2.6, 'middle', '#3c5a68', 'bold',
             rot=-90)
@@ -472,7 +472,7 @@ def planta_baja():
             rot=-90)
     L.texto('rotulos', 7.95, 1.22, 'VESTÍBULO DE ACCESO', 2.3, 'middle', '#3c5a68',
             'bold')
-    L.texto('rotulos', 2.470, 6.60, 'PARED EN L  ·  4,22 + 0,74  ·  h=1,22  ·  vidrio 1,35',
+    L.texto('rotulos', 2.470, 7.00, 'PARED EN L  ·  3,66 + 0,74  ·  h=1,22  ·  vidrio 1,35',
             2.0, 'middle', '#4a4a4a', rot=-90, dx=6.2)
     nivel(L, 7.95, 0.72, '±0,00')
 
@@ -516,7 +516,7 @@ def planta_baja():
     L.cota_h('cotas', [0.510, 1.290, 1.870], L.py(2.42), 1.8)
     L.cota_h('cotas', [0.250, 2.470], L.py(8.62), 1.9)
     L.cota_h('cotas', [2.470, 5.410, 6.060, 8.811], L.py(7.02), 1.9)
-    L.cota_v('cotas', [1.561, 4.188, 4.788, 9.008], L.px(1.32), 1.9)
+    L.cota_v('cotas', [1.561, 4.750, 5.350, 9.008], L.px(0.66), 1.9)
     L.cota_h('cotas', [7.400, 7.770, 8.470, 9.890], L.py(7.55), 1.8)
     L.cota_v('cotas', [7.730, 9.008], L.px(9.75), 1.8)
     L.cota_v('cotas', [5.858, 9.008], L.px(5.72), 1.9)

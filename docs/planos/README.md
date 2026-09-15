@@ -56,6 +56,8 @@ Sobre el PDF anotado a mano por el cliente se aplicaron:
 
 ## Revision del 15 set. 2026 sobre el segundo croquis
 
+(Superada en parte por la revision de la tarde, mas abajo.)
+
 - **Pared en L de 4,22** (antes 3,60) y 1,22 de alto; paso de personal de
   0,60; la barra queda en 2,63 (medida 2,80). P1b pasa a dibujarse como viga:
   si fuera macizo la cocina no tendria entrada.
@@ -77,6 +79,39 @@ Sobre el PDF anotado a mano por el cliente se aplicaron:
   acero como mesada en la pared en L. En la barra, dos vitrinas con lavavasos
   y barriles debajo, barra de madera con tablet y chopera, y en la trasbarra
   cafetera, lavamanos, hielera con licuadora y exprimidor.
+
+## Revision del 15 set. 2026 (tarde) sobre el tercer croquis
+
+Croquis `Planos_Ya.pdf` con las medidas en rojo de planta baja, mas la foto
+de referencia de la mesa refrigerada (METRO GCF3100BS, 179,5 x 70 x 85).
+
+- **Pared en L de 3,66 + doblez de 0,74** (antes 4,22): termina en y=5,35.
+  La barra sube hasta 4,75 (3,19 de mostrador) y entre ambas queda el paso de
+  personal de 0,60. Cocina entre x 0,25..2,37 e y 5,45..9,01.
+- **Mesas** separadas del ventanal (0,52 libres junto al vidrio) y de la
+  barra (1,13); 32 plazas. Luces replanteadas otra vez sobre las mesas.
+- **Cocina.** Campana de 2,00 x 1,20 corrida sobre K1 a K4 (induccion,
+  cocedor de pasta, freidora y plancha) en la medianera Norte. Se quita la
+  cortadora de fiambre, que no se habia pedido. K10 y K11 pasan a ser UNA sola
+  mesa refrigerada de acero, la mas larga que lista makro.es (Infrico 4
+  puertas, 2,54 x 0,60 x 0,85; ninguna ficha pasa de 2,545); quedan 0,42
+  libres junto al doblez. La tabla sobre el lavavajillas se dibuja maciza.
+  Los dos armarios frigorificos pasan a inox (Edenox APS-451 I, 0,626 x
+  0,74): en makro.es no hay armario refrigerado inox de puerta ciega mas
+  estrecho, asi que el fregadero baja a 0,60 (Distform gama 600) para que
+  los cinco modulos del muro Oeste sumen 3,01 en los 3,05 que hay hasta P1.
+  Pasillo de cocina de 0,78 (frente a los frigorificos) a 0,92.
+- **Medidas verificadas** con un segundo pase de agentes sobre el buscador de
+  makro.es (la web devuelve 403 a servidores, tambien con Playwright): se
+  corrigio el alto del lavavajillas (0,863) y se descarto el AR400L por ser
+  lacado blanco. Sin dato en ficha: alto de la columna de cerveza (Makro no
+  lista columna de 2 grifos; se deja la de 3 con bandeja 40 x 40).
+- **`LISTA_MAKRO.md`**: lista de compra con enlace a cada ficha, medidas y
+  sitio en el plano, generada por `lista_makro.py` a partir de
+  `equipamiento.py`. Incluye alternativas (mesa Vaiotec de 2,23 x 0,70, METRO
+  GCC3100, frigorifico Diamond, AR400L, fregadero 70 x 70).
+- **`makro_fichas.py`**: script para descargar las fichas desde un ordenador
+  con conexion normal (Playwright) y devolver `makro_fichas.json`.
 
 ## Comprobar en obra
 
@@ -102,23 +137,28 @@ unicamente las dos laminas de estructura.
 - `build_planos.py` — montaje de las dos laminas de estructura.
 - `equipamiento.py` — anchos y fondos de los muebles y aparatos.
 - `build_equipamiento.py` — lamina 03 a 1:25 y union de los PDF.
+- `lista_makro.py` — genera `LISTA_MAKRO.md` (lista de compra con enlaces).
+- `makro_fichas.py` — descarga las fichas de Makro desde un PC normal.
 
 ## Equipamiento (lamina 03)
 
 Dos detalles a 1:25 en la misma hoja, cada uno con su origen de obra y
-recortado a su caja de papel.
+recortado a su caja de papel. Cada aparato es un producto real de makro.es
+(`equipamiento.py`, enlaces en `LISTA_MAKRO.md`); las dos vitrinas y la
+cafetera ya estan compradas y llevan las medidas del cliente.
 
-- **Barra.** Trasbarra contra el muro Oeste, 2,75 m de mueble corrido bajo
-  una sola encimera: modulo tecnico de 0,60 bajo la cafetera, lavavajillas,
-  fregadero, frigorifico bajo mostrador y cajonera. Encima, cafetera de 2
-  grupos, fregadero pequeno, exprimidor y tirador de cerveza. En el
-  mostrador delantero, vitrina expositora, caja y mostrador de servicio.
-  Paso de servicio de 1,02 m.
-- **Cocina.** Linea de coccion completa contra el muro Oeste bajo la campana
-  (fuegos, cocedor de pasta, plancha y freidora). Fregadero en la medianera
-  Norte. Lavavajillas, horno, mesa refrigerada y apoyo contra la pared en L,
-  con encimera corrida de acero inoxidable. Pasillo de trabajo de 0,92 m.
-
-Los anchos son de serie de hosteleria, no medidos sobre aparato: el cuadro
-de equipamiento al pie de la lamina esta para sustituirlos por los del
-equipo que se acabe eligiendo.
+- **Cocina.** Linea de coccion en la medianera Norte sobre una bancada a
+  medida de 2,12 x 0,60, bajo la campana corrida de 2,00 x 1,20: placa de
+  induccion, cocedor de pasta, freidora y plancha (K1 a K4). Muro Oeste de
+  Norte a Sur: horno de conveccion, lavavajillas bajo una tabla de madera que
+  enlaza con el fregadero, fregadero y dos armarios frigorificos verticales
+  inox hasta P1 (3,01 en 3,05). Pared en L: mesa refrigerada de una sola
+  pieza de 2,54 x 0,60 usada como mesada, con 0,42 libres junto al doblez.
+  Pasillo de 0,78 a 0,92; entrada de 1,18 bajo la viga P1b.
+- **Barra.** Trasbarra de 2,75 contra el muro Oeste bajo una unica encimera:
+  cafetera de 1,20 x 0,60 sobre el modulo tecnico de 0,60 (Norte), lavamanos,
+  hielera con la licuadora encima y exprimidor (Sur). Mostrador delantero de
+  3,19 en la linea de la pared en L: dos vitrinas de 1,00 x 0,70 con el motor
+  de 0,30 x 0,30 abajo a la izquierda, lavavasos bajo la vitrina junto a P2 y
+  barriles bajo la otra; barra de madera de 1,19 con la tablet al Norte y la
+  columna de cerveza al Sur; tabla de P2 al muro. Paso de servicio de 1,02.

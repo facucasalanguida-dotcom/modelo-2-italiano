@@ -22,9 +22,10 @@ SEP = 0.050
 # (rotulo, tipo, x0, y0, x1, y1, sillas)   sillas: cadena con N S E W
 MESAS_PB = [
     # fila del ventanal sur
-    ('M1', 'cuadruple', 3.700, 2.050, 4.900, 2.750, 'NS'),
-    ('M2', 'cuadruple', 5.400, 2.050, 6.600, 2.750, 'NS'),
-    ('M3', 'doble',     9.050, 2.100, 9.750, 2.800, 'NS'),
+    # despegadas del ventanal (croquis del 15/09): 0,52 libres junto al vidrio
+    ('M1', 'cuadruple', 3.700, 2.550, 4.900, 3.250, 'NS'),
+    ('M2', 'cuadruple', 5.400, 2.550, 6.600, 3.250, 'NS'),
+    ('M3', 'doble',     9.050, 2.350, 9.750, 3.050, 'NS'),
     # fila central bajo el forjado
     ('M4', 'cuadruple', 3.550, 5.300, 4.750, 6.000, 'NS'),
     ('M5', 'cuadruple', 6.300, 5.300, 7.500, 6.000, 'NS'),
@@ -51,17 +52,18 @@ def _centro(m):
     return ((m[2] + m[4]) / 2, (m[3] + m[5]) / 2)
 
 COLGANTES_PB = [_centro(m) for m in MESAS_PB] + [
-    (2.750, 2.000), (2.750, 2.850), (2.750, 3.850),      # barra, lado cliente
+    (2.750, 2.100), (2.750, 3.100), (2.750, 4.100),      # barra, lado cliente
     (7.300, 0.950), (8.900, 0.950),                      # vestibulo
 ]
 EMPOTRADOS_PB = [
     (0.550, 2.500), (0.550, 3.400), (0.550, 4.300),      # trasbarra
-    (0.850, 5.450), (1.750, 5.450), (0.850, 6.650),      # cocina
-    (1.750, 6.650), (1.300, 7.500),
+    (1.050, 5.950), (1.750, 5.950), (0.850, 7.150),      # cocina: el del SO delante
+    (1.750, 7.150), (1.150, 5.250),                      # de los frigorificos (0,74 de
+                                                         # fondo); entrada bajo la viga
     (3.100, 4.450), (4.950, 4.450), (7.000, 4.450),      # pasillo barra-sala
     (8.250, 4.450),
     (3.100, 6.900), (5.450, 6.900), (8.050, 6.950),      # pasillo del sillon
-    (5.700, 3.500), (7.600, 2.600),                      # sala sur
+    (4.400, 1.950), (7.200, 2.100), (7.700, 3.550),      # sala sur y paso del ventanal
     (8.600, 8.400),                                      # bano
     (9.350, 6.500),                                      # escalera
 ]

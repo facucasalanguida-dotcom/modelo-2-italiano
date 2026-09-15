@@ -43,11 +43,12 @@ def rotulo(L, x0, y0, x1, y1, titulo, sub):
 
 
 def caja(L, x0, y0, x1, y1, tag, relleno='#ffffff', color=APARATO, capa='aparatos',
-         rot=0, dash=False, tam=2.4):
-    """Un aparato o mueble como rectangulo con su rotulo centrado."""
+         rot=0, dash=False, tam=2.4, tx=None, ty=None):
+    """Un aparato o mueble como rectangulo con su rotulo centrado (o en tx, ty)."""
     ex = ' stroke-dasharray="1.6 1.0"' if dash else ''
     L.rect(capa, x0, y0, x1, y1, relleno, color, 'medio', ex)
-    L.texto('rotulos', (x0 + x1) / 2, (y0 + y1) / 2, tag, tam, 'middle', color,
+    L.texto('rotulos', (x0 + x1) / 2 if tx is None else tx,
+            (y0 + y1) / 2 if ty is None else ty, tag, tam, 'middle', color,
             'bold', dy=0.8, rot=rot)
 
 
@@ -93,34 +94,48 @@ def detalle_cocina(ox, oy):
     k5 = Q.OESTE[0]; k6 = Q.OESTE[1]; k7 = Q.OESTE[2]
     yt1 = Q.OESTE_Y0 - k5['a']
     yt0 = yt1 - k6['a']
-    L.rect('encimera', Q.OESTE_X0, yt0 - k7['a'], Q.OESTE_X0 + 0.65, yt1, 'none',
-           ENCIMERA, 'corte')
-    L.texto('rotulos', Q.OESTE_X0 + 0.72, (yt0 + yt1) / 2, 'tabla por encima,', 1.7,
-            'start', ENCIMERA, 'bold', dy=-0.4)
-    L.texto('rotulos', Q.OESTE_X0 + 0.72, (yt0 + yt1) / 2, 'lavavajillas debajo', 1.7,
-            'start', ENCIMERA, 'bold', dy=1.9)
+    # la tabla se dibuja maciza: cubre el lavavajillas y enlaza pileta y horno
+    L.rect('encimera', Q.OESTE_X0, yt0, Q.OESTE_X0 + 0.66, yt1, MADERA, '#6b4f2a',
+           'medio')
+    L.rect('encimera', Q.OESTE_X0, yt0 - k7['a'], Q.OESTE_X0 + 0.66, yt1 + k5['a'],
+           'none', '#6b4f2a', 'fino', ' stroke-dasharray="1.6 1.0"')
+    L.texto('rotulos', Q.OESTE_X0 + 0.56, (yt0 + yt1) / 2, 'TABLA', 2.0, 'middle',
+            '#6b4f2a', 'bold', rot=-90, dy=0.7)
+    L.texto('rotulos', Q.OESTE_X0 + 0.72, (yt0 + yt1) / 2, 'K6 debajo', 1.6, 'start',
+            '#6b4f2a', 'bold', dy=0.6)
 
-    # --- pared en L: nevera corrida de acero como mesada
+    # --- pared en L: nevera corrida de acero como mesada, de una sola pieza
     y = Q.ESTE_Y0
     cortes_e = [y]
+    fondo_e = Q.ESTE[0]['f']
     for p in Q.ESTE:
         caja(L, Q.ESTE_X1 - p['f'], y - p['a'], Q.ESTE_X1, y, p['tag'], FRIO,
              '#3d5c6e', rot=-90)
         y -= p['a']; cortes_e.append(y)
-    L.rect('encimera', Q.ESTE_X1 - 0.70, y, Q.ESTE_X1, Q.ESTE_Y0, 'none', ENCIMERA,
+    L.rect('encimera', Q.ESTE_X1 - fondo_e, y, Q.ESTE_X1, Q.ESTE_Y0, 'none', ENCIMERA,
            'corte')
-    L.texto('rotulos', Q.ESTE_X1 - 0.63, 6.55,
-            'NEVERA INOX CORRIDA · MESADA · puertas debajo', 1.8, 'middle',
-            ENCIMERA, 'bold', rot=-90)
-    a5 = Q.ESTE_SOBRE[0]
-    caja(L, Q.ESTE_X1 - 0.60, Q.ESTE_Y0 - 0.66, Q.ESTE_X1 - 0.60 + a5['f'],
-         Q.ESTE_Y0 - 0.66 + a5['a'], a5['tag'], '#ffffff', APARATO, tam=1.8)
+    L.texto('rotulos', Q.ESTE_X1 - fondo_e + 0.07, (y + Q.ESTE_Y0) / 2,
+            f'MESA REFRIGERADA DE UNA PIEZA  {_fmt(Q.ESTE_Y0 - y)} × {_fmt(fondo_e)}  ·  '
+            'MESADA · puertas debajo', 1.7, 'middle', ENCIMERA, 'bold', rot=-90)
+    # hueco libre entre la mesada y el doblez de la pared en L
+    L.texto('rotulos', Q.ESTE_X1 - fondo_e / 2, (y + c['y0']) / 2,
+            f'libre {_fmt(Q.LIBRE_ESTE)}', 1.5, 'middle', ENCIMERA, rot=-90, dy=0.5)
 
-    # --- pasillo y entrada
-    L.linea('cotas', 0.901, 6.30, Q.ESTE_X1 - 0.70, 6.30, COTA_COL, 'cota')
-    L.texto('rotulos', 1.30, 6.30, f'PASILLO  {_fmt(Q.PASILLO_COCINA_MIN)} – {_fmt(Q.PASILLO_COCINA)}',
+    # --- pasillo (acotado en el punto mas estrecho: frente a los frigorificos)
+    #     y entrada
+    y_p = 6.20
+    yy = Q.OESTE_Y0
+    fondo_o = Q.OESTE[0]['f']
+    for p in Q.OESTE:
+        if yy - p['a'] <= y_p <= yy:
+            fondo_o = p['f']
+        yy -= p['a']
+    L.linea('cotas', Q.OESTE_X0 + fondo_o, y_p, Q.ESTE_X1 - fondo_e, y_p, COTA_COL,
+            'cota')
+    L.texto('rotulos', (Q.OESTE_X0 + fondo_o + Q.ESTE_X1 - fondo_e) / 2, y_p,
+            f'PASILLO  {_fmt(Q.PASILLO_COCINA_MIN)} – {_fmt(Q.PASILLO_COCINA)}',
             2.0, 'middle', COTA_COL, 'bold', dy=-1.4)
-    L.texto('rotulos', 1.14, 4.83, 'ENTRADA  1,18', 1.9, 'middle', COTA_COL, 'bold',
+    L.texto('rotulos', 1.36, 5.42, 'ENTRADA  1,18', 1.9, 'middle', COTA_COL, 'bold',
             dy=0.7)
 
     # --- cotas
@@ -141,7 +156,7 @@ def detalle_barra(ox, oy):
         L.capa(c)
     b = Q.BARRA
     rotulo(L, b['x0'], b['y0'], b['x1'], b['y1'], 'BARRA',
-           'trasbarra 2,75 · mostrador 2,63 (medido 2,80)')
+           'trasbarra 2,75 · mostrador 3,19 hasta el paso de 0,60')
     muros(L); pared_l(L); pilares(L, solo=('P1', 'P2')); viga(L); ventanal_sur(L)
 
     # --- trasbarra: un mueble corrido bajo una sola encimera
@@ -152,8 +167,11 @@ def detalle_barra(ox, oy):
     y = ty1
     cortes_t = [y]
     for p in Q.TRASBARRA:
-        caja(L, tx0, y - p['a'], tx0 + p['f'], y, p['tag'], rot=-90,
-             dash=(p['tag'] == 'A3'))
+        if p['tag'] == 'A3':          # la licuadora va encima: rotulo en la franja Norte
+            caja(L, tx0, y - p['a'], tx0 + p['f'], y, p['tag'], dash=True, tam=2.0,
+                 tx=tx0 + p['f'] / 2, ty=y - 0.075)
+        else:
+            caja(L, tx0, y - p['a'], tx0 + p['f'], y, p['tag'], rot=-90)
         y -= p['a']; cortes_t.append(y)
     # modulo tecnico bajo la cafetera y licuadora sobre la hielera
     L.rect('muebles', tx0, ty1 - Q.MODULO_TECNICO, tx1, ty1, 'none', ENCIMERA,
@@ -175,7 +193,7 @@ def detalle_barra(ox, oy):
     cortes_m = [y]
     for p in Q.VITRINAS:
         caja(L, mx0, y, mx0 + v['fondo_cristal'], y + p['a'], p['tag'], FRIO,
-             '#3d5c6e', rot=-90)
+             '#3d5c6e', tam=2.2, tx=mx0 + 0.20, ty=y + 0.16)
         # motor abajo, a la izquierda (Sur) del lado de cliente
         mw, md = v['motor']
         L.rect('aparatos', mx0 + v['fondo_cristal'] - md, y, mx0 + v['fondo_cristal'],
@@ -188,15 +206,16 @@ def detalle_barra(ox, oy):
     caja(L, mx0 + 0.05, my0 + 0.34, mx0 + 0.05 + lv['f'], my0 + 0.34 + lv['a'],
          lv['tag'], '#ffffff', APARATO, dash=True, tam=1.8, rot=-90)
     for k in range(2):
-        cy = my0 + 1.000 + 0.34 + 0.17 + k * 0.34
+        cy = my0 + 1.000 + 0.31 + 0.16 + k * 0.34
         L.circulo('aparatos', mx0 + 0.30, cy, 0.16, 'none', APARATO, 'fino',
                   ' stroke-dasharray="1.2 0.9"')
-    L.texto('rotulos', mx0 + 0.30, my0 + 1.000 + 0.34 + 0.34, 'B2', 1.8, 'middle',
+    L.texto('rotulos', mx0 + 0.30, my0 + 1.000 + 0.31 + 0.16, 'B2', 1.8, 'middle',
             APARATO, 'bold', dy=0.6)
     bm = Q.BARRA_MADERA
     L.rect('muebles', mx0, bm['y0'], mx1, bm['y1'], MADERA, '#6b4f2a', 'medio')
-    L.texto('rotulos', mx1 + 0.12, (bm['y0'] + bm['y1']) / 2, 'BARRA DE MADERA  0,63',
-            1.8, 'middle', '#6b4f2a', 'bold', rot=-90)
+    L.texto('rotulos', mx0 + 0.05, (bm['y0'] + bm['y1']) / 2,
+            f"BARRA DE MADERA  {_fmt(bm['y1'] - bm['y0'])}", 1.7, 'middle', '#6b4f2a',
+            'bold', rot=-90, dy=0.6)
     ch = Q.CHOPERA; tb = Q.TABLET
     caja(L, mx0 + 0.10, bm['y0'] + 0.03, mx0 + 0.10 + ch['f'], bm['y0'] + 0.03 + ch['a'],
          'B4', tam=1.8)
@@ -228,7 +247,7 @@ def cuadro_equipos(L, x0=14.0, x1=W - 8.0 - 96.0 - 4.0, y0=235.0):
               TINTA, 'bold', espaciado='0.6')
     L.p_texto('rotulos', x0 + 52, y0 + 5.2,
               'Ancho × fondo × alto en metros, de la ficha de makro.es. Vitrinas y '
-              'cafetera ya compradas. Cortadora, tablet y barriles con medida promedio.',
+              'cafetera ya compradas. Tablet y barriles con medida promedio. Enlaces en LISTA_MAKRO.md.',
               1.9, 'start', '#7a6a4a')
     L.p_linea('rotulos', x0 + 4, y0 + 7.0, x1 - 4, y0 + 7.0, '#cfc6b6', 'cota')
     ncol = 2
@@ -252,7 +271,7 @@ def lamina():
               'cajetin'):
         L.capa(c)
     K = detalle_cocina(ox=24.0, oy=52.0 + 9.008 * ESC25)
-    B = detalle_barra(ox=170.0, oy=52.0 + 4.788 * ESC25)
+    B = detalle_barra(ox=170.0, oy=52.0 + 5.350 * ESC25)
     L.absorber(K, clip=(13.0, 26.0, 142.0, 232.0))
     L.absorber(B, clip=(160.0, 26.0, 292.0, 232.0))
     cuadro_equipos(L)
@@ -263,11 +282,12 @@ def lamina():
            'directo, así que las medidas vienen de su buscador.',
            'Confirmar en la ficha antes de comprar.',
            'Cocción corrida en la medianera Norte bajo campana',
-           'de 2,00; con la pared en L de 4,22 la cocina gana',
-           '0,62 m y la barra los pierde.',
-           'Pasillo de cocina de 0,77 a 0,82: por debajo de 0,90',
-           'con permiso del cliente. El frigorífico K9 topa',
-           'con P1 (ajuste de 4 mm).'],
+           'de 2,00 sobre K1 a K4. Mesada refrigerada de una',
+           'sola pieza (2,54, la más larga de Makro) en la pared',
+           'en L; quedan 0,42 libres. La tabla cubre K6.',
+           f'Pasillo de cocina de {_fmt(Q.PASILLO_COCINA_MIN)} a {_fmt(Q.PASILLO_COCINA)}: por debajo de 0,90',
+           'con permiso del cliente. Muro Oeste: 3,01 de',
+           'aparatos en los 3,05 que hay hasta P1.'],
           [(MUEBLE, TINTA, 'Bancada o mueble bajo'),
            (FRIO, '#3d5c6e', 'Equipo refrigerado'),
            ('none', ENCIMERA, 'Encimera o tabla corrida'),
