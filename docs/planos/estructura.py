@@ -206,11 +206,12 @@ COMPROBAR = [
     'medir. Comprobar que la puerta abre hacia dentro sin chocar.',
     'P3 con las medidas de obra: 3,25 a la medianera Norte, 0,70 a la barandilla '
     'del altillo y 2,35 a la caja de escalera; a la pared en L quedan 3,29 (medido 3,20).',
-    'En planta alta se midió 2,50 de P3 a la escalera (2,35 en baja) y 1,90 al '
-    'tabique del aseo (plano 1,75); del arranque a la fachada 3,30 (plano 3,21).',
+    'Cadena de P3 sin cerrar: 3,20 + 0,65 + 2,35 dejan 0,09 (en plano 3,29). Medir '
+    'ancho total a esa altura (9,64), P3-medianera Este (3,48) y escalera con caja (1,13).',
     'Pasillo de cocina: 0,78 m frente a los frigoríficos (0,74 de fondo) y '
     'hasta 0,92 en el resto. Por debajo de 0,90 con permiso del cliente.',
-    'Tabica de la escalera: 2,56/17 = 0,151 m. Contar los peldaños en obra.',
+    'Escalera: tabica 2,56/17 = 0,151. En planta alta el cliente midió 2,50 de P3 a '
+    'la escalera (2,35 en baja) y 1,90 al tabique del aseo (plano 1,75).',
     'Máquinas: medidas de makro.es. Confirmar que el ST500 (0,83 de alto) cabe bajo el '
     'escurridor de K7 (0,85 total) y el alto de la columna B4 (0,55 estimado).',
 ]

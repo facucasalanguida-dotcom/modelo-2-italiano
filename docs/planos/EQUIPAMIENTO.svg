@@ -14,17 +14,17 @@
   <line x1="0" y1="0" x2="0" y2="1.6" stroke="#ffffff" stroke-width="0.30"/>
 </pattern>
 </defs>
-<defs><clipPath id="clip13_8048"><rect x="13.00" y="26.00" width="129.00" height="206.00"/></clipPath>
-<clipPath id="clip14_1216"><rect x="160.00" y="26.00" width="132.00" height="206.00"/></clipPath></defs>
+<defs><clipPath id="clip13_2912"><rect x="13.00" y="26.00" width="129.00" height="206.00"/></clipPath>
+<clipPath id="clip14_2848"><rect x="160.00" y="26.00" width="132.00" height="206.00"/></clipPath></defs>
 <g id="hoja">
 <rect x="8.000" y="8.000" width="404.000" height="281.000" fill="none" stroke="#111111" stroke-width="0.5"/>
 <rect x="9.200" y="9.200" width="401.600" height="278.600" fill="none" stroke="#111111" stroke-width="0.1"/>
 </g>
 <g id="fondo">
-<g clip-path="url(#clip13_8048)">
+<g clip-path="url(#clip13_2912)">
 <rect x="34.000" y="52.000" width="84.800" height="142.320" fill="#ffffff" stroke="none"/>
 </g>
-<g clip-path="url(#clip14_1216)">
+<g clip-path="url(#clip14_2848)">
 <rect x="180.000" y="52.000" width="88.800" height="151.560" fill="#ffffff" stroke="none"/>
 </g>
 </g>
@@ -32,7 +32,7 @@
 
 </g>
 <g id="muros">
-<g clip-path="url(#clip13_8048)">
+<g clip-path="url(#clip13_2912)">
 <rect x="24.000" y="46.080" width="401.600" height="5.920" fill="#6f6f6f" stroke="#111111" stroke-width="0.5"/>
 <rect x="24.000" y="52.000" width="10.000" height="279.960" fill="#6f6f6f" stroke="#111111" stroke-width="0.5"/>
 <rect x="24.000" y="331.960" width="20.400" height="17.920" fill="#6f6f6f" stroke="#111111" stroke-width="0.5"/>
@@ -42,7 +42,7 @@
 <rect x="118.800" y="52.000" width="4.000" height="146.320" fill="#a8a8a8" stroke="#111111" stroke-width="0.35"/>
 <rect x="93.200" y="194.320" width="29.600" height="4.000" fill="#a8a8a8" stroke="#111111" stroke-width="0.35"/>
 </g>
-<g clip-path="url(#clip14_1216)">
+<g clip-path="url(#clip14_2848)">
 <rect x="170.000" y="-100.240" width="401.600" height="5.920" fill="#6f6f6f" stroke="#111111" stroke-width="0.5"/>
 <rect x="170.000" y="-94.320" width="10.000" height="279.960" fill="#6f6f6f" stroke="#111111" stroke-width="0.5"/>
 <rect x="170.000" y="185.640" width="20.400" height="17.920" fill="#6f6f6f" stroke="#111111" stroke-width="0.5"/>
@@ -54,11 +54,11 @@
 </g>
 </g>
 <g id="pilares">
-<g clip-path="url(#clip13_8048)">
+<g clip-path="url(#clip13_2912)">
 <rect x="34.000" y="198.040" width="12.000" height="23.920" fill="#2b2b2b" stroke="#111111" stroke-width="0.5"/>
 <rect x="34.000" y="198.040" width="12.000" height="23.920" fill="url(#horm)" stroke="none"/>
 </g>
-<g clip-path="url(#clip14_1216)">
+<g clip-path="url(#clip14_2848)">
 <rect x="180.000" y="51.720" width="12.000" height="23.920" fill="#2b2b2b" stroke="#111111" stroke-width="0.5"/>
 <rect x="180.000" y="51.720" width="12.000" height="23.920" fill="url(#horm)" stroke="none"/>
 <rect x="221.600" y="185.560" width="23.200" height="18.000" fill="#2b2b2b" stroke="#111111" stroke-width="0.5"/>
@@ -66,41 +66,41 @@
 </g>
 </g>
 <g id="proyeccion">
-<g clip-path="url(#clip13_8048)">
+<g clip-path="url(#clip13_2912)">
 <rect x="46.000" y="205.000" width="73.200" height="10.000" fill="none" stroke="#6a6a6a" stroke-width="0.18" stroke-dasharray="2.4 1.4"/>
 <rect x="36.400" y="52.000" width="80.000" height="48.000" fill="none" stroke="#4a5a68" stroke-width="0.18" stroke-dasharray="2.4 1.4"/>
 </g>
-<g clip-path="url(#clip14_1216)">
+<g clip-path="url(#clip14_2848)">
 <rect x="192.000" y="58.680" width="73.200" height="10.000" fill="none" stroke="#6a6a6a" stroke-width="0.18" stroke-dasharray="2.4 1.4"/>
 </g>
 </g>
 <g id="carpinteria">
-<g clip-path="url(#clip14_1216)">
+<g clip-path="url(#clip14_2848)">
 <rect x="190.400" y="201.640" width="31.200" height="1.440" fill="#7fb4c9" stroke="#3d6b80" stroke-width="0.18"/>
 <rect x="244.800" y="201.640" width="160.000" height="1.440" fill="#7fb4c9" stroke="#3d6b80" stroke-width="0.18"/>
 <rect x="404.800" y="193.600" width="4.400" height="9.960" fill="#6f6f6f" stroke="#111111" stroke-width="0.35"/>
 </g>
 </g>
 <g id="muebles">
-<g clip-path="url(#clip13_8048)">
+<g clip-path="url(#clip13_2912)">
 <rect x="34.000" y="52.000" width="84.800" height="24.000" fill="#e7dfd2" stroke="#111111" stroke-width="0.25"/>
 </g>
-<g clip-path="url(#clip14_1216)">
+<g clip-path="url(#clip14_2848)">
 <rect x="180.000" y="75.640" width="24.000" height="110.000" fill="#e7dfd2" stroke="#111111" stroke-width="0.25"/>
 <rect x="180.000" y="75.640" width="24.000" height="24.000" fill="none" stroke="#8d7f66" stroke-width="0.18" stroke-dasharray="1.2 0.9"/>
 <rect x="244.800" y="76.000" width="24.000" height="47.560" fill="#c9a674" stroke="#6b4f2a" stroke-width="0.25"/>
 </g>
 </g>
 <g id="encimera">
-<g clip-path="url(#clip13_8048)">
+<g clip-path="url(#clip13_2912)">
 <rect x="94.800" y="92.640" width="24.000" height="101.680" fill="none" stroke="#8d7f66" stroke-width="0.5"/>
 </g>
-<g clip-path="url(#clip14_1216)">
+<g clip-path="url(#clip14_2848)">
 <rect x="180.000" y="123.640" width="24.000" height="51.200" fill="none" stroke="#8d7f66" stroke-width="0.5"/>
 </g>
 </g>
 <g id="aparatos">
-<g clip-path="url(#clip13_8048)">
+<g clip-path="url(#clip13_2912)">
 <rect x="34.000" y="52.000" width="28.000" height="18.200" fill="#ffffff" stroke="#4a5a68" stroke-width="0.25"/>
 <rect x="62.000" y="52.000" width="18.800" height="22.000" fill="#ffffff" stroke="#4a5a68" stroke-width="0.25"/>
 <rect x="80.800" y="52.000" width="10.800" height="18.400" fill="#ffffff" stroke="#4a5a68" stroke-width="0.25"/>
@@ -114,7 +114,7 @@
 <rect x="34.000" y="172.640" width="29.600" height="25.040" fill="#cfe0e8" stroke="#3d5c6e" stroke-width="0.25"/>
 <rect x="94.800" y="92.640" width="24.000" height="101.680" fill="#cfe0e8" stroke="#3d5c6e" stroke-width="0.25"/>
 </g>
-<g clip-path="url(#clip14_1216)">
+<g clip-path="url(#clip14_2848)">
 <rect x="180.000" y="75.640" width="24.000" height="48.000" fill="#ffffff" stroke="#4a5a68" stroke-width="0.25"/>
 <rect x="180.000" y="123.640" width="16.000" height="16.000" fill="#ffffff" stroke="#4a5a68" stroke-width="0.25"/>
 <rect x="180.000" y="139.640" width="18.400" height="16.000" fill="#ffffff" stroke="#4a5a68" stroke-width="0.25" stroke-dasharray="1.6 1.0"/>
@@ -133,7 +133,7 @@
 </g>
 </g>
 <g id="cotas">
-<g clip-path="url(#clip13_8048)">
+<g clip-path="url(#clip13_2912)">
 <line x1="63.600" y1="164.320" x2="94.800" y2="164.320" stroke="#9a2b2b" stroke-width="0.13"/>
 <line x1="34.000" y1="38.500" x2="118.800" y2="38.500" stroke="#9a2b2b" stroke-width="0.13"/>
 <line x1="32.900" y1="39.600" x2="35.100" y2="37.400" stroke="#9a2b2b" stroke-width="0.13"/>
@@ -192,7 +192,7 @@
 <text x="69.600" y="202.320" font-size="1.8" text-anchor="middle" fill="#9a2b2b" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">1,18</text>
 <text x="106.000" y="202.320" font-size="1.8" text-anchor="middle" fill="#9a2b2b" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">0,64</text>
 </g>
-<g clip-path="url(#clip14_1216)">
+<g clip-path="url(#clip14_2848)">
 <line x1="204.000" y1="130.640" x2="244.800" y2="130.640" stroke="#9a2b2b" stroke-width="0.13"/>
 <line x1="173.000" y1="185.640" x2="173.000" y2="75.640" stroke="#9a2b2b" stroke-width="0.13"/>
 <line x1="171.900" y1="186.740" x2="174.100" y2="184.540" stroke="#9a2b2b" stroke-width="0.13"/>
@@ -245,7 +245,7 @@
 </g>
 </g>
 <g id="rotulos">
-<g clip-path="url(#clip13_8048)">
+<g clip-path="url(#clip13_2912)">
 <text x="76.400" y="30.000" font-size="4.0" text-anchor="middle" fill="#111111" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold" letter-spacing="0.8">COCINA</text>
 <text x="76.400" y="34.500" font-size="2.4" text-anchor="middle" fill="#666666" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">2,12 × 3,56 m  ·  entrada bajo la viga P1b</text>
 <text x="40.000" y="211.100" font-size="3.0" text-anchor="middle" fill="#ffffff" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">P1</text>
@@ -269,7 +269,7 @@
 <text x="106.800" y="84.820" font-size="1.5" text-anchor="middle" fill="#8d7f66" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal" transform="rotate(-90 106.800 84.820)">libre 0,42</text>
 <text x="79.200" y="162.920" font-size="2.0" text-anchor="middle" fill="#9a2b2b" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">PASILLO  0,78 – 0,92</text>
 </g>
-<g clip-path="url(#clip14_1216)">
+<g clip-path="url(#clip14_2848)">
 <text x="224.400" y="30.000" font-size="4.0" text-anchor="middle" fill="#111111" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold" letter-spacing="0.8">BARRA</text>
 <text x="224.400" y="34.500" font-size="2.4" text-anchor="middle" fill="#666666" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">trasbarra 2,75 · mostrador 3,19 hasta el paso de 0,60</text>
 <text x="186.000" y="64.780" font-size="3.0" text-anchor="middle" fill="#ffffff" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">P1</text>
