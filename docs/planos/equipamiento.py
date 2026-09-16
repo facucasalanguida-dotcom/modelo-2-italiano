@@ -76,11 +76,13 @@ TABLA_OESTE = ('K6',)                    # modulos cubiertos por la tabla
 # --- Pared en L: nevera corrida de acero inoxidable usada como mesada,
 #     con las puertas debajo. UNA sola mesa refrigerada, la mas larga que
 #     lista makro.es (ninguna pasa de 2,545) para los 2,96 m que hay entre
-#     la bancada de coccion y el doblez de la pared en L; quedan 0,42 libres
-#     junto al doblez. Foto de referencia del cliente: METRO GCF3100BS
+#     la bancada de coccion y el doblez de la pared en L. Va pegada al
+#     doblez (base de la L, extremo Sur) y los 0,42 libres quedan junto a la
+#     bancada de coccion. Foto de referencia del cliente: METRO GCF3100BS
 #     179,5 x 70 x 85, 3 puertas (esa es de congelacion).
 ESTE_X1 = 2.370
-ESTE_Y0 = 8.408
+ESTE_LARGO = 2.542                         # largo de la mesa (ficha)
+ESTE_Y0 = COCINA['y0'] + ESTE_LARGO        # 7,992: borde Norte de la mesa
 ESTE = [
     P('K10', 'Mesa refrigerada Infrico 4 puertas, AISI-304, peto 100 mm, -2/+8 ºC, 530 L',
       2.542, 0.600, 0.850, '764bc52f-1287-4e08-89dc-c2e453dfea49'),
@@ -159,7 +161,7 @@ ANCHO_COCINA = COCINA['x1'] - COCINA['x0']                          # 2,12
 PASILLO_COCINA_MIN = ANCHO_COCINA - max(_F) - ESTE[0]['f']         # 0,78
 PASILLO_COCINA = ANCHO_COCINA - 0.600 - ESTE[0]['f']               # 0,92 frente al fregadero
 PASILLO_BARRA  = MOSTRADOR_X[0] - TRASBARRA_X[1]                   # 1,02
-LIBRE_ESTE = (ESTE_Y0 - sum(p['a'] for p in ESTE)) - COCINA['y0']   # 0,42
+LIBRE_ESTE = BANCADA_COCCION['y0'] - ESTE_Y0                         # 0,42 junto a la coccion
 LARGO_OESTE = OESTE_Y0 - 5.357                                      # 3,051 hasta P1
 SUMA_OESTE = sum(p['a'] for p in OESTE)                             # 3,007
 

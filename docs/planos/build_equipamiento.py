@@ -119,8 +119,8 @@ def detalle_cocina(ox, oy):
     L.texto('rotulos', Q.ESTE_X1 - fondo_e + 0.07, (y + Q.ESTE_Y0) / 2,
             f'MESA REFRIGERADA DE UNA PIEZA  {_fmt(Q.ESTE_Y0 - y)} × {_fmt(fondo_e)}  ·  '
             'MESADA · puertas debajo', 1.7, 'middle', ENCIMERA, 'bold', rot=-90)
-    # hueco libre entre la mesada y el doblez de la pared en L
-    L.texto('rotulos', Q.ESTE_X1 - fondo_e / 2, (y + c['y0']) / 2,
+    # hueco libre entre la mesada y la bancada de coccion
+    L.texto('rotulos', Q.ESTE_X1 - fondo_e / 2, (Q.ESTE_Y0 + Q.BANCADA_COCCION['y0']) / 2,
             f'libre {_fmt(Q.LIBRE_ESTE)}', 1.5, 'middle', ENCIMERA, rot=-90, dy=0.5)
 
     # --- pasillo (acotado en el punto mas estrecho: frente a los frigorificos)
@@ -143,8 +143,8 @@ def detalle_cocina(ox, oy):
     # --- cotas
     L.cota_h('cotas', cortes + [c['x1']], L.py(c['y1']) - 13.5, 1.8, ext_desde=c['y1'])
     L.cota_v('cotas', cortes_o, L.px(c['x0']) - 7.0, 1.8, ext_desde=c['x0'])
-    L.cota_v('cotas', cortes_e + [c['y0']], L.px(c['x1']) + 7.0, 1.8,
-             ext_desde=c['x1'])
+    L.cota_v('cotas', [Q.BANCADA_COCCION['y0']] + cortes_e + [c['y0']],
+             L.px(c['x1']) + 7.0, 1.8, ext_desde=c['x1'])
     L.cota_h('cotas', [c['x0'], 0.550, 1.730, c['x1']], L.py(c['y0']) + 9.0, 1.8,
              ext_desde=c['y0'])
     return L
@@ -285,8 +285,9 @@ def lamina():
            'Confirmar en la ficha antes de comprar.',
            'Cocción corrida en la medianera Norte bajo campana',
            'de 2,00 sobre K1 a K4. Mesada refrigerada de una',
-           'sola pieza (2,54, la más larga de Makro) en la pared',
-           'en L; quedan 0,42 libres. La tabla cubre K6.',
+           'sola pieza (2,54, la más larga de Makro) pegada al',
+           'doblez de la L; 0,42 libres junto a la cocción.',
+           'La tabla cubre K6.',
            f'Pasillo de cocina de {_fmt(Q.PASILLO_COCINA_MIN)} a {_fmt(Q.PASILLO_COCINA)}: por debajo de 0,90',
            'con permiso del cliente. Muro Oeste: 3,01 de',
            'aparatos en los 3,05 que hay hasta P1.'],

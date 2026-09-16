@@ -25,7 +25,7 @@ UBICACION = {
     'K7': 'Cocina · muro Oeste, al Sur de la tabla (0,60 para que entren K8 y K9)',
     'K8': 'Cocina · muro Oeste, vertical, al Sur del fregadero',
     'K9': 'Cocina · muro Oeste, vertical, contra P1',
-    'K10': 'Cocina · pared en L, de una pieza, como mesada; 0,42 libres junto al doblez',
+    'K10': 'Cocina · pared en L, de una pieza, pegada al doblez; 0,42 libres junto a la cocción',
     'A1': 'Barra · trasbarra, extremo Norte, sobre el módulo técnico T1',
     'A2': 'Barra · trasbarra, al Sur de la cafetera',
     'A3': 'Barra · trasbarra, bajo la encimera, al Sur del lavamanos',
@@ -70,8 +70,8 @@ TITULOS_MAKRO = {
 
 # Donde iria cada alternativa, por identificador de ficha
 UBICACION_ALT = {
-    '230e627d-7291-43e0-a2b4-ebbf6e783f27': 'Cocina · pared en L, en lugar de K10; fondo 0,70 como la foto; 0,73 libres',
-    '176b30f1-81b0-4a52-916e-80722d9a9240': 'Cocina · pared en L, en lugar de K10; deja 1,16 libres',
+    '230e627d-7291-43e0-a2b4-ebbf6e783f27': 'Cocina · pared en L, en lugar de K10, pegada al doblez; fondo 0,70; 0,73 libres',
+    '176b30f1-81b0-4a52-916e-80722d9a9240': 'Cocina · pared en L, en lugar de K10, pegada al doblez; deja 1,16 libres',
     '8969b667-b5cb-4e83-b599-3dd45c112547': 'Cocina · muro Oeste, en lugar de K8 y K9; misma huella que el Edenox',
     'd48c3c0c-7975-4c22-89c7-64676c23681f': 'Cocina · muro Oeste, en lugar de K8 y K9; con éste cabe el fregadero de 0,70',
     '987fd316-3c44-48e2-a628-d88809ed245c': 'Cocina · muro Oeste, en lugar de K7; sólo con los frigoríficos AR400L',

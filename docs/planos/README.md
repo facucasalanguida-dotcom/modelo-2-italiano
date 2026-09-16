@@ -94,8 +94,8 @@ de referencia de la mesa refrigerada (METRO GCF3100BS, 179,5 x 70 x 85).
   cocedor de pasta, freidora y plancha) en la medianera Norte. Se quita la
   cortadora de fiambre, que no se habia pedido. K10 y K11 pasan a ser UNA sola
   mesa refrigerada de acero, la mas larga que lista makro.es (Infrico 4
-  puertas, 2,54 x 0,60 x 0,85; ninguna ficha pasa de 2,545); quedan 0,42
-  libres junto al doblez. La tabla sobre el lavavajillas se dibuja maciza.
+  puertas, 2,54 x 0,60 x 0,85; ninguna ficha pasa de 2,545), pegada al
+  doblez de la L (16 set.); los 0,42 libres quedan junto a la coccion. La tabla sobre el lavavajillas se dibuja maciza.
   Los dos armarios frigorificos pasan a inox (Edenox APS-451 I, 0,626 x
   0,74): en makro.es no hay armario refrigerado inox de puerta ciega mas
   estrecho, asi que el fregadero baja a 0,60 (Distform gama 600) para que
@@ -187,7 +187,8 @@ cafetera ya estan compradas y llevan las medidas del cliente.
   Norte a Sur: horno de conveccion, lavavajillas bajo una tabla de madera que
   enlaza con el fregadero, fregadero y dos armarios frigorificos verticales
   inox hasta P1 (3,01 en 3,05). Pared en L: mesa refrigerada de una sola
-  pieza de 2,54 x 0,60 usada como mesada, con 0,42 libres junto al doblez.
+  pieza de 2,54 x 0,60 usada como mesada, pegada al doblez, con 0,42 libres
+  junto a la bancada de coccion.
   Pasillo de 0,78 a 0,92; entrada de 1,18 bajo la viga P1b.
 - **Barra.** Trasbarra de 2,75 contra el muro Oeste bajo una unica encimera:
   cafetera de 1,20 x 0,60 sobre el modulo tecnico de 0,60 (Norte), lavamanos,
