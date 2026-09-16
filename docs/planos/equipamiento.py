@@ -53,25 +53,34 @@ CAMPANA = P('KC', 'Campana extractora industrial recta, sin turbina, AISI-304 sa
 CAMPANA_POS = dict(x0=0.310, x1=2.310, y0=9.008 - 1.200, y1=9.008)
 
 # --- Muro Oeste, de Norte a Sur, a partir de la esquina de la coccion.
-#     La tabla cubre el lavavajillas y enlaza la pileta con el horno.
-#     Largo disponible hasta P1: 8,408 - 5,357 = 3,051. Suma: 3,007 (44 mm).
+#     Fregadero con bastidor y hueco de lavavajillas (croquis del cliente,
+#     16/09): cuba a la izquierda mirando al muro, es decir al Sur, y el
+#     escurridor al Norte con el lavavajillas K6 debajo. Ya no hay tabla.
+#     Largo disponible hasta P1: 8,408 - 5,357 = 3,051. Suma: 3,042 (9 mm).
 #     En makro.es no hay armario refrigerado inox de puerta ciega de menos
-#     de 0,626 de ancho; el fregadero baja a 0,60 para que entren los dos.
+#     de 0,626 de ancho.
+#     La ficha del fregadero no la indexa el buscador de Makro: el enlace
+#     lleva a su categoria y se anota la referencia de la ficha.
 OESTE_X0 = 0.250
 OESTE_Y0 = 8.408
+FREGADERO = P('K7', 'Fregadero con hueco de lavavajillas, cuba izquierda (Ref. AAA0045913963)',
+              1.200, 0.600, 0.850)
+FREGADERO['url'] = 'https://www.makro.es/marketplace/c/fregaderos-con-bastidor'
+FREGADERO['ref'] = 'AAA0045913963'
+FREGADERO['precio'] = '395,00 € (477,95 € IVA incl.)'
+CUBA = dict(largo=0.500, fondo=0.400)    # cuba embutida, medida habitual
+HUECO_LAV = 0.600                        # mitad Norte del fregadero, bajo el escurridor
+LAVAVAJILLAS = P('K6', 'Lavavajillas industrial ST500, cesta 50 × 50, bajo el escurridor de K7',
+                 0.565, 0.651, 0.863, 'b6893f6e-6c55-499e-8e8b-4e246d107961')
 OESTE = [
     P('K5', 'Horno de convección eléctrico industrial, 4 bandejas 45 × 33',
       0.590, 0.595, 0.575, 'e3c35b3b-14d3-4e2b-a109-373a863ddff9'),
-    P('K6', 'Lavavajillas industrial ST500, cesta 50 × 50, bajo la tabla',
-      0.565, 0.651, 0.863, 'b6893f6e-6c55-499e-8e8b-4e246d107961'),
-    P('K7', 'Fregadero industrial Distform gama 600, 1 cubeta 50 × 40, con puerta, peto 105',
-      0.600, 0.600, 0.850, '3efac5b4-e702-4af6-9dd9-533709488190'),
+    FREGADERO,
     P('K8', 'Armario refrigerado vertical Edenox APS-451 I, inox, 1 puerta, 395 L',
       0.626, 0.740, 1.865, '2e636462-1801-45f6-a3d8-15413909cb8c'),
     P('K9', 'Armario refrigerado vertical Edenox APS-451 I, inox, 1 puerta, 395 L',
       0.626, 0.740, 1.865, '2e636462-1801-45f6-a3d8-15413909cb8c'),
 ]
-TABLA_OESTE = ('K6',)                    # modulos cubiertos por la tabla
 
 # --- Pared en L: nevera corrida de acero inoxidable usada como mesada,
 #     con las puertas debajo. UNA sola mesa refrigerada, la mas larga que
@@ -96,12 +105,12 @@ ESTE_ALT = [
       1.795, 0.700, 0.850, '176b30f1-81b0-4a52-916e-80722d9a9240'),
 ]
 OESTE_ALT = [
+    P('K6 alt', 'Lavavajillas Eurast 50 × 50, 575 × 600 × 820: cabe seguro bajo el escurridor',
+      0.575, 0.600, 0.820, '1acedc0e-199c-449c-b390-a8626c771613'),
     P('K8/K9 alt', 'Armario frigorífico ventilado 400 L, acero inoxidable (Diamond)',
       0.626, 0.740, 1.925, '8969b667-b5cb-4e83-b599-3dd45c112547'),
     P('K8/K9 alt', 'Armario refrigerado AR400L Clima Hostelería, lacado blanco (no inox), 360 L',
       0.600, 0.615, 1.870, 'd48c3c0c-7975-4c22-89c7-64676c23681f'),
-    P('K7 alt', 'Fregadero Royal Catering, 1 cubeta 50 × 50, 70 × 70 (alto sin dato en ficha)',
-      0.700, 0.700, 0.850, '987fd316-3c44-48e2-a628-d88809ed245c'),
 ]
 ESTE_SOBRE = []
 
@@ -168,5 +177,6 @@ SUMA_OESTE = sum(p['a'] for p in OESTE)                             # 3,007
 
 def todos():
     """Lista plana de todo lo que hay que comprar, en orden de lamina."""
-    return (COCCION + [CAMPANA] + OESTE + ESTE + ESTE_SOBRE + TRASBARRA +
-            [LICUADORA] + VITRINAS + [LAVAVASOS, BARRILES, TABLET, CHOPERA])
+    return (COCCION + [CAMPANA] + OESTE[:2] + [LAVAVAJILLAS] + OESTE[2:] + ESTE +
+            ESTE_SOBRE + TRASBARRA + [LICUADORA] + VITRINAS +
+            [LAVAVASOS, BARRILES, TABLET, CHOPERA])

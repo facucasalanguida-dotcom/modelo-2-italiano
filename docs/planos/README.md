@@ -145,6 +145,18 @@ de referencia de la mesa refrigerada (METRO GCF3100BS, 179,5 x 70 x 85).
   el mobiliario y vuelven a dibujarse solo los del proyecto de reforma
   original (`EMPOTRADOS` y `COLGANTES` de `estructura.py`, planta baja);
   la planta alta queda sin puntos de luz, como en el original.
+- **Fregadero con hueco de lavavajillas (16 set.)**: K7 pasa a ser el
+  fregadero con bastidor y hueco de lavavajillas, cuba izquierda,
+  1200 x 600 x 850 que eligio el cliente en makro.es (Ref. AAA0045913963,
+  395 EUR mas IVA). Mirando al muro, la cuba queda al Sur y el escurridor al
+  Norte con el lavavajillas K6 debajo; desaparece la tabla de madera. Muro
+  Oeste: 0,59 + 1,20 + 0,63 + 0,63 = 3,04 en 3,05. El buscador de Makro no
+  indexa esa ficha: su enlace lleva a la categoria y se anota la referencia.
+  El ST500 mide 0,83 de alto (la ficha tambien dice 863 mm) frente a los
+  0,85 totales del fregadero: hay que confirmar el hueco libre o regular las
+  patas; como alternativa se lista un Eurast de 575 x 600 x 820.
+  En la barra, la encimera unica va de A2 a A4 (1,28) y se quita el rotulo
+  ENTRADA 1,18 de la cocina (la cota de 1,18 sigue en la cadena inferior).
 - **Lamina 04** (`LISTA_EQUIPAMIENTO`): toda la maquinaria con medidas, sitio
   en el plano y la ficha de makro.es, con los enlaces clicables en el PDF
   (anotaciones anadidas con pymupdf tras exportar el SVG; cairosvg no las
@@ -188,15 +200,16 @@ cafetera ya estan compradas y llevan las medidas del cliente.
 - **Cocina.** Linea de coccion en la medianera Norte sobre una bancada a
   medida de 2,12 x 0,60, bajo la campana corrida de 2,00 x 1,20: placa de
   induccion, cocedor de pasta, freidora y plancha (K1 a K4). Muro Oeste de
-  Norte a Sur: horno de conveccion, lavavajillas bajo una tabla de madera que
-  enlaza con el fregadero, fregadero y dos armarios frigorificos verticales
-  inox hasta P1 (3,01 en 3,05). Pared en L: mesa refrigerada de una sola
+  Norte a Sur: horno de conveccion, fregadero de 1,20 con hueco de
+  lavavajillas (cuba al Sur, escurridor al Norte con el lavavajillas debajo)
+  y dos armarios frigorificos verticales inox hasta P1 (3,04 en 3,05). Pared en L: mesa refrigerada de una sola
   pieza de 2,54 x 0,60 usada como mesada, pegada al doblez, con 0,42 libres
   junto a la bancada de coccion.
   Pasillo de 0,78 a 0,92; entrada de 1,18 bajo la viga P1b.
-- **Barra.** Trasbarra de 2,75 contra el muro Oeste bajo una unica encimera:
-  cafetera de 1,20 x 0,60 sobre el modulo tecnico de 0,60 (Norte), lavamanos,
-  hielera con la licuadora encima y exprimidor (Sur). Mostrador delantero de
+- **Barra.** Trasbarra de 2,75 contra el muro Oeste: cafetera de 1,20 x 0,60
+  sobre el modulo tecnico de 0,60 (Norte) y, bajo una unica encimera de 1,28
+  que va de A2 a A4, lavamanos, hielera con la licuadora encima y exprimidor
+  (Sur). Mostrador delantero de
   3,19 en la linea de la pared en L: dos vitrinas de 1,00 x 0,70 con el motor
   de 0,30 x 0,30 abajo a la izquierda, lavavasos bajo la vitrina junto a P2 y
   barriles bajo la otra; barra de madera de 1,19 con la tablet al Norte y la

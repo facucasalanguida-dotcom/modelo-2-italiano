@@ -207,6 +207,6 @@ COMPROBAR = [
     'Pasillo de cocina: 0,78 m frente a los frigoríficos (0,74 de fondo) y '
     'hasta 0,92 en el resto. Por debajo de 0,90 con permiso del cliente.',
     'Tabica de la escalera: 2,56/17 = 0,151 m. Contar los peldaños en obra.',
-    'Máquinas: medidas de las fichas de makro.es según su buscador (la web '
-    'bloquea el acceso directo). Sin dato: alto de la columna B4, 0,55 estimado.',
+    'Máquinas: medidas de makro.es. Confirmar que el ST500 (0,83 de alto) cabe bajo el '
+    'escurridor de K7 (0,85 total) y el alto de la columna B4 (0,55 estimado).',
 ]

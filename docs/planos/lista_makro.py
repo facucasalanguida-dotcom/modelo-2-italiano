@@ -21,8 +21,8 @@ UBICACION = {
     'K4': 'Cocina · cocción, bajo la campana, 4º, contra la pared en L',
     'KC': 'Cocina · campana mural corrida sobre K1 a K4, borde inferior a +2,00',
     'K5': 'Cocina · muro Oeste, esquina Norte, sobre soporte',
-    'K6': 'Cocina · muro Oeste, bajo la tabla que enlaza fregadero y horno',
-    'K7': 'Cocina · muro Oeste, al Sur de la tabla (0,60 para que entren K8 y K9)',
+    'K6': 'Cocina · muro Oeste, bajo el escurridor del fregadero K7 (hueco de lavavajillas)',
+    'K7': 'Cocina · muro Oeste, entre el horno y los frigoríficos; cuba al Sur, escurridor al Norte',
     'K8': 'Cocina · muro Oeste, vertical, al Sur del fregadero',
     'K9': 'Cocina · muro Oeste, vertical, contra P1',
     'K10': 'Cocina · pared en L, de una pieza, pegada al doblez; 0,42 libres junto a la cocción',
@@ -64,7 +64,8 @@ TITULOS_MAKRO = {
     '176b30f1-81b0-4a52-916e-80722d9a9240': 'METRO Professional Mesa refrigerada GCC3100, Inox, 179.5 x 70 x 85 cm, 334 L, refrigeración por ventilación, 400 W',
     '8969b667-b5cb-4e83-b599-3dd45c112547': 'Armario frigorífico, ventilado, 400 litros. acero inoxidable (626 x 740 x 1925 mm)',
     'd48c3c0c-7975-4c22-89c7-64676c23681f': 'Armario Refrigerado Ar400l Clima Hostelería',
-    '987fd316-3c44-48e2-a628-d88809ed245c': 'Royal Catering Fregadero industrial - 1 cubeta - acero inoxidable - 70 x 70 cm',
+    'fregaderos-con-bastidor': 'Fregadero con bastidor con hueco lavavajillas cuba izquierda 1200x600x850 mm · Ref. AAA0045913963 (ficha no indexada; enlace a la categoría)',
+    '1acedc0e-199c-449c-b390-a8626c771613': 'Lavavajillas industrial 50x50 - 575x600x820 mm - 3500 W 230/1V - 46278719 Eurast',
 }
 
 
@@ -74,7 +75,7 @@ UBICACION_ALT = {
     '176b30f1-81b0-4a52-916e-80722d9a9240': 'Cocina · pared en L, en lugar de K10, pegada al doblez; deja 1,16 libres',
     '8969b667-b5cb-4e83-b599-3dd45c112547': 'Cocina · muro Oeste, en lugar de K8 y K9; misma huella que el Edenox',
     'd48c3c0c-7975-4c22-89c7-64676c23681f': 'Cocina · muro Oeste, en lugar de K8 y K9; con éste cabe el fregadero de 0,70',
-    '987fd316-3c44-48e2-a628-d88809ed245c': 'Cocina · muro Oeste, en lugar de K7; sólo con los frigoríficos AR400L',
+    '1acedc0e-199c-449c-b390-a8626c771613': 'Cocina · en lugar de K6 si el ST500 no entra bajo el escurridor (0,82 de alto)',
 }
 
 
@@ -91,8 +92,7 @@ def fmt(v):
 
 A_MEDIDA = [
     'Bancada de apoyo de la línea de cocción: 2,12 × 0,60, acero inoxidable.',
-    'Tabla de madera sobre el lavavajillas K6, del fregadero al horno: 0,57 × 0,66.',
-    'Encimera única de la trasbarra: 2,75 × 0,60.',
+    'Encimera única de la trasbarra, de A2 a A4: 1,28 × 0,60.',
     'Barra de madera del mostrador delantero: '
     f"{fmt(Q.BARRA_MADERA['y1'] - Q.BARRA_MADERA['y0'])} × 0,60.",
     'Tabla de P2 al muro: 0,78 × 0,45.',
@@ -131,8 +131,10 @@ def main():
                'makro.es devuelve 403 a cualquier petición desde un servidor (curl, Playwright o ',
                'un navegador real en la nube), así que los enlaces no se pueden abrir desde aquí. ',
                'La verificación se hizo buscando cada identificador de ficha con el buscador ',
-               'restringido a makro.es: los 21 devuelven exactamente su URL con este título. ',
-               'Si un enlace fallara al abrirlo, buscar el título en makro.es.', '',
+               'restringido a makro.es: todos los identificadores devuelven exactamente su URL con ',
+               'este título. La ficha del fregadero K7 (Ref. AAA0045913963, elegida por el cliente ',
+               'en el móvil) no la indexa el buscador: su enlace lleva a la categoría y se localiza ',
+               'por la referencia. Si un enlace fallara al abrirlo, buscar el título en makro.es.', '',
                '| Rótulo | Título literal de la ficha en makro.es | Enlace |', '|---|---|---|']
     for p in Q.todos() + Q.ESTE_ALT + Q.OESTE_ALT:
         if p.get('url'):
