@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-MOBILIARIO DE SALA Y PUNTOS DE LUZ — medidas en metros.
+MOBILIARIO DE SALA — medidas en metros.
 
 Mesas con medidas promedio de hosteleria (el cliente no pidio buscarlas):
     doble      0,70 x 0,70   2 comensales
@@ -84,41 +84,6 @@ PASOS_PA = [
     ('v', 5.750, 3.988, 4.788, 5.900, 4.390),    # barandilla Sur - P3
     ('h', 8.150, 7.511, 8.811, 8.160, 8.270),    # desembarco de la escalera
 ]
-
-# ------------------------------------------------------------------ luces
-# Colgantes: uno centrado sobre cada mesa, tres sobre el borde de cliente de
-# la barra y dos en el vestibulo. Empotrados: pasillos, cocina, trasbarra,
-# bano y escalera. Todo replanteado sobre el mobiliario, no sobre el
-# proyecto anterior.
-def _centro(m):
-    return ((m[2] + m[4]) / 2, (m[3] + m[5]) / 2)
-
-# Sin colgantes sobre la barra (retirados a peticion del cliente).
-COLGANTES_PB = [_centro(m) for m in MESAS_PB] + [
-    (7.300, 0.950), (8.900, 0.950),                      # vestibulo
-]
-EMPOTRADOS_PB = [
-    (0.550, 2.500), (0.550, 3.400), (0.550, 4.300),      # trasbarra
-    (1.050, 5.950), (1.750, 5.950), (0.850, 7.150),      # cocina: el del SO delante
-    (1.750, 7.150), (1.150, 5.250),                      # de los frigorificos (0,74 de
-                                                         # fondo); entrada bajo la viga
-    (3.100, 4.450), (4.950, 4.450), (7.000, 4.450),      # pasillo barra-sala
-    (8.300, 4.450),
-    (8.300, 5.500), (8.300, 6.900),                      # paso a la escalera y al bano
-    (3.100, 6.950), (5.450, 6.950),                      # pasillo del sillon
-    (8.300, 2.250), (8.450, 3.600),                      # entrada y pie de la escalera
-    (8.600, 8.400),                                      # bano
-    (9.350, 6.500),                                      # escalera
-]
-APLIQUES_PB = [(9.850, 2.450), (9.850, 3.250)]           # muro este, vestibulo
-
-COLGANTES_PA = [_centro(m) for m in MESAS_PA]
-EMPOTRADOS_PA = [
-    (2.670, 5.000), (2.670, 6.300), (5.000, 4.500), (5.000, 6.900),
-    (8.550, 4.450), (8.400, 6.500), (6.500, 7.050),
-    (3.500, 8.300), (5.000, 8.500), (6.500, 8.300), (8.600, 8.400),
-]
-
 
 def sillas(m):
     """Rectangulos de las sillas de una mesa."""

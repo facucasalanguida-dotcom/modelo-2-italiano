@@ -141,6 +141,10 @@ de referencia de la mesa refrigerada (METRO GCF3100BS, 179,5 x 70 x 85).
   (1,01 de paso al Norte, 0,59 hasta P3, 0,42 hasta la barandilla Oeste).
   Todos los pasos libres se acotan en azul en la lamina 02 (`PASOS_PA` en
   `mobiliario.py`, dibujados por `cotas_paso`). 14 puestos.
+- **Luces (16 set.)**: se retiran todos los puntos de luz replanteados sobre
+  el mobiliario y vuelven a dibujarse solo los del proyecto de reforma
+  original (`EMPOTRADOS` y `COLGANTES` de `estructura.py`, planta baja);
+  la planta alta queda sin puntos de luz, como en el original.
 - **Lamina 04** (`LISTA_EQUIPAMIENTO`): toda la maquinaria con medidas, sitio
   en el plano y la ficha de makro.es, con los enlaces clicables en el PDF
   (anotaciones anadidas con pymupdf tras exportar el SVG; cairosvg no las

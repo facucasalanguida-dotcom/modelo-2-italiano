@@ -417,19 +417,6 @@ def cotas_paso(L, lista, color=ACC):
                 rot=-90 if tipo == 'v' else 0, dy=0.6)
 
 
-def luces_nuevas(L, colgantes, empotrados, apliques=()):
-    for x, y in empotrados:
-        L.circulo('luces', x, y, 0.085, 'none', '#7d7d7d', 'fino')
-        L.linea('luces', x - 0.06, y, x + 0.06, y, '#7d7d7d', 'auxiliar')
-        L.linea('luces', x, y - 0.06, x, y + 0.06, '#7d7d7d', 'auxiliar')
-    for x, y in colgantes:
-        L.circulo('luces', x, y, 0.10, 'none', '#7d7d7d', 'fino')
-        L.circulo('luces', x, y, 0.028, '#7d7d7d', '#7d7d7d', 'auxiliar')
-    for x, y in apliques:
-        L.poly('luces', [(x - 0.08, y - 0.10), (x - 0.08, y + 0.10), (x + 0.06, y)],
-               'none', '#7d7d7d', 'fino')
-
-
 def escalera(L, planta):
     """planta: 'baja' dibuja el tramo con linea de rotura; 'alta' la llegada."""
     x0, x1 = E.ESC_X0, E.ESC_X1
@@ -504,7 +491,7 @@ def planta_baja():
     reservas(L)
     mobiliario(L, MB.MESAS_PB)
     accesibilidad(L)
-    luces_nuevas(L, MB.COLGANTES_PB, MB.EMPOTRADOS_PB, MB.APLIQUES_PB)
+    luces(L)                      # puntos de luz del proyecto original
 
     # contorno interior, para reforzar el recinto
     L.poly('muros', interior_pb(), 'none', TINTA, 'fino')
@@ -575,8 +562,8 @@ def planta_baja():
            'puerta medidos en obra (14 set. 2026), el resto',
            'del levantamiento previo. ±0,00 en el pavimento',
            'de planta baja; sección horizontal a 1,20 m.',
-           'Mesas cuádruples de 1,20 × 0,70 (medida promedio);',
-           'un colgante por mesa y empotrados en los pasos.',
+           'Mesas cuádruples de 1,20 × 0,70 (medida promedio).',
+           'Puntos de luz: los del proyecto de reforma original.',
            'Itinerario accesible de 1,20 desde la puerta a la',
            'barra, al baño y a la plaza PMR de M2, con giros',
            'de Ø 1,50 en la entrada y ante el baño (DB-SUA).',
@@ -592,7 +579,7 @@ def planta_baja():
            ('linea', RESERVA, 'Reserva de espacio del cliente'),
            ('#f4efe6', MOB, 'Mesas y sillas (medidas promedio)'),
            ('linea', ACC, 'Itinerario accesible ≥ 1,20 · giro Ø 1,50'),
-           ('punto', '#7d7d7d', 'Punto de luz: colgante / empotrado')],
+           ('punto', '#7d7d7d', 'Punto de luz s/ proyecto original')],
           ('SUPERFICIES Y ALTURAS',
            [('Planta baja, dentro de muros', f'{E.SUP_PB_UTIL:.2f} m²'.replace('.', ',')),
             ('Zona de doble altura', f'{E.SUP_DOBLE_ALT:.2f} m²'.replace('.', ',')),
@@ -661,7 +648,6 @@ def planta_alta():
     L.poly('muros', interior_pb(), 'none', '#8a8a8a', 'auxiliar')
     mobiliario(L, MB.MESAS_PA)
     cotas_paso(L, MB.PASOS_PA)
-    luces_nuevas(L, MB.COLGANTES_PA, MB.EMPOTRADOS_PA)
 
     # ---- rotulos
     nivel(L, 5.75, 6.55, '+2,56')
@@ -718,15 +704,13 @@ def planta_alta():
            'redonda de Ø 1,20 con 6 sillas. Medidas promedio.',
            'Pasos libres entre mobiliario acotados en azul:',
            '1,01 hacia el aseo y el almacén; 1,30 en el',
-           'desembarco; 0,37 a 0,80 en los accesos a las',
-           'sillas. Un colgante por mesa y empotrados en el resto.'],
+           'desembarco; 0,37 a 0,80 en los accesos a las sillas.'],
           [(POCHE, TINTA, 'Muro de carga / medianera'),
            (POCHE_PIL, TINTA, 'Pilar o machón de hormigón'),
            (POCHE_TAB, TINTA, 'Tabiquería'),
            (VIDRIO, '#3d6b80', 'Barandilla de vidrio'),
            ('#f4efe6', MOB, 'Mesas y sillas (medidas promedio)'),
            ('cota', ACC, 'Paso libre entre mobiliario (m)'),
-           ('punto', '#7d7d7d', 'Punto de luz'),
            ('url(#vacio)', '#b9c6cf', 'Vacío sobre planta baja')],
           ('SUPERFICIES Y ALTURAS',
            [('Forjado de planta alta', f'{E.SUP_FORJADO:.2f} m²'.replace('.', ',')),
