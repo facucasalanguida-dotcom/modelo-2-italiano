@@ -116,6 +116,17 @@ de referencia de la mesa refrigerada (METRO GCF3100BS, 179,5 x 70 x 85).
   junto a M2, con 0,30 entre cantos, para dejar libre el camino de la puerta
   a la escalera (2,29 hasta la medianera). Los dos empotrados de esa zona se
   recolocan en ese camino (x 8,30) y el rotulo DOBLE ALTURA se mueve.
+- **Accesibilidad (16 set.)**: se retiran las dos mesas dobles (la del
+  ventanal junto a la entrada y la de junto a la caja de escalera) para abrir
+  un itinerario accesible de 1,20 (CTE DB-SUA) desde la puerta a la barra, al
+  bano y a una plaza de silla de ruedas entre M1 y M2, con giros de 1,50 en
+  la entrada y ante el bano. La fila del ventanal baja 0,15 (1,26 hasta las
+  sillas de la fila central) y la mesa central Este se corre 0,10 al Oeste
+  (1,36 hasta la caja de escalera). Quedan 28 plazas y las mesas se
+  renumeran M1 a M7. El itinerario, los giros y la plaza PMR se dibujan en la
+  lamina 01 (`ACC_*` en `mobiliario.py`) y se comprueban con un chequeo de
+  holgura de 0,60 a cada lado del trazo. El bano dibujado (2,49 x 1,28) no
+  tiene el giro de 1,50 de un aseo accesible: queda anotado.
 - **Lamina 04** (`LISTA_EQUIPAMIENTO`): toda la maquinaria con medidas, sitio
   en el plano y la ficha de makro.es, con los enlaces clicables en el PDF
   (anotaciones anadidas con pymupdf tras exportar el SVG; cairosvg no las

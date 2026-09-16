@@ -20,23 +20,39 @@ SILLA = 0.420
 SEP = 0.050
 
 # (rotulo, tipo, x0, y0, x1, y1, sillas)   sillas: cadena con N S E W
+#
+# Accesibilidad (CTE DB-SUA): itinerario de 1,20 de ancho libre desde la puerta
+# a la barra, al bano y a una plaza de silla de ruedas, con giros de 1,50 en la
+# entrada y ante el bano. Para conseguirlo se retiran las dos mesas dobles (la
+# del ventanal, junto a la entrada, y la de junto a la caja de escalera), la
+# fila del ventanal baja 0,15 (1,26 entre sus sillas y las de la fila central),
+# la plaza de silla de ruedas va entre M1 y M2 (extremo Oeste de M2) y la mesa
+# central Este se corre 0,10 al Oeste (1,36 hasta la caja de escalera).
 MESAS_PB = [
-    # fila del ventanal sur
-    # despegadas del ventanal (croquis del 15/09): 0,52 libres junto al vidrio
-    ('M1', 'cuadruple', 3.700, 2.550, 4.900, 3.250, 'NS'),
-    ('M2', 'cuadruple', 5.400, 2.550, 6.600, 3.250, 'NS'),
-    # la doble va junto a M2 (0,30 entre cantos): delante del arranque de la
-    # escalera no estorba el paso desde la puerta
-    ('M3', 'doble',     6.900, 2.550, 7.600, 3.250, 'NS'),
-    # fila central bajo el forjado
-    ('M4', 'cuadruple', 3.550, 5.300, 4.750, 6.000, 'NS'),
-    ('M5', 'cuadruple', 6.300, 5.300, 7.500, 6.000, 'NS'),
-    ('M6', 'doble',     7.900, 5.300, 8.600, 6.000, 'NS'),
+    # fila del ventanal sur: 0,37 libres junto al vidrio
+    ('M1', 'cuadruple', 3.700, 2.400, 4.900, 3.100, 'NS'),
+    ('M2', 'cuadruple', 6.100, 2.400, 7.300, 3.100, 'NS'),   # 1,20 entre ambas: plaza PMR
+    # fila central bajo el forjado, a los lados de P3
+    ('M3', 'cuadruple', 3.550, 5.300, 4.750, 6.000, 'NS'),
+    ('M4', 'cuadruple', 6.200, 5.300, 7.400, 6.000, 'NS'),
     # fila del sillon corrido: el sillon es el asiento del lado Norte
-    ('M7', 'cuadruple', 2.850, 7.680, 4.050, 8.380, 'S'),
-    ('M8', 'cuadruple', 4.450, 7.680, 5.650, 8.380, 'S'),
-    ('M9', 'cuadruple', 6.050, 7.680, 7.250, 8.380, 'S'),
+    ('M5', 'cuadruple', 2.850, 7.680, 4.050, 8.380, 'S'),
+    ('M6', 'cuadruple', 4.450, 7.680, 5.650, 8.380, 'S'),
+    ('M7', 'cuadruple', 6.050, 7.680, 7.250, 8.380, 'S'),
 ]
+
+# Itinerario accesible: tramos (metros), espacios de giro de 1,50, plaza de
+# silla de ruedas (extremo Oeste de M2, entre M1 y M2) y anchos que se acotan.
+ACC_ITINERARIO = [
+    [(8.660, 0.550), (8.660, 2.120), (8.030, 3.000), (8.030, 7.100)],   # puerta - bano
+    [(8.030, 4.180), (3.100, 4.180)],                                    # ramal a la barra
+]
+# giros: centro y posicion del rotulo (fuera del trazo del itinerario)
+ACC_GIROS = [((8.660, 2.120), (9.080, 2.360)), ((8.000, 6.980), (8.000, 6.520))]
+ACC_PMR = (4.900, 2.400, 6.100, 3.100)
+# anchos que se acotan: tipo, posicion de la linea, extremos y sitio del texto
+ACC_ANCHOS = [('v', 6.750, 3.570, 4.830, 6.900, 4.560),   # sillas de M2 - sillas de M4
+              ('h', 5.850, 7.400, 8.759, 7.720, 5.960)]   # M4 - caja de escalera
 
 # Planta alta: mesa grande de cowork y dos redondas
 MESAS_PA = [
@@ -63,10 +79,10 @@ EMPOTRADOS_PB = [
     (1.750, 7.150), (1.150, 5.250),                      # de los frigorificos (0,74 de
                                                          # fondo); entrada bajo la viga
     (3.100, 4.450), (4.950, 4.450), (7.000, 4.450),      # pasillo barra-sala
-    (8.250, 4.450),
-    (3.100, 6.900), (5.450, 6.900), (8.050, 6.950),      # pasillo del sillon
-    (4.400, 1.950), (8.300, 2.250), (8.300, 3.450),      # paso del ventanal y camino
-                                                         # puerta - escalera
+    (8.300, 4.450),
+    (8.300, 5.500), (8.300, 6.900),                      # paso a la escalera y al bano
+    (3.100, 6.950), (5.450, 6.950),                      # pasillo del sillon
+    (8.300, 2.250), (8.450, 3.600),                      # entrada y pie de la escalera
     (8.600, 8.400),                                      # bano
     (9.350, 6.500),                                      # escalera
 ]

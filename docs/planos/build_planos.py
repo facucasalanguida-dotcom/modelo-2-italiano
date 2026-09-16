@@ -20,6 +20,7 @@ import mobiliario as MB
 from dibujo import (Lienzo, TRAZO, TINTA, POCHE, POCHE_PIL, POCHE_TAB,
                     VIDRIO, COTA_COL)
 RESERVA = '#7a6a4a'   # reservas de espacio marcadas por el cliente
+ACC = '#2a7f8f'       # itinerario accesible
 MOB = '#8a6f4e'       # mobiliario de sala
 
 AQUI = os.path.dirname(os.path.abspath(__file__))
@@ -377,6 +378,35 @@ def mobiliario(L, mesas):
                 'bold', dy=0.7)
 
 
+def accesibilidad(L):
+    """Itinerario accesible de 1,20, giros de 1,50, plaza PMR y anchos libres."""
+    d = ' stroke-dasharray="3.0 1.2 0.6 1.2"'
+    for tramo in MB.ACC_ITINERARIO:
+        for (xa, ya), (xb, yb) in zip(tramo, tramo[1:]):
+            L.linea('reservas', xa, ya, xb, yb, ACC, 'medio', d)
+    for (x, y), (tx, ty) in MB.ACC_GIROS:
+        L.circulo('reservas', x, y, 0.75, 'none', ACC, 'fino', ' stroke-dasharray="1.6 1.1"')
+        L.texto('rotulos', tx, ty, 'Ø 1,50', 1.8, 'middle', ACC, 'bold', dy=0.6)
+    x0, y0, x1, y1 = MB.ACC_PMR
+    L.rect('reservas', x0, y0, x1, y1, 'none', ACC, 'fino', ' stroke-dasharray="1.6 1.1"')
+    L.texto('rotulos', (x0 + x1) / 2, (y0 + y1) / 2, 'PMR', 1.8, 'middle', ACC, 'bold',
+            dy=0.6)
+    # anchos libres: cota sencilla con el texto fuera del trazo del itinerario
+    for tipo, pos, a, b, tx, ty in MB.ACC_ANCHOS:
+        if tipo == 'v':
+            X = L.px(pos)
+            L.p_linea('cotas', X, L.py(a), X, L.py(b), ACC, 'cota')
+            for y in (a, b):
+                L.p_linea('cotas', X - 1.1, L.py(y) + 1.1, X + 1.1, L.py(y) - 1.1, ACC, 'cota')
+        else:
+            Y = L.py(pos)
+            L.p_linea('cotas', L.px(a), Y, L.px(b), Y, ACC, 'cota')
+            for x in (a, b):
+                L.p_linea('cotas', L.px(x) - 1.1, Y + 1.1, L.px(x) + 1.1, Y - 1.1, ACC, 'cota')
+        L.texto('rotulos', tx, ty, L._fmt(b - a), 1.8, 'middle', ACC, 'bold',
+                rot=-90 if tipo == 'v' else 0, dy=0.6)
+
+
 def luces_nuevas(L, colgantes, empotrados, apliques=()):
     for x, y in empotrados:
         L.circulo('luces', x, y, 0.085, 'none', '#7d7d7d', 'fino')
@@ -463,15 +493,16 @@ def planta_baja():
     escalera(L, 'baja')
     reservas(L)
     mobiliario(L, MB.MESAS_PB)
+    accesibilidad(L)
     luces_nuevas(L, MB.COLGANTES_PB, MB.EMPOTRADOS_PB, MB.APLIQUES_PB)
 
     # contorno interior, para reforzar el recinto
     L.poly('muros', interior_pb(), 'none', TINTA, 'fino')
 
     # ---- rotulos
-    L.texto('rotulos', 6.10, 4.20, 'ZONA CON FORJADO SUPERIOR  ·  suelo a suelo +2,56',
+    L.texto('rotulos', 5.75, 6.70, 'ZONA CON FORJADO SUPERIOR  ·  suelo a suelo +2,56',
             2.2, 'middle', '#4a4a4a', 'bold')
-    L.texto('rotulos', 8.80, 2.70, 'DOBLE ALTURA', 2.6, 'middle', '#3c5a68',
+    L.texto('rotulos', 9.00, 3.25, 'DOBLE ALTURA', 2.6, 'middle', '#3c5a68',
             'bold')
     L.texto('rotulos', 1.30, 6.90, 'COCINA', 2.6, 'middle', '#3c5a68', 'bold',
             rot=-90)
@@ -530,16 +561,16 @@ def planta_baja():
     L.cota_v('cotas', [1.429, 4.729], L.px(10.19), 1.9)
 
     marco(L, 'PLANTA BAJA', '01 / 04', 'Estado actual · estructura',
-          ['Cotas en metros. Las de los pilares, la pared en L,',
-           'el ventanal y la puerta están medidas en obra',
-           '(revisión del 14 set. 2026); el resto procede del',
-           'levantamiento previo.',
-           'Cota de referencia ±0,00 en el pavimento de planta',
-           'baja. Sección horizontal a 1,20 m.',
-           'Mesas con medidas promedio (doble 0,70 × 0,70;',
-           'cuádruple 1,20 × 0,70). Puntos de luz replanteados',
-           'sobre el mobiliario: un colgante por mesa, tres',
-           'sobre la barra y empotrados en pasillos y cocina.',
+          ['Cotas en metros; pilares, pared en L, ventanal y',
+           'puerta medidos en obra (14 set. 2026), el resto',
+           'del levantamiento previo. ±0,00 en el pavimento',
+           'de planta baja; sección horizontal a 1,20 m.',
+           'Mesas cuádruples de 1,20 × 0,70 (medida promedio);',
+           'un colgante por mesa y empotrados en los pasos.',
+           'Itinerario accesible de 1,20 desde la puerta a la',
+           'barra, al baño y a la plaza PMR de M2, con giros',
+           'de Ø 1,50 en la entrada y ante el baño (DB-SUA).',
+           'El baño dibujado no es accesible: no cabe el giro.',
            'Equipamiento de barra y cocina en la lámina 03;',
            'lista de compra con enlaces en la lámina 04.'],
           [(POCHE, TINTA, 'Muro de carga / medianera'),
@@ -550,6 +581,7 @@ def planta_baja():
            ('linea', '#8a8a8a', 'Forjado sobre el corte'),
            ('linea', RESERVA, 'Reserva de espacio del cliente'),
            ('#f4efe6', MOB, 'Mesas y sillas (medidas promedio)'),
+           ('linea', ACC, 'Itinerario accesible ≥ 1,20 · giro Ø 1,50'),
            ('punto', '#7d7d7d', 'Punto de luz: colgante / empotrado')],
           ('SUPERFICIES Y ALTURAS',
            [('Planta baja, dentro de muros', f'{E.SUP_PB_UTIL:.2f} m²'.replace('.', ',')),
