@@ -43,14 +43,14 @@ Mismas fuentes y mismas reservas que la tabla anterior.
 | K10 | METRO Professional GCC3100, inox, 3 puertas, 334 L (la de la foto, refrigerada) | 1,79 × 0,70 × 0,85 | Cocina · pared en L, en lugar de K10, pegada al doblez; deja 1,16 libres | [makro.es](https://www.makro.es/marketplace/product/176b30f1-81b0-4a52-916e-80722d9a9240) |
 | K6 | Lavavajillas Eurast 50 × 50, 575 × 600 × 820: cabe seguro bajo el escurridor | 0,57 × 0,60 × 0,82 | Cocina · en lugar de K6 si el ST500 no entra bajo el escurridor (0,82 de alto) | [makro.es](https://www.makro.es/marketplace/product/1acedc0e-199c-449c-b390-a8626c771613) |
 | K8/K9 | Armario frigorífico ventilado 400 L, acero inoxidable (Diamond) | 0,63 × 0,74 × 1,93 | Cocina · muro Oeste, en lugar de K8 y K9; misma huella que el Edenox | [makro.es](https://www.makro.es/marketplace/product/8969b667-b5cb-4e83-b599-3dd45c112547) |
-| K8/K9 | Armario refrigerado AR400L Clima Hostelería, lacado blanco (no inox), 360 L | 0,60 × 0,61 × 1,87 | Cocina · muro Oeste, en lugar de K8 y K9; con éste cabe el fregadero de 0,70 | [makro.es](https://www.makro.es/marketplace/product/d48c3c0c-7975-4c22-89c7-64676c23681f) |
+| K8/K9 | Armario refrigerado AR400L Clima Hostelería, lacado blanco (no inox), 360 L | 0,60 × 0,61 × 1,87 | Cocina · muro Oeste, en lugar de K8 y K9 (0,60 de ancho, lacado blanco) | [makro.es](https://www.makro.es/marketplace/product/d48c3c0c-7975-4c22-89c7-64676c23681f) |
 
 ## A medida, no se compran en Makro
 
 - Bancada de apoyo de la línea de cocción: 2,12 × 0,60, acero inoxidable.
 - Encimera única de la trasbarra, de A2 a A4: 1,28 × 0,60.
-- Barra de madera del mostrador delantero: 1,19 × 0,60.
-- Tabla de P2 al muro: 0,78 × 0,45.
+- Barra de madera del mostrador delantero: 1,13 × 0,60.
+- Tabla de P2 al muro: 0,78 × 0,39.
 - Módulo técnico T1 bajo la cafetera: 0,60 de ancho.
 
 ## Enlaces verificados el 15/09/2026

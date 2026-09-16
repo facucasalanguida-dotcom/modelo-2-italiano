@@ -136,9 +136,9 @@ de referencia de la mesa refrigerada (METRO GCF3100BS, 179,5 x 70 x 85).
   escalera y la otra pasa a diametro 1,20 con seis sillas a 60 grados (N, S
   y cuatro a 30 grados del eje Este-Oeste, la orientacion que menos ocupa a
   lo ancho), colocada para que el paso Norte hacia el aseo y el almacen
-  quede en 1,01; a los lados quedan 0,40 hasta P3 y 0,39 hasta la caja de
+  quede en 1,01; a los lados quedan 0,26 hasta P3 y 0,26 hasta la caja de
   escalera (accesos a sillas) y 0,37 de la silla Sur a la barandilla. La mesa de cowork baja 0,20 y se corre 0,10 al Oeste
-  (1,01 de paso al Norte, 0,59 hasta P3, 0,42 hasta la barandilla Oeste).
+  (1,01 de paso al Norte, 0,85 hasta P3, 0,42 hasta la barandilla Oeste).
   Todos los pasos libres se acotan en azul en la lamina 02 (`PASOS_PA` en
   `mobiliario.py`, dibujados por `cotas_paso`). 14 puestos.
 - **Luces (16 set.)**: se retiran todos los puntos de luz replanteados sobre
@@ -159,19 +159,32 @@ de referencia de la mesa refrigerada (METRO GCF3100BS, 179,5 x 70 x 85).
   En la barra, la encimera unica va de A2 a A4 (1,28) y se quita el rotulo
   ENTRADA 1,18 de la cocina (la cota de 1,18 sigue en la cadena inferior).
 - **Pilar P3 (16 set.)**: el cliente marco en su plano corregido 2,35 de la
-  cara Este del pilar a la caja de escalera, 3,25 de la cara Norte a la
-  medianera Norte y 0,70 de la cara Sur a la barandilla del altillo (en el
-  plano habia 2,70, 3,15 y 0,80). P3 pasa a x 5,759..6,409, y 4,688..5,758:
-  0,35 al Este y 0,10 al Sur. De la pared en L quedan 3,29 (el cliente midio
-  3,20; los 0,09 de diferencia se anotan en COMPROBAR junto con el 2,50 que
-  midio en planta alta y el 1,90 hasta el tabique del aseo). Consecuencias:
-  las dos cuadruples de la fila central pasan al Oeste del pilar (al Este ya
-  no cabe mesa mas itinerario de 1,20), la fila del ventanal baja 0,09 para
-  mantener 1,21 entre sus sillas y el pilar, la redonda del altillo se
-  centra entre el pilar y la caja (0,22 a cada lado) y las cadenas de cotas
-  se leen del propio `PILARES`. Verificado con dos agentes: uno mide el
-  levantamiento vectorial y otro lee todas las marcas manuscritas del
-  cliente y las compara con `estructura.py`.
+  cara Este del pilar a la escalera en planta baja (2,50 en el altillo), 3,20
+  desde la linea de la pared en L (medido en el altillo desde el borde del
+  forjado), 3,25 de la cara Norte a la medianera Norte y 0,70 de la cara Sur
+  a la barandilla. Tres agentes auditaron las medidas: uno midio el
+  levantamiento vectorial (da el pilar en 5,62..6,22, a 2,54 de la caja y
+  3,15 de la pared en L: la correccion del 14/09 lo habia movido en sentido
+  contrario, a 5,41), otro leyo todas las anotaciones manuscritas del cliente
+  y el tercero comprobo las 120 cotas de las laminas. Resultado: P3 pasa a
+  x 5,670..6,320, y 4,688..5,758 (3,20 / 3,25 / 0,70), y el cerramiento de
+  la escalera en planta baja se dibuja con su cara Oeste en 8,670, a 2,35 del
+  pilar (`CAJA_ESC_PB`, 0,14 de espesor en plano frente a la barandilla del
+  altillo en 8,759..8,811, a 2,44 del pilar y 2,49 al primer peldaño). Asi
+  cuadran las cuatro medidas del cliente; queda por medir el espesor de ese
+  cerramiento (COMPROBAR 6). Consecuencias: las dos cuadruples de la fila
+  central pasan al Oeste del pilar (al Este ya no cabe mesa mas itinerario de
+  1,20), la fila del ventanal baja 0,09 para mantener 1,21 entre sus sillas y
+  el pilar, la redonda del altillo se centra entre el pilar y la caja (0,26 a
+  cada lado, 0,85 de la mesa de cowork al pilar) y las cadenas de cotas se
+  leen del propio `PILARES`.
+- **Correcciones de la auditoria (16 set.)**: se quita una cota huerfana de
+  3,30 en la medianera Este; el mostrador, la reserva de barra y la tabla de
+  P2 arrancan en la cara interior del vidrio (1,621), asi que el mostrador
+  mide 3,13 y la barra de madera 1,13; notas y comentarios con cifras
+  antiguas (3,01; 0,80; 0,40/0,39/0,59; 1,19) puestas al dia; rotulo de la
+  escalera fuera del bano; cota 3,25 fuera del texto 0,65; cota 0,30 de P1
+  fuera del poche en la lamina 03.
 - **Lamina 04** (`LISTA_EQUIPAMIENTO`): toda la maquinaria con medidas, sitio
   en el plano y la ficha de makro.es, con los enlaces clicables en el PDF
   (anotaciones anadidas con pymupdf tras exportar el SVG; cairosvg no las

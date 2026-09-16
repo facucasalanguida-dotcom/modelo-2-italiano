@@ -46,6 +46,9 @@ ESC_N_HUELLAS, ESC_N_TABICAS = 16, 17
 ESC_HUELLA = (ESC_Y_ALTO - ESC_Y_PIE) / ESC_N_HUELLAS      # 0,2599
 ESC_TABICA = H_PA / ESC_N_TABICAS                          # 0,1506
 ESC_X0, ESC_X1 = 8.811, 9.890                              # ancho 1,079
+# Cerramiento de la escalera en planta baja: su cara Oeste esta a 2,35 de P3
+# (medida del cliente); en el altillo la barandilla queda en 8,759..8,811.
+CAJA_ESC_PB = ('Caja de escalera (planta baja)', 8.670, 3.939, 8.811, 7.738)
 
 # ------------------------------------------------------- contorno del solar
 PERIMETRO = [(0.000, 9.156), (10.040, 9.156), (10.040, 0.330),
@@ -72,14 +75,17 @@ TRASDOSADO = ('Trasdosado Norte', 2.459, 8.907, 9.890, 9.008)
 # Secciones y posiciones MEDIDAS EN OBRA (revision del 14/09). El P2 se
 # completa hasta la linea del ventanal: en obra llega hasta la fachada.
 # P1b es el machon que sube desde P1 hasta el forjado del altillo.
-# P3 (16/09): 0,65 x 1,07, colocado con las medidas del cliente: 3,25 de su
+# P3 (16/09): 0,65 x 1,07, colocado con las medidas del cliente: 3,20 desde
+# la pared en L (medido en el altillo desde el borde del forjado), 3,25 de su
 # cara Norte a la medianera Norte, 0,70 de su cara Sur a la barandilla del
-# altillo (3,988) y 2,35 de su cara Este a la caja de escalera (8,759).
-# Quedan 3,29 hasta la pared en L (el cliente midio 3,20).
+# altillo (3,988). En planta baja midio 2,35 hasta la escalera y en el altillo
+# 2,50: la caja de escalera de planta baja es mas gruesa (cara Oeste en 8,670,
+# ver CAJA_ESC_PB) que la barandilla del altillo (8,759). El levantamiento daba
+# el pilar en 5,62..6,22 y la correccion del 14/09 lo habia llevado a 5,41.
 PILARES = [
     ('P1',  'Machón del muro Oeste',       0.250, 4.759, 0.550, 5.357),
     ('P2',  'Pilastra del muro Sur',       1.290, 1.561, 1.870, 2.011),
-    ('P3',  'Pilar central',               5.759, 4.688, 6.409, 5.758),
+    ('P3',  'Pilar central',               5.670, 4.688, 6.320, 5.758),
     ('P4',  'Machón de la medianera Este', 9.689, 4.708, 9.890, 5.309),
     ('P5',  'Pilar de fachada',            5.731, 0.000, 6.331, 1.000),
 ]
@@ -168,7 +174,7 @@ APLIQUES = [(0.31, 5.75), (0.31, 6.45)]
 # de 0,60 queda entre la barra y el final de la pared en L, y la pared termina
 # en 5,35 con el doblez ahi.
 PASO_PERS  = dict(x=2.470, y0=4.750, y1=5.350, medido=0.600)
-BARRA      = dict(x=2.470, y0=1.561, y1=4.750, largo=4.750 - 1.561)
+BARRA      = dict(x=2.470, y0=1.621, y1=4.750, largo=4.750 - 1.621)   # desde la cara interior del vidrio
 SILLON     = dict(x0=2.470, x1=2.470 + 4.890, y=9.008, fondo=0.600, largo=4.890)
 
 # ------------------------------------------------------ bano de planta baja
@@ -204,14 +210,14 @@ COMPROBAR = [
     'hasta el suelo, la cocina no tendría entrada. Medir su intradós.',
     'Baño nuevo: tabiques de 0,10 y puerta de 0,70 tomados del croquis, sin '
     'medir. Comprobar que la puerta abre hacia dentro sin chocar.',
-    'P3 con las medidas de obra: 3,25 a la medianera Norte, 0,70 a la barandilla '
-    'del altillo y 2,35 a la caja de escalera; a la pared en L quedan 3,29 (medido 3,20).',
-    'Cadena de P3 sin cerrar: 3,20 + 0,65 + 2,35 dejan 0,09 (en plano 3,29). Medir '
-    'ancho total a esa altura (9,64), P3-medianera Este (3,48) y escalera con caja (1,13).',
+    'P3 con las medidas de obra: 3,20 desde la pared en L, 3,25 a la medianera Norte, '
+    '0,70 a la barandilla del altillo y 2,35 a la caja de escalera en planta baja.',
+    'Caja de escalera: en baja su cara Oeste queda a 2,35 de P3 (0,14 de espesor en '
+    'plano) y en alta a 2,44 (2,49 al peldaño, medido 2,50). Medir ese cerramiento.',
     'Pasillo de cocina: 0,78 m frente a los frigoríficos (0,74 de fondo) y '
     'hasta 0,92 en el resto. Por debajo de 0,90 con permiso del cliente.',
-    'Escalera: tabica 2,56/17 = 0,151. En planta alta el cliente midió 2,50 de P3 a '
-    'la escalera (2,35 en baja) y 1,90 al tabique del aseo (plano 1,75).',
-    'Máquinas: medidas de makro.es. Confirmar que el ST500 (0,83 de alto) cabe bajo el '
-    'escurridor de K7 (0,85 total) y el alto de la columna B4 (0,55 estimado).',
+    'Escalera: tabica 2,56/17 = 0,151. El cliente midió 1,90 de P3 al tabique del aseo '
+    '(plano 1,75) y, en baja, 2,94 de la pared en L a P3 (en alta 3,20; plano 3,20).',
+    'Máquinas: medidas de makro.es. Confirmar que el ST500 (0,83 ó 0,86 de alto según '
+    'su ficha) cabe bajo el escurridor de K7 (0,85) y el alto de la columna B4 (0,55).',
 ]

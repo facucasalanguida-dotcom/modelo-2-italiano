@@ -16,7 +16,7 @@ Recintos (plano de estructura revisado el 15/09):
     COCINA   x 0,250 .. 2,370   y 5,450 .. 9,008   muro Oeste, medianera
              Norte y pared en L (3,66 + doblez 0,74); entrada bajo la viga
              P1b, entre P1 y el doblez de la pared en L (1,18).
-    BARRA    x 0,250 .. 2,470   y 1,561 .. 5,350   trasbarra contra el muro
+    BARRA    x 0,250 .. 2,470   y 1,621 .. 5,350   trasbarra contra el muro
              Oeste; mostrador delantero en la linea de la pared en L hasta
              4,75; paso de personal de 0,60 hasta la pared en L.
 """
@@ -25,7 +25,7 @@ MAKRO = 'https://www.makro.es/marketplace/product/'
 
 # ------------------------------------------------------------------ recintos
 COCINA = dict(x0=0.250, x1=2.370, y0=5.450, y1=9.008)
-BARRA  = dict(x0=0.250, x1=2.470, y0=1.561, y1=5.350)
+BARRA  = dict(x0=0.250, x1=2.470, y0=1.621, y1=5.350)
 H_ENCIMERA = 0.900
 H_CAMPANA  = 2.000                       # borde inferior de la campana
 
@@ -135,7 +135,7 @@ MODULO_TECNICO = 0.600                   # bajo la cafetera, extremo Norte
 # --- Mostrador delantero en la linea de la pared en L, del ventanal al paso.
 #     Croquis del 15/09: llega hasta y=4,75, justo antes del paso de 0,60.
 MOSTRADOR_X = (1.870, 2.470)
-MOSTRADOR_Y = (1.561, 4.750)
+MOSTRADOR_Y = (1.621, 4.750)              # desde la cara interior del vidrio
 VITRINA = dict(largo=1.000, fondo_cristal=0.700, hueco_bajo=0.600,
                motor=(0.300, 0.300))    # motor abajo, a la izquierda (Sur)
 VITRINAS = [
@@ -148,11 +148,11 @@ LAVAVASOS = P('B1', 'Lavavasos Elettrobar FAST 40, cesta 40 × 40 (bajo la vitri
               0.440, 0.540, 0.670, 'e858e346-8373-4e64-aa03-6f9a559e168e')
 BARRILES = P('B2', 'Barriles de cerveza de 30 L, Ø 0,32 (bajo la vitrina V1)',
              0.320, 0.320, 0.600)
-BARRA_MADERA = dict(y0=3.561, y1=4.750)   # tabla de madera, 1,19
+BARRA_MADERA = dict(y0=MOSTRADOR_Y[0] + 2.000, y1=4.750)   # tabla de madera, 1,13
 TABLET = P('B3', 'Caja: tablet sobre soporte', 0.250, 0.200, 0.250)
 CHOPERA = P('B4', 'Columna de cerveza en T de 3 grifos, bandeja 40 × 40 (no la hay de 2 en Makro)',
             0.400, 0.400, 0.550, 'f2d9d7ba-6f4f-4feb-b032-641cc4d828fe')
-TABLA_P2 = dict(x0=0.510, x1=1.290, y0=1.561, y1=2.011)   # tabla de P2 al muro
+TABLA_P2 = dict(x0=0.510, x1=1.290, y0=1.621, y1=2.011)   # tabla de P2 al muro
 
 # --------------------------------------------------------------- holguras
 def _oeste_frente_a_mesada():
@@ -172,7 +172,7 @@ PASILLO_COCINA = ANCHO_COCINA - 0.600 - ESTE[0]['f']               # 0,92 frente
 PASILLO_BARRA  = MOSTRADOR_X[0] - TRASBARRA_X[1]                   # 1,02
 LIBRE_ESTE = BANCADA_COCCION['y0'] - ESTE_Y0                         # 0,42 junto a la coccion
 LARGO_OESTE = OESTE_Y0 - 5.357                                      # 3,051 hasta P1
-SUMA_OESTE = sum(p['a'] for p in OESTE)                             # 3,007
+SUMA_OESTE = sum(p['a'] for p in OESTE)                             # 3,042
 
 
 def todos():

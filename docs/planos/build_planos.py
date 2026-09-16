@@ -327,7 +327,8 @@ def reservas(L):
     s = E.SILLON
     L.rect('reservas', s['x0'], s['y'] - s['fondo'], s['x1'], s['y'],
            'none', RESERVA, 'medio', d)
-    L.texto('rotulos', (s['x0'] + s['x1']) / 2, s['y'] - s['fondo'] / 2,
+    # rotulo corrido hacia el Oeste para no cruzar la cota 3,25 de P3 (x=5,60)
+    L.texto('rotulos', s['x0'] + 1.93, s['y'] - s['fondo'] / 2,
             'SILLÓN CORRIDO  ·  4,89  ·  fondo por medir', 2.0, 'middle',
             RESERVA, 'bold', dy=0.8)
 
@@ -489,6 +490,8 @@ def planta_baja():
     escaparate(L)
     escalera(L, 'baja')
     reservas(L)
+    # cerramiento de la escalera en planta baja (cara Oeste a 2,35 de P3)
+    L.rect('tabiques', *E.CAJA_ESC_PB[1:], POCHE_TAB, TINTA, 'tabique')
     mobiliario(L, MB.MESAS_PB)
     accesibilidad(L)
     luces(L)                      # puntos de luz del proyecto original
@@ -497,7 +500,7 @@ def planta_baja():
     L.poly('muros', interior_pb(), 'none', TINTA, 'fino')
 
     # ---- rotulos
-    L.texto('rotulos', 5.75, 6.70, 'ZONA CON FORJADO SUPERIOR  ·  suelo a suelo +2,56',
+    L.texto('rotulos', 4.10, 6.70, 'ZONA CON FORJADO SUPERIOR  ·  suelo a suelo +2,56',
             2.2, 'middle', '#4a4a4a', 'bold')
     L.texto('rotulos', 9.00, 3.25, 'DOBLE ALTURA', 2.6, 'middle', '#3c5a68',
             'bold')
@@ -521,10 +524,10 @@ def planta_baja():
     L.texto('rotulos', 6.97, 0.370, 'ESCAPARATE', 2.1, 'middle', '#26485a', dy=4.6)
     L.texto('rotulos', 8.66, 0.370, 'PUERTA  2,10  ·  barrido 1,00', 2.0,
             'middle', '#26485a', dy=4.6)
-    L.texto('rotulos', 9.35, 7.30,
+    L.texto('rotulos', 9.35, 6.30,
             f'ESCALERA  {E.ESC_N_HUELLAS} huellas × 0,26', 1.95, 'middle', TINTA,
             rot=-90)
-    L.texto('rotulos', 9.35, 7.30,
+    L.texto('rotulos', 9.35, 6.30,
             f'{E.ESC_N_TABICAS} tabicas × {E.ESC_TABICA:.3f}'.replace('.', ','),
             1.95, 'middle', TINTA, rot=-90, dx=3.0)
 
@@ -550,13 +553,12 @@ def planta_baja():
     # cotas interiores medidas en obra
     L.cota_h('cotas', [0.510, 1.290, 1.870], L.py(2.42), 1.8)
     L.cota_h('cotas', [0.250, 2.470], L.py(8.62), 1.9)
-    # cadena de P3: 3,29 a la pared en L y 2,35 a la caja de escalera (obra)
-    L.cota_h('cotas', [2.470, P3[2], P3[4], 8.759, 8.811], L.py(7.02), 1.9)
-    L.cota_v('cotas', [1.561, 4.750, 5.350, 9.008], L.px(0.66), 1.9)
+    # cadena de P3: 3,20 a la pared en L y 2,35 a la caja de escalera (obra)
+    L.cota_h('cotas', [2.470, P3[2], P3[4], E.CAJA_ESC_PB[1], 8.811], L.py(7.02), 1.9)
+    L.cota_v('cotas', [E.BARRA['y0'], 4.750, 5.350, 9.008], L.px(0.66), 1.9)
     L.cota_h('cotas', [7.400, 7.770, 8.470, 9.890], L.py(7.55), 1.8)
-    L.cota_v('cotas', [7.730, 9.008], L.px(9.75), 1.8)
-    L.cota_v('cotas', [P3[5], 9.008], L.px((P3[2] + P3[4]) / 2), 1.9)
-    L.cota_v('cotas', [1.429, 4.729], L.px(10.19), 1.9)
+    L.cota_v('cotas', [7.730, 9.008], L.px(9.83), 1.8)
+    L.cota_v('cotas', [P3[5], 9.008], L.px(P3[2] - 0.07), 1.9)
 
     marco(L, 'PLANTA BAJA', '01 / 04', 'Estado actual · estructura',
           ['Cotas en metros; pilares, pared en L, ventanal y',
@@ -665,7 +667,7 @@ def planta_alta():
     L.texto('rotulos', 5.00, 8.62, 'INODORO', 2.1, 'middle', '#4a4a4a', 'bold')
     L.texto('rotulos', 6.48, 8.30, 'ALMACÉN', 2.4, 'middle', '#4a4a4a', 'bold')
     L.texto('rotulos', 8.60, 8.45, 'PASO', 2.2, 'middle', '#4a4a4a', 'bold')
-    L.texto('rotulos', 6.6, 4.12, 'BARANDILLA  h=1,00', 2.1, 'middle',
+    L.texto('rotulos', 7.0, 4.12, 'BARANDILLA  h=1,00', 2.1, 'middle',
             '#26485a')
     L.texto('rotulos', 2.65, 5.7, 'BARANDILLA DE VIDRIO', 2.0, 'middle', '#26485a',
             rot=-90, dx=2.6)
@@ -705,7 +707,7 @@ def planta_alta():
            'redonda de Ø 1,20 con 6 sillas. Medidas promedio.',
            'Pasos libres entre mobiliario acotados en azul:',
            '1,01 hacia el aseo y el almacén; 1,30 en el',
-           'desembarco; 0,37 a 0,80 en los accesos a las sillas.'],
+           'desembarco; 0,26 a 0,85 en los accesos a las sillas.'],
           [(POCHE, TINTA, 'Muro de carga / medianera'),
            (POCHE_PIL, TINTA, 'Pilar o machón de hormigón'),
            (POCHE_TAB, TINTA, 'Tabiquería'),

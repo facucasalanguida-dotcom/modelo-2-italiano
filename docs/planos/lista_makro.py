@@ -74,7 +74,7 @@ UBICACION_ALT = {
     '230e627d-7291-43e0-a2b4-ebbf6e783f27': 'Cocina · pared en L, en lugar de K10, pegada al doblez; fondo 0,70; 0,73 libres',
     '176b30f1-81b0-4a52-916e-80722d9a9240': 'Cocina · pared en L, en lugar de K10, pegada al doblez; deja 1,16 libres',
     '8969b667-b5cb-4e83-b599-3dd45c112547': 'Cocina · muro Oeste, en lugar de K8 y K9; misma huella que el Edenox',
-    'd48c3c0c-7975-4c22-89c7-64676c23681f': 'Cocina · muro Oeste, en lugar de K8 y K9; con éste cabe el fregadero de 0,70',
+    'd48c3c0c-7975-4c22-89c7-64676c23681f': 'Cocina · muro Oeste, en lugar de K8 y K9 (0,60 de ancho, lacado blanco)',
     '1acedc0e-199c-449c-b390-a8626c771613': 'Cocina · en lugar de K6 si el ST500 no entra bajo el escurridor (0,82 de alto)',
 }
 
@@ -95,7 +95,7 @@ A_MEDIDA = [
     'Encimera única de la trasbarra, de A2 a A4: 1,28 × 0,60.',
     'Barra de madera del mostrador delantero: '
     f"{fmt(Q.BARRA_MADERA['y1'] - Q.BARRA_MADERA['y0'])} × 0,60.",
-    'Tabla de P2 al muro: 0,78 × 0,45.',
+    f"Tabla de P2 al muro: {fmt(Q.TABLA_P2['x1'] - Q.TABLA_P2['x0'])} × {fmt(Q.TABLA_P2['y1'] - Q.TABLA_P2['y0'])}.",
     'Módulo técnico T1 bajo la cafetera: 0,60 de ancho.',
 ]
 

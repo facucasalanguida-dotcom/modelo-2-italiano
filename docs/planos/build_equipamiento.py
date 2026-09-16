@@ -152,7 +152,7 @@ def detalle_cocina(ox, oy):
     L.cota_v('cotas', cortes_o, L.px(c['x0']) - 7.0, 1.8, ext_desde=c['x0'])
     L.cota_v('cotas', [Q.BANCADA_COCCION['y0']] + cortes_e + [c['y0']],
              L.px(c['x1']) + 7.0, 1.8, ext_desde=c['x1'])
-    L.cota_h('cotas', [c['x0'], 0.550, 1.730, c['x1']], L.py(c['y0']) + 9.0, 1.8,
+    L.cota_h('cotas', [c['x0'], 0.550, 1.730, c['x1']], L.py(c['y0']) + 33.0, 1.8,
              ext_desde=c['y0'])
     return L
 
@@ -165,7 +165,7 @@ def detalle_barra(ox, oy):
         L.capa(c)
     b = Q.BARRA
     rotulo(L, b['x0'], b['y0'], b['x1'], b['y1'], 'BARRA',
-           'trasbarra 2,75 · mostrador 3,19 hasta el paso de 0,60')
+           f"trasbarra 2,75 · mostrador {_fmt(Q.MOSTRADOR_Y[1] - Q.MOSTRADOR_Y[0])} hasta el paso de 0,60")
     muros(L); pared_l(L); pilares(L, solo=('P1', 'P2')); viga(L); ventanal_sur(L)
 
     # --- trasbarra: un mueble corrido bajo una sola encimera
@@ -299,7 +299,7 @@ def lamina():
            'doblez de la L; 0,42 libres junto a la cocción.',
            'K6 va bajo el escurridor del fregadero K7.',
            f'Pasillo de cocina de {_fmt(Q.PASILLO_COCINA_MIN)} a {_fmt(Q.PASILLO_COCINA)}: por debajo de 0,90',
-           'con permiso del cliente. Muro Oeste: 3,01 de',
+           'con permiso del cliente. Muro Oeste: 3,04 de',
            'aparatos en los 3,05 que hay hasta P1.'],
           [(MUEBLE, TINTA, 'Bancada o mueble bajo'),
            (FRIO, '#3d5c6e', 'Equipo refrigerado'),

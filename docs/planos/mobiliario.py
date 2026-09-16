@@ -35,8 +35,8 @@ MESAS_PB = [
     ('M2', 'cuadruple', 6.100, 2.310, 7.300, 3.010, 'NS'),   # 1,20 entre ambas: plaza PMR
     # fila central bajo el forjado: las dos al Oeste de P3 (con el pilar a
     # 2,35 de la caja de escalera no cabe mesa mas itinerario de 1,20 al Este)
-    ('M3', 'cuadruple', 2.770, 5.300, 3.970, 6.000, 'NS'),
-    ('M4', 'cuadruple', 4.270, 5.300, 5.470, 6.000, 'NS'),
+    ('M3', 'cuadruple', 2.740, 5.300, 3.940, 6.000, 'NS'),
+    ('M4', 'cuadruple', 4.210, 5.300, 5.410, 6.000, 'NS'),
     # fila del sillon corrido: tres cuadruples, el sillon es el asiento del
     # lado Norte; las de los extremos pegadas a la pared en L (0,03) y al
     # tabique del bano (0,03), la central centrada entre ambas
@@ -48,14 +48,14 @@ MESAS_PB = [
 # Itinerario accesible: tramos (metros), espacios de giro de 1,50, plaza de
 # silla de ruedas (extremo Oeste de M2, entre M1 y M2) y anchos que se acotan.
 ACC_ITINERARIO = [
-    [(8.660, 0.550), (8.660, 2.120), (8.030, 3.000), (8.030, 7.100)],   # puerta - bano
-    [(8.030, 4.080), (3.100, 4.080)],                                    # ramal a la barra
+    [(8.660, 0.550), (8.660, 2.120), (7.950, 3.000), (7.950, 7.100)],   # puerta - bano
+    [(7.950, 4.080), (3.100, 4.080)],                                    # ramal a la barra
 ]
 # giros: centro y posicion del rotulo (fuera del trazo del itinerario)
-ACC_GIROS = [((8.660, 2.120), (9.080, 2.360)), ((8.000, 6.930), (8.000, 6.470))]
+ACC_GIROS = [((8.660, 2.120), (9.080, 2.360)), ((7.915, 6.780), (7.915, 6.320))]
 ACC_PMR = (4.900, 2.310, 6.100, 3.010)
 # anchos que se acotan: tipo, posicion de la linea, extremos y sitio del texto
-ACC_ANCHOS = [('v', 6.300, 3.480, 4.688, 6.450, 4.360)]   # sillas de M2 - pilar P3 (punto mas estrecho)
+ACC_ANCHOS = [('v', 6.250, 3.480, 4.688, 6.400, 4.360)]   # sillas de M2 - pilar P3 (punto mas estrecho)
 
 # Planta alta: mesa grande de cowork y una redonda grande. La redonda que
 # quedaba al desembarco de la escalera se quita; la otra pasa a diametro
@@ -66,23 +66,23 @@ ACC_ANCHOS = [('v', 6.300, 3.480, 4.688, 6.450, 4.360)]   # sillas de M2 - pilar
 # 0,40 hasta P3 y 0,39 hasta la caja de escalera (accesos a sillas, no
 # recorridos), y 0,37 de la silla Sur a la barandilla.
 # La mesa de cowork baja 0,20 y se corre 0,10 al Oeste: 1,01 de paso al
-# Norte y 0,59 hasta P3.
+# Norte y 0,85 hasta P3.
 MESAS_PA = [
     ('C1', 'cowork',  3.350, 4.100, 4.350, 6.500, 'EW4'),
-    ('R1', 'redonda', 6.984, 4.830, 8.184, 6.030, 'NSefgh'),   # centrada entre P3 y la caja
+    ('R1', 'redonda', 6.940, 4.830, 8.140, 6.030, 'NSefgh'),   # centrada entre P3 (6,32) y la caja (8,759)
 ]
 
 # Pasos libres de planta alta que se acotan: tipo, posicion de la linea,
 # extremos y sitio del texto
 PASOS_PA = [
     ('v', 4.100, 6.500, 7.509, 4.250, 7.000),    # sobre la mesa de cowork
-    ('v', 7.584, 6.500, 7.509, 7.734, 7.000),    # sobre la redonda (silla Norte)
-    ('h', 5.300, 4.820, 5.759, 5.290, 5.420),    # sillas Este de C1 - P3
-    ('h', 5.010, 6.409, 6.629, 6.519, 5.130),    # P3 - silla SO de la redonda
-    ('h', 5.870, 8.539, 8.759, 8.649, 5.990),    # silla NE - caja de escalera
-    ('v', 7.584, 3.988, 4.360, 7.734, 4.170),    # silla Sur - barandilla Sur
+    ('v', 7.540, 6.500, 7.509, 7.690, 7.000),    # sobre la redonda (silla Norte)
+    ('h', 5.300, 4.820, 5.670, 5.245, 5.420),    # sillas Este de C1 - P3
+    ('h', 5.010, 6.320, 6.585, 6.452, 5.130),    # P3 - silla SO de la redonda
+    ('h', 5.870, 8.495, 8.759, 8.627, 5.990),    # silla NE - caja de escalera
+    ('v', 7.540, 3.988, 4.360, 7.690, 4.170),    # silla Sur - barandilla Sur
     ('h', 4.600, 2.461, 2.880, 2.670, 4.720),    # barandilla Oeste - sillas de C1
-    ('v', 6.084, 3.988, 4.688, 6.234, 4.340),    # barandilla Sur - P3 (0,70 medido en obra)
+    ('v', 5.995, 3.988, 4.688, 6.145, 4.340),    # barandilla Sur - P3 (0,70 medido en obra)
     ('h', 8.150, 7.511, 8.811, 8.160, 8.270),    # desembarco de la escalera
 ]
 
