@@ -158,6 +158,20 @@ de referencia de la mesa refrigerada (METRO GCF3100BS, 179,5 x 70 x 85).
   patas; como alternativa se lista un Eurast de 575 x 600 x 820.
   En la barra, la encimera unica va de A2 a A4 (1,28) y se quita el rotulo
   ENTRADA 1,18 de la cocina (la cota de 1,18 sigue en la cadena inferior).
+- **Pilar P3 (16 set.)**: el cliente marco en su plano corregido 2,35 de la
+  cara Este del pilar a la caja de escalera, 3,25 de la cara Norte a la
+  medianera Norte y 0,70 de la cara Sur a la barandilla del altillo (en el
+  plano habia 2,70, 3,15 y 0,80). P3 pasa a x 5,759..6,409, y 4,688..5,758:
+  0,35 al Este y 0,10 al Sur. De la pared en L quedan 3,29 (el cliente midio
+  3,20; los 0,09 de diferencia se anotan en COMPROBAR junto con el 2,50 que
+  midio en planta alta y el 1,90 hasta el tabique del aseo). Consecuencias:
+  las dos cuadruples de la fila central pasan al Oeste del pilar (al Este ya
+  no cabe mesa mas itinerario de 1,20), la fila del ventanal baja 0,09 para
+  mantener 1,21 entre sus sillas y el pilar, la redonda del altillo se
+  centra entre el pilar y la caja (0,22 a cada lado) y las cadenas de cotas
+  se leen del propio `PILARES`. Verificado con dos agentes: uno mide el
+  levantamiento vectorial y otro lee todas las marcas manuscritas del
+  cliente y las compara con `estructura.py`.
 - **Lamina 04** (`LISTA_EQUIPAMIENTO`): toda la maquinaria con medidas, sitio
   en el plano y la ficha de makro.es, con los enlaces clicables en el PDF
   (anotaciones anadidas con pymupdf tras exportar el SVG; cairosvg no las

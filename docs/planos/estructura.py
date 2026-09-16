@@ -72,10 +72,14 @@ TRASDOSADO = ('Trasdosado Norte', 2.459, 8.907, 9.890, 9.008)
 # Secciones y posiciones MEDIDAS EN OBRA (revision del 14/09). El P2 se
 # completa hasta la linea del ventanal: en obra llega hasta la fachada.
 # P1b es el machon que sube desde P1 hasta el forjado del altillo.
+# P3 (16/09): 0,65 x 1,07, colocado con las medidas del cliente: 3,25 de su
+# cara Norte a la medianera Norte, 0,70 de su cara Sur a la barandilla del
+# altillo (3,988) y 2,35 de su cara Este a la caja de escalera (8,759).
+# Quedan 3,29 hasta la pared en L (el cliente midio 3,20).
 PILARES = [
     ('P1',  'Machón del muro Oeste',       0.250, 4.759, 0.550, 5.357),
     ('P2',  'Pilastra del muro Sur',       1.290, 1.561, 1.870, 2.011),
-    ('P3',  'Pilar central',               5.410, 4.788, 6.060, 5.858),
+    ('P3',  'Pilar central',               5.759, 4.688, 6.409, 5.758),
     ('P4',  'Machón de la medianera Este', 9.689, 4.708, 9.890, 5.309),
     ('P5',  'Pilar de fachada',            5.731, 0.000, 6.331, 1.000),
 ]
@@ -200,10 +204,10 @@ COMPROBAR = [
     'hasta el suelo, la cocina no tendría entrada. Medir su intradós.',
     'Baño nuevo: tabiques de 0,10 y puerta de 0,70 tomados del croquis, sin '
     'medir. Comprobar que la puerta abre hacia dentro sin chocar.',
-    'Posición de P3: el 3,15 de planta baja y el 1,90 de planta alta se '
-    'llevan 0,15; el 2,94 y el 3,20 se llevan 0,26. Se usa la cadena de PB.',
-    'Del P3 a la escalera se midió 2,35 y en el plano salen 2,75. Los 0,40 '
-    'no cierran contra la medianera Este.',
+    'P3 con las medidas de obra: 3,25 a la medianera Norte, 0,70 a la barandilla '
+    'del altillo y 2,35 a la caja de escalera; a la pared en L quedan 3,29 (medido 3,20).',
+    'En planta alta se midió 2,50 de P3 a la escalera (2,35 en baja) y 1,90 al '
+    'tabique del aseo (plano 1,75); del arranque a la fachada 3,30 (plano 3,21).',
     'Pasillo de cocina: 0,78 m frente a los frigoríficos (0,74 de fondo) y '
     'hasta 0,92 en el resto. Por debajo de 0,90 con permiso del cliente.',
     'Tabica de la escalera: 2,56/17 = 0,151 m. Contar los peldaños en obra.',

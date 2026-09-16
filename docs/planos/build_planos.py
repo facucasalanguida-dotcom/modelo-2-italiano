@@ -19,6 +19,7 @@ import estructura as E
 import mobiliario as MB
 from dibujo import (Lienzo, TRAZO, TINTA, POCHE, POCHE_PIL, POCHE_TAB,
                     VIDRIO, COTA_COL)
+P3 = next(p for p in E.PILARES if p[0] == 'P3')   # (rotulo, nombre, x0, y0, x1, y1)
 RESERVA = '#7a6a4a'   # reservas de espacio marcadas por el cliente
 ACC = '#2a7f8f'       # itinerario accesible
 MOB = '#8a6f4e'       # mobiliario de sala
@@ -318,11 +319,10 @@ def reservas(L):
     p = E.PASO_PERS
     L.linea('reservas', p['x'] - 0.60, p['y0'], p['x'], p['y0'], RESERVA, 'fino', d)
     L.linea('reservas', p['x'] - 0.60, p['y1'], p['x'], p['y1'], RESERVA, 'fino', d)
-    L.texto('rotulos', 2.95, (p['y0'] + p['y1']) / 2,
-            f"PASO {p['medido']:.2f}".replace('.', ','), 2.0, 'middle', RESERVA,
-            'bold', dy=0.8)
-    L.linea('reservas', p['x'], (p['y0'] + p['y1']) / 2, 2.66,
-            (p['y0'] + p['y1']) / 2, RESERVA, 'auxiliar')
+    # rotulo entre el final de la barra (4,75) y la viga P1b (4,933)
+    L.texto('rotulos', p['x'] - 0.30, p['y0'] + 0.09,
+            f"PASO {p['medido']:.2f}".replace('.', ','), 1.6, 'middle', RESERVA,
+            'bold', dy=0.6)
 
     s = E.SILLON
     L.rect('reservas', s['x0'], s['y'] - s['fondo'], s['x1'], s['y'],
@@ -535,7 +535,7 @@ def planta_baja():
     L.cota_h('cotas', [0.0, 10.040], ys + 8.0, 2.4)
 
     yn = L.py(9.156) - 8.0
-    L.cota_h('cotas', [0.0, 0.250, 2.370, 2.470, 5.410, 6.060, 7.400, 8.811,
+    L.cota_h('cotas', [0.0, 0.250, 2.370, 2.470, P3[2], P3[4], 7.400, 8.811,
                        9.890, 10.040], yn, 1.9, ext_desde=9.156)
 
     xw = L.px(0.0) - 9.0
@@ -544,17 +544,18 @@ def planta_baja():
     L.cota_v('cotas', [0.0, 9.156], xw - 8.0)
 
     xe = L.px(10.040) + 9.0
-    L.cota_v('cotas', [0.370, 1.429, 3.579, 3.939, 4.788, 5.858, 7.738, 9.156],
+    L.cota_v('cotas', [0.370, 1.429, 3.579, 3.939, P3[3], P3[5], 7.738, 9.156],
              xe, 1.9, ext_desde=10.040)
 
     # cotas interiores medidas en obra
     L.cota_h('cotas', [0.510, 1.290, 1.870], L.py(2.42), 1.8)
     L.cota_h('cotas', [0.250, 2.470], L.py(8.62), 1.9)
-    L.cota_h('cotas', [2.470, 5.410, 6.060, 8.811], L.py(7.02), 1.9)
+    # cadena de P3: 3,29 a la pared en L y 2,35 a la caja de escalera (obra)
+    L.cota_h('cotas', [2.470, P3[2], P3[4], 8.759, 8.811], L.py(7.02), 1.9)
     L.cota_v('cotas', [1.561, 4.750, 5.350, 9.008], L.px(0.66), 1.9)
     L.cota_h('cotas', [7.400, 7.770, 8.470, 9.890], L.py(7.55), 1.8)
     L.cota_v('cotas', [7.730, 9.008], L.px(9.75), 1.8)
-    L.cota_v('cotas', [5.858, 9.008], L.px(5.72), 1.9)
+    L.cota_v('cotas', [P3[5], 9.008], L.px((P3[2] + P3[4]) / 2), 1.9)
     L.cota_v('cotas', [1.429, 4.729], L.px(10.19), 1.9)
 
     marco(L, 'PLANTA BAJA', '01 / 04', 'Estado actual · estructura',
@@ -690,7 +691,7 @@ def planta_alta():
     L.cota_v('cotas', [0.0, 9.156], xw - 8.0)
 
     xe = L.px(10.040) + 9.0
-    L.cota_v('cotas', [3.939, 4.788, 5.309, 5.858, 7.738, 8.072, 8.208, 9.156],
+    L.cota_v('cotas', [3.939, P3[3], 5.309, P3[5], 7.738, 8.072, 8.208, 9.156],
              xe, 1.9, ext_desde=10.040)
 
     L.cota_v('cotas', [7.509, 9.008], L.px(2.72), 1.9)
