@@ -35,10 +35,12 @@ MESAS_PB = [
     # fila central bajo el forjado, a los lados de P3
     ('M3', 'cuadruple', 3.550, 5.300, 4.750, 6.000, 'NS'),
     ('M4', 'cuadruple', 6.200, 5.300, 7.400, 6.000, 'NS'),
-    # fila del sillon corrido: el sillon es el asiento del lado Norte
+    # fila del sillon corrido: el sillon es el asiento del lado Norte; en el
+    # centro, dos mesas de dos (0,20 entre cantos) en vez de una cuadruple
     ('M5', 'cuadruple', 2.850, 7.680, 4.050, 8.380, 'S'),
-    ('M6', 'cuadruple', 4.450, 7.680, 5.650, 8.380, 'S'),
-    ('M7', 'cuadruple', 6.050, 7.680, 7.250, 8.380, 'S'),
+    ('M6', 'doble',     4.250, 7.680, 4.950, 8.380, 'S'),
+    ('M7', 'doble',     5.150, 7.680, 5.850, 8.380, 'S'),
+    ('M8', 'cuadruple', 6.050, 7.680, 7.250, 8.380, 'S'),
 ]
 
 # Itinerario accesible: tramos (metros), espacios de giro de 1,50, plaza de
@@ -132,6 +134,7 @@ def sillas(m):
     return out
 
 
-PLAZAS_PB = sum(len(sillas(m)) + (2 if m[1] == 'cuadruple' and m[6] == 'S' else 0)
+# contra el sillon, el propio sillon aporta los asientos del lado Norte
+PLAZAS_PB = sum(len(sillas(m)) + ((2 if m[1] == 'cuadruple' else 1) if m[6] == 'S' else 0)
                 for m in MESAS_PB)
 PLAZAS_PA = sum(len(sillas(m)) for m in MESAS_PA)

@@ -127,6 +127,9 @@ de referencia de la mesa refrigerada (METRO GCF3100BS, 179,5 x 70 x 85).
   lamina 01 (`ACC_*` en `mobiliario.py`) y se comprueban con un chequeo de
   holgura de 0,60 a cada lado del trazo. El bano dibujado (2,49 x 1,28) no
   tiene el giro de 1,50 de un aseo accesible: queda anotado.
+- **Sillon corrido (16 set.)**: la mesa cuadruple del centro pasa a ser dos
+  mesas de dos (0,70 x 0,70, 0,20 entre cantos), con una silla al Sur y el
+  sillon como asiento Norte. Siguen siendo 28 plazas; mesas M1 a M8.
 - **Lamina 04** (`LISTA_EQUIPAMIENTO`): toda la maquinaria con medidas, sitio
   en el plano y la ficha de makro.es, con los enlaces clicables en el PDF
   (anotaciones anadidas con pymupdf tras exportar el SVG; cairosvg no las

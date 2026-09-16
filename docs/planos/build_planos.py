@@ -565,7 +565,7 @@ def planta_baja():
            'puerta medidos en obra (14 set. 2026), el resto',
            'del levantamiento previo. ±0,00 en el pavimento',
            'de planta baja; sección horizontal a 1,20 m.',
-           'Mesas cuádruples de 1,20 × 0,70 (medida promedio);',
+           'Mesas de 1,20 × 0,70 y 0,70 × 0,70 (medida promedio);',
            'un colgante por mesa y empotrados en los pasos.',
            'Itinerario accesible de 1,20 desde la puerta a la',
            'barra, al baño y a la plaza PMR de M2, con giros',

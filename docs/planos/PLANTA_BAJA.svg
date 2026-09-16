@@ -138,9 +138,10 @@
 <rect x="119.000" y="68.400" width="24.000" height="14.000" fill="#f4efe6" stroke="#8a6f4e" stroke-width="0.25"/>
 <rect x="120.800" y="83.400" width="8.400" height="8.400" fill="none" stroke="#8a6f4e" stroke-width="0.18" rx="0.6"/>
 <rect x="132.800" y="83.400" width="8.400" height="8.400" fill="none" stroke="#8a6f4e" stroke-width="0.18" rx="0.6"/>
-<rect x="151.000" y="68.400" width="24.000" height="14.000" fill="#f4efe6" stroke="#8a6f4e" stroke-width="0.25"/>
-<rect x="152.800" y="83.400" width="8.400" height="8.400" fill="none" stroke="#8a6f4e" stroke-width="0.18" rx="0.6"/>
-<rect x="164.800" y="83.400" width="8.400" height="8.400" fill="none" stroke="#8a6f4e" stroke-width="0.18" rx="0.6"/>
+<rect x="147.000" y="68.400" width="14.000" height="14.000" fill="#f4efe6" stroke="#8a6f4e" stroke-width="0.25"/>
+<rect x="149.800" y="83.400" width="8.400" height="8.400" fill="none" stroke="#8a6f4e" stroke-width="0.18" rx="0.6"/>
+<rect x="165.000" y="68.400" width="14.000" height="14.000" fill="#f4efe6" stroke="#8a6f4e" stroke-width="0.25"/>
+<rect x="167.800" y="83.400" width="8.400" height="8.400" fill="none" stroke="#8a6f4e" stroke-width="0.18" rx="0.6"/>
 <rect x="183.000" y="68.400" width="24.000" height="14.000" fill="#f4efe6" stroke="#8a6f4e" stroke-width="0.25"/>
 <rect x="184.800" y="83.400" width="8.400" height="8.400" fill="none" stroke="#8a6f4e" stroke-width="0.18" rx="0.6"/>
 <rect x="196.800" y="83.400" width="8.400" height="8.400" fill="none" stroke="#8a6f4e" stroke-width="0.18" rx="0.6"/>
@@ -216,8 +217,10 @@
 <circle cx="198.000" cy="123.000" r="0.560" fill="#7d7d7d" stroke="#7d7d7d" stroke-width="0.1"/>
 <circle cx="131.000" cy="75.400" r="2.000" fill="none" stroke="#7d7d7d" stroke-width="0.18"/>
 <circle cx="131.000" cy="75.400" r="0.560" fill="#7d7d7d" stroke="#7d7d7d" stroke-width="0.1"/>
-<circle cx="163.000" cy="75.400" r="2.000" fill="none" stroke="#7d7d7d" stroke-width="0.18"/>
-<circle cx="163.000" cy="75.400" r="0.560" fill="#7d7d7d" stroke="#7d7d7d" stroke-width="0.1"/>
+<circle cx="154.000" cy="75.400" r="2.000" fill="none" stroke="#7d7d7d" stroke-width="0.18"/>
+<circle cx="154.000" cy="75.400" r="0.560" fill="#7d7d7d" stroke="#7d7d7d" stroke-width="0.1"/>
+<circle cx="172.000" cy="75.400" r="2.000" fill="none" stroke="#7d7d7d" stroke-width="0.18"/>
+<circle cx="172.000" cy="75.400" r="0.560" fill="#7d7d7d" stroke="#7d7d7d" stroke-width="0.1"/>
 <circle cx="195.000" cy="75.400" r="2.000" fill="none" stroke="#7d7d7d" stroke-width="0.18"/>
 <circle cx="195.000" cy="75.400" r="0.560" fill="#7d7d7d" stroke="#7d7d7d" stroke-width="0.1"/>
 <circle cx="117.000" cy="194.000" r="2.000" fill="none" stroke="#7d7d7d" stroke-width="0.18"/>
@@ -417,8 +420,9 @@
 <text x="145.000" y="123.700" font-size="2.0" text-anchor="middle" fill="#8a6f4e" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">M3</text>
 <text x="198.000" y="123.700" font-size="2.0" text-anchor="middle" fill="#8a6f4e" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">M4</text>
 <text x="131.000" y="76.100" font-size="2.0" text-anchor="middle" fill="#8a6f4e" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">M5</text>
-<text x="163.000" y="76.100" font-size="2.0" text-anchor="middle" fill="#8a6f4e" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">M6</text>
-<text x="195.000" y="76.100" font-size="2.0" text-anchor="middle" fill="#8a6f4e" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">M7</text>
+<text x="154.000" y="76.100" font-size="2.0" text-anchor="middle" fill="#8a6f4e" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">M6</text>
+<text x="172.000" y="76.100" font-size="2.0" text-anchor="middle" fill="#8a6f4e" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">M7</text>
+<text x="195.000" y="76.100" font-size="2.0" text-anchor="middle" fill="#8a6f4e" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">M8</text>
 <text x="243.600" y="189.400" font-size="1.8" text-anchor="middle" fill="#2a7f8f" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">Ø 1,50</text>
 <text x="222.000" y="106.200" font-size="1.8" text-anchor="middle" fill="#2a7f8f" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">Ø 1,50</text>
 <text x="172.000" y="181.600" font-size="1.8" text-anchor="middle" fill="#2a7f8f" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">PMR</text>
@@ -512,7 +516,7 @@
 <text x="321.000" y="207.200" font-size="2.3" text-anchor="start" fill="#333333" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">puerta medidos en obra (14 set. 2026), el resto</text>
 <text x="321.000" y="211.000" font-size="2.3" text-anchor="start" fill="#333333" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">del levantamiento previo. ±0,00 en el pavimento</text>
 <text x="321.000" y="214.800" font-size="2.3" text-anchor="start" fill="#333333" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">de planta baja; sección horizontal a 1,20 m.</text>
-<text x="321.000" y="218.600" font-size="2.3" text-anchor="start" fill="#333333" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Mesas cuádruples de 1,20 × 0,70 (medida promedio);</text>
+<text x="321.000" y="218.600" font-size="2.3" text-anchor="start" fill="#333333" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Mesas de 1,20 × 0,70 y 0,70 × 0,70 (medida promedio);</text>
 <text x="321.000" y="222.400" font-size="2.3" text-anchor="start" fill="#333333" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">un colgante por mesa y empotrados en los pasos.</text>
 <text x="321.000" y="226.200" font-size="2.3" text-anchor="start" fill="#333333" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Itinerario accesible de 1,20 desde la puerta a la</text>
 <text x="321.000" y="230.000" font-size="2.3" text-anchor="start" fill="#333333" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">barra, al baño y a la plaza PMR de M2, con giros</text>
