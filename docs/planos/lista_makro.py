@@ -64,7 +64,7 @@ TITULOS_MAKRO = {
     '176b30f1-81b0-4a52-916e-80722d9a9240': 'METRO Professional Mesa refrigerada GCC3100, Inox, 179.5 x 70 x 85 cm, 334 L, refrigeración por ventilación, 400 W',
     '8969b667-b5cb-4e83-b599-3dd45c112547': 'Armario frigorífico, ventilado, 400 litros. acero inoxidable (626 x 740 x 1925 mm)',
     'd48c3c0c-7975-4c22-89c7-64676c23681f': 'Armario Refrigerado Ar400l Clima Hostelería',
-    'fregaderos-con-bastidor': 'Fregadero con bastidor con hueco lavavajillas cuba izquierda 1200x600x850 mm · Ref. AAA0045913963 (ficha no indexada; enlace a la categoría)',
+    'c0cd57f0-35a2-485a-98f4-5dffc628d84e': 'Fregadero con bastidor con hueco lavavajillas cuba izquierda 1200x600x850 mm · Ref. AAA0045913963 (ficha facilitada por el cliente)',
     '1acedc0e-199c-449c-b390-a8626c771613': 'Lavavajillas industrial 50x50 - 575x600x820 mm - 3500 W 230/1V - 46278719 Eurast',
 }
 
@@ -132,9 +132,9 @@ def main():
                'un navegador real en la nube), así que los enlaces no se pueden abrir desde aquí. ',
                'La verificación se hizo buscando cada identificador de ficha con el buscador ',
                'restringido a makro.es: todos los identificadores devuelven exactamente su URL con ',
-               'este título. La ficha del fregadero K7 (Ref. AAA0045913963, elegida por el cliente ',
-               'en el móvil) no la indexa el buscador: su enlace lleva a la categoría y se localiza ',
-               'por la referencia. Si un enlace fallara al abrirlo, buscar el título en makro.es.', '',
+               'este título, salvo la ficha del fregadero K7 (Ref. AAA0045913963), que el buscador no ',
+               'indexa y cuyo enlace facilitó el propio cliente desde la web de Makro. Si un enlace ',
+               'fallara al abrirlo, buscar el título en makro.es.', '',
                '| Rótulo | Título literal de la ficha en makro.es | Enlace |', '|---|---|---|']
     for p in Q.todos() + Q.ESTE_ALT + Q.OESTE_ALT:
         if p.get('url'):

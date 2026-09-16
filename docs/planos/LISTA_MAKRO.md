@@ -15,7 +15,7 @@ enlaces clicables.
 | K4 | Plancha eléctrica Cleiton 50 cm, placa de 8 mm, sobremesa | 0,55 × 0,50 × 0,33 | Cocina · cocción, bajo la campana, 4º, contra la pared en L | [makro.es](https://www.makro.es/marketplace/product/acd212b2-73a4-42bc-bea7-329d5ab4771d) |
 | KC | Campana extractora industrial recta, sin turbina, AISI-304 satinado, 2 × 1,2 m | 2,00 × 1,20 × 0,50 | Cocina · campana mural corrida sobre K1 a K4, borde inferior a +2,00 | [makro.es](https://www.makro.es/marketplace/product/a8240770-cb5f-491b-926d-83b1e1e00a22) |
 | K5 | Horno de convección eléctrico industrial, 4 bandejas 45 × 33 | 0,59 × 0,59 × 0,57 | Cocina · muro Oeste, esquina Norte, sobre soporte | [makro.es](https://www.makro.es/marketplace/product/e3c35b3b-14d3-4e2b-a109-373a863ddff9) |
-| K7 | Fregadero con hueco de lavavajillas, cuba izquierda (Ref. AAA0045913963) | 1,20 × 0,60 × 0,85 | Cocina · muro Oeste, entre el horno y los frigoríficos; cuba al Sur, escurridor al Norte | [makro.es](https://www.makro.es/marketplace/c/fregaderos-con-bastidor) |
+| K7 | Fregadero con bastidor con hueco lavavajillas, cuba izquierda, 1200 × 600 | 1,20 × 0,60 × 0,85 | Cocina · muro Oeste, entre el horno y los frigoríficos; cuba al Sur, escurridor al Norte | [makro.es](https://www.makro.es/marketplace/product/c0cd57f0-35a2-485a-98f4-5dffc628d84e) |
 | K6 | Lavavajillas industrial ST500, cesta 50 × 50, bajo el escurridor de K7 | 0,56 × 0,65 × 0,86 | Cocina · muro Oeste, bajo el escurridor del fregadero K7 (hueco de lavavajillas) | [makro.es](https://www.makro.es/marketplace/product/b6893f6e-6c55-499e-8e8b-4e246d107961) |
 | K8 | Armario refrigerado vertical Edenox APS-451 I, inox, 1 puerta, 395 L | 0,63 × 0,74 × 1,86 | Cocina · muro Oeste, vertical, al Sur del fregadero | [makro.es](https://www.makro.es/marketplace/product/2e636462-1801-45f6-a3d8-15413909cb8c) |
 | K9 | Armario refrigerado vertical Edenox APS-451 I, inox, 1 puerta, 395 L | 0,63 × 0,74 × 1,86 | Cocina · muro Oeste, vertical, contra P1 | [makro.es](https://www.makro.es/marketplace/product/2e636462-1801-45f6-a3d8-15413909cb8c) |
@@ -59,9 +59,9 @@ makro.es devuelve 403 a cualquier petición desde un servidor (curl, Playwright 
 un navegador real en la nube), así que los enlaces no se pueden abrir desde aquí. 
 La verificación se hizo buscando cada identificador de ficha con el buscador 
 restringido a makro.es: todos los identificadores devuelven exactamente su URL con 
-este título. La ficha del fregadero K7 (Ref. AAA0045913963, elegida por el cliente 
-en el móvil) no la indexa el buscador: su enlace lleva a la categoría y se localiza 
-por la referencia. Si un enlace fallara al abrirlo, buscar el título en makro.es.
+este título, salvo la ficha del fregadero K7 (Ref. AAA0045913963), que el buscador no 
+indexa y cuyo enlace facilitó el propio cliente desde la web de Makro. Si un enlace 
+fallara al abrirlo, buscar el título en makro.es.
 
 | Rótulo | Título literal de la ficha en makro.es | Enlace |
 |---|---|---|
@@ -71,7 +71,7 @@ por la referencia. Si un enlace fallara al abrirlo, buscar el título en makro.e
 | K4 | Cleiton® Plancha Industrial de Acero Inoxidable Eléctrica 50 cm Sobremesa Top, placa de 8 mm | https://www.makro.es/marketplace/product/acd212b2-73a4-42bc-bea7-329d5ab4771d |
 | KC | Campana Extractora Industrial Recta Sin Turbina 2000x1200x500 Acabado satinado | https://www.makro.es/marketplace/product/a8240770-cb5f-491b-926d-83b1e1e00a22 |
 | K5 | Horno industrial de conveccion electrico 4 bandejas 45x33cm | https://www.makro.es/marketplace/product/e3c35b3b-14d3-4e2b-a109-373a863ddff9 |
-| K7 | Fregadero con bastidor con hueco lavavajillas cuba izquierda 1200x600x850 mm · Ref. AAA0045913963 (ficha no indexada; enlace a la categoría) | https://www.makro.es/marketplace/c/fregaderos-con-bastidor |
+| K7 | Fregadero con bastidor con hueco lavavajillas cuba izquierda 1200x600x850 mm · Ref. AAA0045913963 (ficha facilitada por el cliente) | https://www.makro.es/marketplace/product/c0cd57f0-35a2-485a-98f4-5dffc628d84e |
 | K6 | Lavavajillas industrial cesta 50x50 cm monofásico - trifásico ST500 | https://www.makro.es/marketplace/product/b6893f6e-6c55-499e-8e8b-4e246d107961 |
 | K8 | Armario refrigerado APS-451 I (626 x 740 x 1865 mm, 395 L) | https://www.makro.es/marketplace/product/2e636462-1801-45f6-a3d8-15413909cb8c |
 | K9 | Armario refrigerado APS-451 I (626 x 740 x 1865 mm, 395 L) | https://www.makro.es/marketplace/product/2e636462-1801-45f6-a3d8-15413909cb8c |

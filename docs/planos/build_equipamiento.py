@@ -107,7 +107,7 @@ def detalle_cocina(ox, oy):
             caja(L, Q.OESTE_X0, ly1 - lv['a'], Q.OESTE_X0 + lv['f'], ly1, lv['tag'],
                  dash=True, tam=2.0, rot=-90)
             L.texto('rotulos', Q.OESTE_X0 + lv['f'] + 0.05, y - Q.HUECO_LAV / 2,
-                    'escurridor · K6 debajo', 1.5, 'start', APARATO, 'bold', dy=0.5)
+                    'mesada del fregadero · K6 debajo', 1.5, 'start', APARATO, 'bold', dy=0.5)
             L.texto('rotulos', Q.OESTE_X0 + p['f'] + 0.05, cy0 + cu['largo'] / 2,
                     'cuba', 1.5, 'start', APARATO, dy=0.5)
         else:
@@ -387,7 +387,7 @@ def lamina_lista():
               'navegador en la nube), así que las fichas no se pueden abrir desde el entorno de trabajo.',
               'Cada enlace se verificó buscando su identificador con el buscador restringido a makro.es: '
               'todos devuelven su URL con el título del producto (LISTA_MAKRO.md). La ficha del fregadero '
-              'K7 (Ref. AAA0045913963) no está indexada: su enlace lleva a la categoría.',
+              'K7 (Ref. AAA0045913963) no está indexada: el enlace lo facilitó el cliente.',
               'Precios y stock no se han podido leer con fiabilidad: confirmar en la ficha antes de '
               'comprar. Si un enlace dejara de funcionar, buscar el título literal de la ficha en makro.es.'):
         L.p_texto('rotulos', c_nom, y, t, 2.0, 'start', '#444444')

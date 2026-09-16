@@ -59,13 +59,13 @@ CAMPANA_POS = dict(x0=0.310, x1=2.310, y0=9.008 - 1.200, y1=9.008)
 #     Largo disponible hasta P1: 8,408 - 5,357 = 3,051. Suma: 3,042 (9 mm).
 #     En makro.es no hay armario refrigerado inox de puerta ciega de menos
 #     de 0,626 de ancho.
-#     La ficha del fregadero no la indexa el buscador de Makro: el enlace
-#     lleva a su categoria y se anota la referencia de la ficha.
+#     Ficha facilitada por el cliente (el buscador de Makro no la indexa):
+#     "Fregadero con bastidor con hueco lavavajillas cuba izquierda
+#     1200x600x850 mm", Ref. AAA0045913963, 395 EUR (477,95 IVA incl.).
 OESTE_X0 = 0.250
 OESTE_Y0 = 8.408
-FREGADERO = P('K7', 'Fregadero con hueco de lavavajillas, cuba izquierda (Ref. AAA0045913963)',
-              1.200, 0.600, 0.850)
-FREGADERO['url'] = 'https://www.makro.es/marketplace/c/fregaderos-con-bastidor'
+FREGADERO = P('K7', 'Fregadero con bastidor con hueco lavavajillas, cuba izquierda, 1200 × 600',
+              1.200, 0.600, 0.850, 'c0cd57f0-35a2-485a-98f4-5dffc628d84e')
 FREGADERO['ref'] = 'AAA0045913963'
 FREGADERO['precio'] = '395,00 € (477,95 € IVA incl.)'
 CUBA = dict(largo=0.500, fondo=0.400)    # cuba embutida, medida habitual

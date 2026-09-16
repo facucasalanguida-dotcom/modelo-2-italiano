@@ -151,7 +151,8 @@ de referencia de la mesa refrigerada (METRO GCF3100BS, 179,5 x 70 x 85).
   395 EUR mas IVA). Mirando al muro, la cuba queda al Sur y el escurridor al
   Norte con el lavavajillas K6 debajo; desaparece la tabla de madera. Muro
   Oeste: 0,59 + 1,20 + 0,63 + 0,63 = 3,04 en 3,05. El buscador de Makro no
-  indexa esa ficha: su enlace lleva a la categoria y se anota la referencia.
+  indexa esa ficha; el enlace lo facilito el cliente
+  (`c0cd57f0-35a2-485a-98f4-5dffc628d84e`).
   El ST500 mide 0,83 de alto (la ficha tambien dice 863 mm) frente a los
   0,85 totales del fregadero: hay que confirmar el hueco libre o regular las
   patas; como alternativa se lista un Eurast de 575 x 600 x 820.
