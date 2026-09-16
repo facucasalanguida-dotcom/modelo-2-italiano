@@ -98,6 +98,10 @@ def marco(L, titulo, numero, subtitulo, notas, leyenda, cuadro=None,
             elif relleno == 'punto':
                 L._add('cajetin', f'<circle cx="{x0 + 9:.2f}" cy="{y - 1.2:.2f}" '
                                   f'r="1.5" fill="none" stroke="{trazo}" stroke-width="0.25"/>')
+            elif relleno == 'cota':
+                L.p_linea('cajetin', x0 + 5, y - 1.2, x0 + 13, y - 1.2, trazo, 'cota')
+                for xx in (x0 + 5, x0 + 13):
+                    L.p_linea('cajetin', xx - 1.1, y + 0.1, xx + 1.1, y - 2.5, trazo, 'cota')
             else:
                 L.p_rect('cajetin', x0 + 5, y - 3.4, x0 + 13, y + 0.2, relleno, trazo,
                          'fino')
@@ -391,19 +395,25 @@ def accesibilidad(L):
     L.rect('reservas', x0, y0, x1, y1, 'none', ACC, 'fino', ' stroke-dasharray="1.6 1.1"')
     L.texto('rotulos', (x0 + x1) / 2, (y0 + y1) / 2, 'PMR', 1.8, 'middle', ACC, 'bold',
             dy=0.6)
-    # anchos libres: cota sencilla con el texto fuera del trazo del itinerario
-    for tipo, pos, a, b, tx, ty in MB.ACC_ANCHOS:
+    cotas_paso(L, MB.ACC_ANCHOS)
+
+
+def cotas_paso(L, lista, color=ACC):
+    """Anchos libres entre mobiliario: cota sencilla con el texto donde no
+    tape nada (tipo, posicion de la linea, extremos, sitio del texto)."""
+    ACCc = color
+    for tipo, pos, a, b, tx, ty in lista:
         if tipo == 'v':
             X = L.px(pos)
-            L.p_linea('cotas', X, L.py(a), X, L.py(b), ACC, 'cota')
+            L.p_linea('cotas', X, L.py(a), X, L.py(b), ACCc, 'cota')
             for y in (a, b):
-                L.p_linea('cotas', X - 1.1, L.py(y) + 1.1, X + 1.1, L.py(y) - 1.1, ACC, 'cota')
+                L.p_linea('cotas', X - 1.1, L.py(y) + 1.1, X + 1.1, L.py(y) - 1.1, ACCc, 'cota')
         else:
             Y = L.py(pos)
-            L.p_linea('cotas', L.px(a), Y, L.px(b), Y, ACC, 'cota')
+            L.p_linea('cotas', L.px(a), Y, L.px(b), Y, ACCc, 'cota')
             for x in (a, b):
-                L.p_linea('cotas', L.px(x) - 1.1, Y + 1.1, L.px(x) + 1.1, Y - 1.1, ACC, 'cota')
-        L.texto('rotulos', tx, ty, L._fmt(b - a), 1.8, 'middle', ACC, 'bold',
+                L.p_linea('cotas', L.px(x) - 1.1, Y + 1.1, L.px(x) + 1.1, Y - 1.1, ACCc, 'cota')
+        L.texto('rotulos', tx, ty, L._fmt(b - a), 1.8, 'middle', ACCc, 'bold',
                 rot=-90 if tipo == 'v' else 0, dy=0.6)
 
 
@@ -511,7 +521,7 @@ def planta_baja():
     L.texto('rotulos', 7.95, 1.22, 'VESTÍBULO DE ACCESO', 2.3, 'middle', '#3c5a68',
             'bold')
     L.texto('rotulos', 2.470, 7.00, 'PARED EN L  ·  3,66 + 0,74  ·  h=1,22  ·  vidrio 1,35',
-            2.0, 'middle', '#4a4a4a', rot=-90, dx=6.2)
+            2.0, 'middle', '#4a4a4a', rot=-90, dx=-4.6)
     nivel(L, 7.95, 0.72, '±0,00')
 
     L.texto('rotulos', 5.02, 9.082, 'MEDIANERA NORTE  e=0,148', 2.0, 'middle', '#ffffff')
@@ -565,7 +575,7 @@ def planta_baja():
            'puerta medidos en obra (14 set. 2026), el resto',
            'del levantamiento previo. ±0,00 en el pavimento',
            'de planta baja; sección horizontal a 1,20 m.',
-           'Mesas de 1,20 × 0,70 y 0,70 × 0,70 (medida promedio);',
+           'Mesas cuádruples de 1,20 × 0,70 (medida promedio);',
            'un colgante por mesa y empotrados en los pasos.',
            'Itinerario accesible de 1,20 desde la puerta a la',
            'barra, al baño y a la plaza PMR de M2, con giros',
@@ -650,6 +660,7 @@ def planta_alta():
     escalera(L, 'alta')
     L.poly('muros', interior_pb(), 'none', '#8a8a8a', 'auxiliar')
     mobiliario(L, MB.MESAS_PA)
+    cotas_paso(L, MB.PASOS_PA)
     luces_nuevas(L, MB.COLGANTES_PA, MB.EMPOTRADOS_PA)
 
     # ---- rotulos
@@ -667,7 +678,7 @@ def planta_alta():
     L.texto('rotulos', 5.00, 8.62, 'INODORO', 2.1, 'middle', '#4a4a4a', 'bold')
     L.texto('rotulos', 6.48, 8.30, 'ALMACÉN', 2.4, 'middle', '#4a4a4a', 'bold')
     L.texto('rotulos', 8.60, 8.45, 'PASO', 2.2, 'middle', '#4a4a4a', 'bold')
-    L.texto('rotulos', 5.6, 4.20, 'BARANDILLA DE VIDRIO  h=1,00', 2.1, 'middle',
+    L.texto('rotulos', 6.6, 4.12, 'BARANDILLA  h=1,00', 2.1, 'middle',
             '#26485a')
     L.texto('rotulos', 2.65, 5.7, 'BARANDILLA DE VIDRIO', 2.0, 'middle', '#26485a',
             rot=-90, dx=2.6)
@@ -703,14 +714,18 @@ def planta_alta():
            'Nivel del forjado +2,56, medido en obra.',
            'El forjado del altillo no cubre todo el local: la',
            'franja sur y oeste es un vacío a doble altura.',
-           'Mesa de cowork 2,40 × 1,00 para 8 puestos y dos',
-           'redondas de Ø 0,80 con 3 sillas. Medidas promedio.',
-           'Un colgante por mesa y empotrados en el resto.'],
+           'Mesa de cowork 2,40 × 1,00 para 8 puestos y una',
+           'redonda de Ø 1,20 con 4 sillas. Medidas promedio.',
+           'Pasos libres entre mobiliario acotados en azul:',
+           '1,01 y 1,09 hacia el aseo y el almacén; 1,30 en',
+           'el desembarco; 0,53 a 0,80 en los accesos a las',
+           'sillas. Un colgante por mesa y empotrados en el resto.'],
           [(POCHE, TINTA, 'Muro de carga / medianera'),
            (POCHE_PIL, TINTA, 'Pilar o machón de hormigón'),
            (POCHE_TAB, TINTA, 'Tabiquería'),
            (VIDRIO, '#3d6b80', 'Barandilla de vidrio'),
            ('#f4efe6', MOB, 'Mesas y sillas (medidas promedio)'),
+           ('cota', ACC, 'Paso libre entre mobiliario (m)'),
            ('punto', '#7d7d7d', 'Punto de luz'),
            ('url(#vacio)', '#b9c6cf', 'Vacío sobre planta baja')],
           ('SUPERFICIES Y ALTURAS',
