@@ -58,25 +58,28 @@ ACC_ANCHOS = [('v', 6.750, 3.570, 4.830, 6.900, 4.560),   # sillas de M2 - silla
 
 # Planta alta: mesa grande de cowork y una redonda grande. La redonda que
 # quedaba al desembarco de la escalera se quita; la otra pasa a diametro
-# 1,20 con cuatro sillas en diagonal (a=NE b=NO c=SO d=SE), colocada de
-# forma que el paso Norte hacia el aseo y el almacen quede en 1,09 y no se
-# estreche el hueco junto a P3 ni el de la caja de escalera (0,53).
+# 1,20 con seis sillas a 60 grados (N, S y cuatro a 30 grados del eje
+# Este-Oeste: e=NE f=NO g=SO h=SE), la orientacion que menos ocupa a lo
+# ancho. Centrada entre P3 y la caja de escalera y colocada de forma que el
+# paso Norte hacia el aseo y el almacen quede en 1,01; a los lados quedan
+# 0,40 hasta P3 y 0,39 hasta la caja de escalera (accesos a sillas, no
+# recorridos), y 0,37 de la silla Sur a la barandilla.
 # La mesa de cowork baja 0,20 y se corre 0,10 al Oeste: 1,01 de paso al
 # Norte y 0,59 hasta P3.
 MESAS_PA = [
     ('C1', 'cowork',  3.350, 4.100, 4.350, 6.500, 'EW4'),
-    ('R1', 'redonda', 6.810, 5.000, 8.010, 6.200, 'abcd'),
+    ('R1', 'redonda', 6.810, 4.830, 8.010, 6.030, 'NSefgh'),
 ]
 
 # Pasos libres de planta alta que se acotan: tipo, posicion de la linea,
 # extremos y sitio del texto
 PASOS_PA = [
     ('v', 4.100, 6.500, 7.509, 4.250, 7.000),    # sobre la mesa de cowork
-    ('v', 8.020, 6.420, 7.509, 8.170, 6.970),    # sobre la redonda (silla NE)
+    ('v', 7.410, 6.500, 7.509, 7.560, 7.000),    # sobre la redonda (silla Norte)
     ('h', 5.300, 4.820, 5.410, 5.115, 5.420),    # sillas Este de C1 - P3
-    ('h', 5.100, 6.060, 6.590, 6.325, 5.220),    # P3 - silla SO de la redonda
-    ('h', 6.200, 8.230, 8.759, 8.495, 6.320),    # silla NE - caja de escalera
-    ('v', 7.410, 3.988, 4.780, 7.560, 4.380),    # redonda - barandilla Sur
+    ('h', 5.010, 6.060, 6.455, 6.258, 5.130),    # P3 - silla SO de la redonda
+    ('h', 5.870, 8.365, 8.759, 8.562, 5.990),    # silla NE - caja de escalera
+    ('v', 7.410, 3.988, 4.360, 7.560, 4.170),    # silla Sur - barandilla Sur
     ('h', 4.600, 2.461, 2.880, 2.670, 4.720),    # barandilla Oeste - sillas de C1
     ('v', 5.750, 3.988, 4.788, 5.900, 4.390),    # barandilla Sur - P3
     ('h', 8.150, 7.511, 8.811, 8.160, 8.270),    # desembarco de la escalera
@@ -112,7 +115,7 @@ APLIQUES_PB = [(9.850, 2.450), (9.850, 3.250)]           # muro este, vestibulo
 COLGANTES_PA = [_centro(m) for m in MESAS_PA]
 EMPOTRADOS_PA = [
     (2.670, 5.000), (2.670, 6.300), (5.000, 4.500), (5.000, 6.900),
-    (8.400, 4.700), (8.400, 6.500), (6.500, 7.050),
+    (8.550, 4.450), (8.400, 6.500), (6.500, 7.050),
     (3.500, 8.300), (5.000, 8.500), (6.500, 8.300), (8.600, 8.400),
 ]
 
@@ -125,7 +128,8 @@ def sillas(m):
         # N E S W y diagonales a=NE b=NO c=SO d=SE; sillas como cuadrados
         # centrados a r + 0,05 + 0,21 del centro de la mesa
         import math
-        ang = dict(E=0, a=45, N=90, b=135, W=180, c=225, S=270, d=315)
+        ang = dict(E=0, e=30, a=45, N=90, b=135, f=150, W=180, g=210, c=225,
+                   S=270, d=315, h=330)
         cx, cy, r = (x0 + x1) / 2, (y0 + y1) / 2, (x1 - x0) / 2
         rc = r + SEP + SILLA / 2
         for l in lados:

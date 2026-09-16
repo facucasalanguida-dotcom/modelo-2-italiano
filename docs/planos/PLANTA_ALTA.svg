@@ -104,11 +104,13 @@
 <rect x="119.600" y="131.800" width="8.400" height="8.400" fill="none" stroke="#8a6f4e" stroke-width="0.18" rx="0.6"/>
 <rect x="119.600" y="119.800" width="8.400" height="8.400" fill="none" stroke="#8a6f4e" stroke-width="0.18" rx="0.6"/>
 <rect x="119.600" y="107.800" width="8.400" height="8.400" fill="none" stroke="#8a6f4e" stroke-width="0.18" rx="0.6"/>
-<circle cx="210.200" cy="124.000" r="12.000" fill="#f4efe6" stroke="#8a6f4e" stroke-width="0.25"/>
-<rect x="218.162" y="107.638" width="8.400" height="8.400" fill="none" stroke="#8a6f4e" stroke-width="0.18" rx="0.6"/>
-<rect x="193.838" y="107.638" width="8.400" height="8.400" fill="none" stroke="#8a6f4e" stroke-width="0.18" rx="0.6"/>
-<rect x="193.838" y="131.962" width="8.400" height="8.400" fill="none" stroke="#8a6f4e" stroke-width="0.18" rx="0.6"/>
-<rect x="218.162" y="131.962" width="8.400" height="8.400" fill="none" stroke="#8a6f4e" stroke-width="0.18" rx="0.6"/>
+<circle cx="210.200" cy="127.400" r="12.000" fill="#f4efe6" stroke="#8a6f4e" stroke-width="0.25"/>
+<rect x="206.000" y="106.000" width="8.400" height="8.400" fill="none" stroke="#8a6f4e" stroke-width="0.18" rx="0.6"/>
+<rect x="206.000" y="140.400" width="8.400" height="8.400" fill="none" stroke="#8a6f4e" stroke-width="0.18" rx="0.6"/>
+<rect x="220.896" y="114.600" width="8.400" height="8.400" fill="none" stroke="#8a6f4e" stroke-width="0.18" rx="0.6"/>
+<rect x="191.104" y="114.600" width="8.400" height="8.400" fill="none" stroke="#8a6f4e" stroke-width="0.18" rx="0.6"/>
+<rect x="191.104" y="131.800" width="8.400" height="8.400" fill="none" stroke="#8a6f4e" stroke-width="0.18" rx="0.6"/>
+<rect x="220.896" y="131.800" width="8.400" height="8.400" fill="none" stroke="#8a6f4e" stroke-width="0.18" rx="0.6"/>
 </g>
 <g id="luces">
 <circle cx="115.400" cy="136.000" r="1.700" fill="none" stroke="#7d7d7d" stroke-width="0.18"/>
@@ -123,9 +125,9 @@
 <circle cx="162.000" cy="98.000" r="1.700" fill="none" stroke="#7d7d7d" stroke-width="0.18"/>
 <line x1="160.800" y1="98.000" x2="163.200" y2="98.000" stroke="#7d7d7d" stroke-width="0.1"/>
 <line x1="162.000" y1="99.200" x2="162.000" y2="96.800" stroke="#7d7d7d" stroke-width="0.1"/>
-<circle cx="230.000" cy="142.000" r="1.700" fill="none" stroke="#7d7d7d" stroke-width="0.18"/>
-<line x1="228.800" y1="142.000" x2="231.200" y2="142.000" stroke="#7d7d7d" stroke-width="0.1"/>
-<line x1="230.000" y1="143.200" x2="230.000" y2="140.800" stroke="#7d7d7d" stroke-width="0.1"/>
+<circle cx="233.000" cy="147.000" r="1.700" fill="none" stroke="#7d7d7d" stroke-width="0.18"/>
+<line x1="231.800" y1="147.000" x2="234.200" y2="147.000" stroke="#7d7d7d" stroke-width="0.1"/>
+<line x1="233.000" y1="148.200" x2="233.000" y2="145.800" stroke="#7d7d7d" stroke-width="0.1"/>
 <circle cx="230.000" cy="106.000" r="1.700" fill="none" stroke="#7d7d7d" stroke-width="0.18"/>
 <line x1="228.800" y1="106.000" x2="231.200" y2="106.000" stroke="#7d7d7d" stroke-width="0.1"/>
 <line x1="230.000" y1="107.200" x2="230.000" y2="104.800" stroke="#7d7d7d" stroke-width="0.1"/>
@@ -146,28 +148,28 @@
 <line x1="234.000" y1="69.200" x2="234.000" y2="66.800" stroke="#7d7d7d" stroke-width="0.1"/>
 <circle cx="139.000" cy="130.000" r="2.000" fill="none" stroke="#7d7d7d" stroke-width="0.18"/>
 <circle cx="139.000" cy="130.000" r="0.560" fill="#7d7d7d" stroke="#7d7d7d" stroke-width="0.1"/>
-<circle cx="210.200" cy="124.000" r="2.000" fill="none" stroke="#7d7d7d" stroke-width="0.18"/>
-<circle cx="210.200" cy="124.000" r="0.560" fill="#7d7d7d" stroke="#7d7d7d" stroke-width="0.1"/>
+<circle cx="210.200" cy="127.400" r="2.000" fill="none" stroke="#7d7d7d" stroke-width="0.18"/>
+<circle cx="210.200" cy="127.400" r="0.560" fill="#7d7d7d" stroke="#7d7d7d" stroke-width="0.1"/>
 </g>
 <g id="cotas">
 <line x1="144.000" y1="106.000" x2="144.000" y2="85.820" stroke="#2a7f8f" stroke-width="0.13"/>
 <line x1="142.900" y1="107.100" x2="145.100" y2="104.900" stroke="#2a7f8f" stroke-width="0.13"/>
 <line x1="142.900" y1="86.920" x2="145.100" y2="84.720" stroke="#2a7f8f" stroke-width="0.13"/>
-<line x1="222.400" y1="107.600" x2="222.400" y2="85.820" stroke="#2a7f8f" stroke-width="0.13"/>
-<line x1="221.300" y1="108.700" x2="223.500" y2="106.500" stroke="#2a7f8f" stroke-width="0.13"/>
-<line x1="221.300" y1="86.920" x2="223.500" y2="84.720" stroke="#2a7f8f" stroke-width="0.13"/>
+<line x1="210.200" y1="106.000" x2="210.200" y2="85.820" stroke="#2a7f8f" stroke-width="0.13"/>
+<line x1="209.100" y1="107.100" x2="211.300" y2="104.900" stroke="#2a7f8f" stroke-width="0.13"/>
+<line x1="209.100" y1="86.920" x2="211.300" y2="84.720" stroke="#2a7f8f" stroke-width="0.13"/>
 <line x1="158.400" y1="130.000" x2="170.200" y2="130.000" stroke="#2a7f8f" stroke-width="0.13"/>
 <line x1="157.300" y1="131.100" x2="159.500" y2="128.900" stroke="#2a7f8f" stroke-width="0.13"/>
 <line x1="169.100" y1="131.100" x2="171.300" y2="128.900" stroke="#2a7f8f" stroke-width="0.13"/>
-<line x1="183.200" y1="134.000" x2="193.800" y2="134.000" stroke="#2a7f8f" stroke-width="0.13"/>
-<line x1="182.100" y1="135.100" x2="184.300" y2="132.900" stroke="#2a7f8f" stroke-width="0.13"/>
-<line x1="192.700" y1="135.100" x2="194.900" y2="132.900" stroke="#2a7f8f" stroke-width="0.13"/>
-<line x1="226.600" y1="112.000" x2="237.180" y2="112.000" stroke="#2a7f8f" stroke-width="0.13"/>
-<line x1="225.500" y1="113.100" x2="227.700" y2="110.900" stroke="#2a7f8f" stroke-width="0.13"/>
-<line x1="236.080" y1="113.100" x2="238.280" y2="110.900" stroke="#2a7f8f" stroke-width="0.13"/>
-<line x1="210.200" y1="156.240" x2="210.200" y2="140.400" stroke="#2a7f8f" stroke-width="0.13"/>
+<line x1="183.200" y1="135.800" x2="191.100" y2="135.800" stroke="#2a7f8f" stroke-width="0.13"/>
+<line x1="182.100" y1="136.900" x2="184.300" y2="134.700" stroke="#2a7f8f" stroke-width="0.13"/>
+<line x1="190.000" y1="136.900" x2="192.200" y2="134.700" stroke="#2a7f8f" stroke-width="0.13"/>
+<line x1="229.300" y1="118.600" x2="237.180" y2="118.600" stroke="#2a7f8f" stroke-width="0.13"/>
+<line x1="228.200" y1="119.700" x2="230.400" y2="117.500" stroke="#2a7f8f" stroke-width="0.13"/>
+<line x1="236.080" y1="119.700" x2="238.280" y2="117.500" stroke="#2a7f8f" stroke-width="0.13"/>
+<line x1="210.200" y1="156.240" x2="210.200" y2="148.800" stroke="#2a7f8f" stroke-width="0.13"/>
 <line x1="209.100" y1="157.340" x2="211.300" y2="155.140" stroke="#2a7f8f" stroke-width="0.13"/>
-<line x1="209.100" y1="141.500" x2="211.300" y2="139.300" stroke="#2a7f8f" stroke-width="0.13"/>
+<line x1="209.100" y1="149.900" x2="211.300" y2="147.700" stroke="#2a7f8f" stroke-width="0.13"/>
 <line x1="111.220" y1="144.000" x2="119.600" y2="144.000" stroke="#2a7f8f" stroke-width="0.13"/>
 <line x1="110.120" y1="145.100" x2="112.320" y2="142.900" stroke="#2a7f8f" stroke-width="0.13"/>
 <line x1="118.500" y1="145.100" x2="120.700" y2="142.900" stroke="#2a7f8f" stroke-width="0.13"/>
@@ -301,13 +303,13 @@
 <text x="182.620" y="227.100" font-size="3.0" text-anchor="middle" fill="#ffffff" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">P5</text>
 <text x="245.610" y="102.335" font-size="2.1" text-anchor="middle" fill="#111111" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold" transform="rotate(-90 245.610 102.335)">BAJA</text>
 <text x="139.000" y="130.700" font-size="2.0" text-anchor="middle" fill="#8a6f4e" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">C1</text>
-<text x="210.200" y="124.700" font-size="2.0" text-anchor="middle" fill="#8a6f4e" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">R1</text>
+<text x="210.200" y="128.100" font-size="2.0" text-anchor="middle" fill="#8a6f4e" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">R1</text>
 <text x="147.000" y="96.600" font-size="1.8" text-anchor="middle" fill="#2a7f8f" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold" transform="rotate(-90 147.000 96.600)">1,01</text>
-<text x="225.400" y="97.200" font-size="1.8" text-anchor="middle" fill="#2a7f8f" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold" transform="rotate(-90 225.400 97.200)">1,09</text>
+<text x="213.200" y="96.600" font-size="1.8" text-anchor="middle" fill="#2a7f8f" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold" transform="rotate(-90 213.200 96.600)">1,01</text>
 <text x="164.300" y="128.200" font-size="1.8" text-anchor="middle" fill="#2a7f8f" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">0,59</text>
-<text x="188.500" y="132.200" font-size="1.8" text-anchor="middle" fill="#2a7f8f" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">0,53</text>
-<text x="231.900" y="110.200" font-size="1.8" text-anchor="middle" fill="#2a7f8f" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">0,53</text>
-<text x="213.200" y="149.000" font-size="1.8" text-anchor="middle" fill="#2a7f8f" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold" transform="rotate(-90 213.200 149.000)">0,79</text>
+<text x="187.160" y="134.000" font-size="1.8" text-anchor="middle" fill="#2a7f8f" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">0,40</text>
+<text x="233.240" y="116.800" font-size="1.8" text-anchor="middle" fill="#2a7f8f" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">0,39</text>
+<text x="213.200" y="153.200" font-size="1.8" text-anchor="middle" fill="#2a7f8f" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold" transform="rotate(-90 213.200 153.200)">0,37</text>
 <text x="115.400" y="142.200" font-size="1.8" text-anchor="middle" fill="#2a7f8f" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">0,42</text>
 <text x="180.000" y="148.800" font-size="1.8" text-anchor="middle" fill="#2a7f8f" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold" transform="rotate(-90 180.000 148.800)">0,80</text>
 <text x="225.200" y="71.200" font-size="1.8" text-anchor="middle" fill="#2a7f8f" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">1,30</text>
@@ -376,7 +378,7 @@
 <text x="321.000" y="145.200" font-size="2.4" text-anchor="start" fill="#333333" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Nivel del forjado, medido</text>
 <text x="407.000" y="145.200" font-size="2.4" text-anchor="end" fill="#111111" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">+2,56 m</text>
 <text x="321.000" y="149.400" font-size="2.4" text-anchor="start" fill="#333333" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Puestos de cowork</text>
-<text x="407.000" y="149.400" font-size="2.4" text-anchor="end" fill="#111111" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">12</text>
+<text x="407.000" y="149.400" font-size="2.4" text-anchor="end" fill="#111111" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">14</text>
 <line x1="321.000" y1="152.800" x2="407.000" y2="152.800" stroke="#111111" stroke-width="0.1"/>
 <text x="321.000" y="157.400" font-size="2.1" text-anchor="start" fill="#777777" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">PILARES Y MACHONES  (secciones en m)</text>
 <text x="321.000" y="161.400" font-size="2.2" text-anchor="start" fill="#333333" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">P1  Machón del muro Oeste</text>
@@ -396,10 +398,10 @@
 <text x="321.000" y="196.800" font-size="2.3" text-anchor="start" fill="#333333" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">El forjado del altillo no cubre todo el local: la</text>
 <text x="321.000" y="200.600" font-size="2.3" text-anchor="start" fill="#333333" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">franja sur y oeste es un vacío a doble altura.</text>
 <text x="321.000" y="204.400" font-size="2.3" text-anchor="start" fill="#333333" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Mesa de cowork 2,40 × 1,00 para 8 puestos y una</text>
-<text x="321.000" y="208.200" font-size="2.3" text-anchor="start" fill="#333333" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">redonda de Ø 1,20 con 4 sillas. Medidas promedio.</text>
+<text x="321.000" y="208.200" font-size="2.3" text-anchor="start" fill="#333333" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">redonda de Ø 1,20 con 6 sillas. Medidas promedio.</text>
 <text x="321.000" y="212.000" font-size="2.3" text-anchor="start" fill="#333333" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Pasos libres entre mobiliario acotados en azul:</text>
-<text x="321.000" y="215.800" font-size="2.3" text-anchor="start" fill="#333333" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">1,01 y 1,09 hacia el aseo y el almacén; 1,30 en</text>
-<text x="321.000" y="219.600" font-size="2.3" text-anchor="start" fill="#333333" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">el desembarco; 0,53 a 0,80 en los accesos a las</text>
+<text x="321.000" y="215.800" font-size="2.3" text-anchor="start" fill="#333333" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">1,01 hacia el aseo y el almacén; 1,30 en el</text>
+<text x="321.000" y="219.600" font-size="2.3" text-anchor="start" fill="#333333" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">desembarco; 0,37 a 0,80 en los accesos a las</text>
 <text x="321.000" y="223.400" font-size="2.3" text-anchor="start" fill="#333333" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">sillas. Un colgante por mesa y empotrados en el resto.</text>
 <line x1="321.000" y1="253.000" x2="407.000" y2="253.000" stroke="#111111" stroke-width="0.1"/>
 <rect x="321.000" y="259.000" width="10.000" height="2.200" fill="#111111" stroke="#111111" stroke-width="0.1"/>

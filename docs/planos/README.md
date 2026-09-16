@@ -133,13 +133,14 @@ de referencia de la mesa refrigerada (METRO GCF3100BS, 179,5 x 70 x 85).
   empotrados de la trasbarra). 28 plazas; mesas M1 a M7. El rotulo de la
   pared en L pasa al lado de la cocina.
 - **Planta alta (16 set.)**: se quita la redonda del desembarco de la
-  escalera y la otra pasa a diametro 1,20 con cuatro sillas en diagonal,
-  colocada para no estrechar los pasos: 1,09 al Norte hacia el aseo y el
-  almacen, 0,53 junto a P3 y junto a la caja de escalera, 0,79 hasta la
-  barandilla Sur. La mesa de cowork baja 0,20 y se corre 0,10 al Oeste
+  escalera y la otra pasa a diametro 1,20 con seis sillas a 60 grados (N, S
+  y cuatro a 30 grados del eje Este-Oeste, la orientacion que menos ocupa a
+  lo ancho), colocada para que el paso Norte hacia el aseo y el almacen
+  quede en 1,01; a los lados quedan 0,40 hasta P3 y 0,39 hasta la caja de
+  escalera (accesos a sillas) y 0,37 de la silla Sur a la barandilla. La mesa de cowork baja 0,20 y se corre 0,10 al Oeste
   (1,01 de paso al Norte, 0,59 hasta P3, 0,42 hasta la barandilla Oeste).
   Todos los pasos libres se acotan en azul en la lamina 02 (`PASOS_PA` en
-  `mobiliario.py`, dibujados por `cotas_paso`). 12 puestos.
+  `mobiliario.py`, dibujados por `cotas_paso`). 14 puestos.
 - **Lamina 04** (`LISTA_EQUIPAMIENTO`): toda la maquinaria con medidas, sitio
   en el plano y la ficha de makro.es, con los enlaces clicables en el PDF
   (anotaciones anadidas con pymupdf tras exportar el SVG; cairosvg no las
