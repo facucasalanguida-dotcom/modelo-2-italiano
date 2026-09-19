@@ -17,12 +17,14 @@ import sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import estructura as E
 import mobiliario as MB
+import equipamiento as Q
 from dibujo import (Lienzo, TRAZO, TINTA, POCHE, POCHE_PIL, POCHE_TAB,
                     VIDRIO, COTA_COL)
 P3 = next(p for p in E.PILARES if p[0] == 'P3')   # (rotulo, nombre, x0, y0, x1, y1)
 RESERVA = '#7a6a4a'   # reservas de espacio marcadas por el cliente
 ACC = '#2a7f8f'       # itinerario accesible
 MOB = '#8a6f4e'       # mobiliario de sala
+APAR = '#4a5a68'      # aparatos (mismo color que la lamina 03)
 
 AQUI = os.path.dirname(os.path.abspath(__file__))
 
@@ -422,6 +424,23 @@ def mobiliario(L, mesas):
                 'bold', dy=0.7)
 
 
+def nevera_bebidas(L):
+    """Nevera expositora de bebidas A7, contra la cara Sur de P3 (19 set.).
+
+    Sale 0,58 del pilar hacia el ventanal y deja 0,92 hasta el canto Norte
+    de M2: es el punto mas estrecho del recorrido de la sala.
+    """
+    n, q = Q.NEVERA_BEBIDAS, Q.NEVERA_BEBIDAS_POS
+    L.rect('mobiliario', q['x0'], q['y0'], q['x1'], q['y1'], '#eaeff2', APAR, 'medio')
+    # puerta de cristal, al Sur: doble linea fina
+    for d in (0.045, 0.075):
+        L.linea('mobiliario', q['x0'] + 0.03, q['y0'] + d, q['x1'] - 0.03,
+                q['y0'] + d, '#3d6b80', 'fino')
+    L.texto('rotulos', q['x1'] + 0.19, q['y0'] - 0.06,
+            f"NEVERA A7 · {n['a']:.2f} × {n['f']:.2f}".replace('.', ','),
+            1.9, 'end', APAR, 'bold', rot=-90)
+
+
 def accesibilidad(L):
     """Itinerario accesible de 1,20, giros de 1,50, plaza PMR y anchos libres."""
     d = ' stroke-dasharray="3.0 1.2 0.6 1.2"'
@@ -431,10 +450,12 @@ def accesibilidad(L):
     for (x, y), (tx, ty) in MB.ACC_GIROS:
         L.circulo('reservas', x, y, 0.75, 'none', ACC, 'fino', ' stroke-dasharray="1.6 1.1"')
         L.texto('rotulos', tx, ty, 'Ø 1,50', 1.8, 'middle', ACC, 'bold', dy=0.6)
-    x0, y0, x1, y1 = MB.ACC_PMR
-    L.rect('reservas', x0, y0, x1, y1, 'none', ACC, 'fino', ' stroke-dasharray="1.6 1.1"')
-    L.texto('rotulos', (x0 + x1) / 2, (y0 + y1) / 2, 'PMR', 1.8, 'middle', ACC, 'bold',
-            dy=0.6)
+    if MB.ACC_PMR:
+        x0, y0, x1, y1 = MB.ACC_PMR
+        L.rect('reservas', x0, y0, x1, y1, 'none', ACC, 'fino',
+               ' stroke-dasharray="1.6 1.1"')
+        L.texto('rotulos', (x0 + x1) / 2, (y0 + y1) / 2, 'PMR', 1.8, 'middle', ACC,
+                'bold', dy=0.6)
     cotas_paso(L, MB.ACC_ANCHOS)
 
 
@@ -551,6 +572,7 @@ def planta_baja():
     # cerramiento de la escalera en planta baja (cara Oeste a 2,35 de P3)
     L.rect('tabiques', *E.CAJA_ESC_PB[1:], POCHE_TAB, TINTA, 'tabique')
     mobiliario(L, MB.MESAS_PB)
+    nevera_bebidas(L)
     accesibilidad(L)
     luces(L)                      # puntos de luz del proyecto original
     aire(L)                       # cassettes de aire acondicionado (fotos)
@@ -625,21 +647,22 @@ def planta_baja():
     L.cota_h('cotas', [7.400, 7.770, 8.470, 9.890], L.py(7.55), 1.8)
     L.cota_v('cotas', [7.730, 9.008], L.px(9.83), 1.8)
     L.cota_v('cotas', [P3[5], 9.008], L.px(P3[2] - 0.07), 1.9)
-    L.cota_v('cotas', [E.ZOCALO_SUR['y1'], P3[3]], L.px(5.99), 1.8)  # 2,72
+    L.cota_v('cotas', [E.ZOCALO_SUR['y1'], P3[3]], L.px(6.85), 1.8,
+             ext_desde=5.99)                                    # 2,72
 
     marco(L, 'PLANTA BAJA', '01 / 04', 'Estado actual · estructura',
           ['Cotas en metros. Hundimiento, pared en L, P3, barra,',
            'zócalo y puerta con las medidas del 19 set.; el resto,',
            'del levantamiento. Sección a 1,20 m sobre el pavimento.',
-           'Mesas dobles de 0,70 × 0,70 que el personal junta',
-           'para formar mesas de cuatro. M4 pegada a P3.',
-           'El sillón se dibuja con 0,60 de fondo contra la',
-           'medianera: falta medirlo y el trasdosado de 0,10.',
-           'Luces: las del proyecto original; los dos cassettes',
-           'de aire, situados con las fotos del cliente.',
-           'Itinerario accesible de 1,20 de la puerta a la barra, al',
-           'baño y a la plaza PMR de M2, con giro de Ø 1,50 en la',
-           'entrada. El baño no es accesible: puerta de 0,70.'],
+           'Mesas dobles de 0,70 × 0,70 que el personal junta para',
+           'formar mesas de cuatro. M4 pegada a P3. El sillón, con',
+           '0,60 de fondo: falta medirlo y el trasdosado de 0,10.',
+           'Luces del proyecto original; los cassettes de aire, de',
+           'las fotos del cliente.',
+           'La nevera A7 sale 0,58 de la cara Sur de P3 y deja 0,45',
+           'hasta las sillas de M2: por ahí ya no se pasa y el paso',
+           'a la barra da la vuelta por el Norte, con 0,74. En la',
+           'cara Este de P3 serían 1,04. Baño no accesible: 0,70.'],
           [(POCHE, TINTA, 'Muro de carga / medianera'),
            (POCHE_PIL, TINTA, 'Pilar o machón de hormigón'),
            (POCHE_TAB, TINTA, 'Pared en L nueva (apoyo del vidrio)'),
@@ -648,7 +671,8 @@ def planta_baja():
            ('linea', '#8a8a8a', 'Forjado sobre el corte'),
            ('linea', RESERVA, 'Reserva de espacio del cliente'),
            ('#f4efe6', MOB, 'Mesas dobles de 0,70 × 0,70 y sillas'),
-           ('linea', ACC, 'Itinerario accesible ≥ 1,20 · giro Ø 1,50'),
+           ('#eaeff2', APAR, 'Nevera de bebidas A7 (cara Sur de P3)'),
+           ('linea', ACC, 'Recorrido de sala · 0,74 por el Norte'),
            ('punto', '#7d7d7d', 'Punto de luz s/ proyecto original'),
            ('linea', '#6f8a99', 'Aire acondicionado (cassette de techo)')],
           ('SUPERFICIES Y ALTURAS',

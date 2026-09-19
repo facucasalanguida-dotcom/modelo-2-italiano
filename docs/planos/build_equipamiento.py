@@ -359,7 +359,7 @@ def lamina_lista():
     enlaces = []
     x0, x1 = 14.0, CAJ_X - 6.0
     c_tag, c_nom, c_med, c_ubi, c_url = x0, x0 + 14.0, x0 + 98.0, x0 + 118.0, x0 + 206.0
-    paso = 3.90
+    paso = 3.70
 
     L.p_texto('rotulos', x0, 36.0, 'LISTA DE EQUIPAMIENTO  ·  MAKRO', 4.2, 'start',
               TINTA, 'bold', espaciado='0.8')

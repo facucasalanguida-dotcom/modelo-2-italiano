@@ -262,41 +262,71 @@ cuatro medidas del 16 set. La diferencia queda anotada en COMPROBAR EN OBRA.
 El "2,00" que marco junto al muro Este era la puerta: el cliente aclaro que
 son 2,06 de ancho y 1,00 de barrido.
 
-### Mesas: doce dobles de 0,70 x 0,70
+### Pared en L pegada al hundimiento
 
-Todas las mesas pasan a ser dobles de 0,70 x 0,70, porque el personal las
-junta cuando hace falta una de cuatro. Reparto:
+El cliente pidio llevar la pared en L "al borde del filo de la pared", sin
+dejar el pano de 0,13 que quedaba entre el hundimiento y ella. Su cara Oeste
+pasa a **2,430** (el final del hundimiento) y la Este a 2,530. Consecuencias
+medidas, no estimadas:
 
-- **Fila del ventanal.** M1 y M2 "en vertical" (sillas al Norte y al Sur) como
-  pidio el cliente: M1 entre la barra y P5 y M2 en el hueco de 1,31 que queda
-  entre P5 y el vestibulo, aprovechando el escaparate. M3 va girada (sillas al
-  Este y al Oeste) porque en vertical su silla Norte se comeria el itinerario
-  accesible: entre el zocalo y P3 solo hay 2,72.
-- **Plaza de silla de ruedas.** Va al lado Norte de M2. Estuvo primero al
-  Norte de M1 y la auditoria la tumbo: ahi la silla de ruedas se paraba
-  encima del ramal del itinerario y lo cortaba. En el hueco de M2 su borde
-  Este coincide con el borde Oeste del itinerario, asi que se entra desde el
-  sin invadirlo.
-- **Fila central.** M5 y M4 al Oeste de P3, con **M4 pegada a su cara Oeste**
-  como pidio el cliente, y M6 al Este, entre P3 y el itinerario del bano. Al
-  Oeste de M5 no va ninguna mesa a proposito: ahi esta la unica salida del
-  personal de la barra a la sala, y con una tercera mesa quedaba en 0,25.
-  Asi quedan 1,18 libres.
-- **Fila del sillon corrido.** Seis mesas de 0,70 a 0,10 entre si, con el
-  sillon de asiento por el Norte y una silla por el Sur. A 0,10 se juntan de
-  dos en dos sin mover nada y cada comensal tiene 0,80 de banco.
+| | Antes | Ahora |
+|---|---|---|
+| Ancho de la cocina | 2,05 | **2,18** |
+| Pasillo de la cocina | 0,71 / 0,85 | **0,84 / 0,98** |
+| Pared en L a P3 | 3,01 (cota del cliente) | **3,14** |
+| Fondo del mostrador | 0,50 | **0,63** |
+| Largo del sillon | 4,74 | **4,87** |
 
-Doce mesas y 24 plazas sentadas. El itinerario accesible de 1,20 sigue
-entrando: entre la silla Norte de M1 y la silla Sur de la fila central hay
-justo 1,20, el tronco llega hasta la hoja de la puerta del bano y los dos
-giros de Ø 1,50 (entrada y antes del bano) quedan libres de obstaculos y del
-barrido de la puerta. Lo que no cumple es el bano: puerta de 0,70 (minimo
-0,80) y 1,08 de fondo, en el que no cabe el giro. Esta anotado en la lamina.
+La cadena del cliente sigue cerrando contra el primer peldano: lo que antes
+era pano de pared ahora es pared en L, y P3 no se mueve.
 
-El pasillo entre la fila central y la del sillon queda en 0,69 y es el acceso
-a la mitad de las plazas: es lo maximo que da el local con tres filas de
-mesas y esta acotado en el plano. La salida del personal de la barra a la
-sala queda en 1,18.
+### Mesas: ocho dobles de 0,70 x 0,70
+
+Reparto del 19 set. (tarde), con M6 y M9 eliminadas y las dos cuadruples
+formadas juntando dos mesas:
+
+- **Fila del ventanal.** M1, M3 y M2 en vertical (sillas al Norte y al Sur),
+  a 0,08 entre si, arrancando en el zocalo. M2 se trae aqui, al lado de M3,
+  como pidio el cliente.
+- **Fila central.** M5 y M4, con **M4 pegada a la cara Oeste de P3**. M6 se
+  quita. Al Oeste de M5 no va ninguna mesa: ahi esta la unica salida del
+  personal de la barra a la sala, que queda en 1,31.
+- **Fila del sillon corrido.** M7+M8 y M11+M12 juntas, dos cuadruples de 1,40
+  **pegadas a sus paredes** (0,02 a la pared en L y al tabique del bano), y
+  M10 centrada entre las dos, con 0,665 a cada lado. M9 se quita.
+
+Ocho mesas y **20 plazas sentadas**.
+
+### Nevera de bebidas en P3 y lo que le hace al paso
+
+El cliente pidio una nevera expositora "estilo las de Pepsi" en la cara de P3
+que mira al ventanal. Se busco en Makro la mas estrecha que cabe en esa cara
+de 0,65: **Gasfrit de 0,54 x 0,58 x 1,92, 400 L** (A7 en la lamina 04, con su
+enlace). Se dibuja centrada, con 0,055 a cada lado.
+
+El paso no se estima: se calcula con el mayor circulo que va de la puerta a
+cada sitio sobre la planta entera con el mobiliario puesto, en malla de 1 cm.
+
+| Nevera | Paso por delante de P3 | Camino puerta -> barra |
+|---|---|---|
+| sin nevera | 1,04 | **1,04**, por el Sur |
+| en la cara Sur de P3 (lo pedido) | **0,45** | **0,74**, dando la vuelta por el Norte |
+| girada a la cara Este de P3 | 1,04 | **1,04**, por el Sur |
+
+Entre el frente de la nevera (4,108) y las sillas de M2 (3,658) quedan 0,45:
+por delante del pilar ya no se pasa. El camino de la puerta a la barra tiene
+que rodear la fila central por el Norte, donde el hueco entre sus sillas y las
+del sillon es de 0,74. El pasillo del ventanal, de 1,20 entre las dos filas de
+sillas, se queda comunicado solo por su extremo Oeste: en la lamina se dibuja
+como ramal sin salida. Todo eso esta acotado (0,45 y 0,74) y escrito en las
+notas de la lamina 01.
+
+Girar la nevera a la cara Este de P3 devuelve el paso a 1,04 sin mover ninguna
+mesa y sin que la nevera deje de verse desde la entrada: es la alternativa que
+se propone. En la lamina 04 van ademas las dos alternativas de Makro que se
+encontraron, la de menos fondo (Cleiton 0,55 -> paso 0,48) y la mas estrecha
+(Polar slimline 0,45 de ancho pero 0,68 de fondo -> paso 0,35); ninguna
+resuelve el problema, porque lo que lo causa es el fondo.
 
 ### Trasbarra nueva
 
@@ -353,19 +383,25 @@ recortado a su caja de papel. Cada aparato es un producto real de makro.es
 cafetera ya estan compradas y llevan las medidas del cliente.
 
 - **Cocina.** Linea de coccion en la medianera Norte sobre una bancada a
-  medida de 2,12 x 0,60, bajo la campana corrida de 2,00 x 1,20: placa de
-  induccion, cocedor de pasta, freidora y plancha (K1 a K4). Muro Oeste de
-  Norte a Sur: horno de conveccion, fregadero de 1,20 con hueco de
-  lavavajillas (cuba al Sur, escurridor al Norte con el lavavajillas debajo)
-  y dos armarios frigorificos verticales inox hasta P1 (3,04 en 3,05). Pared en L: mesa refrigerada de una sola
-  pieza de 2,54 x 0,60 usada como mesada, pegada al doblez, con 0,42 libres
-  junto a la bancada de coccion.
-  Pasillo de 0,78 a 0,92; entrada de 1,18 bajo la viga P1b.
-- **Barra.** Trasbarra de 2,75 contra el muro Oeste: cafetera de 1,20 x 0,60
-  sobre el modulo tecnico de 0,60 (Norte) y, bajo una unica encimera de 1,28
-  que va de A2 a A4, lavamanos, hielera con la licuadora encima y exprimidor
-  (Sur). Mostrador delantero de
-  3,19 en la linea de la pared en L: dos vitrinas de 1,00 x 0,70 con el motor
-  de 0,30 x 0,30 abajo a la izquierda, lavavasos bajo la vitrina junto a P2 y
-  barriles bajo la otra; barra de madera de 1,19 con la tablet al Norte y la
-  columna de cerveza al Sur; tabla de P2 al muro. Paso de servicio de 1,02.
+  medida de **2,18 x 0,60 metida en el hundimiento**, bajo la campana corrida
+  de 2,00 x 1,20: placa de induccion, cocedor de pasta, freidora y plancha
+  (K1 a K4). Muro Oeste de Norte a Sur: horno de conveccion, fregadero de
+  1,20 con hueco de lavavajillas (cuba al Sur, escurridor al Norte con el
+  lavavajillas debajo) y dos armarios frigorificos verticales inox hasta P1
+  (3,04 en 3,33). Pared en L: mesa refrigerada de una sola pieza de
+  2,54 x 0,60 usada como mesada, pegada al doblez, con 0,33 libres junto a la
+  bancada de coccion. **Pasillo de 0,84 a 0,98**; entrada bajo la viga P1b.
+- **Barra.** Trasbarra de **2,75 contra el muro Oeste con mesada corrida de
+  0,60**, de P1 a P2: cafetera de 1,00, hueco de 0,20 para molinillo y
+  utensilios, maquina de crema fria de cafe de 0,20, **0,75 de hueco libre**
+  y, pegado a P2, un fregadero de pie de 0,60. Debajo: nada bajo el fregadero
+  y la nevera inox de 1,04 bajo el hueco libre. Estante mural corrido de 2,50
+  (dos piezas de 1,25) sobre los aparatos. Mostrador delantero de
+  **2,79 x 0,63** en la linea de la pared en L: dos vitrinas de 1,00 x 0,70
+  con el motor de 0,30 x 0,30 abajo a la izquierda y el lavavasos bajo la
+  vitrina junto a P2; barra de madera de 0,79 con **solo la tablet de cobro**;
+  tabla de P2 al muro con la chopera encima y el barril debajo. Paso de
+  servicio de 1,05.
+- **Sala.** Nevera expositora de bebidas A7 (0,54 x 0,58 x 1,92) contra la
+  cara Sur de P3. Ver el apartado de la revision del 19 set. para lo que le
+  hace al paso.

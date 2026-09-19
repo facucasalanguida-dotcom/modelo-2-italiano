@@ -32,6 +32,7 @@ enlaces clicables.
 | B2 | Barriles de cerveza de 30 L, Ø 0,32 (debajo de la tabla de P2) | 0,32 × 0,32 × 0,60 | Barra · debajo de la tabla de P2 | ya comprado / medida promedio |
 | B3 | Caja: tablet sobre soporte (lo único que queda en el mostrador) | 0,25 × 0,20 × 0,25 | Barra · barra de madera del mostrador (única cosa que queda en ella) | ya comprado / medida promedio |
 | B4 | Columna de cerveza en T de 3 grifos, bandeja 40 × 40, sobre la tabla de P2 | 0,40 × 0,40 × 0,55 | Barra · encima de la tabla de P2 | [makro.es](https://www.makro.es/marketplace/product/f2d9d7ba-6f4f-4feb-b032-641cc4d828fe) |
+| A7 | Armario expositor de bebidas Gasfrit, 1 puerta de cristal, 400 L | 0,54 × 0,58 × 1,92 | Sala · contra la cara Sur de P3 (la que mira al ventanal), centrada: 0,055 a cada lado | [makro.es](https://www.makro.es/marketplace/product/838afb41-8f56-42d2-918a-dbbf87166ff8) |
 
 ## Alternativas con la misma función (no dibujadas)
 
@@ -52,6 +53,8 @@ Mismas fuentes y mismas reservas que la tabla anterior.
 | A4 | Fregadero industrial 1 cuba AISI-304, 700 × 600 × 850 | 0,70 × 0,60 × 0,85 | Barra · alternativa al fregadero A4 en AISI-304, 0,10 más ancho | [makro.es](https://www.makro.es/marketplace/product/95121b55-b486-4a76-a3de-ed7874e75876) |
 | A5 | Botellero inox interior y exterior, 2 puertas, 200 L, Eurast | 1,02 × 0,55 × 0,85 | Barra · alternativa a la nevera A5 (1,02, inox interior y exterior) | [makro.es](https://www.makro.es/marketplace/product/a046bf7e-9d25-4304-9593-1cd32668e47f) |
 | A5 | Botellero refrigerado de bar Yostin, 2 puertas, 100 cm, AISI-304 | 1,00 × 0,55 × 0,84 | Barra · alternativa a la nevera A5 (1,00 exactos, fabricación nacional) | [makro.es](https://www.makro.es/marketplace/product/6589602e-de66-484c-871f-68f83b182638) |
+| A7 | Expositor de bebidas Cleiton 300 L, 600 × 550 × 1950 (el de menos fondo) | 0,60 × 0,55 × 1,95 | Sala · alternativa a A7: 0,55 de fondo, deja 0,95 de paso; 0,60 de ancho y 300 L | [makro.es](https://www.makro.es/marketplace/product/f5b5e547-6c80-49b0-8b30-5ef9fb3fdc97) |
+| A7 | Expositor slimline Polar CS586, 300 L, 448 × 680 × 1900 (el más estrecho) | 0,45 × 0,68 × 1,90 | Sala · alternativa a A7: 0,45 de ancho, pero 0,68 de fondo, con lo que el paso baja a 0,82 | [makro.es](https://www.makro.es/marketplace/product/59efd1b6-9520-4eee-8f04-ecc98098a572) |
 | A3 ant. | Fabricador de hielo Gastro M CT694, 28 kg/24 h (bajo encimera) | 0,40 × 0,46 × 0,67 | Sin sitio en la trasbarra nueva: decidir dónde va | [makro.es](https://www.makro.es/marketplace/product/e3db53e1-8f64-4495-bb2c-59fe355a32e2) |
 | A4 ant. | Exprimidor de naranjas Mizumo Next Gen | 0,48 × 0,35 × 0,73 | Sin sitio en la trasbarra nueva: cabría en el hueco libre de mesada | [makro.es](https://www.makro.es/marketplace/product/a7c3e878-0cdd-4f7e-b013-897ae4f6120d) |
 | A2 ant. | Lavamanos inox con grifo y pulsador de pedal, cuba Ø340 | 0,40 × 0,40 × 0,85 | Sin sitio: lo sustituye el fregadero A4, pegado a P2 | [makro.es](https://www.makro.es/marketplace/product/6105678f-3159-4172-a17a-f400760f0b35) |
@@ -62,9 +65,9 @@ Mismas fuentes y mismas reservas que la tabla anterior.
 - Bancada de apoyo de la línea de cocción, dentro del hundimiento: 2,18 × 0,60, acero inoxidable.
 - Mesada de la trasbarra, de P1 al fregadero A4: 2,15 × 0,60 (el fregadero A4, de pie, hace los otros 0,60).
 - Hueco de 0,20 para el molinillo A2 y los utensilios, a la derecha de la cafetera.
-- Barra de madera del mostrador delantero: 0,79 × 0,76.
+- Barra de madera del mostrador delantero: 0,79 × 0,63.
 - Tabla de P2 al muro: 0,78 × 0,39 (chopera B4 encima, barril B2 debajo).
-- Mostrador delantero: 2,79 × 0,76 de fondo, del zócalo del ventanal a P1.
+- Mostrador delantero: 2,79 × 0,63 de fondo, del zócalo del ventanal a P1.
 
 ## Enlaces verificados el 15/09/2026
 
@@ -91,11 +94,12 @@ fallara al abrirlo, buscar el título en makro.es.
 | K10 | Mesa Refrigerada de 4 puertas - 350W - 2542x600x850mm | https://www.makro.es/marketplace/product/764bc52f-1287-4e08-89dc-c2e453dfea49 |
 | A2 | Molinillo de café Cunil TRANQUILO de ABC (17 x 34 x 41 cm, 275 W) | https://www.makro.es/marketplace/product/f2df0f65-b185-40b2-b2e2-2cd42fb2eefd |
 | A3 | Máquina de helado y crema fría B-CREAM1HD de Bras (200 x 490 x 620 mm, 6 L) | https://www.makro.es/marketplace/product/e4ddc7ec-739d-4b14-968b-1d230076b476 |
-| A4 | Cleiton® - Fregadero con 1 Seno con Estante 600x600x850 mm | Fregadero Industrial de Acero Inoxidable Profesional de 1 mm de Grosor | https://www.makro.es/marketplace/product/31bf0e3c-d322-4e34-a968-9bd9ace2024d |
+| A4 | Cleiton® - Fregadero con 1 Seno con Estante 600x600x850 mm \| Fregadero Industrial de Acero Inoxidable Profesional de 1 mm de Grosor | https://www.makro.es/marketplace/product/31bf0e3c-d322-4e34-a968-9bd9ace2024d |
 | A5 | Botellero frigorífico para bebidas BTL1000 1040X580X850MM | https://www.makro.es/marketplace/product/77c7b69b-09e0-4c28-878e-9454ffff60ec |
 | A6 | Estante mural cartelas compacto 1250x400x245 mm. Fabricante: Fricosmos. Referencia: 011410 | https://www.makro.es/marketplace/product/8af91e42-ebf3-4239-8e01-9b6b82b73120 |
 | B1 | Lavavasos industrial cesta 40x40 Elettrobar FAST 40 | https://www.makro.es/marketplace/product/e858e346-8373-4e64-aa03-6f9a559e168e |
 | B4 | Columna tirador completo para dispensar bebidas modelo en Te de 3 grifos | https://www.makro.es/marketplace/product/f2d9d7ba-6f4f-4feb-b032-641cc4d828fe |
+| A7 | Gasfrit - Armario expositor para bebidas refrigerado 1 puerta gran capacidad 540 x 580 x 1920 mm 400 litros refrigeración ventilada Luz led colorida | https://www.makro.es/marketplace/product/838afb41-8f56-42d2-918a-dbbf87166ff8 |
 | K10 alt | Mesa refrigerada de 4 puertas, acero inoxidable, refrigeración por aire, 85 x 223 x 70 cm, GN1/1, 380 W, EASYLINE, 553L, Vaiotec | https://www.makro.es/marketplace/product/230e627d-7291-43e0-a2b4-ebbf6e783f27 |
 | K10 alt | METRO Professional Mesa refrigerada GCC3100, Inox, 179.5 x 70 x 85 cm, 334 L, refrigeración por ventilación, 400 W | https://www.makro.es/marketplace/product/176b30f1-81b0-4a52-916e-80722d9a9240 |
 | K6 alt | Lavavajillas industrial 50x50 - 575x600x820 mm - 3500 W 230/1V - 46278719 Eurast | https://www.makro.es/marketplace/product/1acedc0e-199c-449c-b390-a8626c771613 |
@@ -108,6 +112,8 @@ fallara al abrirlo, buscar el título en makro.es.
 | A4 alt | Fregadero industrial acero inoxidable 1 cuba 700x600x850mm | https://www.makro.es/marketplace/product/95121b55-b486-4a76-a3de-ed7874e75876 |
 | A5 alt | Botellero inox ext-int 2 puertas 200 litros - 1020x550x850 mm - 110 W 230/1V - 74699209 Eurast | https://www.makro.es/marketplace/product/a046bf7e-9d25-4304-9593-1cd32668e47f |
 | A5 alt | Botellero refrigerado bar, acero inox. 2 puertas, largo 100 cm. Yostin® | https://www.makro.es/marketplace/product/6589602e-de66-484c-871f-68f83b182638 |
+| A7 alt | Cleiton® - Armario Expositor Refrigerado 300 Litros 1 Puerta Ventilado \| Frigorifico Profesional para Bebidas en Hostelería | https://www.makro.es/marketplace/product/f5b5e547-6c80-49b0-8b30-5ef9fb3fdc97 |
+| A7 alt | Armario expositor refrigerado vertical Slimline Polar CS586 | https://www.makro.es/marketplace/product/59efd1b6-9520-4eee-8f04-ecc98098a572 |
 | A3 ant. | Fabricador de cubitos de hielo 28Kg/24Hr Gastro M CT694 | https://www.makro.es/marketplace/product/e3db53e1-8f64-4495-bb2c-59fe355a32e2 |
 | A4 ant. | Exprimidor De Naranjas Profesional Mizumo Next Gen Negro (48 x 35 x 73,5 cm) | https://www.makro.es/marketplace/product/a7c3e878-0cdd-4f7e-b013-897ae4f6120d |
 | A2 ant. | Lavamanos De Acero Inoxidable Con Grifo Y Pulsador De Pedal Cuba Circular 340 X 130Mm Y Medidas 400 X 400 X 850Mm | https://www.makro.es/marketplace/product/6105678f-3159-4172-a17a-f400760f0b35 |

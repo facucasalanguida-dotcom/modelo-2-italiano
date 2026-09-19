@@ -118,10 +118,14 @@ VIGA = ('Viga P1b', 0.550, 4.933, 2.380, 5.183)
 # Estructura nueva. Medidas del cliente del 19 set.: la pared arranca en la
 # medianera Norte (en el pano sin hundir, 0,13 al Este del hundimiento) y mide
 # 3,30 de largo, con el doblez de 0,74 hacia el Oeste en su extremo Sur.
-# Su cara Este queda a 3,01 de P3, que es lo que fija su posicion en X.
+# Su cara Oeste arranca donde termina el hundimiento (2,430).
 # Sostiene el panel de vidrio de 1,35 m de alto. Espesor sin medir.
 PARED_L_E   = 0.100                     # espesor supuesto, comprobar
-PARED_L_X   = 2.660                     # cara Este = 3,01 hasta P3 (medido)
+# 19 set. (tarde): el cliente pide pegar la pared en L al final del
+# hundimiento, sin dejar el paño de 0,13 que quedaba entre los dos. Su cara
+# Oeste va a 2,430 y la Este a 2,530, con lo que hasta P3 quedan 3,14 en vez
+# de los 3,01 que habia medido: P3 no se mueve, la pared si.
+PARED_L_X   = 2.530                     # cara Este; cara Oeste en 2,430
 PARED_L_LARGO = 3.300                   # medido el 19 set.: termina en y=5,708
 PARED_L_LAR = ('Tramo largo 3,30',
                PARED_L_X - PARED_L_E, 9.008 - PARED_L_LARGO, PARED_L_X, 9.008)

@@ -13,10 +13,10 @@ antes de comprar.
 
 Recintos (plano de estructura revisado el 19/09 con las medidas del cliente):
 
-    COCINA   x 0,250 .. 2,560   y 5,808 .. 9,008 (9,283 en el hundimiento de
+    COCINA   x 0,250 .. 2,430   y 5,808 .. 9,008 (9,283 en el hundimiento de
              2,18 de la medianera Norte); entrada bajo la viga P1b, entre P1
              y el doblez de la pared en L (1,37).
-    BARRA    x 0,250 .. 2,660   y 1,968 .. 5,708   trasbarra contra el muro
+    BARRA    x 0,250 .. 2,530   y 1,968 .. 5,708   trasbarra contra el muro
              Oeste entre P1 y P2; mostrador delantero en la linea de la pared
              en L, del zocalo del ventanal a P1; paso de personal de 0,95.
 """
@@ -24,9 +24,9 @@ Recintos (plano de estructura revisado el 19/09 con las medidas del cliente):
 MAKRO = 'https://www.makro.es/marketplace/product/'
 
 # ------------------------------------------------------------------ recintos
-COCINA = dict(x0=0.250, x1=2.560, y0=5.808, y1=9.008)
+COCINA = dict(x0=0.250, x1=2.430, y0=5.808, y1=9.008)   # x1 = cara Oeste de la pared en L
 NICHO  = dict(x0=0.250, x1=2.430, y0=9.008, y1=9.283)   # hundimiento medido
-BARRA  = dict(x0=0.250, x1=2.660, y0=1.968, y1=5.708)
+BARRA  = dict(x0=0.250, x1=2.530, y0=1.968, y1=5.708)
 H_ENCIMERA = 0.900
 H_CAMPANA  = 2.000                       # borde inferior de la campana
 
@@ -194,6 +194,10 @@ ALT_BARRA = [
       1.020, 0.550, 0.850, 'a046bf7e-9d25-4304-9593-1cd32668e47f'),
     P('A5 alt', 'Botellero refrigerado de bar Yostin, 2 puertas, 100 cm, AISI-304',
       1.000, 0.550, 0.840, '6589602e-de66-484c-871f-68f83b182638'),
+    P('A7 alt', 'Expositor de bebidas Cleiton 300 L, 600 × 550 × 1950 (el de menos fondo)',
+      0.600, 0.550, 1.950, 'f5b5e547-6c80-49b0-8b30-5ef9fb3fdc97'),
+    P('A7 alt', 'Expositor slimline Polar CS586, 300 L, 448 × 680 × 1900 (el más estrecho)',
+      0.448, 0.680, 1.900, '59efd1b6-9520-4eee-8f04-ecc98098a572'),
 ]
 
 # Aparatos que la trasbarra nueva deja sin sitio: el encargo del 19 set. no
@@ -209,9 +213,27 @@ SIN_SITIO = [
       '2b8d9850-b422-4738-b716-c30da9857300'),
 ]
 
+# --- Nevera expositora de bebidas contra la cara Sur de P3 (19 set., tarde).
+#     El cliente la pide "estilo las de Pepsi": armario vertical de puerta de
+#     cristal para botellas y latas. Se elige la mas estrecha del catalogo de
+#     Makro que cabe dentro de la cara de P3 (0,65): 0,54 de ancho, y con
+#     0,58 de fondo, que es lo segundo mas somero que hay (el minimo del
+#     catalogo son 0,55). Centrada en la cara, deja 0,055 a cada lado.
+NEVERA_BEBIDAS = P('A7', 'Armario expositor de bebidas Gasfrit, 1 puerta de cristal, 400 L',
+                   0.540, 0.580, 1.920,
+                   '838afb41-8f56-42d2-918a-dbbf87166ff8')
+_P3 = (5.670, 4.688, 6.320, 5.758)                # cara Sur de P3, del modulo estructura
+NEVERA_BEBIDAS_POS = dict(
+    x0=(_P3[0] + _P3[2] - NEVERA_BEBIDAS['a']) / 2,
+    x1=(_P3[0] + _P3[2] + NEVERA_BEBIDAS['a']) / 2,
+    y0=_P3[1] - NEVERA_BEBIDAS['f'], y1=_P3[1])
+# Paso que queda entre el frente de la nevera y las mesas del ventanal: es el
+# punto mas estrecho del local y el que decide el recorrido de la sala.
+PASO_NEVERA = NEVERA_BEBIDAS_POS['y0'] - 3.188    # 0,92 al canto Norte de M2
+
 # --- Mostrador delantero en la linea de la pared en L, del ventanal al paso.
 #     Croquis del 15/09: llega hasta y=4,75, justo antes del paso de 0,60.
-MOSTRADOR_X = (BARRA_FRENTE_X0 := 1.900, 2.660)
+MOSTRADOR_X = (BARRA_FRENTE_X0 := 1.900, 2.530)
 MOSTRADOR_Y = (1.968, 4.759)              # del zocalo del ventanal a P1
 VITRINA = dict(largo=1.000, fondo_cristal=0.700, hueco_bajo=0.600,
                motor=(0.300, 0.300))    # motor abajo, a la izquierda (Sur)
@@ -244,9 +266,9 @@ def _oeste_frente_a_mesada():
     return fondos
 
 _F = _oeste_frente_a_mesada()
-ANCHO_COCINA = COCINA['x1'] - COCINA['x0']                          # 2,31
-PASILLO_COCINA_MIN = ANCHO_COCINA - max(_F) - ESTE[0]['f']         # 0,97
-PASILLO_COCINA = ANCHO_COCINA - 0.600 - ESTE[0]['f']               # 1,11 frente al fregadero
+ANCHO_COCINA = COCINA['x1'] - COCINA['x0']                          # 2,18
+PASILLO_COCINA_MIN = ANCHO_COCINA - max(_F) - ESTE[0]['f']         # 0,84
+PASILLO_COCINA = ANCHO_COCINA - 0.600 - ESTE[0]['f']               # 0,98 frente al fregadero
 PASILLO_BARRA  = MOSTRADOR_X[0] - TRASBARRA_X[1]                   # 1,05
 LIBRE_ESTE = BANCADA_COCCION['y0'] - ESTE_Y0                         # 0,33 junto a la coccion
 LARGO_OESTE = OESTE_Y0 - 5.357                                      # 3,326 hasta P1
@@ -257,4 +279,4 @@ def todos():
     """Lista plana de todo lo que hay que comprar, en orden de lamina."""
     return (COCCION + [CAMPANA] + OESTE[:2] + [LAVAVAJILLAS] + OESTE[2:] + ESTE +
             ESTE_SOBRE + TRASBARRA + [FREGADERO_BARRA, NEVERA_BARRA, ESTANTE] +
-            VITRINAS + [LAVAVASOS, BARRILES, TABLET, CHOPERA])
+            VITRINAS + [LAVAVASOS, BARRILES, TABLET, CHOPERA, NEVERA_BEBIDAS])

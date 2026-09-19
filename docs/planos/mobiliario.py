@@ -25,57 +25,58 @@ SEP = 0.050
 # (rotulo, tipo, x0, y0, x1, y1, sillas)   sillas: cadena con N S E W
 #
 # Distribucion del 19 set., con la estructura ya corregida:
-#   - Fila del ventanal Sur: las mesas arrancan en el zocalo (1,968). M1 y M2
-#     van "en vertical" (sillas al Norte y al Sur) como pidio el cliente: M1
-#     entre la barra y P5 y M2 en el hueco de 1,31 que queda entre P5 y el
-#     vestibulo, con la plaza de silla de ruedas por su lado Norte. M3 va girada
-#     (sillas al Este y al Oeste): en vertical su silla Norte se comeria el
-#     itinerario accesible, que aqui solo tiene 2,72 entre el zocalo y P3.
-#   - Fila central bajo el forjado: M5 y M4 al Oeste de P3 (M4 pegada a su
-#     cara Oeste) y M6 al Este, entre P3 y el itinerario del bano. Al Oeste
+#   - Fila del ventanal Sur (19 set., tarde): las tres mesas arrancan en el
+#     zocalo (1,968) y van "en vertical", con las sillas al Norte y al Sur.
+#     M2 se trae aqui desde el hueco del escaparate, al lado de M3.
+#   - Fila central bajo el forjado: M5 y M4, las dos al Oeste de P3 y M4
+#     pegada a su cara Oeste. M6 se quita. Al Oeste
 #     de M5 no va ninguna mesa: ahi esta la unica salida del personal de la
 #     barra a la sala (1,18 entre la linea del mostrador y M5), que es
 #     tambien por donde se entra a la cocina por el paso de 0,95.
-#   - Fila del sillon corrido: seis mesas de 0,70 a 0,10 entre si, con el
-#     sillon de asiento por el Norte y una silla por el Sur. A 0,10 se juntan
-#     de dos en dos sin mover nada y cada comensal tiene 0,80 de banco.
+#   - Fila del sillon corrido: dos cuadruples de 1,40 (dos mesas de 0,70
+#     juntas) pegadas a los extremos, contra la pared en L y contra el
+#     tabique del bano, y una doble centrada entre las dos.
 # La plaza de silla de ruedas ocupa el lado Norte de M1, al que se llega
 # desde el ramal del itinerario que va a la barra.
 MESAS_PB = [
-    ('M1', 'doble', 3.660, 2.488, 4.360, 3.188, 'NS'),
-    ('M3', 'doble', 5.000, 2.488, 5.700, 3.188, 'EW'),
-    ('M2', 'doble', 6.520, 1.050, 7.220, 1.750, 'S'),
-    ('M5', 'doble', 3.840, 5.330, 4.540, 6.030, 'NS'),
-    ('M4', 'doble', 4.970, 5.330, 5.670, 6.030, 'NS'),
-    ('M6', 'doble', 6.500, 5.330, 7.200, 6.030, 'NS'),
-] + [(f'M{7 + i}', 'doble', round(2.680 + 0.800 * i, 3), 7.708,
-      round(2.680 + 0.800 * i + 0.700, 3), 8.408, 'S') for i in range(6)]
+    ('M1', 'doble',     3.530, 2.488, 4.230, 3.188, 'NS'),
+    ('M3', 'doble',     4.310, 2.488, 5.010, 3.188, 'NS'),
+    ('M2', 'doble',     5.090, 2.488, 5.790, 3.188, 'NS'),
+    ('M5', 'doble',     3.840, 5.330, 4.540, 6.030, 'NS'),
+    ('M4', 'doble',     4.970, 5.330, 5.670, 6.030, 'NS'),
+    ('M7', 'cuadruple', 2.550, 7.708, 3.950, 8.408, 'S'),
+    ('M10', 'doble',    4.615, 7.708, 5.315, 8.408, 'S'),
+    ('M11', 'cuadruple', 5.980, 7.708, 7.380, 8.408, 'S'),
+]
 
-# Itinerario accesible: tramos (metros), espacios de giro de 1,50, plaza de
-# silla de ruedas y anchos que se acotan.
-#   - El ramal a la barra pasa a 0,60 de la cara Sur de P3 y sube a 4,26 al
-#     Oeste del pilar, que es donde manda la fila del ventanal: entre la silla
-#     Norte de M1 (3,658) y la silla Sur de la fila central (4,860) hay
-#     justo 1,20.
-#   - El tronco llega hasta la hoja de la puerta del bano, corrido a 8,007
-#     para dejar 0,64 a la ultima mesa del sillon y a la caja de escalera.
-#   - La plaza PMR va al lado Norte de M2, en el hueco entre P5 y el
-#     vestibulo: su borde Este coincide con el borde Oeste del itinerario, de
-#     modo que la silla de ruedas entra desde el sin invadirlo.
+# Itinerario: tramos (metros), espacios de giro de 1,50 y anchos que se
+# acotan. Trazado con el mayor circulo que pasa de la puerta a cada sitio,
+# medido sobre la planta con todo el mobiliario puesto (1 cm de malla).
+#
+# La nevera A7 sale 0,58 de la cara Sur de P3 y deja 0,45 hasta las sillas
+# de M2: por delante del pilar ya no se pasa. El camino de la puerta a la
+# barra tiene que dar la vuelta por el Norte de la fila central, donde el
+# hueco entre las sillas de esa fila (6,500) y las del sillon (7,238) es
+# de 0,74. Sin la nevera el paso por el Sur era de 1,04.
+#
+# El pasillo del ventanal (1,20 entre las dos filas de sillas) se queda
+# comunicado solo por su extremo Oeste: se dibuja como ramal sin salida.
 ACC_ITINERARIO = [
     [(8.300, 0.600), (8.300, 2.400), (7.870, 3.200), (7.870, 7.000),
      (8.007, 7.250), (8.007, 7.730)],
-    [(7.870, 4.088), (5.500, 4.088), (5.000, 4.260), (3.260, 4.260)],
+    [(7.870, 6.869), (3.400, 6.869), (3.185, 6.300), (3.185, 4.173)],
+    [(3.185, 4.173), (5.300, 4.173)],
 ]
 # giros: centro y posicion del rotulo (fuera del trazo del itinerario)
 ACC_GIROS = [((8.550, 2.120), (9.220, 2.860)), ((7.870, 6.600), (7.870, 6.960))]
-ACC_PMR = (6.470, 1.800, 7.270, 3.000)
+ACC_PMR = None
 # anchos que se acotan: tipo, posicion de la linea, extremos y sitio del texto
 ACC_ANCHOS = [
-    ('v', 4.190, 3.658, 4.860, 4.330, 4.100),    # itinerario: sillas del ventanal - fila central
-    ('h', 5.730, 7.200, 8.650, 7.930, 5.840),    # M6 - caja de escalera
-    ('v', 6.850, 6.550, 7.238, 6.680, 6.900),    # sillas: fila central - sillon
-    ('h', 5.600, 2.660, 3.840, 3.250, 5.710),    # salida del personal a la sala
+    ('v', 4.190, 3.658, 4.860, 4.330, 4.100),    # sillas del ventanal - fila central
+    ('v', 5.740, 3.658, 4.108, 5.560, 3.885),    # sillas de M2 - nevera A7: 0,45
+    ('h', 5.730, 7.380, 8.650, 7.980, 5.840),    # M11 - caja de escalera
+    ('v', 6.850, 6.500, 7.238, 6.680, 6.900),    # sillas: fila central - sillon
+    ('h', 5.600, 2.530, 3.840, 3.180, 5.710),    # salida del personal a la sala
 ]
 
 # Planta alta: mesa grande de cowork y una redonda grande. La redonda que

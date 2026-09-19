@@ -38,6 +38,7 @@ UBICACION = {
     'B2': 'Barra · debajo de la tabla de P2',
     'B3': 'Barra · barra de madera del mostrador (única cosa que queda en ella)',
     'B4': 'Barra · encima de la tabla de P2',
+    'A7': 'Sala · contra la cara Sur de P3 (la que mira al ventanal), centrada: 0,055 a cada lado',
 }
 
 
@@ -78,6 +79,9 @@ TITULOS_MAKRO = {
     '635e0924-0d3e-42ca-965e-e66eb41cdee1': 'Granizadora Industrial 1 Cuba 5Ltr GRANISMART 5x1 Eurofred (260 x 400 x 630 mm)',
     '8af91e42-ebf3-4239-8e01-9b6b82b73120': 'Estante mural cartelas compacto 1250x400x245 mm. Fabricante: Fricosmos. Referencia: 011410',
     '15f4f100-83b5-4f51-a383-11acf9989372': 'Estante en inox de pared (2000 x 400 x 250 mm)',
+    '838afb41-8f56-42d2-918a-dbbf87166ff8': 'Gasfrit - Armario expositor para bebidas refrigerado 1 puerta gran capacidad 540 x 580 x 1920 mm 400 litros refrigeración ventilada Luz led colorida',
+    'f5b5e547-6c80-49b0-8b30-5ef9fb3fdc97': 'Cleiton® - Armario Expositor Refrigerado 300 Litros 1 Puerta Ventilado | Frigorifico Profesional para Bebidas en Hostelería',
+    '59efd1b6-9520-4eee-8f04-ecc98098a572': 'Armario expositor refrigerado vertical Slimline Polar CS586',
 }
 
 
@@ -99,6 +103,8 @@ UBICACION_ALT = {
     'e826e334-3cba-44fc-a530-627af1dabaf6': 'Barra · alternativa a A3: misma anchura, 10 L, pero 0,79 de alto',
     '635e0924-0d3e-42ca-965e-e66eb41cdee1': 'Barra · alternativa a A3: cuba de 5 L, 0,26 de ancho y solo 0,40 de fondo',
     '15f4f100-83b5-4f51-a383-11acf9989372': 'Barra · alternativa a A6: una sola pieza de 2,00 en vez de dos de 1,25',
+    'f5b5e547-6c80-49b0-8b30-5ef9fb3fdc97': 'Sala · alternativa a A7: 0,55 de fondo, deja 0,95 de paso; 0,60 de ancho y 300 L',
+    '59efd1b6-9520-4eee-8f04-ecc98098a572': 'Sala · alternativa a A7: 0,45 de ancho, pero 0,68 de fondo, con lo que el paso baja a 0,82',
 }
 
 
@@ -132,7 +138,8 @@ A_MEDIDA = [
 
 
 def titulo(p):
-    return TITULOS_MAKRO.get((p.get('url') or '').rsplit('/', 1)[-1], '')
+    # algunos titulos de Makro llevan '|', que partiria la celda de la tabla
+    return TITULOS_MAKRO.get((p.get('url') or '').rsplit('/', 1)[-1], '').replace('|', '\\|')
 
 
 def main():
