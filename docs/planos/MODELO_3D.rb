@@ -58,6 +58,9 @@
 #      Pasillo de la cocina                           0,840 a 0,980
 #----------------------------------------------------------------------------
 
+# recargar el fichero no debe llenar la consola de avisos de constante
+Object.send(:remove_const, :Local3D) if defined?(Local3D)
+
 module Local3D
 
   NOMBRE_MODELO = "Local de hosteleria"
@@ -83,7 +86,6 @@ module Local3D
     ["escalera", "Escalera", 162, 158, 152],
     ["luz", "Luminaria", 246, 232, 180],
     ["aire", "Aire acondicionado", 111, 138, 153],
-    ["reserva", "Reserva", 122, 106, 78],
   ]
 
   # --- capas
@@ -474,17 +476,20 @@ module Local3D
     @capas[nombre] ||= (model.layers[nombre] || model.layers.add(nombre))
   end
 
-  # Extruye una cara horizontal creada en z0 hasta z1. La cara se construye
-  # en sentido antihorario visto desde arriba, asi que su normal apunta a +Z
-  # y el pushpull positivo sube; aun asi se comprueba la normal, porque
-  # SketchUp puede invertirla al fusionar geometria.
+  # Extruye una cara horizontal creada en z0 hasta z1. El sentido de giro NO
+  # esta garantizado: las cajas vienen en antihorario pero los tres prismas
+  # vienen en horario visto desde arriba. Por eso se fuerza la normal a +Z
+  # antes del pushpull, y esa comprobacion NO se puede quitar.
   def self.extruir(grupo, puntos_xy, z0, z1)
     pts = puntos_xy.map { |x, y| Geom::Point3d.new(x.m, y.m, z0.m) }
-    cara = grupo.entities.add_face(pts)
+    begin
+      cara = grupo.entities.add_face(pts)
+    rescue ArgumentError
+      cara = nil
+    end
     return nil if cara.nil?
-    alto = (z1 - z0).m
     cara.reverse! if cara.normal.z < 0
-    cara.pushpull(alto)
+    cara.pushpull((z1 - z0).m)
     cara
   end
 
@@ -496,38 +501,77 @@ module Local3D
     grupo
   end
 
+  # Si la cara no se puede crear, se borra el grupo vacio y se avisa, en vez
+  # de dejar un grupo con nombre y sin geometria que ademas contaria como
+  # solido construido.
+  def self.fallo(grupo, nombre)
+    grupo.erase! if grupo && grupo.valid?
+    @fallos << nombre
+    puts "AVISO: no se pudo crear #{nombre}"
+    nil
+  end
+
   def self.caja(model, ents, capa_nombre, mat_clave, nombre, x0, y0, x1, y1, z0, z1)
     g = ents.add_group
-    extruir(g, [[x0, y0], [x1, y0], [x1, y1], [x0, y1]], z0, z1)
+    return fallo(g, nombre) if extruir(g, [[x0, y0], [x1, y0], [x1, y1], [x0, y1]], z0, z1).nil?
     poner(g, model, capa_nombre, mat_clave, nombre)
   end
 
   def self.prisma(model, ents, capa_nombre, mat_clave, nombre, pts, z0, z1)
     g = ents.add_group
-    extruir(g, pts, z0, z1)
+    return fallo(g, nombre) if extruir(g, pts, z0, z1).nil?
     poner(g, model, capa_nombre, mat_clave, nombre)
+  end
+
+  # add_circle deja un poligono INSCRITO: los vertices caen en el radio pedido
+  # y las caras quedan por dentro. Con 32 segmentos eso son casi 3 mm de menos
+  # en un tablero de 1,20. Aqui el numero de lados se ajusta al radio (lado de
+  # ~15 mm, entre 24 y 128) y el radio se corrige para que el poligono tenga la
+  # misma AREA que el circulo: el error baja a decimas de milimetro.
+  LADO_ARCO = 0.015
+  SEGMENTOS_MIN = 32
+  SEGMENTOS_MAX = 128
+
+  def self.segmentos(r)
+    n = (2 * Math::PI * r / LADO_ARCO).round
+    [[n, SEGMENTOS_MIN].max, SEGMENTOS_MAX].min
+  end
+
+  def self.radio_equivalente(r, n)
+    t = 2 * Math::PI / n
+    r * Math.sqrt(t / Math.sin(t))
   end
 
   def self.cilindro(model, ents, capa_nombre, mat_clave, nombre, cx, cy, r, z0, z1)
     g = ents.add_group
+    n = segmentos(r)
     centro = Geom::Point3d.new(cx.m, cy.m, z0.m)
-    aristas = g.entities.add_circle(centro, Geom::Vector3d.new(0, 0, 1), r.m, 32)
-    cara = g.entities.add_face(aristas)
-    if cara
-      cara.reverse! if cara.normal.z < 0
-      cara.pushpull((z1 - z0).m)
-    end
+    aristas = g.entities.add_circle(centro, Geom::Vector3d.new(0, 0, 1),
+                                    radio_equivalente(r, n).m, n)
+    cara = aristas ? g.entities.add_face(aristas) : nil
+    return fallo(g, nombre) if cara.nil?
+    cara.reverse! if cara.normal.z < 0
+    cara.pushpull((z1 - z0).m)
     poner(g, model, capa_nombre, mat_clave, nombre)
   end
 
   # --------------------------------------------------------------- limpieza
+  # Borra TODOS los grupos raiz con este nombre, no solo el primero: si el
+  # usuario copio el grupo o deshizo a medias puede haber mas de uno.
+  def self.borrar_raices(model)
+    model.entities.grep(Sketchup::Group)
+         .select { |g| g.name == NOMBRE_MODELO }
+         .each { |g| g.erase! if g.valid? }
+  end
+
   def self.clear
     model = Sketchup.active_model
     model.start_operation("Borrar #{NOMBRE_MODELO}", true)
-    raiz = model.entities.grep(Sketchup::Group).find { |g| g.name == NOMBRE_MODELO }
-    raiz.erase! if raiz && raiz.valid?
+    borrar_raices(model)
     model.commit_operation
-    Sketchup.active_model.active_view.invalidate
+    @mats = {}
+    @capas = {}
+    model.active_view.invalidate
     "borrado"
   end
 
@@ -539,17 +583,22 @@ module Local3D
 
     # metros como unidad de trabajo del modelo
     begin
-      model.options["UnitsOptions"]["LengthUnit"] = 4   # 4 = metros
-      model.options["UnitsOptions"]["LengthFormat"] = 0
-      model.options["UnitsOptions"]["LengthPrecision"] = 3
+      # El ORDEN importa: con formato arquitectonico o fraccionario SketchUp
+      # fuerza pulgadas, asi que hay que poner el formato decimal ANTES de
+      # pedir metros. Al reves, el modelo se acota en pulgadas.
+      model.options["UnitsOptions"]["LengthFormat"] = 0    # decimal
+      model.options["UnitsOptions"]["LengthUnit"] = 4      # 4 = metros
+      model.options["UnitsOptions"]["LengthPrecision"] = 3 # milimetro
     rescue StandardError
       # si la version no acepta estas opciones, seguimos: la geometria no cambia
     end
 
+    n = 0
+    abiertos = 0
+    @fallos = []
     model.start_operation("Construir #{NOMBRE_MODELO}", true)
     begin
-      anterior = model.entities.grep(Sketchup::Group).find { |g| g.name == NOMBRE_MODELO }
-      anterior.erase! if anterior && anterior.valid?
+      borrar_raices(model)
 
       CAPAS.each { |c| capa(model, c) }
 
@@ -557,18 +606,14 @@ module Local3D
       raiz.name = NOMBRE_MODELO
       ents = raiz.entities
 
-      n = 0
       CAJAS.each do |f|
-        caja(model, ents, f[0], f[1], f[2], f[3], f[4], f[5], f[6], f[7], f[8])
-        n += 1
+        n += 1 if caja(model, ents, f[0], f[1], f[2], f[3], f[4], f[5], f[6], f[7], f[8])
       end
       PRISMAS.each do |f|
-        prisma(model, ents, f[0], f[1], f[2], f[3], f[4], f[5])
-        n += 1
+        n += 1 if prisma(model, ents, f[0], f[1], f[2], f[3], f[4], f[5])
       end
       CILINDROS.each do |f|
-        cilindro(model, ents, f[0], f[1], f[2], f[3], f[4], f[5], f[6], f[7])
-        n += 1
+        n += 1 if cilindro(model, ents, f[0], f[1], f[2], f[3], f[4], f[5], f[6], f[7])
       end
 
       CAPAS_OCULTAS.each do |c|
@@ -576,18 +621,27 @@ module Local3D
         l.visible = false if l
       end
 
+      # control de calidad: cada pieza tiene que ser un solido cerrado
+      abiertos = ents.grep(Sketchup::Group).reject { |g| g.manifold? }.size
+
       model.commit_operation
-      model.active_view.zoom_extents
-      puts "#{NOMBRE_MODELO}: #{n} solidos en #{CAPAS.length} capas."
-      n
     rescue StandardError => e
       model.abort_operation
       puts "ERROR al construir: #{e.message}"
-      puts e.backtrace.first(8)
+      puts(e.backtrace ? e.backtrace.first(8) : "(sin backtrace)")
       raise
     end
+
+    # todo lo que va despues del commit, fuera del bloque protegido: si algo
+    # falla aqui no se puede abortar una operacion que ya esta confirmada.
+    model.active_view.zoom_extents
+    total = CAJAS.length + PRISMAS.length + CILINDROS.length
+    puts "#{NOMBRE_MODELO}: #{n} de #{total} solidos en #{CAPAS.length} capas."
+    puts "AVISO: #{@fallos.length} piezas sin crear -> #{@fallos.join(', ')}" unless @fallos.empty?
+    puts "AVISO: #{abiertos} piezas no son solido cerrado." if abiertos > 0
+    n
   end
 
 end
 
-Local3D.build
+Local3D.build if defined?(Sketchup)
