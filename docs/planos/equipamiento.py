@@ -150,8 +150,8 @@ NEVERA_BARRA = P('A5', 'Botellero frigorífico BTL1000, 2 puertas correderas, 24
                  1.040, 0.580, 0.850,
                  '77c7b69b-09e0-4c28-878e-9454ffff60ec')
 # Dos piezas iguales hacen el estante corrido de 2,50 sobre la mesada.
-ESTANTE = P('A6', 'Estante mural cartelas compacto Fricosmos 011410, 1250 × 400 × '
-                  '245 (2 piezas hacen 2,50)', 1.250, 0.400, 0.245,
+ESTANTE = P('A6', 'Estante mural cartelas compacto Fricosmos 011410, 1250 × 400 × 245',
+            1.250, 0.400, 0.245,
             '8af91e42-ebf3-4239-8e01-9b6b82b73120')
 ESTANTE_N = 2
 ESTANTE_LARGO = ESTANTE['a'] * ESTANTE_N

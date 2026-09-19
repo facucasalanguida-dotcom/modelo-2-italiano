@@ -359,7 +359,7 @@ def lamina_lista():
     enlaces = []
     x0, x1 = 14.0, CAJ_X - 6.0
     c_tag, c_nom, c_med, c_ubi, c_url = x0, x0 + 14.0, x0 + 98.0, x0 + 118.0, x0 + 206.0
-    paso = 4.15
+    paso = 3.90
 
     L.p_texto('rotulos', x0, 36.0, 'LISTA DE EQUIPAMIENTO  ·  MAKRO', 4.2, 'start',
               TINTA, 'bold', espaciado='0.8')
@@ -396,7 +396,7 @@ def lamina_lista():
                       'start', '#8a8a8a')
         return y + paso
 
-    y = seccion(50.0, 'EQUIPOS DIBUJADOS EN LAS LÁMINAS 01 Y 03')
+    y = seccion(48.0, 'EQUIPOS DIBUJADOS EN LAS LÁMINAS 01 Y 03')
     y = cabecera(y)
     for i, p in enumerate(Q.todos()):
         y = fila(y, i, p)
@@ -414,15 +414,13 @@ def lamina_lista():
     y = seccion(y + 4.0, 'A MEDIDA  ·  no se compran en Makro')
     for t in LM.A_MEDIDA:
         L.p_texto('rotulos', c_nom, y, '·  ' + t, 2.0, 'start', '#222222')
-        y += 3.7
+        y += 3.5
 
     y = seccion(y + 3.0, 'VERIFICACIÓN DE LOS ENLACES')
-    for t in ('makro.es responde 403 a cualquier acceso desde un servidor (curl, Playwright o un '
-              'navegador en la nube), así que las fichas no se pueden abrir desde el entorno de trabajo.',
-              'Cada enlace se verificó buscando su identificador con el buscador restringido a makro.es: '
-              'todos devuelven su URL con el título del producto (LISTA_MAKRO.md).',
-              'La ficha del fregadero K7 (Ref. AAA0045913963) no está indexada: el enlace lo facilitó el '
-              'cliente. Precios y stock no se han podido leer con fiabilidad: confirmar antes de comprar.'):
+    for t in ('makro.es responde 403 a cualquier acceso desde un servidor, así que las fichas no se pueden '
+              'abrir desde el entorno de trabajo. Cada enlace se verificó buscando su identificador con el',
+              'buscador restringido a makro.es: todos devuelven su URL con el título del producto '
+              '(LISTA_MAKRO.md). La del fregadero K7 la facilitó el cliente. Confirmar precio y stock.'):
         L.p_texto('rotulos', c_nom, y, t, 2.0, 'start', '#444444')
         y += 3.7
 

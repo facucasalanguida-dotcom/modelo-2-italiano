@@ -19,257 +19,256 @@
 <rect x="9.200" y="9.200" width="401.600" height="278.600" fill="none" stroke="#111111" stroke-width="0.1"/>
 </g>
 <g id="fondo">
-<rect x="12.500" y="56.950" width="297.500" height="4.700" fill="#f7f4ee" stroke="none"/>
-<rect x="12.500" y="65.250" width="297.500" height="4.700" fill="#f7f4ee" stroke="none"/>
-<rect x="12.500" y="73.550" width="297.500" height="4.700" fill="#f7f4ee" stroke="none"/>
-<rect x="12.500" y="81.850" width="297.500" height="4.700" fill="#f7f4ee" stroke="none"/>
-<rect x="12.500" y="90.150" width="297.500" height="4.700" fill="#f7f4ee" stroke="none"/>
-<rect x="12.500" y="98.450" width="297.500" height="4.700" fill="#f7f4ee" stroke="none"/>
-<rect x="12.500" y="106.750" width="297.500" height="4.700" fill="#f7f4ee" stroke="none"/>
-<rect x="12.500" y="115.050" width="297.500" height="4.700" fill="#f7f4ee" stroke="none"/>
-<rect x="12.500" y="123.350" width="297.500" height="4.700" fill="#f7f4ee" stroke="none"/>
-<rect x="12.500" y="131.650" width="297.500" height="4.700" fill="#f7f4ee" stroke="none"/>
-<rect x="12.500" y="139.950" width="297.500" height="4.700" fill="#f7f4ee" stroke="none"/>
-<rect x="12.500" y="148.250" width="297.500" height="4.700" fill="#f7f4ee" stroke="none"/>
-<rect x="12.500" y="166.750" width="297.500" height="4.700" fill="#f7f4ee" stroke="none"/>
-<rect x="12.500" y="175.050" width="297.500" height="4.700" fill="#f7f4ee" stroke="none"/>
-<rect x="12.500" y="183.350" width="297.500" height="4.700" fill="#f7f4ee" stroke="none"/>
-<rect x="12.500" y="191.650" width="297.500" height="4.700" fill="#f7f4ee" stroke="none"/>
-<rect x="12.500" y="199.950" width="297.500" height="4.700" fill="#f7f4ee" stroke="none"/>
-<rect x="12.500" y="208.250" width="297.500" height="4.700" fill="#f7f4ee" stroke="none"/>
-<rect x="12.500" y="230.900" width="297.500" height="4.700" fill="#f7f4ee" stroke="none"/>
-<rect x="12.500" y="239.200" width="297.500" height="4.700" fill="#f7f4ee" stroke="none"/>
+<rect x="12.500" y="54.700" width="297.500" height="4.700" fill="#f7f4ee" stroke="none"/>
+<rect x="12.500" y="62.500" width="297.500" height="4.700" fill="#f7f4ee" stroke="none"/>
+<rect x="12.500" y="70.300" width="297.500" height="4.700" fill="#f7f4ee" stroke="none"/>
+<rect x="12.500" y="78.100" width="297.500" height="4.700" fill="#f7f4ee" stroke="none"/>
+<rect x="12.500" y="85.900" width="297.500" height="4.700" fill="#f7f4ee" stroke="none"/>
+<rect x="12.500" y="93.700" width="297.500" height="4.700" fill="#f7f4ee" stroke="none"/>
+<rect x="12.500" y="101.500" width="297.500" height="4.700" fill="#f7f4ee" stroke="none"/>
+<rect x="12.500" y="109.300" width="297.500" height="4.700" fill="#f7f4ee" stroke="none"/>
+<rect x="12.500" y="117.100" width="297.500" height="4.700" fill="#f7f4ee" stroke="none"/>
+<rect x="12.500" y="124.900" width="297.500" height="4.700" fill="#f7f4ee" stroke="none"/>
+<rect x="12.500" y="132.700" width="297.500" height="4.700" fill="#f7f4ee" stroke="none"/>
+<rect x="12.500" y="140.500" width="297.500" height="4.700" fill="#f7f4ee" stroke="none"/>
+<rect x="12.500" y="158.500" width="297.500" height="4.700" fill="#f7f4ee" stroke="none"/>
+<rect x="12.500" y="166.300" width="297.500" height="4.700" fill="#f7f4ee" stroke="none"/>
+<rect x="12.500" y="174.100" width="297.500" height="4.700" fill="#f7f4ee" stroke="none"/>
+<rect x="12.500" y="181.900" width="297.500" height="4.700" fill="#f7f4ee" stroke="none"/>
+<rect x="12.500" y="189.700" width="297.500" height="4.700" fill="#f7f4ee" stroke="none"/>
+<rect x="12.500" y="197.500" width="297.500" height="4.700" fill="#f7f4ee" stroke="none"/>
+<rect x="12.500" y="219.400" width="297.500" height="4.700" fill="#f7f4ee" stroke="none"/>
+<rect x="12.500" y="227.200" width="297.500" height="4.700" fill="#f7f4ee" stroke="none"/>
 </g>
 <g id="rotulos">
 <text x="14.000" y="36.000" font-size="4.2" text-anchor="start" fill="#111111" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold" letter-spacing="0.8">LISTA DE EQUIPAMIENTO  ·  MAKRO</text>
 <text x="14.000" y="41.800" font-size="2.3" text-anchor="start" fill="#666666" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Todo lo que hay que comprar para la barra y la cocina, con la ficha de makro.es de cada producto. Medidas en metros, ancho × fondo × alto. Los enlaces de la última columna son clicables en el PDF.</text>
-<text x="14.000" y="50.000" font-size="2.7" text-anchor="start" fill="#111111" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold" letter-spacing="0.5">EQUIPOS DIBUJADOS EN LAS LÁMINAS 01 Y 03</text>
-<text x="14.000" y="55.600" font-size="1.9" text-anchor="start" fill="#7a6a4a" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">RÓTULO</text>
-<text x="28.000" y="55.600" font-size="1.9" text-anchor="start" fill="#7a6a4a" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">PRODUCTO</text>
-<text x="112.000" y="55.600" font-size="1.9" text-anchor="start" fill="#7a6a4a" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">MEDIDAS</text>
-<text x="132.000" y="55.600" font-size="1.9" text-anchor="start" fill="#7a6a4a" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">DÓNDE VA</text>
-<text x="220.000" y="55.600" font-size="1.9" text-anchor="start" fill="#7a6a4a" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">FICHA EN MAKRO.ES</text>
-<line x1="14.000" y1="57.000" x2="310.000" y2="57.000" stroke="#cfc6b6" stroke-width="0.13"/>
-<text x="14.000" y="60.350" font-size="2.1" text-anchor="start" fill="#4a5a68" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">K1</text>
-<text x="28.000" y="60.350" font-size="2.1" text-anchor="start" fill="#222222" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Placa de inducción Bartscher, 2 zonas Ø230, 6 kW, 400 V</text>
-<text x="112.000" y="60.350" font-size="2.1" text-anchor="start" fill="#111111" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">0,70 × 0,46 × 0,12</text>
-<text x="132.000" y="60.350" font-size="2.1" text-anchor="start" fill="#444444" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Cocina · cocción, medianera Norte, bajo la campana, 1º desde el Oeste</text>
-<text x="220.000" y="60.350" font-size="2.0" text-anchor="start" fill="#1f4e79" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">https://www.makro.es/marketplace/product/623ef78b-af50-4e27-a2c5-b3a45089ba59</text>
-<text x="14.000" y="64.500" font-size="2.1" text-anchor="start" fill="#4a5a68" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">K2</text>
-<text x="28.000" y="64.500" font-size="2.1" text-anchor="start" fill="#222222" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Cocedor de pasta eléctrico METRO Professional GNC1008, 8 L, 4 cestos</text>
-<text x="112.000" y="64.500" font-size="2.1" text-anchor="start" fill="#111111" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">0,47 × 0,55 × 0,38</text>
-<text x="132.000" y="64.500" font-size="2.1" text-anchor="start" fill="#444444" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Cocina · cocción, bajo la campana, 2º</text>
-<text x="220.000" y="64.500" font-size="2.0" text-anchor="start" fill="#1f4e79" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">https://www.makro.es/marketplace/product/85f3fb44-3f09-463c-ab29-53822c8c1ce7</text>
-<text x="14.000" y="68.650" font-size="2.1" text-anchor="start" fill="#4a5a68" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">K3</text>
-<text x="28.000" y="68.650" font-size="2.1" text-anchor="start" fill="#222222" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Freidora profesional 1 cuba de 7 L, eléctrica</text>
-<text x="112.000" y="68.650" font-size="2.1" text-anchor="start" fill="#111111" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">0,27 × 0,46 × 0,37</text>
-<text x="132.000" y="68.650" font-size="2.1" text-anchor="start" fill="#444444" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Cocina · cocción, bajo la campana, 3º</text>
-<text x="220.000" y="68.650" font-size="2.0" text-anchor="start" fill="#1f4e79" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">https://www.makro.es/marketplace/product/57e9d9ed-d483-4f88-a049-5597b3a7ad18</text>
-<text x="14.000" y="72.800" font-size="2.1" text-anchor="start" fill="#4a5a68" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">K4</text>
-<text x="28.000" y="72.800" font-size="2.1" text-anchor="start" fill="#222222" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Plancha eléctrica Cleiton 50 cm, placa de 8 mm, sobremesa</text>
-<text x="112.000" y="72.800" font-size="2.1" text-anchor="start" fill="#111111" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">0,55 × 0,50 × 0,33</text>
-<text x="132.000" y="72.800" font-size="2.1" text-anchor="start" fill="#444444" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Cocina · cocción, bajo la campana, 4º, contra la pared en L</text>
-<text x="220.000" y="72.800" font-size="2.0" text-anchor="start" fill="#1f4e79" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">https://www.makro.es/marketplace/product/acd212b2-73a4-42bc-bea7-329d5ab4771d</text>
-<text x="14.000" y="76.950" font-size="2.1" text-anchor="start" fill="#4a5a68" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">KC</text>
-<text x="28.000" y="76.950" font-size="2.1" text-anchor="start" fill="#222222" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Campana extractora industrial recta, sin turbina, AISI-304 satinado, 2 × 1,2 m</text>
-<text x="112.000" y="76.950" font-size="2.1" text-anchor="start" fill="#111111" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">2,00 × 1,20 × 0,50</text>
-<text x="132.000" y="76.950" font-size="2.1" text-anchor="start" fill="#444444" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Cocina · campana mural corrida sobre K1 a K4, borde inferior a +2,00</text>
-<text x="220.000" y="76.950" font-size="2.0" text-anchor="start" fill="#1f4e79" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">https://www.makro.es/marketplace/product/a8240770-cb5f-491b-926d-83b1e1e00a22</text>
-<text x="14.000" y="81.100" font-size="2.1" text-anchor="start" fill="#4a5a68" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">K5</text>
-<text x="28.000" y="81.100" font-size="2.1" text-anchor="start" fill="#222222" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Horno de convección eléctrico industrial, 4 bandejas 45 × 33</text>
-<text x="112.000" y="81.100" font-size="2.1" text-anchor="start" fill="#111111" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">0,59 × 0,59 × 0,57</text>
-<text x="132.000" y="81.100" font-size="2.1" text-anchor="start" fill="#444444" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Cocina · muro Oeste, esquina Norte, sobre soporte</text>
-<text x="220.000" y="81.100" font-size="2.0" text-anchor="start" fill="#1f4e79" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">https://www.makro.es/marketplace/product/e3c35b3b-14d3-4e2b-a109-373a863ddff9</text>
-<text x="14.000" y="85.250" font-size="2.1" text-anchor="start" fill="#4a5a68" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">K7</text>
-<text x="28.000" y="85.250" font-size="2.1" text-anchor="start" fill="#222222" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Fregadero con bastidor con hueco lavavajillas, cuba izquierda, 1200 × 600</text>
-<text x="112.000" y="85.250" font-size="2.1" text-anchor="start" fill="#111111" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">1,20 × 0,60 × 0,85</text>
-<text x="132.000" y="85.250" font-size="2.1" text-anchor="start" fill="#444444" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Cocina · muro Oeste, entre el horno y los frigoríficos; cuba al Sur, escurridor al Norte</text>
-<text x="220.000" y="85.250" font-size="2.0" text-anchor="start" fill="#1f4e79" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">https://www.makro.es/marketplace/product/c0cd57f0-35a2-485a-98f4-5dffc628d84e</text>
-<text x="14.000" y="89.400" font-size="2.1" text-anchor="start" fill="#4a5a68" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">K6</text>
-<text x="28.000" y="89.400" font-size="2.1" text-anchor="start" fill="#222222" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Lavavajillas industrial ST500, cesta 50 × 50, bajo el escurridor de K7</text>
-<text x="112.000" y="89.400" font-size="2.1" text-anchor="start" fill="#111111" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">0,56 × 0,65 × 0,86</text>
-<text x="132.000" y="89.400" font-size="2.1" text-anchor="start" fill="#444444" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Cocina · muro Oeste, bajo el escurridor del fregadero K7 (hueco de lavavajillas)</text>
-<text x="220.000" y="89.400" font-size="2.0" text-anchor="start" fill="#1f4e79" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">https://www.makro.es/marketplace/product/b6893f6e-6c55-499e-8e8b-4e246d107961</text>
-<text x="14.000" y="93.550" font-size="2.1" text-anchor="start" fill="#4a5a68" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">K8</text>
-<text x="28.000" y="93.550" font-size="2.1" text-anchor="start" fill="#222222" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Armario refrigerado vertical Edenox APS-451 I, inox, 1 puerta, 395 L</text>
-<text x="112.000" y="93.550" font-size="2.1" text-anchor="start" fill="#111111" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">0,63 × 0,74 × 1,86</text>
-<text x="132.000" y="93.550" font-size="2.1" text-anchor="start" fill="#444444" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Cocina · muro Oeste, vertical, al Sur del fregadero</text>
-<text x="220.000" y="93.550" font-size="2.0" text-anchor="start" fill="#1f4e79" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">https://www.makro.es/marketplace/product/2e636462-1801-45f6-a3d8-15413909cb8c</text>
-<text x="14.000" y="97.700" font-size="2.1" text-anchor="start" fill="#4a5a68" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">K9</text>
-<text x="28.000" y="97.700" font-size="2.1" text-anchor="start" fill="#222222" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Armario refrigerado vertical Edenox APS-451 I, inox, 1 puerta, 395 L</text>
-<text x="112.000" y="97.700" font-size="2.1" text-anchor="start" fill="#111111" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">0,63 × 0,74 × 1,86</text>
-<text x="132.000" y="97.700" font-size="2.1" text-anchor="start" fill="#444444" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Cocina · muro Oeste, vertical, contra P1</text>
-<text x="220.000" y="97.700" font-size="2.0" text-anchor="start" fill="#1f4e79" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">https://www.makro.es/marketplace/product/2e636462-1801-45f6-a3d8-15413909cb8c</text>
-<text x="14.000" y="101.850" font-size="2.1" text-anchor="start" fill="#4a5a68" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">K10</text>
-<text x="28.000" y="101.850" font-size="2.1" text-anchor="start" fill="#222222" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Mesa refrigerada Infrico 4 puertas, AISI-304, peto 100 mm, -2/+8 ºC, 530 L</text>
-<text x="112.000" y="101.850" font-size="2.1" text-anchor="start" fill="#111111" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">2,54 × 0,60 × 0,85</text>
-<text x="132.000" y="101.850" font-size="2.1" text-anchor="start" fill="#444444" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Cocina · pared en L, de una pieza, pegada al doblez; 0,33 libres junto a la cocción</text>
-<text x="220.000" y="101.850" font-size="2.0" text-anchor="start" fill="#1f4e79" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">https://www.makro.es/marketplace/product/764bc52f-1287-4e08-89dc-c2e453dfea49</text>
-<text x="14.000" y="106.000" font-size="2.1" text-anchor="start" fill="#4a5a68" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">A1</text>
-<text x="28.000" y="106.000" font-size="2.1" text-anchor="start" fill="#222222" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Cafetera (comprada), 2 grupos</text>
-<text x="112.000" y="106.000" font-size="2.1" text-anchor="start" fill="#111111" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">1,00 × 0,60 × 0,50</text>
-<text x="132.000" y="106.000" font-size="2.1" text-anchor="start" fill="#444444" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Barra · trasbarra, sobre la mesada, pegada a P1 (extremo Norte)</text>
-<text x="220.000" y="106.000" font-size="2.0" text-anchor="start" fill="#8a8a8a" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">ya comprado / medida promedio, sin ficha</text>
-<text x="14.000" y="110.150" font-size="2.1" text-anchor="start" fill="#4a5a68" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">A2</text>
-<text x="28.000" y="110.150" font-size="2.1" text-anchor="start" fill="#222222" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Molinillo de café Cunil TRANQUILO de ABC, 275 W, tolva 0,5 kg</text>
-<text x="112.000" y="110.150" font-size="2.1" text-anchor="start" fill="#111111" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">0,17 × 0,34 × 0,41</text>
-<text x="132.000" y="110.150" font-size="2.1" text-anchor="start" fill="#444444" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Barra · trasbarra, en el hueco de 0,20 a la derecha de la cafetera</text>
-<text x="220.000" y="110.150" font-size="2.0" text-anchor="start" fill="#1f4e79" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">https://www.makro.es/marketplace/product/f2df0f65-b185-40b2-b2e2-2cd42fb2eefd</text>
-<text x="14.000" y="114.300" font-size="2.1" text-anchor="start" fill="#4a5a68" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">A3</text>
-<text x="28.000" y="114.300" font-size="2.1" text-anchor="start" fill="#222222" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Máquina de helado y crema fría Bras B-CREAM1HD, 6 L, italiana</text>
-<text x="112.000" y="114.300" font-size="2.1" text-anchor="start" fill="#111111" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">0,20 × 0,49 × 0,62</text>
-<text x="132.000" y="114.300" font-size="2.1" text-anchor="start" fill="#444444" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Barra · trasbarra, sobre la mesada, a la derecha del molinillo</text>
-<text x="220.000" y="114.300" font-size="2.0" text-anchor="start" fill="#1f4e79" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">https://www.makro.es/marketplace/product/e4ddc7ec-739d-4b14-968b-1d230076b476</text>
-<text x="14.000" y="118.450" font-size="2.1" text-anchor="start" fill="#4a5a68" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">A4</text>
-<text x="28.000" y="118.450" font-size="2.1" text-anchor="start" fill="#222222" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Fregadero de pie 1 seno con estante y bastidor, 600 × 600 × 850</text>
-<text x="112.000" y="118.450" font-size="2.1" text-anchor="start" fill="#111111" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">0,60 × 0,60 × 0,85</text>
-<text x="132.000" y="118.450" font-size="2.1" text-anchor="start" fill="#444444" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Barra · trasbarra, de pie contra P2 (extremo Sur); sustituye ese tramo de mesada</text>
-<text x="220.000" y="118.450" font-size="2.0" text-anchor="start" fill="#1f4e79" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">https://www.makro.es/marketplace/product/31bf0e3c-d322-4e34-a968-9bd9ace2024d</text>
-<text x="14.000" y="122.600" font-size="2.1" text-anchor="start" fill="#4a5a68" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">A5</text>
-<text x="28.000" y="122.600" font-size="2.1" text-anchor="start" fill="#222222" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Botellero frigorífico BTL1000, 2 puertas correderas, 240 L</text>
-<text x="112.000" y="122.600" font-size="2.1" text-anchor="start" fill="#111111" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">1,04 × 0,58 × 0,85</text>
-<text x="132.000" y="122.600" font-size="2.1" text-anchor="start" fill="#444444" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Barra · trasbarra, debajo de la mesada, bajo el hueco libre</text>
-<text x="220.000" y="122.600" font-size="2.0" text-anchor="start" fill="#1f4e79" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">https://www.makro.es/marketplace/product/77c7b69b-09e0-4c28-878e-9454ffff60ec</text>
-<text x="14.000" y="126.750" font-size="2.1" text-anchor="start" fill="#4a5a68" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">A6</text>
-<text x="28.000" y="126.750" font-size="2.1" text-anchor="start" fill="#222222" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Estante mural cartelas compacto Fricosmos 011410, 1250 × 400 × 245 (2 piezas hacen 2,50)</text>
-<text x="112.000" y="126.750" font-size="2.1" text-anchor="start" fill="#111111" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">1,25 × 0,40 × 0,24</text>
-<text x="132.000" y="126.750" font-size="2.1" text-anchor="start" fill="#444444" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Barra · trasbarra, estante mural sobre la mesada (2 piezas, 2,50 en total)</text>
-<text x="220.000" y="126.750" font-size="2.0" text-anchor="start" fill="#1f4e79" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">https://www.makro.es/marketplace/product/8af91e42-ebf3-4239-8e01-9b6b82b73120</text>
-<text x="14.000" y="130.900" font-size="2.1" text-anchor="start" fill="#4a5a68" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">V2</text>
-<text x="28.000" y="130.900" font-size="2.1" text-anchor="start" fill="#222222" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Vitrina refrigerada (comprada), 1,00 × 0,70; debajo, lavavasos</text>
-<text x="112.000" y="130.900" font-size="2.1" text-anchor="start" fill="#111111" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">1,00 × 0,70 × 1,25</text>
-<text x="132.000" y="130.900" font-size="2.1" text-anchor="start" fill="#444444" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Barra · mostrador delantero, junto al zócalo del ventanal (Sur); lavavasos debajo</text>
-<text x="220.000" y="130.900" font-size="2.0" text-anchor="start" fill="#8a8a8a" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">ya comprado / medida promedio, sin ficha</text>
-<text x="14.000" y="135.050" font-size="2.1" text-anchor="start" fill="#4a5a68" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">V1</text>
-<text x="28.000" y="135.050" font-size="2.1" text-anchor="start" fill="#222222" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Vitrina refrigerada (comprada), 1,00 × 0,70; hueco libre debajo</text>
-<text x="112.000" y="135.050" font-size="2.1" text-anchor="start" fill="#111111" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">1,00 × 0,70 × 1,25</text>
-<text x="132.000" y="135.050" font-size="2.1" text-anchor="start" fill="#444444" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Barra · mostrador delantero, al Norte de V2</text>
-<text x="220.000" y="135.050" font-size="2.0" text-anchor="start" fill="#8a8a8a" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">ya comprado / medida promedio, sin ficha</text>
-<text x="14.000" y="139.200" font-size="2.1" text-anchor="start" fill="#4a5a68" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">B1</text>
-<text x="28.000" y="139.200" font-size="2.1" text-anchor="start" fill="#222222" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Lavavasos Elettrobar FAST 40, cesta 40 × 40 (bajo la vitrina V2)</text>
-<text x="112.000" y="139.200" font-size="2.1" text-anchor="start" fill="#111111" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">0,44 × 0,54 × 0,67</text>
-<text x="132.000" y="139.200" font-size="2.1" text-anchor="start" fill="#444444" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Barra · bajo la vitrina V2</text>
-<text x="220.000" y="139.200" font-size="2.0" text-anchor="start" fill="#1f4e79" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">https://www.makro.es/marketplace/product/e858e346-8373-4e64-aa03-6f9a559e168e</text>
-<text x="14.000" y="143.350" font-size="2.1" text-anchor="start" fill="#4a5a68" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">B2</text>
-<text x="28.000" y="143.350" font-size="2.1" text-anchor="start" fill="#222222" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Barriles de cerveza de 30 L, Ø 0,32 (debajo de la tabla de P2)</text>
-<text x="112.000" y="143.350" font-size="2.1" text-anchor="start" fill="#111111" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">0,32 × 0,32 × 0,60</text>
-<text x="132.000" y="143.350" font-size="2.1" text-anchor="start" fill="#444444" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Barra · debajo de la tabla de P2</text>
-<text x="220.000" y="143.350" font-size="2.0" text-anchor="start" fill="#8a8a8a" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">ya comprado / medida promedio, sin ficha</text>
-<text x="14.000" y="147.500" font-size="2.1" text-anchor="start" fill="#4a5a68" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">B3</text>
-<text x="28.000" y="147.500" font-size="2.1" text-anchor="start" fill="#222222" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Caja: tablet sobre soporte (lo único que queda en el mostrador)</text>
-<text x="112.000" y="147.500" font-size="2.1" text-anchor="start" fill="#111111" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">0,25 × 0,20 × 0,25</text>
-<text x="132.000" y="147.500" font-size="2.1" text-anchor="start" fill="#444444" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Barra · barra de madera del mostrador (única cosa que queda en ella)</text>
-<text x="220.000" y="147.500" font-size="2.0" text-anchor="start" fill="#8a8a8a" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">ya comprado / medida promedio, sin ficha</text>
-<text x="14.000" y="151.650" font-size="2.1" text-anchor="start" fill="#4a5a68" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">B4</text>
-<text x="28.000" y="151.650" font-size="2.1" text-anchor="start" fill="#222222" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Columna de cerveza en T de 3 grifos, bandeja 40 × 40, sobre la tabla de P2</text>
-<text x="112.000" y="151.650" font-size="2.1" text-anchor="start" fill="#111111" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">0,40 × 0,40 × 0,55</text>
-<text x="132.000" y="151.650" font-size="2.1" text-anchor="start" fill="#444444" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Barra · encima de la tabla de P2</text>
-<text x="220.000" y="151.650" font-size="2.0" text-anchor="start" fill="#1f4e79" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">https://www.makro.es/marketplace/product/f2d9d7ba-6f4f-4feb-b032-641cc4d828fe</text>
-<text x="14.000" y="159.800" font-size="2.7" text-anchor="start" fill="#111111" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold" letter-spacing="0.5">ALTERNATIVAS CON LA MISMA FUNCIÓN  ·  no dibujadas</text>
-<text x="14.000" y="165.400" font-size="1.9" text-anchor="start" fill="#7a6a4a" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">SUSTITUYE</text>
-<text x="28.000" y="165.400" font-size="1.9" text-anchor="start" fill="#7a6a4a" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">PRODUCTO</text>
-<text x="112.000" y="165.400" font-size="1.9" text-anchor="start" fill="#7a6a4a" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">MEDIDAS</text>
-<text x="132.000" y="165.400" font-size="1.9" text-anchor="start" fill="#7a6a4a" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">DÓNDE VA</text>
-<text x="220.000" y="165.400" font-size="1.9" text-anchor="start" fill="#7a6a4a" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">FICHA EN MAKRO.ES</text>
-<line x1="14.000" y1="166.800" x2="310.000" y2="166.800" stroke="#cfc6b6" stroke-width="0.13"/>
-<text x="14.000" y="170.150" font-size="2.1" text-anchor="start" fill="#4a5a68" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">K10</text>
-<text x="28.000" y="170.150" font-size="2.1" text-anchor="start" fill="#222222" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Mesa refrigerada Vaiotec EASYLINE, inox, 4 puertas, GN 1/1, 553 L</text>
-<text x="112.000" y="170.150" font-size="2.1" text-anchor="start" fill="#111111" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">2,23 × 0,70 × 0,85</text>
-<text x="132.000" y="170.150" font-size="2.1" text-anchor="start" fill="#444444" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Cocina · pared en L, en lugar de K10, pegada al doblez; fondo 0,70; 0,73 libres</text>
-<text x="220.000" y="170.150" font-size="2.0" text-anchor="start" fill="#1f4e79" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">https://www.makro.es/marketplace/product/230e627d-7291-43e0-a2b4-ebbf6e783f27</text>
-<text x="14.000" y="174.300" font-size="2.1" text-anchor="start" fill="#4a5a68" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">K10</text>
-<text x="28.000" y="174.300" font-size="2.1" text-anchor="start" fill="#222222" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">METRO Professional GCC3100, inox, 3 puertas, 334 L (la de la foto, refrigerada)</text>
-<text x="112.000" y="174.300" font-size="2.1" text-anchor="start" fill="#111111" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">1,79 × 0,70 × 0,85</text>
-<text x="132.000" y="174.300" font-size="2.1" text-anchor="start" fill="#444444" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Cocina · pared en L, en lugar de K10, pegada al doblez; deja 1,16 libres</text>
-<text x="220.000" y="174.300" font-size="2.0" text-anchor="start" fill="#1f4e79" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">https://www.makro.es/marketplace/product/176b30f1-81b0-4a52-916e-80722d9a9240</text>
-<text x="14.000" y="178.450" font-size="2.1" text-anchor="start" fill="#4a5a68" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">K6</text>
-<text x="28.000" y="178.450" font-size="2.1" text-anchor="start" fill="#222222" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Lavavajillas Eurast 50 × 50, 575 × 600 × 820: cabe seguro bajo el escurridor</text>
-<text x="112.000" y="178.450" font-size="2.1" text-anchor="start" fill="#111111" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">0,57 × 0,60 × 0,82</text>
-<text x="132.000" y="178.450" font-size="2.1" text-anchor="start" fill="#444444" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Cocina · en lugar de K6 si el ST500 no entra bajo el escurridor (0,82 de alto)</text>
-<text x="220.000" y="178.450" font-size="2.0" text-anchor="start" fill="#1f4e79" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">https://www.makro.es/marketplace/product/1acedc0e-199c-449c-b390-a8626c771613</text>
-<text x="14.000" y="182.600" font-size="2.1" text-anchor="start" fill="#4a5a68" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">K8/K9</text>
-<text x="28.000" y="182.600" font-size="2.1" text-anchor="start" fill="#222222" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Armario frigorífico ventilado 400 L, acero inoxidable (Diamond)</text>
-<text x="112.000" y="182.600" font-size="2.1" text-anchor="start" fill="#111111" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">0,63 × 0,74 × 1,93</text>
-<text x="132.000" y="182.600" font-size="2.1" text-anchor="start" fill="#444444" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Cocina · muro Oeste, en lugar de K8 y K9; misma huella que el Edenox</text>
-<text x="220.000" y="182.600" font-size="2.0" text-anchor="start" fill="#1f4e79" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">https://www.makro.es/marketplace/product/8969b667-b5cb-4e83-b599-3dd45c112547</text>
-<text x="14.000" y="186.750" font-size="2.1" text-anchor="start" fill="#4a5a68" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">K8/K9</text>
-<text x="28.000" y="186.750" font-size="2.1" text-anchor="start" fill="#222222" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Armario refrigerado AR400L Clima Hostelería, lacado blanco (no inox), 360 L</text>
-<text x="112.000" y="186.750" font-size="2.1" text-anchor="start" fill="#111111" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">0,60 × 0,61 × 1,87</text>
-<text x="132.000" y="186.750" font-size="2.1" text-anchor="start" fill="#444444" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Cocina · muro Oeste, en lugar de K8 y K9 (0,60 de ancho, lacado blanco)</text>
-<text x="220.000" y="186.750" font-size="2.0" text-anchor="start" fill="#1f4e79" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">https://www.makro.es/marketplace/product/d48c3c0c-7975-4c22-89c7-64676c23681f</text>
-<text x="14.000" y="190.900" font-size="2.1" text-anchor="start" fill="#4a5a68" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">A3</text>
-<text x="28.000" y="190.900" font-size="2.1" text-anchor="start" fill="#222222" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Granizadora GRANICREAM 1S Eurofred, 1 cuba de 10 L, cremas de café</text>
-<text x="112.000" y="190.900" font-size="2.1" text-anchor="start" fill="#111111" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">0,20 × 0,50 × 0,79</text>
-<text x="132.000" y="190.900" font-size="2.1" text-anchor="start" fill="#444444" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Barra · alternativa a A3: misma anchura, 10 L, pero 0,79 de alto</text>
-<text x="220.000" y="190.900" font-size="2.0" text-anchor="start" fill="#1f4e79" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">https://www.makro.es/marketplace/product/e826e334-3cba-44fc-a530-627af1dabaf6</text>
-<text x="14.000" y="195.050" font-size="2.1" text-anchor="start" fill="#4a5a68" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">A3</text>
-<text x="28.000" y="195.050" font-size="2.1" text-anchor="start" fill="#222222" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Granizadora GRANISMART 5x1 Eurofred, 1 cuba de 5 L (la más baja)</text>
-<text x="112.000" y="195.050" font-size="2.1" text-anchor="start" fill="#111111" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">0,26 × 0,40 × 0,63</text>
-<text x="132.000" y="195.050" font-size="2.1" text-anchor="start" fill="#444444" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Barra · alternativa a A3: cuba de 5 L, 0,26 de ancho y solo 0,40 de fondo</text>
-<text x="220.000" y="195.050" font-size="2.0" text-anchor="start" fill="#1f4e79" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">https://www.makro.es/marketplace/product/635e0924-0d3e-42ca-965e-e66eb41cdee1</text>
-<text x="14.000" y="199.200" font-size="2.1" text-anchor="start" fill="#4a5a68" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">A6</text>
-<text x="28.000" y="199.200" font-size="2.1" text-anchor="start" fill="#222222" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Estante en inox de pared, 2000 × 400 × 250, de una sola pieza</text>
-<text x="112.000" y="199.200" font-size="2.1" text-anchor="start" fill="#111111" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">2,00 × 0,40 × 0,25</text>
-<text x="132.000" y="199.200" font-size="2.1" text-anchor="start" fill="#444444" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Barra · alternativa a A6: una sola pieza de 2,00 en vez de dos de 1,25</text>
-<text x="220.000" y="199.200" font-size="2.0" text-anchor="start" fill="#1f4e79" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">https://www.makro.es/marketplace/product/15f4f100-83b5-4f51-a383-11acf9989372</text>
-<text x="14.000" y="203.350" font-size="2.1" text-anchor="start" fill="#4a5a68" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">A4</text>
-<text x="28.000" y="203.350" font-size="2.1" text-anchor="start" fill="#222222" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Fregadero 1 cubeta con puerta, Gama 600 Distform, 600 × 600 × 850</text>
-<text x="112.000" y="203.350" font-size="2.1" text-anchor="start" fill="#111111" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">0,60 × 0,60 × 0,85</text>
-<text x="132.000" y="203.350" font-size="2.1" text-anchor="start" fill="#444444" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Barra · alternativa al fregadero A4, con puerta (mismo hueco)</text>
-<text x="220.000" y="203.350" font-size="2.0" text-anchor="start" fill="#1f4e79" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">https://www.makro.es/marketplace/product/3efac5b4-e702-4af6-9dd9-533709488190</text>
-<text x="14.000" y="207.500" font-size="2.1" text-anchor="start" fill="#4a5a68" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">A4</text>
-<text x="28.000" y="207.500" font-size="2.1" text-anchor="start" fill="#222222" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Fregadero industrial 1 cuba AISI-304, 700 × 600 × 850</text>
-<text x="112.000" y="207.500" font-size="2.1" text-anchor="start" fill="#111111" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">0,70 × 0,60 × 0,85</text>
-<text x="132.000" y="207.500" font-size="2.1" text-anchor="start" fill="#444444" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Barra · alternativa al fregadero A4 en AISI-304, 0,10 más ancho</text>
-<text x="220.000" y="207.500" font-size="2.0" text-anchor="start" fill="#1f4e79" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">https://www.makro.es/marketplace/product/95121b55-b486-4a76-a3de-ed7874e75876</text>
-<text x="14.000" y="211.650" font-size="2.1" text-anchor="start" fill="#4a5a68" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">A5</text>
-<text x="28.000" y="211.650" font-size="2.1" text-anchor="start" fill="#222222" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Botellero inox interior y exterior, 2 puertas, 200 L, Eurast</text>
-<text x="112.000" y="211.650" font-size="2.1" text-anchor="start" fill="#111111" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">1,02 × 0,55 × 0,85</text>
-<text x="132.000" y="211.650" font-size="2.1" text-anchor="start" fill="#444444" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Barra · alternativa a la nevera A5 (1,02, inox interior y exterior)</text>
-<text x="220.000" y="211.650" font-size="2.0" text-anchor="start" fill="#1f4e79" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">https://www.makro.es/marketplace/product/a046bf7e-9d25-4304-9593-1cd32668e47f</text>
-<text x="14.000" y="215.800" font-size="2.1" text-anchor="start" fill="#4a5a68" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">A5</text>
-<text x="28.000" y="215.800" font-size="2.1" text-anchor="start" fill="#222222" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Botellero refrigerado de bar Yostin, 2 puertas, 100 cm, AISI-304</text>
-<text x="112.000" y="215.800" font-size="2.1" text-anchor="start" fill="#111111" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">1,00 × 0,55 × 0,84</text>
-<text x="132.000" y="215.800" font-size="2.1" text-anchor="start" fill="#444444" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Barra · alternativa a la nevera A5 (1,00 exactos, fabricación nacional)</text>
-<text x="220.000" y="215.800" font-size="2.0" text-anchor="start" fill="#1f4e79" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">https://www.makro.es/marketplace/product/6589602e-de66-484c-871f-68f83b182638</text>
-<text x="14.000" y="223.950" font-size="2.7" text-anchor="start" fill="#111111" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold" letter-spacing="0.5">SIN SITIO EN LA TRASBARRA NUEVA  ·  decidir dónde van</text>
-<text x="14.000" y="229.550" font-size="1.9" text-anchor="start" fill="#7a6a4a" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">ERA</text>
-<text x="28.000" y="229.550" font-size="1.9" text-anchor="start" fill="#7a6a4a" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">PRODUCTO</text>
-<text x="112.000" y="229.550" font-size="1.9" text-anchor="start" fill="#7a6a4a" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">MEDIDAS</text>
-<text x="132.000" y="229.550" font-size="1.9" text-anchor="start" fill="#7a6a4a" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">DÓNDE VA</text>
-<text x="220.000" y="229.550" font-size="1.9" text-anchor="start" fill="#7a6a4a" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">FICHA EN MAKRO.ES</text>
-<line x1="14.000" y1="230.950" x2="310.000" y2="230.950" stroke="#cfc6b6" stroke-width="0.13"/>
-<text x="14.000" y="234.300" font-size="2.1" text-anchor="start" fill="#4a5a68" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">A3</text>
-<text x="28.000" y="234.300" font-size="2.1" text-anchor="start" fill="#222222" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Fabricador de hielo Gastro M CT694, 28 kg/24 h (bajo encimera)</text>
-<text x="112.000" y="234.300" font-size="2.1" text-anchor="start" fill="#111111" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">0,40 × 0,46 × 0,67</text>
-<text x="132.000" y="234.300" font-size="2.1" text-anchor="start" fill="#444444" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Sin sitio en la trasbarra nueva: decidir dónde va</text>
-<text x="220.000" y="234.300" font-size="2.0" text-anchor="start" fill="#1f4e79" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">https://www.makro.es/marketplace/product/e3db53e1-8f64-4495-bb2c-59fe355a32e2</text>
-<text x="14.000" y="238.450" font-size="2.1" text-anchor="start" fill="#4a5a68" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">A4</text>
-<text x="28.000" y="238.450" font-size="2.1" text-anchor="start" fill="#222222" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Exprimidor de naranjas Mizumo Next Gen</text>
-<text x="112.000" y="238.450" font-size="2.1" text-anchor="start" fill="#111111" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">0,48 × 0,35 × 0,73</text>
-<text x="132.000" y="238.450" font-size="2.1" text-anchor="start" fill="#444444" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Sin sitio en la trasbarra nueva: cabría en el hueco libre de mesada</text>
-<text x="220.000" y="238.450" font-size="2.0" text-anchor="start" fill="#1f4e79" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">https://www.makro.es/marketplace/product/a7c3e878-0cdd-4f7e-b013-897ae4f6120d</text>
-<text x="14.000" y="242.600" font-size="2.1" text-anchor="start" fill="#4a5a68" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">A2</text>
-<text x="28.000" y="242.600" font-size="2.1" text-anchor="start" fill="#222222" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Lavamanos inox con grifo y pulsador de pedal, cuba Ø340</text>
-<text x="112.000" y="242.600" font-size="2.1" text-anchor="start" fill="#111111" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">0,40 × 0,40 × 0,85</text>
-<text x="132.000" y="242.600" font-size="2.1" text-anchor="start" fill="#444444" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Sin sitio: lo sustituye el fregadero A4, pegado a P2</text>
-<text x="220.000" y="242.600" font-size="2.0" text-anchor="start" fill="#1f4e79" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">https://www.makro.es/marketplace/product/6105678f-3159-4172-a17a-f400760f0b35</text>
-<text x="14.000" y="246.750" font-size="2.1" text-anchor="start" fill="#4a5a68" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">A3b</text>
-<text x="28.000" y="246.750" font-size="2.1" text-anchor="start" fill="#222222" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Licuadora industrial Sammic Li-240</text>
-<text x="112.000" y="246.750" font-size="2.1" text-anchor="start" fill="#111111" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">0,20 × 0,31 × 0,36</text>
-<text x="132.000" y="246.750" font-size="2.1" text-anchor="start" fill="#444444" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Sin sitio en la trasbarra nueva: decidir dónde va</text>
-<text x="220.000" y="246.750" font-size="2.0" text-anchor="start" fill="#1f4e79" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">https://www.makro.es/marketplace/product/2b8d9850-b422-4738-b716-c30da9857300</text>
-<text x="14.000" y="254.900" font-size="2.7" text-anchor="start" fill="#111111" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold" letter-spacing="0.5">A MEDIDA  ·  no se compran en Makro</text>
-<text x="28.000" y="260.500" font-size="2.0" text-anchor="start" fill="#222222" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">·  Bancada de apoyo de la línea de cocción, dentro del hundimiento: 2,18 × 0,60, acero inoxidable.</text>
-<text x="28.000" y="264.200" font-size="2.0" text-anchor="start" fill="#222222" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">·  Mesada de la trasbarra, de P1 al fregadero A4: 2,15 × 0,60 (el fregadero A4, de pie, hace los otros 0,60).</text>
-<text x="28.000" y="267.900" font-size="2.0" text-anchor="start" fill="#222222" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">·  Hueco de 0,20 para el molinillo A2 y los utensilios, a la derecha de la cafetera.</text>
-<text x="28.000" y="271.600" font-size="2.0" text-anchor="start" fill="#222222" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">·  Barra de madera del mostrador delantero: 0,79 × 0,76.</text>
-<text x="28.000" y="275.300" font-size="2.0" text-anchor="start" fill="#222222" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">·  Tabla de P2 al muro: 0,78 × 0,39 (chopera B4 encima, barril B2 debajo).</text>
-<text x="28.000" y="279.000" font-size="2.0" text-anchor="start" fill="#222222" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">·  Mostrador delantero: 2,79 × 0,76 de fondo, del zócalo del ventanal a P1.</text>
-<text x="14.000" y="285.700" font-size="2.7" text-anchor="start" fill="#111111" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold" letter-spacing="0.5">VERIFICACIÓN DE LOS ENLACES</text>
-<text x="28.000" y="291.300" font-size="2.0" text-anchor="start" fill="#444444" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">makro.es responde 403 a cualquier acceso desde un servidor (curl, Playwright o un navegador en la nube), así que las fichas no se pueden abrir desde el entorno de trabajo.</text>
-<text x="28.000" y="295.000" font-size="2.0" text-anchor="start" fill="#444444" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Cada enlace se verificó buscando su identificador con el buscador restringido a makro.es: todos devuelven su URL con el título del producto (LISTA_MAKRO.md).</text>
-<text x="28.000" y="298.700" font-size="2.0" text-anchor="start" fill="#444444" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">La ficha del fregadero K7 (Ref. AAA0045913963) no está indexada: el enlace lo facilitó el cliente. Precios y stock no se han podido leer con fiabilidad: confirmar antes de comprar.</text>
+<text x="14.000" y="48.000" font-size="2.7" text-anchor="start" fill="#111111" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold" letter-spacing="0.5">EQUIPOS DIBUJADOS EN LAS LÁMINAS 01 Y 03</text>
+<text x="14.000" y="53.600" font-size="1.9" text-anchor="start" fill="#7a6a4a" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">RÓTULO</text>
+<text x="28.000" y="53.600" font-size="1.9" text-anchor="start" fill="#7a6a4a" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">PRODUCTO</text>
+<text x="112.000" y="53.600" font-size="1.9" text-anchor="start" fill="#7a6a4a" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">MEDIDAS</text>
+<text x="132.000" y="53.600" font-size="1.9" text-anchor="start" fill="#7a6a4a" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">DÓNDE VA</text>
+<text x="220.000" y="53.600" font-size="1.9" text-anchor="start" fill="#7a6a4a" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">FICHA EN MAKRO.ES</text>
+<line x1="14.000" y1="55.000" x2="310.000" y2="55.000" stroke="#cfc6b6" stroke-width="0.13"/>
+<text x="14.000" y="58.100" font-size="2.1" text-anchor="start" fill="#4a5a68" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">K1</text>
+<text x="28.000" y="58.100" font-size="2.1" text-anchor="start" fill="#222222" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Placa de inducción Bartscher, 2 zonas Ø230, 6 kW, 400 V</text>
+<text x="112.000" y="58.100" font-size="2.1" text-anchor="start" fill="#111111" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">0,70 × 0,46 × 0,12</text>
+<text x="132.000" y="58.100" font-size="2.1" text-anchor="start" fill="#444444" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Cocina · cocción, medianera Norte, bajo la campana, 1º desde el Oeste</text>
+<text x="220.000" y="58.100" font-size="2.0" text-anchor="start" fill="#1f4e79" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">https://www.makro.es/marketplace/product/623ef78b-af50-4e27-a2c5-b3a45089ba59</text>
+<text x="14.000" y="62.000" font-size="2.1" text-anchor="start" fill="#4a5a68" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">K2</text>
+<text x="28.000" y="62.000" font-size="2.1" text-anchor="start" fill="#222222" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Cocedor de pasta eléctrico METRO Professional GNC1008, 8 L, 4 cestos</text>
+<text x="112.000" y="62.000" font-size="2.1" text-anchor="start" fill="#111111" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">0,47 × 0,55 × 0,38</text>
+<text x="132.000" y="62.000" font-size="2.1" text-anchor="start" fill="#444444" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Cocina · cocción, bajo la campana, 2º</text>
+<text x="220.000" y="62.000" font-size="2.0" text-anchor="start" fill="#1f4e79" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">https://www.makro.es/marketplace/product/85f3fb44-3f09-463c-ab29-53822c8c1ce7</text>
+<text x="14.000" y="65.900" font-size="2.1" text-anchor="start" fill="#4a5a68" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">K3</text>
+<text x="28.000" y="65.900" font-size="2.1" text-anchor="start" fill="#222222" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Freidora profesional 1 cuba de 7 L, eléctrica</text>
+<text x="112.000" y="65.900" font-size="2.1" text-anchor="start" fill="#111111" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">0,27 × 0,46 × 0,37</text>
+<text x="132.000" y="65.900" font-size="2.1" text-anchor="start" fill="#444444" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Cocina · cocción, bajo la campana, 3º</text>
+<text x="220.000" y="65.900" font-size="2.0" text-anchor="start" fill="#1f4e79" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">https://www.makro.es/marketplace/product/57e9d9ed-d483-4f88-a049-5597b3a7ad18</text>
+<text x="14.000" y="69.800" font-size="2.1" text-anchor="start" fill="#4a5a68" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">K4</text>
+<text x="28.000" y="69.800" font-size="2.1" text-anchor="start" fill="#222222" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Plancha eléctrica Cleiton 50 cm, placa de 8 mm, sobremesa</text>
+<text x="112.000" y="69.800" font-size="2.1" text-anchor="start" fill="#111111" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">0,55 × 0,50 × 0,33</text>
+<text x="132.000" y="69.800" font-size="2.1" text-anchor="start" fill="#444444" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Cocina · cocción, bajo la campana, 4º, contra la pared en L</text>
+<text x="220.000" y="69.800" font-size="2.0" text-anchor="start" fill="#1f4e79" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">https://www.makro.es/marketplace/product/acd212b2-73a4-42bc-bea7-329d5ab4771d</text>
+<text x="14.000" y="73.700" font-size="2.1" text-anchor="start" fill="#4a5a68" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">KC</text>
+<text x="28.000" y="73.700" font-size="2.1" text-anchor="start" fill="#222222" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Campana extractora industrial recta, sin turbina, AISI-304 satinado, 2 × 1,2 m</text>
+<text x="112.000" y="73.700" font-size="2.1" text-anchor="start" fill="#111111" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">2,00 × 1,20 × 0,50</text>
+<text x="132.000" y="73.700" font-size="2.1" text-anchor="start" fill="#444444" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Cocina · campana mural corrida sobre K1 a K4, borde inferior a +2,00</text>
+<text x="220.000" y="73.700" font-size="2.0" text-anchor="start" fill="#1f4e79" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">https://www.makro.es/marketplace/product/a8240770-cb5f-491b-926d-83b1e1e00a22</text>
+<text x="14.000" y="77.600" font-size="2.1" text-anchor="start" fill="#4a5a68" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">K5</text>
+<text x="28.000" y="77.600" font-size="2.1" text-anchor="start" fill="#222222" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Horno de convección eléctrico industrial, 4 bandejas 45 × 33</text>
+<text x="112.000" y="77.600" font-size="2.1" text-anchor="start" fill="#111111" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">0,59 × 0,59 × 0,57</text>
+<text x="132.000" y="77.600" font-size="2.1" text-anchor="start" fill="#444444" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Cocina · muro Oeste, esquina Norte, sobre soporte</text>
+<text x="220.000" y="77.600" font-size="2.0" text-anchor="start" fill="#1f4e79" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">https://www.makro.es/marketplace/product/e3c35b3b-14d3-4e2b-a109-373a863ddff9</text>
+<text x="14.000" y="81.500" font-size="2.1" text-anchor="start" fill="#4a5a68" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">K7</text>
+<text x="28.000" y="81.500" font-size="2.1" text-anchor="start" fill="#222222" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Fregadero con bastidor con hueco lavavajillas, cuba izquierda, 1200 × 600</text>
+<text x="112.000" y="81.500" font-size="2.1" text-anchor="start" fill="#111111" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">1,20 × 0,60 × 0,85</text>
+<text x="132.000" y="81.500" font-size="2.1" text-anchor="start" fill="#444444" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Cocina · muro Oeste, entre el horno y los frigoríficos; cuba al Sur, escurridor al Norte</text>
+<text x="220.000" y="81.500" font-size="2.0" text-anchor="start" fill="#1f4e79" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">https://www.makro.es/marketplace/product/c0cd57f0-35a2-485a-98f4-5dffc628d84e</text>
+<text x="14.000" y="85.400" font-size="2.1" text-anchor="start" fill="#4a5a68" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">K6</text>
+<text x="28.000" y="85.400" font-size="2.1" text-anchor="start" fill="#222222" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Lavavajillas industrial ST500, cesta 50 × 50, bajo el escurridor de K7</text>
+<text x="112.000" y="85.400" font-size="2.1" text-anchor="start" fill="#111111" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">0,56 × 0,65 × 0,86</text>
+<text x="132.000" y="85.400" font-size="2.1" text-anchor="start" fill="#444444" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Cocina · muro Oeste, bajo el escurridor del fregadero K7 (hueco de lavavajillas)</text>
+<text x="220.000" y="85.400" font-size="2.0" text-anchor="start" fill="#1f4e79" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">https://www.makro.es/marketplace/product/b6893f6e-6c55-499e-8e8b-4e246d107961</text>
+<text x="14.000" y="89.300" font-size="2.1" text-anchor="start" fill="#4a5a68" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">K8</text>
+<text x="28.000" y="89.300" font-size="2.1" text-anchor="start" fill="#222222" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Armario refrigerado vertical Edenox APS-451 I, inox, 1 puerta, 395 L</text>
+<text x="112.000" y="89.300" font-size="2.1" text-anchor="start" fill="#111111" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">0,63 × 0,74 × 1,86</text>
+<text x="132.000" y="89.300" font-size="2.1" text-anchor="start" fill="#444444" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Cocina · muro Oeste, vertical, al Sur del fregadero</text>
+<text x="220.000" y="89.300" font-size="2.0" text-anchor="start" fill="#1f4e79" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">https://www.makro.es/marketplace/product/2e636462-1801-45f6-a3d8-15413909cb8c</text>
+<text x="14.000" y="93.200" font-size="2.1" text-anchor="start" fill="#4a5a68" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">K9</text>
+<text x="28.000" y="93.200" font-size="2.1" text-anchor="start" fill="#222222" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Armario refrigerado vertical Edenox APS-451 I, inox, 1 puerta, 395 L</text>
+<text x="112.000" y="93.200" font-size="2.1" text-anchor="start" fill="#111111" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">0,63 × 0,74 × 1,86</text>
+<text x="132.000" y="93.200" font-size="2.1" text-anchor="start" fill="#444444" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Cocina · muro Oeste, vertical, contra P1</text>
+<text x="220.000" y="93.200" font-size="2.0" text-anchor="start" fill="#1f4e79" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">https://www.makro.es/marketplace/product/2e636462-1801-45f6-a3d8-15413909cb8c</text>
+<text x="14.000" y="97.100" font-size="2.1" text-anchor="start" fill="#4a5a68" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">K10</text>
+<text x="28.000" y="97.100" font-size="2.1" text-anchor="start" fill="#222222" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Mesa refrigerada Infrico 4 puertas, AISI-304, peto 100 mm, -2/+8 ºC, 530 L</text>
+<text x="112.000" y="97.100" font-size="2.1" text-anchor="start" fill="#111111" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">2,54 × 0,60 × 0,85</text>
+<text x="132.000" y="97.100" font-size="2.1" text-anchor="start" fill="#444444" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Cocina · pared en L, de una pieza, pegada al doblez; 0,33 libres junto a la cocción</text>
+<text x="220.000" y="97.100" font-size="2.0" text-anchor="start" fill="#1f4e79" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">https://www.makro.es/marketplace/product/764bc52f-1287-4e08-89dc-c2e453dfea49</text>
+<text x="14.000" y="101.000" font-size="2.1" text-anchor="start" fill="#4a5a68" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">A1</text>
+<text x="28.000" y="101.000" font-size="2.1" text-anchor="start" fill="#222222" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Cafetera (comprada), 2 grupos</text>
+<text x="112.000" y="101.000" font-size="2.1" text-anchor="start" fill="#111111" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">1,00 × 0,60 × 0,50</text>
+<text x="132.000" y="101.000" font-size="2.1" text-anchor="start" fill="#444444" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Barra · trasbarra, sobre la mesada, pegada a P1 (extremo Norte)</text>
+<text x="220.000" y="101.000" font-size="2.0" text-anchor="start" fill="#8a8a8a" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">ya comprado / medida promedio, sin ficha</text>
+<text x="14.000" y="104.900" font-size="2.1" text-anchor="start" fill="#4a5a68" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">A2</text>
+<text x="28.000" y="104.900" font-size="2.1" text-anchor="start" fill="#222222" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Molinillo de café Cunil TRANQUILO de ABC, 275 W, tolva 0,5 kg</text>
+<text x="112.000" y="104.900" font-size="2.1" text-anchor="start" fill="#111111" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">0,17 × 0,34 × 0,41</text>
+<text x="132.000" y="104.900" font-size="2.1" text-anchor="start" fill="#444444" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Barra · trasbarra, en el hueco de 0,20 a la derecha de la cafetera</text>
+<text x="220.000" y="104.900" font-size="2.0" text-anchor="start" fill="#1f4e79" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">https://www.makro.es/marketplace/product/f2df0f65-b185-40b2-b2e2-2cd42fb2eefd</text>
+<text x="14.000" y="108.800" font-size="2.1" text-anchor="start" fill="#4a5a68" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">A3</text>
+<text x="28.000" y="108.800" font-size="2.1" text-anchor="start" fill="#222222" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Máquina de helado y crema fría Bras B-CREAM1HD, 6 L, italiana</text>
+<text x="112.000" y="108.800" font-size="2.1" text-anchor="start" fill="#111111" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">0,20 × 0,49 × 0,62</text>
+<text x="132.000" y="108.800" font-size="2.1" text-anchor="start" fill="#444444" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Barra · trasbarra, sobre la mesada, a la derecha del molinillo</text>
+<text x="220.000" y="108.800" font-size="2.0" text-anchor="start" fill="#1f4e79" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">https://www.makro.es/marketplace/product/e4ddc7ec-739d-4b14-968b-1d230076b476</text>
+<text x="14.000" y="112.700" font-size="2.1" text-anchor="start" fill="#4a5a68" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">A4</text>
+<text x="28.000" y="112.700" font-size="2.1" text-anchor="start" fill="#222222" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Fregadero de pie 1 seno con estante y bastidor, 600 × 600 × 850</text>
+<text x="112.000" y="112.700" font-size="2.1" text-anchor="start" fill="#111111" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">0,60 × 0,60 × 0,85</text>
+<text x="132.000" y="112.700" font-size="2.1" text-anchor="start" fill="#444444" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Barra · trasbarra, de pie contra P2 (extremo Sur); sustituye ese tramo de mesada</text>
+<text x="220.000" y="112.700" font-size="2.0" text-anchor="start" fill="#1f4e79" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">https://www.makro.es/marketplace/product/31bf0e3c-d322-4e34-a968-9bd9ace2024d</text>
+<text x="14.000" y="116.600" font-size="2.1" text-anchor="start" fill="#4a5a68" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">A5</text>
+<text x="28.000" y="116.600" font-size="2.1" text-anchor="start" fill="#222222" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Botellero frigorífico BTL1000, 2 puertas correderas, 240 L</text>
+<text x="112.000" y="116.600" font-size="2.1" text-anchor="start" fill="#111111" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">1,04 × 0,58 × 0,85</text>
+<text x="132.000" y="116.600" font-size="2.1" text-anchor="start" fill="#444444" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Barra · trasbarra, debajo de la mesada, bajo el hueco libre</text>
+<text x="220.000" y="116.600" font-size="2.0" text-anchor="start" fill="#1f4e79" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">https://www.makro.es/marketplace/product/77c7b69b-09e0-4c28-878e-9454ffff60ec</text>
+<text x="14.000" y="120.500" font-size="2.1" text-anchor="start" fill="#4a5a68" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">A6</text>
+<text x="28.000" y="120.500" font-size="2.1" text-anchor="start" fill="#222222" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Estante mural cartelas compacto Fricosmos 011410, 1250 × 400 × 245</text>
+<text x="112.000" y="120.500" font-size="2.1" text-anchor="start" fill="#111111" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">1,25 × 0,40 × 0,24</text>
+<text x="132.000" y="120.500" font-size="2.1" text-anchor="start" fill="#444444" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Barra · trasbarra, estante mural sobre la mesada (2 piezas, 2,50 en total)</text>
+<text x="220.000" y="120.500" font-size="2.0" text-anchor="start" fill="#1f4e79" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">https://www.makro.es/marketplace/product/8af91e42-ebf3-4239-8e01-9b6b82b73120</text>
+<text x="14.000" y="124.400" font-size="2.1" text-anchor="start" fill="#4a5a68" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">V2</text>
+<text x="28.000" y="124.400" font-size="2.1" text-anchor="start" fill="#222222" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Vitrina refrigerada (comprada), 1,00 × 0,70; debajo, lavavasos</text>
+<text x="112.000" y="124.400" font-size="2.1" text-anchor="start" fill="#111111" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">1,00 × 0,70 × 1,25</text>
+<text x="132.000" y="124.400" font-size="2.1" text-anchor="start" fill="#444444" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Barra · mostrador delantero, junto al zócalo del ventanal (Sur); lavavasos debajo</text>
+<text x="220.000" y="124.400" font-size="2.0" text-anchor="start" fill="#8a8a8a" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">ya comprado / medida promedio, sin ficha</text>
+<text x="14.000" y="128.300" font-size="2.1" text-anchor="start" fill="#4a5a68" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">V1</text>
+<text x="28.000" y="128.300" font-size="2.1" text-anchor="start" fill="#222222" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Vitrina refrigerada (comprada), 1,00 × 0,70; hueco libre debajo</text>
+<text x="112.000" y="128.300" font-size="2.1" text-anchor="start" fill="#111111" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">1,00 × 0,70 × 1,25</text>
+<text x="132.000" y="128.300" font-size="2.1" text-anchor="start" fill="#444444" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Barra · mostrador delantero, al Norte de V2</text>
+<text x="220.000" y="128.300" font-size="2.0" text-anchor="start" fill="#8a8a8a" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">ya comprado / medida promedio, sin ficha</text>
+<text x="14.000" y="132.200" font-size="2.1" text-anchor="start" fill="#4a5a68" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">B1</text>
+<text x="28.000" y="132.200" font-size="2.1" text-anchor="start" fill="#222222" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Lavavasos Elettrobar FAST 40, cesta 40 × 40 (bajo la vitrina V2)</text>
+<text x="112.000" y="132.200" font-size="2.1" text-anchor="start" fill="#111111" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">0,44 × 0,54 × 0,67</text>
+<text x="132.000" y="132.200" font-size="2.1" text-anchor="start" fill="#444444" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Barra · bajo la vitrina V2</text>
+<text x="220.000" y="132.200" font-size="2.0" text-anchor="start" fill="#1f4e79" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">https://www.makro.es/marketplace/product/e858e346-8373-4e64-aa03-6f9a559e168e</text>
+<text x="14.000" y="136.100" font-size="2.1" text-anchor="start" fill="#4a5a68" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">B2</text>
+<text x="28.000" y="136.100" font-size="2.1" text-anchor="start" fill="#222222" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Barriles de cerveza de 30 L, Ø 0,32 (debajo de la tabla de P2)</text>
+<text x="112.000" y="136.100" font-size="2.1" text-anchor="start" fill="#111111" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">0,32 × 0,32 × 0,60</text>
+<text x="132.000" y="136.100" font-size="2.1" text-anchor="start" fill="#444444" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Barra · debajo de la tabla de P2</text>
+<text x="220.000" y="136.100" font-size="2.0" text-anchor="start" fill="#8a8a8a" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">ya comprado / medida promedio, sin ficha</text>
+<text x="14.000" y="140.000" font-size="2.1" text-anchor="start" fill="#4a5a68" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">B3</text>
+<text x="28.000" y="140.000" font-size="2.1" text-anchor="start" fill="#222222" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Caja: tablet sobre soporte (lo único que queda en el mostrador)</text>
+<text x="112.000" y="140.000" font-size="2.1" text-anchor="start" fill="#111111" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">0,25 × 0,20 × 0,25</text>
+<text x="132.000" y="140.000" font-size="2.1" text-anchor="start" fill="#444444" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Barra · barra de madera del mostrador (única cosa que queda en ella)</text>
+<text x="220.000" y="140.000" font-size="2.0" text-anchor="start" fill="#8a8a8a" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">ya comprado / medida promedio, sin ficha</text>
+<text x="14.000" y="143.900" font-size="2.1" text-anchor="start" fill="#4a5a68" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">B4</text>
+<text x="28.000" y="143.900" font-size="2.1" text-anchor="start" fill="#222222" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Columna de cerveza en T de 3 grifos, bandeja 40 × 40, sobre la tabla de P2</text>
+<text x="112.000" y="143.900" font-size="2.1" text-anchor="start" fill="#111111" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">0,40 × 0,40 × 0,55</text>
+<text x="132.000" y="143.900" font-size="2.1" text-anchor="start" fill="#444444" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Barra · encima de la tabla de P2</text>
+<text x="220.000" y="143.900" font-size="2.0" text-anchor="start" fill="#1f4e79" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">https://www.makro.es/marketplace/product/f2d9d7ba-6f4f-4feb-b032-641cc4d828fe</text>
+<text x="14.000" y="151.800" font-size="2.7" text-anchor="start" fill="#111111" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold" letter-spacing="0.5">ALTERNATIVAS CON LA MISMA FUNCIÓN  ·  no dibujadas</text>
+<text x="14.000" y="157.400" font-size="1.9" text-anchor="start" fill="#7a6a4a" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">SUSTITUYE</text>
+<text x="28.000" y="157.400" font-size="1.9" text-anchor="start" fill="#7a6a4a" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">PRODUCTO</text>
+<text x="112.000" y="157.400" font-size="1.9" text-anchor="start" fill="#7a6a4a" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">MEDIDAS</text>
+<text x="132.000" y="157.400" font-size="1.9" text-anchor="start" fill="#7a6a4a" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">DÓNDE VA</text>
+<text x="220.000" y="157.400" font-size="1.9" text-anchor="start" fill="#7a6a4a" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">FICHA EN MAKRO.ES</text>
+<line x1="14.000" y1="158.800" x2="310.000" y2="158.800" stroke="#cfc6b6" stroke-width="0.13"/>
+<text x="14.000" y="161.900" font-size="2.1" text-anchor="start" fill="#4a5a68" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">K10</text>
+<text x="28.000" y="161.900" font-size="2.1" text-anchor="start" fill="#222222" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Mesa refrigerada Vaiotec EASYLINE, inox, 4 puertas, GN 1/1, 553 L</text>
+<text x="112.000" y="161.900" font-size="2.1" text-anchor="start" fill="#111111" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">2,23 × 0,70 × 0,85</text>
+<text x="132.000" y="161.900" font-size="2.1" text-anchor="start" fill="#444444" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Cocina · pared en L, en lugar de K10, pegada al doblez; fondo 0,70; 0,73 libres</text>
+<text x="220.000" y="161.900" font-size="2.0" text-anchor="start" fill="#1f4e79" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">https://www.makro.es/marketplace/product/230e627d-7291-43e0-a2b4-ebbf6e783f27</text>
+<text x="14.000" y="165.800" font-size="2.1" text-anchor="start" fill="#4a5a68" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">K10</text>
+<text x="28.000" y="165.800" font-size="2.1" text-anchor="start" fill="#222222" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">METRO Professional GCC3100, inox, 3 puertas, 334 L (la de la foto, refrigerada)</text>
+<text x="112.000" y="165.800" font-size="2.1" text-anchor="start" fill="#111111" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">1,79 × 0,70 × 0,85</text>
+<text x="132.000" y="165.800" font-size="2.1" text-anchor="start" fill="#444444" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Cocina · pared en L, en lugar de K10, pegada al doblez; deja 1,16 libres</text>
+<text x="220.000" y="165.800" font-size="2.0" text-anchor="start" fill="#1f4e79" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">https://www.makro.es/marketplace/product/176b30f1-81b0-4a52-916e-80722d9a9240</text>
+<text x="14.000" y="169.700" font-size="2.1" text-anchor="start" fill="#4a5a68" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">K6</text>
+<text x="28.000" y="169.700" font-size="2.1" text-anchor="start" fill="#222222" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Lavavajillas Eurast 50 × 50, 575 × 600 × 820: cabe seguro bajo el escurridor</text>
+<text x="112.000" y="169.700" font-size="2.1" text-anchor="start" fill="#111111" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">0,57 × 0,60 × 0,82</text>
+<text x="132.000" y="169.700" font-size="2.1" text-anchor="start" fill="#444444" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Cocina · en lugar de K6 si el ST500 no entra bajo el escurridor (0,82 de alto)</text>
+<text x="220.000" y="169.700" font-size="2.0" text-anchor="start" fill="#1f4e79" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">https://www.makro.es/marketplace/product/1acedc0e-199c-449c-b390-a8626c771613</text>
+<text x="14.000" y="173.600" font-size="2.1" text-anchor="start" fill="#4a5a68" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">K8/K9</text>
+<text x="28.000" y="173.600" font-size="2.1" text-anchor="start" fill="#222222" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Armario frigorífico ventilado 400 L, acero inoxidable (Diamond)</text>
+<text x="112.000" y="173.600" font-size="2.1" text-anchor="start" fill="#111111" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">0,63 × 0,74 × 1,93</text>
+<text x="132.000" y="173.600" font-size="2.1" text-anchor="start" fill="#444444" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Cocina · muro Oeste, en lugar de K8 y K9; misma huella que el Edenox</text>
+<text x="220.000" y="173.600" font-size="2.0" text-anchor="start" fill="#1f4e79" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">https://www.makro.es/marketplace/product/8969b667-b5cb-4e83-b599-3dd45c112547</text>
+<text x="14.000" y="177.500" font-size="2.1" text-anchor="start" fill="#4a5a68" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">K8/K9</text>
+<text x="28.000" y="177.500" font-size="2.1" text-anchor="start" fill="#222222" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Armario refrigerado AR400L Clima Hostelería, lacado blanco (no inox), 360 L</text>
+<text x="112.000" y="177.500" font-size="2.1" text-anchor="start" fill="#111111" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">0,60 × 0,61 × 1,87</text>
+<text x="132.000" y="177.500" font-size="2.1" text-anchor="start" fill="#444444" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Cocina · muro Oeste, en lugar de K8 y K9 (0,60 de ancho, lacado blanco)</text>
+<text x="220.000" y="177.500" font-size="2.0" text-anchor="start" fill="#1f4e79" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">https://www.makro.es/marketplace/product/d48c3c0c-7975-4c22-89c7-64676c23681f</text>
+<text x="14.000" y="181.400" font-size="2.1" text-anchor="start" fill="#4a5a68" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">A3</text>
+<text x="28.000" y="181.400" font-size="2.1" text-anchor="start" fill="#222222" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Granizadora GRANICREAM 1S Eurofred, 1 cuba de 10 L, cremas de café</text>
+<text x="112.000" y="181.400" font-size="2.1" text-anchor="start" fill="#111111" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">0,20 × 0,50 × 0,79</text>
+<text x="132.000" y="181.400" font-size="2.1" text-anchor="start" fill="#444444" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Barra · alternativa a A3: misma anchura, 10 L, pero 0,79 de alto</text>
+<text x="220.000" y="181.400" font-size="2.0" text-anchor="start" fill="#1f4e79" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">https://www.makro.es/marketplace/product/e826e334-3cba-44fc-a530-627af1dabaf6</text>
+<text x="14.000" y="185.300" font-size="2.1" text-anchor="start" fill="#4a5a68" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">A3</text>
+<text x="28.000" y="185.300" font-size="2.1" text-anchor="start" fill="#222222" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Granizadora GRANISMART 5x1 Eurofred, 1 cuba de 5 L (la más baja)</text>
+<text x="112.000" y="185.300" font-size="2.1" text-anchor="start" fill="#111111" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">0,26 × 0,40 × 0,63</text>
+<text x="132.000" y="185.300" font-size="2.1" text-anchor="start" fill="#444444" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Barra · alternativa a A3: cuba de 5 L, 0,26 de ancho y solo 0,40 de fondo</text>
+<text x="220.000" y="185.300" font-size="2.0" text-anchor="start" fill="#1f4e79" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">https://www.makro.es/marketplace/product/635e0924-0d3e-42ca-965e-e66eb41cdee1</text>
+<text x="14.000" y="189.200" font-size="2.1" text-anchor="start" fill="#4a5a68" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">A6</text>
+<text x="28.000" y="189.200" font-size="2.1" text-anchor="start" fill="#222222" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Estante en inox de pared, 2000 × 400 × 250, de una sola pieza</text>
+<text x="112.000" y="189.200" font-size="2.1" text-anchor="start" fill="#111111" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">2,00 × 0,40 × 0,25</text>
+<text x="132.000" y="189.200" font-size="2.1" text-anchor="start" fill="#444444" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Barra · alternativa a A6: una sola pieza de 2,00 en vez de dos de 1,25</text>
+<text x="220.000" y="189.200" font-size="2.0" text-anchor="start" fill="#1f4e79" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">https://www.makro.es/marketplace/product/15f4f100-83b5-4f51-a383-11acf9989372</text>
+<text x="14.000" y="193.100" font-size="2.1" text-anchor="start" fill="#4a5a68" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">A4</text>
+<text x="28.000" y="193.100" font-size="2.1" text-anchor="start" fill="#222222" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Fregadero 1 cubeta con puerta, Gama 600 Distform, 600 × 600 × 850</text>
+<text x="112.000" y="193.100" font-size="2.1" text-anchor="start" fill="#111111" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">0,60 × 0,60 × 0,85</text>
+<text x="132.000" y="193.100" font-size="2.1" text-anchor="start" fill="#444444" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Barra · alternativa al fregadero A4, con puerta (mismo hueco)</text>
+<text x="220.000" y="193.100" font-size="2.0" text-anchor="start" fill="#1f4e79" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">https://www.makro.es/marketplace/product/3efac5b4-e702-4af6-9dd9-533709488190</text>
+<text x="14.000" y="197.000" font-size="2.1" text-anchor="start" fill="#4a5a68" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">A4</text>
+<text x="28.000" y="197.000" font-size="2.1" text-anchor="start" fill="#222222" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Fregadero industrial 1 cuba AISI-304, 700 × 600 × 850</text>
+<text x="112.000" y="197.000" font-size="2.1" text-anchor="start" fill="#111111" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">0,70 × 0,60 × 0,85</text>
+<text x="132.000" y="197.000" font-size="2.1" text-anchor="start" fill="#444444" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Barra · alternativa al fregadero A4 en AISI-304, 0,10 más ancho</text>
+<text x="220.000" y="197.000" font-size="2.0" text-anchor="start" fill="#1f4e79" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">https://www.makro.es/marketplace/product/95121b55-b486-4a76-a3de-ed7874e75876</text>
+<text x="14.000" y="200.900" font-size="2.1" text-anchor="start" fill="#4a5a68" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">A5</text>
+<text x="28.000" y="200.900" font-size="2.1" text-anchor="start" fill="#222222" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Botellero inox interior y exterior, 2 puertas, 200 L, Eurast</text>
+<text x="112.000" y="200.900" font-size="2.1" text-anchor="start" fill="#111111" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">1,02 × 0,55 × 0,85</text>
+<text x="132.000" y="200.900" font-size="2.1" text-anchor="start" fill="#444444" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Barra · alternativa a la nevera A5 (1,02, inox interior y exterior)</text>
+<text x="220.000" y="200.900" font-size="2.0" text-anchor="start" fill="#1f4e79" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">https://www.makro.es/marketplace/product/a046bf7e-9d25-4304-9593-1cd32668e47f</text>
+<text x="14.000" y="204.800" font-size="2.1" text-anchor="start" fill="#4a5a68" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">A5</text>
+<text x="28.000" y="204.800" font-size="2.1" text-anchor="start" fill="#222222" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Botellero refrigerado de bar Yostin, 2 puertas, 100 cm, AISI-304</text>
+<text x="112.000" y="204.800" font-size="2.1" text-anchor="start" fill="#111111" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">1,00 × 0,55 × 0,84</text>
+<text x="132.000" y="204.800" font-size="2.1" text-anchor="start" fill="#444444" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Barra · alternativa a la nevera A5 (1,00 exactos, fabricación nacional)</text>
+<text x="220.000" y="204.800" font-size="2.0" text-anchor="start" fill="#1f4e79" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">https://www.makro.es/marketplace/product/6589602e-de66-484c-871f-68f83b182638</text>
+<text x="14.000" y="212.700" font-size="2.7" text-anchor="start" fill="#111111" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold" letter-spacing="0.5">SIN SITIO EN LA TRASBARRA NUEVA  ·  decidir dónde van</text>
+<text x="14.000" y="218.300" font-size="1.9" text-anchor="start" fill="#7a6a4a" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">ERA</text>
+<text x="28.000" y="218.300" font-size="1.9" text-anchor="start" fill="#7a6a4a" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">PRODUCTO</text>
+<text x="112.000" y="218.300" font-size="1.9" text-anchor="start" fill="#7a6a4a" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">MEDIDAS</text>
+<text x="132.000" y="218.300" font-size="1.9" text-anchor="start" fill="#7a6a4a" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">DÓNDE VA</text>
+<text x="220.000" y="218.300" font-size="1.9" text-anchor="start" fill="#7a6a4a" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">FICHA EN MAKRO.ES</text>
+<line x1="14.000" y1="219.700" x2="310.000" y2="219.700" stroke="#cfc6b6" stroke-width="0.13"/>
+<text x="14.000" y="222.800" font-size="2.1" text-anchor="start" fill="#4a5a68" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">A3</text>
+<text x="28.000" y="222.800" font-size="2.1" text-anchor="start" fill="#222222" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Fabricador de hielo Gastro M CT694, 28 kg/24 h (bajo encimera)</text>
+<text x="112.000" y="222.800" font-size="2.1" text-anchor="start" fill="#111111" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">0,40 × 0,46 × 0,67</text>
+<text x="132.000" y="222.800" font-size="2.1" text-anchor="start" fill="#444444" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Sin sitio en la trasbarra nueva: decidir dónde va</text>
+<text x="220.000" y="222.800" font-size="2.0" text-anchor="start" fill="#1f4e79" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">https://www.makro.es/marketplace/product/e3db53e1-8f64-4495-bb2c-59fe355a32e2</text>
+<text x="14.000" y="226.700" font-size="2.1" text-anchor="start" fill="#4a5a68" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">A4</text>
+<text x="28.000" y="226.700" font-size="2.1" text-anchor="start" fill="#222222" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Exprimidor de naranjas Mizumo Next Gen</text>
+<text x="112.000" y="226.700" font-size="2.1" text-anchor="start" fill="#111111" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">0,48 × 0,35 × 0,73</text>
+<text x="132.000" y="226.700" font-size="2.1" text-anchor="start" fill="#444444" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Sin sitio en la trasbarra nueva: cabría en el hueco libre de mesada</text>
+<text x="220.000" y="226.700" font-size="2.0" text-anchor="start" fill="#1f4e79" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">https://www.makro.es/marketplace/product/a7c3e878-0cdd-4f7e-b013-897ae4f6120d</text>
+<text x="14.000" y="230.600" font-size="2.1" text-anchor="start" fill="#4a5a68" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">A2</text>
+<text x="28.000" y="230.600" font-size="2.1" text-anchor="start" fill="#222222" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Lavamanos inox con grifo y pulsador de pedal, cuba Ø340</text>
+<text x="112.000" y="230.600" font-size="2.1" text-anchor="start" fill="#111111" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">0,40 × 0,40 × 0,85</text>
+<text x="132.000" y="230.600" font-size="2.1" text-anchor="start" fill="#444444" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Sin sitio: lo sustituye el fregadero A4, pegado a P2</text>
+<text x="220.000" y="230.600" font-size="2.0" text-anchor="start" fill="#1f4e79" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">https://www.makro.es/marketplace/product/6105678f-3159-4172-a17a-f400760f0b35</text>
+<text x="14.000" y="234.500" font-size="2.1" text-anchor="start" fill="#4a5a68" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">A3b</text>
+<text x="28.000" y="234.500" font-size="2.1" text-anchor="start" fill="#222222" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Licuadora industrial Sammic Li-240</text>
+<text x="112.000" y="234.500" font-size="2.1" text-anchor="start" fill="#111111" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">0,20 × 0,31 × 0,36</text>
+<text x="132.000" y="234.500" font-size="2.1" text-anchor="start" fill="#444444" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Sin sitio en la trasbarra nueva: decidir dónde va</text>
+<text x="220.000" y="234.500" font-size="2.0" text-anchor="start" fill="#1f4e79" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">https://www.makro.es/marketplace/product/2b8d9850-b422-4738-b716-c30da9857300</text>
+<text x="14.000" y="242.400" font-size="2.7" text-anchor="start" fill="#111111" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold" letter-spacing="0.5">A MEDIDA  ·  no se compran en Makro</text>
+<text x="28.000" y="248.000" font-size="2.0" text-anchor="start" fill="#222222" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">·  Bancada de apoyo de la línea de cocción, dentro del hundimiento: 2,18 × 0,60, acero inoxidable.</text>
+<text x="28.000" y="251.500" font-size="2.0" text-anchor="start" fill="#222222" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">·  Mesada de la trasbarra, de P1 al fregadero A4: 2,15 × 0,60 (el fregadero A4, de pie, hace los otros 0,60).</text>
+<text x="28.000" y="255.000" font-size="2.0" text-anchor="start" fill="#222222" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">·  Hueco de 0,20 para el molinillo A2 y los utensilios, a la derecha de la cafetera.</text>
+<text x="28.000" y="258.500" font-size="2.0" text-anchor="start" fill="#222222" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">·  Barra de madera del mostrador delantero: 0,79 × 0,76.</text>
+<text x="28.000" y="262.000" font-size="2.0" text-anchor="start" fill="#222222" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">·  Tabla de P2 al muro: 0,78 × 0,39 (chopera B4 encima, barril B2 debajo).</text>
+<text x="28.000" y="265.500" font-size="2.0" text-anchor="start" fill="#222222" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">·  Mostrador delantero: 2,79 × 0,76 de fondo, del zócalo del ventanal a P1.</text>
+<text x="14.000" y="272.000" font-size="2.7" text-anchor="start" fill="#111111" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold" letter-spacing="0.5">VERIFICACIÓN DE LOS ENLACES</text>
+<text x="28.000" y="277.600" font-size="2.0" text-anchor="start" fill="#444444" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">makro.es responde 403 a cualquier acceso desde un servidor, así que las fichas no se pueden abrir desde el entorno de trabajo. Cada enlace se verificó buscando su identificador con el</text>
+<text x="28.000" y="281.300" font-size="2.0" text-anchor="start" fill="#444444" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">buscador restringido a makro.es: todos devuelven su URL con el título del producto (LISTA_MAKRO.md). La del fregadero K7 la facilitó el cliente. Confirmar precio y stock.</text>
 </g>
 <g id="cajetin">
 <rect x="316.000" y="8.000" width="96.000" height="281.000" fill="#ffffff" stroke="#111111" stroke-width="0.5"/>
