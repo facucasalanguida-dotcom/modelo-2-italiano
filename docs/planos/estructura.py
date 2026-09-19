@@ -227,16 +227,17 @@ SILLON     = dict(x0=PARED_L_X, x1=7.400, y=MURO_N, fondo=0.600,
 ZOCALO_SUR = dict(x0=0.510, x1=5.870, y0=1.621, y1=1.968, fondo=0.347)
 
 # ------------------------------------------------- aire acondicionado (techo)
-# Dos cassettes de techo con su rejilla de retorno al lado, en las fotos que
-# mando el cliente el 19 set.: uno sobre la zona de mesas al Oeste de P5 y otro
-# sobre el vestibulo de acceso. El cliente pidio intuir las medidas: se dibuja
-# el panel estandar de 0,95 x 0,95 y una rejilla de 0,90 x 0,50. Posicion
-# aproximada, tomada de las fotos; falta medirla en obra.
+# UNA sola maquina, un cassette de techo de 4 vias. El cliente lo corrige el
+# 20 set.: antes se habian dibujado dos y solo hay uno. En sus fotos aparece
+# empotrado en el techo bajo (el intrados del forjado del altillo), a la
+# izquierda del pilar mirando al Norte, es decir al OESTE de P3 y pegado a el.
+# Se coloca centrado con P3 y a 0,10 de su cara Oeste. El panel estandar es de
+# 0,95 x 0,95. Posicion tomada de las fotos: falta medirla en obra.
 AIRE = [
-    ('AC1', 'Cassette de techo 4 vias + rejilla', 5.00, 3.70, 0.95, 0.95),
-    ('AC2', 'Cassette de techo 4 vias + rejilla', 8.95, 2.60, 0.95, 0.95),
+    ('AC1', 'Cassette de techo 4 vías, bajo el forjado',
+     5.070, 5.223, 0.95, 0.95),
 ]
-AIRE_REJILLA = (0.90, 0.50)
+AIRE_REJILLA = None          # el cassette de 4 vias retorna por su centro
 
 # ------------------------------------------------------ bano de planta baja
 # Nuevo, croquis del cliente del 15/09: rincon NE, entre la medianera Norte,
@@ -279,6 +280,6 @@ COMPROBAR = [
     'Se dibuja el 1,31 medido y el resto queda en 2,25, 2 cm más que su medida.',
     'P3 no se mueve: los 3,23 a la medianera dan 3,25 medidos al muro desnudo (2,98 al '
     'trasdosado) y los 3,65 a P5 se dibujan 3,69. Confirmar a qué cara se midió.',
-    'Aire acondicionado: dos cassettes situados con las fotos del cliente, con panel '
+    'Aire acondicionado: un cassette situado con las fotos del cliente, con panel '
     'estándar de 0,95 y rejilla de 0,90 × 0,50. Medir posición y tamaño reales.',
 ]

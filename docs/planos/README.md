@@ -429,15 +429,19 @@ vez en la cabecera del `.rb`, cada una con su origen (medida, estandar o
 SUPUESTA). Las supuestas son el canto del forjado (0,250), el intrados de la
 viga P1b (2,100), el alto del zocalo del ventanal (0,450) y el sillon.
 
-**Aire acondicionado.** Las dos maquinas son cassettes de techo de 4 vias,
-el cuadrado blanco con rejillas de las fotos del cliente. Cada una se modela
-con sus piezas: panel de 1,00 x 1,00, rejilla de retorno cuadrada en el
-centro (0,45), una lama de impulsion en cada lado (0,70 x 0,09), el cuerpo de
-0,84 x 0,84 x 0,25 por encima del techo y la rejilla de retorno del local
-(0,90 x 0,50) al lado. Van **empotrados**, no colgados. Las dos caen en la
-zona de doble altura, donde el forjado no llega, asi que se dibuja tambien el
-pano de falso techo en el que se empotran, marcado como SUPUESTO: si en obra
-ese techo va a otra altura, se cambia en `export_sketchup.py`.
+**Aire acondicionado.** **Una sola maquina** (el cliente corrige el 20 set.
+que solo hay una, no dos): un cassette de techo de 4 vias, el cuadrado blanco
+con rejillas de sus fotos. Va **al Oeste de P3 y pegado a el**, centrado con
+el pilar: panel de 1,00 x 1,00 entre x 4,570-5,570 e y 4,723-5,723, a 0,10 de
+la cara Oeste de P3.
+
+Se modela con sus piezas: panel de 1,00, rejilla de retorno cuadrada de 0,45
+en el centro, una lama de impulsion de 0,70 x 0,09 en cada lado y el cuerpo de
+0,84 x 0,84 x 0,25. **No se empotra en el forjado** —que es el suelo del
+altillo y no se puede agujerear—: el cuerpo se monta pegado a su intrados
+(2,060-2,310) y el panel queda por debajo, visto desde la sala (2,030-2,060).
+Si en obra hay falso techo, el panel sube a enrasar con el y el cuerpo se mete
+en el plenum.
 
 **Pared en L.** El vidrio va solo sobre el tramo largo. Sobre la base de la L
 (el doblez de 0,74) no hay vidrio: ese hueco queda libre.

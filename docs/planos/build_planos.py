@@ -516,7 +516,7 @@ def escalera(L, planta):
 def aire(L):
     """Cassettes de aire acondicionado del techo (fotos del cliente)."""
     dd = ' stroke-dasharray="2.0 1.3"'
-    rw, rh = E.AIRE_REJILLA
+    rw, rh = E.AIRE_REJILLA or (0.0, 0.0)
     for tag, nm, cx, cy, a, f in E.AIRE:
         L.rect('luces', cx - a / 2, cy - f / 2, cx + a / 2, cy + f / 2,
                'none', '#6f8a99', 'medio', dd)
@@ -524,8 +524,9 @@ def aire(L):
                 '#6f8a99', 'auxiliar', dd)
         L.linea('luces', cx - a / 2, cy + f / 2, cx + a / 2, cy - f / 2,
                 '#6f8a99', 'auxiliar', dd)
-        L.rect('luces', cx - rw / 2, cy + f / 2 + 0.06, cx + rw / 2,
-               cy + f / 2 + 0.06 + rh, 'none', '#6f8a99', 'fino', dd)
+        if rh:
+            L.rect('luces', cx - rw / 2, cy + f / 2 + 0.06, cx + rw / 2,
+                   cy + f / 2 + 0.06 + rh, 'none', '#6f8a99', 'fino', dd)
         L.texto('rotulos', cx, cy + f / 2 + rh + 0.10, tag, 1.9, 'middle',
                 '#4c6b7c', 'bold')
 
