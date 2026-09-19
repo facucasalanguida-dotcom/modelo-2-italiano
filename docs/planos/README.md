@@ -286,8 +286,12 @@ Reparto del 19 set. (tarde), con M6 y M9 eliminadas y las dos cuadruples
 formadas juntando dos mesas:
 
 - **Fila del ventanal.** M1, M3 y M2 en vertical (sillas al Norte y al Sur),
-  a 0,08 entre si, arrancando en el zocalo. M2 se trae aqui, al lado de M3,
-  como pidio el cliente.
+  **a 0,115 entre si**, arrancando en el zocalo. M2 se trae aqui, al lado de
+  M3, como pidio el cliente. Esa separacion es lo maximo que da la fila: por
+  el Oeste el tope es dejar 1,00 libre delante del mostrador (M1 en 3,530) y
+  por el Este, que la silla de M2 no se meta en el barrido de la puerta de la
+  nevera A7 (silla hasta 5,720, nevera desde 5,725); la fila acaba en 5,860,
+  justo antes de que se termine el zocalo del ventanal (5,870).
 - **Fila central.** M5 y M4, con **M4 pegada a la cara Oeste de P3**. M6 se
   quita. Al Oeste de M5 no va ninguna mesa: ahi esta la unica salida del
   personal de la barra a la sala, que queda en 1,31.

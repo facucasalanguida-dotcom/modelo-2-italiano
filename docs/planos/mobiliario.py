@@ -28,6 +28,11 @@ SEP = 0.050
 #   - Fila del ventanal Sur (19 set., tarde): las tres mesas arrancan en el
 #     zocalo (1,968) y van "en vertical", con las sillas al Norte y al Sur.
 #     M2 se trae aqui desde el hueco del escaparate, al lado de M3.
+#     Separacion entre ellas: 0,115, lo maximo que da la fila. Por el Oeste
+#     el tope es 1,00 libre delante del mostrador (M1 en 3,530) y por el
+#     Este que la silla de M2 no se meta en el barrido de la puerta de la
+#     nevera A7 (silla hasta 5,720, nevera desde 5,725); ademas la fila
+#     termina justo antes de que se acabe el zocalo (5,870).
 #   - Fila central bajo el forjado: M5 y M4, las dos al Oeste de P3 y M4
 #     pegada a su cara Oeste. M6 se quita. Al Oeste
 #     de M5 no va ninguna mesa: ahi esta la unica salida del personal de la
@@ -40,8 +45,8 @@ SEP = 0.050
 # desde el ramal del itinerario que va a la barra.
 MESAS_PB = [
     ('M1', 'doble',     3.530, 2.488, 4.230, 3.188, 'NS'),
-    ('M3', 'doble',     4.310, 2.488, 5.010, 3.188, 'NS'),
-    ('M2', 'doble',     5.090, 2.488, 5.790, 3.188, 'NS'),
+    ('M3', 'doble',     4.345, 2.488, 5.045, 3.188, 'NS'),
+    ('M2', 'doble',     5.160, 2.488, 5.860, 3.188, 'NS'),
     ('M5', 'doble',     3.840, 5.330, 4.540, 6.030, 'NS'),
     ('M4', 'doble',     4.970, 5.330, 5.670, 6.030, 'NS'),
     ('M7', 'cuadruple', 2.550, 7.708, 3.950, 8.408, 'S'),
@@ -72,8 +77,8 @@ ACC_GIROS = [((8.550, 2.120), (9.220, 2.860)), ((7.870, 6.600), (7.870, 6.960))]
 ACC_PMR = None
 # anchos que se acotan: tipo, posicion de la linea, extremos y sitio del texto
 ACC_ANCHOS = [
-    ('v', 4.190, 3.658, 4.860, 4.330, 4.100),    # sillas del ventanal - fila central
-    ('v', 5.740, 3.658, 4.108, 5.560, 3.885),    # sillas de M2 - nevera A7: 0,45
+    ('v', 4.035, 3.658, 4.860, 4.175, 4.100),    # sillas del ventanal - fila central
+    ('v', 5.722, 3.658, 4.108, 5.545, 3.885),    # sillas de M2 - nevera A7: 0,45
     ('h', 5.730, 7.380, 8.650, 7.980, 5.840),    # M11 - caja de escalera
     ('v', 6.850, 6.500, 7.238, 6.680, 6.900),    # sillas: fila central - sillon
     ('h', 5.600, 2.530, 3.840, 3.180, 5.710),    # salida del personal a la sala
