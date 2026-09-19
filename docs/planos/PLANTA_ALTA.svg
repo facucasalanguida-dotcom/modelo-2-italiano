@@ -22,18 +22,17 @@
 <polygon points="67.000,57.460 110.600,57.460 110.600,60.460 111.220,60.460 111.220,85.820 110.220,85.820 110.220,157.220 259.800,157.220 259.800,207.420 256.200,207.420 256.200,228.420 186.600,228.420 186.600,216.800 181.600,216.800 181.600,203.580 72.200,203.580 72.200,195.820 67.000,195.820" fill="url(#vacio)" stroke="none"/>
 </g>
 <g id="proyeccion">
-<polygon points="111.220,55.840 259.800,55.840 259.800,81.240 238.220,81.240 238.220,157.220 110.220,157.220 110.220,85.820 111.220,85.820" fill="none" stroke="#111111" stroke-width="0.25"/>
+<polygon points="111.220,60.460 259.800,60.460 259.800,81.240 238.220,81.240 238.220,157.220 110.220,157.220 110.220,85.820 111.220,85.820" fill="none" stroke="#111111" stroke-width="0.25"/>
 </g>
 <g id="muros">
-<rect x="110.600" y="52.880" width="152.200" height="2.960" fill="#6f6f6f" stroke="#111111" stroke-width="0.5"/>
-<rect x="62.000" y="52.880" width="5.000" height="2.960" fill="#6f6f6f" stroke="#111111" stroke-width="0.5"/>
-<rect x="67.000" y="52.880" width="43.600" height="2.960" fill="#6f6f6f" stroke="#111111" stroke-width="0.5"/>
-<rect x="62.000" y="55.840" width="5.000" height="139.980" fill="#6f6f6f" stroke="#111111" stroke-width="0.5"/>
+<rect x="110.600" y="52.880" width="152.200" height="7.580" fill="#6f6f6f" stroke="#111111" stroke-width="0.5"/>
+<rect x="62.000" y="52.880" width="48.600" height="4.580" fill="#6f6f6f" stroke="#111111" stroke-width="0.5"/>
+<rect x="62.000" y="57.460" width="5.000" height="138.360" fill="#6f6f6f" stroke="#111111" stroke-width="0.5"/>
 <rect x="62.000" y="195.820" width="10.200" height="8.960" fill="#6f6f6f" stroke="#111111" stroke-width="0.5"/>
 <rect x="176.620" y="204.780" width="4.980" height="12.020" fill="#6f6f6f" stroke="#111111" stroke-width="0.5"/>
-<rect x="259.800" y="55.840" width="3.000" height="151.580" fill="#6f6f6f" stroke="#111111" stroke-width="0.5"/>
+<rect x="259.800" y="60.460" width="3.000" height="146.960" fill="#6f6f6f" stroke="#111111" stroke-width="0.5"/>
 <rect x="256.200" y="207.420" width="6.600" height="21.980" fill="#6f6f6f" stroke="#111111" stroke-width="0.5"/>
-<polygon points="67.000,55.840 259.800,55.840 259.800,207.420 256.200,207.420 256.200,228.420 186.600,228.420 186.600,216.800 181.600,216.800 181.600,203.580 72.200,203.580 72.200,195.820 67.000,195.820" fill="none" stroke="#8a8a8a" stroke-width="0.1"/>
+<polygon points="67.000,60.460 259.800,60.460 259.800,207.420 256.200,207.420 256.200,228.420 186.600,228.420 186.600,216.800 181.600,216.800 181.600,203.580 72.200,203.580 72.200,195.820 67.000,195.820" fill="none" stroke="#8a8a8a" stroke-width="0.1"/>
 </g>
 <g id="pilares">
 <rect x="175.400" y="120.840" width="13.000" height="21.400" fill="#2b2b2b" stroke="#111111" stroke-width="0.5"/>
@@ -44,21 +43,21 @@
 <rect x="176.620" y="216.000" width="12.000" height="20.000" fill="url(#horm)" stroke="none"/>
 </g>
 <g id="tabiques">
-<rect x="111.220" y="55.840" width="1.980" height="29.980" fill="#a8a8a8" stroke="#111111" stroke-width="0.35"/>
+<rect x="111.220" y="60.460" width="1.980" height="25.360" fill="#a8a8a8" stroke="#111111" stroke-width="0.35"/>
 <rect x="113.200" y="83.860" width="10.580" height="1.960" fill="#a8a8a8" stroke="#111111" stroke-width="0.35"/>
 <rect x="138.980" y="83.860" width="73.240" height="1.960" fill="#a8a8a8" stroke="#111111" stroke-width="0.35"/>
 <rect x="151.220" y="71.840" width="1.980" height="12.020" fill="#a8a8a8" stroke="#111111" stroke-width="0.35"/>
-<rect x="171.180" y="55.840" width="1.980" height="28.020" fill="#a8a8a8" stroke="#111111" stroke-width="0.35"/>
+<rect x="171.180" y="60.460" width="1.980" height="23.400" fill="#a8a8a8" stroke="#111111" stroke-width="0.35"/>
 <rect x="210.160" y="74.560" width="2.060" height="9.300" fill="#a8a8a8" stroke="#111111" stroke-width="0.35"/>
 <rect x="123.780" y="83.860" width="15.200" height="1.960" fill="#ffffff" stroke="none" stroke-width="0.1"/>
 <rect x="123.780" y="84.440" width="15.200" height="0.800" fill="#111111" stroke="none"/>
 <line x1="123.780" y1="84.840" x2="123.780" y2="69.640" stroke="#111111" stroke-width="0.18"/>
 <path d="M 138.980 84.840 A 15.200 15.200 0 0 0 123.780 69.640" fill="none" stroke="#111111" stroke-width="0.1" stroke-dasharray="1.2 0.9"/>
-<rect x="151.220" y="55.840" width="1.980" height="16.000" fill="#ffffff" stroke="none" stroke-width="0.1"/>
+<rect x="151.220" y="60.460" width="1.980" height="11.380" fill="#ffffff" stroke="none" stroke-width="0.1"/>
 <rect x="151.810" y="55.840" width="0.800" height="16.000" fill="#111111" stroke="none"/>
 <line x1="152.210" y1="71.840" x2="136.210" y2="71.840" stroke="#111111" stroke-width="0.18"/>
 <path d="M 152.210 55.840 A 16.000 16.000 0 0 0 136.210 71.840" fill="none" stroke="#111111" stroke-width="0.1" stroke-dasharray="1.2 0.9"/>
-<rect x="210.160" y="55.840" width="2.060" height="18.720" fill="#ffffff" stroke="none" stroke-width="0.1"/>
+<rect x="210.160" y="60.460" width="2.060" height="14.100" fill="#ffffff" stroke="none" stroke-width="0.1"/>
 <rect x="210.790" y="55.760" width="0.800" height="18.800" fill="#111111" stroke="none"/>
 <line x1="211.190" y1="74.560" x2="192.390" y2="74.560" stroke="#111111" stroke-width="0.18"/>
 <path d="M 211.190 55.760 A 18.800 18.800 0 0 0 192.390 74.560" fill="none" stroke="#111111" stroke-width="0.1" stroke-dasharray="1.2 0.9"/>
@@ -221,15 +220,15 @@
 <line x1="93.220" y1="85.820" x2="51.400" y2="85.820" stroke="#9a2b2b" stroke-width="0.1"/>
 <line x1="51.900" y1="84.960" x2="54.100" y2="82.760" stroke="#9a2b2b" stroke-width="0.13"/>
 <line x1="93.220" y1="83.860" x2="51.400" y2="83.860" stroke="#9a2b2b" stroke-width="0.1"/>
-<line x1="51.900" y1="56.940" x2="54.100" y2="54.740" stroke="#9a2b2b" stroke-width="0.13"/>
-<line x1="93.220" y1="55.840" x2="51.400" y2="55.840" stroke="#9a2b2b" stroke-width="0.1"/>
+<line x1="51.900" y1="61.560" x2="54.100" y2="59.360" stroke="#9a2b2b" stroke-width="0.13"/>
+<line x1="93.220" y1="60.460" x2="51.400" y2="60.460" stroke="#9a2b2b" stroke-width="0.1"/>
 <line x1="51.900" y1="53.980" x2="54.100" y2="51.780" stroke="#9a2b2b" stroke-width="0.13"/>
 <line x1="93.220" y1="52.880" x2="51.400" y2="52.880" stroke="#9a2b2b" stroke-width="0.1"/>
 <text x="52.000" y="181.000" font-size="2.0" text-anchor="middle" fill="#9a2b2b" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal" transform="rotate(-90 52.000 181.000)">2,38</text>
 <text x="52.000" y="121.520" font-size="2.0" text-anchor="middle" fill="#9a2b2b" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal" transform="rotate(-90 52.000 121.520)">3,57</text>
 <text x="52.000" y="84.840" font-size="2.0" text-anchor="middle" fill="#9a2b2b" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal" transform="rotate(-90 52.000 84.840)">0,10</text>
-<text x="52.000" y="69.850" font-size="2.0" text-anchor="middle" fill="#9a2b2b" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal" transform="rotate(-90 52.000 69.850)">1,40</text>
-<text x="52.000" y="54.360" font-size="2.0" text-anchor="middle" fill="#9a2b2b" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal" transform="rotate(-90 52.000 54.360)">0,15</text>
+<text x="52.000" y="72.160" font-size="2.0" text-anchor="middle" fill="#9a2b2b" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal" transform="rotate(-90 52.000 72.160)">1,17</text>
+<text x="52.000" y="56.670" font-size="2.0" text-anchor="middle" fill="#9a2b2b" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal" transform="rotate(-90 52.000 56.670)">0,38</text>
 <line x1="45.000" y1="236.000" x2="45.000" y2="52.880" stroke="#9a2b2b" stroke-width="0.13"/>
 <line x1="43.900" y1="237.100" x2="46.100" y2="234.900" stroke="#9a2b2b" stroke-width="0.13"/>
 <line x1="43.900" y1="53.980" x2="46.100" y2="51.780" stroke="#9a2b2b" stroke-width="0.13"/>
@@ -258,10 +257,10 @@
 <text x="270.800" y="77.900" font-size="1.9" text-anchor="middle" fill="#9a2b2b" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal" transform="rotate(-90 270.800 77.900)">0,33</text>
 <text x="270.800" y="73.200" font-size="1.9" text-anchor="middle" fill="#9a2b2b" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal" transform="rotate(-90 270.800 73.200)">0,14</text>
 <text x="270.800" y="62.360" font-size="1.9" text-anchor="middle" fill="#9a2b2b" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal" transform="rotate(-90 270.800 62.360)">0,95</text>
-<line x1="116.400" y1="85.820" x2="116.400" y2="55.840" stroke="#9a2b2b" stroke-width="0.13"/>
+<line x1="116.400" y1="85.820" x2="116.400" y2="60.460" stroke="#9a2b2b" stroke-width="0.13"/>
 <line x1="115.300" y1="86.920" x2="117.500" y2="84.720" stroke="#9a2b2b" stroke-width="0.13"/>
-<line x1="115.300" y1="56.940" x2="117.500" y2="54.740" stroke="#9a2b2b" stroke-width="0.13"/>
-<text x="115.400" y="70.830" font-size="1.9" text-anchor="middle" fill="#9a2b2b" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal" transform="rotate(-90 115.400 70.830)">1,50</text>
+<line x1="115.300" y1="61.560" x2="117.500" y2="59.360" stroke="#9a2b2b" stroke-width="0.13"/>
+<text x="115.400" y="73.140" font-size="1.9" text-anchor="middle" fill="#9a2b2b" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal" transform="rotate(-90 115.400 73.140)">1,27</text>
 </g>
 <g id="rotulos">
 <text x="181.900" y="132.640" font-size="3.0" text-anchor="middle" fill="#ffffff" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">P3</text>
@@ -334,7 +333,7 @@
 <line x1="321.000" y1="114.600" x2="407.000" y2="114.600" stroke="#111111" stroke-width="0.1"/>
 <text x="321.000" y="119.200" font-size="2.1" text-anchor="start" fill="#777777" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">SUPERFICIES Y ALTURAS</text>
 <text x="321.000" y="123.400" font-size="2.4" text-anchor="start" fill="#333333" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Forjado de planta alta</text>
-<text x="407.000" y="123.400" font-size="2.4" text-anchor="end" fill="#111111" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">33,74 m²</text>
+<text x="407.000" y="123.400" font-size="2.4" text-anchor="end" fill="#111111" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">32,02 m²</text>
 <text x="321.000" y="127.600" font-size="2.4" text-anchor="start" fill="#333333" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Altillo diáfano</text>
 <text x="407.000" y="127.600" font-size="2.4" text-anchor="end" fill="#111111" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">26,17 m²</text>
 <text x="321.000" y="131.800" font-size="2.4" text-anchor="start" fill="#333333" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Aseo (lavabo + inodoro)</text>
@@ -393,8 +392,8 @@
 <text x="57.000" y="260.600" font-size="2.0" text-anchor="start" fill="#7a5a3a" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Puntos en los que los vídeos del local no cuadran con el levantamiento, o que el levantamiento no recoge. Se dibuja el levantamiento por ser la única fuente acotada.</text>
 <line x1="14.500" y1="262.400" x2="310.500" y2="262.400" stroke="#d8c6ae" stroke-width="0.13"/>
 <text x="14.500" y="266.400" font-size="2.2" text-anchor="start" fill="#9a2b2b" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">1</text>
-<text x="18.700" y="266.400" font-size="2.0" text-anchor="start" fill="#3a3a3a" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Hundimiento: se dibuja 0,15 de escalón entre los dos trasdosados del muro Norte</text>
-<text x="18.700" y="269.200" font-size="2.0" text-anchor="start" fill="#3a3a3a" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">(0,08 en la cocina, 0,23 en el resto). Medir esos espesores y qué llevan dentro.</text>
+<text x="18.700" y="266.400" font-size="2.0" text-anchor="start" fill="#3a3a3a" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Muro Norte: macizo hasta el borde del solar, 0,229 en la cocina y 0,379 en el resto;</text>
+<text x="18.700" y="269.200" font-size="2.0" text-anchor="start" fill="#3a3a3a" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">el levantamiento suponía 0,148. Medir el espesor real y el hundimiento de 0,15.</text>
 <text x="14.500" y="273.400" font-size="2.2" text-anchor="start" fill="#9a2b2b" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">2</text>
 <text x="18.700" y="273.400" font-size="2.0" text-anchor="start" fill="#3a3a3a" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Canto del forjado del altillo. Con 2,56 m de suelo a suelo, la altura libre de</text>
 <text x="18.700" y="276.200" font-size="2.0" text-anchor="start" fill="#3a3a3a" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">planta baja es 2,56 menos ese canto, no los 2,70 supuestos.</text>

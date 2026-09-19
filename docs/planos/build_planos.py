@@ -228,7 +228,7 @@ _H = E.HUNDIMIENTO
 
 def interior_pb(hund=True):
     if not hund:                      # planta alta: sin el trasdosado de PB
-        return [(0.250, E.MED_N), (9.890, E.MED_N)] + interior_pb()[4:]
+        return [(0.250, E.MURO_N), (9.890, E.MURO_N)] + interior_pb()[4:]
     return [(0.250, _H['y1']), (_H['x1'], _H['y1']), (_H['x1'], _H['y0']),
             (9.890, _H['y0']), (9.890, 1.429), (9.710, 1.429),
             (9.710, 0.379), (6.230, 0.379), (6.230, 0.960), (5.980, 0.960),
@@ -261,20 +261,18 @@ def hundimiento(L, rotulo=(1.34, 8.28)):
     """Hundimiento del muro Norte en la cocina (19 set., noche).
 
     No es un hueco abierto en la medianera: el fondo del hundimiento ES la
-    escalon entre los dos espesores de trasdosado del muro Norte: 0,08 en
-    los 2,18 de la cocina y 0,23 en el resto. La cara de la cocina queda a
-    3,57 de la base de la pared en L, que arranca en la cara Norte de P1, y
-    la medianera estructural de 0,148 no se toca.
+    escalon de la cara interior del muro Norte: 8,927 en los 2,18 de la
+    cocina y 8,777 en el resto. El muro es macizo hasta el borde del solar
+    (9,156), asi que lo que cambia es su espesor: 0,229 y 0,379. La cara de
+    la cocina queda a 3,57 de la base de la pared en L, que arranca en la
+    cara Norte de P1.
     """
     h = E.HUNDIMIENTO
-    for nm, x0, y0, x1, y1 in (E.TRASDOSADO, E.TRASDOSADO_COCINA):
-        L.rect('muros', x0, y0, x1, y1, POCHE_TAB, TINTA, 'tabique')
-    # escalon del hundimiento contra la pared en L
-    L.linea('muros', h['x1'], h['y0'], h['x1'], h['y1'], TINTA, 'corte')
+    # el escalon lo dibujan ya los dos tramos de muro; aqui solo el rotulo
     if rotulo:
         L.texto('rotulos', rotulo[0], rotulo[1],
                 f"HUNDIMIENTO  {h['p']:.2f}".replace('.', ',')
-                + '  ·  trasdosado más fino',
+                + '  ·  muro más fino',
                 2.0, 'middle', '#9a2b2b', 'bold')
 
 
@@ -596,7 +594,10 @@ def planta_baja():
             2.0, 'middle', '#4a4a4a', rot=-90, dx=-4.6)
     nivel(L, 7.95, 0.72, '±0,00')
 
-    L.texto('rotulos', 5.02, 9.082, 'MEDIANERA NORTE  e=0,148', 2.0, 'middle', '#ffffff')
+    L.texto('rotulos', 5.02, 8.967,
+            f'MURO NORTE  e={E.MED_EXT - E.MURO_N:.2f}'.replace('.', ',')
+            + f'  ·  {E.MED_EXT - E.MURO_N_COCINA:.2f}'.replace('.', ',')
+            + ' en la cocina', 2.0, 'middle', '#ffffff')
     L.texto('rotulos', 0.125, 5.9, 'MURO OESTE  e=0,25', 2.0, 'middle', '#ffffff',
             rot=-90)
     L.texto('rotulos', 9.965, 5.9, 'MEDIANERA ESTE  e=0,15', 2.0, 'middle', '#ffffff',
@@ -649,7 +650,7 @@ def planta_baja():
     L.cota_h('cotas', [7.641, 9.890], L.py(1.52), 1.8)          # vestibulo: 2,25
     L.cota_h('cotas', [7.400, 7.770, 8.470, 9.890], L.py(7.55), 1.8)
     L.cota_v('cotas', [7.730, E.MURO_N], L.px(9.83), 1.8)
-    L.cota_v('cotas', [P3[5], E.MURO_N, E.MED_N], L.px(P3[2] - 0.07), 1.9)
+    L.cota_v('cotas', [P3[5], E.MURO_N], L.px(P3[2] - 0.07), 1.9)
     L.cota_v('cotas', [E.ZOCALO_SUR['y1'], P3[3]], L.px(7.00), 1.8,
              ext_desde=5.99)                                    # 2,72
 
@@ -790,14 +791,15 @@ def planta_alta():
              ext_desde=0.0)
 
     xw = L.px(0.0) - 9.0
-    L.cota_v('cotas', [1.561, 3.939, 7.509, 7.607, 9.008, 9.156], xw, ext_desde=1.561)
+    L.cota_v('cotas', [1.561, 3.939, 7.509, 7.607, E.MURO_N, 9.156], xw,
+             ext_desde=1.561)
     L.cota_v('cotas', [0.0, 9.156], xw - 8.0)
 
     xe = L.px(10.040) + 9.0
     L.cota_v('cotas', [3.939, P3[3], 5.309, P3[5], 7.738, 8.072, 8.208, 9.156],
              xe, 1.9, ext_desde=10.040)
 
-    L.cota_v('cotas', [7.509, 9.008], L.px(2.72), 1.9)
+    L.cota_v('cotas', [7.509, E.MURO_N], L.px(2.72), 1.9)
 
     marco(L, 'PLANTA ALTA', '02 / 04', 'Altillo +2,56 · estructura',
           ['Cotas en metros, tomadas sobre el levantamiento.',

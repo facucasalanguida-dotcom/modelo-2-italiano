@@ -59,16 +59,16 @@ PERIMETRO = [(0.000, 9.156), (10.040, 9.156), (10.040, 0.330),
 # ------------------------------------------------------------------- muros
 # (nombre, x0, y0, x1, y1, espesor_nominal)
 MUROS = [
-    ('Medianera Norte',            2.430, 9.008, 10.040, 9.156, 0.148),
-    ('Medianera Norte - jamba O',  0.000, 9.008,  0.250, 9.156, 0.148),
-    # tramo de la cocina: el hundimiento no es un hueco en la medianera,
-    # sino un trasdosado mas fino delante de ella (ver HUNDIMIENTO).
-    ('Medianera Norte - hundimiento', 0.250, 9.008, 2.430, 9.156, 0.148),
-    ('Muro Oeste',                 0.000, 2.009,  0.250, 9.008, 0.250),
+    # El muro Norte es macizo hasta el borde del solar (9,156). Su cara
+    # interior es 8,777 en casi todo y 8,927 en los 2,18 de la cocina: el
+    # hundimiento es ese escalon, y el muro es mas grueso donde no lo hay.
+    ('Medianera Norte',            2.430, 8.777, 10.040, 9.156, 0.379),
+    ('Medianera Norte - cocina',   0.000, 8.927,  2.430, 9.156, 0.229),
+    ('Muro Oeste',                 0.000, 2.009,  0.250, 8.927, 0.250),
     ('Muro Oeste - esquina SO',    0.000, 1.561,  0.510, 2.009, 0.448),
     ('Muro Sur (con ventanal)',    0.510, 1.561,  5.980, 1.810, 0.249),
     ('Muro Oeste del cuello',      5.731, 0.960,  5.980, 1.561, 0.249),
-    ('Medianera Este',             9.890, 1.429, 10.040, 9.008, 0.150),
+    ('Medianera Este',             9.890, 1.429, 10.040, 8.777, 0.150),
     ('Medianera Este - cuello',    9.710, 0.330, 10.040, 1.429, 0.330),
 ]
 
@@ -84,21 +84,15 @@ MUROS = [
 # cocina va 0,15 mas al Sur (el hundimiento): 8,927 - 0,15 = 8,777. La L mide
 # por tanto 3,42 y no los 3,30 de antes, y el paso queda en 0,598.
 #
-# El hundimiento NO atraviesa la medianera: la medianera estructural sigue en
-# 9,008..9,156 (levantamiento) y lo que cambia es el trasdosado, 0,081 en la
-# cocina y 0,231 en el resto. El hundimiento es la diferencia entre los dos.
-MED_N         = 9.008                   # cara interior de la medianera estructural
-MURO_N_COCINA = 8.927                   # cara acabada en los 2,18 de la cocina
-MURO_N        = 8.777                   # cara acabada en el resto del muro Norte
+# No hay trasdosado ni nada por delante: el muro Norte es macizo hasta el
+# borde del solar (9,156). Lo que cambia con el hundimiento es su espesor,
+# 0,229 en los 2,18 de la cocina y 0,379 en el resto, frente a los 0,148 que
+# supone el levantamiento. Ese espesor queda en COMPROBAR EN OBRA.
+MED_EXT       = 9.156                   # cara exterior, borde del solar
+MURO_N_COCINA = 8.927                   # cara interior en los 2,18 de la cocina
+MURO_N        = 8.777                   # cara interior en el resto
 HUNDIMIENTO = dict(x0=0.250, x1=2.430, y0=MURO_N, y1=MURO_N_COCINA,
                    p=round(MURO_N_COCINA - MURO_N, 3), largo=2.180)
-
-# Trasdosado del muro Norte: dos espesores, y el hundimiento es el escalon
-# entre ellos. (nombre, x0, y0, x1, y1)
-TRASDOSADO = ('Trasdosado Norte', 2.430, MURO_N, 9.890, MED_N)
-TRASDOSADO_COCINA = ('Trasdosado Norte - cocina', 0.000, MURO_N_COCINA,
-                     2.430, MED_N)
-TRASDOSADO_E = MED_N - MURO_N
 
 # -------------------------------------------------- pilares y machones (PB)
 # (rotulo, nombre, x0, y0, x1, y1)
@@ -151,7 +145,7 @@ H_PARED_L   = 1.220                     # altura de la pared en L, medida
 H_VIDRIO_L  = 1.350                     # panel de vidrio que sostiene
 
 # ---------------------------------------------------- forjado de planta alta
-FORJADO = [(2.461, 9.008), (9.890, 9.008), (9.890, 7.738), (8.811, 7.738),
+FORJADO = [(2.461, MURO_N), (9.890, MURO_N), (9.890, 7.738), (8.811, 7.738),
            (8.811, 3.939), (2.411, 3.939), (2.411, 7.509), (2.461, 7.509)]
 
 # Barandillas de vidrio del borde del vacio (e = 0,05 · h = 1,00)
@@ -163,18 +157,18 @@ BARANDILLAS = [
 
 # -------------------------------------------- particiones de planta alta
 TABIQUES_PA = [
-    ('Tabique Oeste del aseo',        2.461, 7.509, 2.560, 9.008),
+    ('Tabique Oeste del aseo',        2.461, 7.509, 2.560, MURO_N),
     ('Tabique Sur - tramo Oeste',     2.560, 7.509, 3.089, 7.607),
     ('Tabique Sur - tramo Este',      3.849, 7.509, 7.511, 7.607),
     ('Tabique del inodoro',           4.461, 7.607, 4.560, 8.208),
-    ('Tabique aseo / almacen',        5.459, 7.607, 5.558, 9.008),
+    ('Tabique aseo / almacen',        5.459, 7.607, 5.558, MURO_N),
     ('Tabique Este del almacen',      7.408, 7.607, 7.511, 8.072),
 ]
 # (nombre, x0, y0, x1, y1, ancho, eje) — eje 'x' = hoja barre en X
 HUECOS_PA = [
     ('Puerta aseo',    3.089, 7.509, 3.849, 7.607, 0.760, 'x'),
-    ('Puerta inodoro', 4.461, 8.208, 4.560, 9.008, 0.800, 'y'),
-    ('Puerta almacen', 7.408, 8.072, 7.511, 9.008, 0.940, 'y'),
+    ('Puerta inodoro', 4.461, 8.208, 4.560, MURO_N, 0.800, 'y'),
+    ('Puerta almacen', 7.408, 8.072, 7.511, MURO_N, 0.940, 'y'),
 ]
 
 # ------------------------------------------------------------ acristalamientos
@@ -251,19 +245,19 @@ BANO_PUERTA = dict(x0=7.770, x1=8.470, y=7.730, ancho=0.700, bisagra='E')
 
 # --------------------------------------------------------------- superficies
 SUP_PB_UTIL   = 73.73     # m2 dentro de muros, planta baja (con el hundimiento)
-SUP_FORJADO   = 33.74     # m2 de forjado de planta alta
+SUP_FORJADO   = 32.02     # m2 de forjado de planta alta
 SUP_DOBLE_ALT = 37.61     # m2 de vacio a doble altura
 SUP_SOLAR     = 81.72     # m2 dentro del contorno exterior
-RECINTOS_PA = [('Aseo (lavabo + inodoro)', 3.92), ('Almacen', 2.59),
-               ('Paso / rellano', 3.33), ('Altillo diafano', 26.17)]
+RECINTOS_PA = [('Aseo (lavabo + inodoro)', 3.27), ('Almacen', 2.16),
+               ('Paso / rellano', 3.33), ('Altillo diafano', 25.60)]
 
 # ------------------------------------------------- discrepancias por resolver
 # Puntos en los que los videos del local en obra no cuadran con el
 # levantamiento, o que el levantamiento no recoge. Se dibuja el levantamiento
 # (es la unica fuente acotada) y se listan aqui para medir en obra.
 COMPROBAR = [
-    'Hundimiento: se dibuja 0,15 de escalón entre los dos trasdosados del muro Norte (0,08 en '
-    'la cocina, 0,23 en el resto). Medir esos espesores y qué llevan dentro.',
+    'Muro Norte: macizo hasta el borde del solar, 0,229 en la cocina y 0,379 en el resto; '
+    'el levantamiento suponía 0,148. Medir el espesor real y el hundimiento de 0,15.',
     'Canto del forjado del altillo. Con 2,56 m de suelo a suelo, la altura '
     'libre de planta baja es 2,56 menos ese canto, no los 2,70 supuestos.',
     'P1b se dibuja como viga (1,83 × 0,25) y no como pilar: si fuera macizo '

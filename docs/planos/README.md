@@ -285,18 +285,23 @@ De ahi salen, sin ajustar nada a mano:
 | Base de la pared en L | 5,708 | **5,357** = cara Norte de P1 |
 | Largo de la pared en L | 3,30 | **3,42** |
 | Cara de la cocina (fondo del hundimiento) | 9,283 | **8,927** |
-| Muro Norte en el resto | 9,008 | **8,777** |
+| Muro Norte en el resto (cara interior) | 9,008 | **8,777** |
+| Espesor del muro Norte | 0,148 | **0,379** (0,229 en la cocina) |
 | Hundimiento | 0,275 | **0,15** |
 
-El hundimiento **ya no atraviesa la medianera**. La medianera estructural se
-queda donde la puso el levantamiento (9,008 a 9,156, 0,148 de espesor) y lo
-que cambia es el trasdosado que va por delante: 0,08 en los 2,18 de la cocina
-y 0,23 en el resto. El hundimiento es el escalon entre esos dos espesores, y
-por eso los 3,65 que el cliente midio en el muro Oeste lo incluyen. Su tamano
-es libre: solo decide cuanto baja el muro Norte de la sala, y cada centimetro
-de hundimiento es un centimetro menos de paso por el Norte de la sala.
+**No hay trasdosado ni nada por delante del muro** (el cliente lo confirmo):
+el muro Norte es macizo hasta el borde del solar (9,156) y lo que cambia con
+el hundimiento es su espesor, **0,229 en los 2,18 de la cocina y 0,379 en el
+resto**, frente a los 0,148 que supone el levantamiento. Ese espesor queda en
+COMPROBAR EN OBRA. El tamano del hundimiento es libre: solo decide cuanto baja
+el muro Norte de la sala, y cada centimetro de hundimiento es un centimetro
+menos de paso por el Norte.
 
-**Lo que arrastra.** Todo lo que apoya en el muro Norte baja 0,231:
+Los 3,57 van **de la pared hundida (8,927) a la cara Norte de P1 (5,357)**,
+que es donde arranca la pared en L.
+
+**Lo que arrastra.** Todo lo que apoya en el muro Norte baja 0,231 respecto
+del plano anterior:
 
 - El sillon corrido y con el las mesas M7, M10 y M11, que pasan a 7,477-8,177.
 - El paso por el Norte de la fila central, unico camino de la puerta a la
