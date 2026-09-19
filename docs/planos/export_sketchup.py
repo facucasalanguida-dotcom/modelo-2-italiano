@@ -43,11 +43,17 @@ REV_E       = 0.030     # revestimiento de madera del frente de la barra
 REV_ZOC_H   = 0.050     # retranqueo inferior, para la linea de LED
 REV_ZOC_E   = 0.020     # cuanto se mete hacia dentro ese retranqueo
 Z_ESTANTE   = None      # se calcula: por encima del aparato mas alto de la mesada
-Z_AIRE      = 2.310     # cara superior del cassette, al nivel del sofito
-H_AIRE      = 0.300     # fondo del cassette de techo
-H_MARCO     = 0.030     # panel decorativo, sobresale del cuerpo
-H_REJILLA   = 0.060
-E_TIRANTE   = 0.040     # varillas de cuelgue del cassette
+Z_AIRE      = 2.310     # plano de techo en el que va empotrado el cassette
+A_PANEL     = 1.000     # panel decorativo del cassette (cuadrado blanco)
+A_CUERPO    = 0.840     # cuerpo de la maquina, por encima del techo
+H_CUERPO    = 0.250     # cassette slim: cabe en el canto del forjado
+E_PANEL     = 0.030
+A_RETORNO   = 0.450     # rejilla de retorno, en el centro del panel
+A_LAMA      = 0.700     # lamas de impulsion, una por cada lado
+F_LAMA      = 0.090
+H_REJILLA   = 0.060     # rejilla de retorno independiente del local
+E_FALSO     = 0.020     # falso techo donde no hay forjado que empotrar
+A_FALSO     = 1.600
 D_EMPOTRADO = 0.090     # diametro de los empotrados
 H_COLGANTE  = 0.220     # alto de la pantalla de los colgantes
 Z_COLGANTE  = 1.700     # borde inferior de los colgantes, por debajo del aire
@@ -74,7 +80,7 @@ ALTURAS_DOC = [
     ('Borde inferior de la campana', Q.H_CAMPANA, 'estandar'),
     ('Estante mural de la trasbarra', 0.0, 'SUPUESTO — sobre el aparato más alto'),
     ('Sillon corrido: asiento / respaldo', H_SILLON, 'SUPUESTO — fondo sin medir'),
-    ('Cara inferior de los cassettes de aire', Z_AIRE - H_AIRE, 'SUPUESTO — COMPROBAR'),
+    ('Techo donde se empotran los cassettes', Z_AIRE, 'SUPUESTO — COMPROBAR'),
     ('Revestimiento del frente de la barra', Q.H_ENCIMERA, 'hasta la encimera'),
 ]
 
@@ -148,7 +154,9 @@ MAT = {
     'piedra':    ('Piedra',          (186, 182, 176)),
     'escalera':  ('Escalera',        (162, 158, 152)),
     'luz':       ('Luminaria',       (246, 232, 180)),
-    'aire':      ('Aire acondicionado', (111, 138, 153)),
+    'aire':      ('Aire acondicionado', (238, 238, 235)),
+    'rejilla':   ('Rejilla',           (176, 178, 178)),
+    'falso':     ('Falso techo',       (240, 238, 234)),
 }
 
 cajas, prismas, cilindros = [], [], []
@@ -233,11 +241,13 @@ caja('04 Carpinteria', 'vidrio', 'Puerta de acceso · montante superior',
      pa['alto'], E.H_ESCAPARATE)
 
 # --- pared en L y vidrio --------------------------------------------------
+# El vidrio va SOLO sobre el tramo largo. Sobre la base de la L (el doblez)
+# el cliente quiere el hueco libre, asi que ahi la pared se queda en 1,22.
 for nm, x0, y0, x1, y1 in (E.PARED_L_LAR, E.PARED_L_DOB):
     caja('05 Pared en L', 'tabique', nm, x0, y0, x1, y1, 0.0, E.H_PARED_L)
-    caja('05 Pared en L', 'vidrio', nm + ' · vidrio',
-         x0 + 0.030, y0 + 0.030, x1 - 0.030, y1 - 0.030,
-         E.H_PARED_L, E.H_PARED_L + E.H_VIDRIO_L)
+caja('05 Pared en L', 'vidrio', E.PARED_L_LAR[0] + ' · vidrio',
+     E.PARED_L_LAR[1] + 0.030, E.PARED_L_DOB[4], E.PARED_L_LAR[3] - 0.030,
+     E.PARED_L_LAR[4] - 0.030, E.H_PARED_L, E.H_PARED_L + E.H_VIDRIO_L)
 
 # --- zocalo del ventanal --------------------------------------------------
 z = E.ZOCALO_SUR
@@ -485,35 +495,48 @@ for i, (cx, cy) in enumerate(E.APLIQUES, 1):
     caja('13 Instalaciones', 'luz', f'Aplique {i}',
          cx - 0.060, cy - 0.100, cx + 0.060, cy + 0.100,
          Z_APLIQUE, Z_APLIQUE + H_APLIQUE)
-# --- Aire acondicionado: cassettes de techo de 4 vias, como los de las fotos
-#     del cliente. Ya no se dibujan como una caja suelta flotando: cada
-#     maquina lleva su cuerpo, su panel decorativo por debajo y, como las dos
-#     caen en la zona de DOBLE ALTURA (el forjado del altillo no llega hasta
-#     ellas), cuatro varillas de cuelgue hasta el techo. Si en obra van
-#     empotradas en un falso techo, hay que decir a que altura va ese techo.
+# --- Aire acondicionado: cassettes de techo de 4 vias, como el de las fotos
+#     del cliente: el cuadrado blanco con la rejilla de retorno en el centro
+#     y una lama de impulsion en cada lado. Van EMPOTRADOS en el techo, no
+#     colgados. Donde no hay forjado encima (las dos caen en la zona de doble
+#     altura) se dibuja el pano de falso techo en el que se empotran, marcado
+#     como supuesto: si en obra ese techo va a otra altura, se cambia aqui.
 rw, rh = E.AIRE_REJILLA
-FORJ_XS = [q[0] for q in E.FORJADO]
-FORJ_YS = [q[1] for q in E.FORJADO]
 for tag, nm, cx, cy, a, f in E.AIRE:
-    x0, x1 = cx - a / 2, cx + a / 2
-    y0, y1 = cy - f / 2, cy + f / 2
-    caja('13 Instalaciones', 'aire', f'{tag} · {nm} · cuerpo',
-         x0, y0, x1, y1, Z_AIRE - H_AIRE, Z_AIRE)
-    caja('13 Instalaciones', 'aire', f'{tag} · panel de 4 vías',
-         x0 - 0.025, y0 - 0.025, x1 + 0.025, y1 + 0.025,
-         Z_AIRE - H_AIRE - H_MARCO, Z_AIRE - H_AIRE)
-    caja('13 Instalaciones', 'aire', f'{tag} · rejilla de retorno',
-         cx - rw / 2, y1 + 0.060, cx + rw / 2, y1 + 0.060 + rh,
+    px0, px1 = cx - A_PANEL / 2, cx + A_PANEL / 2
+    py0, py1 = cy - A_PANEL / 2, cy + A_PANEL / 2
+    z_pan0 = Z_AIRE - E_PANEL
+    # panel: el cuadrado blanco visible desde la sala
+    caja('13 Instalaciones', 'aire', f'{tag} · {nm} · panel de 4 vías',
+         px0, py0, px1, py1, z_pan0, Z_AIRE)
+    # rejilla de retorno, en el centro
+    caja('13 Instalaciones', 'rejilla', f'{tag} · rejilla de retorno central',
+         cx - A_RETORNO / 2, cy - A_RETORNO / 2,
+         cx + A_RETORNO / 2, cy + A_RETORNO / 2, z_pan0 - 0.015, z_pan0)
+    # cuatro lamas de impulsion, una por lado
+    m = (A_PANEL - A_LAMA) / 2
+    for lado, (lx0, ly0, lx1, ly1) in (
+            ('Sur',   (px0 + m, py0 + 0.035, px1 - m, py0 + 0.035 + F_LAMA)),
+            ('Norte', (px0 + m, py1 - 0.035 - F_LAMA, px1 - m, py1 - 0.035)),
+            ('Oeste', (px0 + 0.035, py0 + m, px0 + 0.035 + F_LAMA, py1 - m)),
+            ('Este',  (px1 - 0.035 - F_LAMA, py0 + m, px1 - 0.035, py1 - m))):
+        caja('13 Instalaciones', 'rejilla', f'{tag} · lama de impulsión {lado}',
+             lx0, ly0, lx1, ly1, z_pan0 - 0.015, z_pan0)
+    # cuerpo de la maquina, por encima del techo
+    caja('13 Instalaciones', 'aire', f'{tag} · cuerpo de la máquina',
+         cx - A_CUERPO / 2, cy - A_CUERPO / 2,
+         cx + A_CUERPO / 2, cy + A_CUERPO / 2, Z_AIRE, Z_AIRE + H_CUERPO)
+    # rejilla de retorno del local, al lado
+    caja('13 Instalaciones', 'rejilla', f'{tag} · rejilla de retorno del local',
+         cx - rw / 2, py1 + 0.060, cx + rw / 2, py1 + 0.060 + rh,
          Z_AIRE - H_REJILLA, Z_AIRE)
-    # cuelgue: solo si por encima no hay forjado donde empotrarlo
-    bajo_forjado = (min(FORJ_XS) <= x0 and x1 <= max(FORJ_XS)
-                    and min(FORJ_YS) <= y0 and y1 <= max(FORJ_YS)
-                    and y0 >= 3.939)
-    if not bajo_forjado:
-        for tx in (x0 + 0.060, x1 - 0.060 - E_TIRANTE):
-            for ty in (y0 + 0.060, y1 - 0.060 - E_TIRANTE):
-                caja('13 Instalaciones', 'aire', f'{tag} · tirante de cuelgue',
-                     tx, ty, tx + E_TIRANTE, ty + E_TIRANTE, Z_AIRE, Z_TECHO)
+    # pano de falso techo donde no hay forjado encima
+    fx0, fy0 = cx - A_FALSO / 2, cy - A_FALSO / 2
+    fx1, fy1 = cx + A_FALSO / 2, min(cy + A_FALSO / 2, 3.939)
+    if fy1 - fy0 > 0.010:
+        caja('13 Instalaciones', 'falso',
+             f'{tag} · falso techo donde se empotra (SUPUESTO)',
+             fx0, fy0, fx1, fy1, Z_AIRE, Z_AIRE + E_FALSO)
 
 # ============================================================ PLANTA ALTA
 for nm, x0, y0, x1, y1 in E.TABIQUES_PA:

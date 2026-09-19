@@ -38,7 +38,7 @@
 #      Borde inferior de la campana            2.000 m   estandar
 #      Estante mural de la trasbarra           0.000 m   SUPUESTO — sobre el aparato más alto
 #      Sillon corrido: asiento / respaldo      0.420 m   SUPUESTO — fondo sin medir
-#      Cara inferior de los cassettes de aire  2.010 m   SUPUESTO — COMPROBAR
+#      Techo donde se empotran los cassettes   2.310 m   SUPUESTO — COMPROBAR
 #      Revestimiento del frente de la barra    0.900 m   hasta la encimera
 #
 #  CADENA DE OBRA DEL LADO OESTE (la que fijo el cliente)
@@ -107,7 +107,9 @@ module Local3D
     ["piedra", "Piedra", 186, 182, 176],
     ["escalera", "Escalera", 162, 158, 152],
     ["luz", "Luminaria", 246, 232, 180],
-    ["aire", "Aire acondicionado", 111, 138, 153],
+    ["aire", "Aire acondicionado", 238, 238, 235],
+    ["rejilla", "Rejilla", 176, 178, 178],
+    ["falso", "Falso techo", 240, 238, 234],
   ]
 
   # --- capas
@@ -161,9 +163,8 @@ module Local3D
     ["04 Carpinteria", "vidrio", "Puerta de acceso · hoja 2", 8.6710, 0.3700, 9.7010, 0.4190, 0.1300, 2.1000],
     ["04 Carpinteria", "vidrio", "Puerta de acceso · montante superior", 7.6410, 0.3800, 9.7010, 0.4090, 2.1000, 4.7000],
     ["05 Pared en L", "tabique", "Tramo largo 3,60", 2.4300, 5.3570, 2.5300, 8.9570, 0.0000, 1.2200],
-    ["05 Pared en L", "vidrio", "Tramo largo 3,60 · vidrio", 2.4600, 5.3870, 2.5000, 8.9270, 1.2200, 2.5700],
     ["05 Pared en L", "tabique", "Doblez 0,74", 1.7900, 5.3570, 2.5300, 5.4570, 0.0000, 1.2200],
-    ["05 Pared en L", "vidrio", "Doblez 0,74 · vidrio", 1.8200, 5.3870, 2.5000, 5.4270, 1.2200, 2.5700],
+    ["05 Pared en L", "vidrio", "Tramo largo 3,60 · vidrio", 2.4600, 5.4570, 2.5000, 8.9270, 1.2200, 2.5700],
     ["06 Zocalo", "piedra", "Zócalo del ventanal", 0.5100, 1.6210, 1.2900, 1.9680, 0.0000, 0.1300],
     ["06 Zocalo", "piedra", "Zócalo del ventanal", 1.8700, 1.6210, 5.8700, 1.9680, 0.0000, 0.1300],
     ["07 Bano", "tabique", "Tabique Oeste del baño", 7.4000, 7.7300, 7.5000, 8.9570, 0.0000, 2.3100],
@@ -346,20 +347,24 @@ module Local3D
     ["12 Sala", "sillon", "Sillón corrido · respaldo", 2.5300, 8.8570, 7.4000, 8.9570, 0.4200, 1.0500],
     ["13 Instalaciones", "luz", "Aplique 1", 0.2500, 5.6500, 0.3700, 5.8500, 1.9500, 2.2500],
     ["13 Instalaciones", "luz", "Aplique 2", 0.2500, 6.3500, 0.3700, 6.5500, 1.9500, 2.2500],
-    ["13 Instalaciones", "aire", "AC1 · Cassette de techo 4 vias + rejilla · cuerpo", 4.5250, 3.2250, 5.4750, 4.1750, 2.0100, 2.3100],
-    ["13 Instalaciones", "aire", "AC1 · panel de 4 vías", 4.5000, 3.2000, 5.5000, 4.2000, 1.9800, 2.0100],
-    ["13 Instalaciones", "aire", "AC1 · rejilla de retorno", 4.5500, 4.2350, 5.4500, 4.7350, 2.2500, 2.3100],
-    ["13 Instalaciones", "aire", "AC1 · tirante de cuelgue", 4.5850, 3.2850, 4.6250, 3.3250, 2.3100, 5.0600],
-    ["13 Instalaciones", "aire", "AC1 · tirante de cuelgue", 4.5850, 4.0750, 4.6250, 4.1150, 2.3100, 5.0600],
-    ["13 Instalaciones", "aire", "AC1 · tirante de cuelgue", 5.3750, 3.2850, 5.4150, 3.3250, 2.3100, 5.0600],
-    ["13 Instalaciones", "aire", "AC1 · tirante de cuelgue", 5.3750, 4.0750, 5.4150, 4.1150, 2.3100, 5.0600],
-    ["13 Instalaciones", "aire", "AC2 · Cassette de techo 4 vias + rejilla · cuerpo", 8.4750, 2.1250, 9.4250, 3.0750, 2.0100, 2.3100],
-    ["13 Instalaciones", "aire", "AC2 · panel de 4 vías", 8.4500, 2.1000, 9.4500, 3.1000, 1.9800, 2.0100],
-    ["13 Instalaciones", "aire", "AC2 · rejilla de retorno", 8.5000, 3.1350, 9.4000, 3.6350, 2.2500, 2.3100],
-    ["13 Instalaciones", "aire", "AC2 · tirante de cuelgue", 8.5350, 2.1850, 8.5750, 2.2250, 2.3100, 5.0600],
-    ["13 Instalaciones", "aire", "AC2 · tirante de cuelgue", 8.5350, 2.9750, 8.5750, 3.0150, 2.3100, 5.0600],
-    ["13 Instalaciones", "aire", "AC2 · tirante de cuelgue", 9.3250, 2.1850, 9.3650, 2.2250, 2.3100, 5.0600],
-    ["13 Instalaciones", "aire", "AC2 · tirante de cuelgue", 9.3250, 2.9750, 9.3650, 3.0150, 2.3100, 5.0600],
+    ["13 Instalaciones", "aire", "AC1 · Cassette de techo 4 vias + rejilla · panel de 4 vías", 4.5000, 3.2000, 5.5000, 4.2000, 2.2800, 2.3100],
+    ["13 Instalaciones", "rejilla", "AC1 · rejilla de retorno central", 4.7750, 3.4750, 5.2250, 3.9250, 2.2650, 2.2800],
+    ["13 Instalaciones", "rejilla", "AC1 · lama de impulsión Sur", 4.6500, 3.2350, 5.3500, 3.3250, 2.2650, 2.2800],
+    ["13 Instalaciones", "rejilla", "AC1 · lama de impulsión Norte", 4.6500, 4.0750, 5.3500, 4.1650, 2.2650, 2.2800],
+    ["13 Instalaciones", "rejilla", "AC1 · lama de impulsión Oeste", 4.5350, 3.3500, 4.6250, 4.0500, 2.2650, 2.2800],
+    ["13 Instalaciones", "rejilla", "AC1 · lama de impulsión Este", 5.3750, 3.3500, 5.4650, 4.0500, 2.2650, 2.2800],
+    ["13 Instalaciones", "aire", "AC1 · cuerpo de la máquina", 4.5800, 3.2800, 5.4200, 4.1200, 2.3100, 2.5600],
+    ["13 Instalaciones", "rejilla", "AC1 · rejilla de retorno del local", 4.5500, 4.2600, 5.4500, 4.7600, 2.2500, 2.3100],
+    ["13 Instalaciones", "falso", "AC1 · falso techo donde se empotra (SUPUESTO)", 4.2000, 2.9000, 5.8000, 3.9390, 2.3100, 2.3300],
+    ["13 Instalaciones", "aire", "AC2 · Cassette de techo 4 vias + rejilla · panel de 4 vías", 8.4500, 2.1000, 9.4500, 3.1000, 2.2800, 2.3100],
+    ["13 Instalaciones", "rejilla", "AC2 · rejilla de retorno central", 8.7250, 2.3750, 9.1750, 2.8250, 2.2650, 2.2800],
+    ["13 Instalaciones", "rejilla", "AC2 · lama de impulsión Sur", 8.6000, 2.1350, 9.3000, 2.2250, 2.2650, 2.2800],
+    ["13 Instalaciones", "rejilla", "AC2 · lama de impulsión Norte", 8.6000, 2.9750, 9.3000, 3.0650, 2.2650, 2.2800],
+    ["13 Instalaciones", "rejilla", "AC2 · lama de impulsión Oeste", 8.4850, 2.2500, 8.5750, 2.9500, 2.2650, 2.2800],
+    ["13 Instalaciones", "rejilla", "AC2 · lama de impulsión Este", 9.3250, 2.2500, 9.4150, 2.9500, 2.2650, 2.2800],
+    ["13 Instalaciones", "aire", "AC2 · cuerpo de la máquina", 8.5300, 2.1800, 9.3700, 3.0200, 2.3100, 2.5600],
+    ["13 Instalaciones", "rejilla", "AC2 · rejilla de retorno del local", 8.5000, 3.1600, 9.4000, 3.6600, 2.2500, 2.3100],
+    ["13 Instalaciones", "falso", "AC2 · falso techo donde se empotra (SUPUESTO)", 8.1500, 1.8000, 9.7500, 3.4000, 2.3100, 2.3300],
     ["14 Planta alta", "tabique", "Tabique Oeste del aseo", 2.4610, 7.5090, 2.5600, 8.9570, 2.5600, 5.0600],
     ["14 Planta alta", "tabique", "Tabique Sur - tramo Oeste", 2.5600, 7.5090, 3.0890, 7.6070, 2.5600, 5.0600],
     ["14 Planta alta", "tabique", "Tabique Sur - tramo Este", 3.8490, 7.5090, 7.5110, 7.6070, 2.5600, 5.0600],

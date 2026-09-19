@@ -430,11 +430,17 @@ SUPUESTA). Las supuestas son el canto del forjado (0,250), el intrados de la
 viga P1b (2,100), el alto del zocalo del ventanal (0,450) y el sillon.
 
 **Aire acondicionado.** Las dos maquinas son cassettes de techo de 4 vias,
-como los de las fotos del cliente: cuerpo de 0,95 x 0,95 x 0,30, panel
-decorativo por debajo (1,00 x 1,00) y rejilla de retorno de 0,90 x 0,50 al
-lado. Las dos caen en la zona de doble altura, donde el forjado del altillo
-no llega, asi que se cuelgan con cuatro tirantes hasta el techo. Si en obra
-van empotradas en un falso techo, hace falta saber a que altura va ese techo.
+el cuadrado blanco con rejillas de las fotos del cliente. Cada una se modela
+con sus piezas: panel de 1,00 x 1,00, rejilla de retorno cuadrada en el
+centro (0,45), una lama de impulsion en cada lado (0,70 x 0,09), el cuerpo de
+0,84 x 0,84 x 0,25 por encima del techo y la rejilla de retorno del local
+(0,90 x 0,50) al lado. Van **empotrados**, no colgados. Las dos caen en la
+zona de doble altura, donde el forjado no llega, asi que se dibuja tambien el
+pano de falso techo en el que se empotran, marcado como SUPUESTO: si en obra
+ese techo va a otra altura, se cambia en `export_sketchup.py`.
+
+**Pared en L.** El vidrio va solo sobre el tramo largo. Sobre la base de la L
+(el doblez de 0,74) no hay vidrio: ese hueco queda libre.
 
 **Frente de la barra.** El mostrador lleva en su cara Este —la que ve el
 cliente, y en toda su longitud— un revestimiento de madera de 0,03, con un
