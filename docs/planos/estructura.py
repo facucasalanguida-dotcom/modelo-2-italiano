@@ -249,8 +249,8 @@ COMPROBAR = [
     'libre de planta baja es 2,56 menos ese canto, no los 2,70 supuestos.',
     'P1b se dibuja como viga (1,83 × 0,25) y no como pilar: si fuera macizo '
     'hasta el suelo, la cocina no tendría entrada. Medir su intradós.',
-    'Zócalo del ventanal: 0,347 de fondo, deducido de los 2,72 medidos de P3 a su '
-    'cara interior. Medirlo directamente; el muro del ventanal ya tiene 0,25.',
+    'Zócalo del ventanal: 0,347 desde el vidrio, deducido de los 2,72 de P3 a su cara '
+    'interior; sobresale 0,16 del muro del ventanal (0,25). Medirlo directamente.',
     'Cadena Este-Oeste del cliente (2,18 + 3,01 + 0,65 + 2,33): cierra contra la '
     'escalera con 0,13 de pared entre el hundimiento y la L y 0,16 de cerramiento.',
     'La pared en L queda 0,10 al Este del borde del forjado del levantamiento: el '

@@ -230,8 +230,8 @@ queda anotado.
 
 Los 2,72 de P3 al ventanal no eran al vidrio sino **al zocalo que hay en el
 suelo**: con P3 en 4,688 la cara interior del zocalo queda en 1,968, o sea
-**0,347 de fondo** contados desde el vidrio (0,10 por delante de la cara
-interior del muro del ventanal, que ya tiene 0,25). El ventanal no se mueve.
+**0,347 de fondo** contados desde el vidrio, o sea 0,16 por delante de la
+cara interior del muro del ventanal, que ya tiene 0,25 de espesor. El ventanal no se mueve.
 La barra arranca en ese zocalo y mide los 2,79 medidos, con lo que termina
 justo en la cara Sur de P1 y deja 0,95 de paso de personal hasta la base de la
 pared en L.
