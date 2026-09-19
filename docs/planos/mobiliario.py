@@ -28,11 +28,14 @@ SEP = 0.050
 #   - Fila del ventanal Sur (19 set., tarde): las tres mesas arrancan en el
 #     zocalo (1,968) y van "en vertical", con las sillas al Norte y al Sur.
 #     M2 se trae aqui desde el hueco del escaparate, al lado de M3.
-#     Separacion entre ellas: 0,115, lo maximo que da la fila. Por el Oeste
-#     el tope es 1,00 libre delante del mostrador (M1 en 3,530) y por el
-#     Este que la silla de M2 no se meta en el barrido de la puerta de la
-#     nevera A7 (silla hasta 5,720, nevera desde 5,725); ademas la fila
-#     termina justo antes de que se acabe el zocalo (5,870).
+#     Separacion: 0,1175 entre mesas, que son 0,40 entre sillas. Es el
+#     techo exacto de la fila y lo pidio asi el cliente. Por el Oeste el
+#     tope es dejar 1,00 libre delante del mostrador (M1 en 3,530) y por
+#     el Este que la silla de M2 no entre en el barrido de la puerta de la
+#     nevera A7: la silla acaba en 5,725 y la nevera empieza ahi mismo.
+#     Para que quepa una persona entre las mesas harian falta 0,60 entre
+#     sillas, o sea 0,32 entre mesas y 2,74 de fila frente a los 2,335
+#     que hay: no cabe sin mover la nevera, el mostrador o una mesa.
 #   - Fila central bajo el forjado: M5 y M4, las dos al Oeste de P3 y M4
 #     pegada a su cara Oeste. M6 se quita. Al Oeste
 #     de M5 no va ninguna mesa: ahi esta la unica salida del personal de la
@@ -45,8 +48,8 @@ SEP = 0.050
 # desde el ramal del itinerario que va a la barra.
 MESAS_PB = [
     ('M1', 'doble',     3.530, 2.488, 4.230, 3.188, 'NS'),
-    ('M3', 'doble',     4.345, 2.488, 5.045, 3.188, 'NS'),
-    ('M2', 'doble',     5.160, 2.488, 5.860, 3.188, 'NS'),
+    ('M3', 'doble',     4.348, 2.488, 5.048, 3.188, 'NS'),
+    ('M2', 'doble',     5.165, 2.488, 5.865, 3.188, 'NS'),
     ('M5', 'doble',     3.840, 5.330, 4.540, 6.030, 'NS'),
     ('M4', 'doble',     4.970, 5.330, 5.670, 6.030, 'NS'),
     ('M7', 'cuadruple', 2.550, 7.708, 3.950, 8.408, 'S'),
@@ -82,6 +85,8 @@ ACC_ANCHOS = [
     ('h', 5.730, 7.380, 8.650, 7.980, 5.840),    # M11 - caja de escalera
     ('v', 6.850, 6.500, 7.238, 6.680, 6.900),    # sillas: fila central - sillon
     ('h', 5.600, 2.530, 3.840, 3.180, 5.710),    # salida del personal a la sala
+    ('h', 3.450, 4.090, 4.488, 4.289, 3.585),    # entre las sillas de M1 y M3: 0,40
+    ('h', 3.450, 4.908, 5.305, 5.107, 3.585),    # entre las sillas de M3 y M2: 0,40
 ]
 
 # Planta alta: mesa grande de cowork y una redonda grande. La redonda que

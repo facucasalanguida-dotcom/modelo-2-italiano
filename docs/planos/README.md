@@ -286,12 +286,26 @@ Reparto del 19 set. (tarde), con M6 y M9 eliminadas y las dos cuadruples
 formadas juntando dos mesas:
 
 - **Fila del ventanal.** M1, M3 y M2 en vertical (sillas al Norte y al Sur),
-  **a 0,115 entre si**, arrancando en el zocalo. M2 se trae aqui, al lado de
-  M3, como pidio el cliente. Esa separacion es lo maximo que da la fila: por
-  el Oeste el tope es dejar 1,00 libre delante del mostrador (M1 en 3,530) y
-  por el Este, que la silla de M2 no se meta en el barrido de la puerta de la
-  nevera A7 (silla hasta 5,720, nevera desde 5,725); la fila acaba en 5,860,
-  justo antes de que se termine el zocalo del ventanal (5,870).
+  **a 0,1175 entre mesas, que son 0,40 entre sillas** (acotado en la lamina),
+  arrancando en el zocalo. M2 se trae aqui, al lado de M3, como pidio el
+  cliente.
+
+  Esa separacion es el techo exacto de la fila. Por el Oeste el tope es dejar
+  1,00 libre delante del mostrador (M1 en 3,530) y por el Este, que la silla
+  de M2 no entre en el barrido de la puerta de la nevera A7: la silla acaba
+  en 5,725 y la nevera empieza ahi mismo. Quedan 2,335 de fila para 2,10 de
+  mesas.
+
+  Para que **pase una persona entre las mesas** harian falta ~0,60 entre
+  sillas, o sea 0,32 entre mesas y 2,74 de fila. Los 0,405 que faltan solo
+  salen de uno de estos tres sitios, y el cliente eligio quedarse en 0,40:
+
+  | Salida | Entre mesas | Entre sillas | Lo que cuesta |
+  |---|---|---|---|
+  | como esta | 0,1175 | **0,40** | nada |
+  | nevera a la cara Este de P3 | 0,350 | 0,63 | nada; ademas el paso por delante de P3 vuelve a 1,04 |
+  | mostrador de 1,00 a 0,80 | 0,215 | 0,50 | 0,20 de hueco delante del mostrador; se pasa de lado |
+  | solo dos mesas en la fila | 0,930 | 1,21 | dos plazas (20 -> 18) |
 - **Fila central.** M5 y M4, con **M4 pegada a la cara Oeste de P3**. M6 se
   quita. Al Oeste de M5 no va ninguna mesa: ahi esta la unica salida del
   personal de la barra a la sala, que queda en 1,31.
