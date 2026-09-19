@@ -28,14 +28,13 @@ SEP = 0.050
 #   - Fila del ventanal Sur (19 set., tarde): las tres mesas arrancan en el
 #     zocalo (1,968) y van "en vertical", con las sillas al Norte y al Sur.
 #     M2 se trae aqui desde el hueco del escaparate, al lado de M3.
-#     Separacion: 0,40 entre mesas, que son 0,68 entre sillas, con lo que
-#     se pasa entre ellas. La fila mide 2,90 y se corre al Este, que es de
-#     donde sale el sitio sin tocar nada: la silla Norte de M2 arranca en
-#     6,265, justo donde acaba la nevera A7, asi que no entra en el
-#     barrido de su puerta; y delante del mostrador quedan 1,395 en vez
-#     de 1,00. M2 pasa del zocalo (que acaba en 5,870) al hueco de P5, el
-#     sitio que el cliente pidio aprovechar, a 0,82 de la jamba del
-#     vestibulo: ni en la puerta ni suelta, va al lado de M3.
+#     Separacion: 0,60 entre mesas, que son 0,88 entre sillas. La fila
+#     mide 3,30 y va de 3,530 a 6,830, que es lo que deja el local sin
+#     tocar nada: delante del mostrador quedan 1,00 justos y la silla
+#     Norte de M2 arranca en 6,270, 5 mm despues de la nevera A7, asi que
+#     no entra en el barrido de su puerta. M2 pasa del zocalo (que acaba
+#     en 5,870) al hueco de P5, el sitio que el cliente pidio aprovechar,
+#     a 0,81 de la jamba del vestibulo: ni en la puerta ni suelta.
 #   - Fila central bajo el forjado: M5 y M4, las dos al Oeste de P3 y M4
 #     pegada a su cara Oeste. M6 se quita. Al Oeste
 #     de M5 no va ninguna mesa: ahi esta la unica salida del personal de la
@@ -49,9 +48,9 @@ SEP = 0.050
 # La plaza de silla de ruedas ocupa el lado Norte de M1, al que se llega
 # desde el ramal del itinerario que va a la barra.
 MESAS_PB = [
-    ('M1', 'doble',     3.925, 2.488, 4.625, 3.188, 'NS'),
-    ('M3', 'doble',     5.025, 2.488, 5.725, 3.188, 'NS'),
-    ('M2', 'doble',     6.125, 2.488, 6.825, 3.188, 'NS'),
+    ('M1', 'doble',     3.530, 2.488, 4.230, 3.188, 'NS'),
+    ('M3', 'doble',     4.830, 2.488, 5.530, 3.188, 'NS'),
+    ('M2', 'doble',     6.130, 2.488, 6.830, 3.188, 'NS'),
     ('M5', 'doble',     3.840, 5.330, 4.540, 6.030, 'NS'),
     ('M4', 'doble',     4.970, 5.330, 5.670, 6.030, 'NS'),
     ('M7', 'cuadruple', 2.550, 7.657, 3.950, 8.357, 'S'),
@@ -82,13 +81,13 @@ ACC_GIROS = [((8.550, 2.120), (9.220, 2.860)), ((7.870, 6.600), (7.870, 6.960))]
 ACC_PMR = None
 # anchos que se acotan: tipo, posicion de la linea, extremos y sitio del texto
 ACC_ANCHOS = [
-    ('v', 4.230, 3.658, 4.860, 4.370, 4.100),    # sillas del ventanal - fila central
-    ('v', 6.262, 3.658, 4.108, 6.085, 3.885),    # sillas de M2 - nevera A7: 0,45
+    ('v', 4.030, 3.658, 4.860, 4.170, 4.100),    # sillas del ventanal - fila central
+    ('v', 6.267, 3.658, 4.108, 6.090, 3.885),    # sillas de M2 - nevera A7: 0,45
     ('h', 5.679, 7.380, 8.650, 7.980, 5.789),    # M11 - caja de escalera
     ('v', 6.850, 6.500, 7.187, 6.680, 6.900),    # sillas: fila central - sillon
     ('h', 5.600, 2.530, 3.840, 3.180, 5.710),    # salida del personal a la sala
-    ('h', 2.838, 4.625, 5.025, 4.825, 2.960),    # entre M1 y M3: 0,40
-    ('h', 2.838, 5.725, 6.125, 5.925, 2.960),    # entre M3 y M2: 0,40
+    ('h', 2.838, 4.230, 4.830, 4.530, 2.960),    # entre M1 y M3: 0,60
+    ('h', 2.838, 5.530, 6.130, 5.830, 2.960),    # entre M3 y M2: 0,60
 ]
 
 # Planta alta: mesa grande de cowork y una redonda grande. La redonda que

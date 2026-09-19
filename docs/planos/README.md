@@ -313,23 +313,20 @@ Reparto del 19 set. (tarde), con M6 y M9 eliminadas y las dos cuadruples
 formadas juntando dos mesas:
 
 - **Fila del ventanal.** M1, M3 y M2 en vertical (sillas al Norte y al Sur),
-  **a 0,40 entre mesas**, que es lo que pidio el cliente y son 0,68 entre
-  sillas: por ahi pasa una persona. Posiciones: M1 3,925-4,625,
-  M3 5,025-5,725 y M2 6,125-6,825; los dos huecos van acotados en la lamina.
+  **a 0,60 entre mesas**, que son **0,88 entre sillas**: por ahi pasa una
+  persona de frente. Posiciones: M1 3,530-4,230, M3 4,830-5,530 y
+  M2 6,130-6,830; los dos huecos van acotados en la lamina.
 
-  La fila mide 2,90 y no cabia donde estaba (2,335), asi que se corre al
-  Este, que es de donde sale el sitio sin mover nada de lo que el cliente ya
-  habia colocado:
+  La fila mide 3,30 y es lo que deja el local sin tocar nada de lo demas:
 
-  - la silla Norte de M2 arranca en 6,265, justo donde termina la nevera A7,
-    con lo que no entra en el barrido de su puerta;
-  - delante del mostrador quedan **1,395** libres en vez de 1,00;
-  - M2 pasa del zocalo (que acaba en 5,870) al hueco de P5, el sitio que el
-    cliente habia pedido aprovechar, a 0,82 de la jamba del vestibulo: ni en
-    la puerta ni suelta, va al lado de M3.
+  - delante del mostrador quedan **1,00 justos** (M1 arranca en 3,530);
+  - la silla Norte de M2 arranca en 6,270, 5 mm despues de donde acaba la
+    nevera A7 (6,265), asi que no entra en el barrido de su puerta;
+  - M2 acaba en 6,830, a 0,81 de la jamba del vestibulo: usa el hueco de P5,
+    el sitio que el cliente habia pedido aprovechar, sin meterse en la puerta.
 
-  Con la fila corrida, M1 y M3 se sirven desde el pasillo del ventanal (1,20)
-  y M2 desde el lado de la entrada, donde quedan 1,36 libres.
+  M1 y M3 se sirven desde el pasillo del ventanal (1,20 entre las dos filas
+  de sillas) y M2 desde el lado de la entrada, donde hay 1,16 libres.
 
 - **Fila central.** M5 y M4, con **M4 pegada a la cara Oeste de P3**. M6 se
   quita. Al Oeste de M5 no va ninguna mesa: ahi esta la unica salida del
