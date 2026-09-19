@@ -27,8 +27,8 @@ SEP = 0.050
 # Distribucion del 19 set., con la estructura ya corregida:
 #   - Fila del ventanal Sur: las mesas arrancan en el zocalo (1,968). M1 y M2
 #     van "en vertical" (sillas al Norte y al Sur) como pidio el cliente: M1
-#     entre la barra y P5, con la plaza de silla de ruedas por el Norte, y M2
-#     en el hueco de 1,31 que queda entre P5 y el vestibulo. M3 va girada
+#     entre la barra y P5 y M2 en el hueco de 1,31 que queda entre P5 y el
+#     vestibulo, con la plaza de silla de ruedas por su lado Norte. M3 va girada
 #     (sillas al Este y al Oeste): en vertical su silla Norte se comeria el
 #     itinerario accesible, que aqui solo tiene 2,72 entre el zocalo y P3.
 #   - Fila central bajo el forjado: M5 y M4 al Oeste de P3 (M4 pegada a su
@@ -36,37 +36,46 @@ SEP = 0.050
 #     de M5 no va ninguna mesa: ahi esta la unica salida del personal de la
 #     barra a la sala (1,18 entre la linea del mostrador y M5), que es
 #     tambien por donde se entra a la cocina por el paso de 0,95.
-#   - Fila del sillon corrido: cinco mesas de 0,70 a 0,29 entre si, con el
-#     sillon de asiento por el Norte y una silla por el Sur.
+#   - Fila del sillon corrido: seis mesas de 0,70 a 0,10 entre si, con el
+#     sillon de asiento por el Norte y una silla por el Sur. A 0,10 se juntan
+#     de dos en dos sin mover nada y cada comensal tiene 0,80 de banco.
 # La plaza de silla de ruedas ocupa el lado Norte de M1, al que se llega
 # desde el ramal del itinerario que va a la barra.
 MESAS_PB = [
-    ('M1', 'doble', 3.660, 2.488, 4.360, 3.188, 'S'),
-    ('M3', 'doble', 4.900, 2.488, 5.600, 3.188, 'EW'),
-    ('M2', 'doble', 6.650, 1.050, 7.350, 1.750, 'NS'),
-    ('M5', 'doble', 3.840, 5.380, 4.540, 6.080, 'NS'),
-    ('M4', 'doble', 4.970, 5.380, 5.670, 6.080, 'NS'),
-    ('M6', 'doble', 6.500, 5.380, 7.200, 6.080, 'NS'),
-] + [(f'M{7 + i}', 'doble', round(2.705 + 0.990 * i, 3), 7.708,
-      round(2.705 + 0.990 * i + 0.700, 3), 8.408, 'S') for i in range(5)]
+    ('M1', 'doble', 3.660, 2.488, 4.360, 3.188, 'NS'),
+    ('M3', 'doble', 5.000, 2.488, 5.700, 3.188, 'EW'),
+    ('M2', 'doble', 6.520, 1.050, 7.220, 1.750, 'S'),
+    ('M5', 'doble', 3.840, 5.330, 4.540, 6.030, 'NS'),
+    ('M4', 'doble', 4.970, 5.330, 5.670, 6.030, 'NS'),
+    ('M6', 'doble', 6.500, 5.330, 7.200, 6.030, 'NS'),
+] + [(f'M{7 + i}', 'doble', round(2.680 + 0.800 * i, 3), 7.708,
+      round(2.680 + 0.800 * i + 0.700, 3), 8.408, 'S') for i in range(6)]
 
 # Itinerario accesible: tramos (metros), espacios de giro de 1,50, plaza de
-# silla de ruedas (lado Norte de M1) y anchos que se acotan. El ramal a la
-# barra pasa a 0,60 de la cara Sur de P3 y sube 0,14 al Oeste del pilar, donde
-# lo que manda es la fila del ventanal.
+# silla de ruedas y anchos que se acotan.
+#   - El ramal a la barra pasa a 0,60 de la cara Sur de P3 y sube a 4,26 al
+#     Oeste del pilar, que es donde manda la fila del ventanal: entre la silla
+#     Norte de M1 (3,658) y la silla Sur de la fila central (4,860) hay
+#     justo 1,20.
+#   - El tronco llega hasta la hoja de la puerta del bano, corrido a 8,007
+#     para dejar 0,64 a la ultima mesa del sillon y a la caja de escalera.
+#   - La plaza PMR va al lado Norte de M2, en el hueco entre P5 y el
+#     vestibulo: su borde Este coincide con el borde Oeste del itinerario, de
+#     modo que la silla de ruedas entra desde el sin invadirlo.
 ACC_ITINERARIO = [
-    [(8.300, 0.600), (8.300, 2.400), (7.870, 3.200), (7.870, 7.100)],
-    [(7.870, 4.080), (3.260, 4.080)],
+    [(8.300, 0.600), (8.300, 2.400), (7.870, 3.200), (7.870, 7.000),
+     (8.007, 7.250), (8.007, 7.730)],
+    [(7.870, 4.088), (5.500, 4.088), (5.000, 4.260), (3.260, 4.260)],
 ]
 # giros: centro y posicion del rotulo (fuera del trazo del itinerario)
-ACC_GIROS = [((8.550, 1.750), (9.200, 2.520)), ((7.870, 6.600), (7.870, 6.960))]
-ACC_PMR = (3.610, 3.238, 4.410, 4.438)
+ACC_GIROS = [((8.550, 2.120), (9.220, 2.860)), ((7.870, 6.600), (7.870, 6.960))]
+ACC_PMR = (6.470, 1.800, 7.270, 3.000)
 # anchos que se acotan: tipo, posicion de la linea, extremos y sitio del texto
 ACC_ANCHOS = [
-    ('v', 4.660, 3.188, 4.688, 4.800, 3.930),    # mesas del ventanal - P3
+    ('v', 4.190, 3.658, 4.860, 4.330, 4.100),    # itinerario: sillas del ventanal - fila central
     ('h', 5.730, 7.200, 8.650, 7.930, 5.840),    # M6 - caja de escalera
-    ('h', 5.160, 2.660, 3.840, 3.250, 5.270),    # salida del personal a la sala
-    ('v', 6.850, 6.500, 7.238, 6.680, 6.870),    # sillas: fila central - sillon
+    ('v', 6.850, 6.550, 7.238, 6.680, 6.900),    # sillas: fila central - sillon
+    ('h', 5.600, 2.660, 3.840, 3.250, 5.710),    # salida del personal a la sala
 ]
 
 # Planta alta: mesa grande de cowork y una redonda grande. La redonda que

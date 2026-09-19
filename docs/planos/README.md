@@ -262,28 +262,41 @@ cuatro medidas del 16 set. La diferencia queda anotada en COMPROBAR EN OBRA.
 El "2,00" que marco junto al muro Este era la puerta: el cliente aclaro que
 son 2,06 de ancho y 1,00 de barrido.
 
-### Mesas: once dobles de 0,70 x 0,70
+### Mesas: doce dobles de 0,70 x 0,70
 
 Todas las mesas pasan a ser dobles de 0,70 x 0,70, porque el personal las
 junta cuando hace falta una de cuatro. Reparto:
 
 - **Fila del ventanal.** M1 y M2 "en vertical" (sillas al Norte y al Sur) como
-  pidio el cliente: M1 entre la barra y P5, con la plaza de silla de ruedas
-  por el Norte; M2 en el hueco de 1,31 que queda entre P5 y el vestibulo,
-  aprovechando el escaparate sin pegarse al pilar. M3 va girada (sillas al
+  pidio el cliente: M1 entre la barra y P5 y M2 en el hueco de 1,31 que queda
+  entre P5 y el vestibulo, aprovechando el escaparate. M3 va girada (sillas al
   Este y al Oeste) porque en vertical su silla Norte se comeria el itinerario
   accesible: entre el zocalo y P3 solo hay 2,72.
+- **Plaza de silla de ruedas.** Va al lado Norte de M2. Estuvo primero al
+  Norte de M1 y la auditoria la tumbo: ahi la silla de ruedas se paraba
+  encima del ramal del itinerario y lo cortaba. En el hueco de M2 su borde
+  Este coincide con el borde Oeste del itinerario, asi que se entra desde el
+  sin invadirlo.
 - **Fila central.** M5 y M4 al Oeste de P3, con **M4 pegada a su cara Oeste**
   como pidio el cliente, y M6 al Este, entre P3 y el itinerario del bano. Al
   Oeste de M5 no va ninguna mesa a proposito: ahi esta la unica salida del
   personal de la barra a la sala, y con una tercera mesa quedaba en 0,25.
   Asi quedan 1,18 libres.
-- **Fila del sillon corrido.** Cinco mesas de 0,70 a 0,29 entre si, con el
-  sillon de asiento por el Norte.
+- **Fila del sillon corrido.** Seis mesas de 0,70 a 0,10 entre si, con el
+  sillon de asiento por el Norte y una silla por el Sur. A 0,10 se juntan de
+  dos en dos sin mover nada y cada comensal tiene 0,80 de banco.
 
-Once mesas y 22 plazas sentadas. El itinerario accesible de 1,20 sigue
-entrando: 0,61 libres a cada lado del ramal que va a la barra, giro de Ø 1,50
-en la entrada y otro ante el bano (0,78 al cerramiento de la escalera).
+Doce mesas y 24 plazas sentadas. El itinerario accesible de 1,20 sigue
+entrando: entre la silla Norte de M1 y la silla Sur de la fila central hay
+justo 1,20, el tronco llega hasta la hoja de la puerta del bano y los dos
+giros de Ø 1,50 (entrada y antes del bano) quedan libres de obstaculos y del
+barrido de la puerta. Lo que no cumple es el bano: puerta de 0,70 (minimo
+0,80) y 1,08 de fondo, en el que no cabe el giro. Esta anotado en la lamina.
+
+El pasillo entre la fila central y la del sillon queda en 0,69 y es el acceso
+a la mitad de las plazas: es lo maximo que da el local con tres filas de
+mesas y esta acotado en el plano. La salida del personal de la barra a la
+sala queda en 1,18.
 
 ### Trasbarra nueva
 
