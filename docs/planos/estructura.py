@@ -165,11 +165,18 @@ TABIQUES_PA = [
     ('Tabique Este del almacen',      7.408, 7.607, 7.511, 8.072),
 ]
 # (nombre, x0, y0, x1, y1, ancho, eje) — eje 'x' = hoja barre en X
-HUECOS_PA = [
-    ('Puerta aseo',    3.089, 7.509, 3.849, 7.607, 0.760, 'x'),
-    ('Puerta inodoro', 4.461, 8.208, 4.560, MURO_N, 0.800, 'y'),
-    ('Puerta almacen', 7.408, 8.072, 7.511, MURO_N, 0.940, 'y'),
+# El ancho es el del hueco que dejan los tabiques, calculado y no escrito:
+# al bajar el muro Norte a 8,957 las dos puertas que dan a el se quedaron
+# mas estrechas que los 0,80 y 0,94 que tenian cuando el muro estaba en
+# 9,008 (0,749 y 0,885). El hueco manda, y asi la hoja no se mete en el muro.
+_HUECOS_PA = [
+    ('Puerta aseo',    3.089, 7.509, 3.849, 7.607, 'x'),
+    ('Puerta inodoro', 4.461, 8.208, 4.560, MURO_N, 'y'),
+    ('Puerta almacen', 7.408, 8.072, 7.511, MURO_N, 'y'),
 ]
+HUECOS_PA = [(nm, x0, y0, x1, y1,
+              round(x1 - x0 if eje == 'x' else y1 - y0, 3), eje)
+             for nm, x0, y0, x1, y1, eje in _HUECOS_PA]
 
 # ------------------------------------------------------------ acristalamientos
 # MEDIDO EN OBRA: el ventanal sur no es un solo pano corrido de 5,47. El P2

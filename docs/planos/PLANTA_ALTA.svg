@@ -54,13 +54,13 @@
 <line x1="123.780" y1="84.840" x2="123.780" y2="69.640" stroke="#111111" stroke-width="0.18"/>
 <path d="M 138.980 84.840 A 15.200 15.200 0 0 0 123.780 69.640" fill="none" stroke="#111111" stroke-width="0.1" stroke-dasharray="1.2 0.9"/>
 <rect x="151.220" y="56.860" width="1.980" height="14.980" fill="#ffffff" stroke="none" stroke-width="0.1"/>
-<rect x="151.810" y="55.840" width="0.800" height="16.000" fill="#111111" stroke="none"/>
-<line x1="152.210" y1="71.840" x2="136.210" y2="71.840" stroke="#111111" stroke-width="0.18"/>
-<path d="M 152.210 55.840 A 16.000 16.000 0 0 0 136.210 71.840" fill="none" stroke="#111111" stroke-width="0.1" stroke-dasharray="1.2 0.9"/>
+<rect x="151.810" y="56.860" width="0.800" height="14.980" fill="#111111" stroke="none"/>
+<line x1="152.210" y1="71.840" x2="137.230" y2="71.840" stroke="#111111" stroke-width="0.18"/>
+<path d="M 152.210 56.860 A 14.980 14.980 0 0 0 137.230 71.840" fill="none" stroke="#111111" stroke-width="0.1" stroke-dasharray="1.2 0.9"/>
 <rect x="210.160" y="56.860" width="2.060" height="17.700" fill="#ffffff" stroke="none" stroke-width="0.1"/>
-<rect x="210.790" y="55.760" width="0.800" height="18.800" fill="#111111" stroke="none"/>
-<line x1="211.190" y1="74.560" x2="192.390" y2="74.560" stroke="#111111" stroke-width="0.18"/>
-<path d="M 211.190 55.760 A 18.800 18.800 0 0 0 192.390 74.560" fill="none" stroke="#111111" stroke-width="0.1" stroke-dasharray="1.2 0.9"/>
+<rect x="210.790" y="56.860" width="0.800" height="17.700" fill="#111111" stroke="none"/>
+<line x1="211.190" y1="74.560" x2="193.490" y2="74.560" stroke="#111111" stroke-width="0.18"/>
+<path d="M 211.190 56.860 A 17.700 17.700 0 0 0 193.490 74.560" fill="none" stroke="#111111" stroke-width="0.1" stroke-dasharray="1.2 0.9"/>
 </g>
 <g id="carpinteria">
 <rect x="72.200" y="203.820" width="15.600" height="0.720" fill="#7fb4c9" stroke="#3d6b80" stroke-width="0.18"/>

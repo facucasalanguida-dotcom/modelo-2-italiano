@@ -29,7 +29,7 @@ Z_PA        = E.H_PA                        # 2,560 suelo del altillo
 Z_TECHO     = E.H_PA + E.H_LIBRE_PA         # 5,060 techo del altillo
 H_SOLERA    = 0.150     # espesor de la solera dibujada bajo el pavimento
 Z_VIGA_INF  = 2.100     # SUPUESTO: intrados de la viga P1b (COMPROBAR)
-H_ZOC_VENT  = 0.450     # SUPUESTO: alto del zocalo del ventanal (COMPROBAR)
+H_ZOC_VENT  = 0.130     # SUPUESTO: el cliente lo describe como zocalo de suelo
 H_MESA      = 0.750     # tablero de las mesas
 E_TABLERO   = 0.040
 H_SILLA     = 0.450     # asiento
@@ -39,14 +39,16 @@ H_SILLON    = 0.420     # asiento del sillon corrido
 H_SILLON_R  = 1.050     # coronacion del respaldo del sillon
 E_SILLON_R  = 0.100
 H_BARRA_MAD = 0.040     # canto de la tabla de madera del mostrador
-Z_ESTANTE   = 1.500     # SUPUESTO: altura del estante mural de la trasbarra
+Z_ESTANTE   = None      # se calcula: por encima del aparato mas alto de la mesada
 Z_AIRE      = 2.310     # cassettes de aire colgados al nivel del sofito
 H_AIRE      = 0.250
 H_REJILLA   = 0.060
 D_EMPOTRADO = 0.090     # diametro de los empotrados
 H_COLGANTE  = 0.220     # alto de la pantalla de los colgantes
-Z_COLGANTE  = 2.200     # cota del borde inferior de los colgantes
+Z_COLGANTE  = 1.900     # borde inferior de los colgantes, por debajo del aire
 H_APLIQUE   = 0.300
+Z_APLIQUE   = 1.950     # por encima de los armarios K8/K9 (1,865)
+Z_DINTEL_F  = None      # banda de fachada sobre el acristalamiento
 
 ALTURAS_DOC = [
     ('Suelo a suelo', E.H_PA, 'medido en obra'),
@@ -65,7 +67,7 @@ ALTURAS_DOC = [
     ('Antepechos de vidrio', E.H_BARANDA, 'estandar'),
     ('Encimeras', Q.H_ENCIMERA, 'estandar'),
     ('Borde inferior de la campana', Q.H_CAMPANA, 'estandar'),
-    ('Estante mural de la trasbarra', Z_ESTANTE, 'SUPUESTO'),
+    ('Estante mural de la trasbarra', 0.0, 'SUPUESTO — sobre el aparato más alto'),
     ('Sillon corrido: asiento / respaldo', H_SILLON, 'SUPUESTO — fondo sin medir'),
 ]
 
@@ -94,6 +96,29 @@ PASOS_DOC = [
     ('Puerta -> barra, por el Norte de la fila central', '0,700'),
     ('Salida del personal de la barra a la sala', '1,310'),
     ('Pasillo de la cocina', _f(Q.PASILLO_COCINA_MIN) + ' a ' + _f(Q.PASILLO_COCINA)),
+]
+
+# Conflictos que el 3D deja a la vista y que NO se arreglan inventando: son
+# del proyecto, no del modelo. Viajan en la cabecera del .rb.
+CONFLICTOS_DOC = [
+    'El vidrio de la pared en L corona en 2,570 y el forjado arranca en 2,310:',
+    '  no pasa por debajo del altillo. Ya estaba anotado en COMPROBAR.',
+    'La viga P1b (y 4,933-5,183) muere en x=2,380, en el aire: con la pared en L',
+    '  arrancando ahora en y=5,357, su extremo Este se quedo sin apoyo.',
+    'El lavavajillas K6 es 0,013 mas alto y 0,051 mas hondo que el fregadero K7',
+    '  bajo el que va: asoma por encima de la encimera y por delante.',
+    'El lavavasos B1 mide 0,670 de alto y el hueco bajo la vitrina V2 es de 0,600:',
+    '  no cabe debajo.',
+    'Las vitrinas son de 0,70 de fondo sobre un mostrador de 0,63: vuelan 0,07',
+    '  sobre el paso de personal. En el 3D se dibujan al fondo del mostrador.',
+    'El machon P4 se mete 0,201 en el ancho de la escalera: al pasarlo quedan',
+    '  0,878 libres, no los 1,079 del tramo.',
+    'Cuatro empotrados del proyecto original (x=1,10) caen en la cocina, que es',
+    '  doble altura: no hay techo donde empotrarlos.',
+    'El empotrado de (1,10 / 8,50) cae dentro de la campana.',
+    'Los dos apliques del proyecto original caen sobre los armarios K8 y K9; en',
+    '  el 3D se suben a 1,95 para que se vean.',
+    'El horno K5 se dibuja en el suelo: el plano no dice sobre que apoya.',
 ]
 
 # --------------------------------------------------------------- materiales
@@ -153,8 +178,7 @@ for nm, x0, y0, x1, y1, e in E.MUROS:
 
 # pilares: P1 muere en el forjado; los demas suben hasta el techo
 for tag, nm, x0, y0, x1, y1 in E.PILARES:
-    z1 = Z_PA if tag == 'P1' else Z_TECHO
-    caja('03 Pilares', 'pilar', f'{tag} · {nm}', x0, y0, x1, y1, 0.0, z1)
+    caja('03 Pilares', 'pilar', f'{tag} · {nm}', x0, y0, x1, y1, 0.0, Z_TECHO)
 
 # viga descolgada P1b
 nm, x0, y0, x1, y1 = E.VIGA
@@ -172,6 +196,12 @@ for i, (a, b) in enumerate(v['panos'], 1):
          E.H_TRAVESANO - 0.030, E.H_TRAVESANO + 0.030)
     caja('04 Carpinteria', 'piedra', f'Ventanal Sur · zócalo de piedra {i}',
          a, v['y'], b, v['y'] + v['e'], 0.0, E.H_ZOCALO)
+# El acristalamiento corona en 4,70 y el techo esta en 5,06: entre los dos
+# hay una banda de fachada que el levantamiento no recoge. Se cierra para que
+# el local no quede abierto por arriba, y queda marcada como supuesta.
+for i, (a, b2) in enumerate(v['panos'], 1):
+    caja('02 Muros', 'muro', f'Dintel de fachada Sur {i} (SUPUESTO)',
+         a, v['y'], b2, v['y'] + v['e'], E.H_ESCAPARATE, Z_TECHO)
 ja, jb = v['jamba']
 caja('02 Muros', 'muro', 'Ventanal Sur · jamba', ja, v['y'], jb, v['y'] + 0.249,
      0.0, Z_TECHO)
@@ -181,6 +211,8 @@ es, pa = E.ESCAPARATE, E.PUERTA_ACCESO
 caja('04 Carpinteria', 'vidrio', 'Escaparate · vidrio',
      es['x0'], es['y'] + 0.010, pa['x0'], es['y'] + es['e'] - 0.010,
      E.H_ZOCALO, E.H_ESCAPARATE)
+caja('02 Muros', 'muro', 'Dintel de fachada Este (SUPUESTO)',
+     es['x0'], es['y'], es['x1'], es['y'] + es['e'], E.H_ESCAPARATE, Z_TECHO)
 caja('04 Carpinteria', 'piedra', 'Escaparate · zócalo de piedra',
      es['x0'], es['y'], es['x1'], es['y'] + es['e'], 0.0, E.H_ZOCALO)
 # puerta de dos hojas, abierta 90 grados hacia el vestibulo
@@ -208,23 +240,35 @@ for a, b in ((z['x0'], 1.290), (1.870, z['x1'])):      # partido por P2
 
 # --- bano de planta baja --------------------------------------------------
 for nm, x0, y0, x1, y1 in E.BANO_TABIQUES:
-    caja('07 Bano', 'tabique', nm, x0, y0, x1, y1, 0.0, Z_PA)
+    caja('07 Bano', 'tabique', nm, x0, y0, x1, y1, 0.0, Z_SOFITO)
 bp = E.BANO_PUERTA
 caja('07 Bano', 'tabique', 'Baño · dintel de la puerta',
-     bp['x0'], bp['y'], bp['x1'], bp['y'] + E.BANO['e'], E.H_PUERTA, Z_PA)
+     bp['x0'], bp['y'], bp['x1'], bp['y'] + E.BANO['e'], E.H_PUERTA, Z_SOFITO)
 caja('07 Bano', 'madera', 'Baño · hoja de la puerta',
      bp['x0'], bp['y'] + 0.020, bp['x1'], bp['y'] + 0.060, 0.0, E.H_PUERTA)
 
 # --- caja de escalera y escalera -----------------------------------------
 nm, x0, y0, x1, y1 = E.CAJA_ESC_PB
-caja('08 Escalera', 'tabique', nm, x0, y0, x1, y1, 0.0, Z_PA)
+caja('08 Escalera', 'tabique', nm, x0, y0, x1, y1, 0.0, Z_SOFITO)
+# P4 se mete 0,201 en el ancho de la escalera: los peldanos se recortan
+# contra el machon en vez de atravesarlo. Ancho libre al pasar P4: 0,878.
+P4 = next(q for q in E.PILARES if q[0] == 'P4')
 for i in range(1, E.ESC_N_TABICAS + 1):
     ya = E.ESC_Y_PIE + (i - 1) * E.ESC_HUELLA
     yb = min(ya + E.ESC_HUELLA, E.ESC_Y_ALTO)
     if yb - ya < 1e-6:
         continue
-    caja('08 Escalera', 'escalera', f'Peldaño {i}',
-         E.ESC_X0, ya, E.ESC_X1, yb, 0.0, i * E.ESC_TABICA)
+    z1 = i * E.ESC_TABICA
+    a0, a1 = max(ya, P4[3]), min(yb, P4[5])
+    if a1 - a0 > 1e-6:                      # el peldano toca P4: se parte
+        for ta, tb, x_fin in ((ya, a0, E.ESC_X1), (a0, a1, P4[2]),
+                              (a1, yb, E.ESC_X1)):
+            if tb - ta > 1e-6:
+                caja('08 Escalera', 'escalera', f'Peldaño {i}',
+                     E.ESC_X0, ta, x_fin, tb, 0.0, z1)
+    else:
+        caja('08 Escalera', 'escalera', f'Peldaño {i}',
+             E.ESC_X0, ya, E.ESC_X1, yb, 0.0, z1)
 
 # --- forjado del altillo --------------------------------------------------
 prisma('09 Forjado', 'forjado', 'Forjado de planta alta', E.FORJADO,
@@ -248,15 +292,25 @@ caja('10 Cocina', 'inox', f"{Q.CAMPANA['tag']} · {Q.CAMPANA['nombre']}",
 
 y = Q.OESTE_Y0
 for p in Q.OESTE:
-    caja('10 Cocina', 'frio' if p['tag'] in ('K8', 'K9') else 'aparato',
-         f"{p['tag']} · {p['nombre']}",
-         Q.OESTE_X0, y - p['a'], Q.OESTE_X0 + p['f'], y, 0.0, p['h'])
-    if p['tag'] == 'K7':                      # lavavajillas bajo el escurridor
+    if p['tag'] == 'K7':
+        # El fregadero es un bastidor: macizo en la mitad de la cuba (Sur) y
+        # solo encimera sobre el hueco del lavavajillas (Norte), para que K6
+        # entre de verdad en su hueco y no quede enterrado en el bloque.
+        caja('10 Cocina', 'inox', f"{p['tag']} · {p['nombre']} · cuba",
+             Q.OESTE_X0, y - p['a'], Q.OESTE_X0 + p['f'], y - Q.HUECO_LAV,
+             0.0, p['h'])
+        caja('10 Cocina', 'inox', f"{p['tag']} · {p['nombre']} · escurridor",
+             Q.OESTE_X0, y - Q.HUECO_LAV, Q.OESTE_X0 + p['f'], y,
+             p['h'] - 0.040, p['h'])
         lv = Q.LAVAVAJILLAS
         ly1 = y - (Q.HUECO_LAV - lv['a']) / 2
         caja('10 Cocina', 'aparato', f"{lv['tag']} · {lv['nombre']}",
-             Q.OESTE_X0 + 0.010, ly1 - lv['a'], Q.OESTE_X0 + lv['f'], ly1,
+             Q.OESTE_X0, ly1 - lv['a'], Q.OESTE_X0 + lv['f'], ly1,
              0.0, lv['h'])
+    else:
+        caja('10 Cocina', 'frio' if p['tag'] in ('K8', 'K9') else 'aparato',
+             f"{p['tag']} · {p['nombre']}",
+             Q.OESTE_X0, y - p['a'], Q.OESTE_X0 + p['f'], y, 0.0, p['h'])
     y -= p['a']
 
 y = Q.ESTE_Y0
@@ -282,6 +336,7 @@ for p in Q.TRASBARRA:
 nv, np_ = Q.NEVERA_BARRA, Q.NEVERA_POS
 caja('11 Barra', 'frio', f"{nv['tag']} · {nv['nombre']}",
      tx0, np_['y0'], tx0 + nv['f'], np_['y1'], 0.0, nv['h'])
+Z_ESTANTE = round(Q.H_ENCIMERA + max(q['h'] for q in Q.TRASBARRA) + 0.080, 3)
 for i in range(Q.ESTANTE_N):
     ya = ty1 - (i + 1) * Q.ESTANTE['a']
     caja('11 Barra', 'inox', f"{Q.ESTANTE['tag']} · {Q.ESTANTE['nombre']} ({i + 1})",
@@ -292,21 +347,27 @@ for i in range(Q.ESTANTE_N):
 mx0, mx1 = Q.MOSTRADOR_X
 my0, my1 = Q.MOSTRADOR_Y
 bm = Q.BARRA_MADERA
+# El mostrador solo es macizo bajo la tabla de madera: el tramo Sur lo
+# ocupan las dos vitrinas, que son muebles con su propio cuerpo.
 caja('11 Barra', 'encimera', 'Mostrador delantero a medida',
-     mx0, my0, mx1, my1, 0.0, Q.H_ENCIMERA)
+     mx0, bm['y0'], mx1, my1, 0.0, Q.H_ENCIMERA)
 caja('11 Barra', 'madera', 'Mostrador · tabla de madera',
      mx0, bm['y0'], mx1, bm['y1'], Q.H_ENCIMERA, Q.H_ENCIMERA + H_BARRA_MAD)
+# Las vitrinas se dibujan con el fondo del mostrador (0,63) y no con los
+# 0,70 de la ficha: con 0,70 vuelan 0,07 sobre el paso de personal y muerden
+# P2. Ese desajuste queda anotado arriba, en CONFLICTOS.
 vy = my0
 for p in Q.VITRINAS:
     vt = Q.VITRINA
     caja('11 Barra', 'aparato', f"{p['tag']} · motor",
          mx1 - vt['motor'][1], vy, mx1, vy + vt['motor'][0], 0.0, vt['motor'][1])
     caja('11 Barra', 'vidrio', f"{p['tag']} · {p['nombre']}",
-         mx1 - p['f'], vy, mx1, vy + p['a'], vt['hueco_bajo'], p['h'])
+         mx0, vy, mx1, vy + p['a'], vt['hueco_bajo'], p['h'])
     vy += p['a']
 lv = Q.LAVAVASOS
+_ly0 = my0 + Q.VITRINA['motor'][0] + 0.030
 caja('11 Barra', 'aparato', f"{lv['tag']} · {lv['nombre']}",
-     mx1 - lv['f'], my0 + 0.030, mx1, my0 + 0.030 + lv['a'], 0.0, lv['h'])
+     mx1 - lv['f'], _ly0, mx1, _ly0 + lv['a'], 0.0, lv['h'])
 tb = Q.TABLET
 caja('11 Barra', 'aparato', f"{tb['tag']} · {tb['nombre']}",
      mx0 + 0.150, bm['y0'] + 0.200, mx0 + 0.150 + tb['f'],
@@ -322,8 +383,10 @@ caja('11 Barra', 'inox', f"{ch['tag']} · {ch['nombre']}",
      tp['x1'] - 0.100, tp['y0'] + 0.080 + ch['a'],
      Q.H_ENCIMERA + H_BARRA_MAD, Q.H_ENCIMERA + H_BARRA_MAD + ch['h'])
 br = Q.BARRILES
+# el barril apoya sobre el zocalo del ventanal, que llega hasta aqui
 cilindro('11 Barra', 'inox', f"{br['tag']} · {br['nombre']}",
-         tp['x0'] + 0.400, (tp['y0'] + tp['y1']) / 2, br['a'] / 2, 0.0, br['h'])
+         tp['x0'] + 0.400, (tp['y0'] + tp['y1']) / 2, br['a'] / 2,
+         H_ZOC_VENT, H_ZOC_VENT + br['h'])
 
 # nevera de bebidas A7
 nb, npos = Q.NEVERA_BEBIDAS, Q.NEVERA_BEBIDAS_POS
@@ -398,7 +461,8 @@ for i, (cx, cy) in enumerate(E.COLGANTES, 1):
              Z_COLGANTE, Z_COLGANTE + H_COLGANTE)
 for i, (cx, cy) in enumerate(E.APLIQUES, 1):
     caja('13 Instalaciones', 'luz', f'Aplique {i}',
-         cx - 0.060, cy - 0.100, cx + 0.060, cy + 0.100, 1.800, 1.800 + H_APLIQUE)
+         cx - 0.060, cy - 0.100, cx + 0.060, cy + 0.100,
+         Z_APLIQUE, Z_APLIQUE + H_APLIQUE)
 rw, rh = E.AIRE_REJILLA
 for tag, nm, cx, cy, a, f in E.AIRE:
     caja('13 Instalaciones', 'aire', f'{tag} · {nm}',
@@ -481,6 +545,10 @@ def main():
     w('#  PASOS LIBRES MEDIDOS SOBRE EL MODELO')
     for nm, v in PASOS_DOC:
         w(f'#      {nm:<46s} {v}')
+    w('#')
+    w('#  CONFLICTOS QUE EL MODELO DEJA A LA VISTA (son del proyecto, no del 3D)')
+    for t in CONFLICTOS_DOC:
+        w(f'#      {t}')
     w('#' + '-' * 76)
     w('')
     w('# recargar el fichero no debe llenar la consola de avisos de constante')

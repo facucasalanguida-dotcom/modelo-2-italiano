@@ -28,7 +28,7 @@
 #      Coronacion del acristalamiento          4.700 m   aproximada — COMPROBAR
 #      Travesano del ventanal Sur              2.300 m   sin medir — COMPROBAR
 #      Zocalo de piedra de la carpinteria      0.130 m   medido
-#      Alto del zocalo del ventanal            0.450 m   SUPUESTO — COMPROBAR
+#      Alto del zocalo del ventanal            0.130 m   SUPUESTO — COMPROBAR
 #      Intrados de la viga P1b                 2.100 m   SUPUESTO — COMPROBAR
 #      Pared en L                              1.220 m   medida
 #      Vidrio sobre la pared en L              1.350 m   medido
@@ -36,7 +36,7 @@
 #      Antepechos de vidrio                    1.000 m   estandar
 #      Encimeras                               0.900 m   estandar
 #      Borde inferior de la campana            2.000 m   estandar
-#      Estante mural de la trasbarra           1.500 m   SUPUESTO
+#      Estante mural de la trasbarra           0.000 m   SUPUESTO — sobre el aparato más alto
 #      Sillon corrido: asiento / respaldo      0.420 m   SUPUESTO — fondo sin medir
 #
 #  CADENA DE OBRA DEL LADO OESTE (la que fijo el cliente)
@@ -56,6 +56,26 @@
 #      Puerta -> barra, por el Norte de la fila central 0,700
 #      Salida del personal de la barra a la sala      1,310
 #      Pasillo de la cocina                           0,840 a 0,980
+#
+#  CONFLICTOS QUE EL MODELO DEJA A LA VISTA (son del proyecto, no del 3D)
+#      El vidrio de la pared en L corona en 2,570 y el forjado arranca en 2,310:
+#        no pasa por debajo del altillo. Ya estaba anotado en COMPROBAR.
+#      La viga P1b (y 4,933-5,183) muere en x=2,380, en el aire: con la pared en L
+#        arrancando ahora en y=5,357, su extremo Este se quedo sin apoyo.
+#      El lavavajillas K6 es 0,013 mas alto y 0,051 mas hondo que el fregadero K7
+#        bajo el que va: asoma por encima de la encimera y por delante.
+#      El lavavasos B1 mide 0,670 de alto y el hueco bajo la vitrina V2 es de 0,600:
+#        no cabe debajo.
+#      Las vitrinas son de 0,70 de fondo sobre un mostrador de 0,63: vuelan 0,07
+#        sobre el paso de personal. En el 3D se dibujan al fondo del mostrador.
+#      El machon P4 se mete 0,201 en el ancho de la escalera: al pasarlo quedan
+#        0,878 libres, no los 1,079 del tramo.
+#      Cuatro empotrados del proyecto original (x=1,10) caen en la cocina, que es
+#        doble altura: no hay techo donde empotrarlos.
+#      El empotrado de (1,10 / 8,50) cae dentro de la campana.
+#      Los dos apliques del proyecto original caen sobre los armarios K8 y K9; en
+#        el 3D se suben a 1,95 para que se vean.
+#      El horno K5 se dibuja en el suelo: el plano no dice sobre que apoya.
 #----------------------------------------------------------------------------
 
 # recargar el fichero no debe llenar la consola de avisos de constante
@@ -117,7 +137,7 @@ module Local3D
     ["02 Muros", "muro", "Muro Oeste del cuello", 5.7310, 0.9600, 5.9800, 1.5610, 0.0000, 5.0600],
     ["02 Muros", "muro", "Medianera Este", 9.8900, 1.4290, 10.0400, 8.9570, 0.0000, 5.0600],
     ["02 Muros", "muro", "Medianera Este - cuello", 9.7100, 0.3300, 10.0400, 1.4290, 0.0000, 5.0600],
-    ["03 Pilares", "pilar", "P1 · Machón del muro Oeste", 0.2500, 4.7590, 0.5500, 5.3570, 0.0000, 2.5600],
+    ["03 Pilares", "pilar", "P1 · Machón del muro Oeste", 0.2500, 4.7590, 0.5500, 5.3570, 0.0000, 5.0600],
     ["03 Pilares", "pilar", "P2 · Pilastra del muro Sur", 1.2900, 1.5610, 1.8700, 2.0110, 0.0000, 5.0600],
     ["03 Pilares", "pilar", "P3 · Pilar central", 5.6700, 4.6880, 6.3200, 5.7580, 0.0000, 5.0600],
     ["03 Pilares", "pilar", "P4 · Machón de la medianera Este", 9.6890, 4.7080, 9.8900, 5.3090, 0.0000, 5.0600],
@@ -129,8 +149,11 @@ module Local3D
     ["04 Carpinteria", "vidrio", "Ventanal Sur · paño 2", 1.8700, 1.5730, 5.8700, 1.6090, 0.1300, 4.7000],
     ["04 Carpinteria", "carp", "Ventanal Sur · travesaño 2", 1.8700, 1.5610, 5.8700, 1.6210, 2.2700, 2.3300],
     ["04 Carpinteria", "piedra", "Ventanal Sur · zócalo de piedra 2", 1.8700, 1.5610, 5.8700, 1.6210, 0.0000, 0.1300],
+    ["02 Muros", "muro", "Dintel de fachada Sur 1 (SUPUESTO)", 0.5100, 1.5610, 1.2900, 1.6210, 4.7000, 5.0600],
+    ["02 Muros", "muro", "Dintel de fachada Sur 2 (SUPUESTO)", 1.8700, 1.5610, 5.8700, 1.6210, 4.7000, 5.0600],
     ["02 Muros", "muro", "Ventanal Sur · jamba", 5.8700, 1.5610, 5.9800, 1.8100, 0.0000, 5.0600],
     ["04 Carpinteria", "vidrio", "Escaparate · vidrio", 6.3310, 0.3800, 7.6410, 0.4090, 0.1300, 4.7000],
+    ["02 Muros", "muro", "Dintel de fachada Este (SUPUESTO)", 6.3310, 0.3700, 9.7100, 0.4190, 4.7000, 5.0600],
     ["04 Carpinteria", "piedra", "Escaparate · zócalo de piedra", 6.3310, 0.3700, 9.7100, 0.4190, 0.0000, 0.1300],
     ["04 Carpinteria", "vidrio", "Puerta de acceso · hoja 1", 7.6410, 0.3700, 8.6710, 0.4190, 0.1300, 2.1000],
     ["04 Carpinteria", "vidrio", "Puerta de acceso · hoja 2", 8.6710, 0.3700, 9.7010, 0.4190, 0.1300, 2.1000],
@@ -139,21 +162,23 @@ module Local3D
     ["05 Pared en L", "vidrio", "Tramo largo 3,60 · vidrio", 2.4600, 5.3870, 2.5000, 8.9270, 1.2200, 2.5700],
     ["05 Pared en L", "tabique", "Doblez 0,74", 1.7900, 5.3570, 2.5300, 5.4570, 0.0000, 1.2200],
     ["05 Pared en L", "vidrio", "Doblez 0,74 · vidrio", 1.8200, 5.3870, 2.5000, 5.4270, 1.2200, 2.5700],
-    ["06 Zocalo", "piedra", "Zócalo del ventanal", 0.5100, 1.6210, 1.2900, 1.9680, 0.0000, 0.4500],
-    ["06 Zocalo", "piedra", "Zócalo del ventanal", 1.8700, 1.6210, 5.8700, 1.9680, 0.0000, 0.4500],
-    ["07 Bano", "tabique", "Tabique Oeste del baño", 7.4000, 7.7300, 7.5000, 8.9570, 0.0000, 2.5600],
-    ["07 Bano", "tabique", "Tabique Sur - tramo Oeste", 7.4000, 7.7300, 7.7700, 7.8300, 0.0000, 2.5600],
-    ["07 Bano", "tabique", "Tabique Sur - tramo Este", 8.4700, 7.7300, 9.8900, 7.8300, 0.0000, 2.5600],
-    ["07 Bano", "tabique", "Baño · dintel de la puerta", 7.7700, 7.7300, 8.4700, 7.8300, 2.1000, 2.5600],
+    ["06 Zocalo", "piedra", "Zócalo del ventanal", 0.5100, 1.6210, 1.2900, 1.9680, 0.0000, 0.1300],
+    ["06 Zocalo", "piedra", "Zócalo del ventanal", 1.8700, 1.6210, 5.8700, 1.9680, 0.0000, 0.1300],
+    ["07 Bano", "tabique", "Tabique Oeste del baño", 7.4000, 7.7300, 7.5000, 8.9570, 0.0000, 2.3100],
+    ["07 Bano", "tabique", "Tabique Sur - tramo Oeste", 7.4000, 7.7300, 7.7700, 7.8300, 0.0000, 2.3100],
+    ["07 Bano", "tabique", "Tabique Sur - tramo Este", 8.4700, 7.7300, 9.8900, 7.8300, 0.0000, 2.3100],
+    ["07 Bano", "tabique", "Baño · dintel de la puerta", 7.7700, 7.7300, 8.4700, 7.8300, 2.1000, 2.3100],
     ["07 Bano", "madera", "Baño · hoja de la puerta", 7.7700, 7.7500, 8.4700, 7.7900, 0.0000, 2.1000],
-    ["08 Escalera", "tabique", "Caja de escalera (planta baja)", 8.6500, 3.9390, 8.8110, 7.7380, 0.0000, 2.5600],
+    ["08 Escalera", "tabique", "Caja de escalera (planta baja)", 8.6500, 3.9390, 8.8110, 7.7380, 0.0000, 2.3100],
     ["08 Escalera", "escalera", "Peldaño 1", 8.8110, 3.5790, 9.8900, 3.8389, 0.0000, 0.1506],
     ["08 Escalera", "escalera", "Peldaño 2", 8.8110, 3.8389, 9.8900, 4.0989, 0.0000, 0.3012],
     ["08 Escalera", "escalera", "Peldaño 3", 8.8110, 4.0989, 9.8900, 4.3588, 0.0000, 0.4518],
     ["08 Escalera", "escalera", "Peldaño 4", 8.8110, 4.3588, 9.8900, 4.6188, 0.0000, 0.6024],
-    ["08 Escalera", "escalera", "Peldaño 5", 8.8110, 4.6188, 9.8900, 4.8787, 0.0000, 0.7529],
-    ["08 Escalera", "escalera", "Peldaño 6", 8.8110, 4.8787, 9.8900, 5.1386, 0.0000, 0.9035],
-    ["08 Escalera", "escalera", "Peldaño 7", 8.8110, 5.1386, 9.8900, 5.3986, 0.0000, 1.0541],
+    ["08 Escalera", "escalera", "Peldaño 5", 8.8110, 4.6188, 9.8900, 4.7080, 0.0000, 0.7529],
+    ["08 Escalera", "escalera", "Peldaño 5", 8.8110, 4.7080, 9.6890, 4.8787, 0.0000, 0.7529],
+    ["08 Escalera", "escalera", "Peldaño 6", 8.8110, 4.8787, 9.6890, 5.1386, 0.0000, 0.9035],
+    ["08 Escalera", "escalera", "Peldaño 7", 8.8110, 5.1386, 9.6890, 5.3090, 0.0000, 1.0541],
+    ["08 Escalera", "escalera", "Peldaño 7", 8.8110, 5.3090, 9.8900, 5.3986, 0.0000, 1.0541],
     ["08 Escalera", "escalera", "Peldaño 8", 8.8110, 5.3986, 9.8900, 5.6585, 0.0000, 1.2047],
     ["08 Escalera", "escalera", "Peldaño 9", 8.8110, 5.6585, 9.8900, 5.9184, 0.0000, 1.3553],
     ["08 Escalera", "escalera", "Peldaño 10", 8.8110, 5.9184, 9.8900, 6.1784, 0.0000, 1.5059],
@@ -170,8 +195,9 @@ module Local3D
     ["10 Cocina", "aparato", "K4 · Plancha eléctrica Cleiton 50 cm, placa de 8 mm, sobremesa", 1.6900, 8.5080, 2.2400, 9.0080, 0.9000, 1.2300],
     ["10 Cocina", "inox", "KC · Campana extractora industrial recta, sin turbina, AISI-304 satinado, 2 × 1,2 m", 0.3100, 7.8080, 2.3100, 9.0080, 2.0000, 2.5000],
     ["10 Cocina", "aparato", "K5 · Horno de convección eléctrico industrial, 4 bandejas 45 × 33", 0.2500, 7.8180, 0.8450, 8.4080, 0.0000, 0.5750],
-    ["10 Cocina", "aparato", "K7 · Fregadero con bastidor con hueco lavavajillas, cuba izquierda, 1200 × 600", 0.2500, 6.6180, 0.8500, 7.8180, 0.0000, 0.8500],
-    ["10 Cocina", "aparato", "K6 · Lavavajillas industrial ST500, cesta 50 × 50, bajo el escurridor de K7", 0.2600, 7.2355, 0.9010, 7.8005, 0.0000, 0.8630],
+    ["10 Cocina", "inox", "K7 · Fregadero con bastidor con hueco lavavajillas, cuba izquierda, 1200 × 600 · cuba", 0.2500, 6.6180, 0.8500, 7.2180, 0.0000, 0.8500],
+    ["10 Cocina", "inox", "K7 · Fregadero con bastidor con hueco lavavajillas, cuba izquierda, 1200 × 600 · escurridor", 0.2500, 7.2180, 0.8500, 7.8180, 0.8100, 0.8500],
+    ["10 Cocina", "aparato", "K6 · Lavavajillas industrial ST500, cesta 50 × 50, bajo el escurridor de K7", 0.2500, 7.2355, 0.9010, 7.8005, 0.0000, 0.8630],
     ["10 Cocina", "frio", "K8 · Armario refrigerado vertical Edenox APS-451 I, inox, 1 puerta, 395 L", 0.2500, 5.9920, 0.9900, 6.6180, 0.0000, 1.8650],
     ["10 Cocina", "frio", "K9 · Armario refrigerado vertical Edenox APS-451 I, inox, 1 puerta, 395 L", 0.2500, 5.3660, 0.9900, 5.9920, 0.0000, 1.8650],
     ["10 Cocina", "frio", "K10 · Mesa refrigerada Infrico 4 puertas, AISI-304, peto 100 mm, -2/+8 ºC, 530 L", 1.8300, 5.4570, 2.4300, 7.9990, 0.0000, 0.8500],
@@ -181,15 +207,15 @@ module Local3D
     ["11 Barra", "aparato", "A2 · Molinillo de café Cunil TRANQUILO de ABC, 275 W, tolva 0,5 kg", 0.2500, 3.5890, 0.5900, 3.7590, 0.9000, 1.3100],
     ["11 Barra", "aparato", "A3 · Máquina de helado y crema fría Bras B-CREAM1HD, 6 L, italiana", 0.2500, 3.3590, 0.7400, 3.5590, 0.9000, 1.5200],
     ["11 Barra", "frio", "A5 · Botellero frigorífico BTL1000, 2 puertas correderas, 240 L", 0.2500, 2.6110, 0.8300, 3.6510, 0.0000, 0.8500],
-    ["11 Barra", "inox", "A6 · Estante mural cartelas compacto Fricosmos 011410, 1250 × 400 × 245 (1)", 0.2500, 3.5090, 0.6500, 4.7590, 1.5000, 1.7450],
-    ["11 Barra", "inox", "A6 · Estante mural cartelas compacto Fricosmos 011410, 1250 × 400 × 245 (2)", 0.2500, 2.2590, 0.6500, 3.5090, 1.5000, 1.7450],
-    ["11 Barra", "encimera", "Mostrador delantero a medida", 1.9000, 1.9680, 2.5300, 4.7590, 0.0000, 0.9000],
+    ["11 Barra", "inox", "A6 · Estante mural cartelas compacto Fricosmos 011410, 1250 × 400 × 245 (1)", 0.2500, 3.5090, 0.6500, 4.7590, 1.6000, 1.8450],
+    ["11 Barra", "inox", "A6 · Estante mural cartelas compacto Fricosmos 011410, 1250 × 400 × 245 (2)", 0.2500, 2.2590, 0.6500, 3.5090, 1.6000, 1.8450],
+    ["11 Barra", "encimera", "Mostrador delantero a medida", 1.9000, 3.9680, 2.5300, 4.7590, 0.0000, 0.9000],
     ["11 Barra", "madera", "Mostrador · tabla de madera", 1.9000, 3.9680, 2.5300, 4.7590, 0.9000, 0.9400],
     ["11 Barra", "aparato", "V2 · motor", 2.2300, 1.9680, 2.5300, 2.2680, 0.0000, 0.3000],
-    ["11 Barra", "vidrio", "V2 · Vitrina refrigerada (comprada), 1,00 × 0,70; debajo, lavavasos", 1.8300, 1.9680, 2.5300, 2.9680, 0.6000, 1.2500],
+    ["11 Barra", "vidrio", "V2 · Vitrina refrigerada (comprada), 1,00 × 0,70; debajo, lavavasos", 1.9000, 1.9680, 2.5300, 2.9680, 0.6000, 1.2500],
     ["11 Barra", "aparato", "V1 · motor", 2.2300, 2.9680, 2.5300, 3.2680, 0.0000, 0.3000],
-    ["11 Barra", "vidrio", "V1 · Vitrina refrigerada (comprada), 1,00 × 0,70; hueco libre debajo", 1.8300, 2.9680, 2.5300, 3.9680, 0.6000, 1.2500],
-    ["11 Barra", "aparato", "B1 · Lavavasos Elettrobar FAST 40, cesta 40 × 40 (bajo la vitrina V2)", 1.9900, 1.9980, 2.5300, 2.4380, 0.0000, 0.6700],
+    ["11 Barra", "vidrio", "V1 · Vitrina refrigerada (comprada), 1,00 × 0,70; hueco libre debajo", 1.9000, 2.9680, 2.5300, 3.9680, 0.6000, 1.2500],
+    ["11 Barra", "aparato", "B1 · Lavavasos Elettrobar FAST 40, cesta 40 × 40 (bajo la vitrina V2)", 1.9900, 2.2980, 2.5300, 2.7380, 0.0000, 0.6700],
     ["11 Barra", "aparato", "B3 · Caja: tablet sobre soporte (lo único que queda en el mostrador)", 2.0500, 4.1680, 2.2500, 4.4180, 0.9400, 1.1900],
     ["11 Barra", "madera", "Tabla de P2", 0.5100, 1.6210, 1.2900, 2.0110, 0.9000, 0.9400],
     ["11 Barra", "inox", "B4 · Columna de cerveza en T de 3 grifos, bandeja 40 × 40, sobre la tabla de P2", 0.7900, 1.7010, 1.1900, 2.1010, 0.9400, 1.4900],
@@ -314,8 +340,8 @@ module Local3D
     ["12 Sala", "silla", "M11 · silla 2 · respaldo", 6.8200, 7.1870, 7.2400, 7.2370, 0.4500, 0.8800],
     ["12 Sala", "sillon", "Sillón corrido · asiento", 2.5300, 8.3570, 7.4000, 8.9570, 0.0000, 0.4200],
     ["12 Sala", "sillon", "Sillón corrido · respaldo", 2.5300, 8.8570, 7.4000, 8.9570, 0.4200, 1.0500],
-    ["13 Instalaciones", "luz", "Aplique 1", 0.2500, 5.6500, 0.3700, 5.8500, 1.8000, 2.1000],
-    ["13 Instalaciones", "luz", "Aplique 2", 0.2500, 6.3500, 0.3700, 6.5500, 1.8000, 2.1000],
+    ["13 Instalaciones", "luz", "Aplique 1", 0.2500, 5.6500, 0.3700, 5.8500, 1.9500, 2.2500],
+    ["13 Instalaciones", "luz", "Aplique 2", 0.2500, 6.3500, 0.3700, 6.5500, 1.9500, 2.2500],
     ["13 Instalaciones", "aire", "AC1 · Cassette de techo 4 vias + rejilla", 4.5250, 3.2250, 5.4750, 4.1750, 2.0600, 2.3100],
     ["13 Instalaciones", "aire", "AC1 · rejilla de retorno", 4.5500, 4.2350, 5.4500, 4.7350, 2.2500, 2.3100],
     ["13 Instalaciones", "aire", "AC2 · Cassette de techo 4 vias + rejilla", 8.4750, 2.1250, 9.4250, 3.0750, 2.0600, 2.3100],
@@ -329,9 +355,9 @@ module Local3D
     ["14 Planta alta", "tabique", "Puerta aseo · dintel", 3.0890, 7.5090, 3.8490, 7.6070, 4.6600, 5.0600],
     ["14 Planta alta", "madera", "Puerta aseo · hoja", 3.0890, 7.5290, 3.8490, 7.5690, 2.5600, 4.6600],
     ["14 Planta alta", "tabique", "Puerta inodoro · dintel", 4.4610, 8.2080, 4.5600, 8.9570, 4.6600, 5.0600],
-    ["14 Planta alta", "madera", "Puerta inodoro · hoja", 4.4810, 8.2080, 4.5210, 9.0080, 2.5600, 4.6600],
+    ["14 Planta alta", "madera", "Puerta inodoro · hoja", 4.4810, 8.2080, 4.5210, 8.9570, 2.5600, 4.6600],
     ["14 Planta alta", "tabique", "Puerta almacen · dintel", 7.4080, 8.0720, 7.5110, 8.9570, 4.6600, 5.0600],
-    ["14 Planta alta", "madera", "Puerta almacen · hoja", 7.4280, 8.0720, 7.4680, 9.0120, 2.5600, 4.6600],
+    ["14 Planta alta", "madera", "Puerta almacen · hoja", 7.4280, 8.0720, 7.4680, 8.9570, 2.5600, 4.6600],
     ["14 Planta alta", "vidrio", "Borde Oeste del vacio", 2.4110, 3.9880, 2.4610, 7.5090, 2.5600, 3.5600],
     ["14 Planta alta", "vidrio", "Borde Sur del vacio", 2.4110, 3.9390, 8.7590, 3.9880, 2.5600, 3.5600],
     ["14 Planta alta", "vidrio", "Caja de escalera", 8.7590, 3.9390, 8.8110, 7.7380, 2.5600, 3.5600],
@@ -433,7 +459,7 @@ module Local3D
 
   # --- cilindros: [capa, material, nombre, cx, cy, r, z0, z1]
   CILINDROS = [
-    ["11 Barra", "inox", "B2 · Barriles de cerveza de 30 L, Ø 0,32 (debajo de la tabla de P2)", 0.9100, 1.8160, 0.1600, 0.0000, 0.6000],
+    ["11 Barra", "inox", "B2 · Barriles de cerveza de 30 L, Ø 0,32 (debajo de la tabla de P2)", 0.9100, 1.8160, 0.1600, 0.1300, 0.7300],
     ["13 Instalaciones", "luz", "Empotrado 1", 1.1000, 4.6000, 0.0450, 2.2900, 2.3100],
     ["13 Instalaciones", "luz", "Empotrado 2", 2.6000, 4.6000, 0.0450, 2.2900, 2.3100],
     ["13 Instalaciones", "luz", "Empotrado 3", 4.1000, 4.6000, 0.0450, 2.2900, 2.3100],
@@ -447,12 +473,12 @@ module Local3D
     ["13 Instalaciones", "luz", "Empotrado 11", 2.6000, 8.5000, 0.0450, 2.2900, 2.3100],
     ["13 Instalaciones", "luz", "Empotrado 12", 4.1000, 8.5000, 0.0450, 2.2900, 2.3100],
     ["13 Instalaciones", "luz", "Empotrado 13", 8.6000, 8.5000, 0.0450, 2.2900, 2.3100],
-    ["13 Instalaciones", "luz", "Colgante 1", 2.0400, 2.2800, 0.1300, 2.2000, 2.4200],
-    ["13 Instalaciones", "luz", "Colgante 2", 2.0400, 3.5800, 0.1300, 2.2000, 2.4200],
-    ["13 Instalaciones", "luz", "Colgante 3", 4.6000, 3.2000, 0.1300, 2.2000, 2.4200],
-    ["13 Instalaciones", "luz", "Colgante 4", 7.6000, 3.2000, 0.1300, 2.2000, 2.4200],
-    ["13 Instalaciones", "luz", "Colgante 5", 7.3000, 0.9500, 0.1300, 2.2000, 2.4200],
-    ["13 Instalaciones", "luz", "Colgante 6", 8.9000, 0.9500, 0.1300, 2.2000, 2.4200],
+    ["13 Instalaciones", "luz", "Colgante 1", 2.0400, 2.2800, 0.1300, 1.9000, 2.1200],
+    ["13 Instalaciones", "luz", "Colgante 2", 2.0400, 3.5800, 0.1300, 1.9000, 2.1200],
+    ["13 Instalaciones", "luz", "Colgante 3", 4.6000, 3.2000, 0.1300, 1.9000, 2.1200],
+    ["13 Instalaciones", "luz", "Colgante 4", 7.6000, 3.2000, 0.1300, 1.9000, 2.1200],
+    ["13 Instalaciones", "luz", "Colgante 5", 7.3000, 0.9500, 0.1300, 1.9000, 2.1200],
+    ["13 Instalaciones", "luz", "Colgante 6", 8.9000, 0.9500, 0.1300, 1.9000, 2.1200],
     ["14 Planta alta", "mesa", "R1 · tablero", 7.5400, 5.4300, 0.6000, 3.2700, 3.3100],
     ["14 Planta alta", "silla", "R1 · pie", 7.5400, 5.4300, 0.0600, 2.5600, 3.2700],
     ["14 Planta alta", "silla", "R1 · base", 7.5400, 5.4300, 0.2200, 2.5600, 2.5800],

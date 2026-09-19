@@ -429,6 +429,15 @@ vez en la cabecera del `.rb`, cada una con su origen (medida, estandar o
 SUPUESTA). Las supuestas son el canto del forjado (0,250), el intrados de la
 viga P1b (2,100), el alto del zocalo del ventanal (0,450) y el sillon.
 
+**Conflictos que el 3D deja a la vista.** Son del proyecto, no del modelo, y
+por eso no se arreglan inventando: van listados en la cabecera del `.rb`. Los
+importantes: el vidrio de la pared en L corona en 2,570 y el forjado arranca
+en 2,310 (ya estaba en COMPROBAR); la viga P1b muere en el aire al haberse
+movido la pared en L a y=5,357; el lavavajillas K6 es mas alto y mas hondo que
+el fregadero K7 bajo el que va; el lavavasos B1 (0,670) no cabe en el hueco de
+0,600 de la vitrina; las vitrinas de 0,70 vuelan sobre un mostrador de 0,63; y
+el machon P4 deja la escalera en 0,878 de ancho libre en vez de 1,079.
+
 `MODELO_3D_vista.png` y `MODELO_3D_vista_alta.png` son dos axonometrias de
 control, con los muros cortados para ver cada planta por dentro. Las genera
 `vista_3d.py` leyendo el mismo generador (no son renders, son un dibujo de
