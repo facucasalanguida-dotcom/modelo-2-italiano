@@ -193,8 +193,10 @@ def detalle_barra(ox, oy):
     hy0, hy1 = pos['A4'][1], pos['A3'][0]
     L.texto('rotulos', tx1 - 0.14, (hy0 + hy1) / 2,
             f'libre {_fmt(hy1 - hy0)}', 1.6, 'middle', ENCIMERA, 'bold', rot=-90)
-    # encimera corrida y estante mural sobre los aparatos
-    L.rect('encimera', tx0, ty0, tx1, ty1, 'none', ENCIMERA, 'corte')
+    # encimera corrida: llega hasta el fregadero A4, que es de pie y
+    # sustituye ese tramo de mesada
+    y_enc0 = pos['A4'][1]
+    L.rect('encimera', tx0, y_enc0, tx1, ty1, 'none', ENCIMERA, 'corte')
     es = Q.ESTANTE
     ey1 = ty1 - (ty1 - ty0 - Q.ESTANTE_LARGO) / 2
     L.rect('proyeccion', tx0, ey1 - Q.ESTANTE_LARGO, tx0 + es['f'], ey1, 'none',
@@ -206,8 +208,8 @@ def detalle_barra(ox, oy):
     L.texto('rotulos', tx0 + 0.08, ty1 - 0.50,
             f"A6 ESTANTE  {Q.ESTANTE_N} × {_fmt(es['a'])} × {_fmt(es['f'])}", 1.6,
             'middle', ENCIMERA, 'bold', rot=-90)
-    L.texto('rotulos', tx1 + 0.06, (ty0 + ty1) / 2 + 0.75,
-            f"MESADA ÚNICA  {_fmt(ty1 - ty0)} × {_fmt(Q.MESADA_FONDO)}", 1.9,
+    L.texto('rotulos', tx1 + 0.06, (y_enc0 + ty1) / 2,
+            f"MESADA A MEDIDA  {_fmt(ty1 - y_enc0)} × {_fmt(Q.MESADA_FONDO)}", 1.9,
             'middle', ENCIMERA, 'bold', rot=-90)
 
     # --- mostrador delantero: vitrinas y tabla de madera
@@ -321,7 +323,11 @@ def lamina():
            f"{_fmt(Q.SUMA_OESTE)} de aparatos en los {_fmt(Q.LARGO_OESTE)} que hay hasta P1.",
            'Trasbarra nueva del 19 set.: mesada corrida de 0,60',
            'entre P1 y P2, con estante encima; la nevera A5 va',
-           'bajo el hueco libre y nada bajo el fregadero A4.'],
+           'bajo el hueco libre y nada bajo el fregadero A4.',
+           'Alturas por confirmar: A4 y A5 miden 0,85 y la',
+           'encimera va a 0,90, con 5 cm de desnivel en A4 y 1-2',
+           'de holgura sobre A5. La altura libre que pide A3 para',
+           'llenar la cuba no consta: medirla antes de colgar A6.'],
           [(MUEBLE, TINTA, 'Bancada o mueble bajo'),
            (FRIO, '#3d5c6e', 'Equipo refrigerado'),
            ('none', ENCIMERA, 'Encimera o tabla corrida'),

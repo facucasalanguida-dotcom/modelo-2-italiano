@@ -21,11 +21,11 @@ enlaces clicables.
 | K9 | Armario refrigerado vertical Edenox APS-451 I, inox, 1 puerta, 395 L | 0,63 × 0,74 × 1,86 | Cocina · muro Oeste, vertical, contra P1 | [makro.es](https://www.makro.es/marketplace/product/2e636462-1801-45f6-a3d8-15413909cb8c) |
 | K10 | Mesa refrigerada Infrico 4 puertas, AISI-304, peto 100 mm, -2/+8 ºC, 530 L | 2,54 × 0,60 × 0,85 | Cocina · pared en L, de una pieza, pegada al doblez; 0,33 libres junto a la cocción | [makro.es](https://www.makro.es/marketplace/product/764bc52f-1287-4e08-89dc-c2e453dfea49) |
 | A1 | Cafetera (comprada), 2 grupos | 1,00 × 0,60 × 0,50 | Barra · trasbarra, sobre la mesada, pegada a P1 (extremo Norte) | ya comprado / medida promedio |
-| A2 | Molinillo de café Cunill TRANQUILO de ABC, 275 W, tolva 0,5 kg | 0,17 × 0,34 × 0,41 | Barra · trasbarra, en el hueco de 0,20 a la derecha de la cafetera | [makro.es](https://www.makro.es/marketplace/product/f2df0f65-b185-40b2-b2e2-2cd42fb2eefd) |
+| A2 | Molinillo de café Cunil TRANQUILO de ABC, 275 W, tolva 0,5 kg | 0,17 × 0,34 × 0,41 | Barra · trasbarra, en el hueco de 0,20 a la derecha de la cafetera | [makro.es](https://www.makro.es/marketplace/product/f2df0f65-b185-40b2-b2e2-2cd42fb2eefd) |
 | A3 | Máquina de helado y crema fría Bras B-CREAM1HD, 6 L, italiana | 0,20 × 0,49 × 0,62 | Barra · trasbarra, sobre la mesada, a la derecha del molinillo | [makro.es](https://www.makro.es/marketplace/product/e4ddc7ec-739d-4b14-968b-1d230076b476) |
-| A4 | Fregadero 1 seno con estante, 600 × 600 × 850, inox | 0,60 × 0,60 × 0,85 | Barra · trasbarra, sobre la mesada, pegado a P2 (extremo Sur); debajo, nada | [makro.es](https://www.makro.es/marketplace/product/31bf0e3c-d322-4e34-a968-9bd9ace2024d) |
+| A4 | Fregadero de pie 1 seno con estante y bastidor, 600 × 600 × 850 | 0,60 × 0,60 × 0,85 | Barra · trasbarra, de pie contra P2 (extremo Sur); sustituye ese tramo de mesada | [makro.es](https://www.makro.es/marketplace/product/31bf0e3c-d322-4e34-a968-9bd9ace2024d) |
 | A5 | Botellero frigorífico BTL1000, 2 puertas correderas, 240 L | 1,04 × 0,58 × 0,85 | Barra · trasbarra, debajo de la mesada, bajo el hueco libre | [makro.es](https://www.makro.es/marketplace/product/77c7b69b-09e0-4c28-878e-9454ffff60ec) |
-| A6 | Estante mural con cartelas Fricosmos 011410, 1250 × 400 × 245 (2 piezas hacen 2,50) | 1,25 × 0,40 × 0,24 | Barra · trasbarra, estante mural sobre la mesada (2 piezas, 2,50 en total) | [makro.es](https://www.makro.es/marketplace/product/8af91e42-ebf3-4239-8e01-9b6b82b73120) |
+| A6 | Estante mural cartelas compacto Fricosmos 011410, 1250 × 400 × 245 (2 piezas hacen 2,50) | 1,25 × 0,40 × 0,24 | Barra · trasbarra, estante mural sobre la mesada (2 piezas, 2,50 en total) | [makro.es](https://www.makro.es/marketplace/product/8af91e42-ebf3-4239-8e01-9b6b82b73120) |
 | V2 | Vitrina refrigerada (comprada), 1,00 × 0,70; debajo, lavavasos | 1,00 × 0,70 × 1,25 | Barra · mostrador delantero, junto al zócalo del ventanal (Sur); lavavasos debajo | ya comprado / medida promedio |
 | V1 | Vitrina refrigerada (comprada), 1,00 × 0,70; hueco libre debajo | 1,00 × 0,70 × 1,25 | Barra · mostrador delantero, al Norte de V2 | ya comprado / medida promedio |
 | B1 | Lavavasos Elettrobar FAST 40, cesta 40 × 40 (bajo la vitrina V2) | 0,44 × 0,54 × 0,67 | Barra · bajo la vitrina V2 | [makro.es](https://www.makro.es/marketplace/product/e858e346-8373-4e64-aa03-6f9a559e168e) |
@@ -60,7 +60,7 @@ Mismas fuentes y mismas reservas que la tabla anterior.
 ## A medida, no se compran en Makro
 
 - Bancada de apoyo de la línea de cocción, dentro del hundimiento: 2,18 × 0,60, acero inoxidable.
-- Mesada única de la trasbarra, de P1 a P2: 2,75 × 0,60.
+- Mesada de la trasbarra, de P1 al fregadero A4: 2,15 × 0,60 (el fregadero A4, de pie, hace los otros 0,60).
 - Hueco de 0,20 para el molinillo A2 y los utensilios, a la derecha de la cafetera.
 - Barra de madera del mostrador delantero: 0,79 × 0,76.
 - Tabla de P2 al muro: 0,78 × 0,39 (chopera B4 encima, barril B2 debajo).

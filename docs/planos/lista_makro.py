@@ -29,7 +29,7 @@ UBICACION = {
     'A1': 'Barra · trasbarra, sobre la mesada, pegada a P1 (extremo Norte)',
     'A2': 'Barra · trasbarra, en el hueco de 0,20 a la derecha de la cafetera',
     'A3': 'Barra · trasbarra, sobre la mesada, a la derecha del molinillo',
-    'A4': 'Barra · trasbarra, sobre la mesada, pegado a P2 (extremo Sur); debajo, nada',
+    'A4': 'Barra · trasbarra, de pie contra P2 (extremo Sur); sustituye ese tramo de mesada',
     'A5': 'Barra · trasbarra, debajo de la mesada, bajo el hueco libre',
     'A6': 'Barra · trasbarra, estante mural sobre la mesada (2 piezas, 2,50 en total)',
     'V2': 'Barra · mostrador delantero, junto al zócalo del ventanal (Sur); lavavasos debajo',
@@ -117,8 +117,9 @@ A_MEDIDA = [
     f"Bancada de apoyo de la línea de cocción, dentro del hundimiento: "
     f"{fmt(Q.BANCADA_COCCION['x1'] - Q.BANCADA_COCCION['x0'])} × "
     f"{fmt(Q.BANCADA_COCCION['y1'] - Q.BANCADA_COCCION['y0'])}, acero inoxidable.",
-    f"Mesada única de la trasbarra, de P1 a P2: "
-    f"{fmt(Q.TRASBARRA_Y[1] - Q.TRASBARRA_Y[0])} × {fmt(Q.MESADA_FONDO)}.",
+    f"Mesada de la trasbarra, de P1 al fregadero A4: "
+    f"{fmt(Q.TRASBARRA_Y[1] - Q.TRASBARRA_Y[0] - Q.FREGADERO_BARRA['a'])} × "
+    f"{fmt(Q.MESADA_FONDO)} (el fregadero A4, de pie, hace los otros 0,60).",
     f"Hueco de {fmt(Q.HUECO_MOLINILLOS)} para el molinillo A2 y los utensilios, "
     'a la derecha de la cafetera.',
     'Barra de madera del mostrador delantero: '

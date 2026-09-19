@@ -134,22 +134,24 @@ MESADA_FONDO = TRASBARRA_X[1] - TRASBARRA_X[0]
 # utensilios, asi que se dibuja dentro de el.
 TRASBARRA = [
     P('A1', 'Cafetera (comprada), 2 grupos', 1.000, 0.600, 0.500),
-    P('A2', 'Molinillo de café Cunill TRANQUILO de ABC, 275 W, tolva 0,5 kg',
+    P('A2', 'Molinillo de café Cunil TRANQUILO de ABC, 275 W, tolva 0,5 kg',
       0.170, 0.340, 0.410, 'f2df0f65-b185-40b2-b2e2-2cd42fb2eefd'),
     P('A3', 'Máquina de helado y crema fría Bras B-CREAM1HD, 6 L, italiana',
       0.200, 0.490, 0.620, 'e4ddc7ec-739d-4b14-968b-1d230076b476'),
 ]
 HUECO_MOLINILLOS = 0.200                   # hueco pedido por el cliente
 TRASBARRA[1]['hueco'] = HUECO_MOLINILLOS
-FREGADERO_BARRA = P('A4', 'Fregadero 1 seno con estante, 600 × 600 × 850, inox',
+# El A4 no apoya sobre la mesada: es un fregadero de pie con bastidor y
+# estante que sustituye ese tramo de mesada. Su alto de 0,85 es del suelo.
+FREGADERO_BARRA = P('A4', 'Fregadero de pie 1 seno con estante y bastidor, 600 × 600 × 850',
                     0.600, 0.600, 0.850,
                     '31bf0e3c-d322-4e34-a968-9bd9ace2024d')
 NEVERA_BARRA = P('A5', 'Botellero frigorífico BTL1000, 2 puertas correderas, 240 L',
                  1.040, 0.580, 0.850,
                  '77c7b69b-09e0-4c28-878e-9454ffff60ec')
 # Dos piezas iguales hacen el estante corrido de 2,50 sobre la mesada.
-ESTANTE = P('A6', 'Estante mural con cartelas Fricosmos 011410, 1250 × 400 × 245 '
-                  '(2 piezas hacen 2,50)', 1.250, 0.400, 0.245,
+ESTANTE = P('A6', 'Estante mural cartelas compacto Fricosmos 011410, 1250 × 400 × '
+                  '245 (2 piezas hacen 2,50)', 1.250, 0.400, 0.245,
             '8af91e42-ebf3-4239-8e01-9b6b82b73120')
 ESTANTE_N = 2
 ESTANTE_LARGO = ESTANTE['a'] * ESTANTE_N
