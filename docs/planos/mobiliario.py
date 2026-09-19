@@ -2,18 +2,21 @@
 """
 MOBILIARIO DE SALA — medidas en metros.
 
-Mesas con medidas promedio de hosteleria (el cliente no pidio buscarlas):
+Mesas de sala segun el encargo del cliente del 19 set.: TODAS dobles de
+0,70 x 0,70 para dos comensales, porque el personal las junta cuando hace
+falta una de cuatro. En planta alta se mantienen la mesa de cowork y la
+redonda de seis que el cliente pidio antes.
+
     doble      0,70 x 0,70   2 comensales
-    cuadruple  1,20 x 0,70   4 comensales
-    cowork     2,40 x 1,00   8 puestos
-    redonda    diametro 0,80 4 puestos
+    cowork     2,40 x 1,00   8 puestos (planta alta)
+    redonda    diametro 1,20 6 puestos (planta alta)
 Silla 0,42 x 0,42, a 0,05 del canto de la mesa.
 
 Criterios de reparto: 1,00 m libre delante del mostrador; el paso de
 personal y el camino puerta-barra sin mesas; mesas contra el sillon corrido
 con las sillas solo por el lado Sur (el sillon hace de asiento por el Norte);
-1,30 entre cantos de mesas enfrentadas con sillas en medio; nada en el
-pasillo de acceso al bano.
+itinerario accesible de 1,20 continuo; nada en el barrido de la puerta ni en
+el vestibulo; ninguna mesa suelta fuera de una fila.
 """
 
 SILLA = 0.420
@@ -21,41 +24,47 @@ SEP = 0.050
 
 # (rotulo, tipo, x0, y0, x1, y1, sillas)   sillas: cadena con N S E W
 #
-# Accesibilidad (CTE DB-SUA): itinerario de 1,20 de ancho libre desde la puerta
-# a la barra, al bano y a una plaza de silla de ruedas, con giros de 1,50 en la
-# entrada y ante el bano. Para conseguirlo se retiran las dos mesas dobles (la
-# del ventanal, junto a la entrada, y la de junto a la caja de escalera), la
-# fila del ventanal baja 0,15 (1,26 entre sus sillas y las de la fila central),
-# la plaza de silla de ruedas va entre M1 y M2 (extremo Oeste de M2) y la mesa
-# central Este se corre 0,10 al Oeste (1,36 hasta la caja de escalera).
+# Distribucion del 19 set., con la estructura ya corregida:
+#   - Fila del ventanal Sur: las mesas arrancan en el zocalo (1,968). M1 y M2
+#     van "en vertical" (sillas al Norte y al Sur) como pidio el cliente: M1
+#     entre la barra y P5, con la plaza de silla de ruedas por el Norte, y M2
+#     en el hueco de 1,31 que queda entre P5 y el vestibulo. M3 va girada
+#     (sillas al Este y al Oeste): en vertical su silla Norte se comeria el
+#     itinerario accesible, que aqui solo tiene 2,72 entre el zocalo y P3.
+#   - Fila central bajo el forjado: M5, M6 y M4 al Oeste de P3 (M4 pegada a
+#     su cara Oeste) y M7 al Este, entre P3 y el itinerario del bano.
+#   - Fila del sillon corrido: cinco mesas de 0,70 a 0,29 entre si, con el
+#     sillon de asiento por el Norte y una silla por el Sur.
+# La plaza de silla de ruedas ocupa el lado Norte de M1, al que se llega
+# desde el ramal del itinerario que va a la barra.
 MESAS_PB = [
-    # fila del ventanal sur: 0,28 libres junto al vidrio, para dejar 1,21 entre
-    # sus sillas y el pilar P3 (itinerario accesible)
-    ('M1', 'cuadruple', 3.700, 2.310, 4.900, 3.010, 'NS'),
-    ('M2', 'cuadruple', 6.100, 2.310, 7.300, 3.010, 'NS'),   # 1,20 entre ambas: plaza PMR
-    # fila central bajo el forjado: las dos al Oeste de P3 (con el pilar a
-    # 2,35 de la caja de escalera no cabe mesa mas itinerario de 1,20 al Este)
-    ('M3', 'cuadruple', 2.740, 5.300, 3.940, 6.000, 'NS'),
-    ('M4', 'cuadruple', 4.210, 5.300, 5.410, 6.000, 'NS'),
-    # fila del sillon corrido: tres cuadruples, el sillon es el asiento del
-    # lado Norte; las de los extremos pegadas a la pared en L (0,03) y al
-    # tabique del bano (0,03), la central centrada entre ambas
-    ('M5', 'cuadruple', 2.500, 7.680, 3.700, 8.380, 'S'),
-    ('M6', 'cuadruple', 4.335, 7.680, 5.535, 8.380, 'S'),
-    ('M7', 'cuadruple', 6.170, 7.680, 7.370, 8.380, 'S'),
-]
+    ('M1', 'doble', 3.660, 2.488, 4.360, 3.188, 'S'),
+    ('M3', 'doble', 4.900, 2.488, 5.600, 3.188, 'EW'),
+    ('M2', 'doble', 6.650, 1.050, 7.350, 1.750, 'NS'),
+    ('M5', 'doble', 2.700, 5.380, 3.400, 6.080, 'NS'),
+    ('M6', 'doble', 3.840, 5.380, 4.540, 6.080, 'NS'),
+    ('M4', 'doble', 4.970, 5.380, 5.670, 6.080, 'NS'),
+    ('M7', 'doble', 6.500, 5.380, 7.200, 6.080, 'NS'),
+] + [(f'M{8 + i}', 'doble', round(2.705 + 0.990 * i, 3), 7.708,
+      round(2.705 + 0.990 * i + 0.700, 3), 8.408, 'S') for i in range(5)]
 
 # Itinerario accesible: tramos (metros), espacios de giro de 1,50, plaza de
-# silla de ruedas (extremo Oeste de M2, entre M1 y M2) y anchos que se acotan.
+# silla de ruedas (lado Norte de M1) y anchos que se acotan. El ramal a la
+# barra pasa a 0,60 de la cara Sur de P3 y sube 0,14 al Oeste del pilar, donde
+# lo que manda es la fila del ventanal.
 ACC_ITINERARIO = [
-    [(8.660, 0.550), (8.660, 2.120), (7.950, 3.000), (7.950, 7.100)],   # puerta - bano
-    [(7.950, 4.080), (3.100, 4.080)],                                    # ramal a la barra
+    [(8.300, 0.600), (8.300, 2.400), (7.870, 3.200), (7.870, 7.100)],
+    [(7.870, 4.080), (3.260, 4.080)],
 ]
 # giros: centro y posicion del rotulo (fuera del trazo del itinerario)
-ACC_GIROS = [((8.660, 2.120), (9.080, 2.360)), ((7.915, 6.780), (7.915, 6.320))]
-ACC_PMR = (4.900, 2.310, 6.100, 3.010)
+ACC_GIROS = [((8.550, 1.750), (9.200, 2.520)), ((7.870, 6.600), (7.870, 6.960))]
+ACC_PMR = (3.610, 3.238, 4.410, 4.438)
 # anchos que se acotan: tipo, posicion de la linea, extremos y sitio del texto
-ACC_ANCHOS = [('v', 6.250, 3.480, 4.688, 6.400, 4.360)]   # sillas de M2 - pilar P3 (punto mas estrecho)
+ACC_ANCHOS = [
+    ('v', 4.660, 3.188, 4.688, 4.800, 3.930),    # mesas del ventanal - P3
+    ('h', 5.730, 7.200, 8.650, 7.930, 5.840),    # M7 - caja de escalera
+    ('v', 3.560, 6.500, 7.238, 3.700, 6.870),    # sillas: fila central - sillon
+]
 
 # Planta alta: mesa grande de cowork y una redonda grande. La redonda que
 # quedaba al desembarco de la escalera se quita; la otra pasa a diametro

@@ -190,6 +190,114 @@ de referencia de la mesa refrigerada (METRO GCF3100BS, 179,5 x 70 x 85).
   (anotaciones anadidas con pymupdf tras exportar el SVG; cairosvg no las
   genera). Las cuatro laminas van en `Planos_Completos.pdf`.
 
+## Revision del 19 set. 2026 sobre el plano marcado en rojo y morado
+
+El cliente devolvio la lamina 01 con catorce cotas en rojo, un hundimiento en
+morado y un encargo nuevo para las mesas y la trasbarra. Las cotas se leyeron
+del PDF pixel a pixel (cada linea roja se localizo y se convirtio a
+coordenadas de obra), no a ojo.
+
+### Cadena Este-Oeste: cierra exacta
+
+    0,250 (cara interior del muro Oeste)
+      + 2,18  hundimiento de la medianera Norte      -> 2,430
+      + 0,13  pano de pared normal (deducido)        -> 2,560
+      + 0,10  pared en L                             -> 2,660
+      + 3,01  a P3                                   -> 5,670
+      + 0,65  P3                                     -> 6,320
+      + 2,33  a la caja de escalera                  -> 8,650
+      + 0,16  cerramiento de la escalera (deducido)  -> 8,811 = primer peldano
+
+Las cinco medidas del cliente cierran contra el primer peldano de la escalera
+con dos incognitas: el pano de pared entre el hundimiento y la pared en L
+(0,13, el "poco a su lado" que menciona) y el espesor del cerramiento de la
+escalera (0,16, coherente con los 2,33 de planta baja y los 2,50 que midio en
+el altillo hasta el peldano). **P3 no se mueve**: queda donde lo dejo la
+revision del 16 set.
+
+### Hundimiento de la medianera Norte
+
+El pano de 2,18 que va del muro Oeste hasta la pared en L esta **0,275 metido
+hacia el Norte**. Lo confirman las dos medidas del cliente: de la cara del
+hundimiento a la base de la pared en L hay 3,575 y del arranque de la pared en
+L (que apoya en el pano normal) 3,30; la diferencia es exactamente 0,275. La
+bancada de coccion y la campana se meten en ese hueco, como pidio el cliente.
+Con el espesor del levantamiento (0,148) la cara exterior se saldria del
+solar: en ese tramo la medianera es mas gruesa o hay un hueco detras, y asi
+queda anotado.
+
+### Zocalo del ventanal
+
+Los 2,72 de P3 al ventanal no eran al vidrio sino **al zocalo que hay en el
+suelo**: con P3 en 4,688 la cara interior del zocalo queda en 1,968, o sea
+**0,347 de fondo** contados desde el vidrio (0,10 por delante de la cara
+interior del muro del ventanal, que ya tiene 0,25). El ventanal no se mueve.
+La barra arranca en ese zocalo y mide los 2,79 medidos, con lo que termina
+justo en la cara Sur de P1 y deja 0,95 de paso de personal hasta la base de la
+pared en L.
+
+### Resto de cotas del cliente
+
+| Medida | Donde | Antes | Ahora |
+|---|---|---|---|
+| 2,18 | hundimiento de la medianera Norte | 2,12 | 2,18 |
+| 3,01 | pared en L a P3 | 3,20 | 3,01 |
+| 2,33 | P3 a la caja de escalera | 2,35 | 2,33 |
+| 3,23 | P3 a la medianera Norte | 3,25 | 3,25 (2 cm) |
+| 3,65 | P3 a P5 | 3,69 | 3,69 (4 cm) |
+| 2,72 | P3 al zocalo del ventanal | — | zocalo de 0,347 |
+| 2,79 | largo de la barra | 3,13 | 2,79 |
+| 1,65 | muro Oeste al arranque de la barra | 1,62 | 1,65 |
+| 1,31 | P5 a la jamba del vestibulo | 1,28 | 1,31 |
+| 2,23 | jamba del vestibulo al muro Este | 2,28 | 2,23 |
+| 2,06 | ancho de la puerta de entrada | 2,10 | 2,06 |
+
+Las de 3,23 y 3,65 se dejan como estaban: mueven P3 dos y cuatro centimetros
+en sentidos contrarios, asi que se mantiene la posicion que ya cerraba con las
+cuatro medidas del 16 set. La diferencia queda anotada en COMPROBAR EN OBRA.
+El "2,00" que marco junto al muro Este era la puerta: el cliente aclaro que
+son 2,06 de ancho y 1,00 de barrido.
+
+### Mesas: doce dobles de 0,70 x 0,70
+
+Todas las mesas pasan a ser dobles de 0,70 x 0,70, porque el personal las
+junta cuando hace falta una de cuatro. Reparto:
+
+- **Fila del ventanal.** M1 y M2 "en vertical" (sillas al Norte y al Sur) como
+  pidio el cliente: M1 entre la barra y P5, con la plaza de silla de ruedas
+  por el Norte; M2 en el hueco de 1,31 que queda entre P5 y el vestibulo,
+  aprovechando el escaparate sin pegarse al pilar. M3 va girada (sillas al
+  Este y al Oeste) porque en vertical su silla Norte se comeria el itinerario
+  accesible: entre el zocalo y P3 solo hay 2,72.
+- **Fila central.** M5, M6 y M4 al Oeste de P3, con **M4 pegada a su cara
+  Oeste** como pidio el cliente, y M7 al Este, entre P3 y el itinerario del
+  bano.
+- **Fila del sillon corrido.** Cinco mesas de 0,70 a 0,29 entre si, con el
+  sillon de asiento por el Norte.
+
+Doce mesas y 24 plazas sentadas. El itinerario accesible de 1,20 sigue
+entrando: 0,61 libres a cada lado del ramal que va a la barra, giro de Ø 1,50
+en la entrada y otro ante el bano (0,78 al cerramiento de la escalera).
+
+### Trasbarra nueva
+
+Mesada corrida de 0,60 de fondo en toda la pared entre P1 y P2 (2,75). Encima,
+de P1 hacia P2: cafetera de 1,00, hueco de 0,20 para el molinillo y los
+utensilios, la maquina de crema fria de cafe, 0,75 de hueco libre y, pegado a
+P2, un fregadero de 0,60. Debajo: nada bajo el fregadero y la nevera inox de
+1,04 bajo el hueco libre. Sobre los aparatos, estante mural corrido (dos
+piezas de 1,25). La chopera pasa a la tabla de P2, con el barril debajo, y en
+el mostrador solo queda la tablet de cobro. El exprimidor, el fabricador de
+hielo, el lavamanos y la licuadora se quedan **sin sitio** con esta
+distribucion: van listados aparte en la lamina 04 para que el cliente decida.
+
+### Aire acondicionado
+
+Se dibujan los dos cassettes de techo que se ven en las fotos del cliente
+(uno sobre la zona de mesas al Oeste de P5 y otro sobre el vestibulo), con
+panel estandar de 0,95 x 0,95 y rejilla de 0,90 x 0,50. El cliente pidio
+intuir las medidas; la posicion sale de las fotos y queda por medir.
+
 ## Comprobar en obra
 
 Las dos laminas llevan al pie un bloque **COMPROBAR EN OBRA** con los puntos

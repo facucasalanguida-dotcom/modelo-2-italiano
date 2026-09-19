@@ -46,9 +46,10 @@ ESC_N_HUELLAS, ESC_N_TABICAS = 16, 17
 ESC_HUELLA = (ESC_Y_ALTO - ESC_Y_PIE) / ESC_N_HUELLAS      # 0,2599
 ESC_TABICA = H_PA / ESC_N_TABICAS                          # 0,1506
 ESC_X0, ESC_X1 = 8.811, 9.890                              # ancho 1,079
-# Cerramiento de la escalera en planta baja: su cara Oeste esta a 2,35 de P3
-# (medida del cliente); en el altillo la barandilla queda en 8,759..8,811.
-CAJA_ESC_PB = ('Caja de escalera (planta baja)', 8.670, 3.939, 8.811, 7.738)
+# Cerramiento de la escalera en planta baja: su cara Oeste esta a 2,33 de P3
+# (medida del cliente, 19 set.); en el altillo la barandilla queda en
+# 8,759..8,811. El espesor de 0,161 es lo que cierra la cadena Este-Oeste.
+CAJA_ESC_PB = ('Caja de escalera (planta baja)', 8.650, 3.939, 8.811, 7.738)
 
 # ------------------------------------------------------- contorno del solar
 PERIMETRO = [(0.000, 9.156), (10.040, 9.156), (10.040, 0.330),
@@ -58,7 +59,11 @@ PERIMETRO = [(0.000, 9.156), (10.040, 9.156), (10.040, 0.330),
 # ------------------------------------------------------------------- muros
 # (nombre, x0, y0, x1, y1, espesor_nominal)
 MUROS = [
-    ('Medianera Norte',            0.000, 9.008, 10.040, 9.156, 0.148),
+    ('Medianera Norte',            2.430, 9.008, 10.040, 9.156, 0.148),
+    ('Medianera Norte - jamba O',  0.000, 9.008,  0.250, 9.156, 0.148),
+    # tramo del hundimiento: en planta baja se dibuja retranqueado 0,275
+    # (ver HUNDIMIENTO); en planta alta se dibuja seguido.
+    ('Medianera Norte - hundimiento', 0.250, 9.008, 2.430, 9.156, 0.148),
     ('Muro Oeste',                 0.000, 2.009,  0.250, 9.008, 0.250),
     ('Muro Oeste - esquina SO',    0.000, 1.561,  0.510, 2.009, 0.448),
     ('Muro Sur (con ventanal)',    0.510, 1.561,  5.980, 1.810, 0.249),
@@ -67,8 +72,18 @@ MUROS = [
     ('Medianera Este - cuello',    9.710, 0.330, 10.040, 1.429, 0.330),
 ]
 
+# HUNDIMIENTO de la medianera Norte en la cocina (medido por el cliente el 19
+# set.): el pano de 2,18 que va del muro Oeste hasta poco antes de la pared en
+# L esta 0,275 metido hacia el Norte. Las dos medidas del cliente lo confirman:
+# de la cara del hundimiento a la base de la pared en L hay 3,575 y del arranque
+# de la pared en L (que apoya en el pano normal, 0,13 mas al Este) 3,30; la
+# diferencia es justo 0,275. Con el espesor que da el levantamiento (0,148) la
+# cara exterior se saldria del solar: en ese tramo la medianera es mas gruesa o
+# hay un hueco detras. Se dibuja lo medido y queda en COMPROBAR.
+HUNDIMIENTO = dict(x0=0.250, x1=2.430, y0=9.008, y1=9.283, p=0.275, largo=2.180)
+
 # Trasdosado de 0,10 m bajo el forjado (solo planta baja, no llega a cubierta)
-TRASDOSADO = ('Trasdosado Norte', 2.459, 8.907, 9.890, 9.008)
+TRASDOSADO = ('Trasdosado Norte', 2.660, 8.907, 9.890, 9.008)
 
 # -------------------------------------------------- pilares y machones (PB)
 # (rotulo, nombre, x0, y0, x1, y1)
@@ -100,13 +115,15 @@ PILARES_PA = ['P3', 'P4', 'P5']
 VIGA = ('Viga P1b', 0.550, 4.933, 2.380, 5.183)
 
 # ------------------------------------------- pared en L de apoyo del vidrio
-# Estructura nueva: tramo largo de 3,60 paralelo al muro Oeste, a 2,22 m de
-# su cara interior, y doblez de 0,74 hacia el Oeste en su extremo Sur.
+# Estructura nueva. Medidas del cliente del 19 set.: la pared arranca en la
+# medianera Norte (en el pano sin hundir, 0,13 al Este del hundimiento) y mide
+# 3,30 de largo, con el doblez de 0,74 hacia el Oeste en su extremo Sur.
+# Su cara Este queda a 3,01 de P3, que es lo que fija su posicion en X.
 # Sostiene el panel de vidrio de 1,35 m de alto. Espesor sin medir.
 PARED_L_E   = 0.100                     # espesor supuesto, comprobar
-PARED_L_X   = 0.250 + 2.220             # cara Este del tramo largo = 2,470
-PARED_L_LARGO = 9.008 - 5.350           # croquis del 15/09: termina en y=5,35 (3,66)
-PARED_L_LAR = ('Tramo largo 3,66',
+PARED_L_X   = 2.660                     # cara Este = 3,01 hasta P3 (medido)
+PARED_L_LARGO = 3.300                   # medido el 19 set.: termina en y=5,708
+PARED_L_LAR = ('Tramo largo 3,30',
                PARED_L_X - PARED_L_E, 9.008 - PARED_L_LARGO, PARED_L_X, 9.008)
 PARED_L_DOB = ('Doblez 0,74',
                PARED_L_X - 0.740, 9.008 - PARED_L_LARGO, PARED_L_X,
@@ -152,9 +169,11 @@ VENTANAL_SUR = dict(y=1.561, e=0.060, panos=[(0.510, 1.290), (1.870, 5.870)],
 # ancho y barre 1,00 hacia el vestibulo; va pegada a P5.
 ESCAPARATE = dict(x0=6.331, x1=9.710, y=0.370, e=0.049)
 # La puerta va a la DERECHA (contra la medianera Este) y el escaparate a la
-# izquierda, pegado a P5. Croquis del cliente del 15/09.
-PUERTA_ACCESO = dict(x0=7.610, x1=9.710, y=0.370, ancho=2.100, barrido=1.000,
+# izquierda, pegado a P5. Medidas del cliente del 19 set.: 1,31 de P5 a la
+# jamba del vestibulo, 2,06 de ancho de puerta y 1,00 de fondo de vestibulo.
+PUERTA_ACCESO = dict(x0=7.641, x1=9.701, y=0.370, ancho=2.060, barrido=1.000,
                      alto=2.100, hojas=2)
+VESTIBULO = dict(x0=7.641, x1=9.890, y0=0.370, y1=1.429, fondo=1.059)
 
 # ------------------------------------------------ puntos de luz en el techo
 # Empotrados del techo bajo (intrados 2,70) tomados del proyecto de reforma.
@@ -170,12 +189,34 @@ APLIQUES = [(0.31, 5.75), (0.31, 6.45)]
 # ------------------------------------------- reservas de espacio (no estructura)
 # El cliente marca donde van tres cosas. No son estructura: se grafian como
 # reserva, con linea de trazos, para que el plano siga siendo estructural.
-# Croquis del 15/09 (segundo): la barra sube hasta y=4,75, el paso de personal
-# de 0,60 queda entre la barra y el final de la pared en L, y la pared termina
-# en 5,35 con el doblez ahi.
-PASO_PERS  = dict(x=2.470, y0=4.750, y1=5.350, medido=0.600)
-BARRA      = dict(x=2.470, y0=1.621, y1=4.750, largo=4.750 - 1.621)   # desde la cara interior del vidrio
-SILLON     = dict(x0=2.470, x1=2.470 + 4.890, y=9.008, fondo=0.600, largo=4.890)
+# Medidas del cliente del 19 set.: del muro Oeste al arranque de la barra hay
+# 1,65, la barra mide 2,79 de largo y arranca en el zocalo del ventanal. Con
+# eso termina justo en la cara Sur de P1 y su frente cae en la linea de la
+# pared en L, de donde sale el fondo de 0,76. El paso de personal que queda
+# entre el final de la barra y la base de la pared en L es de 0,95.
+BARRA      = dict(x0=1.900, x1=PARED_L_X, y0=1.968, y1=4.759,
+                  largo=4.759 - 1.968, fondo=PARED_L_X - 1.900, medido=2.790)
+PASO_PERS  = dict(x0=BARRA['x0'], x1=PARED_L_X, y0=4.759,
+                  y1=9.008 - PARED_L_LARGO, medido=0.949)
+SILLON     = dict(x0=PARED_L_X, x1=7.400, y=9.008, fondo=0.600,
+                  largo=7.400 - PARED_L_X)
+
+# Zocalo de piedra del ventanal Sur: el cliente mide 2,72 de la cara Sur de P3
+# a su cara interior, lo que le da 0,347 de fondo desde el vidrio (0,10 por
+# delante de la cara interior del muro del ventanal). Alto H_ZOCALO.
+ZOCALO_SUR = dict(x0=0.510, x1=5.870, y0=1.621, y1=1.968, fondo=0.347)
+
+# ------------------------------------------------- aire acondicionado (techo)
+# Dos cassettes de techo con su rejilla de retorno al lado, en las fotos que
+# mando el cliente el 19 set.: uno sobre la zona de mesas al Oeste de P5 y otro
+# sobre el vestibulo de acceso. El cliente pidio intuir las medidas: se dibuja
+# el panel estandar de 0,95 x 0,95 y una rejilla de 0,90 x 0,50. Posicion
+# aproximada, tomada de las fotos; falta medirla en obra.
+AIRE = [
+    ('AC1', 'Cassette de techo 4 vias + rejilla', 5.00, 3.70, 0.95, 0.95),
+    ('AC2', 'Cassette de techo 4 vias + rejilla', 8.95, 2.60, 0.95, 0.95),
+]
+AIRE_REJILLA = (0.90, 0.50)
 
 # ------------------------------------------------------ bano de planta baja
 # Nuevo, croquis del cliente del 15/09: rincon NE, entre la medianera Norte,
@@ -190,9 +231,9 @@ BANO_TABIQUES = [
 BANO_PUERTA = dict(x0=7.770, x1=8.470, y=7.730, ancho=0.700, bisagra='E')
 
 # --------------------------------------------------------------- superficies
-SUP_PB_UTIL   = 75.63     # m2 dentro de muros, planta baja
+SUP_PB_UTIL   = 76.23     # m2 dentro de muros, planta baja (con el hundimiento)
 SUP_FORJADO   = 33.74     # m2 de forjado de planta alta
-SUP_DOBLE_ALT = 37.80     # m2 de vacio a doble altura
+SUP_DOBLE_ALT = 38.40     # m2 de vacio a doble altura
 SUP_SOLAR     = 81.72     # m2 dentro del contorno exterior
 RECINTOS_PA = [('Aseo (lavabo + inodoro)', 3.92), ('Almacen', 2.59),
                ('Paso / rellano', 3.33), ('Altillo diafano', 26.17)]
@@ -202,22 +243,22 @@ RECINTOS_PA = [('Aseo (lavabo + inodoro)', 3.92), ('Almacen', 2.59),
 # levantamiento, o que el levantamiento no recoge. Se dibuja el levantamiento
 # (es la unica fuente acotada) y se listan aqui para medir en obra.
 COMPROBAR = [
-    'Pared en L: en el segundo croquis termina en y=5,35 (3,66 m) y la barra '
-    'sube hasta 4,75 con el paso de 0,60 entre ambas. Antes se midió 4,22.',
+    'Hundimiento de la medianera Norte: 0,275 de fondo en los 2,18 de la cocina. '
+    'Supera el espesor dibujado (0,148): medir ese cerramiento y lo que hay detrás.',
     'Canto del forjado del altillo. Con 2,56 m de suelo a suelo, la altura '
     'libre de planta baja es 2,56 menos ese canto, no los 2,70 supuestos.',
     'P1b se dibuja como viga (1,83 × 0,25) y no como pilar: si fuera macizo '
     'hasta el suelo, la cocina no tendría entrada. Medir su intradós.',
-    'Baño nuevo: tabiques de 0,10 y puerta de 0,70 tomados del croquis, sin '
-    'medir. Comprobar que la puerta abre hacia dentro sin chocar.',
-    'P3 con las medidas de obra: 3,20 desde la pared en L, 3,25 a la medianera Norte, '
-    '0,70 a la barandilla del altillo y 2,35 a la caja de escalera en planta baja.',
-    'Caja de escalera: en baja su cara Oeste queda a 2,35 de P3 (0,14 de espesor en '
-    'plano) y en alta a 2,44 (2,49 al peldaño, medido 2,50). Medir ese cerramiento.',
-    'Pasillo de cocina: 0,78 m frente a los frigoríficos (0,74 de fondo) y '
-    'hasta 0,92 en el resto. Por debajo de 0,90 con permiso del cliente.',
-    'Escalera: tabica 2,56/17 = 0,151. El cliente midió 1,90 de P3 al tabique del aseo '
-    '(plano 1,75) y, en baja, 2,94 de la pared en L a P3 (en alta 3,20; plano 3,20).',
-    'Máquinas: medidas de makro.es. Confirmar que el ST500 (0,83 ó 0,86 de alto según '
-    'su ficha) cabe bajo el escurridor de K7 (0,85) y el alto de la columna B4 (0,55).',
+    'Zócalo del ventanal: 0,347 de fondo, deducido de los 2,72 medidos de P3 a su '
+    'cara interior. Medirlo directamente; el muro del ventanal ya tiene 0,25.',
+    'Cadena Este-Oeste del cliente (2,18 + 3,01 + 0,65 + 2,33): cierra contra la '
+    'escalera con 0,13 de pared entre el hundimiento y la L y 0,16 de cerramiento.',
+    'La pared en L queda 0,10 al Este del borde del forjado del levantamiento: el '
+    'vidrio de 1,35 sobre ella (2,57 en total) no pasa bajo el altillo. Medir ese borde.',
+    'Pasillo de cocina: 0,97 m frente a los frigoríficos (0,74 de fondo) y '
+    '1,11 frente al fregadero. Antes eran 0,78.',
+    'P5: los 3,65 medidos de P3 a su cara Norte la sitúan en 1,058 y el levantamiento '
+    'en 1,000. Se dibuja el levantamiento (6 cm). Medir también el resalto de P5.',
+    'Aire acondicionado: dos cassettes situados con las fotos del cliente, con panel '
+    'estándar de 0,95 y rejilla de 0,90 × 0,50. Medir posición y tamaño reales.',
 ]

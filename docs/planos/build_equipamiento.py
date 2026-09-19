@@ -19,7 +19,8 @@ import equipamiento as Q
 from dibujo import (Lienzo, TRAZO, TINTA, POCHE, POCHE_PIL, POCHE_TAB,
                     VIDRIO, COTA_COL)
 from build_planos import (W, H, MARGEN, CAJ_X, DEFS, marco, exportar, muros,
-                          pilares, pared_l, ventanal_sur, viga)
+                          pilares, pared_l, ventanal_sur, viga, hundimiento,
+                          zocalo_sur)
 import lista_makro as LM
 
 AQUI = os.path.dirname(os.path.abspath(__file__))
@@ -61,9 +62,10 @@ def detalle_cocina(ox, oy):
               'encimera', 'aparatos', 'cotas', 'rotulos'):
         L.capa(c)
     c = Q.COCINA
-    rotulo(L, c['x0'], c['y0'], c['x1'], c['y1'], 'COCINA',
-           f"{_fmt(c['x1']-c['x0'])} × {_fmt(c['y1']-c['y0'])} m  ·  entrada bajo la viga P1b")
-    muros(L); pared_l(L); pilares(L, solo=('P1',)); viga(L)
+    rotulo(L, c['x0'], c['y0'], c['x1'], Q.NICHO['y1'], 'COCINA',
+           f"{_fmt(c['x1']-c['x0'])} × {_fmt(c['y1']-c['y0'])} m  ·  hundimiento de "
+           f"0,275 al Norte  ·  entrada bajo la viga P1b")
+    muros(L); hundimiento(L); pared_l(L); pilares(L, solo=('P1',)); viga(L)
 
     # --- linea de coccion: bancada a medida y aparatos de Oeste a Este
     b = Q.BANCADA_COCCION
@@ -74,14 +76,15 @@ def detalle_cocina(ox, oy):
         caja(L, x, b['y1'] - p['f'], x + p['a'], b['y1'], p['tag'])
         x += p['a']; cortes.append(x)
     L.texto('rotulos', (b['x0'] + b['x1']) / 2, b['y0'] + 0.025,
-            'bancada de apoyo a medida  ·  2,12 × 0,60', 1.5, 'middle', ENCIMERA,
-            'bold', dy=0.5)
+            'bancada de apoyo a medida  ·  '
+            f"{_fmt(b['x1'] - b['x0'])} × {_fmt(b['y1'] - b['y0'])}  ·  en el hundimiento",
+            1.5, 'middle', ENCIMERA, 'bold', dy=0.5)
     cp = Q.CAMPANA_POS
     L.rect('proyeccion', cp['x0'], cp['y0'], cp['x1'], cp['y1'], 'none', APARATO,
            'fino', ' stroke-dasharray="2.4 1.4"')
-    L.texto('rotulos', 1.28, 8.20, 'CAMPANA 2,00 × 1,20', 1.8, 'middle', APARATO,
+    L.texto('rotulos', 1.35, 8.35, 'CAMPANA 2,00 × 1,20', 1.8, 'middle', APARATO,
             'bold')
-    L.texto('rotulos', 1.28, 8.20, f'borde inferior +{_fmt(Q.H_CAMPANA)}', 1.6,
+    L.texto('rotulos', 1.35, 8.35, f'borde inferior +{_fmt(Q.H_CAMPANA)}', 1.6,
             'middle', APARATO, dy=2.2)
 
     # --- muro Oeste, de Norte a Sur
@@ -148,12 +151,13 @@ def detalle_cocina(ox, oy):
             2.0, 'middle', COTA_COL, 'bold', dy=-1.4)
 
     # --- cotas
-    L.cota_h('cotas', cortes + [c['x1']], L.py(c['y1']) - 13.5, 1.8, ext_desde=c['y1'])
+    L.cota_h('cotas', cortes + [Q.NICHO['x1']], L.py(Q.NICHO['y1']) - 13.5, 1.8,
+             ext_desde=Q.NICHO['y1'])
     L.cota_v('cotas', cortes_o, L.px(c['x0']) - 7.0, 1.8, ext_desde=c['x0'])
     L.cota_v('cotas', [Q.BANCADA_COCCION['y0']] + cortes_e + [c['y0']],
              L.px(c['x1']) + 7.0, 1.8, ext_desde=c['x1'])
-    L.cota_h('cotas', [c['x0'], 0.550, 1.730, c['x1']], L.py(c['y0']) + 33.0, 1.8,
-             ext_desde=c['y0'])
+    L.cota_h('cotas', [c['x0'], 0.550, E.PARED_L_DOB[1], c['x1']],
+             L.py(c['y0']) + 33.0, 1.8, ext_desde=c['y0'])
     return L
 
 
@@ -165,37 +169,46 @@ def detalle_barra(ox, oy):
         L.capa(c)
     b = Q.BARRA
     rotulo(L, b['x0'], b['y0'], b['x1'], b['y1'], 'BARRA',
-           f"trasbarra 2,75 · mostrador {_fmt(Q.MOSTRADOR_Y[1] - Q.MOSTRADOR_Y[0])} hasta el paso de 0,60")
+           f"trasbarra {_fmt(Q.TRASBARRA_Y[1] - Q.TRASBARRA_Y[0])} entre P1 y P2  ·  "
+           f"mostrador {_fmt(Q.MOSTRADOR_Y[1] - Q.MOSTRADOR_Y[0])}  ·  paso de personal 0,95")
     muros(L); pared_l(L); pilares(L, solo=('P1', 'P2')); viga(L); ventanal_sur(L)
+    zocalo_sur(L)
 
-    # --- trasbarra: un mueble corrido bajo una sola encimera
+    # --- trasbarra: mesada corrida de 0,60 entre P1 y P2 (encargo 19 set.)
     tx0, tx1 = Q.TRASBARRA_X
     ty0, ty1 = Q.TRASBARRA_Y
     L.rect('muebles', tx0, ty0, tx1, ty1, MUEBLE, TINTA, 'medio')
-    y = ty1
-    cortes_t = [y]
-    for p in Q.TRASBARRA:
-        if p['tag'] == 'A3':          # la licuadora va encima: rotulo en la franja Norte
-            caja(L, tx0, y - p['a'], tx0 + p['f'], y, p['tag'], dash=True, tam=2.0,
-                 tx=tx0 + p['f'] / 2, ty=y - 0.075)
-        else:
-            caja(L, tx0, y - p['a'], tx0 + p['f'], y, p['tag'], rot=-90)
-        y -= p['a']; cortes_t.append(y)
-    # modulo tecnico bajo la cafetera y licuadora sobre la hielera
-    L.rect('muebles', tx0, ty1 - Q.MODULO_TECNICO, tx1, ty1, 'none', ENCIMERA,
-           'fino', ' stroke-dasharray="1.2 0.9"')
-    L.texto('rotulos', tx1 - 0.10, ty1 - Q.MODULO_TECNICO / 2, 'T1 técnico', 1.6,
+    pos = dict((t, (y0, y1)) for t, y0, y1 in Q.trasbarra_pos())
+    for p in Q.TRASBARRA + [Q.FREGADERO_BARRA]:
+        y0, y1 = pos[p['tag']]
+        fuera = (y1 - y0) < 0.30      # los huecos estrechos no admiten rotulo dentro
+        caja(L, tx0, y0, tx0 + min(p['f'], Q.MESADA_FONDO), y1, p['tag'], rot=-90,
+             tam=1.9 if fuera else 2.2,
+             tx=tx1 + 0.09 if fuera else None, ty=(y0 + y1) / 2 if fuera else None)
+    # nevera inox bajo el hueco libre de mesada
+    nv, np_ = Q.NEVERA_BARRA, Q.NEVERA_POS
+    caja(L, tx0, np_['y0'], tx0 + nv['f'], np_['y1'], nv['tag'], 'none', '#3d5c6e',
+         dash=True, tam=2.2, rot=-90, tx=tx0 + nv['f'] - 0.12)
+    # hueco libre de mesada entre la granizadora y el fregadero
+    hy0, hy1 = pos['A4'][1], pos['A3'][0]
+    L.texto('rotulos', tx1 - 0.14, (hy0 + hy1) / 2,
+            f'libre {_fmt(hy1 - hy0)}', 1.6, 'middle', ENCIMERA, 'bold', rot=-90)
+    # encimera corrida y estante mural sobre los aparatos
+    L.rect('encimera', tx0, ty0, tx1, ty1, 'none', ENCIMERA, 'corte')
+    es = Q.ESTANTE
+    ey1 = ty1 - (ty1 - ty0 - Q.ESTANTE_LARGO) / 2
+    L.rect('proyeccion', tx0, ey1 - Q.ESTANTE_LARGO, tx0 + es['f'], ey1, 'none',
+           ENCIMERA, 'fino', ' stroke-dasharray="2.4 1.4"')
+    for k in range(1, Q.ESTANTE_N):
+        yk = ey1 - es['a'] * k
+        L.linea('proyeccion', tx0, yk, tx0 + es['f'], yk, ENCIMERA, 'fino',
+                ' stroke-dasharray="1.2 0.9"')
+    L.texto('rotulos', tx0 + 0.08, ty1 - 0.50,
+            f"A6 ESTANTE  {Q.ESTANTE_N} × {_fmt(es['a'])} × {_fmt(es['f'])}", 1.6,
             'middle', ENCIMERA, 'bold', rot=-90)
-    a3 = Q.TRASBARRA[2]; ya3 = cortes_t[3]
-    li = Q.LICUADORA
-    caja(L, tx0 + 0.05, ya3 + 0.05, tx0 + 0.05 + li['f'], ya3 + 0.05 + li['a'],
-         li['tag'], tam=1.7)
-    # la encimera unica va de A2 a A4 (la cafetera A1 apoya en su modulo)
-    enc_y1, enc_y0 = cortes_t[1], cortes_t[4]
-    L.rect('encimera', tx0, enc_y0, tx1, enc_y1, 'none', ENCIMERA, 'corte')
-    L.texto('rotulos', tx1 + 0.06, (cortes_t[2] + cortes_t[3]) / 2,
-            f'ENCIMERA ÚNICA  {_fmt(enc_y1 - enc_y0)}', 1.9, 'middle', ENCIMERA, 'bold',
-            rot=-90)
+    L.texto('rotulos', tx1 + 0.06, (ty0 + ty1) / 2 + 0.75,
+            f"MESADA ÚNICA  {_fmt(ty1 - ty0)} × {_fmt(Q.MESADA_FONDO)}", 1.9,
+            'middle', ENCIMERA, 'bold', rot=-90)
 
     # --- mostrador delantero: vitrinas y tabla de madera
     mx0, mx1 = Q.MOSTRADOR_X
@@ -206,36 +219,40 @@ def detalle_barra(ox, oy):
     for p in Q.VITRINAS:
         caja(L, mx0, y, mx0 + v['fondo_cristal'], y + p['a'], p['tag'], FRIO,
              '#3d5c6e', tam=2.2, tx=mx0 + 0.20, ty=y + 0.16)
-        # motor abajo, a la izquierda (Sur) del lado de cliente
         mw, md = v['motor']
         L.rect('aparatos', mx0 + v['fondo_cristal'] - md, y, mx0 + v['fondo_cristal'],
                y + mw, 'none', '#3d5c6e', 'fino', ' stroke-dasharray="1.2 0.9"')
         L.texto('rotulos', mx0 + v['fondo_cristal'] - md / 2, y + mw / 2, 'motor', 1.4,
                 'middle', '#3d5c6e', rot=-90, dy=0.5)
         y += p['a']; cortes_m.append(y)
-    # bajo V2: lavavasos · bajo V1: barriles
+    # bajo V2 sigue el lavavasos; los barriles se van a la tabla de P2
     lv = Q.LAVAVASOS
     caja(L, mx0 + 0.05, my0 + 0.34, mx0 + 0.05 + lv['f'], my0 + 0.34 + lv['a'],
          lv['tag'], '#ffffff', APARATO, dash=True, tam=1.8, rot=-90)
-    for k in range(2):
-        cy = my0 + 1.000 + 0.31 + 0.16 + k * 0.34
-        L.circulo('aparatos', mx0 + 0.30, cy, 0.16, 'none', APARATO, 'fino',
-                  ' stroke-dasharray="1.2 0.9"')
-    L.texto('rotulos', mx0 + 0.30, my0 + 1.000 + 0.31 + 0.16, 'B2', 1.8, 'middle',
-            APARATO, 'bold', dy=0.6)
     bm = Q.BARRA_MADERA
     L.rect('muebles', mx0, bm['y0'], mx1, bm['y1'], MADERA, '#6b4f2a', 'medio')
     L.texto('rotulos', mx0 + 0.05, (bm['y0'] + bm['y1']) / 2,
             f"BARRA DE MADERA  {_fmt(bm['y1'] - bm['y0'])}", 1.7, 'middle', '#6b4f2a',
             'bold', rot=-90, dy=0.6)
-    ch = Q.CHOPERA; tb = Q.TABLET
-    caja(L, mx0 + 0.10, bm['y0'] + 0.03, mx0 + 0.10 + ch['f'], bm['y0'] + 0.03 + ch['a'],
-         'B4', tam=1.8)
-    caja(L, mx0 + 0.18, bm['y1'] - 0.03 - tb['a'], mx0 + 0.18 + tb['f'], bm['y1'] - 0.03,
-         'B3', tam=1.6)
-    # tabla de P2 al muro
+    # en el mostrador solo queda la tablet de cobro (encargo 19 set.)
+    tb = Q.TABLET
+    caja(L, mx0 + 0.18, bm['y1'] - 0.06 - tb['a'], mx0 + 0.18 + tb['f'],
+         bm['y1'] - 0.06, 'B3', tam=1.6)
+    # tabla de P2: chopera encima y barril debajo
     t = Q.TABLA_P2
-    caja(L, t['x0'], t['y0'], t['x1'], t['y1'], 'TABLA', MADERA, '#6b4f2a', tam=1.8)
+    ch = Q.CHOPERA
+    L.rect('muebles', t['x0'], t['y0'], t['x1'], t['y1'], MADERA, '#6b4f2a', 'medio')
+    L.texto('rotulos', 1.30, t['y1'] + 0.13,
+            f"TABLA DE P2  {_fmt(t['x1'] - t['x0'])} × {_fmt(t['y1'] - t['y0'])}",
+            1.6, 'middle', '#6b4f2a', 'bold')
+    L.texto('rotulos', 1.30, t['y1'] + 0.13, 'chopera B4 encima · barril B2 debajo',
+            1.5, 'middle', '#6b4f2a', dy=2.4)
+    caja(L, t['x1'] - 0.03 - ch['a'], t['y0'] + 0.005, t['x1'] - 0.03,
+         t['y0'] + 0.005 + ch['f'], 'B4', tam=1.8)
+    L.circulo('aparatos', t['x0'] + 0.20, (t['y0'] + t['y1']) / 2, 0.16, 'none',
+              APARATO, 'fino', ' stroke-dasharray="1.2 0.9"')
+    L.texto('rotulos', t['x0'] + 0.20, (t['y0'] + t['y1']) / 2, 'B2', 1.8, 'middle',
+            APARATO, 'bold', dy=0.6)
 
     # --- paso de servicio
     ym = (ty0 + ty1) / 2
@@ -243,10 +260,12 @@ def detalle_barra(ox, oy):
     L.texto('rotulos', (tx1 + mx0) / 2, ym, f'PASO DE SERVICIO  {_fmt(Q.PASILLO_BARRA)}',
             2.0, 'middle', COTA_COL, 'bold', rot=-90, dx=-1.4)
 
-    L.cota_v('cotas', cortes_t + [ty0], L.px(b['x0']) - 7.0, 1.8, ext_desde=b['x0'])
+    cortes_t = [ty1, pos['A4'][1]] + [y0 for _t, y0, _y1 in Q.trasbarra_pos()]
+    L.cota_v('cotas', sorted(set(cortes_t + [ty0])), L.px(b['x0']) - 7.0, 1.8,
+             ext_desde=b['x0'])
     L.cota_v('cotas', cortes_m + [bm['y1'], E.PARED_L_LAR[2]], L.px(b['x1']) + 7.0, 1.8,
              ext_desde=b['x1'])
-    L.cota_h('cotas', [b['x0'], tx1, mx0, mx1, mx0 + v['fondo_cristal']],
+    L.cota_h('cotas', [b['x0'], tx1, mx0, mx0 + v['fondo_cristal'], mx1],
              L.py(b['y0']) + 9.0, 1.8, ext_desde=b['y0'])
     return L
 
@@ -282,8 +301,8 @@ def lamina():
               'carpinteria', 'muebles', 'encimera', 'aparatos', 'cotas', 'rotulos',
               'cajetin'):
         L.capa(c)
-    K = detalle_cocina(ox=24.0, oy=52.0 + 9.008 * ESC25)
-    B = detalle_barra(ox=170.0, oy=52.0 + 5.350 * ESC25)
+    K = detalle_cocina(ox=24.0, oy=52.0 + Q.NICHO['y1'] * ESC25)
+    B = detalle_barra(ox=170.0, oy=52.0 + Q.BARRA['y1'] * ESC25)
     L.absorber(K, clip=(13.0, 26.0, 142.0, 232.0))
     L.absorber(B, clip=(160.0, 26.0, 292.0, 232.0))
     cuadro_equipos(L)
@@ -293,14 +312,16 @@ def lamina():
            'sus medidas de ficha; la web bloquea el acceso',
            'directo, así que las medidas vienen de su buscador.',
            'Confirmar en la ficha antes de comprar.',
-           'Cocción corrida en la medianera Norte bajo campana',
-           'de 2,00 sobre K1 a K4. Mesada refrigerada de una',
-           'sola pieza (2,54, la más larga de Makro) pegada al',
-           'doblez de la L; 0,42 libres junto a la cocción.',
-           'K6 va bajo el escurridor del fregadero K7.',
-           f'Pasillo de cocina de {_fmt(Q.PASILLO_COCINA_MIN)} a {_fmt(Q.PASILLO_COCINA)}: por debajo de 0,90',
-           'con permiso del cliente. Muro Oeste: 3,04 de',
-           'aparatos en los 3,05 que hay hasta P1.'],
+           'Cocción y campana metidas en el hundimiento de 0,275',
+           'de la medianera Norte, como pidió el cliente.',
+           'Mesada refrigerada de una sola pieza (2,54, la más',
+           f"larga de Makro) pegada al doblez de la L; {_fmt(Q.LIBRE_ESTE)} libres",
+           'junto a la cocción. K6 bajo el escurridor de K7.',
+           f'Pasillo de cocina de {_fmt(Q.PASILLO_COCINA_MIN)} a {_fmt(Q.PASILLO_COCINA)}. Muro Oeste:',
+           f"{_fmt(Q.SUMA_OESTE)} de aparatos en los {_fmt(Q.LARGO_OESTE)} que hay hasta P1.",
+           'Trasbarra nueva del 19 set.: mesada corrida de 0,60',
+           'entre P1 y P2, con estante encima; la nevera A5 va',
+           'bajo el hueco libre y nada bajo el fregadero A4.'],
           [(MUEBLE, TINTA, 'Bancada o mueble bajo'),
            (FRIO, '#3d5c6e', 'Equipo refrigerado'),
            ('none', ENCIMERA, 'Encimera o tabla corrida'),
@@ -310,7 +331,9 @@ def lamina():
           ('HOLGURAS Y ALTURAS',
            [('Pasillo de cocina, mínimo', f'{_fmt(Q.PASILLO_COCINA_MIN)} m'),
             ('Paso de servicio en barra', f'{_fmt(Q.PASILLO_BARRA)} m'),
-            ('Entrada a la cocina, bajo la viga', '1,18 m'),
+            ('Entrada a la cocina, bajo la viga',
+             f"{_fmt(E.PARED_L_DOB[1] - 0.550)} m"),
+            ('Hueco libre de mesada en barra', f'{_fmt(Q.libre_trasbarra())} m'),
             ('Altura de encimera', '0,90 m'),
             ('Borde inferior de la campana', '2,00 m')]),
           tabla=('', []), esc_dibujo=ESC25, esc_txt='1:25  (A3)')
@@ -330,7 +353,7 @@ def lamina_lista():
     enlaces = []
     x0, x1 = 14.0, CAJ_X - 6.0
     c_tag, c_nom, c_med, c_ubi, c_url = x0, x0 + 14.0, x0 + 98.0, x0 + 118.0, x0 + 206.0
-    paso = 4.9
+    paso = 4.15
 
     L.p_texto('rotulos', x0, 36.0, 'LISTA DE EQUIPAMIENTO  ·  MAKRO', 4.2, 'start',
               TINTA, 'bold', espaciado='0.8')
@@ -367,31 +390,35 @@ def lamina_lista():
                       'start', '#8a8a8a')
         return y + paso
 
-    y = seccion(52.0, 'EQUIPOS DIBUJADOS EN LAS LÁMINAS 01 Y 03')
+    y = seccion(50.0, 'EQUIPOS DIBUJADOS EN LAS LÁMINAS 01 Y 03')
     y = cabecera(y)
     for i, p in enumerate(Q.todos()):
         y = fila(y, i, p)
 
-    y = seccion(y + 5.0, 'ALTERNATIVAS CON LA MISMA FUNCIÓN  ·  no dibujadas')
+    y = seccion(y + 4.0, 'ALTERNATIVAS CON LA MISMA FUNCIÓN  ·  no dibujadas')
     y = cabecera(y, 'SUSTITUYE')
-    for i, p in enumerate(Q.ESTE_ALT + Q.OESTE_ALT):
+    for i, p in enumerate(Q.ESTE_ALT + Q.OESTE_ALT + Q.ALT_BARRA):
         y = fila(y, i, p, tag=p['tag'].replace(' alt', ''))
 
-    y = seccion(y + 5.0, 'A MEDIDA  ·  no se compran en Makro')
+    y = seccion(y + 4.0, 'SIN SITIO EN LA TRASBARRA NUEVA  ·  decidir dónde van')
+    y = cabecera(y, 'ERA')
+    for i, p in enumerate(Q.SIN_SITIO):
+        y = fila(y, i, p, tag=p['tag'].replace(' ant.', ''))
+
+    y = seccion(y + 4.0, 'A MEDIDA  ·  no se compran en Makro')
     for t in LM.A_MEDIDA:
         L.p_texto('rotulos', c_nom, y, '·  ' + t, 2.0, 'start', '#222222')
-        y += 4.0
+        y += 3.7
 
-    y = seccion(y + 4.0, 'VERIFICACIÓN DE LOS ENLACES')
+    y = seccion(y + 3.0, 'VERIFICACIÓN DE LOS ENLACES')
     for t in ('makro.es responde 403 a cualquier acceso desde un servidor (curl, Playwright o un '
               'navegador en la nube), así que las fichas no se pueden abrir desde el entorno de trabajo.',
               'Cada enlace se verificó buscando su identificador con el buscador restringido a makro.es: '
-              'todos devuelven su URL con el título del producto (LISTA_MAKRO.md). La ficha del fregadero '
-              'K7 (Ref. AAA0045913963) no está indexada: el enlace lo facilitó el cliente.',
-              'Precios y stock no se han podido leer con fiabilidad: confirmar en la ficha antes de '
-              'comprar. Si un enlace dejara de funcionar, buscar el título literal de la ficha en makro.es.'):
+              'todos devuelven su URL con el título del producto (LISTA_MAKRO.md).',
+              'La ficha del fregadero K7 (Ref. AAA0045913963) no está indexada: el enlace lo facilitó el '
+              'cliente. Precios y stock no se han podido leer con fiabilidad: confirmar antes de comprar.'):
         L.p_texto('rotulos', c_nom, y, t, 2.0, 'start', '#444444')
-        y += 4.0
+        y += 3.7
 
     n_fichas = len({p['url'] for p in Q.todos() if p.get('url')})
     n_unid = len([p for p in Q.todos() if p.get('url')])

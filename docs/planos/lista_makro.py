@@ -25,18 +25,19 @@ UBICACION = {
     'K7': 'Cocina · muro Oeste, entre el horno y los frigoríficos; cuba al Sur, escurridor al Norte',
     'K8': 'Cocina · muro Oeste, vertical, al Sur del fregadero',
     'K9': 'Cocina · muro Oeste, vertical, contra P1',
-    'K10': 'Cocina · pared en L, de una pieza, pegada al doblez; 0,42 libres junto a la cocción',
-    'A1': 'Barra · trasbarra, extremo Norte, sobre el módulo técnico T1',
-    'A2': 'Barra · trasbarra, al Sur de la cafetera',
-    'A3': 'Barra · trasbarra, bajo la encimera, al Sur del lavamanos',
-    'A3b': 'Barra · trasbarra, sobre la encimera, encima de la hielera',
-    'A4': 'Barra · trasbarra, extremo Sur',
-    'V2': 'Barra · mostrador delantero, junto a P2 (Sur); lavavasos debajo',
-    'V1': 'Barra · mostrador delantero, al Norte de V2; barriles debajo',
+    'K10': 'Cocina · pared en L, de una pieza, pegada al doblez; 0,33 libres junto a la cocción',
+    'A1': 'Barra · trasbarra, sobre la mesada, pegada a P1 (extremo Norte)',
+    'A2': 'Barra · trasbarra, en el hueco de 0,20 a la derecha de la cafetera',
+    'A3': 'Barra · trasbarra, sobre la mesada, a la derecha del molinillo',
+    'A4': 'Barra · trasbarra, sobre la mesada, pegado a P2 (extremo Sur); debajo, nada',
+    'A5': 'Barra · trasbarra, debajo de la mesada, bajo el hueco libre',
+    'A6': 'Barra · trasbarra, estante mural sobre la mesada (2 piezas, 2,50 en total)',
+    'V2': 'Barra · mostrador delantero, junto al zócalo del ventanal (Sur); lavavasos debajo',
+    'V1': 'Barra · mostrador delantero, al Norte de V2',
     'B1': 'Barra · bajo la vitrina V2',
-    'B2': 'Barra · bajo la vitrina V1',
-    'B3': 'Barra · barra de madera, extremo Norte, junto a la viga P1b',
-    'B4': 'Barra · barra de madera, extremo Sur',
+    'B2': 'Barra · debajo de la tabla de P2',
+    'B3': 'Barra · barra de madera del mostrador (única cosa que queda en ella)',
+    'B4': 'Barra · encima de la tabla de P2',
 }
 
 
@@ -66,6 +67,17 @@ TITULOS_MAKRO = {
     'd48c3c0c-7975-4c22-89c7-64676c23681f': 'Armario Refrigerado Ar400l Clima Hostelería',
     'c0cd57f0-35a2-485a-98f4-5dffc628d84e': 'Fregadero con bastidor con hueco lavavajillas cuba izquierda 1200x600x850 mm · Ref. AAA0045913963 (ficha facilitada por el cliente)',
     '1acedc0e-199c-449c-b390-a8626c771613': 'Lavavajillas industrial 50x50 - 575x600x820 mm - 3500 W 230/1V - 46278719 Eurast',
+    '31bf0e3c-d322-4e34-a968-9bd9ace2024d': 'Cleiton® - Fregadero con 1 Seno con Estante 600x600x850 mm | Fregadero Industrial de Acero Inoxidable Profesional de 1 mm de Grosor',
+    '77c7b69b-09e0-4c28-878e-9454ffff60ec': 'Botellero frigorífico para bebidas BTL1000 1040X580X850MM',
+    '95121b55-b486-4a76-a3de-ed7874e75876': 'Fregadero industrial acero inoxidable 1 cuba 700x600x850mm',
+    'a046bf7e-9d25-4304-9593-1cd32668e47f': 'Botellero inox ext-int 2 puertas 200 litros - 1020x550x850 mm - 110 W 230/1V - 74699209 Eurast',
+    '6589602e-de66-484c-871f-68f83b182638': 'Botellero refrigerado bar, acero inox. 2 puertas, largo 100 cm. Yostin®',
+    'f2df0f65-b185-40b2-b2e2-2cd42fb2eefd': 'Molinillo de café Cunil TRANQUILO de ABC (17 x 34 x 41 cm, 275 W)',
+    'e4ddc7ec-739d-4b14-968b-1d230076b476': 'Máquina de helado y crema fría B-CREAM1HD de Bras (200 x 490 x 620 mm, 6 L)',
+    'e826e334-3cba-44fc-a530-627af1dabaf6': 'Granizadora Industrial 1 Cuba 10Ltr GRANICREAM 1S Eurofred (200 x 500 x 790 mm)',
+    '635e0924-0d3e-42ca-965e-e66eb41cdee1': 'Granizadora Industrial 1 Cuba 5Ltr GRANISMART 5x1 Eurofred (260 x 400 x 630 mm)',
+    '8af91e42-ebf3-4239-8e01-9b6b82b73120': 'Estante mural cartelas compacto 1250x400x245 mm. Fabricante: Fricosmos. Referencia: 011410',
+    '15f4f100-83b5-4f51-a383-11acf9989372': 'Estante en inox de pared (2000 x 400 x 250 mm)',
 }
 
 
@@ -76,6 +88,17 @@ UBICACION_ALT = {
     '8969b667-b5cb-4e83-b599-3dd45c112547': 'Cocina · muro Oeste, en lugar de K8 y K9; misma huella que el Edenox',
     'd48c3c0c-7975-4c22-89c7-64676c23681f': 'Cocina · muro Oeste, en lugar de K8 y K9 (0,60 de ancho, lacado blanco)',
     '1acedc0e-199c-449c-b390-a8626c771613': 'Cocina · en lugar de K6 si el ST500 no entra bajo el escurridor (0,82 de alto)',
+    'e3db53e1-8f64-4495-bb2c-59fe355a32e2': 'Sin sitio en la trasbarra nueva: decidir dónde va',
+    'a7c3e878-0cdd-4f7e-b013-897ae4f6120d': 'Sin sitio en la trasbarra nueva: cabría en el hueco libre de mesada',
+    '6105678f-3159-4172-a17a-f400760f0b35': 'Sin sitio: lo sustituye el fregadero A4, pegado a P2',
+    '2b8d9850-b422-4738-b716-c30da9857300': 'Sin sitio en la trasbarra nueva: decidir dónde va',
+    '3efac5b4-e702-4af6-9dd9-533709488190': 'Barra · alternativa al fregadero A4, con puerta (mismo hueco)',
+    '95121b55-b486-4a76-a3de-ed7874e75876': 'Barra · alternativa al fregadero A4 en AISI-304, 0,10 más ancho',
+    'a046bf7e-9d25-4304-9593-1cd32668e47f': 'Barra · alternativa a la nevera A5 (1,02, inox interior y exterior)',
+    '6589602e-de66-484c-871f-68f83b182638': 'Barra · alternativa a la nevera A5 (1,00 exactos, fabricación nacional)',
+    'e826e334-3cba-44fc-a530-627af1dabaf6': 'Barra · alternativa a A3: misma anchura, 10 L, pero 0,79 de alto',
+    '635e0924-0d3e-42ca-965e-e66eb41cdee1': 'Barra · alternativa a A3: cuba de 5 L, 0,26 de ancho y solo 0,40 de fondo',
+    '15f4f100-83b5-4f51-a383-11acf9989372': 'Barra · alternativa a A6: una sola pieza de 2,00 en vez de dos de 1,25',
 }
 
 
@@ -91,12 +114,19 @@ def fmt(v):
 
 
 A_MEDIDA = [
-    'Bancada de apoyo de la línea de cocción: 2,12 × 0,60, acero inoxidable.',
-    'Encimera única de la trasbarra, de A2 a A4: 1,28 × 0,60.',
+    f"Bancada de apoyo de la línea de cocción, dentro del hundimiento: "
+    f"{fmt(Q.BANCADA_COCCION['x1'] - Q.BANCADA_COCCION['x0'])} × "
+    f"{fmt(Q.BANCADA_COCCION['y1'] - Q.BANCADA_COCCION['y0'])}, acero inoxidable.",
+    f"Mesada única de la trasbarra, de P1 a P2: "
+    f"{fmt(Q.TRASBARRA_Y[1] - Q.TRASBARRA_Y[0])} × {fmt(Q.MESADA_FONDO)}.",
+    f"Hueco de {fmt(Q.HUECO_MOLINILLOS)} para el molinillo A2 y los utensilios, "
+    'a la derecha de la cafetera.',
     'Barra de madera del mostrador delantero: '
-    f"{fmt(Q.BARRA_MADERA['y1'] - Q.BARRA_MADERA['y0'])} × 0,60.",
-    f"Tabla de P2 al muro: {fmt(Q.TABLA_P2['x1'] - Q.TABLA_P2['x0'])} × {fmt(Q.TABLA_P2['y1'] - Q.TABLA_P2['y0'])}.",
-    'Módulo técnico T1 bajo la cafetera: 0,60 de ancho.',
+    f"{fmt(Q.BARRA_MADERA['y1'] - Q.BARRA_MADERA['y0'])} × {fmt(Q.MOSTRADOR_X[1] - Q.MOSTRADOR_X[0])}.",
+    f"Tabla de P2 al muro: {fmt(Q.TABLA_P2['x1'] - Q.TABLA_P2['x0'])} × {fmt(Q.TABLA_P2['y1'] - Q.TABLA_P2['y0'])}"
+    ' (chopera B4 encima, barril B2 debajo).',
+    f"Mostrador delantero: {fmt(Q.MOSTRADOR_Y[1] - Q.MOSTRADOR_Y[0])} × "
+    f"{fmt(Q.MOSTRADOR_X[1] - Q.MOSTRADOR_X[0])} de fondo, del zócalo del ventanal a P1.",
 ]
 
 
@@ -122,7 +152,7 @@ def main():
                'Por si se prefiere otro fondo, otro acabado o el modelo de la foto de referencia. ',
                'Mismas fuentes y mismas reservas que la tabla anterior.', '',
                '| Sustituye a | Producto | Medidas | Dónde iría | Ficha |', '|---|---|---|---|---|']
-    for p in Q.ESTE_ALT + Q.OESTE_ALT:
+    for p in Q.ESTE_ALT + Q.OESTE_ALT + Q.ALT_BARRA + Q.SIN_SITIO:
         lineas.append(f"| {p['tag'].replace(' alt', '')} | {p['nombre']} | {fmt(p['a'])} × {fmt(p['f'])} × {fmt(p['h'])} "
                       f"| {donde(p)} | [makro.es]({p['url']}) |")
     lineas += ['', '## A medida, no se compran en Makro', ''] + \
@@ -136,7 +166,7 @@ def main():
                'indexa y cuyo enlace facilitó el propio cliente desde la web de Makro. Si un enlace ',
                'fallara al abrirlo, buscar el título en makro.es.', '',
                '| Rótulo | Título literal de la ficha en makro.es | Enlace |', '|---|---|---|']
-    for p in Q.todos() + Q.ESTE_ALT + Q.OESTE_ALT:
+    for p in Q.todos() + Q.ESTE_ALT + Q.OESTE_ALT + Q.ALT_BARRA + Q.SIN_SITIO:
         if p.get('url'):
             lineas.append(f"| {p['tag']} | {titulo(p)} | {p['url']} |")
     salida = os.path.join(AQUI, 'LISTA_MAKRO.md')
