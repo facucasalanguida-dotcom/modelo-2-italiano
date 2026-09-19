@@ -501,8 +501,8 @@ def aire(L):
                 '#6f8a99', 'auxiliar', dd)
         L.rect('luces', cx - rw / 2, cy + f / 2 + 0.06, cx + rw / 2,
                cy + f / 2 + 0.06 + rh, 'none', '#6f8a99', 'fino', dd)
-        L.texto('rotulos', cx, cy - f / 2, tag, 1.9, 'middle', '#4c6b7c', 'bold',
-                dy=3.4)
+        L.texto('rotulos', cx, cy + f / 2 + rh + 0.10, tag, 1.9, 'middle',
+                '#4c6b7c', 'bold')
 
 
 def luces(L, empotrados=True):
@@ -615,7 +615,7 @@ def planta_baja():
     L.cota_v('cotas', [E.BARRA['y0'], E.BARRA['y1'], E.PASO_PERS['y1'], 9.008],
              L.px(1.32), 1.9)
     L.cota_v('cotas', [E.ZOCALO_SUR['y0'], E.ZOCALO_SUR['y1']], L.px(5.30), 1.7)
-    L.cota_h('cotas', [E.BARRA['x0'], E.BARRA['x1']], L.py(1.72), 1.7)
+    L.cota_h('cotas', [E.BARRA['x0'], E.BARRA['x1']], L.py(2.16), 1.7)
     L.cota_h('cotas', [0.250, E.BARRA['x0']], L.py(3.72), 1.8)   # 1,65 medido
     L.cota_h('cotas', [7.400, 7.770, 8.470, 9.890], L.py(7.55), 1.8)
     L.cota_v('cotas', [7.730, 9.008], L.px(9.83), 1.8)
@@ -624,18 +624,16 @@ def planta_baja():
 
     marco(L, 'PLANTA BAJA', '01 / 04', 'Estado actual · estructura',
           ['Cotas en metros. Hundimiento, pared en L, P3,',
-           'barra, zócalo del ventanal y puerta con las medidas',
-           'del cliente del 19 set.; el resto, del levantamiento.',
-           '±0,00 en el pavimento; sección horizontal a 1,20 m.',
-           'Mesas dobles de 0,70 × 0,70: el personal las junta',
+           'barra, zócalo y puerta con las medidas del 19 set.;',
+           'el resto, del levantamiento. ±0,00 en el pavimento,',
+           'sección a 1,20 m. Equipamiento en la lámina 03.',
+           'Mesas dobles de 0,70 × 0,70 que el personal junta',
            'para formar mesas de cuatro. M4 pegada a P3.',
-           'Puntos de luz: los del proyecto original; los dos',
-           'cassettes de aire, situados con las fotos.',
+           'Luces: las del proyecto original; los dos cassettes',
+           'de aire, situados con las fotos del cliente.',
            'Itinerario accesible de 1,20 de la puerta a la barra,',
            'al baño y a la plaza PMR de M1, con giros de Ø 1,50',
-           'en la entrada y ante el baño (DB-SUA). El baño',
-           'dibujado no es accesible: no cabe el giro.',
-           'Equipamiento en la lámina 03; enlaces en la 04.'],
+           'en la entrada y ante el baño; el baño no es accesible.'],
           [(POCHE, TINTA, 'Muro de carga / medianera'),
            (POCHE_PIL, TINTA, 'Pilar o machón de hormigón'),
            (POCHE_TAB, TINTA, 'Pared en L nueva (apoyo del vidrio)'),

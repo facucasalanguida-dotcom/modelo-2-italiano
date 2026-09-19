@@ -368,10 +368,10 @@
 <line x1="166.900" y1="204.680" x2="169.100" y2="202.480" stroke="#9a2b2b" stroke-width="0.13"/>
 <line x1="166.900" y1="197.740" x2="169.100" y2="195.540" stroke="#9a2b2b" stroke-width="0.13"/>
 <text x="167.000" y="200.110" font-size="1.7" text-anchor="middle" fill="#9a2b2b" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal" transform="rotate(-90 167.000 200.110)">0,35</text>
-<line x1="100.000" y1="201.600" x2="115.200" y2="201.600" stroke="#9a2b2b" stroke-width="0.13"/>
-<line x1="98.900" y1="202.700" x2="101.100" y2="200.500" stroke="#9a2b2b" stroke-width="0.13"/>
-<line x1="114.100" y1="202.700" x2="116.300" y2="200.500" stroke="#9a2b2b" stroke-width="0.13"/>
-<text x="107.600" y="200.600" font-size="1.7" text-anchor="middle" fill="#9a2b2b" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">0,76</text>
+<line x1="100.000" y1="192.800" x2="115.200" y2="192.800" stroke="#9a2b2b" stroke-width="0.13"/>
+<line x1="98.900" y1="193.900" x2="101.100" y2="191.700" stroke="#9a2b2b" stroke-width="0.13"/>
+<line x1="114.100" y1="193.900" x2="116.300" y2="191.700" stroke="#9a2b2b" stroke-width="0.13"/>
+<text x="107.600" y="191.800" font-size="1.7" text-anchor="middle" fill="#9a2b2b" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">0,76</text>
 <line x1="67.000" y1="161.600" x2="100.000" y2="161.600" stroke="#9a2b2b" stroke-width="0.13"/>
 <line x1="65.900" y1="162.700" x2="68.100" y2="160.500" stroke="#9a2b2b" stroke-width="0.13"/>
 <line x1="98.900" y1="162.700" x2="101.100" y2="160.500" stroke="#9a2b2b" stroke-width="0.13"/>
@@ -429,8 +429,8 @@
 <text x="158.000" y="158.000" font-size="1.8" text-anchor="middle" fill="#2a7f8f" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold" transform="rotate(-90 158.000 158.000)">1,50</text>
 <text x="220.600" y="119.800" font-size="1.8" text-anchor="middle" fill="#2a7f8f" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">1,45</text>
 <text x="136.000" y="99.200" font-size="1.8" text-anchor="middle" fill="#2a7f8f" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold" transform="rotate(-90 136.000 99.200)">0,74</text>
-<text x="162.000" y="174.900" font-size="1.9" text-anchor="middle" fill="#4c6b7c" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">AC1</text>
-<text x="241.000" y="196.900" font-size="1.9" text-anchor="middle" fill="#4c6b7c" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">AC2</text>
+<text x="162.000" y="140.500" font-size="1.9" text-anchor="middle" fill="#4c6b7c" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">AC1</text>
+<text x="241.000" y="162.500" font-size="1.9" text-anchor="middle" fill="#4c6b7c" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">AC2</text>
 <text x="150.000" y="101.600" font-size="2.2" text-anchor="middle" fill="#4a4a4a" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">ZONA CON FORJADO SUPERIOR  ·  +2,56</text>
 <text x="242.000" y="171.000" font-size="2.6" text-anchor="middle" fill="#3c5a68" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">DOBLE ALTURA</text>
 <text x="76.000" y="90.000" font-size="2.6" text-anchor="middle" fill="#3c5a68" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold" transform="rotate(-90 76.000 90.000)">COCINA</text>
@@ -518,18 +518,16 @@
 <line x1="321.000" y1="200.000" x2="407.000" y2="200.000" stroke="#111111" stroke-width="0.1"/>
 <text x="321.000" y="204.600" font-size="2.1" text-anchor="start" fill="#777777" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">NOTAS</text>
 <text x="321.000" y="208.400" font-size="2.3" text-anchor="start" fill="#333333" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Cotas en metros. Hundimiento, pared en L, P3,</text>
-<text x="321.000" y="212.200" font-size="2.3" text-anchor="start" fill="#333333" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">barra, zócalo del ventanal y puerta con las medidas</text>
-<text x="321.000" y="216.000" font-size="2.3" text-anchor="start" fill="#333333" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">del cliente del 19 set.; el resto, del levantamiento.</text>
-<text x="321.000" y="219.800" font-size="2.3" text-anchor="start" fill="#333333" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">±0,00 en el pavimento; sección horizontal a 1,20 m.</text>
-<text x="321.000" y="223.600" font-size="2.3" text-anchor="start" fill="#333333" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Mesas dobles de 0,70 × 0,70: el personal las junta</text>
+<text x="321.000" y="212.200" font-size="2.3" text-anchor="start" fill="#333333" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">barra, zócalo y puerta con las medidas del 19 set.;</text>
+<text x="321.000" y="216.000" font-size="2.3" text-anchor="start" fill="#333333" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">el resto, del levantamiento. ±0,00 en el pavimento,</text>
+<text x="321.000" y="219.800" font-size="2.3" text-anchor="start" fill="#333333" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">sección a 1,20 m. Equipamiento en la lámina 03.</text>
+<text x="321.000" y="223.600" font-size="2.3" text-anchor="start" fill="#333333" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Mesas dobles de 0,70 × 0,70 que el personal junta</text>
 <text x="321.000" y="227.400" font-size="2.3" text-anchor="start" fill="#333333" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">para formar mesas de cuatro. M4 pegada a P3.</text>
-<text x="321.000" y="231.200" font-size="2.3" text-anchor="start" fill="#333333" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Puntos de luz: los del proyecto original; los dos</text>
-<text x="321.000" y="235.000" font-size="2.3" text-anchor="start" fill="#333333" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">cassettes de aire, situados con las fotos.</text>
+<text x="321.000" y="231.200" font-size="2.3" text-anchor="start" fill="#333333" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Luces: las del proyecto original; los dos cassettes</text>
+<text x="321.000" y="235.000" font-size="2.3" text-anchor="start" fill="#333333" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">de aire, situados con las fotos del cliente.</text>
 <text x="321.000" y="238.800" font-size="2.3" text-anchor="start" fill="#333333" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Itinerario accesible de 1,20 de la puerta a la barra,</text>
 <text x="321.000" y="242.600" font-size="2.3" text-anchor="start" fill="#333333" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">al baño y a la plaza PMR de M1, con giros de Ø 1,50</text>
-<text x="321.000" y="246.400" font-size="2.3" text-anchor="start" fill="#333333" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">en la entrada y ante el baño (DB-SUA). El baño</text>
-<text x="321.000" y="250.200" font-size="2.3" text-anchor="start" fill="#333333" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">dibujado no es accesible: no cabe el giro.</text>
-<text x="321.000" y="254.000" font-size="2.3" text-anchor="start" fill="#333333" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Equipamiento en la lámina 03; enlaces en la 04.</text>
+<text x="321.000" y="246.400" font-size="2.3" text-anchor="start" fill="#333333" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">en la entrada y ante el baño; el baño no es accesible.</text>
 <line x1="321.000" y1="253.000" x2="407.000" y2="253.000" stroke="#111111" stroke-width="0.1"/>
 <rect x="321.000" y="259.000" width="10.000" height="2.200" fill="#111111" stroke="#111111" stroke-width="0.1"/>
 <rect x="331.000" y="259.000" width="10.000" height="2.200" fill="#ffffff" stroke="#111111" stroke-width="0.1"/>
