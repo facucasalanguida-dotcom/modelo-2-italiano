@@ -380,12 +380,21 @@ el mostrador solo queda la tablet de cobro. El exprimidor, el fabricador de
 hielo, el lavamanos y la licuadora se quedan **sin sitio** con esta
 distribucion: van listados aparte en la lamina 04 para que el cliente decida.
 
-### Aire acondicionado
+### Aire acondicionado (correccion del 20 set.)
 
-Se dibujan los dos cassettes de techo que se ven en las fotos del cliente
-(uno sobre la zona de mesas al Oeste de P5 y otro sobre el vestibulo), con
-panel estandar de 0,95 x 0,95 y rejilla de 0,90 x 0,50. El cliente pidio
-intuir las medidas; la posicion sale de las fotos y queda por medir.
+**Hay una sola maquina**, no dos: el cliente lo corrige sobre las fotos. Es el
+cassette de 4 vias que en ellas se ve como un cuadrado blanco con rejillas.
+
+- Va **a la izquierda del pilar central mirando el plano al Norte**, es decir
+  al Oeste de P3 y pegado a el: panel de 0,95 x 0,95 centrado en
+  (5,070 / 5,223), con 0,10 libres hasta la cara Oeste de P3.
+- Va **empotrado en el techo de planta baja, que es el suelo del altillo**. El
+  panel enrasa con el intrados del forjado (2,310) y el cuerpo de la maquina
+  sube dentro del canto del forjado (0,250). No queda ningun descuelgue.
+- Eso obliga en obra a dejar el hueco al hormigonar o a resolver el cuerpo por
+  encima del forjado: va anotado en CONFLICTOS de la cabecera del `.rb`.
+
+La posicion sale de las fotos y queda por medir en obra.
 
 ## Comprobar en obra
 
@@ -427,24 +436,37 @@ En planta esta todo medido. En altura el levantamiento solo da el suelo a
 suelo (2,560), asi que el resto de cotas verticales van declaradas una sola
 vez en la cabecera del `.rb`, cada una con su origen (medida, estandar o
 SUPUESTA). Las supuestas son el canto del forjado (0,250), el intrados de la
-viga P1b (2,100), el alto del zocalo del ventanal (0,450) y el sillon.
+viga P1b (2,100), el alto del zocalo del ventanal (0,130) y el sillon.
 
 **Aire acondicionado.** **Una sola maquina** (el cliente corrige el 20 set.
-que solo hay una, no dos): un cassette de techo de 4 vias, el cuadrado blanco
-con rejillas de sus fotos. Va **al Oeste de P3 y pegado a el**, centrado con
-el pilar: panel de 1,00 x 1,00 entre x 4,570-5,570 e y 4,723-5,723, a 0,10 de
-la cara Oeste de P3.
+que solo hay una, no dos): un cassette de 4 vias, el cuadrado blanco con
+rejillas de sus fotos. Va **a la izquierda del pilar central mirando el plano
+al Norte**, es decir al Oeste de P3 y pegado a el, centrado con el pilar:
+panel de 0,95 x 0,95 entre x 4,595-5,545 e y 4,748-5,698, a 0,125 de la cara
+Oeste de P3. Es la misma medida que lleva la lamina 01, asi que plano y 3D
+coinciden.
 
-Se modela con sus piezas: panel de 1,00, rejilla de retorno cuadrada de 0,45
-en el centro, una lama de impulsion de 0,70 x 0,09 en cada lado y el cuerpo de
-0,84 x 0,84 x 0,25. **No se empotra en el forjado** —que es el suelo del
-altillo y no se puede agujerear—: el cuerpo se monta pegado a su intrados
-(2,060-2,310) y el panel queda por debajo, visto desde la sala (2,030-2,060).
-Si en obra hay falso techo, el panel sube a enrasar con el y el cuerpo se mete
-en el plenum.
+Va **empotrado en el techo de planta baja, que es el suelo del altillo**, como
+pide el cliente. El panel enrasa con el intrados del forjado: cara vista en
+2,280-2,310, con la rejilla de retorno de 0,45 y las cuatro lamas de 0,09
+asomando 0,015 por debajo. El cuerpo de la maquina sube **dentro** del canto
+del forjado, 2,310-2,560, ocupando sus 0,250 enteros. No queda descuelgue
+alguno bajo el techo.
+
+En obra eso obliga a dejar el hueco al hormigonar el forjado o a resolver el
+cuerpo por encima de el; queda anotado en CONFLICTOS del `.rb`.
 
 **Pared en L.** El vidrio va solo sobre el tramo largo. Sobre la base de la L
 (el doblez de 0,74) no hay vidrio: ese hueco queda libre.
+
+**Pared de la caja de escalera.** El tabique que cierra la escalera por el
+Oeste (x 8,650-8,811) **no es un rectangulo**: su coronacion **acompana la
+subida de la escalera**. Arranca en 1,209 sobre el primer peldano, sube con la
+misma pendiente que la escalera —un peldano de 0,2599 de huella por 0,1506 de
+tabica— manteniendose 1,00 por encima de la linea de mamperlanes, y al llegar
+a y=5,840 alcanza el intrados del forjado (2,310) y sigue recta hasta el
+desembarco. Se genera como poligono en el plano Y-Z extruido en X, no como
+caja, para que el corte sea exacto.
 
 **Frente de la barra.** El mostrador lleva en su cara Este —la que ve el
 cliente, y en toda su longitud— un revestimiento de madera de 0,03, con un
@@ -460,7 +482,9 @@ en 2,310 (ya estaba en COMPROBAR); la viga P1b muere en el aire al haberse
 movido la pared en L a y=5,357; el lavavajillas K6 es mas alto y mas hondo que
 el fregadero K7 bajo el que va; el lavavasos B1 (0,670) no cabe en el hueco de
 0,600 de la vitrina; las vitrinas de 0,70 vuelan sobre un mostrador de 0,63; y
-el machon P4 deja la escalera en 0,878 de ancho libre en vez de 1,079.
+el machon P4 deja la escalera en 0,878 de ancho libre en vez de 1,079; y el
+cuerpo del aire AC1, al ir empotrado como pide el cliente, ocupa el canto
+entero del forjado.
 
 `MODELO_3D_vista.png` y `MODELO_3D_vista_alta.png` son dos axonometrias de
 control, con los muros cortados para ver cada planta por dentro. Las genera

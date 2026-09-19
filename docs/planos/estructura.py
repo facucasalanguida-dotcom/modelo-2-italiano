@@ -234,7 +234,7 @@ ZOCALO_SUR = dict(x0=0.510, x1=5.870, y0=1.621, y1=1.968, fondo=0.347)
 # Se coloca centrado con P3 y a 0,10 de su cara Oeste. El panel estandar es de
 # 0,95 x 0,95. Posicion tomada de las fotos: falta medirla en obra.
 AIRE = [
-    ('AC1', 'Cassette de techo 4 vías, bajo el forjado',
+    ('AC1', 'Cassette de 4 vías empotrado, al Oeste de P3',
      5.070, 5.223, 0.95, 0.95),
 ]
 AIRE_REJILLA = None          # el cassette de 4 vias retorna por su centro

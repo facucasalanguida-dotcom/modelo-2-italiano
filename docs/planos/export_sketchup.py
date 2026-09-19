@@ -43,17 +43,12 @@ REV_E       = 0.030     # revestimiento de madera del frente de la barra
 REV_ZOC_H   = 0.050     # retranqueo inferior, para la linea de LED
 REV_ZOC_E   = 0.020     # cuanto se mete hacia dentro ese retranqueo
 Z_ESTANTE   = None      # se calcula: por encima del aparato mas alto de la mesada
-Z_AIRE      = None      # se calcula: el cassette se monta pegado al techo
-A_PANEL     = 1.000     # panel decorativo del cassette (cuadrado blanco)
-A_CUERPO    = 0.840     # cuerpo de la maquina, por encima del techo
-H_CUERPO    = 0.250     # cassette slim: cabe en el canto del forjado
-E_PANEL     = 0.030
+H_CUERPO    = T_FORJADO  # cassette slim: ocupa el canto entero del forjado
+E_PANEL     = 0.030     # grueso del panel decorativo, enrasado con el techo
+A_MARCO     = 0.035     # borde ciego del panel, del canto a la primera lama
 A_RETORNO   = 0.450     # rejilla de retorno, en el centro del panel
-A_LAMA      = 0.700     # lamas de impulsion, una por cada lado
-F_LAMA      = 0.090
+F_LAMA      = 0.090     # fondo de cada lama de impulsion
 H_REJILLA   = 0.060     # rejilla de retorno independiente del local
-E_FALSO     = 0.020     # falso techo donde no hay forjado que empotrar
-A_FALSO     = 1.600
 D_EMPOTRADO = 0.090     # diametro de los empotrados
 H_COLGANTE  = 0.220     # alto de la pantalla de los colgantes
 Z_COLGANTE  = 1.700     # borde inferior de los colgantes, por debajo del aire
@@ -78,9 +73,11 @@ ALTURAS_DOC = [
     ('Antepechos de vidrio', E.H_BARANDA, 'estandar'),
     ('Encimeras', Q.H_ENCIMERA, 'estandar'),
     ('Borde inferior de la campana', Q.H_CAMPANA, 'estandar'),
-    ('Estante mural de la trasbarra', 0.0, 'SUPUESTO — sobre el aparato más alto'),
+    ('Estante mural de la trasbarra', None, 'SUPUESTO — sobre el aparato más alto'),
     ('Sillon corrido: asiento / respaldo', H_SILLON, 'SUPUESTO — fondo sin medir'),
-    ('Cara vista del cassette de aire', Z_SOFITO - 0.280, 'derivado del intradós'),
+    ('Cara vista del cassette de aire', round(Z_SOFITO - E_PANEL, 3),
+     'empotrado, panel a haces con el techo'),
+    ('Cuerpo del cassette (en el forjado)', Z_SOFITO, 'sube hasta 2,560'),
     ('Revestimiento del frente de la barra', Q.H_ENCIMERA, 'hasta la encimera'),
 ]
 
@@ -132,6 +129,9 @@ CONFLICTOS_DOC = [
     'Los dos apliques del proyecto original caen sobre los armarios K8 y K9; en',
     '  el 3D se suben a 1,95 para que se vean.',
     'El horno K5 se dibuja en el suelo: el plano no dice sobre que apoya.',
+    'El aire AC1 va empotrado en el forjado, como pide el cliente: el cuerpo de',
+    '  la maquina (0,250) ocupa el canto entero del suelo del altillo. Hay que',
+    '  dejar el hueco al hormigonar o resolverlo por encima del forjado.',
 ]
 
 # --------------------------------------------------------------- materiales
@@ -159,7 +159,7 @@ MAT = {
     'falso':     ('Falso techo',       (240, 238, 234)),
 }
 
-cajas, prismas, cilindros = [], [], []
+cajas, prismas, cilindros, paneles = [], [], [], []
 
 
 def caja(tag, mat, nombre, x0, y0, x1, y1, z0, z1):
@@ -174,6 +174,11 @@ def prisma(tag, mat, nombre, pts, z0, z1):
 
 def cilindro(tag, mat, nombre, cx, cy, r, z0, z1):
     cilindros.append((tag, mat, nombre, cx, cy, r, z0, z1))
+
+
+def panel(tag, mat, nombre, pts_yz, x0, x1):
+    """Muro de canto variable: poligono en el plano Y-Z, extruido en X."""
+    paneles.append((tag, mat, nombre, list(pts_yz), x0, x1))
 
 
 # ============================================================ PLANTA BAJA
@@ -265,8 +270,18 @@ caja('07 Bano', 'madera', 'Baño · hoja de la puerta',
      bp['x0'], bp['y'] + 0.020, bp['x1'], bp['y'] + 0.060, 0.0, E.H_PUERTA)
 
 # --- caja de escalera y escalera -----------------------------------------
+# La pared de la caja de escalera no es un rectangulo: su coronacion
+# acompana la subida de la escalera, a 1,00 sobre la linea de tabicas,
+# hasta que alcanza el techo y ya sigue recta.
 nm, x0, y0, x1, y1 = E.CAJA_ESC_PB
-caja('08 Escalera', 'tabique', nm, x0, y0, x1, y1, 0.0, Z_SOFITO)
+H_SOBRE_ESC = 1.000
+def _cota_esc(y):
+    return (y - E.ESC_Y_PIE) / E.ESC_HUELLA * E.ESC_TABICA
+z_ini = round(_cota_esc(y0) + H_SOBRE_ESC, 3)
+y_recto = round(E.ESC_Y_PIE + (Z_SOFITO - H_SOBRE_ESC) / E.ESC_TABICA * E.ESC_HUELLA, 3)
+panel('08 Escalera', 'tabique', nm,
+      [(y0, 0.0), (y1, 0.0), (y1, Z_SOFITO), (y_recto, Z_SOFITO), (y0, z_ini)],
+      x0, x1)
 # P4 se mete 0,201 en el ancho de la escalera: los peldanos se recortan
 # contra el machon en vez de atravesarlo. Ancho libre al pasar P4: 0,878.
 P4 = next(q for q in E.PILARES if q[0] == 'P4')
@@ -354,6 +369,8 @@ nv, np_ = Q.NEVERA_BARRA, Q.NEVERA_POS
 caja('11 Barra', 'frio', f"{nv['tag']} · {nv['nombre']}",
      tx0, np_['y0'], tx0 + nv['f'], np_['y1'], 0.0, nv['h'])
 Z_ESTANTE = round(Q.H_ENCIMERA + max(q['h'] for q in Q.TRASBARRA) + 0.080, 3)
+ALTURAS_DOC = [(nm, Z_ESTANTE if v is None else v, f)
+               for nm, v, f in ALTURAS_DOC]   # ya se puede rellenar
 for i in range(Q.ESTANTE_N):
     ya = ty1 - (i + 1) * Q.ESTANTE['a']
     caja('11 Barra', 'inox', f"{Q.ESTANTE['tag']} · {Q.ESTANTE['nombre']} ({i + 1})",
@@ -495,40 +512,48 @@ for i, (cx, cy) in enumerate(E.APLIQUES, 1):
     caja('13 Instalaciones', 'luz', f'Aplique {i}',
          cx - 0.060, cy - 0.100, cx + 0.060, cy + 0.100,
          Z_APLIQUE, Z_APLIQUE + H_APLIQUE)
-# --- Aire acondicionado: UNA maquina, el cassette de techo de 4 vias que el
-#     cliente senala en sus fotos (el cuadrado blanco con rejillas). Va al
-#     Oeste de P3 y pegado a el, bajo el forjado del altillo.
+# --- Aire acondicionado: UNA maquina, el cassette de 4 vias que el cliente
+#     senala en sus fotos (el cuadrado blanco con rejillas). Va al Oeste de
+#     P3 (a su izquierda mirando el plano al Norte) y pegado a el.
 #
-#     No se puede empotrar DENTRO del forjado, que es el suelo del altillo:
-#     el cuerpo de la maquina se monta pegado a su intrados y el panel queda
-#     por debajo, visto desde la sala. Si en obra hay falso techo, el panel
-#     sube hasta enrasar con el y el cuerpo se mete en el plenum.
+#     EMPOTRADO en el techo de planta baja, que es el suelo del altillo: el
+#     cliente lo pide asi el 20 set. El panel enrasa con el intrados del
+#     forjado (2,310) y el cuerpo de la maquina sube DENTRO del canto del
+#     forjado, 0,250 de los 0,250 que tiene. Queda al ras, sin descuelgue.
+#     En obra eso obliga a dejar el hueco al hormigonar o a pasar el cuerpo
+#     por encima del forjado: va anotado en CONFLICTOS de la cabecera.
 rw, rh = E.AIRE_REJILLA or (0.0, 0.0)
 for tag, nm, cx, cy, a, f in E.AIRE:
-    px0, px1 = cx - A_PANEL / 2, cx + A_PANEL / 2
-    py0, py1 = cy - A_PANEL / 2, cy + A_PANEL / 2
-    z_cuerpo0 = Z_SOFITO - H_CUERPO              # cuerpo pegado al intrados
-    z_pan0 = z_cuerpo0 - E_PANEL                 # cara vista del panel
-    caja('13 Instalaciones', 'aire', f'{tag} · cuerpo de la máquina',
-         cx - A_CUERPO / 2, cy - A_CUERPO / 2,
-         cx + A_CUERPO / 2, cy + A_CUERPO / 2, z_cuerpo0, Z_SOFITO)
+    # el panel toma la medida de la lamina 2D para que plano y 3D coincidan
+    px0, px1 = round(cx - a / 2, 3), round(cx + a / 2, 3)
+    py0, py1 = round(cy - f / 2, 3), round(cy + f / 2, 3)
+    a_cue = round(min(a, f) - 2 * A_MARCO, 3)    # cuerpo dentro del forjado
+    z_pan0 = round(Z_SOFITO - E_PANEL, 3)        # cara vista del panel
+    caja('13 Instalaciones', 'aire', f'{tag} · cuerpo de la máquina (empotrado en el forjado)',
+         round(cx - a_cue / 2, 3), round(cy - a_cue / 2, 3),
+         round(cx + a_cue / 2, 3), round(cy + a_cue / 2, 3),
+         Z_SOFITO, round(Z_SOFITO + H_CUERPO, 3))
     caja('13 Instalaciones', 'aire', f'{tag} · {nm} · panel de 4 vías',
-         px0, py0, px1, py1, z_pan0, z_cuerpo0)
+         px0, py0, px1, py1, z_pan0, Z_SOFITO)
     caja('13 Instalaciones', 'rejilla', f'{tag} · rejilla de retorno central',
-         cx - A_RETORNO / 2, cy - A_RETORNO / 2,
-         cx + A_RETORNO / 2, cy + A_RETORNO / 2, z_pan0 - 0.015, z_pan0)
-    m = (A_PANEL - A_LAMA) / 2
+         round(cx - A_RETORNO / 2, 3), round(cy - A_RETORNO / 2, 3),
+         round(cx + A_RETORNO / 2, 3), round(cy + A_RETORNO / 2, 3),
+         round(z_pan0 - 0.015, 3), z_pan0)
+    # cada lama muere contra las dos perpendiculares, sin cruzarse en la esquina
+    m = round(A_MARCO + F_LAMA, 3)
     for lado, (lx0, ly0, lx1, ly1) in (
-            ('Sur',   (px0 + m, py0 + 0.035, px1 - m, py0 + 0.035 + F_LAMA)),
-            ('Norte', (px0 + m, py1 - 0.035 - F_LAMA, px1 - m, py1 - 0.035)),
-            ('Oeste', (px0 + 0.035, py0 + m, px0 + 0.035 + F_LAMA, py1 - m)),
-            ('Este',  (px1 - 0.035 - F_LAMA, py0 + m, px1 - 0.035, py1 - m))):
+            ('Sur',   (px0 + m, py0 + A_MARCO, px1 - m, py0 + A_MARCO + F_LAMA)),
+            ('Norte', (px0 + m, py1 - A_MARCO - F_LAMA, px1 - m, py1 - A_MARCO)),
+            ('Oeste', (px0 + A_MARCO, py0 + m, px0 + A_MARCO + F_LAMA, py1 - m)),
+            ('Este',  (px1 - A_MARCO - F_LAMA, py0 + m, px1 - A_MARCO, py1 - m))):
         caja('13 Instalaciones', 'rejilla', f'{tag} · lama de impulsión {lado}',
-             lx0, ly0, lx1, ly1, z_pan0 - 0.015, z_pan0)
+             round(lx0, 3), round(ly0, 3), round(lx1, 3), round(ly1, 3),
+             round(z_pan0 - 0.015, 3), z_pan0)
     if rh:
         caja('13 Instalaciones', 'rejilla', f'{tag} · rejilla de retorno del local',
-             cx - rw / 2, py1 + 0.060, cx + rw / 2, py1 + 0.060 + rh,
-             z_cuerpo0, Z_SOFITO)
+             round(cx - rw / 2, 3), round(py1 + 0.060, 3),
+             round(cx + rw / 2, 3), round(py1 + 0.060 + rh, 3),
+             z_pan0, Z_SOFITO)
 
 # ============================================================ PLANTA ALTA
 for nm, x0, y0, x1, y1 in E.TABIQUES_PA:
@@ -564,7 +589,8 @@ def rb_str(t):
 
 def main():
     tags = []
-    for t in [c[0] for c in cajas] + [p[0] for p in prismas] + [c[0] for c in cilindros]:
+    for t in ([c[0] for c in cajas] + [p[0] for p in prismas]
+              + [c[0] for c in cilindros] + [p[0] for p in paneles]):
         if t not in tags:
             tags.append(t)
     tags.sort()
@@ -645,6 +671,14 @@ def main():
           f'{rb_num(z0)}, {rb_num(z1)}],')
     w('  ]')
     w('')
+    w('  # --- paneles: [capa, material, nombre, [[y, z], ...], x0, x1]')
+    w('  PANELES = [')
+    for tg, mt, nm, pts, x0, x1 in paneles:
+        cad = ', '.join(f'[{rb_num(a)}, {rb_num(b)}]' for a, b in pts)
+        w(f'    [{rb_str(tg)}, {rb_str(mt)}, {rb_str(nm)}, [{cad}], '
+          f'{rb_num(x0)}, {rb_num(x1)}],')
+    w('  ]')
+    w('')
     w('  # --- cilindros: [capa, material, nombre, cx, cy, r, z0, z1]')
     w('  CILINDROS = [')
     for tg, mt, nm, cx, cy, r, z0, z1 in cilindros:
@@ -662,7 +696,7 @@ def main():
     with open(destino, 'w', encoding='utf-8') as f:
         f.write('\n'.join(L))
     print(f'MODELO_3D.rb  ·  {len(cajas)} cajas, {len(prismas)} prismas, '
-          f'{len(cilindros)} cilindros, {len(tags)} capas')
+          f'{len(cilindros)} cilindros, {len(paneles)} paneles, {len(tags)} capas')
     return destino
 
 
@@ -722,6 +756,27 @@ RUBY_BUILDER = r'''
   def self.caja(model, ents, capa_nombre, mat_clave, nombre, x0, y0, x1, y1, z0, z1)
     g = ents.add_group
     return fallo(g, nombre) if extruir(g, [[x0, y0], [x1, y0], [x1, y1], [x0, y1]], z0, z1).nil?
+    poner(g, model, capa_nombre, mat_clave, nombre)
+  end
+
+  # Muro de canto variable: la cara se dibuja en el plano Y-Z y se extruye
+  # en X. Sirve para la pared de la escalera, cuya coronacion sube con ella.
+  def self.extruir_x(grupo, puntos_yz, x0, x1)
+    pts = puntos_yz.map { |y, z| Geom::Point3d.new(x0.m, y.m, z.m) }
+    begin
+      cara = grupo.entities.add_face(pts)
+    rescue ArgumentError
+      cara = nil
+    end
+    return nil if cara.nil?
+    cara.reverse! if cara.normal.x < 0
+    cara.pushpull((x1 - x0).m)
+    cara
+  end
+
+  def self.panel(model, ents, capa_nombre, mat_clave, nombre, pts, x0, x1)
+    g = ents.add_group
+    return fallo(g, nombre) if extruir_x(g, pts, x0, x1).nil?
     poner(g, model, capa_nombre, mat_clave, nombre)
   end
 
@@ -823,6 +878,9 @@ RUBY_BUILDER = r'''
       CILINDROS.each do |f|
         n += 1 if cilindro(model, ents, f[0], f[1], f[2], f[3], f[4], f[5], f[6], f[7])
       end
+      PANELES.each do |f|
+        n += 1 if panel(model, ents, f[0], f[1], f[2], f[3], f[4], f[5])
+      end
 
       CAPAS_OCULTAS.each do |c|
         l = model.layers[c]
@@ -843,7 +901,7 @@ RUBY_BUILDER = r'''
     # todo lo que va despues del commit, fuera del bloque protegido: si algo
     # falla aqui no se puede abortar una operacion que ya esta confirmada.
     model.active_view.zoom_extents
-    total = CAJAS.length + PRISMAS.length + CILINDROS.length
+    total = CAJAS.length + PRISMAS.length + CILINDROS.length + PANELES.length
     puts "#{NOMBRE_MODELO}: #{n} de #{total} solidos en #{CAPAS.length} capas."
     puts "AVISO: #{@fallos.length} piezas sin crear -> #{@fallos.join(', ')}" unless @fallos.empty?
     puts "AVISO: #{abiertos} piezas no son solido cerrado." if abiertos > 0

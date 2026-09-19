@@ -51,9 +51,22 @@ for tg, mt, nm, cx, cy, r, z0, z1 in X.cilindros:
     if z1 <= z0 or fuera(cx - r, cy - r, cx + r, cy + r): continue
     solidos.append((tg, mt, cx - r, cy - r, cx + r, cy + r, z0, z1))
 
+# paneles verticales (muros de canto variable): se dibujan aparte, con su
+# perfil real, porque su coronacion no es horizontal
+panelitos = []
+for tg, mt, nm, pts, x0, x1 in X.paneles:
+    if PLANTA == 'alta' or fuera(x0, min(p[0] for p in pts), x1,
+                                 max(p[0] for p in pts)):
+        continue
+    tope = Z_BASE + CORTE if tg in ALTAS else 1e9
+    q = [(y, min(z, tope)) for y, z in pts]
+    panelitos.append((mt, q, x0, x1))
+
 solidos.sort(key=lambda s: (s[2] + s[3] + s[6]))
 pts = [proy(x, y, z) for _, _, x0, y0, x1, y1, z0, z1 in solidos
        for x in (x0, x1) for y in (y0, y1) for z in (z0, z1)]
+pts += [proy(x, y, z) for _, q, x0, x1 in panelitos for x in (x0, x1)
+        for y, z in q]
 us = [p[0] for p in pts]; vs = [p[1] for p in pts]
 ESC = 1700 / (max(us) - min(us))
 W = int((max(us) - min(us)) * ESC) + 80
@@ -73,6 +86,18 @@ for tg, mt, x0, y0, x1, y1, z0, z1 in solidos:
         d = ' '.join('%.2f,%.2f' % px(*proy(*p)) for p in vert)
         out.append(f'<polygon points="{d}" fill="{hexa(base,f)}" '
                    f'stroke="#3a3a3a" stroke-width="0.6" stroke-linejoin="round"/>')
+for mt, q, x0, x1 in panelitos:
+    base = COL.get(mt, (150, 150, 150))
+    for xx, f in ((x1, 0.62), (x0, 0.70)):
+        d = ' '.join('%.2f,%.2f' % px(*proy(xx, y, z)) for y, z in q)
+        out.append(f'<polygon points="{d}" fill="{hexa(base,f)}" '
+                   f'stroke="#3a3a3a" stroke-width="0.6"/>')
+    for (ya, za), (yb, zb) in zip(q, q[1:] + q[:1]):
+        d = ' '.join('%.2f,%.2f' % px(*proy(*p)) for p in
+                     ((x0, ya, za), (x1, ya, za), (x1, yb, zb), (x0, yb, zb)))
+        out.append(f'<polygon points="{d}" fill="{hexa(base,0.95)}" '
+                   f'stroke="#3a3a3a" stroke-width="0.6"/>')
+
 out.append('</svg>')
 svg = '\n'.join(out)
 cairosvg.svg2png(bytestring=svg.encode(), write_to=SALIDA, output_width=W)

@@ -36,9 +36,10 @@
 #      Antepechos de vidrio                    1.000 m   estandar
 #      Encimeras                               0.900 m   estandar
 #      Borde inferior de la campana            2.000 m   estandar
-#      Estante mural de la trasbarra           0.000 m   SUPUESTO — sobre el aparato más alto
+#      Estante mural de la trasbarra           1.600 m   SUPUESTO — sobre el aparato más alto
 #      Sillon corrido: asiento / respaldo      0.420 m   SUPUESTO — fondo sin medir
-#      Cara vista del cassette de aire         2.030 m   derivado del intradós
+#      Cara vista del cassette de aire         2.280 m   empotrado, panel a haces con el techo
+#      Cuerpo del cassette (en el forjado)     2.310 m   sube hasta 2,560
 #      Revestimiento del frente de la barra    0.900 m   hasta la encimera
 #
 #  CADENA DE OBRA DEL LADO OESTE (la que fijo el cliente)
@@ -78,6 +79,9 @@
 #      Los dos apliques del proyecto original caen sobre los armarios K8 y K9; en
 #        el 3D se suben a 1,95 para que se vean.
 #      El horno K5 se dibuja en el suelo: el plano no dice sobre que apoya.
+#      El aire AC1 va empotrado en el forjado, como pide el cliente: el cuerpo de
+#        la maquina (0,250) ocupa el canto entero del suelo del altillo. Hay que
+#        dejar el hueco al hormigonar o resolverlo por encima del forjado.
 #----------------------------------------------------------------------------
 
 # recargar el fichero no debe llenar la consola de avisos de constante
@@ -172,7 +176,6 @@ module Local3D
     ["07 Bano", "tabique", "Tabique Sur - tramo Este", 8.4700, 7.7300, 9.8900, 7.8300, 0.0000, 2.3100],
     ["07 Bano", "tabique", "Baño · dintel de la puerta", 7.7700, 7.7300, 8.4700, 7.8300, 2.1000, 2.3100],
     ["07 Bano", "madera", "Baño · hoja de la puerta", 7.7700, 7.7500, 8.4700, 7.7900, 0.0000, 2.1000],
-    ["08 Escalera", "tabique", "Caja de escalera (planta baja)", 8.6500, 3.9390, 8.8110, 7.7380, 0.0000, 2.3100],
     ["08 Escalera", "escalera", "Peldaño 1", 8.8110, 3.5790, 9.8900, 3.8389, 0.0000, 0.1506],
     ["08 Escalera", "escalera", "Peldaño 2", 8.8110, 3.8389, 9.8900, 4.0989, 0.0000, 0.3012],
     ["08 Escalera", "escalera", "Peldaño 3", 8.8110, 4.0989, 9.8900, 4.3588, 0.0000, 0.4518],
@@ -347,13 +350,13 @@ module Local3D
     ["12 Sala", "sillon", "Sillón corrido · respaldo", 2.5300, 8.8570, 7.4000, 8.9570, 0.4200, 1.0500],
     ["13 Instalaciones", "luz", "Aplique 1", 0.2500, 5.6500, 0.3700, 5.8500, 1.9500, 2.2500],
     ["13 Instalaciones", "luz", "Aplique 2", 0.2500, 6.3500, 0.3700, 6.5500, 1.9500, 2.2500],
-    ["13 Instalaciones", "aire", "AC1 · cuerpo de la máquina", 4.6500, 4.8030, 5.4900, 5.6430, 2.0600, 2.3100],
-    ["13 Instalaciones", "aire", "AC1 · Cassette de techo 4 vías, bajo el forjado · panel de 4 vías", 4.5700, 4.7230, 5.5700, 5.7230, 2.0300, 2.0600],
-    ["13 Instalaciones", "rejilla", "AC1 · rejilla de retorno central", 4.8450, 4.9980, 5.2950, 5.4480, 2.0150, 2.0300],
-    ["13 Instalaciones", "rejilla", "AC1 · lama de impulsión Sur", 4.7200, 4.7580, 5.4200, 4.8480, 2.0150, 2.0300],
-    ["13 Instalaciones", "rejilla", "AC1 · lama de impulsión Norte", 4.7200, 5.5980, 5.4200, 5.6880, 2.0150, 2.0300],
-    ["13 Instalaciones", "rejilla", "AC1 · lama de impulsión Oeste", 4.6050, 4.8730, 4.6950, 5.5730, 2.0150, 2.0300],
-    ["13 Instalaciones", "rejilla", "AC1 · lama de impulsión Este", 5.4450, 4.8730, 5.5350, 5.5730, 2.0150, 2.0300],
+    ["13 Instalaciones", "aire", "AC1 · cuerpo de la máquina (empotrado en el forjado)", 4.6300, 4.7830, 5.5100, 5.6630, 2.3100, 2.5600],
+    ["13 Instalaciones", "aire", "AC1 · Cassette de 4 vías empotrado, al Oeste de P3 · panel de 4 vías", 4.5950, 4.7480, 5.5450, 5.6980, 2.2800, 2.3100],
+    ["13 Instalaciones", "rejilla", "AC1 · rejilla de retorno central", 4.8450, 4.9980, 5.2950, 5.4480, 2.2650, 2.2800],
+    ["13 Instalaciones", "rejilla", "AC1 · lama de impulsión Sur", 4.7200, 4.7830, 5.4200, 4.8730, 2.2650, 2.2800],
+    ["13 Instalaciones", "rejilla", "AC1 · lama de impulsión Norte", 4.7200, 5.5730, 5.4200, 5.6630, 2.2650, 2.2800],
+    ["13 Instalaciones", "rejilla", "AC1 · lama de impulsión Oeste", 4.6300, 4.8730, 4.7200, 5.5730, 2.2650, 2.2800],
+    ["13 Instalaciones", "rejilla", "AC1 · lama de impulsión Este", 5.4200, 4.8730, 5.5100, 5.5730, 2.2650, 2.2800],
     ["14 Planta alta", "tabique", "Tabique Oeste del aseo", 2.4610, 7.5090, 2.5600, 8.9570, 2.5600, 5.0600],
     ["14 Planta alta", "tabique", "Tabique Sur - tramo Oeste", 2.5600, 7.5090, 3.0890, 7.6070, 2.5600, 5.0600],
     ["14 Planta alta", "tabique", "Tabique Sur - tramo Este", 3.8490, 7.5090, 7.5110, 7.6070, 2.5600, 5.0600],
@@ -465,6 +468,11 @@ module Local3D
     ["15 Techo", "forjado", "Techo del altillo", [[0.0000, 9.1560], [10.0400, 9.1560], [10.0400, 0.3300], [6.2300, 0.3300], [6.2300, 0.0000], [5.7310, 0.0000], [5.7310, 1.5610], [0.0000, 1.5610]], 5.0600, 5.2600],
   ]
 
+  # --- paneles: [capa, material, nombre, [[y, z], ...], x0, x1]
+  PANELES = [
+    ["08 Escalera", "tabique", "Caja de escalera (planta baja)", [[3.9390, 0.0000], [7.7380, 0.0000], [7.7380, 2.3100], [5.8400, 2.3100], [3.9390, 1.2090]], 8.6500, 8.8110],
+  ]
+
   # --- cilindros: [capa, material, nombre, cx, cy, r, z0, z1]
   CILINDROS = [
     ["11 Barra", "inox", "B2 · Barriles de cerveza de 30 L, Ø 0,32 (debajo de la tabla de P2)", 0.9100, 1.8160, 0.1600, 0.1300, 0.7300],
@@ -548,6 +556,27 @@ module Local3D
   def self.caja(model, ents, capa_nombre, mat_clave, nombre, x0, y0, x1, y1, z0, z1)
     g = ents.add_group
     return fallo(g, nombre) if extruir(g, [[x0, y0], [x1, y0], [x1, y1], [x0, y1]], z0, z1).nil?
+    poner(g, model, capa_nombre, mat_clave, nombre)
+  end
+
+  # Muro de canto variable: la cara se dibuja en el plano Y-Z y se extruye
+  # en X. Sirve para la pared de la escalera, cuya coronacion sube con ella.
+  def self.extruir_x(grupo, puntos_yz, x0, x1)
+    pts = puntos_yz.map { |y, z| Geom::Point3d.new(x0.m, y.m, z.m) }
+    begin
+      cara = grupo.entities.add_face(pts)
+    rescue ArgumentError
+      cara = nil
+    end
+    return nil if cara.nil?
+    cara.reverse! if cara.normal.x < 0
+    cara.pushpull((x1 - x0).m)
+    cara
+  end
+
+  def self.panel(model, ents, capa_nombre, mat_clave, nombre, pts, x0, x1)
+    g = ents.add_group
+    return fallo(g, nombre) if extruir_x(g, pts, x0, x1).nil?
     poner(g, model, capa_nombre, mat_clave, nombre)
   end
 
@@ -649,6 +678,9 @@ module Local3D
       CILINDROS.each do |f|
         n += 1 if cilindro(model, ents, f[0], f[1], f[2], f[3], f[4], f[5], f[6], f[7])
       end
+      PANELES.each do |f|
+        n += 1 if panel(model, ents, f[0], f[1], f[2], f[3], f[4], f[5])
+      end
 
       CAPAS_OCULTAS.each do |c|
         l = model.layers[c]
@@ -669,7 +701,7 @@ module Local3D
     # todo lo que va despues del commit, fuera del bloque protegido: si algo
     # falla aqui no se puede abortar una operacion que ya esta confirmada.
     model.active_view.zoom_extents
-    total = CAJAS.length + PRISMAS.length + CILINDROS.length
+    total = CAJAS.length + PRISMAS.length + CILINDROS.length + PANELES.length
     puts "#{NOMBRE_MODELO}: #{n} de #{total} solidos en #{CAPAS.length} capas."
     puts "AVISO: #{@fallos.length} piezas sin crear -> #{@fallos.join(', ')}" unless @fallos.empty?
     puts "AVISO: #{abiertos} piezas no son solido cerrado." if abiertos > 0
