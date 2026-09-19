@@ -264,54 +264,48 @@ son 2,06 de ancho y 1,00 de barrido.
 
 ### Muro Norte, pared en L y hundimiento (correccion del 19 set., noche)
 
-El cliente corrige la cadena del lado Oeste. Los datos que da son tres: entre
-la barra y la pared en L tiene que haber **0,60 de paso**, la **L llega al
-inicio de P1** y de la pared de la cocina a la base de la L hay **3,57**. El
-tamano del hundimiento lo deja a nuestro criterio.
+El cliente corrige la cadena del lado Oeste: entre la barra y la pared en L
+tiene que haber **0,60 de paso**, la **L arranca en el inicio de P1** y mide
+**3,60**, y el muro Norte no lleva nada por delante (el trasdosado que se
+habia supuesto no existe). El tamano del hundimiento queda a nuestro criterio.
 
 Cadena resultante, de Sur a Norte por la linea de la barra:
 
     1,968  cara interior del zocalo del ventanal
-     +2,79  barra                      ->  4,759   (cara Sur de P1)
-     +0,60  paso de personal           ->  5,357   (cara NORTE de P1)
-     +3,57  a la cara de la cocina     ->  8,927
-     -0,15  hundimiento                ->  8,777   (muro Norte en el resto)
+     +2,79  barra                      ->  4,759   cara SUR de P1
+     +0,60  paso de personal           ->  5,357   cara NORTE de P1 = base de la L
+     +3,60  pared en L                 ->  8,957   cara interior del muro Norte
+     +0,05  hundimiento                ->  9,008   pared hundida de la cocina
+     +0,15  espesor del muro           ->  9,156   borde del solar
 
-De ahi salen, sin ajustar nada a mano:
+Con la L en 3,60 todo cuadra a la vez:
 
-| | Antes | Ahora |
+| | Valor | Comprobacion |
 |---|---|---|
-| Paso barra - pared en L | 0,95 | **0,598** (los 0,60 pedidos) |
-| Base de la pared en L | 5,708 | **5,357** = cara Norte de P1 |
-| Largo de la pared en L | 3,30 | **3,42** |
-| Cara de la cocina (fondo del hundimiento) | 9,283 | **8,927** |
-| Muro Norte en el resto (cara interior) | 9,008 | **8,777** |
-| Espesor del muro Norte | 0,148 | **0,379** (0,229 en la cocina) |
-| Hundimiento | 0,275 | **0,15** |
+| Paso barra - pared en L | **0,598** | los 0,60 pedidos |
+| Base de la pared en L | **5,357** | cara Norte de P1, exacta |
+| Pared en L | **3,60** | llega al muro Norte |
+| Hundimiento | **0,05** | escalon del muro, no un hueco |
+| Espesor del muro en la cocina | **0,148** | el del levantamiento |
+| Espesor del muro en el resto | **0,199** | |
+| De la pared hundida a P1 | **3,651** | los 3,65 que midio el cliente en el muro Oeste, hundimiento incluido |
 
-**No hay trasdosado ni nada por delante del muro** (el cliente lo confirmo):
-el muro Norte es macizo hasta el borde del solar (9,156) y lo que cambia con
-el hundimiento es su espesor, **0,229 en los 2,18 de la cocina y 0,379 en el
-resto**, frente a los 0,148 que supone el levantamiento. Ese espesor queda en
-COMPROBAR EN OBRA. El tamano del hundimiento es libre: solo decide cuanto baja
-el muro Norte de la sala, y cada centimetro de hundimiento es un centimetro
-menos de paso por el Norte.
+El muro Norte es **macizo** desde su cara interior hasta el borde del solar:
+no hay trasdosado ni nada por delante. Lo unico que cambia con el hundimiento
+es su espesor, y en la cocina sale justo el 0,148 del levantamiento. El
+espesor real queda en COMPROBAR EN OBRA.
 
-Los 3,57 van **de la pared hundida (8,927) a la cara Norte de P1 (5,357)**,
-que es donde arranca la pared en L.
+**Lo que arrastra**, respecto del plano del 19 set. por la manana:
 
-**Lo que arrastra.** Todo lo que apoya en el muro Norte baja 0,231 respecto
-del plano anterior:
+- El sillon corrido y con el las mesas M7, M10 y M11 pasan a 7,657-8,357.
+- El camino de la puerta a la barra, que con la nevera A7 puesta va por el
+  Norte de la fila central, queda en **0,70**.
+- La bancada de coccion y la campana quedan en 8,408-9,008.
+- La linea del muro Oeste de la cocina **vuelve a caber**: entre la cara
+  Norte de P1 y la bancada hay 3,05 y los cuatro aparatos suman 3,04.
 
-- El sillon corrido y con el las mesas M7, M10 y M11, que pasan a 7,477-8,177.
-- El paso por el Norte de la fila central, unico camino de la puerta a la
-  barra con la nevera A7 puesta, baja de 0,74 a **0,51**.
-- La bancada de coccion y la campana bajan a 8,327-8,927.
-- **La linea del muro Oeste de la cocina ya no cabe**: entre la cara Norte de
-  P1 (5,357) y la bancada (8,327) hay 2,97 y los cuatro aparatos (horno 0,59
-  + fregadero 1,20 + dos armarios de 0,63) suman 3,04. Faltan **7 cm**. Se
-  dibuja en rojo sobre P1, en la lamina 03, y esta en COMPROBAR EN OBRA:
-  quitando uno de los dos armarios frigorificos sobrarian 0,55.
+Superficies: 75,25 m2 utiles en planta baja, 37,79 m2 de doble altura y
+33,36 m2 de forjado.
 
 ### Mesas: ocho dobles de 0,70 x 0,70
 

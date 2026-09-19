@@ -261,11 +261,11 @@ def hundimiento(L, rotulo=(1.34, 8.28)):
     """Hundimiento del muro Norte en la cocina (19 set., noche).
 
     No es un hueco abierto en la medianera: el fondo del hundimiento ES la
-    escalon de la cara interior del muro Norte: 8,927 en los 2,18 de la
-    cocina y 8,777 en el resto. El muro es macizo hasta el borde del solar
-    (9,156), asi que lo que cambia es su espesor: 0,229 y 0,379. La cara de
-    la cocina queda a 3,57 de la base de la pared en L, que arranca en la
-    cara Norte de P1.
+    escalon de la cara interior del muro Norte: 9,008 en los 2,18 de la
+    cocina y 8,957 en el resto. El muro es macizo hasta el borde del solar
+    (9,156), asi que lo que cambia es su espesor: 0,148 en la cocina (el del
+    levantamiento) y 0,199 en el resto. De la pared hundida a la cara Norte
+    de P1 hay 3,651, los 3,65 que midio el cliente en el muro Oeste.
     """
     h = E.HUNDIMIENTO
     # el escalon lo dibujan ya los dos tramos de muro; aqui solo el rotulo
@@ -659,14 +659,14 @@ def planta_baja():
            'zócalo y puerta con las medidas del 19 set.; el resto,',
            'del levantamiento. Sección a 1,20 m sobre el pavimento.',
            'Muro Norte: la barra (2,79) + 0,60 de paso llevan la base',
-           'de la pared en L a la cara Norte de P1, y de ahí a la',
-           'cocina hay 3,57. El hundimiento de 0,15 es el escalón del',
-           'trasdosado: 0,08 en la cocina y 0,23 en el resto.',
+           'de la pared en L a la cara Norte de P1; la L mide 3,60 y',
+           'llega al muro. El muro es macizo hasta el solar: 0,20 de',
+           'espesor, 0,15 en la cocina por el hundimiento de 0,05.',
            'Mesas dobles de 0,70 × 0,70 que el personal junta. El',
            'sillón, 0,60 de fondo sin medir. Luces del proyecto.',
            'La nevera A7 sale 0,58 de la cara Sur de P3 y deja 0,45',
            'hasta las sillas de M2: el paso a la barra da la vuelta',
-           'por el Norte, con 0,51. Baño no accesible: 0,70.'],
+           'por el Norte, con 0,70. Baño no accesible: 0,70.'],
           [(POCHE, TINTA, 'Muro de carga / medianera'),
            (POCHE_PIL, TINTA, 'Pilar o machón de hormigón'),
            (POCHE_TAB, TINTA, 'Pared en L y trasdosado del muro Norte'),
@@ -676,7 +676,7 @@ def planta_baja():
            ('linea', RESERVA, 'Reserva de espacio del cliente'),
            ('#f4efe6', MOB, 'Mesas dobles de 0,70 × 0,70 y sillas'),
            ('#eaeff2', APAR, 'Nevera A7 · 0,54 × 0,58 (cara Sur de P3)'),
-           ('linea', ACC, 'Recorrido de sala · 0,51 por el Norte'),
+           ('linea', ACC, 'Recorrido de sala · 0,70 por el Norte'),
            ('punto', '#7d7d7d', 'Punto de luz s/ proyecto original'),
            ('linea', '#6f8a99', 'Aire acondicionado (cassette de techo)')],
           ('SUPERFICIES Y ALTURAS',

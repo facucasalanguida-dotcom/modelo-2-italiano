@@ -14,17 +14,17 @@
   <line x1="0" y1="0" x2="0" y2="1.6" stroke="#ffffff" stroke-width="0.30"/>
 </pattern>
 </defs>
-<defs><clipPath id="clip13_9504"><rect x="13.00" y="26.00" width="129.00" height="206.00"/></clipPath>
-<clipPath id="clip14_5632"><rect x="160.00" y="26.00" width="132.00" height="206.00"/></clipPath></defs>
+<defs><clipPath id="clip13_2368"><rect x="13.00" y="26.00" width="129.00" height="206.00"/></clipPath>
+<clipPath id="clip14_9536"><rect x="160.00" y="26.00" width="132.00" height="206.00"/></clipPath></defs>
 <g id="hoja">
 <rect x="8.000" y="8.000" width="404.000" height="281.000" fill="none" stroke="#111111" stroke-width="0.5"/>
 <rect x="9.200" y="9.200" width="401.600" height="278.600" fill="none" stroke="#111111" stroke-width="0.1"/>
 </g>
 <g id="fondo">
-<g clip-path="url(#clip13_9504)">
-<rect x="34.000" y="52.000" width="87.200" height="138.800" fill="#ffffff" stroke="none"/>
+<g clip-path="url(#clip13_2368)">
+<rect x="34.000" y="52.000" width="87.200" height="142.040" fill="#ffffff" stroke="none"/>
 </g>
-<g clip-path="url(#clip14_5632)">
+<g clip-path="url(#clip14_9536)">
 <rect x="180.000" y="52.000" width="91.200" height="135.560" fill="#ffffff" stroke="none"/>
 </g>
 </g>
@@ -32,35 +32,35 @@
 
 </g>
 <g id="muros">
-<g clip-path="url(#clip13_9504)">
-<rect x="121.200" y="42.840" width="304.400" height="15.160" fill="#6f6f6f" stroke="#111111" stroke-width="0.5"/>
-<rect x="24.000" y="42.840" width="97.200" height="9.160" fill="#6f6f6f" stroke="#111111" stroke-width="0.5"/>
-<rect x="24.000" y="52.000" width="10.000" height="276.720" fill="#6f6f6f" stroke="#111111" stroke-width="0.5"/>
-<rect x="24.000" y="328.720" width="20.400" height="17.920" fill="#6f6f6f" stroke="#111111" stroke-width="0.5"/>
-<rect x="253.240" y="346.640" width="9.960" height="24.040" fill="#6f6f6f" stroke="#111111" stroke-width="0.5"/>
-<rect x="419.600" y="58.000" width="6.000" height="293.920" fill="#6f6f6f" stroke="#111111" stroke-width="0.5"/>
-<rect x="412.400" y="351.920" width="13.200" height="43.960" fill="#6f6f6f" stroke="#111111" stroke-width="0.5"/>
-<rect x="121.200" y="58.000" width="4.000" height="136.800" fill="#a8a8a8" stroke="#111111" stroke-width="0.35"/>
-<rect x="95.600" y="190.800" width="29.600" height="4.000" fill="#a8a8a8" stroke="#111111" stroke-width="0.35"/>
+<g clip-path="url(#clip13_2368)">
+<rect x="121.200" y="46.080" width="304.400" height="7.960" fill="#6f6f6f" stroke="#111111" stroke-width="0.5"/>
+<rect x="24.000" y="46.080" width="97.200" height="5.920" fill="#6f6f6f" stroke="#111111" stroke-width="0.5"/>
+<rect x="24.000" y="52.000" width="10.000" height="279.960" fill="#6f6f6f" stroke="#111111" stroke-width="0.5"/>
+<rect x="24.000" y="331.960" width="20.400" height="17.920" fill="#6f6f6f" stroke="#111111" stroke-width="0.5"/>
+<rect x="253.240" y="349.880" width="9.960" height="24.040" fill="#6f6f6f" stroke="#111111" stroke-width="0.5"/>
+<rect x="419.600" y="54.040" width="6.000" height="301.120" fill="#6f6f6f" stroke="#111111" stroke-width="0.5"/>
+<rect x="412.400" y="355.160" width="13.200" height="43.960" fill="#6f6f6f" stroke="#111111" stroke-width="0.5"/>
+<rect x="121.200" y="54.040" width="4.000" height="144.000" fill="#a8a8a8" stroke="#111111" stroke-width="0.35"/>
+<rect x="95.600" y="194.040" width="29.600" height="4.000" fill="#a8a8a8" stroke="#111111" stroke-width="0.35"/>
 </g>
-<g clip-path="url(#clip14_5632)">
-<rect x="267.200" y="-99.960" width="304.400" height="15.160" fill="#6f6f6f" stroke="#111111" stroke-width="0.5"/>
-<rect x="170.000" y="-99.960" width="97.200" height="9.160" fill="#6f6f6f" stroke="#111111" stroke-width="0.5"/>
-<rect x="170.000" y="-90.800" width="10.000" height="276.720" fill="#6f6f6f" stroke="#111111" stroke-width="0.5"/>
+<g clip-path="url(#clip14_9536)">
+<rect x="267.200" y="-99.960" width="304.400" height="7.960" fill="#6f6f6f" stroke="#111111" stroke-width="0.5"/>
+<rect x="170.000" y="-99.960" width="97.200" height="5.920" fill="#6f6f6f" stroke="#111111" stroke-width="0.5"/>
+<rect x="170.000" y="-94.040" width="10.000" height="279.960" fill="#6f6f6f" stroke="#111111" stroke-width="0.5"/>
 <rect x="170.000" y="185.920" width="20.400" height="17.920" fill="#6f6f6f" stroke="#111111" stroke-width="0.5"/>
 <rect x="399.240" y="203.840" width="9.960" height="24.040" fill="#6f6f6f" stroke="#111111" stroke-width="0.5"/>
-<rect x="565.600" y="-84.800" width="6.000" height="293.920" fill="#6f6f6f" stroke="#111111" stroke-width="0.5"/>
+<rect x="565.600" y="-92.000" width="6.000" height="301.120" fill="#6f6f6f" stroke="#111111" stroke-width="0.5"/>
 <rect x="558.400" y="209.120" width="13.200" height="43.960" fill="#6f6f6f" stroke="#111111" stroke-width="0.5"/>
-<rect x="267.200" y="-84.800" width="4.000" height="136.800" fill="#a8a8a8" stroke="#111111" stroke-width="0.35"/>
+<rect x="267.200" y="-92.000" width="4.000" height="144.000" fill="#a8a8a8" stroke="#111111" stroke-width="0.35"/>
 <rect x="241.600" y="48.000" width="29.600" height="4.000" fill="#a8a8a8" stroke="#111111" stroke-width="0.35"/>
 </g>
 </g>
 <g id="pilares">
-<g clip-path="url(#clip13_9504)">
-<rect x="34.000" y="194.800" width="12.000" height="23.920" fill="#2b2b2b" stroke="#111111" stroke-width="0.5"/>
-<rect x="34.000" y="194.800" width="12.000" height="23.920" fill="url(#horm)" stroke="none"/>
+<g clip-path="url(#clip13_2368)">
+<rect x="34.000" y="198.040" width="12.000" height="23.920" fill="#2b2b2b" stroke="#111111" stroke-width="0.5"/>
+<rect x="34.000" y="198.040" width="12.000" height="23.920" fill="url(#horm)" stroke="none"/>
 </g>
-<g clip-path="url(#clip14_5632)">
+<g clip-path="url(#clip14_9536)">
 <rect x="180.000" y="52.000" width="12.000" height="23.920" fill="#2b2b2b" stroke="#111111" stroke-width="0.5"/>
 <rect x="180.000" y="52.000" width="12.000" height="23.920" fill="url(#horm)" stroke="none"/>
 <rect x="221.600" y="185.840" width="23.200" height="18.000" fill="#2b2b2b" stroke="#111111" stroke-width="0.5"/>
@@ -68,18 +68,18 @@
 </g>
 </g>
 <g id="proyeccion">
-<g clip-path="url(#clip13_9504)">
-<rect x="46.000" y="201.760" width="73.200" height="10.000" fill="none" stroke="#6a6a6a" stroke-width="0.18" stroke-dasharray="2.4 1.4"/>
+<g clip-path="url(#clip13_2368)">
+<rect x="46.000" y="205.000" width="73.200" height="10.000" fill="none" stroke="#6a6a6a" stroke-width="0.18" stroke-dasharray="2.4 1.4"/>
 <rect x="36.400" y="52.000" width="80.000" height="48.000" fill="none" stroke="#4a5a68" stroke-width="0.18" stroke-dasharray="2.4 1.4"/>
 </g>
-<g clip-path="url(#clip14_5632)">
+<g clip-path="url(#clip14_9536)">
 <rect x="192.000" y="58.960" width="73.200" height="10.000" fill="none" stroke="#6a6a6a" stroke-width="0.18" stroke-dasharray="2.4 1.4"/>
 <rect x="180.000" y="80.880" width="16.000" height="100.000" fill="none" stroke="#8d7f66" stroke-width="0.18" stroke-dasharray="2.4 1.4"/>
 <line x1="180.000" y1="130.880" x2="196.000" y2="130.880" stroke="#8d7f66" stroke-width="0.18" stroke-dasharray="1.2 0.9"/>
 </g>
 </g>
 <g id="carpinteria">
-<g clip-path="url(#clip14_5632)">
+<g clip-path="url(#clip14_9536)">
 <rect x="190.400" y="201.920" width="31.200" height="1.440" fill="#7fb4c9" stroke="#3d6b80" stroke-width="0.18"/>
 <rect x="244.800" y="201.920" width="160.000" height="1.440" fill="#7fb4c9" stroke="#3d6b80" stroke-width="0.18"/>
 <rect x="404.800" y="193.880" width="4.400" height="9.960" fill="#6f6f6f" stroke="#111111" stroke-width="0.35"/>
@@ -88,25 +88,25 @@
 </g>
 </g>
 <g id="muebles">
-<g clip-path="url(#clip13_9504)">
+<g clip-path="url(#clip13_2368)">
 <rect x="34.000" y="52.000" width="87.200" height="24.000" fill="#e7dfd2" stroke="#111111" stroke-width="0.25"/>
 </g>
-<g clip-path="url(#clip14_5632)">
+<g clip-path="url(#clip14_9536)">
 <rect x="180.000" y="75.920" width="24.000" height="109.920" fill="#e7dfd2" stroke="#111111" stroke-width="0.25"/>
 <rect x="246.000" y="75.920" width="25.200" height="31.640" fill="#c9a674" stroke="#6b4f2a" stroke-width="0.25"/>
 <rect x="190.400" y="185.840" width="31.200" height="15.600" fill="#c9a674" stroke="#6b4f2a" stroke-width="0.25"/>
 </g>
 </g>
 <g id="encimera">
-<g clip-path="url(#clip13_9504)">
-<rect x="97.200" y="89.120" width="24.000" height="101.680" fill="none" stroke="#8d7f66" stroke-width="0.5"/>
+<g clip-path="url(#clip13_2368)">
+<rect x="97.200" y="92.360" width="24.000" height="101.680" fill="none" stroke="#8d7f66" stroke-width="0.5"/>
 </g>
-<g clip-path="url(#clip14_5632)">
+<g clip-path="url(#clip14_9536)">
 <rect x="180.000" y="75.920" width="24.000" height="85.920" fill="none" stroke="#8d7f66" stroke-width="0.5"/>
 </g>
 </g>
 <g id="aparatos">
-<g clip-path="url(#clip13_9504)">
+<g clip-path="url(#clip13_2368)">
 <rect x="34.000" y="52.000" width="28.000" height="18.200" fill="#ffffff" stroke="#4a5a68" stroke-width="0.25"/>
 <rect x="62.000" y="52.000" width="18.800" height="22.000" fill="#ffffff" stroke="#4a5a68" stroke-width="0.25"/>
 <rect x="80.800" y="52.000" width="10.800" height="18.400" fill="#ffffff" stroke="#4a5a68" stroke-width="0.25"/>
@@ -118,10 +118,9 @@
 <rect x="34.000" y="100.300" width="26.040" height="22.600" fill="#ffffff" stroke="#4a5a68" stroke-width="0.25" stroke-dasharray="1.6 1.0"/>
 <rect x="34.000" y="147.600" width="29.600" height="25.040" fill="#cfe0e8" stroke="#3d5c6e" stroke-width="0.25"/>
 <rect x="34.000" y="172.640" width="29.600" height="25.040" fill="#cfe0e8" stroke="#3d5c6e" stroke-width="0.25"/>
-<rect x="34.000" y="194.800" width="29.600" height="2.880" fill="none" stroke="#c0392b" stroke-width="0.25" stroke-dasharray="1.6 1.0"/>
-<rect x="97.200" y="89.120" width="24.000" height="101.680" fill="#cfe0e8" stroke="#3d5c6e" stroke-width="0.25"/>
+<rect x="97.200" y="92.360" width="24.000" height="101.680" fill="#cfe0e8" stroke="#3d5c6e" stroke-width="0.25"/>
 </g>
-<g clip-path="url(#clip14_5632)">
+<g clip-path="url(#clip14_9536)">
 <rect x="180.000" y="75.920" width="24.000" height="40.000" fill="#ffffff" stroke="#4a5a68" stroke-width="0.25"/>
 <rect x="180.000" y="115.920" width="13.600" height="8.000" fill="#ffffff" stroke="#4a5a68" stroke-width="0.25"/>
 <rect x="180.000" y="123.920" width="19.600" height="8.000" fill="#ffffff" stroke="#4a5a68" stroke-width="0.25"/>
@@ -138,8 +137,8 @@
 </g>
 </g>
 <g id="cotas">
-<g clip-path="url(#clip13_9504)">
-<line x1="63.600" y1="161.080" x2="97.200" y2="161.080" stroke="#9a2b2b" stroke-width="0.13"/>
+<g clip-path="url(#clip13_2368)">
+<line x1="63.600" y1="164.320" x2="97.200" y2="164.320" stroke="#9a2b2b" stroke-width="0.13"/>
 <line x1="34.000" y1="38.500" x2="121.200" y2="38.500" stroke="#9a2b2b" stroke-width="0.13"/>
 <line x1="32.900" y1="39.600" x2="35.100" y2="37.400" stroke="#9a2b2b" stroke-width="0.13"/>
 <line x1="34.000" y1="52.000" x2="34.000" y2="36.900" stroke="#9a2b2b" stroke-width="0.1"/>
@@ -173,28 +172,28 @@
 <text x="26.000" y="160.120" font-size="1.8" text-anchor="middle" fill="#9a2b2b" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal" transform="rotate(-90 26.000 160.120)">0,63</text>
 <text x="26.000" y="123.600" font-size="1.8" text-anchor="middle" fill="#9a2b2b" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal" transform="rotate(-90 26.000 123.600)">1,20</text>
 <text x="26.000" y="87.800" font-size="1.8" text-anchor="middle" fill="#9a2b2b" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal" transform="rotate(-90 26.000 87.800)">0,59</text>
-<line x1="128.200" y1="190.800" x2="128.200" y2="76.000" stroke="#9a2b2b" stroke-width="0.13"/>
-<line x1="127.100" y1="191.900" x2="129.300" y2="189.700" stroke="#9a2b2b" stroke-width="0.13"/>
-<line x1="121.200" y1="190.800" x2="129.800" y2="190.800" stroke="#9a2b2b" stroke-width="0.1"/>
-<line x1="127.100" y1="191.900" x2="129.300" y2="189.700" stroke="#9a2b2b" stroke-width="0.13"/>
-<line x1="121.200" y1="190.800" x2="129.800" y2="190.800" stroke="#9a2b2b" stroke-width="0.1"/>
-<line x1="127.100" y1="90.220" x2="129.300" y2="88.020" stroke="#9a2b2b" stroke-width="0.13"/>
-<line x1="121.200" y1="89.120" x2="129.800" y2="89.120" stroke="#9a2b2b" stroke-width="0.1"/>
+<line x1="128.200" y1="194.040" x2="128.200" y2="76.000" stroke="#9a2b2b" stroke-width="0.13"/>
+<line x1="127.100" y1="195.140" x2="129.300" y2="192.940" stroke="#9a2b2b" stroke-width="0.13"/>
+<line x1="121.200" y1="194.040" x2="129.800" y2="194.040" stroke="#9a2b2b" stroke-width="0.1"/>
+<line x1="127.100" y1="195.140" x2="129.300" y2="192.940" stroke="#9a2b2b" stroke-width="0.13"/>
+<line x1="121.200" y1="194.040" x2="129.800" y2="194.040" stroke="#9a2b2b" stroke-width="0.1"/>
+<line x1="127.100" y1="93.460" x2="129.300" y2="91.260" stroke="#9a2b2b" stroke-width="0.13"/>
+<line x1="121.200" y1="92.360" x2="129.800" y2="92.360" stroke="#9a2b2b" stroke-width="0.1"/>
 <line x1="127.100" y1="77.100" x2="129.300" y2="74.900" stroke="#9a2b2b" stroke-width="0.13"/>
 <line x1="121.200" y1="76.000" x2="129.800" y2="76.000" stroke="#9a2b2b" stroke-width="0.1"/>
-<text x="127.200" y="139.960" font-size="1.8" text-anchor="middle" fill="#9a2b2b" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal" transform="rotate(-90 127.200 139.960)">2,54</text>
-<text x="127.200" y="82.560" font-size="1.8" text-anchor="middle" fill="#9a2b2b" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal" transform="rotate(-90 127.200 82.560)">0,33</text>
-<line x1="46.000" y1="227.800" x2="121.200" y2="227.800" stroke="#9a2b2b" stroke-width="0.13"/>
-<line x1="44.900" y1="228.900" x2="47.100" y2="226.700" stroke="#9a2b2b" stroke-width="0.13"/>
-<line x1="46.000" y1="190.800" x2="46.000" y2="229.400" stroke="#9a2b2b" stroke-width="0.1"/>
-<line x1="94.500" y1="228.900" x2="96.700" y2="226.700" stroke="#9a2b2b" stroke-width="0.13"/>
-<line x1="95.600" y1="190.800" x2="95.600" y2="229.400" stroke="#9a2b2b" stroke-width="0.1"/>
-<line x1="120.100" y1="228.900" x2="122.300" y2="226.700" stroke="#9a2b2b" stroke-width="0.13"/>
-<line x1="121.200" y1="190.800" x2="121.200" y2="229.400" stroke="#9a2b2b" stroke-width="0.1"/>
-<text x="70.800" y="226.800" font-size="1.8" text-anchor="middle" fill="#9a2b2b" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">1,24</text>
-<text x="108.400" y="226.800" font-size="1.8" text-anchor="middle" fill="#9a2b2b" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">0,64</text>
+<text x="127.200" y="143.200" font-size="1.8" text-anchor="middle" fill="#9a2b2b" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal" transform="rotate(-90 127.200 143.200)">2,54</text>
+<text x="127.200" y="84.180" font-size="1.8" text-anchor="middle" fill="#9a2b2b" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal" transform="rotate(-90 127.200 84.180)">0,41</text>
+<line x1="46.000" y1="231.040" x2="121.200" y2="231.040" stroke="#9a2b2b" stroke-width="0.13"/>
+<line x1="44.900" y1="232.140" x2="47.100" y2="229.940" stroke="#9a2b2b" stroke-width="0.13"/>
+<line x1="46.000" y1="194.040" x2="46.000" y2="232.640" stroke="#9a2b2b" stroke-width="0.1"/>
+<line x1="94.500" y1="232.140" x2="96.700" y2="229.940" stroke="#9a2b2b" stroke-width="0.13"/>
+<line x1="95.600" y1="194.040" x2="95.600" y2="232.640" stroke="#9a2b2b" stroke-width="0.1"/>
+<line x1="120.100" y1="232.140" x2="122.300" y2="229.940" stroke="#9a2b2b" stroke-width="0.13"/>
+<line x1="121.200" y1="194.040" x2="121.200" y2="232.640" stroke="#9a2b2b" stroke-width="0.1"/>
+<text x="70.800" y="230.040" font-size="1.8" text-anchor="middle" fill="#9a2b2b" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">1,24</text>
+<text x="108.400" y="230.040" font-size="1.8" text-anchor="middle" fill="#9a2b2b" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">0,64</text>
 </g>
-<g clip-path="url(#clip14_5632)">
+<g clip-path="url(#clip14_9536)">
 <line x1="204.000" y1="130.880" x2="246.000" y2="130.880" stroke="#9a2b2b" stroke-width="0.13"/>
 <line x1="173.000" y1="185.840" x2="173.000" y2="75.920" stroke="#9a2b2b" stroke-width="0.13"/>
 <line x1="171.900" y1="186.940" x2="174.100" y2="184.740" stroke="#9a2b2b" stroke-width="0.13"/>
@@ -247,18 +246,18 @@
 </g>
 </g>
 <g id="rotulos">
-<g clip-path="url(#clip13_9504)">
+<g clip-path="url(#clip13_2368)">
 <text x="77.600" y="30.000" font-size="4.0" text-anchor="middle" fill="#111111" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold" letter-spacing="0.8">COCINA</text>
-<text x="77.600" y="34.500" font-size="2.4" text-anchor="middle" fill="#666666" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">2,18 × 3,32 m  ·  hundimiento de 0,15 al Norte  ·  entrada bajo la viga P1b</text>
-<text x="40.000" y="207.860" font-size="3.0" text-anchor="middle" fill="#ffffff" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">P1</text>
-<text x="92.000" y="207.460" font-size="1.9" text-anchor="middle" fill="#5f5f5f" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">VIGA P1b  1,83 × 0,25</text>
+<text x="77.600" y="34.500" font-size="2.4" text-anchor="middle" fill="#666666" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">2,18 × 3,50 m  ·  hundimiento de 0,05 al Norte  ·  entrada bajo la viga P1b</text>
+<text x="40.000" y="211.100" font-size="3.0" text-anchor="middle" fill="#ffffff" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">P1</text>
+<text x="92.000" y="210.700" font-size="1.9" text-anchor="middle" fill="#5f5f5f" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">VIGA P1b  1,83 × 0,25</text>
 <text x="48.000" y="61.900" font-size="2.4" text-anchor="middle" fill="#4a5a68" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">K1</text>
 <text x="71.400" y="63.800" font-size="2.4" text-anchor="middle" fill="#4a5a68" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">K2</text>
 <text x="86.200" y="62.000" font-size="2.4" text-anchor="middle" fill="#4a5a68" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">K3</text>
 <text x="102.600" y="62.800" font-size="2.4" text-anchor="middle" fill="#4a5a68" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">K4</text>
 <text x="77.600" y="75.500" font-size="1.5" text-anchor="middle" fill="#8d7f66" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">bancada de apoyo a medida  ·  2,18 × 0,60  ·  en el hundimiento</text>
-<text x="78.000" y="87.080" font-size="1.8" text-anchor="middle" fill="#4a5a68" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">CAMPANA 2,00 × 1,20</text>
-<text x="78.000" y="89.280" font-size="1.6" text-anchor="middle" fill="#4a5a68" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">borde inferior +2,00</text>
+<text x="78.000" y="90.320" font-size="1.8" text-anchor="middle" fill="#4a5a68" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">CAMPANA 2,00 × 1,20</text>
+<text x="78.000" y="92.520" font-size="1.6" text-anchor="middle" fill="#4a5a68" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">borde inferior +2,00</text>
 <text x="45.900" y="88.600" font-size="2.4" text-anchor="middle" fill="#4a5a68" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold" transform="rotate(-90 45.900 88.600)">K5</text>
 <text x="46.000" y="136.400" font-size="2.4" text-anchor="middle" fill="#4a5a68" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold" transform="rotate(-90 46.000 136.400)">K7</text>
 <text x="47.020" y="112.400" font-size="2.0" text-anchor="middle" fill="#4a5a68" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold" transform="rotate(-90 47.020 112.400)">K6</text>
@@ -266,13 +265,12 @@
 <text x="60.000" y="136.100" font-size="1.5" text-anchor="start" fill="#4a5a68" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">cuba</text>
 <text x="48.800" y="160.920" font-size="2.4" text-anchor="middle" fill="#3d5c6e" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold" transform="rotate(-90 48.800 160.920)">K8</text>
 <text x="48.800" y="185.960" font-size="2.4" text-anchor="middle" fill="#3d5c6e" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold" transform="rotate(-90 48.800 185.960)">K9</text>
-<text x="66.000" y="196.740" font-size="1.6" text-anchor="start" fill="#c0392b" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">NO CABE · faltan 0,07</text>
-<text x="109.200" y="140.760" font-size="2.4" text-anchor="middle" fill="#3d5c6e" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold" transform="rotate(-90 109.200 140.760)">K10</text>
-<text x="100.000" y="139.960" font-size="1.7" text-anchor="middle" fill="#8d7f66" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold" transform="rotate(-90 100.000 139.960)">MESA REFRIGERADA DE UNA PIEZA  2,54 × 0,60  ·  MESADA · puertas debajo</text>
-<text x="109.200" y="83.060" font-size="1.5" text-anchor="middle" fill="#8d7f66" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal" transform="rotate(-90 109.200 83.060)">libre 0,33</text>
-<text x="80.400" y="159.680" font-size="2.0" text-anchor="middle" fill="#9a2b2b" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">PASILLO  0,84 – 0,98</text>
+<text x="109.200" y="144.000" font-size="2.4" text-anchor="middle" fill="#3d5c6e" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold" transform="rotate(-90 109.200 144.000)">K10</text>
+<text x="100.000" y="143.200" font-size="1.7" text-anchor="middle" fill="#8d7f66" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold" transform="rotate(-90 100.000 143.200)">MESA REFRIGERADA DE UNA PIEZA  2,54 × 0,60  ·  MESADA · puertas debajo</text>
+<text x="109.200" y="84.680" font-size="1.5" text-anchor="middle" fill="#8d7f66" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal" transform="rotate(-90 109.200 84.680)">libre 0,41</text>
+<text x="80.400" y="162.920" font-size="2.0" text-anchor="middle" fill="#9a2b2b" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">PASILLO  0,84 – 0,98</text>
 </g>
-<g clip-path="url(#clip14_5632)">
+<g clip-path="url(#clip14_9536)">
 <text x="225.600" y="30.000" font-size="4.0" text-anchor="middle" fill="#111111" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold" letter-spacing="0.8">BARRA</text>
 <text x="225.600" y="34.500" font-size="2.4" text-anchor="middle" fill="#666666" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">trasbarra 2,75 entre P1 y P2  ·  mostrador 2,79  ·  paso de personal 0,95</text>
 <text x="186.000" y="65.060" font-size="3.0" text-anchor="middle" fill="#ffffff" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">P1</text>
@@ -427,13 +425,13 @@
 <text x="321.000" y="163.000" font-size="2.3" text-anchor="start" fill="#333333" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">sus medidas de ficha; la web bloquea el acceso</text>
 <text x="321.000" y="166.800" font-size="2.3" text-anchor="start" fill="#333333" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">directo, así que las medidas vienen de su buscador.</text>
 <text x="321.000" y="170.600" font-size="2.3" text-anchor="start" fill="#333333" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Confirmar en la ficha antes de comprar.</text>
-<text x="321.000" y="174.400" font-size="2.3" text-anchor="start" fill="#333333" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Cocción y campana metidas en el hundimiento de 0,15</text>
+<text x="321.000" y="174.400" font-size="2.3" text-anchor="start" fill="#333333" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Cocción y campana metidas en el hundimiento de 0,05</text>
 <text x="321.000" y="178.200" font-size="2.3" text-anchor="start" fill="#333333" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">de la medianera Norte, como pidió el cliente.</text>
 <text x="321.000" y="182.000" font-size="2.3" text-anchor="start" fill="#333333" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Mesada refrigerada de una sola pieza (2,54, la más</text>
-<text x="321.000" y="185.800" font-size="2.3" text-anchor="start" fill="#333333" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">larga de Makro) pegada al doblez de la L; 0,33 libres</text>
+<text x="321.000" y="185.800" font-size="2.3" text-anchor="start" fill="#333333" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">larga de Makro) pegada al doblez de la L; 0,41 libres</text>
 <text x="321.000" y="189.600" font-size="2.3" text-anchor="start" fill="#333333" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">junto a la cocción. K6 bajo el escurridor de K7.</text>
 <text x="321.000" y="193.400" font-size="2.3" text-anchor="start" fill="#333333" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Pasillo de cocina de 0,84 a 0,98. Muro Oeste:</text>
-<text x="321.000" y="197.200" font-size="2.3" text-anchor="start" fill="#333333" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">3,04 de aparatos en los 2,97 que hay hasta P1.</text>
+<text x="321.000" y="197.200" font-size="2.3" text-anchor="start" fill="#333333" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">3,04 de aparatos en los 3,05 que hay hasta P1.</text>
 <text x="321.000" y="201.000" font-size="2.3" text-anchor="start" fill="#333333" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Trasbarra nueva del 19 set.: mesada corrida de 0,60</text>
 <text x="321.000" y="204.800" font-size="2.3" text-anchor="start" fill="#333333" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">entre P1 y P2, con estante encima; la nevera A5 va</text>
 <text x="321.000" y="208.600" font-size="2.3" text-anchor="start" fill="#333333" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">bajo el hueco libre y nada bajo el fregadero A4.</text>

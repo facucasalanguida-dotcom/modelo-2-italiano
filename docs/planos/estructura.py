@@ -62,13 +62,13 @@ MUROS = [
     # El muro Norte es macizo hasta el borde del solar (9,156). Su cara
     # interior es 8,777 en casi todo y 8,927 en los 2,18 de la cocina: el
     # hundimiento es ese escalon, y el muro es mas grueso donde no lo hay.
-    ('Medianera Norte',            2.430, 8.777, 10.040, 9.156, 0.379),
-    ('Medianera Norte - cocina',   0.000, 8.927,  2.430, 9.156, 0.229),
-    ('Muro Oeste',                 0.000, 2.009,  0.250, 8.927, 0.250),
+    ('Medianera Norte',            2.430, 8.957, 10.040, 9.156, 0.199),
+    ('Medianera Norte - cocina',   0.000, 9.008,  2.430, 9.156, 0.148),
+    ('Muro Oeste',                 0.000, 2.009,  0.250, 9.008, 0.250),
     ('Muro Oeste - esquina SO',    0.000, 1.561,  0.510, 2.009, 0.448),
     ('Muro Sur (con ventanal)',    0.510, 1.561,  5.980, 1.810, 0.249),
     ('Muro Oeste del cuello',      5.731, 0.960,  5.980, 1.561, 0.249),
-    ('Medianera Este',             9.890, 1.429, 10.040, 8.777, 0.150),
+    ('Medianera Este',             9.890, 1.429, 10.040, 8.957, 0.150),
     ('Medianera Este - cuello',    9.710, 0.330, 10.040, 1.429, 0.330),
 ]
 
@@ -78,19 +78,19 @@ MUROS = [
 #   1,968  cara interior del zocalo del ventanal
 #   +2,79  barra                     -> 4,759  (cara Sur de P1)
 #   +0,60  paso de personal          -> 5,357  (cara NORTE de P1 = base de la L)
-#   +3,57  de la base de la L a la cara de la cocina -> 8,927
+#   +3,60  pared en L                -> 8,957  (cara interior del muro Norte)
+#   +0,05  hundimiento               -> 9,008  (pared hundida de la cocina)
 #
-# La pared en L arranca en la base y llega al muro Norte, que fuera de la
-# cocina va 0,15 mas al Sur (el hundimiento): 8,927 - 0,15 = 8,777. La L mide
-# por tanto 3,42 y no los 3,30 de antes, y el paso queda en 0,598.
+# Con la L en 3,60 el muro Norte queda en 0,199 de espesor en la sala y en
+# 0,148 en la cocina, que es justo el espesor del levantamiento; y de la
+# pared hundida a la cara Norte de P1 salen 3,651, o sea los 3,65 que el
+# cliente midio en el muro Oeste "incluyendo el hundimiento".
 #
-# No hay trasdosado ni nada por delante: el muro Norte es macizo hasta el
-# borde del solar (9,156). Lo que cambia con el hundimiento es su espesor,
-# 0,229 en los 2,18 de la cocina y 0,379 en el resto, frente a los 0,148 que
-# supone el levantamiento. Ese espesor queda en COMPROBAR EN OBRA.
+# No hay trasdosado ni nada por delante: el muro es macizo hasta el borde
+# del solar (9,156). Su espesor queda en COMPROBAR EN OBRA.
 MED_EXT       = 9.156                   # cara exterior, borde del solar
-MURO_N_COCINA = 8.927                   # cara interior en los 2,18 de la cocina
-MURO_N        = 8.777                   # cara interior en el resto
+MURO_N_COCINA = 9.008                   # cara interior en los 2,18 de la cocina
+MURO_N        = 8.957                   # cara interior en el resto
 HUNDIMIENTO = dict(x0=0.250, x1=2.430, y0=MURO_N, y1=MURO_N_COCINA,
                    p=round(MURO_N_COCINA - MURO_N, 3), largo=2.180)
 
@@ -135,7 +135,7 @@ PARED_L_E   = 0.100                     # espesor supuesto, comprobar
 # Oeste va a 2,430 y la Este a 2,530, con lo que hasta P3 quedan 3,14 en vez
 # de los 3,01 que habia medido: P3 no se mueve, la pared si.
 PARED_L_X   = 2.530                     # cara Este; cara Oeste en 2,430
-PARED_L_LARGO = round(MURO_N - 5.357, 3)   # 3,42: la base cae en la cara Norte de P1
+PARED_L_LARGO = round(MURO_N - 5.357, 3)   # 3,60: la base cae en la cara Norte de P1
 PARED_L_LAR = (f'Tramo largo {PARED_L_LARGO:.2f}'.replace('.', ','),
                PARED_L_X - PARED_L_E, MURO_N - PARED_L_LARGO, PARED_L_X, MURO_N)
 PARED_L_DOB = ('Doblez 0,74',
@@ -244,28 +244,28 @@ BANO_TABIQUES = [
 BANO_PUERTA = dict(x0=7.770, x1=8.470, y=7.730, ancho=0.700, bisagra='E')
 
 # --------------------------------------------------------------- superficies
-SUP_PB_UTIL   = 73.73     # m2 dentro de muros, planta baja (con el hundimiento)
-SUP_FORJADO   = 32.02     # m2 de forjado de planta alta
-SUP_DOBLE_ALT = 37.61     # m2 de vacio a doble altura
+SUP_PB_UTIL   = 75.25     # m2 dentro de muros, planta baja (con el hundimiento)
+SUP_FORJADO   = 33.36     # m2 de forjado de planta alta
+SUP_DOBLE_ALT = 37.79     # m2 de vacio a doble altura
 SUP_SOLAR     = 81.72     # m2 dentro del contorno exterior
-RECINTOS_PA = [('Aseo (lavabo + inodoro)', 3.27), ('Almacen', 2.16),
-               ('Paso / rellano', 3.33), ('Altillo diafano', 25.60)]
+RECINTOS_PA = [('Aseo (lavabo + inodoro)', 3.77), ('Almacen', 2.50),
+               ('Paso / rellano', 3.33), ('Altillo diafano', 26.04)]
 
 # ------------------------------------------------- discrepancias por resolver
 # Puntos en los que los videos del local en obra no cuadran con el
 # levantamiento, o que el levantamiento no recoge. Se dibuja el levantamiento
 # (es la unica fuente acotada) y se listan aqui para medir en obra.
 COMPROBAR = [
-    'Muro Norte: macizo hasta el borde del solar, 0,229 en la cocina y 0,379 en el resto; '
-    'el levantamiento suponía 0,148. Medir el espesor real y el hundimiento de 0,15.',
+    'Muro Norte: macizo hasta el solar, 0,148 en la cocina (el del levantamiento) y 0,199 '
+    'en el resto. Medir ese espesor y el hundimiento de 0,05 entre los dos.',
     'Canto del forjado del altillo. Con 2,56 m de suelo a suelo, la altura '
     'libre de planta baja es 2,56 menos ese canto, no los 2,70 supuestos.',
     'P1b se dibuja como viga (1,83 × 0,25) y no como pilar: si fuera macizo '
     'hasta el suelo, la cocina no tendría entrada. Medir su intradós.',
     'Zócalo del ventanal: 0,347 desde el vidrio, deducido de los 2,72 de P3 a su cara '
     'interior; sobresale 0,16 del muro del ventanal (0,25). Medirlo directamente.',
-    'Muro Oeste de la cocina: caben 2,97 entre P1 y la bancada y los cuatro aparatos suman '
-    '3,04. Faltan 7 cm: quitar un armario frigorífico o estrechar el fregadero.',
+    'Muro Oeste de la cocina: los cuatro aparatos suman 3,04 y entre P1 y la bancada hay '
+    '3,05. Entran con 1 cm de holgura: confirmar los anchos reales antes de comprar.',
     'La pared en L queda 0,10 al Este del borde del forjado del levantamiento: el '
     'vidrio de 1,35 sobre ella (2,57 en total) no pasa bajo el altillo. Medir ese borde.',
     'Vestíbulo: los 1,31 y 2,23 del cliente suman 3,54 y de P5 al muro Este hay 3,559. '
