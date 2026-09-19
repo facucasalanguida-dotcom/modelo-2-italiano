@@ -43,7 +43,8 @@ REV_E       = 0.030     # revestimiento de madera del frente de la barra
 REV_ZOC_H   = 0.050     # retranqueo inferior, para la linea de LED
 REV_ZOC_E   = 0.020     # cuanto se mete hacia dentro ese retranqueo
 Z_ESTANTE   = None      # se calcula: por encima del aparato mas alto de la mesada
-H_CUERPO    = T_FORJADO  # cassette slim: ocupa el canto entero del forjado
+A_CUERPO    = 0.570     # chasis del cassette compacto, mas chico que el panel
+H_CUERPO    = 0.200     # alto del chasis: cabe en el canto del forjado (0,250)
 E_PANEL     = 0.030     # grueso del panel decorativo, enrasado con el techo
 A_MARCO     = 0.035     # borde ciego del panel, del canto a la primera lama
 A_RETORNO   = 0.450     # rejilla de retorno, en el centro del panel
@@ -77,7 +78,7 @@ ALTURAS_DOC = [
     ('Sillon corrido: asiento / respaldo', H_SILLON, 'SUPUESTO — fondo sin medir'),
     ('Cara vista del cassette de aire', round(Z_SOFITO - E_PANEL, 3),
      'empotrado, panel a haces con el techo'),
-    ('Cuerpo del cassette (en el forjado)', Z_SOFITO, 'sube hasta 2,560'),
+    ('Cuerpo del cassette (en el forjado)', Z_SOFITO, 'sube hasta 2,510'),
     ('Revestimiento del frente de la barra', Q.H_ENCIMERA, 'hasta la encimera'),
 ]
 
@@ -129,9 +130,10 @@ CONFLICTOS_DOC = [
     'Los dos apliques del proyecto original caen sobre los armarios K8 y K9; en',
     '  el 3D se suben a 1,95 para que se vean.',
     'El horno K5 se dibuja en el suelo: el plano no dice sobre que apoya.',
-    'El aire AC1 va empotrado en el forjado, como pide el cliente: el cuerpo de',
-    '  la maquina (0,250) ocupa el canto entero del suelo del altillo. Hay que',
-    '  dejar el hueco al hormigonar o resolverlo por encima del forjado.',
+    'El aire AC1 va empotrado en el forjado, como pide el cliente: hay que',
+    '  rebajar 0,200 de sus 0,250 de canto en 0,57 x 0,57. Quedan 0,050 de',
+    '  forjado por encima, asi que no asoma en el suelo del altillo, pero el',
+    '  hueco hay que dejarlo al hormigonar y revisarlo con el calculista.',
 ]
 
 # --------------------------------------------------------------- materiales
@@ -474,20 +476,30 @@ def mesa(tag_capa, m, z0):
                        (sx0, sy1 - 0.040), (sx1 - 0.040, sy1 - 0.040)):
             caja(tag_capa, 'silla', f'{tag} · silla {i} · pata',
                  px, py, px + 0.040, py + 0.040, z0, z0 + H_SILLA - 0.040)
-        # respaldo en el lado opuesto a la mesa
-        dx, dy = (sx0 + sx1) / 2 - cx0, (sy0 + sy1) / 2 - cy0
-        if abs(dx) >= abs(dy):
-            if dx > 0:
-                rx0, rx1 = sx1 - E_RESPALDO, sx1
-            else:
-                rx0, rx1 = sx0, sx0 + E_RESPALDO
-            ry0, ry1 = sy0, sy1
+        # Respaldo en el lado opuesto a la mesa. En las mesas rectangulares
+        # manda el BORDE contra el que esta la silla, no el centro de la mesa:
+        # en una mesa larga el vector al centro apunta en diagonal y giraba 90
+        # grados las sillas de los extremos (se veia en C1, la de cowork).
+        if tipo == 'redonda':
+            dx, dy = (sx0 + sx1) / 2 - cx0, (sy0 + sy1) / 2 - cy0
+            lado = ('E' if dx > 0 else 'O') if abs(dx) >= abs(dy) else \
+                   ('N' if dy > 0 else 'S')
+        elif sx0 >= x1 - 1e-6:
+            lado = 'E'
+        elif sx1 <= x0 + 1e-6:
+            lado = 'O'
+        elif sy0 >= y1 - 1e-6:
+            lado = 'N'
         else:
-            if dy > 0:
-                ry0, ry1 = sy1 - E_RESPALDO, sy1
-            else:
-                ry0, ry1 = sy0, sy0 + E_RESPALDO
-            rx0, rx1 = sx0, sx1
+            lado = 'S'
+        if lado == 'E':
+            rx0, rx1, ry0, ry1 = sx1 - E_RESPALDO, sx1, sy0, sy1
+        elif lado == 'O':
+            rx0, rx1, ry0, ry1 = sx0, sx0 + E_RESPALDO, sy0, sy1
+        elif lado == 'N':
+            rx0, rx1, ry0, ry1 = sx0, sx1, sy1 - E_RESPALDO, sy1
+        else:
+            rx0, rx1, ry0, ry1 = sx0, sx1, sy0, sy0 + E_RESPALDO
         caja(tag_capa, 'silla', f'{tag} · silla {i} · respaldo',
              rx0, ry0, rx1, ry1, z0 + H_SILLA, z0 + H_RESPALDO)
 
@@ -518,16 +530,17 @@ for i, (cx, cy) in enumerate(E.APLIQUES, 1):
 #
 #     EMPOTRADO en el techo de planta baja, que es el suelo del altillo: el
 #     cliente lo pide asi el 20 set. El panel enrasa con el intrados del
-#     forjado (2,310) y el cuerpo de la maquina sube DENTRO del canto del
-#     forjado, 0,250 de los 0,250 que tiene. Queda al ras, sin descuelgue.
-#     En obra eso obliga a dejar el hueco al hormigonar o a pasar el cuerpo
-#     por encima del forjado: va anotado en CONFLICTOS de la cabecera.
+#     forjado (2,310) y el chasis sube DENTRO del canto del forjado, de 2,310
+#     a 2,510: quedan 0,050 de forjado por encima, asi que NO asoma en el
+#     suelo del altillo. Bajo el techo no descuelga nada.
+#     En obra hay que dejar ese rebaje de 0,200 en un forjado de 0,250: va
+#     anotado en CONFLICTOS de la cabecera.
 rw, rh = E.AIRE_REJILLA or (0.0, 0.0)
 for tag, nm, cx, cy, a, f in E.AIRE:
     # el panel toma la medida de la lamina 2D para que plano y 3D coincidan
     px0, px1 = round(cx - a / 2, 3), round(cx + a / 2, 3)
     py0, py1 = round(cy - f / 2, 3), round(cy + f / 2, 3)
-    a_cue = round(min(a, f) - 2 * A_MARCO, 3)    # cuerpo dentro del forjado
+    a_cue = A_CUERPO                             # chasis, dentro del forjado
     z_pan0 = round(Z_SOFITO - E_PANEL, 3)        # cara vista del panel
     caja('13 Instalaciones', 'aire', f'{tag} · cuerpo de la máquina (empotrado en el forjado)',
          round(cx - a_cue / 2, 3), round(cy - a_cue / 2, 3),

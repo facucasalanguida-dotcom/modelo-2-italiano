@@ -39,7 +39,7 @@
 #      Estante mural de la trasbarra           1.600 m   SUPUESTO — sobre el aparato más alto
 #      Sillon corrido: asiento / respaldo      0.420 m   SUPUESTO — fondo sin medir
 #      Cara vista del cassette de aire         2.280 m   empotrado, panel a haces con el techo
-#      Cuerpo del cassette (en el forjado)     2.310 m   sube hasta 2,560
+#      Cuerpo del cassette (en el forjado)     2.310 m   sube hasta 2,510
 #      Revestimiento del frente de la barra    0.900 m   hasta la encimera
 #
 #  CADENA DE OBRA DEL LADO OESTE (la que fijo el cliente)
@@ -79,9 +79,10 @@
 #      Los dos apliques del proyecto original caen sobre los armarios K8 y K9; en
 #        el 3D se suben a 1,95 para que se vean.
 #      El horno K5 se dibuja en el suelo: el plano no dice sobre que apoya.
-#      El aire AC1 va empotrado en el forjado, como pide el cliente: el cuerpo de
-#        la maquina (0,250) ocupa el canto entero del suelo del altillo. Hay que
-#        dejar el hueco al hormigonar o resolverlo por encima del forjado.
+#      El aire AC1 va empotrado en el forjado, como pide el cliente: hay que
+#        rebajar 0,200 de sus 0,250 de canto en 0,57 x 0,57. Quedan 0,050 de
+#        forjado por encima, asi que no asoma en el suelo del altillo, pero el
+#        hueco hay que dejarlo al hormigonar y revisarlo con el calculista.
 #----------------------------------------------------------------------------
 
 # recargar el fichero no debe llenar la consola de avisos de constante
@@ -350,13 +351,13 @@ module Local3D
     ["12 Sala", "sillon", "Sillón corrido · respaldo", 2.5300, 8.8570, 7.4000, 8.9570, 0.4200, 1.0500],
     ["13 Instalaciones", "luz", "Aplique 1", 0.2500, 5.6500, 0.3700, 5.8500, 1.9500, 2.2500],
     ["13 Instalaciones", "luz", "Aplique 2", 0.2500, 6.3500, 0.3700, 6.5500, 1.9500, 2.2500],
-    ["13 Instalaciones", "aire", "AC1 · cuerpo de la máquina (empotrado en el forjado)", 4.6300, 4.7830, 5.5100, 5.6630, 2.3100, 2.5600],
-    ["13 Instalaciones", "aire", "AC1 · Cassette de 4 vías empotrado, al Oeste de P3 · panel de 4 vías", 4.5950, 4.7480, 5.5450, 5.6980, 2.2800, 2.3100],
-    ["13 Instalaciones", "rejilla", "AC1 · rejilla de retorno central", 4.8450, 4.9980, 5.2950, 5.4480, 2.2650, 2.2800],
-    ["13 Instalaciones", "rejilla", "AC1 · lama de impulsión Sur", 4.7200, 4.7830, 5.4200, 4.8730, 2.2650, 2.2800],
-    ["13 Instalaciones", "rejilla", "AC1 · lama de impulsión Norte", 4.7200, 5.5730, 5.4200, 5.6630, 2.2650, 2.2800],
-    ["13 Instalaciones", "rejilla", "AC1 · lama de impulsión Oeste", 4.6300, 4.8730, 4.7200, 5.5730, 2.2650, 2.2800],
-    ["13 Instalaciones", "rejilla", "AC1 · lama de impulsión Este", 5.4200, 4.8730, 5.5100, 5.5730, 2.2650, 2.2800],
+    ["13 Instalaciones", "aire", "AC1 · cuerpo de la máquina (empotrado en el forjado)", 4.5850, 4.9380, 5.1550, 5.5080, 2.3100, 2.5100],
+    ["13 Instalaciones", "aire", "AC1 · Cassette de 4 vías empotrado, al Oeste de P3 · panel de 4 vías", 4.4500, 4.8030, 5.2900, 5.6430, 2.2800, 2.3100],
+    ["13 Instalaciones", "rejilla", "AC1 · rejilla de retorno central", 4.6450, 4.9980, 5.0950, 5.4480, 2.2650, 2.2800],
+    ["13 Instalaciones", "rejilla", "AC1 · lama de impulsión Sur", 4.5750, 4.8380, 5.1650, 4.9280, 2.2650, 2.2800],
+    ["13 Instalaciones", "rejilla", "AC1 · lama de impulsión Norte", 4.5750, 5.5180, 5.1650, 5.6080, 2.2650, 2.2800],
+    ["13 Instalaciones", "rejilla", "AC1 · lama de impulsión Oeste", 4.4850, 4.9280, 4.5750, 5.5180, 2.2650, 2.2800],
+    ["13 Instalaciones", "rejilla", "AC1 · lama de impulsión Este", 5.1650, 4.9280, 5.2550, 5.5180, 2.2650, 2.2800],
     ["14 Planta alta", "tabique", "Tabique Oeste del aseo", 2.4610, 7.5090, 2.5600, 8.9570, 2.5600, 5.0600],
     ["14 Planta alta", "tabique", "Tabique Sur - tramo Oeste", 2.5600, 7.5090, 3.0890, 7.6070, 2.5600, 5.0600],
     ["14 Planta alta", "tabique", "Tabique Sur - tramo Este", 3.8490, 7.5090, 7.5110, 7.6070, 2.5600, 5.0600],
@@ -380,7 +381,7 @@ module Local3D
     ["14 Planta alta", "silla", "C1 · silla 1 · pata", 4.7800, 4.1900, 4.8200, 4.2300, 2.5600, 2.9700],
     ["14 Planta alta", "silla", "C1 · silla 1 · pata", 4.4000, 4.5700, 4.4400, 4.6100, 2.5600, 2.9700],
     ["14 Planta alta", "silla", "C1 · silla 1 · pata", 4.7800, 4.5700, 4.8200, 4.6100, 2.5600, 2.9700],
-    ["14 Planta alta", "silla", "C1 · silla 1 · respaldo", 4.4000, 4.1900, 4.8200, 4.2400, 3.0100, 3.4400],
+    ["14 Planta alta", "silla", "C1 · silla 1 · respaldo", 4.7700, 4.1900, 4.8200, 4.6100, 3.0100, 3.4400],
     ["14 Planta alta", "silla", "C1 · silla 2 · asiento", 4.4000, 4.7900, 4.8200, 5.2100, 2.9700, 3.0100],
     ["14 Planta alta", "silla", "C1 · silla 2 · pata", 4.4000, 4.7900, 4.4400, 4.8300, 2.5600, 2.9700],
     ["14 Planta alta", "silla", "C1 · silla 2 · pata", 4.7800, 4.7900, 4.8200, 4.8300, 2.5600, 2.9700],
@@ -398,13 +399,13 @@ module Local3D
     ["14 Planta alta", "silla", "C1 · silla 4 · pata", 4.7800, 5.9900, 4.8200, 6.0300, 2.5600, 2.9700],
     ["14 Planta alta", "silla", "C1 · silla 4 · pata", 4.4000, 6.3700, 4.4400, 6.4100, 2.5600, 2.9700],
     ["14 Planta alta", "silla", "C1 · silla 4 · pata", 4.7800, 6.3700, 4.8200, 6.4100, 2.5600, 2.9700],
-    ["14 Planta alta", "silla", "C1 · silla 4 · respaldo", 4.4000, 6.3600, 4.8200, 6.4100, 3.0100, 3.4400],
+    ["14 Planta alta", "silla", "C1 · silla 4 · respaldo", 4.7700, 5.9900, 4.8200, 6.4100, 3.0100, 3.4400],
     ["14 Planta alta", "silla", "C1 · silla 5 · asiento", 2.8800, 4.1900, 3.3000, 4.6100, 2.9700, 3.0100],
     ["14 Planta alta", "silla", "C1 · silla 5 · pata", 2.8800, 4.1900, 2.9200, 4.2300, 2.5600, 2.9700],
     ["14 Planta alta", "silla", "C1 · silla 5 · pata", 3.2600, 4.1900, 3.3000, 4.2300, 2.5600, 2.9700],
     ["14 Planta alta", "silla", "C1 · silla 5 · pata", 2.8800, 4.5700, 2.9200, 4.6100, 2.5600, 2.9700],
     ["14 Planta alta", "silla", "C1 · silla 5 · pata", 3.2600, 4.5700, 3.3000, 4.6100, 2.5600, 2.9700],
-    ["14 Planta alta", "silla", "C1 · silla 5 · respaldo", 2.8800, 4.1900, 3.3000, 4.2400, 3.0100, 3.4400],
+    ["14 Planta alta", "silla", "C1 · silla 5 · respaldo", 2.8800, 4.1900, 2.9300, 4.6100, 3.0100, 3.4400],
     ["14 Planta alta", "silla", "C1 · silla 6 · asiento", 2.8800, 4.7900, 3.3000, 5.2100, 2.9700, 3.0100],
     ["14 Planta alta", "silla", "C1 · silla 6 · pata", 2.8800, 4.7900, 2.9200, 4.8300, 2.5600, 2.9700],
     ["14 Planta alta", "silla", "C1 · silla 6 · pata", 3.2600, 4.7900, 3.3000, 4.8300, 2.5600, 2.9700],
@@ -422,7 +423,7 @@ module Local3D
     ["14 Planta alta", "silla", "C1 · silla 8 · pata", 3.2600, 5.9900, 3.3000, 6.0300, 2.5600, 2.9700],
     ["14 Planta alta", "silla", "C1 · silla 8 · pata", 2.8800, 6.3700, 2.9200, 6.4100, 2.5600, 2.9700],
     ["14 Planta alta", "silla", "C1 · silla 8 · pata", 3.2600, 6.3700, 3.3000, 6.4100, 2.5600, 2.9700],
-    ["14 Planta alta", "silla", "C1 · silla 8 · respaldo", 2.8800, 6.3600, 3.3000, 6.4100, 3.0100, 3.4400],
+    ["14 Planta alta", "silla", "C1 · silla 8 · respaldo", 2.8800, 5.9900, 2.9300, 6.4100, 3.0100, 3.4400],
     ["14 Planta alta", "silla", "R1 · silla 1 · asiento", 7.3300, 6.0800, 7.7500, 6.5000, 2.9700, 3.0100],
     ["14 Planta alta", "silla", "R1 · silla 1 · pata", 7.3300, 6.0800, 7.3700, 6.1200, 2.5600, 2.9700],
     ["14 Planta alta", "silla", "R1 · silla 1 · pata", 7.7100, 6.0800, 7.7500, 6.1200, 2.5600, 2.9700],

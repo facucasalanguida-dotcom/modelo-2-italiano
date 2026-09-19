@@ -201,9 +201,9 @@
 <circle cx="208.000" cy="217.000" r="0.560" fill="#7d7d7d" stroke="#7d7d7d" stroke-width="0.1"/>
 <circle cx="240.000" cy="217.000" r="2.000" fill="none" stroke="#7d7d7d" stroke-width="0.18"/>
 <circle cx="240.000" cy="217.000" r="0.560" fill="#7d7d7d" stroke="#7d7d7d" stroke-width="0.1"/>
-<rect x="153.900" y="122.040" width="19.000" height="19.000" fill="none" stroke="#6f8a99" stroke-width="0.25" stroke-dasharray="2.0 1.3"/>
-<line x1="153.900" y1="141.040" x2="172.900" y2="122.040" stroke="#6f8a99" stroke-width="0.1" stroke-dasharray="2.0 1.3"/>
-<line x1="153.900" y1="122.040" x2="172.900" y2="141.040" stroke="#6f8a99" stroke-width="0.1" stroke-dasharray="2.0 1.3"/>
+<rect x="151.000" y="123.140" width="16.800" height="16.800" fill="none" stroke="#6f8a99" stroke-width="0.25" stroke-dasharray="2.0 1.3"/>
+<line x1="151.000" y1="139.940" x2="167.800" y2="123.140" stroke="#6f8a99" stroke-width="0.1" stroke-dasharray="2.0 1.3"/>
+<line x1="151.000" y1="123.140" x2="167.800" y2="139.940" stroke="#6f8a99" stroke-width="0.1" stroke-dasharray="2.0 1.3"/>
 </g>
 <g id="cotas">
 <line x1="142.600" y1="162.840" x2="142.600" y2="138.800" stroke="#2a7f8f" stroke-width="0.13"/>
@@ -436,7 +436,7 @@
 <text x="125.600" y="122.400" font-size="1.8" text-anchor="middle" fill="#2a7f8f" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">1,31</text>
 <text x="152.600" y="177.400" font-size="1.8" text-anchor="middle" fill="#2a7f8f" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">0,60</text>
 <text x="178.600" y="177.400" font-size="1.8" text-anchor="middle" fill="#2a7f8f" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">0,60</text>
-<text x="163.400" y="120.040" font-size="1.9" text-anchor="middle" fill="#4c6b7c" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">AC1</text>
+<text x="159.400" y="121.140" font-size="1.9" text-anchor="middle" fill="#4c6b7c" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">AC1</text>
 <text x="196.000" y="111.000" font-size="2.2" text-anchor="middle" fill="#4a4a4a" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">ZONA CON FORJADO SUPERIOR  ·  +2,56</text>
 <text x="242.000" y="171.000" font-size="2.6" text-anchor="middle" fill="#3c5a68" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">DOBLE ALTURA</text>
 <text x="76.000" y="90.000" font-size="2.6" text-anchor="middle" fill="#3c5a68" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold" transform="rotate(-90 76.000 90.000)">COCINA</text>
@@ -586,7 +586,7 @@
 <text x="216.033" y="273.400" font-size="2.0" text-anchor="start" fill="#3a3a3a" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">P3 no se mueve: los 3,23 a la medianera dan 3,25 medidos al muro desnudo (2,98 al</text>
 <text x="216.033" y="276.200" font-size="2.0" text-anchor="start" fill="#3a3a3a" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">trasdosado) y los 3,65 a P5 se dibujan 3,69. Confirmar a qué cara se midió.</text>
 <text x="211.833" y="280.400" font-size="2.2" text-anchor="start" fill="#9a2b2b" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">9</text>
-<text x="216.033" y="280.400" font-size="2.0" text-anchor="start" fill="#3a3a3a" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Aire acondicionado: un cassette situado con las fotos del cliente, con panel</text>
-<text x="216.033" y="283.200" font-size="2.0" text-anchor="start" fill="#3a3a3a" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">estándar de 0,95 y rejilla de 0,90 × 0,50. Medir posición y tamaño reales.</text>
+<text x="216.033" y="280.400" font-size="2.0" text-anchor="start" fill="#3a3a3a" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Aire acondicionado: un solo cassette de 4 vías, empotrado en el forjado al Oeste de</text>
+<text x="216.033" y="283.200" font-size="2.0" text-anchor="start" fill="#3a3a3a" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">P3. Posición y panel (0,84) sacados de las fotos: medirlos en obra.</text>
 </g>
 </svg>

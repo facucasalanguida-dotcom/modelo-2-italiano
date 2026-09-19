@@ -386,13 +386,14 @@ distribucion: van listados aparte en la lamina 04 para que el cliente decida.
 cassette de 4 vias que en ellas se ve como un cuadrado blanco con rejillas.
 
 - Va **a la izquierda del pilar central mirando el plano al Norte**, es decir
-  al Oeste de P3 y pegado a el: panel de 0,95 x 0,95 centrado en
-  (5,070 / 5,223), con 0,10 libres hasta la cara Oeste de P3.
+  al Oeste de P3: panel de **0,84 x 0,84** centrado en (4,870 / 5,223), a la
+  misma altura que P3 en Y y con 0,38 libres hasta su cara Oeste.
 - Va **empotrado en el techo de planta baja, que es el suelo del altillo**. El
-  panel enrasa con el intrados del forjado (2,310) y el cuerpo de la maquina
-  sube dentro del canto del forjado (0,250). No queda ningun descuelgue.
-- Eso obliga en obra a dejar el hueco al hormigonar o a resolver el cuerpo por
-  encima del forjado: va anotado en CONFLICTOS de la cabecera del `.rb`.
+  panel enrasa con el intrados del forjado (2,310) y el chasis sube dentro
+  del canto del forjado, de 2,310 a 2,510. No queda ningun descuelgue.
+- El chasis es de 0,57 x 0,57 x 0,20, asi que **quedan 0,050 de forjado por
+  encima**: no asoma en el suelo del altillo. El rebaje hay que dejarlo al
+  hormigonar; va anotado en CONFLICTOS de la cabecera del `.rb`.
 
 La posicion sale de las fotos y queda por medir en obra.
 
@@ -441,23 +442,29 @@ viga P1b (2,100), el alto del zocalo del ventanal (0,130) y el sillon.
 **Aire acondicionado.** **Una sola maquina** (el cliente corrige el 20 set.
 que solo hay una, no dos): un cassette de 4 vias, el cuadrado blanco con
 rejillas de sus fotos. Va **a la izquierda del pilar central mirando el plano
-al Norte**, es decir al Oeste de P3 y pegado a el, centrado con el pilar:
-panel de 0,95 x 0,95 entre x 4,595-5,545 e y 4,748-5,698, a 0,125 de la cara
-Oeste de P3. Es la misma medida que lleva la lamina 01, asi que plano y 3D
-coinciden.
+al Norte**, es decir al Oeste de P3, a su misma altura en Y: panel de
+**0,84 x 0,84** entre x 4,450-5,290 e y 4,803-5,643, con 0,380 libres hasta la
+cara Oeste de P3. Es la misma medida que lleva la lamina 01, asi que plano y
+3D coinciden.
 
 Va **empotrado en el techo de planta baja, que es el suelo del altillo**, como
 pide el cliente. El panel enrasa con el intrados del forjado: cara vista en
 2,280-2,310, con la rejilla de retorno de 0,45 y las cuatro lamas de 0,09
-asomando 0,015 por debajo. El cuerpo de la maquina sube **dentro** del canto
-del forjado, 2,310-2,560, ocupando sus 0,250 enteros. No queda descuelgue
-alguno bajo el techo.
+asomando 0,015 por debajo. El chasis (0,57 x 0,57 x 0,20) sube **dentro** del
+canto del forjado, de 2,310 a 2,510. Ni descuelga bajo el techo ni **asoma en
+el suelo del altillo**: quedan 0,050 de forjado por encima.
 
-En obra eso obliga a dejar el hueco al hormigonar el forjado o a resolver el
-cuerpo por encima de el; queda anotado en CONFLICTOS del `.rb`.
+En obra hay que dejar ese rebaje de 0,200 en un forjado de 0,250 y revisarlo
+con el calculista; queda anotado en CONFLICTOS del `.rb`.
 
 **Pared en L.** El vidrio va solo sobre el tramo largo. Sobre la base de la L
 (el doblez de 0,74) no hay vidrio: ese hueco queda libre.
+
+**Sillas.** El respaldo se pone contra el **borde** de la mesa junto al que
+esta la silla, no contra el centro de la mesa. Mirando al centro, en una mesa
+larga el vector apunta en diagonal y las sillas de los extremos salian giradas
+90 grados: se veia en C1, la mesa de cowork de planta alta. Las mesas redondas
+siguen con el criterio radial, que ahi si es el bueno.
 
 **Pared de la caja de escalera.** El tabique que cierra la escalera por el
 Oeste (x 8,650-8,811) **no es un rectangulo**: su coronacion **acompana la
