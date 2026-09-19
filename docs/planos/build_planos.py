@@ -436,9 +436,10 @@ def nevera_bebidas(L):
     for d in (0.045, 0.075):
         L.linea('mobiliario', q['x0'] + 0.03, q['y0'] + d, q['x1'] - 0.03,
                 q['y0'] + d, '#3d6b80', 'fino')
-    L.texto('rotulos', q['x1'] + 0.19, q['y0'] - 0.06,
-            f"NEVERA A7 · {n['a']:.2f} × {n['f']:.2f}".replace('.', ','),
-            1.9, 'end', APAR, 'bold', rot=-90)
+    # rotulo corto dentro del aparato, como las mesas; el nombre completo
+    # va en la leyenda y en las laminas 03 y 04
+    L.texto('rotulos', (q['x0'] + q['x1']) / 2, (q['y0'] + q['y1']) / 2,
+            n['tag'], 2.0, 'middle', APAR, 'bold', dy=0.7)
 
 
 def accesibilidad(L):
@@ -647,7 +648,7 @@ def planta_baja():
     L.cota_h('cotas', [7.400, 7.770, 8.470, 9.890], L.py(7.55), 1.8)
     L.cota_v('cotas', [7.730, 9.008], L.px(9.83), 1.8)
     L.cota_v('cotas', [P3[5], 9.008], L.px(P3[2] - 0.07), 1.9)
-    L.cota_v('cotas', [E.ZOCALO_SUR['y1'], P3[3]], L.px(6.85), 1.8,
+    L.cota_v('cotas', [E.ZOCALO_SUR['y1'], P3[3]], L.px(7.00), 1.8,
              ext_desde=5.99)                                    # 2,72
 
     marco(L, 'PLANTA BAJA', '01 / 04', 'Estado actual · estructura',
@@ -671,7 +672,7 @@ def planta_baja():
            ('linea', '#8a8a8a', 'Forjado sobre el corte'),
            ('linea', RESERVA, 'Reserva de espacio del cliente'),
            ('#f4efe6', MOB, 'Mesas dobles de 0,70 × 0,70 y sillas'),
-           ('#eaeff2', APAR, 'Nevera de bebidas A7 (cara Sur de P3)'),
+           ('#eaeff2', APAR, 'Nevera A7 · 0,54 × 0,58 (cara Sur de P3)'),
            ('linea', ACC, 'Recorrido de sala · 0,74 por el Norte'),
            ('punto', '#7d7d7d', 'Punto de luz s/ proyecto original'),
            ('linea', '#6f8a99', 'Aire acondicionado (cassette de techo)')],

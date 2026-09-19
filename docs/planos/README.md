@@ -286,26 +286,24 @@ Reparto del 19 set. (tarde), con M6 y M9 eliminadas y las dos cuadruples
 formadas juntando dos mesas:
 
 - **Fila del ventanal.** M1, M3 y M2 en vertical (sillas al Norte y al Sur),
-  **a 0,1175 entre mesas, que son 0,40 entre sillas** (acotado en la lamina),
-  arrancando en el zocalo. M2 se trae aqui, al lado de M3, como pidio el
-  cliente.
+  **a 0,40 entre mesas**, que es lo que pidio el cliente y son 0,68 entre
+  sillas: por ahi pasa una persona. Posiciones: M1 3,925-4,625,
+  M3 5,025-5,725 y M2 6,125-6,825; los dos huecos van acotados en la lamina.
 
-  Esa separacion es el techo exacto de la fila. Por el Oeste el tope es dejar
-  1,00 libre delante del mostrador (M1 en 3,530) y por el Este, que la silla
-  de M2 no entre en el barrido de la puerta de la nevera A7: la silla acaba
-  en 5,725 y la nevera empieza ahi mismo. Quedan 2,335 de fila para 2,10 de
-  mesas.
+  La fila mide 2,90 y no cabia donde estaba (2,335), asi que se corre al
+  Este, que es de donde sale el sitio sin mover nada de lo que el cliente ya
+  habia colocado:
 
-  Para que **pase una persona entre las mesas** harian falta ~0,60 entre
-  sillas, o sea 0,32 entre mesas y 2,74 de fila. Los 0,405 que faltan solo
-  salen de uno de estos tres sitios, y el cliente eligio quedarse en 0,40:
+  - la silla Norte de M2 arranca en 6,265, justo donde termina la nevera A7,
+    con lo que no entra en el barrido de su puerta;
+  - delante del mostrador quedan **1,395** libres en vez de 1,00;
+  - M2 pasa del zocalo (que acaba en 5,870) al hueco de P5, el sitio que el
+    cliente habia pedido aprovechar, a 0,82 de la jamba del vestibulo: ni en
+    la puerta ni suelta, va al lado de M3.
 
-  | Salida | Entre mesas | Entre sillas | Lo que cuesta |
-  |---|---|---|---|
-  | como esta | 0,1175 | **0,40** | nada |
-  | nevera a la cara Este de P3 | 0,350 | 0,63 | nada; ademas el paso por delante de P3 vuelve a 1,04 |
-  | mostrador de 1,00 a 0,80 | 0,215 | 0,50 | 0,20 de hueco delante del mostrador; se pasa de lado |
-  | solo dos mesas en la fila | 0,930 | 1,21 | dos plazas (20 -> 18) |
+  Con la fila corrida, M1 y M3 se sirven desde el pasillo del ventanal (1,20)
+  y M2 desde el lado de la entrada, donde quedan 1,36 libres.
+
 - **Fila central.** M5 y M4, con **M4 pegada a la cara Oeste de P3**. M6 se
   quita. Al Oeste de M5 no va ninguna mesa: ahi esta la unica salida del
   personal de la barra a la sala, que queda en 1,31.
