@@ -33,7 +33,7 @@ MARGEN = 8.0
 CAJ_X = W - MARGEN - 96.0       # borde izquierdo del cajetin
 OX, OY = 62.0, 236.0            # papel del origen de obra
 
-FECHA = '15 de septiembre de 2026'
+FECHA = '19 de septiembre de 2026'
 
 DEFS = '''<defs>
 <pattern id="doble" width="3.2" height="3.2" patternTransform="rotate(45)"
@@ -263,12 +263,17 @@ def hundimiento(L):
     pared se saldria del solar. Va en COMPROBAR EN OBRA."""
     h = E.HUNDIMIENTO
     L.rect('muros', h['x0'], h['y1'], h['x1'], h['y1'] + 0.148, POCHE, 'none')
+    # esquina Oeste: el muro cierra hasta el fondo del nicho
+    L.rect('muros', 0.000, 9.156, h['x0'], h['y1'] + 0.148, POCHE, 'none')
+    L.linea('muros', 0.000, h['y1'] + 0.148, h['x0'], h['y1'] + 0.148, TINTA,
+            'fino', ' stroke-dasharray="1.8 1.2"')
     for xa, xb, ya, yb in ((h['x0'], h['x1'], h['y1'], h['y1']),
-                           (h['x1'], h['x1'], h['y0'], h['y1'])):
+                           (h['x1'], h['x1'], h['y0'], h['y1']),
+                           (h['x0'], h['x0'], h['y0'], h['y1'])):
         L.linea('muros', xa, ya, xb, yb, TINTA, 'corte')
     L.linea('muros', h['x0'], h['y1'] + 0.148, h['x1'], h['y1'] + 0.148,
             TINTA, 'fino', ' stroke-dasharray="1.8 1.2"')
-    L.texto('rotulos', (h['x0'] + h['x1']) / 2, 8.62, 'HUNDIMIENTO  0,275',
+    L.texto('rotulos', 1.58, 8.62, 'HUNDIMIENTO  0,275',
             2.0, 'middle', '#9a2b2b', 'bold')
 
 
@@ -296,8 +301,9 @@ def ventanal_sur(L):
 def zocalo_sur(L):
     """Zocalo de piedra del ventanal: 0,347 de fondo (2,72 desde P3)."""
     z = E.ZOCALO_SUR
-    L.rect('carpinteria', z['x0'], z['y0'], z['x1'], z['y1'], '#eceff1',
-           '#3d6b80', 'fino')
+    p2 = next(p for p in E.PILARES if p[0] == 'P2')
+    for a, b in ((z['x0'], p2[2]), (p2[4], z['x1'])):
+        L.rect('carpinteria', a, z['y0'], b, z['y1'], '#eceff1', '#3d6b80', 'fino')
     L.texto('rotulos', 3.75, (z['y0'] + z['y1']) / 2,
             'ZÓCALO DEL VENTANAL  ·  0,35', 1.8, 'middle', '#26485a', dy=0.6)
 
@@ -371,7 +377,7 @@ def viga(L):
     nm, x0, y0, x1, y1 = E.VIGA
     L.rect('proyeccion', x0, y0, x1, y1, 'none', '#6a6a6a', 'fino',
            ' stroke-dasharray="2.4 1.4"')
-    L.texto('rotulos', (x0 + x1) / 2, (y0 + y1) / 2, 'VIGA P1b  1,83 × 0,25 · sobre el corte',
+    L.texto('rotulos', 1.70, (y0 + y1) / 2, 'VIGA P1b  1,83 × 0,25',
             1.9, 'middle', '#5f5f5f', dy=0.7)
 
 
@@ -561,7 +567,7 @@ def planta_baja():
             rot=-90)
     L.texto('rotulos', 0.70, 3.10, 'BARRA', 2.4, 'middle', '#3c5a68', 'bold',
             rot=-90)
-    L.texto('rotulos', 7.95, 1.22, 'VESTÍBULO DE ACCESO', 2.3, 'middle', '#3c5a68',
+    L.texto('rotulos', 8.78, 1.22, 'VESTÍBULO DE ACCESO', 2.3, 'middle', '#3c5a68',
             'bold')
     L.texto('rotulos', E.PARED_L_X, 7.00,
             'PARED EN L  ·  3,30 + 0,74  ·  h=1,22',
@@ -608,15 +614,14 @@ def planta_baja():
 
     # cotas interiores medidas en obra (19 set.)
     L.cota_h('cotas', [0.510, 1.290, 1.870], L.py(2.42), 1.8)
-    L.cota_h('cotas', [0.250, HU['x1']], L.py(8.90), 1.9)      # hundimiento 2,18
     # cadena del cliente: 3,01 de la pared en L a P3 y 2,33 a la caja
-    L.cota_h('cotas', [PL[3], P3[2], P3[4], E.CAJA_ESC_PB[1], 8.811],
-             L.py(7.05), 1.9)
+    L.cota_h('cotas', [PL[3], P3[2], P3[4], E.CAJA_ESC_PB[1]], L.py(6.95), 1.9)
     L.cota_v('cotas', [E.BARRA['y0'], E.BARRA['y1'], E.PASO_PERS['y1'], 9.008],
-             L.px(1.32), 1.9)
+             L.px(0.95), 1.9)
     L.cota_v('cotas', [E.ZOCALO_SUR['y0'], E.ZOCALO_SUR['y1']], L.px(5.30), 1.7)
     L.cota_h('cotas', [E.BARRA['x0'], E.BARRA['x1']], L.py(2.16), 1.7)
     L.cota_h('cotas', [0.250, E.BARRA['x0']], L.py(3.72), 1.8)   # 1,65 medido
+    L.cota_h('cotas', [7.641, 9.890], L.py(1.52), 1.8)          # vestibulo: 2,25
     L.cota_h('cotas', [7.400, 7.770, 8.470, 9.890], L.py(7.55), 1.8)
     L.cota_v('cotas', [7.730, 9.008], L.px(9.83), 1.8)
     L.cota_v('cotas', [P3[5], 9.008], L.px(P3[2] - 0.07), 1.9)
@@ -721,6 +726,10 @@ def planta_alta():
             'bold')
     L.texto('rotulos', 5.75, 7.22, 'nivel +2,56  ·  altura libre por medir',
             2.2, 'middle', '#4a4a4a', dy=3.4)
+    L.texto('rotulos', 1.34, 8.62,
+            'El hundimiento de 0,275 de la medianera Norte', 1.9, 'middle', '#9a2b2b')
+    L.texto('rotulos', 1.34, 8.62, 'sólo se ha medido en planta baja (lámina 01)',
+            1.9, 'middle', '#9a2b2b', dy=2.6)
     L.texto('rotulos', 5.6, 2.55, 'VACÍO SOBRE PLANTA BAJA', 2.8, 'middle', '#3c5a68',
             'bold')
     L.texto('rotulos', 5.6, 2.55, 'altura total por medir', 2.3, 'middle',

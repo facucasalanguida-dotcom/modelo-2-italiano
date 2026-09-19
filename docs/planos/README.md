@@ -249,7 +249,7 @@ pared en L.
 | 2,79 | largo de la barra | 3,13 | 2,79 |
 | 1,65 | muro Oeste al arranque de la barra | 1,62 | 1,65 |
 | 1,31 | P5 a la jamba del vestibulo | 1,28 | 1,31 |
-| 2,23 | jamba del vestibulo al muro Este | 2,28 | 2,23 |
+| 2,23 | jamba del vestibulo al muro Este | 2,28 | 2,25 (2 cm) |
 | 2,06 | ancho de la puerta de entrada | 2,10 | 2,06 |
 
 Las de 3,23 y 3,65 se dejan como estaban: mueven P3 dos y cuatro centimetros

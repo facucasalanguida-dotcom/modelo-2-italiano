@@ -255,10 +255,10 @@ COMPROBAR = [
     'escalera con 0,13 de pared entre el hundimiento y la L y 0,16 de cerramiento.',
     'La pared en L queda 0,10 al Este del borde del forjado del levantamiento: el '
     'vidrio de 1,35 sobre ella (2,57 en total) no pasa bajo el altillo. Medir ese borde.',
-    'Pasillo de cocina: 0,97 m frente a los frigoríficos (0,74 de fondo) y '
-    '1,11 frente al fregadero. Antes eran 0,78.',
-    'P5: los 3,65 medidos de P3 a su cara Norte la sitúan en 1,058 y el levantamiento '
-    'en 1,000. Se dibuja el levantamiento (6 cm). Medir también el resalto de P5.',
+    'Vestíbulo: los 1,31 y 2,23 del cliente suman 3,54 y de P5 al muro Este hay 3,559. '
+    'Se dibuja el 1,31 medido y el resto queda en 2,25, 2 cm más que su medida.',
+    'P3 no se mueve: sus 3,23 a la medianera Norte y 3,65 a la cara Norte de P5 lo '
+    'llevarían 2 cm al Sur y 4 cm al Norte. Se dibujan 3,25 y 3,69. Medir de nuevo.',
     'Aire acondicionado: dos cassettes situados con las fotos del cliente, con panel '
     'estándar de 0,95 y rejilla de 0,90 × 0,50. Medir posición y tamaño reales.',
 ]

@@ -15,7 +15,7 @@ Recintos (plano de estructura revisado el 19/09 con las medidas del cliente):
 
     COCINA   x 0,250 .. 2,560   y 5,808 .. 9,008 (9,283 en el hundimiento de
              2,18 de la medianera Norte); entrada bajo la viga P1b, entre P1
-             y el doblez de la pared en L (1,36).
+             y el doblez de la pared en L (1,37).
     BARRA    x 0,250 .. 2,660   y 1,968 .. 5,708   trasbarra contra el muro
              Oeste entre P1 y P2; mostrador delantero en la linea de la pared
              en L, del zocalo del ventanal a P1; paso de personal de 0,95.
@@ -60,7 +60,7 @@ CAMPANA_POS = dict(x0=0.310, x1=2.310, y0=NICHO['y1'] - 1.200, y1=NICHO['y1'])
 #     Fregadero con bastidor y hueco de lavavajillas (croquis del cliente,
 #     16/09): cuba a la izquierda mirando al muro, es decir al Sur, y el
 #     escurridor al Norte con el lavavajillas K6 debajo. Ya no hay tabla.
-#     Largo disponible hasta P1: 8,408 - 5,357 = 3,051. Suma: 3,042 (9 mm).
+#     Largo disponible hasta P1: 8,683 - 5,357 = 3,326. Suma: 3,042 (0,28 libres).
 #     En makro.es no hay armario refrigerado inox de puerta ciega de menos
 #     de 0,626 de ancho.
 #     Ficha facilitada por el cliente (el buscador de Makro no la indexa):
