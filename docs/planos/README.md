@@ -1,18 +1,22 @@
-# Planos de estructura del local
+# Planos del local
 
-Planos tecnicos en A3 a escala 1:50, pensados para imprimir y acotar a mano
-sobre ellos. Se dibuja **solo la estructura**: muros, medianeras, pilares y
-machones, viga descolgada, forjado del altillo, escalera, carpinteria de
-fachada y puntos de luz del techo. No hay mobiliario, barra, cocina ni
-equipamiento.
+Cuatro laminas tecnicas en A3, pensadas para imprimir y acotar a mano sobre
+ellas. Las dos primeras son de estructura a 1:50 —muros, medianeras, pilares
+y machones, viga descolgada, forjado del altillo, escalera, carpinteria de
+fachada, puntos de luz y aire acondicionado— con el mobiliario de sala y las
+reservas de espacio del cliente encima. Las dos ultimas son el equipamiento
+de barra y cocina: el detalle a 1:25 y la lista de compra con los enlaces a
+las fichas de makro.es.
 
 | Archivo | Contenido |
 |---|---|
-| `PLANTA_BAJA.pdf` | Planta baja, cota ±0,00 |
-| `PLANTA_ALTA.pdf` | Altillo, cota +3,00 |
-| `EQUIPAMIENTO.pdf` | Barra y cocina a 1:25, con el cuadro de equipos |
+| `PLANTA_BAJA.pdf` | Lamina 01 · planta baja, cota ±0,00, con mesas e itinerario accesible |
+| `PLANTA_ALTA.pdf` | Lamina 02 · altillo, cota +2,56 |
+| `EQUIPAMIENTO.pdf` | Lamina 03 · barra y cocina a 1:25, con el cuadro de equipos |
+| `LISTA_EQUIPAMIENTO.pdf` | Lamina 04 · lista de compra con los enlaces clicables |
 | `Planos_Estructura.pdf` | Las dos plantas en un solo documento |
-| `Planos_Completos.pdf` | Las tres laminas en un solo documento |
+| `Planos_Completos.pdf` | Las cuatro laminas en un solo documento |
+| `LISTA_MAKRO.md` | La misma lista de compra en texto, con los enlaces |
 
 ## Sistema de coordenadas
 
@@ -22,7 +26,7 @@ X = 10,040   cara exterior de la medianera ESTE
 Y = 0,000    punto mas al sur del solar (cara sur del pilar de fachada)
 Y = 9,156    cara exterior de la medianera NORTE
 Z = 0,000    pavimento de planta baja
-Z = +3,000   pavimento del altillo
+Z = +2,560   pavimento del altillo (medido en obra)
 ```
 
 ## Origen de las medidas
