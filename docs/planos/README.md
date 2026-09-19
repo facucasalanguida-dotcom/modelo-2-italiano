@@ -397,6 +397,48 @@ alturas de coronacion, puntos de luz). Se dibuja siempre el levantamiento por
 ser la unica fuente acotada; esos puntos se miden en obra y se corrigen sobre
 el papel.
 
+## Modelo 3D para SketchUp
+
+`MODELO_3D.rb` construye el local entero en SketchUp desde la consola Ruby:
+
+```ruby
+load "C:/ruta/al/repo/docs/planos/MODELO_3D.rb"
+```
+
+Tambien se puede pegar el fichero entero en la consola. Se construye al
+cargarlo; `Local3D.build` lo rehace y `Local3D.clear` lo borra. Volver a
+cargarlo no duplica geometria: borra el grupo anterior antes de montar.
+
+- **Unidades**: metros. Cada numero va con `.m`, asi que el modelo sale a
+  milimetro exacto sobre las cotas del plano.
+- **Origen**: esquina interior Suroeste del local (0,0,0), X al Este, Y al
+  Norte, Z hacia arriba. Es el mismo origen de obra que usan las laminas.
+- **Organizacion**: cada solido es un grupo con nombre propio, dentro de un
+  grupo raiz "Local de hosteleria", repartidos en 15 capas (01 Solera,
+  02 Muros, 03 Pilares, 04 Carpinteria, 05 Pared en L, 06 Zocalo, 07 Bano,
+  08 Escalera, 09 Forjado, 10 Cocina, 11 Barra, 12 Sala, 13 Instalaciones,
+  14 Planta alta, 15 Techo). La capa del techo se crea apagada.
+- **De donde sale**: lo genera `export_sketchup.py` importando `estructura.py`,
+  `mobiliario.py` y `equipamiento.py`, las mismas fuentes que dibujan las
+  cuatro laminas. **Ninguna coordenada esta escrita a mano**: si cambia el
+  plano, se vuelve a lanzar el generador y el 3D cambia con el.
+
+En planta esta todo medido. En altura el levantamiento solo da el suelo a
+suelo (2,560), asi que el resto de cotas verticales van declaradas una sola
+vez en la cabecera del `.rb`, cada una con su origen (medida, estandar o
+SUPUESTA). Las supuestas son el canto del forjado (0,250), el intrados de la
+viga P1b (2,100), el alto del zocalo del ventanal (0,450) y el sillon.
+
+`MODELO_3D_vista.png` y `MODELO_3D_vista_alta.png` son dos axonometrias de
+control, con los muros cortados para ver cada planta por dentro. Las genera
+`vista_3d.py` leyendo el mismo generador (no son renders, son un dibujo de
+comprobacion):
+
+```bash
+python3 vista_3d.py 1.60 MODELO_3D_vista.png             # planta baja
+PLANTA=alta python3 vista_3d.py 1.20 MODELO_3D_vista_alta.png
+```
+
 ## Regenerar
 
 ```bash
