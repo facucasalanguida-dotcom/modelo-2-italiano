@@ -39,13 +39,18 @@ H_SILLON    = 0.420     # asiento del sillon corrido
 H_SILLON_R  = 1.050     # coronacion del respaldo del sillon
 E_SILLON_R  = 0.100
 H_BARRA_MAD = 0.040     # canto de la tabla de madera del mostrador
+REV_E       = 0.030     # revestimiento de madera del frente de la barra
+REV_ZOC_H   = 0.050     # retranqueo inferior, para la linea de LED
+REV_ZOC_E   = 0.020     # cuanto se mete hacia dentro ese retranqueo
 Z_ESTANTE   = None      # se calcula: por encima del aparato mas alto de la mesada
-Z_AIRE      = 2.310     # cassettes de aire colgados al nivel del sofito
-H_AIRE      = 0.250
+Z_AIRE      = 2.310     # cara superior del cassette, al nivel del sofito
+H_AIRE      = 0.300     # fondo del cassette de techo
+H_MARCO     = 0.030     # panel decorativo, sobresale del cuerpo
 H_REJILLA   = 0.060
+E_TIRANTE   = 0.040     # varillas de cuelgue del cassette
 D_EMPOTRADO = 0.090     # diametro de los empotrados
 H_COLGANTE  = 0.220     # alto de la pantalla de los colgantes
-Z_COLGANTE  = 1.900     # borde inferior de los colgantes, por debajo del aire
+Z_COLGANTE  = 1.700     # borde inferior de los colgantes, por debajo del aire
 H_APLIQUE   = 0.300
 Z_APLIQUE   = 1.950     # por encima de los armarios K8/K9 (1,865)
 Z_DINTEL_F  = None      # banda de fachada sobre el acristalamiento
@@ -69,6 +74,8 @@ ALTURAS_DOC = [
     ('Borde inferior de la campana', Q.H_CAMPANA, 'estandar'),
     ('Estante mural de la trasbarra', 0.0, 'SUPUESTO — sobre el aparato más alto'),
     ('Sillon corrido: asiento / respaldo', H_SILLON, 'SUPUESTO — fondo sin medir'),
+    ('Cara inferior de los cassettes de aire', Z_AIRE - H_AIRE, 'SUPUESTO — COMPROBAR'),
+    ('Revestimiento del frente de la barra', Q.H_ENCIMERA, 'hasta la encimera'),
 ]
 
 P1N = next(p for p in E.PILARES if p[0] == 'P1')[5]
@@ -349,8 +356,22 @@ my0, my1 = Q.MOSTRADOR_Y
 bm = Q.BARRA_MADERA
 # El mostrador solo es macizo bajo la tabla de madera: el tramo Sur lo
 # ocupan las dos vitrinas, que son muebles con su propio cuerpo.
+MX_INT = round(mx1 - REV_E - REV_ZOC_E, 3)   # cara interior del revestimiento
 caja('11 Barra', 'encimera', 'Mostrador delantero a medida',
-     mx0, bm['y0'], mx1, my1, 0.0, Q.H_ENCIMERA)
+     mx0, bm['y0'], MX_INT, my1, 0.0, Q.H_ENCIMERA)
+
+# --- Revestimiento de madera del frente de la barra (cara Este, la que ve el
+#     cliente), en toda su longitud: es donde iran el logo y las luces LED.
+#     Se resuelve como los ultimos 0,03 del mostrador, asi que la cara
+#     acabada sigue cayendo en 2,530, en la linea de la pared en L, y el
+#     mostrador no crece. Abajo se deja un retranqueo de 0,05 para la tira
+#     de LED, como en las fotos.
+caja('11 Barra', 'madera',
+     'Frente de la barra · revestimiento de madera (logo y LED)',
+     mx1 - REV_E, my0, mx1, my1, REV_ZOC_H, Q.H_ENCIMERA)
+caja('11 Barra', 'madera',
+     'Frente de la barra · retranqueo inferior para la tira de LED',
+     mx1 - REV_E - REV_ZOC_E, my0, mx1 - REV_E, my1, 0.0, REV_ZOC_H)
 caja('11 Barra', 'madera', 'Mostrador · tabla de madera',
      mx0, bm['y0'], mx1, bm['y1'], Q.H_ENCIMERA, Q.H_ENCIMERA + H_BARRA_MAD)
 # Las vitrinas se dibujan con el fondo del mostrador (0,63) y no con los
@@ -360,14 +381,15 @@ vy = my0
 for p in Q.VITRINAS:
     vt = Q.VITRINA
     caja('11 Barra', 'aparato', f"{p['tag']} · motor",
-         mx1 - vt['motor'][1], vy, mx1, vy + vt['motor'][0], 0.0, vt['motor'][1])
+         MX_INT - vt['motor'][1], vy, MX_INT, vy + vt['motor'][0],
+         0.0, vt['motor'][1])
     caja('11 Barra', 'vidrio', f"{p['tag']} · {p['nombre']}",
-         mx0, vy, mx1, vy + p['a'], vt['hueco_bajo'], p['h'])
+         mx0, vy, mx1 - REV_E, vy + p['a'], vt['hueco_bajo'], p['h'])
     vy += p['a']
 lv = Q.LAVAVASOS
 _ly0 = my0 + Q.VITRINA['motor'][0] + 0.030
 caja('11 Barra', 'aparato', f"{lv['tag']} · {lv['nombre']}",
-     mx1 - lv['f'], _ly0, mx1, _ly0 + lv['a'], 0.0, lv['h'])
+     MX_INT - lv['f'], _ly0, MX_INT, _ly0 + lv['a'], 0.0, lv['h'])
 tb = Q.TABLET
 caja('11 Barra', 'aparato', f"{tb['tag']} · {tb['nombre']}",
      mx0 + 0.150, bm['y0'] + 0.200, mx0 + 0.150 + tb['f'],
@@ -463,14 +485,35 @@ for i, (cx, cy) in enumerate(E.APLIQUES, 1):
     caja('13 Instalaciones', 'luz', f'Aplique {i}',
          cx - 0.060, cy - 0.100, cx + 0.060, cy + 0.100,
          Z_APLIQUE, Z_APLIQUE + H_APLIQUE)
+# --- Aire acondicionado: cassettes de techo de 4 vias, como los de las fotos
+#     del cliente. Ya no se dibujan como una caja suelta flotando: cada
+#     maquina lleva su cuerpo, su panel decorativo por debajo y, como las dos
+#     caen en la zona de DOBLE ALTURA (el forjado del altillo no llega hasta
+#     ellas), cuatro varillas de cuelgue hasta el techo. Si en obra van
+#     empotradas en un falso techo, hay que decir a que altura va ese techo.
 rw, rh = E.AIRE_REJILLA
+FORJ_XS = [q[0] for q in E.FORJADO]
+FORJ_YS = [q[1] for q in E.FORJADO]
 for tag, nm, cx, cy, a, f in E.AIRE:
-    caja('13 Instalaciones', 'aire', f'{tag} · {nm}',
-         cx - a / 2, cy - f / 2, cx + a / 2, cy + f / 2,
-         Z_AIRE - H_AIRE, Z_AIRE)
+    x0, x1 = cx - a / 2, cx + a / 2
+    y0, y1 = cy - f / 2, cy + f / 2
+    caja('13 Instalaciones', 'aire', f'{tag} · {nm} · cuerpo',
+         x0, y0, x1, y1, Z_AIRE - H_AIRE, Z_AIRE)
+    caja('13 Instalaciones', 'aire', f'{tag} · panel de 4 vías',
+         x0 - 0.025, y0 - 0.025, x1 + 0.025, y1 + 0.025,
+         Z_AIRE - H_AIRE - H_MARCO, Z_AIRE - H_AIRE)
     caja('13 Instalaciones', 'aire', f'{tag} · rejilla de retorno',
-         cx - rw / 2, cy + f / 2 + 0.060, cx + rw / 2, cy + f / 2 + 0.060 + rh,
+         cx - rw / 2, y1 + 0.060, cx + rw / 2, y1 + 0.060 + rh,
          Z_AIRE - H_REJILLA, Z_AIRE)
+    # cuelgue: solo si por encima no hay forjado donde empotrarlo
+    bajo_forjado = (min(FORJ_XS) <= x0 and x1 <= max(FORJ_XS)
+                    and min(FORJ_YS) <= y0 and y1 <= max(FORJ_YS)
+                    and y0 >= 3.939)
+    if not bajo_forjado:
+        for tx in (x0 + 0.060, x1 - 0.060 - E_TIRANTE):
+            for ty in (y0 + 0.060, y1 - 0.060 - E_TIRANTE):
+                caja('13 Instalaciones', 'aire', f'{tag} · tirante de cuelgue',
+                     tx, ty, tx + E_TIRANTE, ty + E_TIRANTE, Z_AIRE, Z_TECHO)
 
 # ============================================================ PLANTA ALTA
 for nm, x0, y0, x1, y1 in E.TABIQUES_PA:

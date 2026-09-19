@@ -19,6 +19,10 @@ def hexa(rgb, f=1.0):
     return '#%02x%02x%02x' % tuple(max(0, min(255, int(c * f))) for c in rgb)
 
 PLANTA = os.environ.get('PLANTA', 'baja')
+ZONA = os.environ.get('ZONA')
+ZONA = [float(v) for v in ZONA.split(',')] if ZONA else None
+def fuera(x0, y0, x1, y1):
+    return ZONA and (x1 <= ZONA[0] or x0 >= ZONA[2] or y1 <= ZONA[1] or y0 >= ZONA[3])
 Z_BASE = 2.560 if PLANTA == 'alta' else 0.0
 solidos = []
 for tg, mt, nm, x0, y0, x1, y1, z0, z1 in X.cajas:
@@ -30,20 +34,21 @@ for tg, mt, nm, x0, y0, x1, y1, z0, z1 in X.cajas:
         continue
     if tg in ALTAS or PLANTA == 'alta':
         z1 = min(z1, Z_BASE + CORTE)
-    if z1 <= z0:
+    if z1 <= z0 or fuera(x0, y0, x1, y1):
         continue
     solidos.append((tg, mt, x0, y0, x1, y1, z0, z1))
 for tg, mt, nm, pts, z0, z1 in X.prismas:
     if tg != ('09 Forjado' if PLANTA == 'alta' else '01 Solera'):
         continue
     xs = [p[0] for p in pts]; ys = [p[1] for p in pts]
+    if fuera(min(xs), min(ys), max(xs), max(ys)): continue
     solidos.append((tg, mt, min(xs), min(ys), max(xs), max(ys), z0, z1))
 for tg, mt, nm, cx, cy, r, z0, z1 in X.cilindros:
     if PLANTA == 'alta':
         if z1 <= 2.560 + 1e-6: continue
         z0 = max(z0, 2.560)
     z1 = min(z1, Z_BASE + CORTE)
-    if z1 <= z0: continue
+    if z1 <= z0 or fuera(cx - r, cy - r, cx + r, cy + r): continue
     solidos.append((tg, mt, cx - r, cy - r, cx + r, cy + r, z0, z1))
 
 solidos.sort(key=lambda s: (s[2] + s[3] + s[6]))

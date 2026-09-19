@@ -429,6 +429,20 @@ vez en la cabecera del `.rb`, cada una con su origen (medida, estandar o
 SUPUESTA). Las supuestas son el canto del forjado (0,250), el intrados de la
 viga P1b (2,100), el alto del zocalo del ventanal (0,450) y el sillon.
 
+**Aire acondicionado.** Las dos maquinas son cassettes de techo de 4 vias,
+como los de las fotos del cliente: cuerpo de 0,95 x 0,95 x 0,30, panel
+decorativo por debajo (1,00 x 1,00) y rejilla de retorno de 0,90 x 0,50 al
+lado. Las dos caen en la zona de doble altura, donde el forjado del altillo
+no llega, asi que se cuelgan con cuatro tirantes hasta el techo. Si en obra
+van empotradas en un falso techo, hace falta saber a que altura va ese techo.
+
+**Frente de la barra.** El mostrador lleva en su cara Este —la que ve el
+cliente, y en toda su longitud— un revestimiento de madera de 0,03, con un
+retranqueo de 0,05 en la parte baja para la tira de LED. Es donde iran el
+logo y las luces. Se resuelve como los ultimos 3 cm del propio mostrador, asi
+que la cara acabada sigue cayendo en 2,530, en la linea de la pared en L, y
+el mostrador no crece.
+
 **Conflictos que el 3D deja a la vista.** Son del proyecto, no del modelo, y
 por eso no se arreglan inventando: van listados en la cabecera del `.rb`. Los
 importantes: el vidrio de la pared en L corona en 2,570 y el forjado arranca
