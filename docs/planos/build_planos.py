@@ -227,17 +227,17 @@ _H = E.HUNDIMIENTO
 
 
 def interior_pb(hund=True):
-    if not hund:
-        return [(0.250, 9.008)] + interior_pb()[3:]
-    return [(0.250, _H['y1']), (_H['x1'], _H['y1']), (_H['x1'], 9.008),
-            (9.890, 9.008), (9.890, 1.429), (9.710, 1.429),
+    if not hund:                      # planta alta: sin el trasdosado de PB
+        return [(0.250, E.MED_N), (9.890, E.MED_N)] + interior_pb()[4:]
+    return [(0.250, _H['y1']), (_H['x1'], _H['y1']), (_H['x1'], _H['y0']),
+            (9.890, _H['y0']), (9.890, 1.429), (9.710, 1.429),
             (9.710, 0.379), (6.230, 0.379), (6.230, 0.960), (5.980, 0.960),
             (5.980, 1.621), (0.510, 1.621), (0.510, 2.009), (0.250, 2.009)]
 
 
 def zona_doble_altura():
-    return [(0.250, _H['y1']), (_H['x1'], _H['y1']), (_H['x1'], 9.008),
-            (2.461, 9.008), (2.461, 7.509), (2.411, 7.509),
+    return [(0.250, _H['y1']), (_H['x1'], _H['y1']), (_H['x1'], _H['y0']),
+            (2.461, _H['y0']), (2.461, 7.509), (2.411, 7.509),
             (2.411, 3.939), (9.890, 3.939), (9.890, 1.429), (9.710, 1.429),
             (9.710, 0.379), (6.230, 0.379), (6.230, 0.960), (5.980, 0.960),
             (5.980, 1.621), (0.510, 1.621), (0.510, 2.009), (0.250, 2.009)]
@@ -247,7 +247,7 @@ def zona_doble_altura():
 # seccion lo corta por el vidrio, asi que no se macizan.
 SIN_POCHE = ('Muro Sur (con ventanal)',)
 # En planta baja este tramo se sustituye por el hundimiento medido.
-SOLO_PA = ('Medianera Norte - hundimiento',)
+SOLO_PA = ()   # la medianera del hundimiento ya se dibuja en las dos plantas
 
 
 def muros(L, capa='muros', planta='baja'):
@@ -257,26 +257,25 @@ def muros(L, capa='muros', planta='baja'):
         L.rect(capa, x0, y0, x1, y1, POCHE, TINTA, 'corte')
 
 
-def hundimiento(L):
-    """Hundimiento de 0,275 de la medianera Norte en la cocina (medido).
+def hundimiento(L, rotulo=(1.34, 8.28)):
+    """Hundimiento del muro Norte en la cocina (19 set., noche).
 
-    El espesor de la medianera en ese tramo no se conoce: se dibuja el mismo
-    0,148 del resto con la cara exterior a trazos, porque con ese espesor la
-    pared se saldria del solar. Va en COMPROBAR EN OBRA."""
+    No es un hueco abierto en la medianera: el fondo del hundimiento ES la
+    escalon entre los dos espesores de trasdosado del muro Norte: 0,08 en
+    los 2,18 de la cocina y 0,23 en el resto. La cara de la cocina queda a
+    3,57 de la base de la pared en L, que arranca en la cara Norte de P1, y
+    la medianera estructural de 0,148 no se toca.
+    """
     h = E.HUNDIMIENTO
-    L.rect('muros', h['x0'], h['y1'], h['x1'], h['y1'] + 0.148, POCHE, 'none')
-    # esquina Oeste: el muro cierra hasta el fondo del nicho
-    L.rect('muros', 0.000, 9.156, h['x0'], h['y1'] + 0.148, POCHE, 'none')
-    L.linea('muros', 0.000, h['y1'] + 0.148, h['x0'], h['y1'] + 0.148, TINTA,
-            'fino', ' stroke-dasharray="1.8 1.2"')
-    for xa, xb, ya, yb in ((h['x0'], h['x1'], h['y1'], h['y1']),
-                           (h['x1'], h['x1'], h['y0'], h['y1']),
-                           (h['x0'], h['x0'], h['y0'], h['y1'])):
-        L.linea('muros', xa, ya, xb, yb, TINTA, 'corte')
-    L.linea('muros', h['x0'], h['y1'] + 0.148, h['x1'], h['y1'] + 0.148,
-            TINTA, 'fino', ' stroke-dasharray="1.8 1.2"')
-    L.texto('rotulos', 1.58, 8.62, 'HUNDIMIENTO  0,275',
-            2.0, 'middle', '#9a2b2b', 'bold')
+    for nm, x0, y0, x1, y1 in (E.TRASDOSADO, E.TRASDOSADO_COCINA):
+        L.rect('muros', x0, y0, x1, y1, POCHE_TAB, TINTA, 'tabique')
+    # escalon del hundimiento contra la pared en L
+    L.linea('muros', h['x1'], h['y0'], h['x1'], h['y1'], TINTA, 'corte')
+    if rotulo:
+        L.texto('rotulos', rotulo[0], rotulo[1],
+                f"HUNDIMIENTO  {h['p']:.2f}".replace('.', ',')
+                + '  ·  trasdosado más fino',
+                2.0, 'middle', '#9a2b2b', 'bold')
 
 
 def pilares(L, solo=None, capa='pilares', etiquetas=True):
@@ -362,9 +361,9 @@ def reservas(L):
     p = E.PASO_PERS
     L.linea('reservas', p['x0'], p['y0'], p['x1'], p['y0'], RESERVA, 'fino', d)
     L.linea('reservas', p['x0'], p['y1'], p['x1'], p['y1'], RESERVA, 'fino', d)
-    L.texto('rotulos', (p['x0'] + p['x1']) / 2, (p['y0'] + p['y1']) / 2,
+    L.texto('rotulos', (p['x0'] + p['x1']) / 2, p['y1'] - 0.085,
             f"PASO {p['medido']:.2f}".replace('.', ','), 1.8, 'middle', RESERVA,
-            'bold', dy=0.6)
+            'bold')
 
     s = E.SILLON
     L.rect('reservas', s['x0'], s['y'] - s['fondo'], s['x1'], s['y'],
@@ -582,7 +581,7 @@ def planta_baja():
     L.poly('muros', interior_pb(), 'none', TINTA, 'fino')
 
     # ---- rotulos
-    L.texto('rotulos', 4.40, 6.72, 'ZONA CON FORJADO SUPERIOR  ·  +2,56',
+    L.texto('rotulos', 6.70, 6.25, 'ZONA CON FORJADO SUPERIOR  ·  +2,56',
             2.2, 'middle', '#4a4a4a', 'bold')
     L.texto('rotulos', 9.00, 3.25, 'DOBLE ALTURA', 2.6, 'middle', '#3c5a68',
             'bold')
@@ -593,7 +592,7 @@ def planta_baja():
     L.texto('rotulos', 8.78, 1.22, 'VESTÍBULO DE ACCESO', 2.3, 'middle', '#3c5a68',
             'bold')
     L.texto('rotulos', E.PARED_L_X, 7.00,
-            'PARED EN L  ·  3,30 + 0,74  ·  h=1,22',
+            f'PARED EN L  ·  {E.PARED_L_LARGO:.2f} + 0,74  ·  h=1,22'.replace('.', ','),
             2.0, 'middle', '#4a4a4a', rot=-90, dx=-4.6)
     nivel(L, 7.95, 0.72, '±0,00')
 
@@ -624,30 +623,33 @@ def planta_baja():
 
     yn = L.py(9.156) - 8.0
     L.cota_h('cotas', [0.0, 0.250, HU['x1'], PL[3], P3[2], P3[4], 7.400,
-                       8.811, 9.890, 10.040], yn, 1.8, ext_desde=9.283)
+                       8.811, 9.890, 10.040], yn, 1.8, ext_desde=9.156)
 
     xw = L.px(0.0) - 9.0
-    L.cota_v('cotas', [0.0, 1.561, 2.009, 4.759, 5.357, 9.008, 9.156], xw,
+    L.cota_v('cotas', [0.0, 1.561, 2.009, 4.759, 5.357, E.MURO_N_COCINA,
+                       9.156], xw,
              ext_desde=0.0)
     L.cota_v('cotas', [0.0, 9.156], xw - 8.0)
 
     xe = L.px(10.040) + 9.0
-    L.cota_v('cotas', [0.370, 1.429, 3.579, 3.939, P3[3], P3[5], 7.738, 9.156],
+    L.cota_v('cotas', [0.370, 1.429, 3.579, 3.939, P3[3], P3[5], 7.738,
+                       E.MURO_N, 9.156],
              xe, 1.9, ext_desde=10.040)
 
     # cotas interiores medidas en obra (19 set.)
     L.cota_h('cotas', [0.510, 1.290, 1.870], L.py(2.42), 1.8)
     # cadena del cliente: 3,01 de la pared en L a P3 y 2,33 a la caja
     L.cota_h('cotas', [PL[3], P3[2], P3[4], E.CAJA_ESC_PB[1]], L.py(6.95), 1.9)
-    L.cota_v('cotas', [E.BARRA['y0'], E.BARRA['y1'], E.PASO_PERS['y1'], 9.008],
+    L.cota_v('cotas', [E.BARRA['y0'], E.BARRA['y1'], E.PASO_PERS['y1'],
+                       E.MURO_N_COCINA],
              L.px(0.95), 1.9)
     L.cota_v('cotas', [E.ZOCALO_SUR['y0'], E.ZOCALO_SUR['y1']], L.px(5.30), 1.7)
     L.cota_h('cotas', [E.BARRA['x0'], E.BARRA['x1']], L.py(2.16), 1.7)
     L.cota_h('cotas', [0.250, E.BARRA['x0']], L.py(3.72), 1.8)   # 1,65 medido
     L.cota_h('cotas', [7.641, 9.890], L.py(1.52), 1.8)          # vestibulo: 2,25
     L.cota_h('cotas', [7.400, 7.770, 8.470, 9.890], L.py(7.55), 1.8)
-    L.cota_v('cotas', [7.730, 9.008], L.px(9.83), 1.8)
-    L.cota_v('cotas', [P3[5], 9.008], L.px(P3[2] - 0.07), 1.9)
+    L.cota_v('cotas', [7.730, E.MURO_N], L.px(9.83), 1.8)
+    L.cota_v('cotas', [P3[5], E.MURO_N, E.MED_N], L.px(P3[2] - 0.07), 1.9)
     L.cota_v('cotas', [E.ZOCALO_SUR['y1'], P3[3]], L.px(7.00), 1.8,
              ext_desde=5.99)                                    # 2,72
 
@@ -655,25 +657,25 @@ def planta_baja():
           ['Cotas en metros. Hundimiento, pared en L, P3, barra,',
            'zócalo y puerta con las medidas del 19 set.; el resto,',
            'del levantamiento. Sección a 1,20 m sobre el pavimento.',
-           'Mesas dobles de 0,70 × 0,70 que el personal junta para',
-           'formar mesas de cuatro. M4 pegada a P3. El sillón, con',
-           '0,60 de fondo: falta medirlo y el trasdosado de 0,10.',
-           'Luces del proyecto original; los cassettes de aire, de',
-           'las fotos del cliente.',
+           'Muro Norte: la barra (2,79) + 0,60 de paso llevan la base',
+           'de la pared en L a la cara Norte de P1, y de ahí a la',
+           'cocina hay 3,57. El hundimiento de 0,15 es el escalón del',
+           'trasdosado: 0,08 en la cocina y 0,23 en el resto.',
+           'Mesas dobles de 0,70 × 0,70 que el personal junta. El',
+           'sillón, 0,60 de fondo sin medir. Luces del proyecto.',
            'La nevera A7 sale 0,58 de la cara Sur de P3 y deja 0,45',
-           'hasta las sillas de M2: por ahí ya no se pasa y el paso',
-           'a la barra da la vuelta por el Norte, con 0,74. En la',
-           'cara Este de P3 serían 1,04. Baño no accesible: 0,70.'],
+           'hasta las sillas de M2: el paso a la barra da la vuelta',
+           'por el Norte, con 0,51. Baño no accesible: 0,70.'],
           [(POCHE, TINTA, 'Muro de carga / medianera'),
            (POCHE_PIL, TINTA, 'Pilar o machón de hormigón'),
-           (POCHE_TAB, TINTA, 'Pared en L nueva (apoyo del vidrio)'),
+           (POCHE_TAB, TINTA, 'Pared en L y trasdosado del muro Norte'),
            (VIDRIO, '#3d6b80', 'Carpintería acristalada'),
            ('url(#doble)', '#c3ced6', 'Espacio de doble altura'),
            ('linea', '#8a8a8a', 'Forjado sobre el corte'),
            ('linea', RESERVA, 'Reserva de espacio del cliente'),
            ('#f4efe6', MOB, 'Mesas dobles de 0,70 × 0,70 y sillas'),
            ('#eaeff2', APAR, 'Nevera A7 · 0,54 × 0,58 (cara Sur de P3)'),
-           ('linea', ACC, 'Recorrido de sala · 0,74 por el Norte'),
+           ('linea', ACC, 'Recorrido de sala · 0,51 por el Norte'),
            ('punto', '#7d7d7d', 'Punto de luz s/ proyecto original'),
            ('linea', '#6f8a99', 'Aire acondicionado (cassette de techo)')],
           ('SUPERFICIES Y ALTURAS',
@@ -753,7 +755,8 @@ def planta_alta():
     L.texto('rotulos', 5.75, 7.22, 'nivel +2,56  ·  altura libre por medir',
             2.2, 'middle', '#4a4a4a', dy=3.4)
     L.texto('rotulos', 1.34, 8.62,
-            'El hundimiento de 0,275 de la medianera Norte', 1.9, 'middle', '#9a2b2b')
+            f"El hundimiento de {E.HUNDIMIENTO['p']:.2f} del muro Norte".replace('.', ','),
+            1.9, 'middle', '#9a2b2b')
     L.texto('rotulos', 1.34, 8.62, 'sólo se ha medido en planta baja (lámina 01)',
             1.9, 'middle', '#9a2b2b', dy=2.6)
     L.texto('rotulos', 5.6, 2.55, 'VACÍO SOBRE PLANTA BAJA', 2.8, 'middle', '#3c5a68',

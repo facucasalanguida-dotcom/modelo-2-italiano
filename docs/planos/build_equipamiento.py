@@ -64,8 +64,9 @@ def detalle_cocina(ox, oy):
     c = Q.COCINA
     rotulo(L, c['x0'], c['y0'], c['x1'], Q.NICHO['y1'], 'COCINA',
            f"{_fmt(c['x1']-c['x0'])} × {_fmt(c['y1']-c['y0'])} m  ·  hundimiento de "
-           f"0,275 al Norte  ·  entrada bajo la viga P1b")
-    muros(L); hundimiento(L); pared_l(L); pilares(L, solo=('P1',)); viga(L)
+           f"{E.HUNDIMIENTO['p']:.2f} al Norte  ·  entrada bajo la viga P1b".replace(".", ","))
+    muros(L); hundimiento(L, rotulo=None); pared_l(L)
+    pilares(L, solo=('P1',)); viga(L)
 
     # --- linea de coccion: bancada a medida y aparatos de Oeste a Este
     b = Q.BANCADA_COCCION
@@ -82,9 +83,9 @@ def detalle_cocina(ox, oy):
     cp = Q.CAMPANA_POS
     L.rect('proyeccion', cp['x0'], cp['y0'], cp['x1'], cp['y1'], 'none', APARATO,
            'fino', ' stroke-dasharray="2.4 1.4"')
-    L.texto('rotulos', 1.35, 8.35, 'CAMPANA 2,00 × 1,20', 1.8, 'middle', APARATO,
+    L.texto('rotulos', 1.35, 8.05, 'CAMPANA 2,00 × 1,20', 1.8, 'middle', APARATO,
             'bold')
-    L.texto('rotulos', 1.35, 8.35, f'borde inferior +{_fmt(Q.H_CAMPANA)}', 1.6,
+    L.texto('rotulos', 1.35, 8.05, f'borde inferior +{_fmt(Q.H_CAMPANA)}', 1.6,
             'middle', APARATO, dy=2.2)
 
     # --- muro Oeste, de Norte a Sur
@@ -117,6 +118,16 @@ def detalle_cocina(ox, oy):
             caja(L, Q.OESTE_X0, y - p['a'], Q.OESTE_X0 + p['f'], y, p['tag'],
                  FRIO if frio else '#ffffff', APARATO if not frio else '#3d5c6e', rot=-90)
         y -= p['a']; cortes_o.append(y)
+
+    # La linea del muro Oeste ya no cabe entre P1 y la bancada: se dibuja lo
+    # que falta en rojo, sobre P1, para que se vea donde esta el problema.
+    _p1n = next(q for q in E.PILARES if q[0] == 'P1')[5]
+    if y < _p1n - 0.001:
+        L.rect('aparatos', Q.OESTE_X0, y, Q.OESTE_X0 + Q.OESTE[-1]['f'], _p1n,
+               'none', '#c0392b', 'medio', ' stroke-dasharray="1.6 1.0"')
+        L.texto('rotulos', Q.OESTE_X0 + Q.OESTE[-1]['f'] + 0.06, (y + _p1n) / 2,
+                f'NO CABE · faltan {_fmt(_p1n - y)}', 1.6, 'start', '#c0392b',
+                'bold', dy=0.5)
 
     # --- pared en L: nevera corrida de acero como mesada, de una sola pieza
     y = Q.ESTE_Y0
@@ -314,7 +325,7 @@ def lamina():
            'sus medidas de ficha; la web bloquea el acceso',
            'directo, así que las medidas vienen de su buscador.',
            'Confirmar en la ficha antes de comprar.',
-           'Cocción y campana metidas en el hundimiento de 0,275',
+           f"Cocción y campana metidas en el hundimiento de {E.HUNDIMIENTO['p']:.2f}".replace('.', ','),
            'de la medianera Norte, como pidió el cliente.',
            'Mesada refrigerada de una sola pieza (2,54, la más',
            f"larga de Makro) pegada al doblez de la L; {_fmt(Q.LIBRE_ESTE)} libres",

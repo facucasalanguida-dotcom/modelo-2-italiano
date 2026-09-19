@@ -43,7 +43,9 @@ SEP = 0.050
 #     tambien por donde se entra a la cocina por el paso de 0,95.
 #   - Fila del sillon corrido: dos cuadruples de 1,40 (dos mesas de 0,70
 #     juntas) pegadas a los extremos, contra la pared en L y contra el
-#     tabique del bano, y una doble centrada entre las dos.
+#     tabique del bano, y una doble centrada entre las dos. Con la
+#     correccion del muro Norte del 19 set. (noche) la fila baja 0,231,
+#     igual que el sillon.
 # La plaza de silla de ruedas ocupa el lado Norte de M1, al que se llega
 # desde el ramal del itinerario que va a la barra.
 MESAS_PB = [
@@ -52,9 +54,9 @@ MESAS_PB = [
     ('M2', 'doble',     6.125, 2.488, 6.825, 3.188, 'NS'),
     ('M5', 'doble',     3.840, 5.330, 4.540, 6.030, 'NS'),
     ('M4', 'doble',     4.970, 5.330, 5.670, 6.030, 'NS'),
-    ('M7', 'cuadruple', 2.550, 7.708, 3.950, 8.408, 'S'),
-    ('M10', 'doble',    4.615, 7.708, 5.315, 8.408, 'S'),
-    ('M11', 'cuadruple', 5.980, 7.708, 7.380, 8.408, 'S'),
+    ('M7', 'cuadruple', 2.550, 7.477, 3.950, 8.177, 'S'),
+    ('M10', 'doble',    4.615, 7.477, 5.315, 8.177, 'S'),
+    ('M11', 'cuadruple', 5.980, 7.477, 7.380, 8.177, 'S'),
 ]
 
 # Itinerario: tramos (metros), espacios de giro de 1,50 y anchos que se
@@ -72,7 +74,7 @@ MESAS_PB = [
 ACC_ITINERARIO = [
     [(8.300, 0.600), (8.300, 2.400), (7.870, 3.200), (7.870, 7.000),
      (8.007, 7.250), (8.007, 7.730)],
-    [(7.870, 6.869), (3.400, 6.869), (3.185, 6.300), (3.185, 4.173)],
+    [(7.870, 6.754), (3.400, 6.754), (3.185, 6.300), (3.185, 4.173)],
     [(3.185, 4.173), (5.200, 4.173)],
 ]
 # giros: centro y posicion del rotulo (fuera del trazo del itinerario)
@@ -82,8 +84,8 @@ ACC_PMR = None
 ACC_ANCHOS = [
     ('v', 4.230, 3.658, 4.860, 4.370, 4.100),    # sillas del ventanal - fila central
     ('v', 6.262, 3.658, 4.108, 6.085, 3.885),    # sillas de M2 - nevera A7: 0,45
-    ('h', 5.730, 7.380, 8.650, 7.980, 5.840),    # M11 - caja de escalera
-    ('v', 6.850, 6.500, 7.238, 6.680, 6.900),    # sillas: fila central - sillon
+    ('h', 5.499, 7.380, 8.650, 7.980, 5.609),    # M11 - caja de escalera
+    ('v', 6.850, 6.500, 7.007, 6.680, 6.810),    # sillas: fila central - sillon
     ('h', 5.600, 2.530, 3.840, 3.180, 5.710),    # salida del personal a la sala
     ('h', 2.838, 4.625, 5.025, 4.825, 2.960),    # entre M1 y M3: 0,40
     ('h', 2.838, 5.725, 6.125, 5.925, 2.960),    # entre M3 y M2: 0,40

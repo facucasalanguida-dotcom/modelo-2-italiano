@@ -24,9 +24,12 @@ Recintos (plano de estructura revisado el 19/09 con las medidas del cliente):
 MAKRO = 'https://www.makro.es/marketplace/product/'
 
 # ------------------------------------------------------------------ recintos
-COCINA = dict(x0=0.250, x1=2.430, y0=5.808, y1=9.008)   # x1 = cara Oeste de la pared en L
-NICHO  = dict(x0=0.250, x1=2.430, y0=9.008, y1=9.283)   # hundimiento medido
-BARRA  = dict(x0=0.250, x1=2.530, y0=1.968, y1=5.708)
+# Todo lo que apoya en el muro Norte baja 0,275 con la correccion del 19 set.
+# (noche): el fondo del hundimiento es la medianera desnuda (9,008) y el resto
+# del muro va trasdosado hasta 8,733. Ver estructura.MED_N / MURO_N.
+COCINA = dict(x0=0.250, x1=2.430, y0=5.457, y1=8.777)   # x1 = cara Oeste de la pared en L
+NICHO  = dict(x0=0.250, x1=2.430, y0=8.777, y1=8.927)   # hundimiento de 0,15
+BARRA  = dict(x0=0.250, x1=2.530, y0=1.968, y1=5.357)
 H_ENCIMERA = 0.900
 H_CAMPANA  = 2.000                       # borde inferior de la campana
 

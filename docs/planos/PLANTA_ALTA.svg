@@ -19,7 +19,7 @@
 <rect x="9.200" y="9.200" width="401.600" height="278.600" fill="none" stroke="#111111" stroke-width="0.1"/>
 </g>
 <g id="trama">
-<polygon points="67.000,50.340 110.600,50.340 110.600,55.840 111.220,55.840 111.220,85.820 110.220,85.820 110.220,157.220 259.800,157.220 259.800,207.420 256.200,207.420 256.200,228.420 186.600,228.420 186.600,216.800 181.600,216.800 181.600,203.580 72.200,203.580 72.200,195.820 67.000,195.820" fill="url(#vacio)" stroke="none"/>
+<polygon points="67.000,57.460 110.600,57.460 110.600,60.460 111.220,60.460 111.220,85.820 110.220,85.820 110.220,157.220 259.800,157.220 259.800,207.420 256.200,207.420 256.200,228.420 186.600,228.420 186.600,216.800 181.600,216.800 181.600,203.580 72.200,203.580 72.200,195.820 67.000,195.820" fill="url(#vacio)" stroke="none"/>
 </g>
 <g id="proyeccion">
 <polygon points="111.220,55.840 259.800,55.840 259.800,81.240 238.220,81.240 238.220,157.220 110.220,157.220 110.220,85.820 111.220,85.820" fill="none" stroke="#111111" stroke-width="0.25"/>
@@ -284,7 +284,7 @@
 <text x="180.000" y="104.600" font-size="2.6" text-anchor="start" fill="#111111" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">+2,56</text>
 <text x="177.000" y="91.600" font-size="2.8" text-anchor="middle" fill="#4a4a4a" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">ALTILLO · COWORK</text>
 <text x="177.000" y="95.000" font-size="2.2" text-anchor="middle" fill="#4a4a4a" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">nivel +2,56  ·  altura libre por medir</text>
-<text x="88.800" y="63.600" font-size="1.9" text-anchor="middle" fill="#9a2b2b" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">El hundimiento de 0,275 de la medianera Norte</text>
+<text x="88.800" y="63.600" font-size="1.9" text-anchor="middle" fill="#9a2b2b" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">El hundimiento de 0,15 del muro Norte</text>
 <text x="88.800" y="66.200" font-size="1.9" text-anchor="middle" fill="#9a2b2b" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">sólo se ha medido en planta baja (lámina 01)</text>
 <text x="174.000" y="185.000" font-size="2.8" text-anchor="middle" fill="#3c5a68" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">VACÍO SOBRE PLANTA BAJA</text>
 <text x="174.000" y="188.600" font-size="2.3" text-anchor="middle" fill="#3c5a68" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">altura total por medir</text>
@@ -393,8 +393,8 @@
 <text x="57.000" y="260.600" font-size="2.0" text-anchor="start" fill="#7a5a3a" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Puntos en los que los vídeos del local no cuadran con el levantamiento, o que el levantamiento no recoge. Se dibuja el levantamiento por ser la única fuente acotada.</text>
 <line x1="14.500" y1="262.400" x2="310.500" y2="262.400" stroke="#d8c6ae" stroke-width="0.13"/>
 <text x="14.500" y="266.400" font-size="2.2" text-anchor="start" fill="#9a2b2b" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">1</text>
-<text x="18.700" y="266.400" font-size="2.0" text-anchor="start" fill="#3a3a3a" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Hundimiento de la medianera Norte: 0,275 de fondo en los 2,18 de la cocina. Supera</text>
-<text x="18.700" y="269.200" font-size="2.0" text-anchor="start" fill="#3a3a3a" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">el espesor dibujado (0,148): medir ese cerramiento y lo que hay detrás.</text>
+<text x="18.700" y="266.400" font-size="2.0" text-anchor="start" fill="#3a3a3a" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Hundimiento: se dibuja 0,15 de escalón entre los dos trasdosados del muro Norte</text>
+<text x="18.700" y="269.200" font-size="2.0" text-anchor="start" fill="#3a3a3a" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">(0,08 en la cocina, 0,23 en el resto). Medir esos espesores y qué llevan dentro.</text>
 <text x="14.500" y="273.400" font-size="2.2" text-anchor="start" fill="#9a2b2b" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">2</text>
 <text x="18.700" y="273.400" font-size="2.0" text-anchor="start" fill="#3a3a3a" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Canto del forjado del altillo. Con 2,56 m de suelo a suelo, la altura libre de</text>
 <text x="18.700" y="276.200" font-size="2.0" text-anchor="start" fill="#3a3a3a" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">planta baja es 2,56 menos ese canto, no los 2,70 supuestos.</text>
@@ -405,8 +405,8 @@
 <text x="117.367" y="266.400" font-size="2.0" text-anchor="start" fill="#3a3a3a" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Zócalo del ventanal: 0,347 desde el vidrio, deducido de los 2,72 de P3 a su cara</text>
 <text x="117.367" y="269.200" font-size="2.0" text-anchor="start" fill="#3a3a3a" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">interior; sobresale 0,16 del muro del ventanal (0,25). Medirlo directamente.</text>
 <text x="113.167" y="273.400" font-size="2.2" text-anchor="start" fill="#9a2b2b" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">5</text>
-<text x="117.367" y="273.400" font-size="2.0" text-anchor="start" fill="#3a3a3a" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Cadena Este-Oeste del cliente (2,18 + 3,01 + 0,65 + 2,33): cierra contra la escalera</text>
-<text x="117.367" y="276.200" font-size="2.0" text-anchor="start" fill="#3a3a3a" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">con 0,13 de pared entre el hundimiento y la L y 0,16 de cerramiento.</text>
+<text x="117.367" y="273.400" font-size="2.0" text-anchor="start" fill="#3a3a3a" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Muro Oeste de la cocina: caben 2,97 entre P1 y la bancada y los cuatro aparatos</text>
+<text x="117.367" y="276.200" font-size="2.0" text-anchor="start" fill="#3a3a3a" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">suman 3,04. Faltan 7 cm: quitar un armario frigorífico o estrechar el fregadero.</text>
 <text x="113.167" y="280.400" font-size="2.2" text-anchor="start" fill="#9a2b2b" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">6</text>
 <text x="117.367" y="280.400" font-size="2.0" text-anchor="start" fill="#3a3a3a" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">La pared en L queda 0,10 al Este del borde del forjado del levantamiento: el vidrio</text>
 <text x="117.367" y="283.200" font-size="2.0" text-anchor="start" fill="#3a3a3a" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">de 1,35 sobre ella (2,57 en total) no pasa bajo el altillo. Medir ese borde.</text>
@@ -414,8 +414,8 @@
 <text x="216.033" y="266.400" font-size="2.0" text-anchor="start" fill="#3a3a3a" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Vestíbulo: los 1,31 y 2,23 del cliente suman 3,54 y de P5 al muro Este hay 3,559. Se</text>
 <text x="216.033" y="269.200" font-size="2.0" text-anchor="start" fill="#3a3a3a" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">dibuja el 1,31 medido y el resto queda en 2,25, 2 cm más que su medida.</text>
 <text x="211.833" y="273.400" font-size="2.2" text-anchor="start" fill="#9a2b2b" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">8</text>
-<text x="216.033" y="273.400" font-size="2.0" text-anchor="start" fill="#3a3a3a" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">P3 no se mueve: sus 3,23 a la medianera Norte y 3,65 a la cara Norte de P5 lo</text>
-<text x="216.033" y="276.200" font-size="2.0" text-anchor="start" fill="#3a3a3a" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">llevarían 2 cm al Sur y 4 cm al Norte. Se dibujan 3,25 y 3,69. Medir de nuevo.</text>
+<text x="216.033" y="273.400" font-size="2.0" text-anchor="start" fill="#3a3a3a" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">P3 no se mueve: los 3,23 a la medianera dan 3,25 medidos al muro desnudo (2,98 al</text>
+<text x="216.033" y="276.200" font-size="2.0" text-anchor="start" fill="#3a3a3a" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">trasdosado) y los 3,65 a P5 se dibujan 3,69. Confirmar a qué cara se midió.</text>
 <text x="211.833" y="280.400" font-size="2.2" text-anchor="start" fill="#9a2b2b" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">9</text>
 <text x="216.033" y="280.400" font-size="2.0" text-anchor="start" fill="#3a3a3a" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Aire acondicionado: dos cassettes situados con las fotos del cliente, con panel</text>
 <text x="216.033" y="283.200" font-size="2.0" text-anchor="start" fill="#3a3a3a" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">estándar de 0,95 y rejilla de 0,90 × 0,50. Medir posición y tamaño reales.</text>

@@ -262,23 +262,51 @@ cuatro medidas del 16 set. La diferencia queda anotada en COMPROBAR EN OBRA.
 El "2,00" que marco junto al muro Este era la puerta: el cliente aclaro que
 son 2,06 de ancho y 1,00 de barrido.
 
-### Pared en L pegada al hundimiento
+### Muro Norte, pared en L y hundimiento (correccion del 19 set., noche)
 
-El cliente pidio llevar la pared en L "al borde del filo de la pared", sin
-dejar el pano de 0,13 que quedaba entre el hundimiento y ella. Su cara Oeste
-pasa a **2,430** (el final del hundimiento) y la Este a 2,530. Consecuencias
-medidas, no estimadas:
+El cliente corrige la cadena del lado Oeste. Los datos que da son tres: entre
+la barra y la pared en L tiene que haber **0,60 de paso**, la **L llega al
+inicio de P1** y de la pared de la cocina a la base de la L hay **3,57**. El
+tamano del hundimiento lo deja a nuestro criterio.
+
+Cadena resultante, de Sur a Norte por la linea de la barra:
+
+    1,968  cara interior del zocalo del ventanal
+     +2,79  barra                      ->  4,759   (cara Sur de P1)
+     +0,60  paso de personal           ->  5,357   (cara NORTE de P1)
+     +3,57  a la cara de la cocina     ->  8,927
+     -0,15  hundimiento                ->  8,777   (muro Norte en el resto)
+
+De ahi salen, sin ajustar nada a mano:
 
 | | Antes | Ahora |
 |---|---|---|
-| Ancho de la cocina | 2,05 | **2,18** |
-| Pasillo de la cocina | 0,71 / 0,85 | **0,84 / 0,98** |
-| Pared en L a P3 | 3,01 (cota del cliente) | **3,14** |
-| Fondo del mostrador | 0,50 | **0,63** |
-| Largo del sillon | 4,74 | **4,87** |
+| Paso barra - pared en L | 0,95 | **0,598** (los 0,60 pedidos) |
+| Base de la pared en L | 5,708 | **5,357** = cara Norte de P1 |
+| Largo de la pared en L | 3,30 | **3,42** |
+| Cara de la cocina (fondo del hundimiento) | 9,283 | **8,927** |
+| Muro Norte en el resto | 9,008 | **8,777** |
+| Hundimiento | 0,275 | **0,15** |
 
-La cadena del cliente sigue cerrando contra el primer peldano: lo que antes
-era pano de pared ahora es pared en L, y P3 no se mueve.
+El hundimiento **ya no atraviesa la medianera**. La medianera estructural se
+queda donde la puso el levantamiento (9,008 a 9,156, 0,148 de espesor) y lo
+que cambia es el trasdosado que va por delante: 0,08 en los 2,18 de la cocina
+y 0,23 en el resto. El hundimiento es el escalon entre esos dos espesores, y
+por eso los 3,65 que el cliente midio en el muro Oeste lo incluyen. Su tamano
+es libre: solo decide cuanto baja el muro Norte de la sala, y cada centimetro
+de hundimiento es un centimetro menos de paso por el Norte de la sala.
+
+**Lo que arrastra.** Todo lo que apoya en el muro Norte baja 0,231:
+
+- El sillon corrido y con el las mesas M7, M10 y M11, que pasan a 7,477-8,177.
+- El paso por el Norte de la fila central, unico camino de la puerta a la
+  barra con la nevera A7 puesta, baja de 0,74 a **0,51**.
+- La bancada de coccion y la campana bajan a 8,327-8,927.
+- **La linea del muro Oeste de la cocina ya no cabe**: entre la cara Norte de
+  P1 (5,357) y la bancada (8,327) hay 2,97 y los cuatro aparatos (horno 0,59
+  + fregadero 1,20 + dos armarios de 0,63) suman 3,04. Faltan **7 cm**. Se
+  dibuja en rojo sobre P1, en la lamina 03, y esta en COMPROBAR EN OBRA:
+  quitando uno de los dos armarios frigorificos sobrarian 0,55.
 
 ### Mesas: ocho dobles de 0,70 x 0,70
 

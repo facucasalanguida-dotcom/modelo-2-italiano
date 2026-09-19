@@ -61,8 +61,8 @@ PERIMETRO = [(0.000, 9.156), (10.040, 9.156), (10.040, 0.330),
 MUROS = [
     ('Medianera Norte',            2.430, 9.008, 10.040, 9.156, 0.148),
     ('Medianera Norte - jamba O',  0.000, 9.008,  0.250, 9.156, 0.148),
-    # tramo del hundimiento: en planta baja se dibuja retranqueado 0,275
-    # (ver HUNDIMIENTO); en planta alta se dibuja seguido.
+    # tramo de la cocina: el hundimiento no es un hueco en la medianera,
+    # sino un trasdosado mas fino delante de ella (ver HUNDIMIENTO).
     ('Medianera Norte - hundimiento', 0.250, 9.008, 2.430, 9.156, 0.148),
     ('Muro Oeste',                 0.000, 2.009,  0.250, 9.008, 0.250),
     ('Muro Oeste - esquina SO',    0.000, 1.561,  0.510, 2.009, 0.448),
@@ -72,18 +72,33 @@ MUROS = [
     ('Medianera Este - cuello',    9.710, 0.330, 10.040, 1.429, 0.330),
 ]
 
-# HUNDIMIENTO de la medianera Norte en la cocina (medido por el cliente el 19
-# set.): el pano de 2,18 que va del muro Oeste hasta poco antes de la pared en
-# L esta 0,275 metido hacia el Norte. Las dos medidas del cliente lo confirman:
-# de la cara del hundimiento a la base de la pared en L hay 3,575 y del arranque
-# de la pared en L (que apoya en el pano normal, 0,13 mas al Este) 3,30; la
-# diferencia es justo 0,275. Con el espesor que da el levantamiento (0,148) la
-# cara exterior se saldria del solar: en ese tramo la medianera es mas gruesa o
-# hay un hueco detras. Se dibuja lo medido y queda en COMPROBAR.
-HUNDIMIENTO = dict(x0=0.250, x1=2.430, y0=9.008, y1=9.283, p=0.275, largo=2.180)
+# MURO NORTE — cadena del cliente del 19 set. (noche), medida de Sur a Norte
+# por la linea de la barra y de la pared en L:
+#
+#   1,968  cara interior del zocalo del ventanal
+#   +2,79  barra                     -> 4,759  (cara Sur de P1)
+#   +0,60  paso de personal          -> 5,357  (cara NORTE de P1 = base de la L)
+#   +3,57  de la base de la L a la cara de la cocina -> 8,927
+#
+# La pared en L arranca en la base y llega al muro Norte, que fuera de la
+# cocina va 0,15 mas al Sur (el hundimiento): 8,927 - 0,15 = 8,777. La L mide
+# por tanto 3,42 y no los 3,30 de antes, y el paso queda en 0,598.
+#
+# El hundimiento NO atraviesa la medianera: la medianera estructural sigue en
+# 9,008..9,156 (levantamiento) y lo que cambia es el trasdosado, 0,081 en la
+# cocina y 0,231 en el resto. El hundimiento es la diferencia entre los dos.
+MED_N         = 9.008                   # cara interior de la medianera estructural
+MURO_N_COCINA = 8.927                   # cara acabada en los 2,18 de la cocina
+MURO_N        = 8.777                   # cara acabada en el resto del muro Norte
+HUNDIMIENTO = dict(x0=0.250, x1=2.430, y0=MURO_N, y1=MURO_N_COCINA,
+                   p=round(MURO_N_COCINA - MURO_N, 3), largo=2.180)
 
-# Trasdosado de 0,10 m bajo el forjado (solo planta baja, no llega a cubierta)
-TRASDOSADO = ('Trasdosado Norte', 2.660, 8.907, 9.890, 9.008)
+# Trasdosado del muro Norte: dos espesores, y el hundimiento es el escalon
+# entre ellos. (nombre, x0, y0, x1, y1)
+TRASDOSADO = ('Trasdosado Norte', 2.430, MURO_N, 9.890, MED_N)
+TRASDOSADO_COCINA = ('Trasdosado Norte - cocina', 0.000, MURO_N_COCINA,
+                     2.430, MED_N)
+TRASDOSADO_E = MED_N - MURO_N
 
 # -------------------------------------------------- pilares y machones (PB)
 # (rotulo, nombre, x0, y0, x1, y1)
@@ -116,8 +131,8 @@ VIGA = ('Viga P1b', 0.550, 4.933, 2.380, 5.183)
 
 # ------------------------------------------- pared en L de apoyo del vidrio
 # Estructura nueva. Medidas del cliente del 19 set.: la pared arranca en la
-# medianera Norte (en el pano sin hundir, 0,13 al Este del hundimiento) y mide
-# 3,30 de largo, con el doblez de 0,74 hacia el Oeste en su extremo Sur.
+# muro Norte y baja hasta la cara Norte de P1, con el doblez de 0,74 hacia el
+# Oeste en su extremo Sur. Largo resultante: 3,42.
 # Su cara Oeste arranca donde termina el hundimiento (2,430).
 # Sostiene el panel de vidrio de 1,35 m de alto. Espesor sin medir.
 PARED_L_E   = 0.100                     # espesor supuesto, comprobar
@@ -126,12 +141,12 @@ PARED_L_E   = 0.100                     # espesor supuesto, comprobar
 # Oeste va a 2,430 y la Este a 2,530, con lo que hasta P3 quedan 3,14 en vez
 # de los 3,01 que habia medido: P3 no se mueve, la pared si.
 PARED_L_X   = 2.530                     # cara Este; cara Oeste en 2,430
-PARED_L_LARGO = 3.300                   # medido el 19 set.: termina en y=5,708
-PARED_L_LAR = ('Tramo largo 3,30',
-               PARED_L_X - PARED_L_E, 9.008 - PARED_L_LARGO, PARED_L_X, 9.008)
+PARED_L_LARGO = round(MURO_N - 5.357, 3)   # 3,42: la base cae en la cara Norte de P1
+PARED_L_LAR = (f'Tramo largo {PARED_L_LARGO:.2f}'.replace('.', ','),
+               PARED_L_X - PARED_L_E, MURO_N - PARED_L_LARGO, PARED_L_X, MURO_N)
 PARED_L_DOB = ('Doblez 0,74',
-               PARED_L_X - 0.740, 9.008 - PARED_L_LARGO, PARED_L_X,
-               9.008 - PARED_L_LARGO + PARED_L_E)
+               PARED_L_X - 0.740, MURO_N - PARED_L_LARGO, PARED_L_X,
+               MURO_N - PARED_L_LARGO + PARED_L_E)
 H_PARED_L   = 1.220                     # altura de la pared en L, medida
 H_VIDRIO_L  = 1.350                     # panel de vidrio que sostiene
 
@@ -201,8 +216,8 @@ APLIQUES = [(0.31, 5.75), (0.31, 6.45)]
 BARRA      = dict(x0=1.900, x1=PARED_L_X, y0=1.968, y1=4.759,
                   largo=4.759 - 1.968, fondo=PARED_L_X - 1.900, medido=2.790)
 PASO_PERS  = dict(x0=BARRA['x0'], x1=PARED_L_X, y0=4.759,
-                  y1=9.008 - PARED_L_LARGO, medido=0.949)
-SILLON     = dict(x0=PARED_L_X, x1=7.400, y=9.008, fondo=0.600,
+                  y1=MURO_N - PARED_L_LARGO, medido=0.598)
+SILLON     = dict(x0=PARED_L_X, x1=7.400, y=MURO_N, fondo=0.600,
                   largo=7.400 - PARED_L_X)
 
 # Zocalo de piedra del ventanal Sur: el cliente mide 2,72 de la cara Sur de P3
@@ -226,18 +241,18 @@ AIRE_REJILLA = (0.90, 0.50)
 # Nuevo, croquis del cliente del 15/09: rincon NE, entre la medianera Norte,
 # la medianera Este y el desembarco de la escalera. Puerta de 0,70 abriendo
 # hacia dentro, bisagra en la jamba Este.
-BANO = dict(x0=7.400, x1=9.890, y0=7.730, y1=9.008, e=0.100)
+BANO = dict(x0=7.400, x1=9.890, y0=7.730, y1=MURO_N, e=0.100)
 BANO_TABIQUES = [
-    ('Tabique Oeste del baño', 7.400, 7.730, 7.500, 9.008),
+    ('Tabique Oeste del baño', 7.400, 7.730, 7.500, MURO_N),
     ('Tabique Sur - tramo Oeste', 7.400, 7.730, 7.770, 7.830),
     ('Tabique Sur - tramo Este', 8.470, 7.730, 9.890, 7.830),
 ]
 BANO_PUERTA = dict(x0=7.770, x1=8.470, y=7.730, ancho=0.700, bisagra='E')
 
 # --------------------------------------------------------------- superficies
-SUP_PB_UTIL   = 76.23     # m2 dentro de muros, planta baja (con el hundimiento)
+SUP_PB_UTIL   = 73.73     # m2 dentro de muros, planta baja (con el hundimiento)
 SUP_FORJADO   = 33.74     # m2 de forjado de planta alta
-SUP_DOBLE_ALT = 38.40     # m2 de vacio a doble altura
+SUP_DOBLE_ALT = 37.61     # m2 de vacio a doble altura
 SUP_SOLAR     = 81.72     # m2 dentro del contorno exterior
 RECINTOS_PA = [('Aseo (lavabo + inodoro)', 3.92), ('Almacen', 2.59),
                ('Paso / rellano', 3.33), ('Altillo diafano', 26.17)]
@@ -247,22 +262,22 @@ RECINTOS_PA = [('Aseo (lavabo + inodoro)', 3.92), ('Almacen', 2.59),
 # levantamiento, o que el levantamiento no recoge. Se dibuja el levantamiento
 # (es la unica fuente acotada) y se listan aqui para medir en obra.
 COMPROBAR = [
-    'Hundimiento de la medianera Norte: 0,275 de fondo en los 2,18 de la cocina. '
-    'Supera el espesor dibujado (0,148): medir ese cerramiento y lo que hay detrás.',
+    'Hundimiento: se dibuja 0,15 de escalón entre los dos trasdosados del muro Norte (0,08 en '
+    'la cocina, 0,23 en el resto). Medir esos espesores y qué llevan dentro.',
     'Canto del forjado del altillo. Con 2,56 m de suelo a suelo, la altura '
     'libre de planta baja es 2,56 menos ese canto, no los 2,70 supuestos.',
     'P1b se dibuja como viga (1,83 × 0,25) y no como pilar: si fuera macizo '
     'hasta el suelo, la cocina no tendría entrada. Medir su intradós.',
     'Zócalo del ventanal: 0,347 desde el vidrio, deducido de los 2,72 de P3 a su cara '
     'interior; sobresale 0,16 del muro del ventanal (0,25). Medirlo directamente.',
-    'Cadena Este-Oeste del cliente (2,18 + 3,01 + 0,65 + 2,33): cierra contra la '
-    'escalera con 0,13 de pared entre el hundimiento y la L y 0,16 de cerramiento.',
+    'Muro Oeste de la cocina: caben 2,97 entre P1 y la bancada y los cuatro aparatos suman '
+    '3,04. Faltan 7 cm: quitar un armario frigorífico o estrechar el fregadero.',
     'La pared en L queda 0,10 al Este del borde del forjado del levantamiento: el '
     'vidrio de 1,35 sobre ella (2,57 en total) no pasa bajo el altillo. Medir ese borde.',
     'Vestíbulo: los 1,31 y 2,23 del cliente suman 3,54 y de P5 al muro Este hay 3,559. '
     'Se dibuja el 1,31 medido y el resto queda en 2,25, 2 cm más que su medida.',
-    'P3 no se mueve: sus 3,23 a la medianera Norte y 3,65 a la cara Norte de P5 lo '
-    'llevarían 2 cm al Sur y 4 cm al Norte. Se dibujan 3,25 y 3,69. Medir de nuevo.',
+    'P3 no se mueve: los 3,23 a la medianera dan 3,25 medidos al muro desnudo (2,98 al '
+    'trasdosado) y los 3,65 a P5 se dibujan 3,69. Confirmar a qué cara se midió.',
     'Aire acondicionado: dos cassettes situados con las fotos del cliente, con panel '
     'estándar de 0,95 y rejilla de 0,90 × 0,50. Medir posición y tamaño reales.',
 ]
