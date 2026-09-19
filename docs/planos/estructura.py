@@ -231,13 +231,14 @@ ZOCALO_SUR = dict(x0=0.510, x1=5.870, y0=1.621, y1=1.968, fondo=0.347)
 # 20 set.: antes se habian dibujado dos y solo hay uno. En sus fotos aparece
 # empotrado en el techo bajo (el intrados del forjado del altillo), a la
 # izquierda del pilar mirando al Norte, es decir al OESTE de P3.
-# El 20 set. (tarde) lo corrige otra vez sobre el 3D: va un poco mas a la
-# izquierda y es un poco mas pequeno. Panel de 0,84 (cassette compacto, no el
-# de 0,95), centrado con P3 en Y y a 0,38 de su cara Oeste.
+# El 20 set. (tarde) lo corrige dos veces sobre el 3D: va mas a la izquierda y
+# es un poco mas pequeno. Panel de 0,84 (cassette compacto, no el de 0,95),
+# centrado con P3 en Y y a 0,68 de su cara Oeste. Queda sobre el hueco entre
+# las mesas M5 y M4, sin tocar los empotrados de x=4,10.
 # Posicion tomada de las fotos: falta medirla en obra.
 AIRE = [
     ('AC1', 'Cassette de 4 vías empotrado, al Oeste de P3',
-     4.870, 5.223, 0.84, 0.84),
+     4.570, 5.223, 0.84, 0.84),
 ]
 AIRE_REJILLA = None          # el cassette de 4 vias retorna por su centro
 

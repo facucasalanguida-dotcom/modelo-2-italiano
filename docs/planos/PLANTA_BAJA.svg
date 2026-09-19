@@ -201,9 +201,9 @@
 <circle cx="208.000" cy="217.000" r="0.560" fill="#7d7d7d" stroke="#7d7d7d" stroke-width="0.1"/>
 <circle cx="240.000" cy="217.000" r="2.000" fill="none" stroke="#7d7d7d" stroke-width="0.18"/>
 <circle cx="240.000" cy="217.000" r="0.560" fill="#7d7d7d" stroke="#7d7d7d" stroke-width="0.1"/>
-<rect x="151.000" y="123.140" width="16.800" height="16.800" fill="none" stroke="#6f8a99" stroke-width="0.25" stroke-dasharray="2.0 1.3"/>
-<line x1="151.000" y1="139.940" x2="167.800" y2="123.140" stroke="#6f8a99" stroke-width="0.1" stroke-dasharray="2.0 1.3"/>
-<line x1="151.000" y1="123.140" x2="167.800" y2="139.940" stroke="#6f8a99" stroke-width="0.1" stroke-dasharray="2.0 1.3"/>
+<rect x="145.000" y="123.140" width="16.800" height="16.800" fill="none" stroke="#6f8a99" stroke-width="0.25" stroke-dasharray="2.0 1.3"/>
+<line x1="145.000" y1="139.940" x2="161.800" y2="123.140" stroke="#6f8a99" stroke-width="0.1" stroke-dasharray="2.0 1.3"/>
+<line x1="145.000" y1="123.140" x2="161.800" y2="139.940" stroke="#6f8a99" stroke-width="0.1" stroke-dasharray="2.0 1.3"/>
 </g>
 <g id="cotas">
 <line x1="142.600" y1="162.840" x2="142.600" y2="138.800" stroke="#2a7f8f" stroke-width="0.13"/>
@@ -436,7 +436,7 @@
 <text x="125.600" y="122.400" font-size="1.8" text-anchor="middle" fill="#2a7f8f" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">1,31</text>
 <text x="152.600" y="177.400" font-size="1.8" text-anchor="middle" fill="#2a7f8f" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">0,60</text>
 <text x="178.600" y="177.400" font-size="1.8" text-anchor="middle" fill="#2a7f8f" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">0,60</text>
-<text x="159.400" y="121.140" font-size="1.9" text-anchor="middle" fill="#4c6b7c" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">AC1</text>
+<text x="153.400" y="121.140" font-size="1.9" text-anchor="middle" fill="#4c6b7c" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">AC1</text>
 <text x="196.000" y="111.000" font-size="2.2" text-anchor="middle" fill="#4a4a4a" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">ZONA CON FORJADO SUPERIOR  ·  +2,56</text>
 <text x="242.000" y="171.000" font-size="2.6" text-anchor="middle" fill="#3c5a68" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">DOBLE ALTURA</text>
 <text x="76.000" y="90.000" font-size="2.6" text-anchor="middle" fill="#3c5a68" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold" transform="rotate(-90 76.000 90.000)">COCINA</text>

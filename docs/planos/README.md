@@ -386,8 +386,8 @@ distribucion: van listados aparte en la lamina 04 para que el cliente decida.
 cassette de 4 vias que en ellas se ve como un cuadrado blanco con rejillas.
 
 - Va **a la izquierda del pilar central mirando el plano al Norte**, es decir
-  al Oeste de P3: panel de **0,84 x 0,84** centrado en (4,870 / 5,223), a la
-  misma altura que P3 en Y y con 0,38 libres hasta su cara Oeste.
+  al Oeste de P3: panel de **0,84 x 0,84** centrado en (4,570 / 5,223), a la
+  misma altura que P3 en Y y con 0,68 libres hasta su cara Oeste.
 - Va **empotrado en el techo de planta baja, que es el suelo del altillo**. El
   panel enrasa con el intrados del forjado (2,310) y el chasis sube dentro
   del canto del forjado, de 2,310 a 2,510. No queda ningun descuelgue.
@@ -443,7 +443,7 @@ viga P1b (2,100), el alto del zocalo del ventanal (0,130) y el sillon.
 que solo hay una, no dos): un cassette de 4 vias, el cuadrado blanco con
 rejillas de sus fotos. Va **a la izquierda del pilar central mirando el plano
 al Norte**, es decir al Oeste de P3, a su misma altura en Y: panel de
-**0,84 x 0,84** entre x 4,450-5,290 e y 4,803-5,643, con 0,380 libres hasta la
+**0,84 x 0,84** entre x 4,150-4,990 e y 4,803-5,643, con 0,680 libres hasta la
 cara Oeste de P3. Es la misma medida que lleva la lamina 01, asi que plano y
 3D coinciden.
 
