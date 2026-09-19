@@ -31,8 +31,11 @@ SEP = 0.050
 #     en el hueco de 1,31 que queda entre P5 y el vestibulo. M3 va girada
 #     (sillas al Este y al Oeste): en vertical su silla Norte se comeria el
 #     itinerario accesible, que aqui solo tiene 2,72 entre el zocalo y P3.
-#   - Fila central bajo el forjado: M5, M6 y M4 al Oeste de P3 (M4 pegada a
-#     su cara Oeste) y M7 al Este, entre P3 y el itinerario del bano.
+#   - Fila central bajo el forjado: M5 y M4 al Oeste de P3 (M4 pegada a su
+#     cara Oeste) y M6 al Este, entre P3 y el itinerario del bano. Al Oeste
+#     de M5 no va ninguna mesa: ahi esta la unica salida del personal de la
+#     barra a la sala (1,18 entre la linea del mostrador y M5), que es
+#     tambien por donde se entra a la cocina por el paso de 0,95.
 #   - Fila del sillon corrido: cinco mesas de 0,70 a 0,29 entre si, con el
 #     sillon de asiento por el Norte y una silla por el Sur.
 # La plaza de silla de ruedas ocupa el lado Norte de M1, al que se llega
@@ -41,11 +44,10 @@ MESAS_PB = [
     ('M1', 'doble', 3.660, 2.488, 4.360, 3.188, 'S'),
     ('M3', 'doble', 4.900, 2.488, 5.600, 3.188, 'EW'),
     ('M2', 'doble', 6.650, 1.050, 7.350, 1.750, 'NS'),
-    ('M5', 'doble', 2.700, 5.380, 3.400, 6.080, 'NS'),
-    ('M6', 'doble', 3.840, 5.380, 4.540, 6.080, 'NS'),
+    ('M5', 'doble', 3.840, 5.380, 4.540, 6.080, 'NS'),
     ('M4', 'doble', 4.970, 5.380, 5.670, 6.080, 'NS'),
-    ('M7', 'doble', 6.500, 5.380, 7.200, 6.080, 'NS'),
-] + [(f'M{8 + i}', 'doble', round(2.705 + 0.990 * i, 3), 7.708,
+    ('M6', 'doble', 6.500, 5.380, 7.200, 6.080, 'NS'),
+] + [(f'M{7 + i}', 'doble', round(2.705 + 0.990 * i, 3), 7.708,
       round(2.705 + 0.990 * i + 0.700, 3), 8.408, 'S') for i in range(5)]
 
 # Itinerario accesible: tramos (metros), espacios de giro de 1,50, plaza de
@@ -62,7 +64,8 @@ ACC_PMR = (3.610, 3.238, 4.410, 4.438)
 # anchos que se acotan: tipo, posicion de la linea, extremos y sitio del texto
 ACC_ANCHOS = [
     ('v', 4.660, 3.188, 4.688, 4.800, 3.930),    # mesas del ventanal - P3
-    ('h', 5.730, 7.200, 8.650, 7.930, 5.840),    # M7 - caja de escalera
+    ('h', 5.730, 7.200, 8.650, 7.930, 5.840),    # M6 - caja de escalera
+    ('h', 5.160, 2.660, 3.840, 3.250, 5.270),    # salida del personal a la sala
     ('v', 3.560, 6.500, 7.238, 3.700, 6.870),    # sillas: fila central - sillon
 ]
 

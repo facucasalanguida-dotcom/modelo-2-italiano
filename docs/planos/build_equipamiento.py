@@ -208,7 +208,7 @@ def detalle_barra(ox, oy):
     L.texto('rotulos', tx0 + 0.08, ty1 - 0.50,
             f"A6 ESTANTE  {Q.ESTANTE_N} × {_fmt(es['a'])} × {_fmt(es['f'])}", 1.6,
             'middle', ENCIMERA, 'bold', rot=-90)
-    L.texto('rotulos', tx1 + 0.06, (y_enc0 + ty1) / 2,
+    L.texto('rotulos', tx1 + 0.06, ty1 - 0.52,
             f"MESADA A MEDIDA  {_fmt(ty1 - y_enc0)} × {_fmt(Q.MESADA_FONDO)}", 1.9,
             'middle', ENCIMERA, 'bold', rot=-90)
 

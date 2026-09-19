@@ -258,7 +258,7 @@ cuatro medidas del 16 set. La diferencia queda anotada en COMPROBAR EN OBRA.
 El "2,00" que marco junto al muro Este era la puerta: el cliente aclaro que
 son 2,06 de ancho y 1,00 de barrido.
 
-### Mesas: doce dobles de 0,70 x 0,70
+### Mesas: once dobles de 0,70 x 0,70
 
 Todas las mesas pasan a ser dobles de 0,70 x 0,70, porque el personal las
 junta cuando hace falta una de cuatro. Reparto:
@@ -269,13 +269,15 @@ junta cuando hace falta una de cuatro. Reparto:
   aprovechando el escaparate sin pegarse al pilar. M3 va girada (sillas al
   Este y al Oeste) porque en vertical su silla Norte se comeria el itinerario
   accesible: entre el zocalo y P3 solo hay 2,72.
-- **Fila central.** M5, M6 y M4 al Oeste de P3, con **M4 pegada a su cara
-  Oeste** como pidio el cliente, y M7 al Este, entre P3 y el itinerario del
-  bano.
+- **Fila central.** M5 y M4 al Oeste de P3, con **M4 pegada a su cara Oeste**
+  como pidio el cliente, y M6 al Este, entre P3 y el itinerario del bano. Al
+  Oeste de M5 no va ninguna mesa a proposito: ahi esta la unica salida del
+  personal de la barra a la sala, y con una tercera mesa quedaba en 0,25.
+  Asi quedan 1,18 libres.
 - **Fila del sillon corrido.** Cinco mesas de 0,70 a 0,29 entre si, con el
   sillon de asiento por el Norte.
 
-Doce mesas y 24 plazas sentadas. El itinerario accesible de 1,20 sigue
+Once mesas y 22 plazas sentadas. El itinerario accesible de 1,20 sigue
 entrando: 0,61 libres a cada lado del ramal que va a la barra, giro de Ø 1,50
 en la entrada y otro ante el bano (0,78 al cerramiento de la escalera).
 
