@@ -220,9 +220,9 @@
 <line x1="115.200" y1="132.800" x2="138.800" y2="132.800" stroke="#2a7f8f" stroke-width="0.13"/>
 <line x1="114.100" y1="133.900" x2="116.300" y2="131.700" stroke="#2a7f8f" stroke-width="0.13"/>
 <line x1="137.700" y1="133.900" x2="139.900" y2="131.700" stroke="#2a7f8f" stroke-width="0.13"/>
-<line x1="133.200" y1="106.000" x2="133.200" y2="91.240" stroke="#2a7f8f" stroke-width="0.13"/>
-<line x1="132.100" y1="107.100" x2="134.300" y2="104.900" stroke="#2a7f8f" stroke-width="0.13"/>
-<line x1="132.100" y1="92.340" x2="134.300" y2="90.140" stroke="#2a7f8f" stroke-width="0.13"/>
+<line x1="199.000" y1="106.000" x2="199.000" y2="91.240" stroke="#2a7f8f" stroke-width="0.13"/>
+<line x1="197.900" y1="107.100" x2="200.100" y2="104.900" stroke="#2a7f8f" stroke-width="0.13"/>
+<line x1="197.900" y1="92.340" x2="200.100" y2="90.140" stroke="#2a7f8f" stroke-width="0.13"/>
 <line x1="62.000" y1="246.000" x2="262.800" y2="246.000" stroke="#9a2b2b" stroke-width="0.13"/>
 <line x1="60.900" y1="247.100" x2="63.100" y2="244.900" stroke="#9a2b2b" stroke-width="0.13"/>
 <line x1="62.000" y1="236.000" x2="62.000" y2="247.600" stroke="#9a2b2b" stroke-width="0.1"/>
@@ -428,7 +428,7 @@
 <text x="158.000" y="158.000" font-size="1.8" text-anchor="middle" fill="#2a7f8f" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold" transform="rotate(-90 158.000 158.000)">1,50</text>
 <text x="220.600" y="119.800" font-size="1.8" text-anchor="middle" fill="#2a7f8f" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">1,45</text>
 <text x="127.000" y="131.200" font-size="1.8" text-anchor="middle" fill="#2a7f8f" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">1,18</text>
-<text x="136.000" y="99.200" font-size="1.8" text-anchor="middle" fill="#2a7f8f" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold" transform="rotate(-90 136.000 99.200)">0,74</text>
+<text x="195.600" y="99.200" font-size="1.8" text-anchor="middle" fill="#2a7f8f" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold" transform="rotate(-90 195.600 99.200)">0,74</text>
 <text x="162.000" y="140.500" font-size="1.9" text-anchor="middle" fill="#4c6b7c" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">AC1</text>
 <text x="241.000" y="162.500" font-size="1.9" text-anchor="middle" fill="#4c6b7c" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">AC2</text>
 <text x="150.000" y="101.600" font-size="2.2" text-anchor="middle" fill="#4a4a4a" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">ZONA CON FORJADO SUPERIOR  ·  +2,56</text>

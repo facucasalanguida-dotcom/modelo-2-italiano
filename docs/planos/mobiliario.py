@@ -66,7 +66,7 @@ ACC_ANCHOS = [
     ('v', 4.660, 3.188, 4.688, 4.800, 3.930),    # mesas del ventanal - P3
     ('h', 5.730, 7.200, 8.650, 7.930, 5.840),    # M6 - caja de escalera
     ('h', 5.160, 2.660, 3.840, 3.250, 5.270),    # salida del personal a la sala
-    ('v', 3.560, 6.500, 7.238, 3.700, 6.870),    # sillas: fila central - sillon
+    ('v', 6.850, 6.500, 7.238, 6.680, 6.870),    # sillas: fila central - sillon
 ]
 
 # Planta alta: mesa grande de cowork y una redonda grande. La redonda que

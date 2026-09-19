@@ -156,8 +156,8 @@ def detalle_cocina(ox, oy):
     L.cota_v('cotas', cortes_o, L.px(c['x0']) - 7.0, 1.8, ext_desde=c['x0'])
     L.cota_v('cotas', [Q.BANCADA_COCCION['y0']] + cortes_e + [c['y0']],
              L.px(c['x1']) + 7.0, 1.8, ext_desde=c['x1'])
-    L.cota_h('cotas', [c['x0'], 0.550, E.PARED_L_DOB[1], c['x1']],
-             L.py(c['y0']) + 33.0, 1.8, ext_desde=c['y0'])
+    L.cota_h('cotas', [0.550, E.PARED_L_DOB[1], c['x1']],
+             L.py(c['y0']) + 37.0, 1.8, ext_desde=c['y0'])
     return L
 
 
