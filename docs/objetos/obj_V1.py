@@ -69,20 +69,20 @@ def build():
 
     # --- zocalo lacado con pies, rejilla negra y controlador
     for i, (sx, sy) in enumerate(((-1, -1), (1, -1), (1, 1), (-1, 1))):
-        P.pata_regulable(f'pie {i + 1}', (sx * (A / 2 - 0.060), (Y_ZOC + 0.060) if sy < 0 else (Y_TRAS - 0.060), 0), 0.022, d_tubo=0.030, d_pie=0.040, h_pie=0.012, mat_tubo=negro)
-    zoc = L.caja('zocalo', A - 2 * E_LAT, Y_TRAS - Y_ZOC, Z_PLANO - E_PLANO - 0.020 + 0.002, (0, (Y_ZOC + Y_TRAS) / 2, 0.020), r=0.003, segs=3, mat=antracita)
+        P.pata_regulable(f'pie {i + 1}', (sx * (A / 2 - 0.060), (Y_ZOC + 0.060) if sy < 0 else (Y_TRAS - 0.060), 0), 0.032, d_tubo=0.024, d_pie=0.040, h_pie=0.012, mat_tubo=negro)
+    zoc = L.caja('zocalo', A - 2 * E_LAT, Y_TRAS - Y_ZOC, Z_PLANO - E_PLANO - 0.040, (0, (Y_ZOC + Y_TRAS) / 2, 0.020), r=0.003, segs=3, mat=antracita)
     P.rejilla_ranuras('rejilla condensador', (-0.12, Y_ZOC, 0.140), 0.600, 0.200, normal='-Y', paso=0.012, ranura=0.006, orient='H', mat=negro, cuerpo=zoc)
     ruta = os.path.join(L.CALCAS_DIR, 'V1_control.png')
     calca_control(ruta)
     L.caja('control marco', 0.104, 0.003, 0.034, (0.38, Y_ZOC - 0.0015, 0.060), r=0.001, segs=2, mat=negro)
     L.calca('V1 control', ruta, 0.100, 0.030, (0.38, Y_ZOC - 0.0034, 0.077), normal='-Y', emision=1.5)
     # franja inox entre zocalo y plano
-    L.caja('franja inox', A - 2 * E_LAT, Y_TRAS - Y_ZOC - 0.002, 0.020, (0, (Y_ZOC + Y_TRAS) / 2 + 0.001, Z_PLANO - E_PLANO - 0.020), mat=inox, suave=False)
+    L.caja('franja inox', A - 2 * E_LAT, Y_TRAS - Y_ZOC, 0.022, (0, (Y_ZOC + Y_TRAS) / 2, Z_PLANO - E_PLANO - 0.020), mat=inox, suave=False)
 
     # --- plano de exposicion inox: vuela 40 por delante, ranura de retorno delante y rejilla de impulsion detras
-    plano = L.caja('plano exposicion', A - 2 * E_LAT, 0.600, E_PLANO, (0, Y_FRENTE + 0.300, Z_PLANO - E_PLANO), r=0.002, segs=2, mat=inox)
-    L.sustraer(plano, L.caja('ranura retorno', A - 2 * E_LAT - 0.060, 0.012, 0.010, (0, Y_FRENTE + 0.030, Z_PLANO - 0.008)))
-    L.caja('ranura retorno fondo', A - 2 * E_LAT - 0.062, 0.010, 0.002, (0, Y_FRENTE + 0.030, Z_PLANO - 0.009), mat=oscuro, suave=False)
+    plano = L.caja('plano exposicion', A - 2 * E_LAT, F, E_PLANO, (0, 0, Z_PLANO - E_PLANO), r=0.002, segs=2, mat=inox)
+    L.sustraer(plano, L.caja('ranura retorno', A - 2 * E_LAT - 0.060, 0.012, 0.010, (0, Y_FRENTE + 0.045, Z_PLANO - 0.008)))
+    L.caja('ranura retorno fondo', A - 2 * E_LAT - 0.062, 0.010, 0.002, (0, Y_FRENTE + 0.045, Z_PLANO - 0.009), mat=oscuro, suave=False)
     L.caja('perfil inferior cristal', A - 2 * E_LAT, 0.030, 0.035, (0, Y_FRENTE + 0.015, Z_PLANO), r=0.002, segs=2, mat=alu)
     # cubierta del evaporador al fondo del plano, con rejilla de impulsion
     evap = L.caja('cubierta evaporador', A - 2 * E_LAT - 0.004, 0.110, 0.070, (0, Y_TRAS - 0.100 - 0.055, Z_PLANO), r=0.003, segs=3, mat=inox)
@@ -104,9 +104,9 @@ def build():
     # --- cristal frontal curvo de 6 mm entre laterales, y perfil superior con LED
     banda = arco(R_ARC) + list(reversed(arco(R_ARC - 0.006)))
     L.prisma_yz('cristal frontal', banda, -X_INT, X_INT, mat=vidrio, suave=True)
-    L.caja('bisagra cristal', A - 2 * E_LAT, 0.030, 0.020, (0, Y_TOP + 0.015, Z_TOP0 - 0.012), r=0.002, segs=2, mat=alu)
+    L.caja('bisagra cristal', A - 2 * E_LAT - 0.002, 0.028, 0.020, (0, Y_TOP + 0.016, Z_TOP0 - 0.012), r=0.002, segs=2, mat=alu)
     top = L.caja('perfil superior', A - 2 * E_LAT, Y_TRAS - Y_TOP, TOP_H, (0, (Y_TOP + Y_TRAS) / 2, Z_TOP0), r=0.004, segs=3, mat=inox)
-    L.caja('LED superior', A - 2 * E_LAT - 0.040, 0.015, 0.004, (0, Y_TOP + 0.060, Z_TOP0 - 0.004), mat=led, suave=False)
+    L.caja('LED superior', A - 2 * E_LAT - 0.040, 0.015, 0.004, (0, Y_TOP + 0.060, Z_TOP0 - 0.014), mat=led, suave=False)
     L.caja('luminaria superior', A - 2 * E_LAT - 0.030, 0.030, 0.012, (0, Y_TOP + 0.060, Z_TOP0 - 0.012), r=0.002, segs=2, mat=alu)
 
     # --- cremalleras, mensulas y 2 estantes de vidrio escalonados con perfil LED
@@ -115,20 +115,19 @@ def build():
     for k, (dz, fondo) in enumerate(((0.280, 0.330), (0.500, 0.250))):
         z = Z_PLANO + dz
         y_tras = Y_TRAS - 0.130
-        L.caja(f'estante {k + 1}', A - 2 * E_LAT - 0.050, fondo, 0.008, (0, y_tras - fondo / 2, z), r=0.001, segs=2, mat=vidrio)
+        L.caja(f'estante {k + 1}', A - 2 * E_LAT - 0.054, fondo - 0.010, 0.008, (0, y_tras - (fondo - 0.010) / 2, z), r=0.001, segs=2, mat=vidrio)
         L.caja(f'estante {k + 1} perfil', A - 2 * E_LAT - 0.050, 0.030, 0.030, (0, y_tras - fondo + 0.015, z - 0.018), r=0.002, segs=2, mat=alu)
         L.caja(f'estante {k + 1} LED', A - 2 * E_LAT - 0.080, 0.012, 0.003, (0, y_tras - fondo + 0.015, z - 0.021), mat=led, suave=False)
         for sx in (-1, 1):
-            L.caja(f'estante {k + 1} mensula {sx}', 0.012, fondo - 0.040, 0.020, (sx * (X_INT - 0.026), y_tras - fondo / 2 - 0.010, z - 0.020), r=0.001, segs=2, mat=negro)
+            L.caja(f'estante {k + 1} mensula {sx}', 0.012, fondo - 0.020, 0.020, (sx * (X_INT - 0.026), y_tras - fondo / 2, z - 0.020), r=0.001, segs=2, mat=negro)
 
     # --- puertas correderas traseras de vidrio con marco negro y tiradores
     for k, (x, y) in enumerate(((-0.240, Y_TRAS - 0.022), (0.240, Y_TRAS - 0.040))):
-        w, h = 0.485, Z_TOP0 - Z_PLANO - 0.020
+        w, h = 0.482, Z_TOP0 - Z_PLANO - 0.020
         marco = L.caja(f'puerta {k + 1} marco', w, 0.016, h, (x, y, Z_PLANO + 0.010), r=0.002, segs=2, mat=negro)
         L.sustraer(marco, L.caja(f'puerta {k + 1} hueco', w - 0.040, 0.030, h - 0.040, (x, y, Z_PLANO + 0.030)))
         L.caja(f'puerta {k + 1} cristal', w - 0.038, 0.005, h - 0.038, (x, y, Z_PLANO + 0.029), mat=vidrio, suave=False)
         L.caja(f'puerta {k + 1} tirador', 0.018, 0.012, 0.120, (x + (0.215 if k == 0 else -0.215), y + 0.014, Z_PLANO + h / 2 - 0.060), r=0.003, segs=3, mat=negro)
-    for k, z in enumerate((Z_PLANO + 0.002, Z_TOP0 - 0.010)):
-        L.caja(f'carril {k + 1}', A - 2 * E_LAT, 0.050, 0.008, (0, Y_TRAS - 0.031, z), mat=alu, suave=False)
-    L.caja('trasera zocalo', A - 2 * E_LAT - 0.004, 0.002, Z_PLANO - E_PLANO - 0.044, (0, Y_TRAS - 0.001, 0.022), mat=antracita, suave=False)
+    L.caja('carril 1', A - 2 * E_LAT, 0.050, 0.011, (0, Y_TRAS - 0.031, Z_PLANO - 0.001), mat=alu, suave=False)
+    L.caja('carril 2', A - 2 * E_LAT, 0.050, 0.010, (0, Y_TRAS - 0.031, Z_TOP0 - 0.010), mat=alu, suave=False)
     return dict(ignorar=())
