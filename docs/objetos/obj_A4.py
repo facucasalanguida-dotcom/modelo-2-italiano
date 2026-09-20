@@ -55,7 +55,13 @@ def build():
     zf0 = Z_TAB - E_TAB - Z_FALDON
     L.caja('faldon frente', A - 0.080, 0.0015, Z_FALDON, (0, Y_FRENTE + 0.040 + 0.00075, zf0), mat=inox, suave=False)
     for sx, nm in ((-1, 'izquierdo'), (1, 'derecho')):
-        L.caja(f'faldon {nm}', 0.0015, F - 0.080, Z_FALDON, (sx * (A / 2 - 0.040 - 0.00075), 0, zf0), mat=inox, suave=False)
+        if sx < 0:
+            # a la izquierda la pared exterior del seno (a 40 del canto) hace de faldon:
+            # solo se ponen los dos tramos cortos delante y detras del seno (evita caras coplanarias)
+            for j, (y0, y1) in enumerate(((-(F / 2 - 0.040), SENO_Y - SENO / 2 - 0.0015), (SENO_Y + SENO / 2 + 0.0015, F / 2 - 0.040))):
+                L.caja(f'faldon {nm} {j + 1}', 0.0015, y1 - y0, Z_FALDON, (sx * (A / 2 - 0.040 - 0.00075), (y0 + y1) / 2, zf0), mat=inox, suave=False)
+        else:
+            L.caja(f'faldon {nm}', 0.0015, F - 0.080, Z_FALDON, (sx * (A / 2 - 0.040 - 0.00075), 0, zf0), mat=inox, suave=False)
         for k, y in enumerate((-0.15, 0.15)):
             L.cilindro(f'remache {nm} {k + 1}', 0.004, 0.001, (sx * (A / 2 - 0.040), y, zf0 + 0.040), eje='X', segs=16, mat=inox_p)
     # --- patas 40 x 40 con pie regulable, y estante inferior
