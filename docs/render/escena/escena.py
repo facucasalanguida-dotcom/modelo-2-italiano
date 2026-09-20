@@ -158,7 +158,7 @@ def escena_nueva(spp=512, ancho=2560, alto=1440):
     sc.cycles.device = 'CPU'
     sc.cycles.samples = spp
     sc.cycles.use_adaptive_sampling = True
-    sc.cycles.adaptive_threshold = 0.006
+    sc.cycles.adaptive_threshold = 0.010
     sc.cycles.use_denoising = True
     try:
         sc.cycles.denoiser = 'OPENIMAGEDENOISE'
@@ -472,8 +472,37 @@ def aparatos(j):
              @ mathutils.Matrix.Rotation(math.radians(g), 4, 'Z'))
         for o in padres:
             o.matrix_world = M @ o.matrix_world
+        luz_expositor(tag, huecos[tag])
         puestos.append(tag)
     return puestos
+
+
+def luz_expositor(tag, hueco):
+    """Luz dentro de los muebles de puerta de cristal.
+
+    Un expositor apagado es una caja negra: el LED que llevan los objetos de
+    la biblioteca vale de cerca, pero en la escena hace falta un area dentro
+    del mueble para que se lea el genero.
+    """
+    cfg = {'A7': (14.0, 0.34), 'V1': (12.0, 0.45), 'V2': (12.0, 0.45),
+           'A5': (5.0, 0.30), 'K8': (0.0, 0.0), 'K9': (0.0, 0.0)}
+    if tag not in cfg or cfg[tag][0] <= 0:
+        return
+    pot, tam = cfg[tag]
+    x0, y0, z0, x1, y1, z1 = hueco
+    n = 3 if (z1 - z0) > 1.2 else 1
+    for i in range(n):
+        z = z0 + (z1 - z0) * (i + 1) / (n + 0.6)
+        lz = bpy.data.lights.new(f'{tag} luz interior {i + 1}', 'AREA')
+        lz.shape = 'RECTANGLE'
+        lz.size = max(0.12, min(x1 - x0, y1 - y0) * 0.7)
+        lz.size_y = tam
+        lz.energy = pot
+        lz.color = (0.95, 0.97, 1.0)
+        ob = bpy.data.objects.new(f'{tag} luz interior {i + 1}', lz)
+        ob.location = ((x0 + x1) / 2, (y0 + y1) / 2, z)
+        ob.rotation_euler = (math.radians(180), 0, 0)
+        coleccion('Luces').objects.link(ob)
 
 
 # ==================================================== 4. mobiliario de sala
@@ -1041,10 +1070,10 @@ def decoracion():
     poner('wine_barrel_01', 7.90, 2.35, 0.0, escala=1.0, giro=12)
     poner('wine_bottles_01', 7.90, 2.35, 0.86, escala=1.0, giro=-40)
     # ---- plantas: terracota, el verde de la trattoria
-    for aid, x, y, s, g in (('potted_plant_01', 2.20, 3.30, 1.0, 20),
-                            ('potted_plant_02', 8.35, 7.95, 1.1, -30),
-                            ('potted_plant_01', 5.98, 4.35, 0.9, 60),
-                            ('tree_small_02', 9.55, 2.10, 1.0, 10)):
+    for aid, x, y, s, g in (('potted_plant_01', 2.22, 3.30, 0.95, 20),
+                            ('potted_plant_02', 8.36, 7.55, 1.00, -30),
+                            ('potted_plant_01', 3.30, 4.35, 0.90, 60),
+                            ('potted_plant_02', 7.62, 3.30, 0.85, 110)):
         poner(aid, x, y, 0.0, escala=s, giro=g)
     for i, (x, y) in enumerate(((2.62, 8.55), (7.10, 8.55))):
         poner('planter_pot_clay', x, y, 0.0, escala=1.2, giro=i * 40)
@@ -1178,7 +1207,7 @@ VISTAS = {
     # la pared azzurro con el logo, de frente
     'logo':       ((7.05, 2.80, 1.560), (8.64, 5.90, 1.430), 30.0),
     # el altillo
-    'alta':       ((8.30, 7.75, Z_PA + 1.560), (3.85, 4.95, Z_PA + 1.150), 21.0),
+    'alta':       ((8.45, 6.95, Z_PA + 1.580), (3.55, 5.60, Z_PA + 1.120), 20.0),
     # panoramica general desde la esquina de entrada
     'general':    ((9.30, 1.70, 2.150), (3.40, 6.60, 1.250), 18.0),
 }
@@ -1257,6 +1286,7 @@ def construir(spp, ancho, alto, con_decoracion=True, con_glare=False):
     exterior()
     if con_decoracion:
         decoracion()
+        caracter_italiano()
         print('  decoracion puesta', flush=True)
     if con_glare:
         compositor()
@@ -1283,6 +1313,7 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument('--vista', default='barra')
     ap.add_argument('--todas', action='store_true')
+    ap.add_argument('--vistas', default='')
     ap.add_argument('--spp', type=int, default=1200)
     ap.add_argument('--ancho', type=int, default=3840)
     ap.add_argument('--alto', type=int, default=2160)
@@ -1300,7 +1331,10 @@ def main():
     if a.guardar_blend:
         bpy.ops.wm.save_as_mainfile(filepath=a.guardar_blend)
         print('  guardado', a.guardar_blend, flush=True)
-    vistas = list(VISTAS) if a.todas else [a.vista]
+    if a.vistas:
+        vistas = [v.strip() for v in a.vistas.split(',') if v.strip() in VISTAS]
+    else:
+        vistas = list(VISTAS) if a.todas else [a.vista]
     for v in vistas:
         f = os.path.join(a.salida, f'CM_{v}.png')
         print(f'  render {v} -> {f}', flush=True)
@@ -1308,6 +1342,153 @@ def main():
         t = time.time()
         render(v, f, a.spp, a.ancho, a.alto, a.rapido)
         print(f'  {v} listo en {time.time() - t:.0f} s', flush=True)
+
+
+# ------------------------------------------- piezas de caracter italiano
+def _calca_png(nombre, ancho_px, alto_px, dibujar):
+    """Genera un PNG con PIL en el scratch y devuelve su ruta."""
+    from PIL import Image, ImageDraw
+    d = os.path.join(SCRATCH, 'calcas')
+    os.makedirs(d, exist_ok=True)
+    ruta = os.path.join(d, f'{nombre}.png')
+    im = Image.new('RGBA', (ancho_px, alto_px), (0, 0, 0, 0))
+    dibujar(im, ImageDraw.Draw(im))
+    im.save(ruta)
+    return ruta
+
+
+def _fuente(px, negrita=False, cursiva=False):
+    """Solo hay DejaVu: la cursiva se hace con el serif, que ademas queda
+    mejor en una carta de trattoria."""
+    from PIL import ImageFont
+    n = 'DejaVuSerif' if cursiva else 'DejaVuSans'
+    if negrita:
+        n += '-Bold'
+    return ImageFont.truetype(f'/usr/share/fonts/truetype/dejavu/{n}.ttf', px)
+
+
+def pizarra_menu(x, y, z, normal='-Y', ancho=0.62, alto=0.88, col='Decoracion'):
+    """Pizarra de carta del dia, escrita a mano."""
+    def dib(im, dr):
+        W, H = im.size
+        dr.rectangle((0, 0, W, H), fill=(26, 28, 27, 255))
+        dr.text((W * 0.16, H * 0.06), 'MENU', font=_fuente(int(H * 0.085), True),
+                fill=(242, 238, 228, 255))
+        dr.text((W * 0.10, H * 0.155), 'del giorno', font=_fuente(int(H * 0.070), False, True),
+                fill=(232, 226, 212, 255))
+        dr.line((W * 0.10, H * 0.255, W * 0.90, H * 0.255), fill=(200, 196, 186, 255), width=3)
+        platos = [('Antipasto della casa', '9,50'), ('Tagliatelle al ragù', '12,00'),
+                  ('Gnocchi al pesto', '11,50'), ('Parmigiana', '10,50'),
+                  ('Tiramisù', '5,50'), ('Caffè Margot', '1,80')]
+        f = _fuente(int(H * 0.048))
+        for i, (p, pr) in enumerate(platos):
+            yy = H * (0.315 + i * 0.088)
+            dr.text((W * 0.10, yy), p, font=f, fill=(238, 233, 220, 255))
+            dr.text((W * 0.78, yy), pr, font=f, fill=(226, 200, 140, 255))
+        dr.text((W * 0.30, H * 0.905), '~ Casa Margot ~',
+                font=_fuente(int(H * 0.050), False, True), fill=(210, 205, 190, 255))
+    ruta = _calca_png('pizarra_menu', 620, 880, dib)
+    e = 0.030
+    s = -1 if normal in ('-Y', '-X') else 1
+    if normal in ('-Y', '+Y'):
+        caja('Pizarra marco', x - ancho / 2 - 0.030, y, x + ancho / 2 + 0.030,
+             y + s * e, z - alto / 2 - 0.030, z + alto / 2 + 0.030, MAT['mesa'], col)
+        v = [(x - ancho / 2, y + s * (e + 0.002), z - alto / 2),
+             (x + ancho / 2, y + s * (e + 0.002), z - alto / 2),
+             (x + ancho / 2, y + s * (e + 0.002), z + alto / 2),
+             (x - ancho / 2, y + s * (e + 0.002), z + alto / 2)]
+        uvs = ((1, 0), (0, 0), (0, 1), (1, 1)) if s < 0 else ((0, 0), (1, 0), (1, 1), (0, 1))
+    else:
+        caja('Pizarra marco', x, y - ancho / 2 - 0.030, x + s * e,
+             y + ancho / 2 + 0.030, z - alto / 2 - 0.030, z + alto / 2 + 0.030,
+             MAT['mesa'], col)
+        v = [(x + s * (e + 0.002), y - ancho / 2, z - alto / 2),
+             (x + s * (e + 0.002), y + ancho / 2, z - alto / 2),
+             (x + s * (e + 0.002), y + ancho / 2, z + alto / 2),
+             (x + s * (e + 0.002), y - ancho / 2, z + alto / 2)]
+        uvs = ((0, 0), (1, 0), (1, 1), (0, 1)) if s > 0 else ((1, 0), (0, 0), (0, 1), (1, 1))
+    me = bpy.data.meshes.new('Pizarra carta')
+    me.from_pydata(v, [], [(0, 1, 2, 3)])
+    me.uv_layers.new()
+    for i, c in enumerate(uvs):
+        me.uv_layers[0].data[i].uv = c
+    me.materials.append(MT.calca('Carta del dia', ruta, rug=0.85))
+    ob = bpy.data.objects.new('Pizarra carta', me)
+    coleccion(col).objects.link(ob)
+    return ob
+
+
+def nichos_botellas(x0, x1, y, z0, alto=0.95, n=5, normal='-Y', col='Decoracion'):
+    """Hornacinas iluminadas con botellas, como en las fotos de referencia."""
+    prof = 0.180
+    s = -1 if normal == '-Y' else 1
+    marco = 0.035
+    paso = (x1 - x0) / n
+    # cuerpo del mueble, empotrado en el paño
+    caja('Nichos · cuerpo', x0, y, x1, y + s * prof, z0, z0 + alto,
+         MAT['_liston'], col)
+    for i in range(n):
+        a = x0 + paso * i + marco
+        b = x0 + paso * (i + 1) - marco
+        # hueco: se vacia con una caja de material claro retranqueada
+        caja(f'Nichos · fondo {i + 1}', a, y + s * (prof - 0.012), b,
+             y + s * prof, z0 + marco, z0 + alto - marco, MAT['_blanco'], col)
+        caja(f'Nichos · techo {i + 1}', a, y, b, y + s * prof,
+             z0 + alto - marco - 0.010, z0 + alto - marco, MAT['_luz_calida'], col)
+        lz = bpy.data.lights.new(f'Nicho luz {i + 1}', 'AREA')
+        lz.shape = 'RECTANGLE'
+        lz.size, lz.size_y = b - a, prof * 0.8
+        lz.energy = 5.5
+        lz.color = (1.0, 0.86, 0.68)
+        ob = bpy.data.objects.new(f'Nicho luz {i + 1}', lz)
+        ob.location = ((a + b) / 2, y + s * prof / 2, z0 + alto - marco - 0.016)
+        ob.rotation_euler = (math.radians(180), 0, 0)
+        coleccion('Luces').objects.link(ob)
+        # genero
+        for k in range(3):
+            bx = a + (b - a) * (k + 0.5) / 3
+            botella(f'Nicho {i + 1} botella {k + 1}', bx, y + s * prof * 0.55,
+                    z0 + marco + 0.004, alto=0.26 + 0.05 * ((i + k) % 3), col=col)
+
+
+def logo_escaparate():
+    """El logo en vinilo sobre el vidrio del escaparate, como lo pondria el
+    rotulista: a la altura de la vista, legible desde la calle."""
+    if not os.path.exists(LOGO):
+        return
+    from PIL import Image
+    w_px, h_px = Image.open(LOGO).size
+    ancho = 1.15
+    alto = ancho * h_px / w_px
+    y = 1.585                      # cara interior del vidrio del ventanal Sur
+    cx, cz = 3.60, 1.62
+    me = bpy.data.meshes.new('Logo escaparate')
+    v = [(cx - ancho / 2, y, cz - alto / 2), (cx + ancho / 2, y, cz - alto / 2),
+         (cx + ancho / 2, y, cz + alto / 2), (cx - ancho / 2, y, cz + alto / 2)]
+    me.from_pydata(v, [], [(0, 1, 2, 3)])
+    me.uv_layers.new()
+    for i, c in enumerate(((0, 0), (1, 0), (1, 1), (0, 1))):
+        me.uv_layers[0].data[i].uv = c
+    me.materials.append(MT.calca('Vinilo escaparate', LOGO, rug=0.40))
+    ob = bpy.data.objects.new('Logo escaparate', me)
+    coleccion('Decoracion').objects.link(ob)
+    return ob
+
+
+def caracter_italiano():
+    """Lo que convierte el local en una trattoria y no en una cafeteria."""
+    # carta del dia junto al paso de la barra, donde se lee al entrar
+    pizarra_menu(2.62, 5.30, 1.520, normal='+X')
+    # hornacinas iluminadas sobre el sillon corrido
+    nichos_botellas(5.90, 7.45, 8.715, 1.180, alto=0.95, n=5, normal='-Y')
+    # el logo en el vidrio del ventanal
+    logo_escaparate()
+    # cestas de pan y aceite en el paso de servicio
+    poner('wicker_basket_02', 2.75, 4.30, Q.H_ENCIMERA + 0.040, escala=0.8, giro=15)
+    # ceramica en el alfeizar del ventanal
+    for i, x in enumerate((4.35, 5.05, 5.75)):
+        poner(('ceramic_vase_01', 'ceramic_vase_02', 'brass_pot_01')[i % 3],
+              x, 1.760, E.H_ZOCALO, escala=0.8, giro=i * 63)
 
 
 if __name__ == '__main__':
