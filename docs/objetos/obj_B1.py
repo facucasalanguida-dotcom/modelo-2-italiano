@@ -106,7 +106,7 @@ def build():
     inox = L.mat_inox()
     inox_p = L.mat_inox_pulido()
     plast = L.mat_plastico('Plastico negro', (0.02, 0.02, 0.02))
-    blanco = L.mat_plastico('Plastico blanco', (0.85, 0.85, 0.83), rug=0.30, brillo=0.3)
+    blanco = L.mat_plastico('Plastico blanco satinado', (0.85, 0.85, 0.83), rug=0.30, brillo=0.3)
     azul_c = L.mat_plastico('Plastico azul claro', (0.35, 0.72, 0.95), rug=0.30, brillo=0.3)
     rosa = L.mat_plastico('Plastico rosa', (0.90, 0.40, 0.70), rug=0.30, brillo=0.3)
     cromo = L.mat_cromo()
@@ -145,7 +145,7 @@ def build():
     # --- liston inox con dos tornillos bajo la franja
     L.caja('liston', A - 0.006, 0.004, LISTON_H, (0, Y_FRENTE - 0.002, Z_LISTON0), r=0.0012, segs=2, mat=inox)
     L.sustraer(cuerpo, L.caja('liston hueco', A - 0.008, 0.006, 0.003, (0, Y_FRENTE, Z_LISTON0 + LISTON_H - 0.0005)))  # solapa con el rebaje de la banda
-    L.caja('cierre', 0.010, 0.004, 0.005, (0, Y_FRENTE - 0.002, Z_LISTON0 - 0.005), r=0.0008, segs=2, mat=L.mat_plastico('Plastico gris', (0.30, 0.30, 0.31)))
+    L.caja('cierre', 0.010, 0.004, 0.005, (0, Y_FRENTE - 0.002, Z_LISTON0 - 0.005), r=0.0008, segs=2, mat=L.mat_plastico('Plastico gris', (0.30, 0.30, 0.30)))
     for k, x in enumerate((-0.190, 0.190)):
         L.cilindro(f'liston tornillo {k + 1}', 0.003, 0.0012, (x, Y_FRENTE - 0.0048, Z_LISTON0 + LISTON_H / 2), eje='Y', segs=24, r=0.0004, mat=inox_p)
 

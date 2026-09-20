@@ -76,7 +76,7 @@ def build():
     L.girar_malla(pl, (0, y_fin_filtro, z_fin_filtro), 'X', -ANG)
     # perfiles en U arriba y abajo del plano de filtros (guias)
     for nm, y0, z0, sy in (('guia inferior', Y_ARRANQUE, Z_ARRANQUE, 1), ('guia superior', y_fin_filtro, z_fin_filtro, -1)):
-        g = L.caja(nm, AI - 0.001, 0.012, 0.055, (0, y0 + sy * 0.0004, z0 - E_FILTRO / 2 - 0.0005), r=0.001, segs=2, mat=inox)
+        g = L.caja(nm, AI - 0.003, 0.012, 0.055, (0, y0 + sy * 0.0004, z0 - E_FILTRO / 2 - 0.0005), r=0.001, segs=2, mat=inox)
         L.girar_malla(g, (0, y0, z0), 'X', -ANG)
 
     # --- cuatro filtros de lamas 490 x 490 x 50, sobre el plano inclinado.
@@ -94,8 +94,10 @@ def build():
         piezas = [
             L.caja(f'filtro {k + 1} marco inf', FILTRO, m, E_FILTRO, (xc, Y_ARRANQUE - m / 2, z0), r=0.001, segs=2, mat=inox),
             L.caja(f'filtro {k + 1} marco sup', FILTRO, m, E_FILTRO, (xc, Y_ARRANQUE - FILTRO + m / 2, z0), r=0.001, segs=2, mat=inox),
-            L.caja(f'filtro {k + 1} marco izq', m, FILTRO - 2 * m, E_FILTRO, (xc - FILTRO / 2 + m / 2, yc, z0), r=0.001, segs=2, mat=inox),
-            L.caja(f'filtro {k + 1} marco der', m, FILTRO - 2 * m, E_FILTRO, (xc + FILTRO / 2 - m / 2, yc, z0), r=0.001, segs=2, mat=inox),
+            # +2: los montantes se meten 1 mm dentro de los travesanos en vez de
+            # topar a hueso con ellos, que dejaba dos caras coincidentes
+            L.caja(f'filtro {k + 1} marco izq', m, FILTRO - 2 * m + 0.002, E_FILTRO, (xc - FILTRO / 2 + m / 2, yc, z0), r=0.001, segs=2, mat=inox),
+            L.caja(f'filtro {k + 1} marco der', m, FILTRO - 2 * m + 0.002, E_FILTRO, (xc + FILTRO / 2 - m / 2, yc, z0), r=0.001, segs=2, mat=inox),
         ]
         # lamas en V: dos capas de chapas inclinadas alternas que recorren el
         # filtro de abajo arriba (perpendiculares al frente de la campana)

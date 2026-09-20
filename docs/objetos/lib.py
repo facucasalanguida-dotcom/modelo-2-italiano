@@ -537,11 +537,26 @@ def texto(nombre, cadena, alto, pos=(0, 0, 0), normal='-Y', grosor=0.0005,
 
 # ============================================================ materiales
 _MATS = {}
+_FIRMAS = {}
 
 
-def _base(nombre):
+def _base(nombre, firma=None):
+    """Devuelve el material nuevo (m, nt, bsdf) o None si ese nombre ya existe.
+
+    El nombre es la identidad del material: pedirlo dos veces con parametros
+    distintos daba antes el primero que se hubiera creado, asi que el aspecto
+    dependia del orden de las llamadas. Ahora eso es un error: o los dos sitios
+    piden lo mismo, o uno de los dos tiene que usar otro nombre.
+    """
     if nombre in _MATS and _MATS[nombre].name in bpy.data.materials:
+        ant = _FIRMAS.get(nombre)
+        if firma is not None and ant is not None and firma != ant:
+            raise ValueError(
+                f'El material "{nombre}" se pide con dos definiciones distintas:\n'
+                f'    ya creado: {ant}\n    ahora:     {firma}\n'
+                'Usa los mismos parametros o dale otro nombre.')
         return None
+    _FIRMAS[nombre] = firma
     m = bpy.data.materials.new(nombre)
     m.use_nodes = True
     nt = m.node_tree
@@ -576,7 +591,7 @@ def mat_inox(nombre='INOX cepillado', rug=0.34, aniso=0.75, rayado=0.0,
     rayado como bump direccional y huellas/manchas que varian la rugosidad.
     direccion: 0 = rayado a lo largo de U (horizontal en las caras
     verticales), 0.25 = a lo largo de V."""
-    b = _base(nombre)
+    b = _base(nombre, (rug, aniso, rayado, color, direccion, huellas, escala_rayado))
     if b is None:
         return _MATS[nombre]
     m, nt, bsdf = b
@@ -645,7 +660,7 @@ def mat_inox_pulido(nombre='INOX pulido'):
 
 
 def mat_cromo(nombre='Cromo', rug=0.07):
-    b = _base(nombre)
+    b = _base(nombre, (rug,))
     if b is None:
         return _MATS[nombre]
     m, nt, bsdf = b
@@ -656,7 +671,7 @@ def mat_cromo(nombre='Cromo', rug=0.07):
 
 
 def mat_aluminio(nombre='Aluminio anodizado', rug=0.35, color=(0.70, 0.70, 0.71)):
-    b = _base(nombre)
+    b = _base(nombre, (rug, color))
     if b is None:
         return _MATS[nombre]
     m, nt, bsdf = b
@@ -676,7 +691,7 @@ def mat_aluminio(nombre='Aluminio anodizado', rug=0.35, color=(0.70, 0.70, 0.71)
 def mat_chapa(nombre, color, rug=0.38, brillo=0.25, piel=0.15):
     """Chapa lacada / pintura en polvo: dielectrico con capa de barniz y
     un poco de piel de naranja."""
-    b = _base(nombre)
+    b = _base(nombre, (color, rug, brillo, piel))
     if b is None:
         return _MATS[nombre]
     m, nt, bsdf = b
@@ -696,7 +711,7 @@ def mat_chapa(nombre, color, rug=0.38, brillo=0.25, piel=0.15):
 
 
 def mat_plastico(nombre, color, rug=0.42, brillo=0.0):
-    b = _base(nombre)
+    b = _base(nombre, (color, rug, brillo))
     if b is None:
         return _MATS[nombre]
     m, nt, bsdf = b
@@ -720,7 +735,7 @@ def mat_goma(nombre='Goma negra', color=(0.015, 0.015, 0.015)):
 
 
 def mat_vidrio(nombre='Vidrio', tinte=(0.94, 0.985, 0.965), rug=0.0):
-    b = _base(nombre)
+    b = _base(nombre, (tinte, rug))
     if b is None:
         return _MATS[nombre]
     m, nt, bsdf = b
@@ -752,7 +767,7 @@ def mat_policarbonato(nombre='Policarbonato', tinte=(0.97, 0.97, 0.96)):
 def mat_vitroceramica(nombre='Vitroceramica negra', color=(0.004, 0.004, 0.005), rug=0.03):
     """Vidrio negro brillante (vitroceramica, cristal de puerta de horno
     visto desde fuera): dielectrico oscuro muy liso, sin bump."""
-    b = _base(nombre)
+    b = _base(nombre, (color, rug))
     if b is None:
         return _MATS[nombre]
     m, nt, bsdf = b
@@ -765,7 +780,7 @@ def mat_vitroceramica(nombre='Vitroceramica negra', color=(0.004, 0.004, 0.005),
 
 
 def mat_led(nombre, color=(1.0, 1.0, 1.0), fuerza=8.0):
-    b = _base(nombre)
+    b = _base(nombre, (color, fuerza))
     if b is None:
         return _MATS[nombre]
     m, nt, bsdf = b
@@ -779,7 +794,7 @@ def mat_led(nombre, color=(1.0, 1.0, 1.0), fuerza=8.0):
 def mat_calca(nombre, ruta_png, fuerza_emision=0.0, rug=0.35):
     """Imagen PNG con alfa sobre un plano: serigrafia, pantallas, logos.
     La imagen se empaqueta en el .blend."""
-    b = _base(nombre)
+    b = _base(nombre, (ruta_png, fuerza_emision, rug))
     if b is None:
         return _MATS[nombre]
     m, nt, bsdf = b

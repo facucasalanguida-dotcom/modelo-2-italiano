@@ -52,3 +52,40 @@ Makro bloquea el acceso desde servidores, así que cada producto se
 documentó con fotos y fichas de las webs del fabricante o de distribuidores
 (carpeta de trabajo, no se sube al repositorio). Lo que no se pudo confirmar
 está anotado en la cabecera de cada `obj_<TAG>.py`.
+
+## Auditoría previa al render (20/09)
+
+Los 24 objetos pasan tres controles automáticos:
+
+1. **Medidas** — envolvente contra la ficha del plano, tolerancia 1,5 mm,
+   base en z = 0 y origen centrado. Los cuatro desvíos son deliberados y
+   están justificados en la cabecera del `obj_<TAG>.py`: A4, K7 y K10 miden
+   950 de alto porque los 850 del plano son la encimera y el peto sube
+   100 más; K2 mide 360 en vez de 380.
+2. **Geometría** — normales invertidas, láminas de espesor cero (dos caras
+   coincidentes con normales opuestas, que hacen que el render alterne entre
+   ellas) y caras coplanarias de mallas distintas. Los 24 salen limpios.
+3. **Materiales** — un mismo nombre de material tiene que significar lo mismo
+   en los 24 objetos, porque al juntarlos todos en la escena final se funden
+   por nombre. `lib._base()` guarda ahora la firma de los parámetros con los
+   que se creó cada material y levanta un error si otro sitio pide ese mismo
+   nombre con parámetros distintos: antes ganaba el primero que se creara y
+   el aspecto dependía del orden de las llamadas.
+
+Integración en la escena: la caja real de cada objeto se compara con el
+hueco que le reserva `MODELO_3D.rb`. Ninguno choca con muros, pilares,
+forjado ni mobiliario. Quedan las dos interferencias que ya estaban
+anotadas en `export_sketchup.CONFLICTOS_DOC`, que son del proyecto y no del
+modelo, y que hay que decidir antes del render final:
+
+- **K6 dentro de K7**: el lavavajillas mide 863 de alto y atraviesa por
+  completo los 40 mm de encimera del escurridor, además de sobresalir 51 mm
+  por delante. Alternativa ya listada en `equipamiento.OESTE_ALT`: Eurast
+  575 × 600 × 820.
+- **B1 bajo V2**: el lavavasos mide 670 y el hueco bajo la vitrina es de
+  600; penetra 70 mm.
+
+Los cables salen por la trasera de cada aparato y llegan a 208–298 mm por
+detrás del cuerpo. Es correcto para el objeto suelto, pero al montar la
+escena los aparatos van contra el muro: hay que separarlos de la pared o
+dejar que el cable quede embebido en ella.

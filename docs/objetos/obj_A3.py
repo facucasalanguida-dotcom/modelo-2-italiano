@@ -78,8 +78,8 @@ def calca_panel(ruta):
 def build():
     blanco = L.mat_chapa('Lacado blanco', (0.86, 0.86, 0.84), rug=0.30, brillo=0.5, piel=0.08)
     marron = L.mat_chapa('Lacado marron chocolate', (0.065, 0.040, 0.032), rug=0.42, brillo=0.2)
-    trans = L.mat_policarbonato('Copoliester', tinte=(0.95, 0.97, 0.985))
-    bl_pl = L.mat_plastico('Plastico blanco', (0.85, 0.85, 0.82), rug=0.35)
+    trans = L.mat_policarbonato('Copoliester', tinte=(0.95, 0.97, 0.98))
+    bl_pl = L.mat_plastico('Plastico blanco', (0.85, 0.85, 0.82))
     negro = L.mat_plastico('Plastico negro', (0.02, 0.02, 0.02))
     plata = L.mat_cromo()
 

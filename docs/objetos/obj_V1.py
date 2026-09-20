@@ -59,7 +59,7 @@ def calca_control(ruta):
 def build():
     inox = L.mat_inox()
     inox_p = L.mat_inox_pulido()
-    alu = L.mat_aluminio('Aluminio anodizado', rug=0.30)
+    alu = L.mat_aluminio('Aluminio anodizado')
     negro_b = L.mat_chapa('Chapa negro brillo', (0.01, 0.01, 0.011), rug=0.12, brillo=0.6, piel=0.05)
     negro = L.mat_plastico('Plastico negro', (0.02, 0.02, 0.02))
     antracita = L.mat_chapa('Lacado antracita', (0.045, 0.047, 0.050), rug=0.45, brillo=0.1)

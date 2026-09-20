@@ -141,7 +141,7 @@ def boton(nombre, centro, d=0.012, alto=0.004, normal='-Y', mat=None, parent=Non
 
 
 def piloto(nombre, centro, d=0.010, color=(1.0, 0.25, 0.05), normal='-Y', parent=None, fuerza=4.0):
-    return boton(nombre, centro, d, 0.002, normal, L.mat_led(f'LED {color}', color, fuerza), parent)
+    return boton(nombre, centro, d, 0.002, normal, L.mat_led(f'LED {color} x{fuerza:g}', color, fuerza), parent)
 
 
 # ------------------------------------------------------------- rejillas

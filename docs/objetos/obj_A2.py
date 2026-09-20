@@ -51,7 +51,7 @@ def calca_badge(ruta):
 def build():
     abs_n = L.mat_chapa('ABS negro brillante', (0.012, 0.012, 0.013), rug=0.22, brillo=0.7, piel=0.05)
     mate = L.mat_plastico('Plastico negro mate', (0.02, 0.02, 0.02), rug=0.6)
-    trans = L.mat_policarbonato('Copoliester', tinte=(0.96, 0.97, 0.97))
+    trans = L.mat_policarbonato('Copoliester', tinte=(0.95, 0.97, 0.98))
     verde = L.mat_plastico('Plastico verde', (0.05, 0.55, 0.15), rug=0.4, brillo=0.3)
 
     # --- base (152 de ancho, extremos semicirculares) con bandeja oval integrada, sobre 4 tacos de 6 mm

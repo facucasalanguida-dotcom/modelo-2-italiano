@@ -68,8 +68,8 @@ def calca_nfc(ruta):
 
 def build():
     blanco = L.mat_plastico('Plastico blanco brillante', (0.90, 0.90, 0.89), rug=0.15, brillo=0.6)
-    negro = L.mat_plastico('Plastico negro mate', (0.02, 0.02, 0.022), rug=0.55)
-    gris = L.mat_plastico('Plastico gris', (0.30, 0.30, 0.31), rug=0.5)
+    negro = L.mat_plastico('Plastico negro mate', (0.02, 0.02, 0.02), rug=0.6)
+    gris = L.mat_plastico('Plastico gris', (0.30, 0.30, 0.30))
     goma = L.mat_goma()
     vidrio_n = L.mat_vitroceramica('Cristal pantalla', color=(0.004, 0.004, 0.005), rug=0.02)
 

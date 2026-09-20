@@ -39,7 +39,7 @@ def build():
     inox_s = L.mat_inox_satinado()
     inox_p = L.mat_inox_pulido()
     cromo = L.mat_cromo()
-    negro = L.mat_plastico('Plastico negro brillante', (0.01, 0.01, 0.011), rug=0.16, brillo=0.5)
+    negro = L.mat_plastico('Plastico negro brillante', (0.01, 0.01, 0.011), rug=0.18, brillo=0.5)
     y_frente = Y_COL - R_TUBO                  # cara frontal del tubo horizontal (+0,052)
 
     # --- bandeja 400 x 400 x 40: reborde de 10, placa 8 mas baja, hueco de la rejilla
