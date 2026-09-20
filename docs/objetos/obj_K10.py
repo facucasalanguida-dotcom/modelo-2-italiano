@@ -7,10 +7,11 @@ Infrico, pero los datos de Makro son exactamente los de la MRCH-250).
 Referencia: fotos de distribuidores (4 puertas) y plano en seccion de la
 tarifa Coreco. AISI-304 satinado: encimera de 600 con frente curvo que
 vuela 50 sobre las puertas, peto sanitario trasero de 100 x 14; cuerpo de
-532 de fondo y 706 de alto; cuatro puertas lisas de 470 x 610 con ranura
-superior de tirador integrado y burlete gris; panel del grupo a la derecha
+532 de fondo y 706 de alto; cuatro puertas lisas de 495 x 610 con ranura
+superior de tirador integrado, canal vertical oscuro de 35 a la derecha de
+cada hoja y burlete gris; panel del grupo a la derecha
 (340) con display digital, dos pilotos y rejilla pivotante de ranuras
-cortas; segunda rejilla en el lateral derecho; seis patas de tubo O 50
+cortas (baja); dos bandas de ranuras horizontales en el lateral derecho; seis patas de tubo O 50
 regulables; trasera galvanizada.
 
 MEDIDAS: 850 es la encimera; el peto sube a 950 (envolvente comprobada).
@@ -32,7 +33,8 @@ Y_FRENTE_TAB, Y_TRAS = -F / 2, F / 2
 Y_FRENTE = Y_FRENTE_TAB + 0.050        # frente del cuerpo y de las puertas
 Y_TRAS_CUERPO = Y_FRENTE + F_CUERPO    # +0,282
 GRUPO_W = 0.340
-PUERTA_W, PUERTA_H, PUERTA_E = 0.470, 0.610, 0.045
+PUERTA_W, PUERTA_H, PUERTA_E = 0.495, 0.610, 0.045   # hoja 495 (la cota 470 de Coreco es el hueco interior)
+CANAL_W = 0.035                                        # canal-tirador vertical oscuro en el canto derecho de cada hoja
 Z_PUERTA0 = H_PATA + 0.026
 
 
@@ -61,23 +63,27 @@ def build():
     # canto delantero redondeado: se redondea la arista frontal superior con
     # un cilindro sustraido y otro anadido (radio 20)
     L.sustraer(tab, L.caja('canto corte', A + 0.01, 0.020, 0.020, (0, Y_FRENTE_TAB + 0.010, Z_TAB - 0.020)))
-    L.cilindro('canto curvo', 0.020, A, (-A / 2, Y_FRENTE_TAB + 0.020, Z_TAB - 0.020), eje='X', segs=32, mat=inox)
+    L.cilindro('canto curvo', 0.020, A - 0.0006, (-A / 2 + 0.0003, Y_FRENTE_TAB + 0.020, Z_TAB - 0.020), eje='X', segs=32, mat=inox)
     L.prisma_yz('peto', [(Y_TRAS - PETO_E, Z_TAB - 0.001), (Y_TRAS, Z_TAB - 0.001), (Y_TRAS, Z_TAB + PETO_H - 0.008),
                          (Y_TRAS - PETO_E * 0.6, Z_TAB + PETO_H), (Y_TRAS - PETO_E, Z_TAB + PETO_H - 0.004)],
                 -A / 2, A / 2, mat=inox, r=0.001)
 
     # --- cuerpo: caja de 532 de fondo bajo la encimera, con los huecos de las puertas
-    cuerpo = L.caja('cuerpo', A, F_CUERPO, Z_TAB - E_TAB - H_PATA, (0, Y_FRENTE + F_CUERPO / 2, H_PATA), r=0.003, segs=3, mat=inox)
+    cuerpo = L.caja('cuerpo', A, F_CUERPO - 0.002, Z_TAB - E_TAB - H_PATA, (0, Y_FRENTE + (F_CUERPO - 0.002) / 2, H_PATA), r=0.003, segs=3, mat=inox)
     modulo = (A - GRUPO_W) / 4
     for k in range(4):
         xc = -A / 2 + modulo * (k + 0.5)
-        L.sustraer(cuerpo, L.caja(f'hueco {k + 1}', PUERTA_W + 0.004, PUERTA_E + 0.010, PUERTA_H + 0.030,
+        hueco_w = PUERTA_W + CANAL_W + 0.004
+        L.sustraer(cuerpo, L.caja(f'hueco {k + 1}', hueco_w, PUERTA_E + 0.010, PUERTA_H + 0.030,
                                   (xc, Y_FRENTE + PUERTA_E / 2 - 0.003, Z_PUERTA0 - 0.002)))
-        # puerta lisa con burlete y ranura oscura de tirador por arriba
-        L.caja(f'puerta {k + 1}', PUERTA_W, PUERTA_E, PUERTA_H, (xc, Y_FRENTE + PUERTA_E / 2, Z_PUERTA0), r=0.003, segs=3, mat=inox)
-        L.caja(f'puerta {k + 1} burlete', PUERTA_W + 0.003, 0.003, PUERTA_H + 0.003, (xc, Y_FRENTE + PUERTA_E + 0.0015, Z_PUERTA0 - 0.0015),
+        xp = xc - CANAL_W / 2                  # hoja pegada al lado izquierdo del hueco (bisagra a la izquierda)
+        # puerta lisa con burlete, ranura oscura de tirador por arriba y canal vertical oscuro a la derecha
+        L.caja(f'puerta {k + 1}', PUERTA_W, PUERTA_E, PUERTA_H, (xp, Y_FRENTE + PUERTA_E / 2, Z_PUERTA0), r=0.003, segs=3, mat=inox)
+        L.caja(f'puerta {k + 1} burlete', PUERTA_W + 0.003, 0.003, PUERTA_H + 0.003, (xp, Y_FRENTE + PUERTA_E + 0.0015, Z_PUERTA0 - 0.0015),
                mat=goma, suave=False)
-        L.caja(f'puerta {k + 1} ranura', PUERTA_W, 0.004, 0.026, (xc, Y_FRENTE + 0.030, Z_PUERTA0 + PUERTA_H + 0.002),
+        L.caja(f'puerta {k + 1} ranura', PUERTA_W, 0.004, 0.026, (xp, Y_FRENTE + 0.030, Z_PUERTA0 + PUERTA_H + 0.002),
+               mat=L.mat_plastico('Interior oscuro', (0.01, 0.01, 0.01), rug=0.9), suave=False)
+        L.caja(f'puerta {k + 1} canal', CANAL_W, 0.004, PUERTA_H + 0.030, (xc + PUERTA_W / 2, Y_FRENTE + 0.030, Z_PUERTA0 - 0.002),
                mat=L.mat_plastico('Interior oscuro', (0.01, 0.01, 0.01), rug=0.9), suave=False)
     L.caja('trasera', A - 0.006, 0.002, Z_TAB - E_TAB - H_PATA - 0.006, (0, Y_TRAS_CUERPO - 0.001, H_PATA + 0.003), mat=galva, suave=False)
 
@@ -93,15 +99,16 @@ def build():
         L.cilindro(f'piloto aro {k + 1}', 0.006, 0.003, (x, Y_FRENTE - 0.003, Z_TAB - 0.118), eje='Y', segs=24, r=0.001, mat=plast)
     for col in range(6):
         x = xg - 0.125 + col * 0.050
-        P.rejilla_ranuras(f'rejilla grupo col {col + 1}', (x, Y_FRENTE, Z_TAB - 0.350), 0.040, 0.300, normal='-Y',
+        P.rejilla_ranuras(f'rejilla grupo col {col + 1}', (x, Y_FRENTE, Z_TAB - 0.470), 0.040, 0.340, normal='-Y',
                           paso=0.021, ranura=0.010, orient='H', mat=inox, cuerpo=cuerpo)
-    # segunda rejilla en el lateral derecho, baja y trasera
-    P.rejilla_ranuras('rejilla lateral', (A / 2, Y_TRAS_CUERPO - 0.170, Z_TAB - 0.390), 0.240, 0.140, normal='+X',
-                      paso=0.010, ranura=0.005, orient='V', mat=inox, cuerpo=cuerpo)
+    # rejilla del lateral derecho: dos bandas bajas de ranuras horizontales (foto K10_02)
+    for k, zb in enumerate((H_PATA + 0.100, H_PATA + 0.200)):
+        P.rejilla_ranuras(f'rejilla lateral {k + 1}', (A / 2, Y_FRENTE + F_CUERPO / 2, zb), 0.420, 0.070, normal='+X',
+                          paso=0.024, ranura=0.008, orient='H', mat=inox, cuerpo=cuerpo)
 
     # --- seis patas de tubo O 50 regulables
-    for i, (x, y) in enumerate(((-1.16, Y_FRENTE + 0.06), (0.0, Y_FRENTE + 0.06), (1.16, Y_FRENTE + 0.06),
-                                (-1.16, Y_TRAS_CUERPO - 0.06), (0.0, Y_TRAS_CUERPO - 0.06), (1.16, Y_TRAS_CUERPO - 0.06))):
+    xs_pata = (-A / 2 + 0.070, -0.170, A / 2 - 0.070)   # extremos a 70 del canto, la central bajo la junta de las puertas 2-3
+    for i, (x, y) in enumerate([(x, Y_FRENTE + 0.06) for x in xs_pata] + [(x, Y_TRAS_CUERPO - 0.06) for x in xs_pata]):
         P.pata_regulable(f'pata {i + 1}', (x, y, 0), H_PATA + 0.002, d_tubo=0.050, d_pie=0.050, h_pie=0.025, mat_tubo=inox)
 
     return dict(medidas=(A, F, Z_TAB + PETO_H), ignorar=('piloto',))
