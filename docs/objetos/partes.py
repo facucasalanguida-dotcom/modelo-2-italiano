@@ -245,10 +245,13 @@ def cuba(nombre, cuerpo, centro_sup, w, d, prof, r_esq=0.03, r_fondo=0.02,
     cort = L.caja(nombre + ' corte', w, d, prof + 0.02, (cx, cy, cz - prof), r_vert=r_esq, r=0.0, segs=6)
     L.sustraer(cuerpo, cort)
     # chapa de la cuba: caja exterior redondeada menos interior
-    ext = L.caja(nombre, w, d, prof, (cx, cy, cz - prof), r_vert=r_esq, r=r_fondo, segs=6, mat=mat, parent=parent)
-    inte = L.caja(nombre + ' hueco', w - 2 * espesor, d - 2 * espesor, prof, (cx, cy, cz - prof + espesor),
+    # se construye r_fondo mas alta y se recorta por encima de cz: asi el
+    # redondeo queda solo en el fondo y la boca es un borde recto a ras
+    ext = L.caja(nombre, w, d, prof + r_fondo, (cx, cy, cz - prof), r_vert=r_esq, r=r_fondo, segs=6, mat=mat, parent=parent)
+    inte = L.caja(nombre + ' hueco', w - 2 * espesor, d - 2 * espesor, prof + r_fondo, (cx, cy, cz - prof + espesor),
                   r_vert=max(r_esq - espesor, 0.002), r=max(r_fondo - espesor, 0.002), segs=6)
     L.sustraer(ext, inte)
+    L.sustraer(ext, L.caja(nombre + ' recorte', w + 0.02, d + 0.02, r_fondo + 0.02, (cx, cy, cz)))
     out = [ext]
     if desague:
         out.append(L.cilindro(nombre + ' desague', 0.045, 0.002, (cx, cy, cz - prof + espesor), segs=48,
@@ -326,11 +329,9 @@ def cable(nombre, inicio, largo=0.25, d=0.008, parent=None):
     ix, iy, iz = inicio
     a = largo * 0.35
     zf = d / 2 + 0.001
-    caida = min(largo * 0.65, iz - zf)
-    pts = [(ix, iy, iz), (ix, iy + a, iz), (ix, iy + a + 0.03, iz - caida)]
-    resto = largo * 0.65 - caida
-    if resto > 0.02:
-        pts.append((ix, iy + a + 0.03 + resto, zf))
+    caida = max(iz - zf, 0.0)                      # siempre baja hasta el apoyo
+    resto = max(0.08, largo * 0.65 - caida)        # y reposa al menos 80 mm
+    pts = [(ix, iy, iz), (ix, iy + a, iz), (ix, iy + a + 0.03, zf), (ix, iy + a + 0.03 + resto, zf)]
     ob = L.tubo_curva(nombre, pts, d / 2, segs=16, res=12, mat=mat, parent=parent)
     # el suavizado Bezier puede rebotar por debajo del suelo: se recorta a z >= 0,5 mm
     for v in ob.data.vertices:
