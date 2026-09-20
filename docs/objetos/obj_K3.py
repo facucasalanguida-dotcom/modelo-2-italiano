@@ -7,16 +7,19 @@ Referencia: renders de catalogo Meral (csvalles). Cuerpo y cabezal de inox
 pulido; cabezal desmontable trasero con panel inclinado (interruptor
 basculante I/O con piloto verde, piloto ambar con icono de termometro,
 ruleta de termostato con dial STOP / 100-190); en la cara vertical del
-cabezal, guarda reposacestas de inox saliente con ranura y asa negra en D;
-cuba con reborde perimetral; cesta de malla 195 x 215 x 120 con mango negro
-plano que sale por el frente; logo MERAL gris arriba a la izquierda del
-frontal; grifo cromado con maneta y tapon negros abajo a la derecha; cuatro
-tacos negros.
+cabezal, guarda reposacestas de inox (capota abierta por abajo y con
+ranura en el frente) y asa negra en D (~75 x 80, tubo de 12) que ocupa
+casi toda la cara vertical; cuba con reborde perimetral; cesta de malla
+195 x 215 x 120 con horquilla y mango negro plano que sale por el frente a
+ras del reborde; logo MERAL gris arriba a la izquierda del frontal; grifo
+cromado con maneta y tapon negros abajo a la derecha; cuatro tacos negros.
 
 La envolvente del plano (0,27 x 0,46 x 0,37) es el cuerpo: el mango de la
 cesta (150) y el grifo (70) sobresalen por delante y se excluyen del control.
 Supuesto: reparto de alturas cuerpo/cabezal (estimado del render), trasera,
-cable, forma exacta de la resistencia.
+cable, forma exacta de la resistencia (sale de la cara del cabezal por
+encima del borde, baja junto a la pared trasera de la cuba y corre por el
+fondo en doble U).
 """
 import math
 import os
@@ -116,10 +119,14 @@ def build():
     L.sustraer(reborde, L.caja('reborde hueco', CUBA_W + 0.006, CUBA_D + 0.006, 0.02, (0, CUBA_Y, Z_RIM - 0.01), r_vert=0.02))
     P.cuba('cuba', cuerpo, (0, CUBA_Y, Z_RIM - 0.003), CUBA_W, CUBA_D, CUBA_P, r_esq=0.020, r_fondo=0.010, mat=inox, desague=False)
     z_fondo = Z_RIM - 0.003 - CUBA_P
-    # resistencia en U doble sobre el fondo, saliendo del cabezal
+    # resistencia en U doble sobre el fondo: sale de la cara vertical del
+    # cabezal por encima del borde, baja junto a la pared trasera de la cuba
+    # (sin atravesarla) y corre por el fondo hacia delante
+    y_baj = CUBA_Y + CUBA_D / 2 - 0.010
     for i, x in enumerate((-0.075, -0.025, 0.025, 0.075)):
-        L.tubo_curva(f'resistencia {i + 1}', [(x, Y_CAB - 0.005, z_fondo + 0.030), (x, CUBA_Y - 0.12, z_fondo + 0.030)],
-                     0.0045, segs=16, mat=inox, suavizar=False)
+        L.tubo_curva(f'resistencia {i + 1}',
+                     [(x, Y_CAB + 0.002, Z_RIM + 0.012), (x, y_baj, Z_RIM + 0.012), (x, y_baj, z_fondo + 0.030),
+                      (x, CUBA_Y - 0.12, z_fondo + 0.030)], 0.0045, segs=16, mat=inox, suavizar=False)
     for i, (xa, xb) in enumerate(((-0.075, -0.025), (0.025, 0.075))):
         L.tubo_curva(f'resistencia codo {i + 1}', [(xa, CUBA_Y - 0.12, z_fondo + 0.030), ((xa + xb) / 2, CUBA_Y - 0.14, z_fondo + 0.030),
                                                      (xb, CUBA_Y - 0.12, z_fondo + 0.030)], 0.0045, segs=16, mat=inox)
@@ -131,22 +138,25 @@ def build():
     calca_panel(ruta)
     piezas = [L.calca('K3 panel', ruta, A - 0.004, ALTO_PANEL - 0.004, (0, Y_CAB - 0.0003, Z_VERT + ALTO_PANEL / 2), normal='-Y')]
     # interruptor basculante negro con I/O, piloto verde a su derecha
-    bas = L.caja('basculante marco', 0.032, 0.004, 0.024, (-0.085, Y_CAB - 0.004, Z_VERT + 0.018), r=0.001, segs=2, mat=negro)
-    tecla = L.caja('basculante tecla', 0.026, 0.006, 0.018, (-0.085, Y_CAB - 0.010, Z_VERT + 0.021), r=0.0015, segs=2, mat=negro)
-    L.girar_malla(tecla, (-0.085, Y_CAB - 0.007, Z_VERT + 0.030), 'X', 12)
+    bas = L.caja('basculante marco', 0.032, 0.004, 0.024, (-0.085, Y_CAB - 0.002, Z_VERT + 0.018), r=0.001, segs=2, mat=negro)
+    tecla = L.caja('basculante tecla', 0.026, 0.006, 0.018, (-0.085, Y_CAB - 0.008, Z_VERT + 0.021), r=0.0015, segs=2, mat=negro)
+    L.girar_malla(tecla, (-0.085, Y_CAB - 0.005, Z_VERT + 0.030), 'X', 12)
     piezas += [bas, tecla]
     piezas.append(P.piloto('piloto verde', (-0.058, Y_CAB, Z_VERT + 0.030), d=0.008, color=(0.1, 1.0, 0.2)))
     piezas.append(P.piloto('piloto ambar', (-0.010, Y_CAB, Z_VERT + 0.030), d=0.008, color=(1.0, 0.45, 0.05)))
     piezas += P.mando_ruleta('mando', (0.062, Y_CAB, Z_VERT + 0.030), d=0.040, alto=0.020, mat=negro)
     _en_panel(piezas)
-    # guarda reposacestas: caja inox saliente con ranura, en el centro de la cara vertical
+    # guarda reposacestas: capota inox saliente en el centro de la cara
+    # vertical, abierta por abajo (y por detras, contra el cabezal) y con
+    # una ranura en el frente para colgar la cesta
     guarda = L.caja('guarda', 0.080, 0.045, 0.050, (0, Y_CAB - 0.0225, Z_RIM + 0.020), r=0.003, segs=3, mat=inox)
     L.sustraer(guarda, L.caja('guarda ranura', 0.060, 0.10, 0.010, (0, Y_CAB - 0.0225, Z_RIM + 0.045)))
-    L.sustraer(guarda, L.caja('guarda hueco', 0.076, 0.10, 0.046, (0, Y_CAB - 0.06, Z_RIM + 0.022)))
-    # asa negra en D a la derecha de la guarda
-    L.tubo_curva('asa D', [(0.062, Y_CAB, Z_RIM + 0.020), (0.062, Y_CAB - 0.035, Z_RIM + 0.024),
-                           (0.100, Y_CAB - 0.035, Z_RIM + 0.055), (0.100, Y_CAB, Z_RIM + 0.075)],
-                 0.007, segs=20, mat=negro)
+    L.sustraer(guarda, L.caja('guarda hueco', 0.076, 0.041, 0.048, (0, Y_CAB - 0.0205, Z_RIM + 0.018)))
+    # asa negra en D a la derecha de la guarda (tubo de 12, ~75 x 80: ocupa
+    # casi toda la cara vertical del cabezal, hasta Z_VERT)
+    L.tubo_curva('asa D', [(0.055, Y_CAB, Z_RIM + 0.012), (0.055, Y_CAB - 0.038, Z_RIM + 0.018),
+                           (0.118, Y_CAB - 0.038, Z_RIM + 0.070), (0.118, Y_CAB, Z_RIM + 0.078)],
+                 0.006, segs=20, mat=negro)
 
     # --- cesta de malla con mango negro hacia delante
     BW, BD, BH = 0.195, 0.215, 0.120
@@ -157,17 +167,19 @@ def build():
     for nm, w, d, pos, eje in (('aro 1', BW, 0, (-BW / 2, CUBA_Y - BD / 2 + 0.0015, zr), 'X'), ('aro 2', BW, 0, (-BW / 2, CUBA_Y + BD / 2 - 0.0015, zr), 'X'),
                                ('aro 3', 0, BD, (-BW / 2 + 0.0015, CUBA_Y - BD / 2, zr), 'Y'), ('aro 4', 0, BD, (BW / 2 - 0.0015, CUBA_Y - BD / 2, zr), 'Y')):
         L.cilindro(f'cesta {nm}', 0.0015, w or d, pos, eje=eje, segs=12, mat=inox)
-    # horquilla: de las esquinas delanteras sube al borde y sigue horizontal hacia el frente
+    # horquilla: de las esquinas delanteras sube justo por encima del
+    # reborde y sigue horizontal hacia el frente (a ras del reborde)
     yf = CUBA_Y - BD / 2
+    Z_MANGO = Z_RIM + 0.0035
     for j, s in enumerate((-1, 1)):
         L.tubo_curva(f'cesta horquilla {j + 1}',
-                     [(s * 0.06, yf, zr), (s * 0.035, yf - 0.05, Z_RIM + 0.012), (s * 0.012, Y_FRENTE - 0.02, Z_RIM + 0.012),
-                      (s * 0.012, Y_FRENTE - 0.135, Z_RIM + 0.012)], 0.0022, segs=12, mat=inox)
-    L.tubo_curva('cesta horquilla u', [(-0.012, Y_FRENTE - 0.135, Z_RIM + 0.012), (0, Y_FRENTE - 0.150, Z_RIM + 0.012),
-                                       (0.012, Y_FRENTE - 0.135, Z_RIM + 0.012)], 0.0022, segs=12, mat=inox)
-    mango = L.caja('cesta mango', 0.030, 0.120, 0.008, (0, Y_FRENTE - 0.075, Z_RIM + 0.012), r=0.003, segs=3, mat=negro)
+                     [(s * 0.06, yf, zr), (s * 0.035, yf - 0.05, Z_MANGO), (s * 0.012, Y_FRENTE - 0.02, Z_MANGO),
+                      (s * 0.012, Y_FRENTE - 0.135, Z_MANGO)], 0.0022, segs=12, mat=inox)
+    L.tubo_curva('cesta horquilla u', [(-0.012, Y_FRENTE - 0.135, Z_MANGO), (0, Y_FRENTE - 0.150, Z_MANGO),
+                                       (0.012, Y_FRENTE - 0.135, Z_MANGO)], 0.0022, segs=12, mat=inox)
+    mango = L.caja('cesta mango', 0.030, 0.120, 0.008, (0, Y_FRENTE - 0.075, Z_MANGO), r=0.003, segs=3, mat=negro)
     for k, y in enumerate((Y_FRENTE - 0.035, Y_FRENTE - 0.110)):
-        L.cilindro(f'cesta mango tornillo {k + 1}', 0.003, 0.001, (0, y, Z_RIM + 0.020), segs=16, mat=cromo)
+        L.cilindro(f'cesta mango tornillo {k + 1}', 0.003, 0.001, (0, y, Z_MANGO + 0.008), segs=16, mat=cromo)
 
     # --- logo en el frontal, arriba a la izquierda
     ruta = os.path.join(L.CALCAS_DIR, 'K3_logo.png')

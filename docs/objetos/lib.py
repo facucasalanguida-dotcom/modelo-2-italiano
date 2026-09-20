@@ -401,8 +401,14 @@ def mat_chapa_perforada(nombre='Chapa perforada', d=0.003, paso=0.005, base=None
     distancia entre centros (las UV van en metros)."""
     if nombre in _MATS and _MATS[nombre].name in bpy.data.materials:
         return _MATS[nombre]
-    m = mat_inox(nombre, rug=0.22, aniso=0.4, rayado=0.02, huellas=0.03,
-                 color=(0.56, 0.565, 0.575))
+    if base is not None:
+        # copia del material base (p. ej. mat_inox_satinado()) con los agujeros encima
+        m = base.copy()
+        m.name = nombre
+        _MATS[nombre] = m
+    else:
+        m = mat_inox(nombre, rug=0.22, aniso=0.4, rayado=0.02, huellas=0.03,
+                     color=(0.56, 0.565, 0.575))
     nt = m.node_tree
     bsdf = next(n for n in nt.nodes if n.type == 'BSDF_PRINCIPLED')
     tc = next(n for n in nt.nodes if n.type == 'TEX_COORD')

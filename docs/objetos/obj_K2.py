@@ -6,13 +6,19 @@ Referencia: fotos oficiales (Amazon/METRO) y titulo oficial de METRO DE.
 MEDIDAS: el cuerpo real mide 0,267 x 0,461 x 0,357; el 0,47 x 0,55 x 0,38
 de la ficha de Makro (y del plano) es la envolvente con los mangos de los
 cestos hacia los lados y el grifo delante. Aqui se modela el cuerpo real y
-los cestos con sus mangos de forma que la envolvente sea 0,470 de ancho
-(mangos) x 0,550 de fondo (grifo) x 0,360 de alto (cabezal); los 2 cm que
-faltan hasta 0,38 son los mangos levantados, que no se modelan asi.
+los cestos con sus mangos (inclinados 25 grados hacia arriba, como en las
+fotos) de forma que la envolvente sea 0,470 de ancho (punta de los punos)
+x 0,550 de fondo (punta de la palanca del grifo) x 0,360 de alto.
+NOTA: el plano dice 0,38 de alto y el modelo mide 0,360: el techo del
+cabezal esta a 0,360 (cuerpo real 357) y los punos inclinados llegan a
+~0,35; los 2 cm que faltan serian los mangos aun mas levantados.
 
-Confirmado: cuerpo, cuba 237 x 297 x 194, 4 cestos 115 x 104 x 149, panel
-inclinado con logo, reset, dos pilotos y ruleta 40-110 C, pletina central
-con gancho y MAX/MIN, grifo cromado abajo a la derecha, 4 tacos negros.
+Confirmado: cuerpo, cuba 237 x 297 x 194, 4 cestos 115 x 104 x 149 con
+mangos de horquilla y puno negro (~Ø28 x 97) a 25 grados, panel inclinado
+con logo, reset, dos pilotos y ruleta 40-110 C (40 a la derecha, 110 a la
+izquierda, escala por abajo), pletina central colgada del gancho dentro de
+la cuba con MAX/MIN, grifo cromado abajo a la derecha con la palanca negra
+cerrada (colgando hacia delante y abajo), 4 tacos negros.
 Supuesto: salida del cable por la trasera del cabezal.
 """
 import math
@@ -81,14 +87,15 @@ def calca_panel(ruta):
     cx, cy = px(0.010, 0.058)
     dr.rectangle((cx - 22, cy - 22, cx + 22, cy + 22), outline=negro, width=3)
     dr.text((cx - 8, cy - 18), '°C', font=_f(22, True), fill=negro)
-    # escala de la ruleta: 40 arriba a la derecha ... 110 a la izquierda, OFF arriba
+    # escala de la ruleta: 40 a la derecha casi a la altura del centro, la
+    # escala corre por abajo y el 110 queda a la izquierda; OFF arriba
     kx, ky = px(0.050, 0.035)
     R = 0.026 * 4000
     f3 = _f(24, True)
     valores = [40, 50, 60, 70, 80, 90, 100, 110]
-    # el 40 a -60 grados (arriba derecha) y el 110 a 200 grados (izquierda) en sentido horario
+    # el 40 a -15 grados (derecha) y el 110 a 190 grados (izquierda) en sentido horario
     for i, v in enumerate(valores):
-        ang = math.radians(-60 + i * (260 / 7))
+        ang = math.radians(-15 + i * (205 / 7))
         x, y = kx + R * math.cos(ang), ky + R * math.sin(ang)
         t = str(v)
         bb = dr.textbbox((0, 0), t, font=f3)
@@ -123,7 +130,8 @@ def build():
     negro = L.mat_plastico('Plastico negro', (0.02, 0.02, 0.02))
     cromo = L.mat_cromo()
     goma = L.mat_goma()
-    perf = L.mat_chapa_perforada('Cesto perforado', d=0.003, paso=0.0052)
+    # base satinada (mas rugosa) para que los cestos no lean negros desde arriba
+    perf = L.mat_chapa_perforada('Cesto perforado', d=0.003, paso=0.0052, base=L.mat_inox_satinado())
 
     # --- tacos de goma
     for i, (sx, sy) in enumerate(((-1, -1), (1, -1), (1, 1), (-1, 1))):
@@ -146,10 +154,11 @@ def build():
         L.tubo_curva(f'resistencia {i + 1}',
                      [(-0.095, CUBA_Y + y, z_fondo + 0.012), (0.095, CUBA_Y + y, z_fondo + 0.012)],
                      0.004, segs=16, mat=inox_p, suavizar=False)
-    for i, x in enumerate((-0.095, 0.095)):
-        L.tubo_curva(f'resistencia codo {i + 1}',
-                     [(x, CUBA_Y - 0.09, z_fondo + 0.012), (x + (0.02 if x < 0 else -0.02) * -1, CUBA_Y - 0.06, z_fondo + 0.012),
-                      (x, CUBA_Y - 0.03, z_fondo + 0.012)], 0.004, segs=16, mat=inox_p)
+    # serpentin: el codo 1 (izquierda) une los tubos 1-2 y el codo 2 (derecha) los tubos 2-3
+    for i, pts in enumerate(([(-0.095, CUBA_Y - 0.09), (-0.115, CUBA_Y - 0.06), (-0.095, CUBA_Y - 0.03)],
+                             [(0.095, CUBA_Y - 0.03), (0.115, CUBA_Y), (0.095, CUBA_Y + 0.03)])):
+        L.tubo_curva(f'resistencia codo {i + 1}', [(x, y, z_fondo + 0.012) for x, y in pts],
+                     0.004, segs=16, mat=inox_p)
     # bandeja perforada (falso fondo)
     L.caja('falso fondo', CUBA_W - 0.006, CUBA_D - 0.006, 0.0012, (0, CUBA_Y, z_fondo + 0.022), mat=perf, suave=False)
 
@@ -168,19 +177,25 @@ def build():
     piezas += P.mando_ruleta('mando', (0.050, Y_CAB, Z_PANEL0 + 0.035), d=0.035, alto=0.018, mat=negro)
     _en_panel(piezas)
 
-    # --- pletina central con gancho reposacestos y MAX/MIN
-    L.caja('pletina', 0.040, 0.002, Z_RIM - 0.100 + 0.028, (0, Y_CAB - 0.001 - 0.0, 0.100), mat=inox)
-    L.caja('gancho', 0.060, 0.040, 0.002, (0, Y_CAB - 0.021, Z_RIM + 0.026), r=0.0008, segs=2, mat=inox)
+    # --- pletina central con gancho reposacestos y MAX/MIN: cuelga del
+    # gancho dentro de la cuba, pegada a su pared trasera (y ~ 0,122); su
+    # parte alta (0,270-0,298) asoma delante de la franja del borde
+    Y_PLET = CUBA_Y + CUBA_D / 2 - 0.0012 - 0.002      # centro de la pletina (2 mm de chapa)
+    L.caja('pletina', 0.040, 0.002, Z_RIM - 0.100 + 0.028, (0, Y_PLET, 0.100), mat=inox)
+    L.caja('gancho', 0.060, 0.040, 0.002, (0, Y_CAB - 0.020, Z_RIM + 0.026), r=0.0008, segs=2, mat=inox)
     L.caja('gancho labio', 0.060, 0.002, 0.018, (0, Y_CAB - 0.040, Z_RIM + 0.008), r=0.0008, segs=2, mat=inox)
     ruta = os.path.join(L.CALCAS_DIR, 'K2_maxmin.png')
     calca_maxmin(ruta)
-    L.calca('K2 maxmin', ruta, 0.016, 0.040, (0, Y_CAB - 0.002 - 0.0003, 0.235), normal='-Y')
+    L.calca('K2 maxmin', ruta, 0.016, 0.040, (0, Y_PLET - 0.001 - 0.0003, 0.235), normal='-Y')
 
     # --- 4 cestos perforados con mangos a los lados
     BW, BD, BH = 0.115, 0.104, 0.149
     z_b = z_fondo + 0.024
+    ANG = 25.0                                # inclinacion de los mangos hacia arriba (fotos)
+    ca, sa = math.cos(math.radians(ANG)), math.sin(math.radians(ANG))
+    R_PUNO, RB_PUNO = 0.014, 0.004            # radio del puno y redondeo de sus tapas
     for i, (sx, sy) in enumerate(((-1, -1), (1, -1), (-1, 1), (1, 1))):
-        xc, yc = sx * (BW / 2 + 0.003), CUBA_Y + sy * (BD / 2 + 0.003)
+        xc, yc = sx * (BW / 2 + 0.002), CUBA_Y + sy * (BD / 2 + 0.003)
         cesto = L.caja(f'cesto {i + 1}', BW, BD, BH, (xc, yc, z_b), r_vert=0.006, r=0.002, segs=3, mat=perf)
         hueco = L.caja(f'cesto {i + 1} hueco', BW - 0.0012, BD - 0.0012, BH, (xc, yc, z_b + 0.0006), r_vert=0.0055, r=0.0015, segs=3)
         L.sustraer(cesto, hueco)
@@ -190,31 +205,45 @@ def build():
         L.cilindro(f'cesto {i + 1} aro 2', 0.0015, BW, (xc - BW / 2, yc + BD / 2 - 0.0015, zr), eje='X', segs=12, mat=inox_p)
         L.cilindro(f'cesto {i + 1} aro 3', 0.0015, BD, (xc - BW / 2 + 0.0015, yc - BD / 2, zr), eje='Y', segs=12, mat=inox_p)
         L.cilindro(f'cesto {i + 1} aro 4', 0.0015, BD, (xc + BW / 2 - 0.0015, yc - BD / 2, zr), eje='Y', segs=12, mat=inox_p)
-        # mango: horquilla de varilla que sube y se junta en el puno negro
+        # mango: horquilla de varilla que sube pegada al cesto, pasa por
+        # encima del borde y converge en la varilla; varilla y puno negro se
+        # construyen horizontales y se inclinan ANG grados hacia arriba
+        # girando sobre el arranque de la varilla S
         xo = xc + sx * BW / 2
+        S = (xo + sx * 0.018, yc, zr + 0.047)
         for j, s in enumerate((-1, 1)):
             L.tubo_curva(f'cesto {i + 1} horquilla {j + 1}',
-                         [(xo, yc + s * 0.035, zr), (xo + sx * 0.018, yc + s * 0.022, zr + 0.030),
-                          (xo + sx * 0.036, yc, zr + 0.047)], 0.002, segs=12, mat=inox_p)
-        L.cilindro(f'cesto {i + 1} varilla', 0.002, 0.020, (xo + sx * 0.036 - (0.020 if sx < 0 else 0), yc, zr + 0.047),
-                   eje='X', segs=12, mat=inox_p)
-        x_ini = xo + sx * 0.050
-        largo = A / 2 + 0.1015 - abs(x_ini)      # el puno termina en +-0,235
-        L.cilindro(f'cesto {i + 1} puno', 0.014, largo, (x_ini - (largo if sx < 0 else 0), yc, zr + 0.047),
-                   eje='X', segs=32, r=0.004, mat=negro)
+                         [(xo, yc + s * 0.035, zr), (xo, yc + s * 0.028, zr + 0.030), S,
+                          (S[0] + sx * 0.006 * ca, yc, S[2] + 0.006 * sa)], 0.002, segs=12, mat=inox_p)
+        mango = [L.cilindro(f'cesto {i + 1} varilla', 0.002, 0.014, (S[0] - (0.014 if sx < 0 else 0), yc, S[2]),
+                            eje='X', segs=12, mat=inox_p)]
+        # distancia de S a la tapa del puno para que su punto mas alejado
+        # (tapa inclinada con el canto redondeado) quede en +-0,235
+        l_tapa = (A / 2 + 0.1015 - abs(S[0]) - R_PUNO * sa - RB_PUNO * (1 - ca - sa)) / ca
+        largo = l_tapa - 0.008                    # el puno empieza 8 mm mas alla de S
+        x_ini = S[0] + sx * 0.008
+        mango.append(L.cilindro(f'cesto {i + 1} puno', R_PUNO, largo, (x_ini - (largo if sx < 0 else 0), yc, S[2]),
+                                eje='X', segs=32, r=RB_PUNO, mat=negro))
+        for ob in mango:
+            L.girar_malla(ob, S, 'Y', -sx * ANG)
 
     # --- grifo de vaciado cromado, abajo a la derecha del frontal
     gx, gz = 0.045, 0.060
+    GY = Y_FRENTE - 0.0645                # eje vertical del grifo
     L.cilindro('grifo tuerca', 0.012, 0.007, (gx, Y_FRENTE - 0.007, gz), eje='Y', segs=6, mat=cromo)
-    L.cilindro('grifo tubo', 0.0075, 0.055, (gx, Y_FRENTE - 0.057, gz), eje='Y', segs=32, mat=cromo)
-    L.cilindro('grifo cuerpo', 0.015, 0.034, (gx, Y_FRENTE - 0.070, gz - 0.017), segs=40, r=0.005, mat=cromo)
-    L.cilindro('grifo eje', 0.005, 0.010, (gx, Y_FRENTE - 0.070, gz + 0.017), segs=24, mat=cromo)
-    # palanca negra: nace en el eje y apunta hacia delante y abajo; su punta
-    # es el punto mas adelantado del aparato (GRIFO)
-    palanca = L.caja('grifo palanca', 0.010, 0.030, 0.007, (gx, Y_FRENTE - 0.070 - 0.004, gz + 0.026), r=0.002, mat=negro)
-    L.girar_malla(palanca, (gx, Y_FRENTE - 0.070, gz + 0.027), 'X', -20)
-    L.cilindro('grifo salida', 0.0075, 0.030, (gx, Y_FRENTE - 0.070, gz - 0.047), segs=32, mat=cromo)
-    L.cilindro('grifo boca', 0.009, 0.006, (gx, Y_FRENTE - 0.070, gz - 0.053), segs=32, r=0.001, mat=cromo)
+    L.cilindro('grifo tubo', 0.0075, 0.0605, (gx, GY, gz), eje='Y', segs=32, mat=cromo)
+    L.cilindro('grifo cuerpo', 0.015, 0.034, (gx, GY, gz - 0.017), segs=40, r=0.005, mat=cromo)
+    L.cilindro('grifo eje', 0.005, 0.010, (gx, GY, gz + 0.017), segs=24, mat=cromo)
+    L.caja('grifo cabeza', 0.012, 0.020, 0.010, (gx, GY - 0.005, gz + 0.027), r=0.002, segs=2, mat=cromo)
+    # palanca negra (grifo cerrado): pivota en la cabeza y cuelga hacia
+    # delante y abajo (65 grados) por delante del cuerpo; su punta es el
+    # punto mas adelantado del aparato (GRIFO = 0,089)
+    piv = (gx, GY - 0.0087, gz + 0.032)
+    palanca = L.cilindro('grifo palanca', 0.0035, 0.032, (gx, piv[1] - 0.032, piv[2]), eje='Y', segs=24,
+                         r=0.0025, mat=negro)
+    L.girar_malla(palanca, piv, 'X', 65)
+    L.cilindro('grifo salida', 0.0075, 0.030, (gx, GY, gz - 0.047), segs=32, mat=cromo)
+    L.cilindro('grifo boca', 0.009, 0.006, (gx, GY, gz - 0.053), segs=32, r=0.001, mat=cromo)
 
     # --- cable por la trasera del cabezal (supuesto)
     L.cilindro('prensaestopas', 0.008, 0.010, (-0.080, Y_TRAS, 0.315), eje='Y', segs=24, r=0.002, mat=negro)
