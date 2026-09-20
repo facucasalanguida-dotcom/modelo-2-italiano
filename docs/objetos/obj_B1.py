@@ -155,7 +155,7 @@ def build():
     L.caja('puerta', PUERTA_W, 0.016, PUERTA_H, (0, Y_FRENTE + 0.0085, Z_PUERTA0), r=0.002, segs=3, mat=inox)
     L.caja('puerta junta', PUERTA_W - 0.006, 0.002, PUERTA_H - 0.006, (0, Y_FRENTE + 0.0175, Z_PUERTA0 + 0.003), mat=L.mat_goma(), suave=False)
     # tirador embutido en arco ("sonrisa") en el panel fijo, bajo la puerta
-    son = L.cilindro('sonrisa', 0.276, 0.0015, (0.108, Y_FRENTE - 0.0005, Z_PUERTA0 + 0.254), eje='Y', segs=256, r=0.0006)
+    son = L.cilindro('sonrisa', 0.276, 0.0030, (0.108, Y_FRENTE - 0.0005, Z_PUERTA0 + 0.254), eje='Y', segs=256, r=0.0010)
     L.sustraer(son, L.caja('sonrisa clip', 0.7, 0.02, 0.7, (0.108, Y_FRENTE, Z_PUERTA0 - 0.0005)))
     L.sustraer(cuerpo, son)
 
