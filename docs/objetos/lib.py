@@ -45,6 +45,10 @@ FICHAS = {p['tag']: p for p in Q.todos()}
 
 # ============================================================ documento
 def nuevo_documento(tag):
+    # los materiales cacheados pertenecen al documento anterior: al abrir uno
+    # nuevo quedan liberados y hay que olvidarlos (si no, el segundo objeto
+    # del mismo proceso falla al tocar un datablock muerto)
+    _MATS.clear()
     bpy.ops.wm.read_factory_settings(use_empty=True)
     sc = bpy.context.scene
     sc.name = tag
@@ -828,6 +832,9 @@ def comprobar_medidas(tag, medidas=None, tol=0.0015, ignorar=()):
 
 
 # ============================================================ plato y render
+Z_TECHO_PLATO = 6.0
+
+
 def plato(tam=30.0):
     """Ciclorama blanco, HDRI de estudio y luz principal suave."""
     sc = bpy.context.scene
@@ -878,14 +885,14 @@ def plato(tam=30.0):
     ob = bpy.data.objects.new('_ciclorama', me)
     ob.data.materials.append(m)
     col.objects.link(ob)
-    # techo blanco a 3,5 m: como una tienda de luz, para que el inox refleje
+    # techo blanco a 6 m: como una tienda de luz, para que el inox refleje
     # claro tambien dentro de cubas y cestos
     mt = bpy.data.materials.new('_techo')
     mt.use_nodes = True
     mt.node_tree.nodes['Principled BSDF'].inputs['Base Color'].default_value = (0.92, 0.92, 0.92, 1)
     bm = bmesh.new()
-    bmesh.ops.create_grid(bm, x_segments=1, y_segments=1, size=tam / 2)
-    bmesh.ops.translate(bm, vec=(0, 0, 3.5), verts=bm.verts)
+    bmesh.ops.create_grid(bm, x_segments=1, y_segments=1, size=tam)
+    bmesh.ops.translate(bm, vec=(0, 0, Z_TECHO_PLATO), verts=bm.verts)
     me2 = bpy.data.meshes.new('_techo')
     bm.to_mesh(me2)
     bm.free()
@@ -952,7 +959,18 @@ def encuadrar(cam, tag, azimut, elevacion, margen=1.22, lente=50.0, hacia=None,
     dist = R * margen / math.sin(fov / 2)
     az, el = math.radians(azimut), math.radians(elevacion)
     dirv = Vector((math.sin(az) * math.cos(el), -math.cos(az) * math.cos(el), math.sin(el)))
-    cam.location = c + dirv * dist
+    pos = c + dirv * dist
+    # la camara se queda dentro del plato: ni bajo el suelo ni sobre el techo
+    z_min, z_max = 0.15, Z_TECHO_PLATO - 0.3
+    if pos.z < z_min or pos.z > z_max:
+        pos.z = min(max(pos.z, z_min), z_max)
+        # se aleja en horizontal para conservar el encuadre
+        horiz = Vector((dirv.x, dirv.y, 0.0))
+        if horiz.length > 1e-6:
+            horiz.normalize()
+            dh = math.sqrt(max(dist ** 2 - (pos.z - c.z) ** 2, 0.0))
+            pos = Vector((c.x + horiz.x * dh, c.y + horiz.y * dh, pos.z))
+    cam.location = pos
     _apuntar(cam, c)
     return cam
 

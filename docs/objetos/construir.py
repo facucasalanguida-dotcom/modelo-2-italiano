@@ -36,7 +36,7 @@ def construir(tag, modo='completo'):
     elif modo == 'sin-render':
         L.finalizar(tag, render=False, **kw)
     else:
-        L.finalizar(tag, spp=extra.get('spp', 192), res=(1100, 825),
+        L.finalizar(tag, spp=extra.get('spp', 144), res=(1000, 750),
                     vistas=vistas, lente=extra.get('lente', 50.0), **kw)
     print(f'[{tag}] total {time.time() - t0:.0f} s')
 

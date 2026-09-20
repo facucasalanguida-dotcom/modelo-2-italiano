@@ -49,8 +49,9 @@ def build():
     L.caja('canal frente', A, CANAL_A, E, (0, Y_FRENTE + CANAL_A / 2, 0), mat=inox, suave=False)
     L.caja('canal frente labio', A, E, CANAL_H, (0, Y_FRENTE + CANAL_A - E / 2, 0), r=0.0006, segs=2, mat=inox)
     for nm, sx in (('izquierdo', -1), ('derecho', 1)):
-        L.caja(f'canal {nm}', CANAL_A, F, E, (sx * (A / 2 - CANAL_A / 2), 0, 0), mat=inox, suave=False)
-        L.caja(f'canal {nm} labio', E, F, CANAL_H, (sx * (A / 2 - CANAL_A + E / 2), 0, 0), r=0.0006, segs=2, mat=inox)
+        # los canales laterales arrancan donde acaba el del frente (sin solapar)
+        L.caja(f'canal {nm}', CANAL_A, F - CANAL_A, E, (sx * (A / 2 - CANAL_A / 2), CANAL_A / 2, 0), mat=inox, suave=False)
+        L.caja(f'canal {nm} labio', E, F - CANAL_A, CANAL_H, (sx * (A / 2 - CANAL_A + E / 2), CANAL_A / 2, 0), r=0.0006, segs=2, mat=inox)
     # canal trasero: fondo de 130 hasta la pared, donde apoyan los filtros
     L.caja('canal trasero', A, 0.130, E, (0, Y_PARED - 0.065, 0), mat=inox, suave=False)
     L.caja('canal trasero labio', A, E, Z_ARRANQUE, (0, Y_ARRANQUE + E / 2, 0), r=0.0006, segs=2, mat=inox)
