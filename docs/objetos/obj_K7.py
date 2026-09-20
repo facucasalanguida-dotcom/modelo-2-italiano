@@ -9,7 +9,7 @@ Todo AISI-304 satinado: tablero de 1200 x 600 con faldon sanitario de 40;
 peto trasero de 100 con remate inclinado; cuba embutida 500 x 400 x 250 a
 la izquierda (eje a 300 del lateral y del frente) con valvula O 90 y
 rebosadero; escurridor a la derecha con estrias frente-trasera; caja
-envolvente bajo la cuba (200 bajo el tablero); cuatro patas de tubo 40 x 40
+envolvente bajo la cuba (240 bajo el faldon sanitario); cuatro patas de tubo 40 x 40
 con pie regulable, adelantadas 50, solo bajo la cuba; el escurridor vuela y
 deja el hueco de 600 para el lavavajillas. Sin estante ni grifo.
 
@@ -44,7 +44,7 @@ def build():
     zf = Z_TAB - CUBA_P
     L.cilindro('valvula', 0.045, 0.0015, (CUBA_X, CUBA_Y, zf + 0.0012), segs=64, r=0.001, mat=inox_p)
     L.cilindro('valvula tapon', 0.030, 0.004, (CUBA_X, CUBA_Y, zf + 0.0027), segs=48, r=0.0015, mat=cromo)
-    L.cilindro('rebosadero', 0.018, 0.002, (CUBA_X + CUBA_W / 2 - 0.0035, CUBA_Y, Z_TAB - 0.06), eje='X', segs=32, r=0.001,
+    L.cilindro('rebosadero', 0.018, 0.002, (CUBA_X + CUBA_W / 2 - 0.0030, CUBA_Y, Z_TAB - 0.06), eje='X', segs=32, r=0.001,
                mat=L.mat_chapa_perforada('Rejilla rebosadero', d=0.003, paso=0.005))
     # --- escurridor: estrias frente-trasera (varillas embutidas medio hundidas)
     x0, x1 = 0.060, A / 2 - 0.045
@@ -53,12 +53,12 @@ def build():
     for i in range(n):
         L.cilindro(f'estria {i + 1}', 0.0025, F - 0.110, (x0 + i * paso, -F / 2 + 0.050, Z_TAB - 0.0015), eje='Y', segs=16, mat=inox)
     # --- caja envolvente de la cuba bajo el tablero
-    L.caja('faldon cuba', 0.600, 0.560, 0.200, (-A / 2 + 0.300, -0.010, Z_TAB - E_TAB - 0.200), r=0.003, segs=3, mat=inox)
+    L.caja('faldon cuba', 0.600, 0.580, 0.240, (-A / 2 + 0.300, 0.000, Z_TAB - E_TAB - 0.240), r=0.003, segs=3, mat=inox)
     # --- cuatro patas de tubo 40 x 40 con pie regulable, adelantadas 50
     for i, (x, y) in enumerate(((-A / 2 + 0.040, Y_FRENTE + 0.050 + 0.020), (-0.020, Y_FRENTE + 0.050 + 0.020),
                                 (-A / 2 + 0.040, Y_TRAS - 0.040), (-0.020, Y_TRAS - 0.040))):
         L.cilindro(f'pata {i + 1} pie', 0.020, 0.030, (x, y, 0), r=0.004, segs=40, mat=L.mat_plastico('Plastico gris', (0.30, 0.30, 0.30)))
         L.cilindro(f'pata {i + 1} rosca', 0.010, 0.020, (x, y, 0.030), segs=24, mat=inox_p)
-        L.caja(f'pata {i + 1}', 0.040, 0.040, Z_TAB - E_TAB - 0.200 - 0.050 + 0.002, (x, y, 0.050), r=0.003, segs=3, mat=inox)
+        L.caja(f'pata {i + 1}', 0.040, 0.040, Z_TAB - E_TAB - 0.240 - 0.050 + 0.002, (x, y, 0.050), r=0.003, segs=3, mat=inox)
 
     return dict(medidas=(A, F, Z_TAB + PETO_H))
