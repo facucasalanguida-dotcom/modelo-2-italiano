@@ -143,17 +143,29 @@ def piloto(nombre, centro, d=0.010, color=(1.0, 0.25, 0.05), normal='-Y', parent
 
 # ------------------------------------------------------------- rejillas
 def rejilla_ranuras(nombre, centro, w, h, normal='-Y', n=None, paso=0.012, ranura=0.006,
-                    fondo=0.004, mat=None, parent=None, orient='H'):
+                    fondo=0.004, mat=None, parent=None, orient='H', cuerpo=None):
     """Rejilla de ventilacion embutida en una cara: lamas a haces con la
-    cara (nada sobresale) y una placa oscura detras. `centro` = centro del
-    borde superior de la rejilla sobre la cara. orient H: lamas
-    horizontales; V: verticales."""
+    cara (nada sobresale) y una placa oscura detras. `centro` = CENTRO de la
+    rejilla sobre la cara (w x h alrededor de el). orient H: lamas
+    horizontales; V: verticales. Si se pasa `cuerpo` (la malla maciza en la
+    que va la rejilla) se vacia primero el hueco w x h x (fondo + 3,5 mm)
+    para que entre las lamas se vea el fondo oscuro y nada quede coplanario."""
     mat = mat or L.mat_inox()
     oscuro = L.mat_plastico('Interior oscuro', (0.01, 0.01, 0.01), rug=0.9)
     cx, cy, cz = centro
     # direccion hacia dentro del cuerpo
     dx, dy = {'-Y': (0, 1), '+Y': (0, -1), '+X': (-1, 0), '-X': (1, 0)}[normal]
     out = []
+    if cuerpo is not None:
+        prof = fondo + 0.0035
+        for cu in (cuerpo if isinstance(cuerpo, (list, tuple)) else (cuerpo,)):
+            if normal in ('-Y', '+Y'):
+                corte = L.caja(nombre + ' hueco', w + 0.0004, prof + 0.004, h + 0.0004,
+                               (cx, cy + dy * (prof - 0.004) / 2, cz - h / 2 - 0.0002))
+            else:
+                corte = L.caja(nombre + ' hueco', prof + 0.004, w + 0.0004, h + 0.0004,
+                               (cx + dx * (prof - 0.004) / 2, cy, cz - h / 2 - 0.0002))
+            L.sustraer(cu, corte)
     if normal in ('-Y', '+Y'):
         out.append(L.caja(nombre + ' fondo', w, 0.002, h, (cx, cy + dy * (fondo + 0.002), cz - h / 2),
                           mat=oscuro, parent=parent, suave=False))
@@ -167,19 +179,19 @@ def rejilla_ranuras(nombre, centro, w, h, normal='-Y', n=None, paso=0.012, ranur
         if orient == 'H':
             if normal in ('-Y', '+Y'):
                 out.append(L.caja(f'{nombre} lama {i + 1}', w, fondo, lw,
-                                  (cx, cy + dy * fondo / 2, cz - h / 2 + off + paso / 2 - lw / 2 - 0.0),
+                                  (cx, cy + dy * fondo / 2, cz + off - lw / 2),
                                   r=0.0008, segs=2, mat=mat, parent=parent))
             else:
                 out.append(L.caja(f'{nombre} lama {i + 1}', fondo, w, lw,
-                                  (cx + dx * fondo / 2, cy, cz - h / 2 + off + paso / 2 - lw / 2),
+                                  (cx + dx * fondo / 2, cy, cz + off - lw / 2),
                                   r=0.0008, segs=2, mat=mat, parent=parent))
         else:
             if normal in ('-Y', '+Y'):
                 out.append(L.caja(f'{nombre} lama {i + 1}', lw, fondo, h,
-                                  (cx + off, cy + dy * fondo / 2, cz - h), r=0.0008, segs=2, mat=mat, parent=parent))
+                                  (cx + off, cy + dy * fondo / 2, cz - h / 2), r=0.0008, segs=2, mat=mat, parent=parent))
             else:
                 out.append(L.caja(f'{nombre} lama {i + 1}', fondo, lw, h,
-                                  (cx + dx * fondo / 2, cy + off, cz - h), r=0.0008, segs=2, mat=mat, parent=parent))
+                                  (cx + dx * fondo / 2, cy + off, cz - h / 2), r=0.0008, segs=2, mat=mat, parent=parent))
     return out
 
 
@@ -307,13 +319,19 @@ def peto(nombre, w, alto, fondo, pos, r=0.006, mat=None, parent=None):
 
 
 def cable(nombre, inicio, largo=0.25, d=0.008, parent=None):
-    """Cable de alimentacion saliendo por la trasera (+Y) y cayendo."""
+    """Cable de alimentacion saliendo por la trasera (+Y): sale recto, cae y,
+    si llega al suelo (z = 0 del objeto), reposa sobre el en +Y. Nunca baja
+    de z = 0 (el objeto puede ir sobre una encimera)."""
     mat = L.mat_goma('Cable negro', (0.01, 0.01, 0.012))
     ix, iy, iz = inicio
-    out = [L.cilindro(nombre, d / 2, largo * 0.35, (ix, iy, iz), eje='Y', segs=16, mat=mat, parent=parent)]
-    out.append(L.cilindro(nombre + ' caida', d / 2, largo * 0.65, (ix, iy + largo * 0.35, iz - largo * 0.65),
-                          segs=16, mat=mat, parent=parent))
-    return out
+    a = largo * 0.35
+    zf = d / 2 + 0.001
+    caida = min(largo * 0.65, iz - zf)
+    pts = [(ix, iy, iz), (ix, iy + a, iz), (ix, iy + a + 0.03, iz - caida)]
+    resto = largo * 0.65 - caida
+    if resto > 0.02:
+        pts.append((ix, iy + a + 0.03 + resto, zf))
+    return [L.tubo_curva(nombre, pts, d / 2, segs=16, res=12, mat=mat, parent=parent)]
 
 
 def estante_rejilla(nombre, centro, w, d, n_barras=None, paso=0.03, d_barra=0.005, mat=None, parent=None):

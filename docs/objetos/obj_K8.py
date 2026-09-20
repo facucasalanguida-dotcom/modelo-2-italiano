@@ -88,8 +88,8 @@ def build():
     L.caja('condensador', 0.30, 0.02, 0.20, (-0.10, Y_TRAS - 0.03, H_PIE + 0.03), mat=L.mat_chapa('Condensador negro', (0.02, 0.02, 0.02), rug=0.8, brillo=0.0), suave=False)
     # zocalo frontal con rejilla de ranuras verticales (4 grupos) y bisagra inferior
     for k in range(4):
-        P.rejilla_ranuras(f'rejilla zocalo {k + 1}', (-0.20 + k * 0.105, Y_FRENTE, H_PIE + 0.040), 0.085, 0.030, normal='-Y',
-                          paso=0.009, ranura=0.0045, orient='V', mat=inox)
+        P.rejilla_ranuras(f'rejilla zocalo {k + 1}', (-0.20 + k * 0.105, Y_FRENTE, H_PIE + 0.0225), 0.085, 0.030, normal='-Y',
+                          paso=0.009, ranura=0.0045, orient='V', mat=inox, cuerpo=cuerpo)
     L.caja('bisagra inferior', 0.050, 0.025, 0.010, (A / 2 - 0.050, Y_FRENTE + 0.0125, Z_PUERTA0 - 0.010), r=0.002, mat=inox_p)
 
     # --- puerta lisa con junta, perfil-tirador y bisagras

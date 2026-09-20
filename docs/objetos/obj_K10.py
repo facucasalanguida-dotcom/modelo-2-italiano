@@ -93,11 +93,11 @@ def build():
         L.cilindro(f'piloto aro {k + 1}', 0.006, 0.003, (x, Y_FRENTE - 0.003, Z_TAB - 0.118), eje='Y', segs=24, r=0.001, mat=plast)
     for col in range(6):
         x = xg - 0.125 + col * 0.050
-        P.rejilla_ranuras(f'rejilla grupo col {col + 1}', (x, Y_FRENTE, Z_TAB - 0.200), 0.040, 0.300, normal='-Y',
-                          paso=0.021, ranura=0.010, orient='H', mat=inox)
+        P.rejilla_ranuras(f'rejilla grupo col {col + 1}', (x, Y_FRENTE, Z_TAB - 0.350), 0.040, 0.300, normal='-Y',
+                          paso=0.021, ranura=0.010, orient='H', mat=inox, cuerpo=cuerpo)
     # segunda rejilla en el lateral derecho, baja y trasera
-    P.rejilla_ranuras('rejilla lateral', (A / 2, Y_TRAS_CUERPO - 0.170, Z_TAB - 0.320), 0.240, 0.140, normal='+X',
-                      paso=0.010, ranura=0.005, orient='V', mat=inox)
+    P.rejilla_ranuras('rejilla lateral', (A / 2, Y_TRAS_CUERPO - 0.170, Z_TAB - 0.390), 0.240, 0.140, normal='+X',
+                      paso=0.010, ranura=0.005, orient='V', mat=inox, cuerpo=cuerpo)
 
     # --- seis patas de tubo O 50 regulables
     for i, (x, y) in enumerate(((-1.16, Y_FRENTE + 0.06), (0.0, Y_FRENTE + 0.06), (1.16, Y_FRENTE + 0.06),
