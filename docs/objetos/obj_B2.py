@@ -19,7 +19,7 @@ R = D / 2
 
 def build():
     inox = L.mat_inox_satinado()
-    inox_c = L.mat_inox('INOX cuerpo keg', rug=0.30, aniso=0.6, rayado=0.06, huellas=0.10)
+    inox_c = L.mat_inox('INOX cuerpo keg', rug=0.30, aniso=0.6, huellas=0.10)
     negro = L.mat_plastico('Plastico negro', (0.02, 0.02, 0.02), rug=0.5)
 
     # --- cuerpo de revolucion (r, z) de abajo arriba

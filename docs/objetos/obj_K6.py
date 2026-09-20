@@ -90,8 +90,11 @@ def build():
         L.cilindro(f'pie {i + 1} rosca', 0.008, H_PIE - 0.012, (sx * (A / 2 - 0.040), sy * (F / 2 - 0.045), 0.012), segs=24, mat=inox_p)
     cuerpo = L.caja('cuerpo', A, F_CUERPO, H - H_PIE - E_TAPA, (0, Y_FRENTE + F_CUERPO / 2, H_PIE), r=0.002, segs=3, mat=inox)
     # rebaje de 10 mm bajo la banda (la puerta queda 4 mm por detras de la banda) y zocalo 8 mm mas atras
-    L.sustraer(cuerpo, L.caja('rebaje puerta', A + 0.01, 0.010, Z_BANDA0 - H_PIE, (0, Y_FRENTE + 0.005, H_PIE - 0.001)))
-    L.sustraer(cuerpo, L.caja('zocalo rebaje', A + 0.01, 0.008, Z_PUERTA0 - H_PIE - 0.004, (0, Y_FRENTE + 0.010 + 0.004, H_PIE - 0.002)))
+    # el cortador sobresale 5 mm por delante: si su cara trasera coincidiera
+    # con la del cuerpo, la booleana dejaria dos caras superpuestas con
+    # normales opuestas (franjas de interferencia en el render)
+    L.sustraer(cuerpo, L.caja('rebaje puerta', A + 0.01, 0.015, Z_BANDA0 - H_PIE, (0, Y_FRENTE + 0.0025, H_PIE - 0.001)))
+    L.sustraer(cuerpo, L.caja('zocalo rebaje', A + 0.01, 0.023, Z_PUERTA0 - H_PIE - 0.004, (0, Y_FRENTE + 0.0065, H_PIE - 0.002)))
     # tapa con tres nervios
     L.caja('tapa', A, F, E_TAPA, (0, 0, H - E_TAPA - 0.0015), r=0.002, segs=2, mat=inox)
     for i, x in enumerate((-0.14, 0.0, 0.14)):

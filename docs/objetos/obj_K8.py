@@ -71,7 +71,7 @@ def calca_banda(ruta):
 
 
 def build():
-    inox = L.mat_inox('INOX epoxi', rug=0.36, aniso=0.6, rayado=0.06, huellas=0.05, escala_rayado=1200.0)
+    inox = L.mat_inox('INOX epoxi', rug=0.36, aniso=0.6, huellas=0.05)
     inox_p = L.mat_inox_pulido()
     azul = L.mat_plastico('Plastico azul Edenox', (0.08, 0.30, 0.75), rug=0.5)
     plast = L.mat_plastico('Plastico negro', (0.02, 0.02, 0.02))

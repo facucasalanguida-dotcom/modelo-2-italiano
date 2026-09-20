@@ -76,7 +76,7 @@ def build():
     # abrebotellas con caja recogechapas
     xa, za = A / 2 - 0.100, Z_CASCO1 - 0.020          # eje del abrebotellas y su cara superior (20 bajo la cornisa)
     ab = L.caja('abrebotellas', 0.080, 0.030, 0.120, (xa, Y_CASCO - 0.015, za - 0.120), r=0.003, segs=3, mat=inox)
-    L.sustraer(ab, L.caja('abrebotellas garra', 0.034, 0.020, 0.025, (xa, Y_CASCO - 0.020, za - 0.040)))
+    L.sustraer(ab, L.caja('abrebotellas garra', 0.034, 0.026, 0.025, (xa, Y_CASCO - 0.023, za - 0.040)))
     L.cilindro('abrebotellas tornillo', 0.004, 0.001, (xa, Y_CASCO - 0.031, za - 0.010), eje='Y', segs=16, mat=inox_p)
     L.caja('recogechapas', 0.090, 0.060, 0.090, (xa, Y_CASCO - 0.030, za - 0.120 - 0.090), r=0.003, segs=3, mat=inox)
     L.cilindro('tapon desague', 0.0075, 0.003, (A / 2 - 0.045, Y_CASCO - 0.003, 0.040), eje='Y', segs=24, r=0.001, mat=plast)

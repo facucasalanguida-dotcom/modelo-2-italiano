@@ -137,9 +137,9 @@ def _malla_desde_bm(nombre, bm, mat=None, parent=None, uv=True, suave=False):
 
 def normales_ponderadas(ob):
     """Normales personalizadas ponderadas por area (modificador Weighted
-    Normal aplicado): las caras planas grandes quedan realmente planas
-    aunque esten suavizadas junto a biseles finos. Evita el 'abanico' de
-    reflejos en tapas y frentes."""
+    Normal aplicado). NO se usa: Blender guarda las normales personalizadas
+    cuantizadas y en caras planas grandes eso produce bandas concentricas
+    visibles en metales. Se deja por si hace falta en una pieza suelta."""
     if ob.type != 'MESH' or not any(p.use_smooth for p in ob.data.polygons):
         return ob
     mod = ob.modifiers.new('wn', 'WEIGHTED_NORMAL')
@@ -154,16 +154,35 @@ def normales_ponderadas(ob):
     return ob
 
 
-def _autosuave(ob, ang=30.0):
-    """Sombreado suave por angulo (Smooth by Angle) sin depender del
-    operador: modificador de nodos si existe, si no marca todo suave."""
-    try:
-        with bpy.context.temp_override(object=ob, active_object=ob,
-                                       selected_objects=[ob]):
-            bpy.ops.object.shade_smooth_by_angle(angle=math.radians(ang))
-    except Exception:
-        pass
-    normales_ponderadas(ob)
+def _autosuave(ob, ang=13.0):
+    """Sombreado suave por angulo SIN normales personalizadas: marca como
+    agudas las aristas cuyo angulo diedro supera `ang` y deja el resto
+    suaves. Asi los cilindros (64 o 32 segmentos) quedan redondos y las
+    caras planas grandes conservan su normal exacta: si se suavizara la
+    union cara-bisel, la cara plana heredaria parte de la normal del bisel
+    y el reflejo del entorno se abriria en anillos sobre el metal."""
+    me = ob.data
+    if not me.polygons or not any(p.use_smooth for p in me.polygons):
+        return ob
+    lim = math.cos(math.radians(ang))
+    caras = [[] for _ in range(len(me.edges))]
+    idx = {}
+    for e in me.edges:
+        idx[tuple(sorted(e.vertices))] = e.index
+    for p in me.polygons:
+        for ek in p.edge_keys:
+            k = tuple(sorted(ek))
+            if k in idx:
+                caras[idx[k]].append(p.index)
+    for e in me.edges:
+        cs = caras[e.index]
+        if len(cs) == 2:
+            n1 = me.polygons[cs[0]].normal
+            n2 = me.polygons[cs[1]].normal
+            e.use_edge_sharp = n1.dot(n2) < lim
+        else:
+            e.use_edge_sharp = False
+    return ob
 
 
 def _bevel_bm(bm, edges, r, segs):
@@ -407,7 +426,7 @@ def mat_chapa_perforada(nombre='Chapa perforada', d=0.003, paso=0.005, base=None
         m.name = nombre
         _MATS[nombre] = m
     else:
-        m = mat_inox(nombre, rug=0.22, aniso=0.4, rayado=0.02, huellas=0.03,
+        m = mat_inox(nombre, rug=0.22, aniso=0.4, huellas=0.03,
                      color=(0.56, 0.565, 0.575))
     nt = m.node_tree
     bsdf = next(n for n in nt.nodes if n.type == 'BSDF_PRINCIPLED')
@@ -477,7 +496,6 @@ def sustraer(ob, cortador, borrar=True):
     if borrar:
         bpy.data.objects.remove(cortador, do_unlink=True)
     uv_cubo(ob)
-    normales_ponderadas(ob)
     return ob
 
 
@@ -551,9 +569,9 @@ def _ruido(nt, escala, detalle=2.0, rug=0.5, loc=(-600, 0), coords=None, mapping
     return n
 
 
-def mat_inox(nombre='INOX cepillado', rug=0.34, aniso=0.75, rayado=0.10,
+def mat_inox(nombre='INOX cepillado', rug=0.34, aniso=0.75, rayado=0.0,
              color=(0.500, 0.505, 0.515), direccion=0.0, huellas=0.06,
-             escala_rayado=700.0):
+             escala_rayado=2500.0):
     """Acero inoxidable cepillado: Principled metalico anisotropo con el
     rayado como bump direccional y huellas/manchas que varian la rugosidad.
     direccion: 0 = rayado a lo largo de U (horizontal en las caras
@@ -575,19 +593,25 @@ def mat_inox(nombre='INOX cepillado', rug=0.34, aniso=0.75, rayado=0.10,
     tang.direction_type = 'UV_MAP'
     tang.uv_map = 'UVMap'
     nt.links.new(tang.outputs['Tangent'], bsdf.inputs['Tangent'])
-    # rayado: ruido muy estirado a lo largo de U
-    mp = nt.nodes.new('ShaderNodeMapping')
-    mp.location = (-1050, 200)
-    mp.inputs['Scale'].default_value = (1.0, escala_rayado / 4.0, 1.0) if direccion == 0.0 \
-        else (escala_rayado / 4.0, 1.0, 1.0)
-    nt.links.new(tc.outputs['UV'], mp.inputs['Vector'])
-    ray = _ruido(nt, 4.0, detalle=3.0, rug=0.6, loc=(-800, 200), mapping=mp)
-    bump = nt.nodes.new('ShaderNodeBump')
-    bump.location = (0, -150)
-    bump.inputs['Strength'].default_value = rayado
-    bump.inputs['Distance'].default_value = 0.0008
-    nt.links.new(ray.outputs['Fac'], bump.inputs['Height'])
-    nt.links.new(bump.outputs['Normal'], bsdf.inputs['Normal'])
+    # rayado del cepillado: ruido muy estirado a lo largo de U, SOLO como
+    # micro-relieve. OJO: a alta frecuencia produce muare/anillos en caras
+    # planas grandes (el ruido cae por debajo del pixel), asi que por defecto
+    # va desactivado (rayado=0): el cepillado lo dan la anisotropia y la
+    # variacion de rugosidad de baja frecuencia.
+    ray = None
+    if rayado > 0.0:
+        mp = nt.nodes.new('ShaderNodeMapping')
+        mp.location = (-1050, 200)
+        mp.inputs['Scale'].default_value = (1.0, escala_rayado / 4.0, 1.0) if direccion == 0.0 \
+            else (escala_rayado / 4.0, 1.0, 1.0)
+        nt.links.new(tc.outputs['UV'], mp.inputs['Vector'])
+        ray = _ruido(nt, 4.0, detalle=2.0, rug=0.5, loc=(-800, 200), mapping=mp)
+        bump = nt.nodes.new('ShaderNodeBump')
+        bump.location = (0, -150)
+        bump.inputs['Strength'].default_value = rayado
+        bump.inputs['Distance'].default_value = 0.0003
+        nt.links.new(ray.outputs['Fac'], bump.inputs['Height'])
+        nt.links.new(bump.outputs['Normal'], bsdf.inputs['Normal'])
     # huellas y manchas: rugosidad variable a escala de 10-20 cm
     hu = _ruido(nt, 18.0, detalle=4.0, rug=0.7, loc=(-800, -250), coords=tc.outputs['UV'])
     ramp = nt.nodes.new('ShaderNodeValToRGB')
@@ -597,25 +621,27 @@ def mat_inox(nombre='INOX cepillado', rug=0.34, aniso=0.75, rayado=0.10,
     ramp.color_ramp.elements[1].position = 0.75
     ramp.color_ramp.elements[1].color = (rug + huellas,) * 3 + (1,)
     nt.links.new(hu.outputs['Fac'], ramp.inputs['Fac'])
-    # el rayado tambien modula un poco la rugosidad
-    mix = nt.nodes.new('ShaderNodeMix')
-    mix.location = (-200, -250)
-    mix.data_type = 'FLOAT'
-    mix.inputs['Factor'].default_value = 0.25
-    nt.links.new(ramp.outputs['Color'], mix.inputs[2])
-    nt.links.new(ray.outputs['Fac'], mix.inputs[3])
-    nt.links.new(mix.outputs[0], bsdf.inputs['Roughness'])
+    if ray is not None:
+        # el rayado modula ademas un poco la rugosidad
+        mix = nt.nodes.new('ShaderNodeMix')
+        mix.location = (-200, -250)
+        mix.data_type = 'FLOAT'
+        mix.inputs['Factor'].default_value = 0.15
+        nt.links.new(ramp.outputs['Color'], mix.inputs[2])
+        nt.links.new(ray.outputs['Fac'], mix.inputs[3])
+        nt.links.new(mix.outputs[0], bsdf.inputs['Roughness'])
+    else:
+        nt.links.new(ramp.outputs['Color'], bsdf.inputs['Roughness'])
     return m
 
 
 def mat_inox_satinado(nombre='INOX satinado'):
-    return mat_inox(nombre, rug=0.44, aniso=0.55, rayado=0.06, huellas=0.08,
-                    escala_rayado=1400.0)
+    return mat_inox(nombre, rug=0.44, aniso=0.55, huellas=0.08)
 
 
 def mat_inox_pulido(nombre='INOX pulido'):
-    return mat_inox(nombre, rug=0.12, aniso=0.25, rayado=0.006, huellas=0.02,
-                    color=(0.58, 0.585, 0.595), escala_rayado=600.0)
+    return mat_inox(nombre, rug=0.12, aniso=0.25, huellas=0.02,
+                    color=(0.58, 0.585, 0.595))
 
 
 def mat_cromo(nombre='Cromo', rug=0.07):
