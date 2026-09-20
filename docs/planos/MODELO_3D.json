@@ -1,0 +1,4142 @@
+{
+ "unidades": "m",
+ "origen": "esquina interior Suroeste, X al Este, Y al Norte, Z arriba",
+ "alturas": {
+  "Suelo a suelo": 2.56,
+  "Canto del forjado": 0.25,
+  "Intrados del forjado": 2.31,
+  "Altura libre del altillo": 2.5,
+  "Techo del altillo": 5.0600000000000005,
+  "Coronacion del acristalamiento": 4.7,
+  "Travesano del ventanal Sur": 2.3,
+  "Zocalo de piedra de la carpinteria": 0.13,
+  "Alto del zocalo del ventanal": 0.13,
+  "Intrados de la viga P1b": 2.1,
+  "Pared en L": 1.22,
+  "Vidrio sobre la pared en L": 1.35,
+  "Huecos de paso": 2.1,
+  "Antepechos de vidrio": 1.0,
+  "Encimeras": 0.9,
+  "Borde inferior de la campana": 2.0,
+  "Estante mural de la trasbarra": 1.6,
+  "Sillon corrido: asiento / respaldo": 0.42,
+  "Cara vista del cassette de aire": 2.28,
+  "Cuerpo del cassette (en el forjado)": 2.31,
+  "Revestimiento del frente de la barra": 0.9
+ },
+ "materiales": {
+  "muro": {
+   "nombre": "Muro",
+   "rgb": [
+    196,
+    192,
+    186
+   ]
+  },
+  "pilar": {
+   "nombre": "Pilar",
+   "rgb": [
+    120,
+    118,
+    114
+   ]
+  },
+  "tabique": {
+   "nombre": "Tabique",
+   "rgb": [
+    214,
+    210,
+    202
+   ]
+  },
+  "forjado": {
+   "nombre": "Forjado",
+   "rgb": [
+    176,
+    172,
+    165
+   ]
+  },
+  "solera": {
+   "nombre": "Solera",
+   "rgb": [
+    150,
+    148,
+    145
+   ]
+  },
+  "vidrio": {
+   "nombre": "Vidrio",
+   "rgb": [
+    150,
+    190,
+    205
+   ]
+  },
+  "carp": {
+   "nombre": "Carpinteria",
+   "rgb": [
+    70,
+    90,
+    100
+   ]
+  },
+  "madera": {
+   "nombre": "Madera",
+   "rgb": [
+    168,
+    124,
+    78
+   ]
+  },
+  "mesa": {
+   "nombre": "Mesa",
+   "rgb": [
+    206,
+    190,
+    166
+   ]
+  },
+  "silla": {
+   "nombre": "Silla",
+   "rgb": [
+    138,
+    111,
+    78
+   ]
+  },
+  "sillon": {
+   "nombre": "Sillon",
+   "rgb": [
+    128,
+    96,
+    78
+   ]
+  },
+  "inox": {
+   "nombre": "Inox",
+   "rgb": [
+    198,
+    202,
+    206
+   ]
+  },
+  "aparato": {
+   "nombre": "Aparato",
+   "rgb": [
+    120,
+    138,
+    150
+   ]
+  },
+  "frio": {
+   "nombre": "Equipo de frio",
+   "rgb": [
+    168,
+    198,
+    212
+   ]
+  },
+  "encimera": {
+   "nombre": "Encimera",
+   "rgb": [
+    222,
+    214,
+    198
+   ]
+  },
+  "piedra": {
+   "nombre": "Piedra",
+   "rgb": [
+    186,
+    182,
+    176
+   ]
+  },
+  "escalera": {
+   "nombre": "Escalera",
+   "rgb": [
+    162,
+    158,
+    152
+   ]
+  },
+  "luz": {
+   "nombre": "Luminaria",
+   "rgb": [
+    246,
+    232,
+    180
+   ]
+  },
+  "aire": {
+   "nombre": "Aire acondicionado",
+   "rgb": [
+    238,
+    238,
+    235
+   ]
+  },
+  "rejilla": {
+   "nombre": "Rejilla",
+   "rgb": [
+    176,
+    178,
+    178
+   ]
+  },
+  "falso": {
+   "nombre": "Falso techo",
+   "rgb": [
+    240,
+    238,
+    234
+   ]
+  }
+ },
+ "cajas": [
+  {
+   "tag": "02 Muros",
+   "mat": "muro",
+   "nombre": "Medianera Norte",
+   "x0": 2.43,
+   "y0": 8.957,
+   "x1": 10.04,
+   "y1": 9.156,
+   "z0": 0.0,
+   "z1": 5.0600000000000005
+  },
+  {
+   "tag": "02 Muros",
+   "mat": "muro",
+   "nombre": "Medianera Norte - cocina",
+   "x0": 0.0,
+   "y0": 9.008,
+   "x1": 2.43,
+   "y1": 9.156,
+   "z0": 0.0,
+   "z1": 5.0600000000000005
+  },
+  {
+   "tag": "02 Muros",
+   "mat": "muro",
+   "nombre": "Muro Oeste",
+   "x0": 0.0,
+   "y0": 2.009,
+   "x1": 0.25,
+   "y1": 9.008,
+   "z0": 0.0,
+   "z1": 5.0600000000000005
+  },
+  {
+   "tag": "02 Muros",
+   "mat": "muro",
+   "nombre": "Muro Oeste - esquina SO",
+   "x0": 0.0,
+   "y0": 1.561,
+   "x1": 0.51,
+   "y1": 2.009,
+   "z0": 0.0,
+   "z1": 5.0600000000000005
+  },
+  {
+   "tag": "02 Muros",
+   "mat": "muro",
+   "nombre": "Muro Oeste del cuello",
+   "x0": 5.731,
+   "y0": 0.96,
+   "x1": 5.98,
+   "y1": 1.561,
+   "z0": 0.0,
+   "z1": 5.0600000000000005
+  },
+  {
+   "tag": "02 Muros",
+   "mat": "muro",
+   "nombre": "Medianera Este",
+   "x0": 9.89,
+   "y0": 1.429,
+   "x1": 10.04,
+   "y1": 8.957,
+   "z0": 0.0,
+   "z1": 5.0600000000000005
+  },
+  {
+   "tag": "02 Muros",
+   "mat": "muro",
+   "nombre": "Medianera Este - cuello",
+   "x0": 9.71,
+   "y0": 0.33,
+   "x1": 10.04,
+   "y1": 1.429,
+   "z0": 0.0,
+   "z1": 5.0600000000000005
+  },
+  {
+   "tag": "03 Pilares",
+   "mat": "pilar",
+   "nombre": "P1 · Machón del muro Oeste",
+   "x0": 0.25,
+   "y0": 4.759,
+   "x1": 0.55,
+   "y1": 5.357,
+   "z0": 0.0,
+   "z1": 5.0600000000000005
+  },
+  {
+   "tag": "03 Pilares",
+   "mat": "pilar",
+   "nombre": "P2 · Pilastra del muro Sur",
+   "x0": 1.29,
+   "y0": 1.561,
+   "x1": 1.87,
+   "y1": 2.011,
+   "z0": 0.0,
+   "z1": 5.0600000000000005
+  },
+  {
+   "tag": "03 Pilares",
+   "mat": "pilar",
+   "nombre": "P3 · Pilar central",
+   "x0": 5.67,
+   "y0": 4.688,
+   "x1": 6.32,
+   "y1": 5.758,
+   "z0": 0.0,
+   "z1": 5.0600000000000005
+  },
+  {
+   "tag": "03 Pilares",
+   "mat": "pilar",
+   "nombre": "P4 · Machón de la medianera Este",
+   "x0": 9.689,
+   "y0": 4.708,
+   "x1": 9.89,
+   "y1": 5.309,
+   "z0": 0.0,
+   "z1": 5.0600000000000005
+  },
+  {
+   "tag": "03 Pilares",
+   "mat": "pilar",
+   "nombre": "P5 · Pilar de fachada",
+   "x0": 5.731,
+   "y0": 0.0,
+   "x1": 6.331,
+   "y1": 1.0,
+   "z0": 0.0,
+   "z1": 5.0600000000000005
+  },
+  {
+   "tag": "03 Pilares",
+   "mat": "pilar",
+   "nombre": "Viga P1b",
+   "x0": 0.55,
+   "y0": 4.933,
+   "x1": 2.38,
+   "y1": 5.183,
+   "z0": 2.1,
+   "z1": 2.31
+  },
+  {
+   "tag": "04 Carpinteria",
+   "mat": "vidrio",
+   "nombre": "Ventanal Sur · paño 1",
+   "x0": 0.51,
+   "y0": 1.573,
+   "x1": 1.29,
+   "y1": 1.609,
+   "z0": 0.13,
+   "z1": 4.7
+  },
+  {
+   "tag": "04 Carpinteria",
+   "mat": "carp",
+   "nombre": "Ventanal Sur · travesaño 1",
+   "x0": 0.51,
+   "y0": 1.561,
+   "x1": 1.29,
+   "y1": 1.621,
+   "z0": 2.27,
+   "z1": 2.3299999999999996
+  },
+  {
+   "tag": "04 Carpinteria",
+   "mat": "piedra",
+   "nombre": "Ventanal Sur · zócalo de piedra 1",
+   "x0": 0.51,
+   "y0": 1.561,
+   "x1": 1.29,
+   "y1": 1.621,
+   "z0": 0.0,
+   "z1": 0.13
+  },
+  {
+   "tag": "04 Carpinteria",
+   "mat": "vidrio",
+   "nombre": "Ventanal Sur · paño 2",
+   "x0": 1.87,
+   "y0": 1.573,
+   "x1": 5.87,
+   "y1": 1.609,
+   "z0": 0.13,
+   "z1": 4.7
+  },
+  {
+   "tag": "04 Carpinteria",
+   "mat": "carp",
+   "nombre": "Ventanal Sur · travesaño 2",
+   "x0": 1.87,
+   "y0": 1.561,
+   "x1": 5.87,
+   "y1": 1.621,
+   "z0": 2.27,
+   "z1": 2.3299999999999996
+  },
+  {
+   "tag": "04 Carpinteria",
+   "mat": "piedra",
+   "nombre": "Ventanal Sur · zócalo de piedra 2",
+   "x0": 1.87,
+   "y0": 1.561,
+   "x1": 5.87,
+   "y1": 1.621,
+   "z0": 0.0,
+   "z1": 0.13
+  },
+  {
+   "tag": "02 Muros",
+   "mat": "muro",
+   "nombre": "Dintel de fachada Sur 1 (SUPUESTO)",
+   "x0": 0.51,
+   "y0": 1.561,
+   "x1": 1.29,
+   "y1": 1.621,
+   "z0": 4.7,
+   "z1": 5.0600000000000005
+  },
+  {
+   "tag": "02 Muros",
+   "mat": "muro",
+   "nombre": "Dintel de fachada Sur 2 (SUPUESTO)",
+   "x0": 1.87,
+   "y0": 1.561,
+   "x1": 5.87,
+   "y1": 1.621,
+   "z0": 4.7,
+   "z1": 5.0600000000000005
+  },
+  {
+   "tag": "02 Muros",
+   "mat": "muro",
+   "nombre": "Ventanal Sur · jamba",
+   "x0": 5.87,
+   "y0": 1.561,
+   "x1": 5.98,
+   "y1": 1.81,
+   "z0": 0.0,
+   "z1": 5.0600000000000005
+  },
+  {
+   "tag": "04 Carpinteria",
+   "mat": "vidrio",
+   "nombre": "Escaparate · vidrio",
+   "x0": 6.331,
+   "y0": 0.38,
+   "x1": 7.641,
+   "y1": 0.409,
+   "z0": 0.13,
+   "z1": 4.7
+  },
+  {
+   "tag": "02 Muros",
+   "mat": "muro",
+   "nombre": "Dintel de fachada Este (SUPUESTO)",
+   "x0": 6.331,
+   "y0": 0.37,
+   "x1": 9.71,
+   "y1": 0.419,
+   "z0": 4.7,
+   "z1": 5.0600000000000005
+  },
+  {
+   "tag": "04 Carpinteria",
+   "mat": "piedra",
+   "nombre": "Escaparate · zócalo de piedra",
+   "x0": 6.331,
+   "y0": 0.37,
+   "x1": 9.71,
+   "y1": 0.419,
+   "z0": 0.0,
+   "z1": 0.13
+  },
+  {
+   "tag": "04 Carpinteria",
+   "mat": "vidrio",
+   "nombre": "Puerta de acceso · hoja 1",
+   "x0": 7.641,
+   "y0": 0.37,
+   "x1": 8.671,
+   "y1": 0.419,
+   "z0": 0.13,
+   "z1": 2.1
+  },
+  {
+   "tag": "04 Carpinteria",
+   "mat": "vidrio",
+   "nombre": "Puerta de acceso · hoja 2",
+   "x0": 8.671,
+   "y0": 0.37,
+   "x1": 9.700999999999999,
+   "y1": 0.419,
+   "z0": 0.13,
+   "z1": 2.1
+  },
+  {
+   "tag": "04 Carpinteria",
+   "mat": "vidrio",
+   "nombre": "Puerta de acceso · montante superior",
+   "x0": 7.641,
+   "y0": 0.38,
+   "x1": 9.701,
+   "y1": 0.409,
+   "z0": 2.1,
+   "z1": 4.7
+  },
+  {
+   "tag": "05 Pared en L",
+   "mat": "tabique",
+   "nombre": "Tramo largo 3,60",
+   "x0": 2.4299999999999997,
+   "y0": 5.357000000000001,
+   "x1": 2.53,
+   "y1": 8.957,
+   "z0": 0.0,
+   "z1": 1.22
+  },
+  {
+   "tag": "05 Pared en L",
+   "mat": "tabique",
+   "nombre": "Doblez 0,74",
+   "x0": 1.7899999999999998,
+   "y0": 5.357000000000001,
+   "x1": 2.53,
+   "y1": 5.457000000000001,
+   "z0": 0.0,
+   "z1": 1.22
+  },
+  {
+   "tag": "05 Pared en L",
+   "mat": "vidrio",
+   "nombre": "Tramo largo 3,60 · vidrio",
+   "x0": 2.4599999999999995,
+   "y0": 5.457000000000001,
+   "x1": 2.5,
+   "y1": 8.927000000000001,
+   "z0": 1.22,
+   "z1": 2.5700000000000003
+  },
+  {
+   "tag": "06 Zocalo",
+   "mat": "piedra",
+   "nombre": "Zócalo del ventanal",
+   "x0": 0.51,
+   "y0": 1.621,
+   "x1": 1.29,
+   "y1": 1.968,
+   "z0": 0.0,
+   "z1": 0.13
+  },
+  {
+   "tag": "06 Zocalo",
+   "mat": "piedra",
+   "nombre": "Zócalo del ventanal",
+   "x0": 1.87,
+   "y0": 1.621,
+   "x1": 5.87,
+   "y1": 1.968,
+   "z0": 0.0,
+   "z1": 0.13
+  },
+  {
+   "tag": "07 Bano",
+   "mat": "tabique",
+   "nombre": "Tabique Oeste del baño",
+   "x0": 7.4,
+   "y0": 7.73,
+   "x1": 7.5,
+   "y1": 8.957,
+   "z0": 0.0,
+   "z1": 2.31
+  },
+  {
+   "tag": "07 Bano",
+   "mat": "tabique",
+   "nombre": "Tabique Sur - tramo Oeste",
+   "x0": 7.4,
+   "y0": 7.73,
+   "x1": 7.77,
+   "y1": 7.83,
+   "z0": 0.0,
+   "z1": 2.31
+  },
+  {
+   "tag": "07 Bano",
+   "mat": "tabique",
+   "nombre": "Tabique Sur - tramo Este",
+   "x0": 8.47,
+   "y0": 7.73,
+   "x1": 9.89,
+   "y1": 7.83,
+   "z0": 0.0,
+   "z1": 2.31
+  },
+  {
+   "tag": "07 Bano",
+   "mat": "tabique",
+   "nombre": "Baño · dintel de la puerta",
+   "x0": 7.77,
+   "y0": 7.73,
+   "x1": 8.47,
+   "y1": 7.83,
+   "z0": 2.1,
+   "z1": 2.31
+  },
+  {
+   "tag": "07 Bano",
+   "mat": "madera",
+   "nombre": "Baño · hoja de la puerta",
+   "x0": 7.77,
+   "y0": 7.75,
+   "x1": 8.47,
+   "y1": 7.79,
+   "z0": 0.0,
+   "z1": 2.1
+  },
+  {
+   "tag": "08 Escalera",
+   "mat": "escalera",
+   "nombre": "Peldaño 1",
+   "x0": 8.811,
+   "y0": 3.579,
+   "x1": 9.89,
+   "y1": 3.8389375,
+   "z0": 0.0,
+   "z1": 0.15058823529411766
+  },
+  {
+   "tag": "08 Escalera",
+   "mat": "escalera",
+   "nombre": "Peldaño 2",
+   "x0": 8.811,
+   "y0": 3.8389375,
+   "x1": 9.89,
+   "y1": 4.0988750000000005,
+   "z0": 0.0,
+   "z1": 0.3011764705882353
+  },
+  {
+   "tag": "08 Escalera",
+   "mat": "escalera",
+   "nombre": "Peldaño 3",
+   "x0": 8.811,
+   "y0": 4.0988750000000005,
+   "x1": 9.89,
+   "y1": 4.358812500000001,
+   "z0": 0.0,
+   "z1": 0.45176470588235296
+  },
+  {
+   "tag": "08 Escalera",
+   "mat": "escalera",
+   "nombre": "Peldaño 4",
+   "x0": 8.811,
+   "y0": 4.3588125,
+   "x1": 9.89,
+   "y1": 4.61875,
+   "z0": 0.0,
+   "z1": 0.6023529411764706
+  },
+  {
+   "tag": "08 Escalera",
+   "mat": "escalera",
+   "nombre": "Peldaño 5",
+   "x0": 8.811,
+   "y0": 4.61875,
+   "x1": 9.89,
+   "y1": 4.708,
+   "z0": 0.0,
+   "z1": 0.7529411764705883
+  },
+  {
+   "tag": "08 Escalera",
+   "mat": "escalera",
+   "nombre": "Peldaño 5",
+   "x0": 8.811,
+   "y0": 4.708,
+   "x1": 9.689,
+   "y1": 4.878687500000001,
+   "z0": 0.0,
+   "z1": 0.7529411764705883
+  },
+  {
+   "tag": "08 Escalera",
+   "mat": "escalera",
+   "nombre": "Peldaño 6",
+   "x0": 8.811,
+   "y0": 4.8786875,
+   "x1": 9.689,
+   "y1": 5.138625,
+   "z0": 0.0,
+   "z1": 0.9035294117647059
+  },
+  {
+   "tag": "08 Escalera",
+   "mat": "escalera",
+   "nombre": "Peldaño 7",
+   "x0": 8.811,
+   "y0": 5.138625,
+   "x1": 9.689,
+   "y1": 5.309,
+   "z0": 0.0,
+   "z1": 1.0541176470588236
+  },
+  {
+   "tag": "08 Escalera",
+   "mat": "escalera",
+   "nombre": "Peldaño 7",
+   "x0": 8.811,
+   "y0": 5.309,
+   "x1": 9.89,
+   "y1": 5.398562500000001,
+   "z0": 0.0,
+   "z1": 1.0541176470588236
+  },
+  {
+   "tag": "08 Escalera",
+   "mat": "escalera",
+   "nombre": "Peldaño 8",
+   "x0": 8.811,
+   "y0": 5.398562500000001,
+   "x1": 9.89,
+   "y1": 5.658500000000001,
+   "z0": 0.0,
+   "z1": 1.2047058823529413
+  },
+  {
+   "tag": "08 Escalera",
+   "mat": "escalera",
+   "nombre": "Peldaño 9",
+   "x0": 8.811,
+   "y0": 5.6585,
+   "x1": 9.89,
+   "y1": 5.9184375000000005,
+   "z0": 0.0,
+   "z1": 1.355294117647059
+  },
+  {
+   "tag": "08 Escalera",
+   "mat": "escalera",
+   "nombre": "Peldaño 10",
+   "x0": 8.811,
+   "y0": 5.9184375000000005,
+   "x1": 9.89,
+   "y1": 6.178375000000001,
+   "z0": 0.0,
+   "z1": 1.5058823529411767
+  },
+  {
+   "tag": "08 Escalera",
+   "mat": "escalera",
+   "nombre": "Peldaño 11",
+   "x0": 8.811,
+   "y0": 6.178375000000001,
+   "x1": 9.89,
+   "y1": 6.438312500000001,
+   "z0": 0.0,
+   "z1": 1.6564705882352944
+  },
+  {
+   "tag": "08 Escalera",
+   "mat": "escalera",
+   "nombre": "Peldaño 12",
+   "x0": 8.811,
+   "y0": 6.4383125,
+   "x1": 9.89,
+   "y1": 6.698250000000001,
+   "z0": 0.0,
+   "z1": 1.8070588235294118
+  },
+  {
+   "tag": "08 Escalera",
+   "mat": "escalera",
+   "nombre": "Peldaño 13",
+   "x0": 8.811,
+   "y0": 6.698250000000001,
+   "x1": 9.89,
+   "y1": 6.958187500000001,
+   "z0": 0.0,
+   "z1": 1.9576470588235295
+  },
+  {
+   "tag": "08 Escalera",
+   "mat": "escalera",
+   "nombre": "Peldaño 14",
+   "x0": 8.811,
+   "y0": 6.958187500000001,
+   "x1": 9.89,
+   "y1": 7.2181250000000015,
+   "z0": 0.0,
+   "z1": 2.108235294117647
+  },
+  {
+   "tag": "08 Escalera",
+   "mat": "escalera",
+   "nombre": "Peldaño 15",
+   "x0": 8.811,
+   "y0": 7.218125000000001,
+   "x1": 9.89,
+   "y1": 7.478062500000001,
+   "z0": 0.0,
+   "z1": 2.258823529411765
+  },
+  {
+   "tag": "08 Escalera",
+   "mat": "escalera",
+   "nombre": "Peldaño 16",
+   "x0": 8.811,
+   "y0": 7.478062500000001,
+   "x1": 9.89,
+   "y1": 7.738,
+   "z0": 0.0,
+   "z1": 2.4094117647058826
+  },
+  {
+   "tag": "10 Cocina",
+   "mat": "inox",
+   "nombre": "Bancada de cocción a medida",
+   "x0": 0.25,
+   "y0": 8.408,
+   "x1": 2.43,
+   "y1": 9.008,
+   "z0": 0.0,
+   "z1": 0.9
+  },
+  {
+   "tag": "10 Cocina",
+   "mat": "aparato",
+   "nombre": "K1 · Placa de inducción Bartscher, 2 zonas Ø230, 6 kW, 400 V",
+   "x0": 0.25,
+   "y0": 8.552999999999999,
+   "x1": 0.95,
+   "y1": 9.008,
+   "z0": 0.9,
+   "z1": 1.02
+  },
+  {
+   "tag": "10 Cocina",
+   "mat": "aparato",
+   "nombre": "K2 · Cocedor de pasta eléctrico METRO Professional GNC1008, 8 L, 4 cestos",
+   "x0": 0.95,
+   "y0": 8.457999999999998,
+   "x1": 1.42,
+   "y1": 9.008,
+   "z0": 0.9,
+   "z1": 1.28
+  },
+  {
+   "tag": "10 Cocina",
+   "mat": "aparato",
+   "nombre": "K3 · Freidora profesional 1 cuba de 7 L, eléctrica",
+   "x0": 1.42,
+   "y0": 8.547999999999998,
+   "x1": 1.69,
+   "y1": 9.008,
+   "z0": 0.9,
+   "z1": 1.27
+  },
+  {
+   "tag": "10 Cocina",
+   "mat": "aparato",
+   "nombre": "K4 · Plancha eléctrica Cleiton 50 cm, placa de 8 mm, sobremesa",
+   "x0": 1.69,
+   "y0": 8.508,
+   "x1": 2.24,
+   "y1": 9.008,
+   "z0": 0.9,
+   "z1": 1.23
+  },
+  {
+   "tag": "10 Cocina",
+   "mat": "inox",
+   "nombre": "KC · Campana extractora industrial recta, sin turbina, AISI-304 satinado, 2 × 1,2 m",
+   "x0": 0.31,
+   "y0": 7.807999999999999,
+   "x1": 2.31,
+   "y1": 9.008,
+   "z0": 2.0,
+   "z1": 2.5
+  },
+  {
+   "tag": "10 Cocina",
+   "mat": "aparato",
+   "nombre": "K5 · Horno de convección eléctrico industrial, 4 bandejas 45 × 33",
+   "x0": 0.25,
+   "y0": 7.818,
+   "x1": 0.845,
+   "y1": 8.408,
+   "z0": 0.0,
+   "z1": 0.575
+  },
+  {
+   "tag": "10 Cocina",
+   "mat": "inox",
+   "nombre": "K7 · Fregadero con bastidor con hueco lavavajillas, cuba izquierda, 1200 × 600 · cuba",
+   "x0": 0.25,
+   "y0": 6.617999999999999,
+   "x1": 0.85,
+   "y1": 7.218,
+   "z0": 0.0,
+   "z1": 0.85
+  },
+  {
+   "tag": "10 Cocina",
+   "mat": "inox",
+   "nombre": "K7 · Fregadero con bastidor con hueco lavavajillas, cuba izquierda, 1200 × 600 · escurridor",
+   "x0": 0.25,
+   "y0": 7.218,
+   "x1": 0.85,
+   "y1": 7.818,
+   "z0": 0.8099999999999999,
+   "z1": 0.85
+  },
+  {
+   "tag": "10 Cocina",
+   "mat": "aparato",
+   "nombre": "K6 · Lavavajillas industrial ST500, cesta 50 × 50, bajo el escurridor de K7",
+   "x0": 0.25,
+   "y0": 7.2355,
+   "x1": 0.901,
+   "y1": 7.8004999999999995,
+   "z0": 0.0,
+   "z1": 0.863
+  },
+  {
+   "tag": "10 Cocina",
+   "mat": "frio",
+   "nombre": "K8 · Armario refrigerado vertical Edenox APS-451 I, inox, 1 puerta, 395 L",
+   "x0": 0.25,
+   "y0": 5.991999999999999,
+   "x1": 0.99,
+   "y1": 6.617999999999999,
+   "z0": 0.0,
+   "z1": 1.865
+  },
+  {
+   "tag": "10 Cocina",
+   "mat": "frio",
+   "nombre": "K9 · Armario refrigerado vertical Edenox APS-451 I, inox, 1 puerta, 395 L",
+   "x0": 0.25,
+   "y0": 5.365999999999999,
+   "x1": 0.99,
+   "y1": 5.991999999999999,
+   "z0": 0.0,
+   "z1": 1.865
+  },
+  {
+   "tag": "10 Cocina",
+   "mat": "frio",
+   "nombre": "K10 · Mesa refrigerada Infrico 4 puertas, AISI-304, peto 100 mm, -2/+8 ºC, 530 L",
+   "x0": 1.83,
+   "y0": 5.457,
+   "x1": 2.43,
+   "y1": 7.999,
+   "z0": 0.0,
+   "z1": 0.85
+  },
+  {
+   "tag": "11 Barra",
+   "mat": "encimera",
+   "nombre": "Mesada de la trasbarra a medida",
+   "x0": 0.25,
+   "y0": 2.611,
+   "x1": 0.85,
+   "y1": 4.759,
+   "z0": 0.86,
+   "z1": 0.9
+  },
+  {
+   "tag": "11 Barra",
+   "mat": "inox",
+   "nombre": "A4 · Fregadero de pie 1 seno con estante y bastidor, 600 × 600 × 850",
+   "x0": 0.25,
+   "y0": 2.011,
+   "x1": 0.85,
+   "y1": 2.611,
+   "z0": 0.0,
+   "z1": 0.85
+  },
+  {
+   "tag": "11 Barra",
+   "mat": "aparato",
+   "nombre": "A1 · Cafetera (comprada), 2 grupos",
+   "x0": 0.25,
+   "y0": 3.7590000000000003,
+   "x1": 0.85,
+   "y1": 4.759,
+   "z0": 0.9,
+   "z1": 1.4
+  },
+  {
+   "tag": "11 Barra",
+   "mat": "aparato",
+   "nombre": "A2 · Molinillo de café Cunil TRANQUILO de ABC, 275 W, tolva 0,5 kg",
+   "x0": 0.25,
+   "y0": 3.5890000000000004,
+   "x1": 0.5900000000000001,
+   "y1": 3.7590000000000003,
+   "z0": 0.9,
+   "z1": 1.31
+  },
+  {
+   "tag": "11 Barra",
+   "mat": "aparato",
+   "nombre": "A3 · Máquina de helado y crema fría Bras B-CREAM1HD, 6 L, italiana",
+   "x0": 0.25,
+   "y0": 3.359,
+   "x1": 0.74,
+   "y1": 3.559,
+   "z0": 0.9,
+   "z1": 1.52
+  },
+  {
+   "tag": "11 Barra",
+   "mat": "frio",
+   "nombre": "A5 · Botellero frigorífico BTL1000, 2 puertas correderas, 240 L",
+   "x0": 0.25,
+   "y0": 2.611,
+   "x1": 0.83,
+   "y1": 3.6510000000000002,
+   "z0": 0.0,
+   "z1": 0.85
+  },
+  {
+   "tag": "11 Barra",
+   "mat": "inox",
+   "nombre": "A6 · Estante mural cartelas compacto Fricosmos 011410, 1250 × 400 × 245 (1)",
+   "x0": 0.25,
+   "y0": 3.5090000000000003,
+   "x1": 0.65,
+   "y1": 4.759,
+   "z0": 1.6,
+   "z1": 1.8450000000000002
+  },
+  {
+   "tag": "11 Barra",
+   "mat": "inox",
+   "nombre": "A6 · Estante mural cartelas compacto Fricosmos 011410, 1250 × 400 × 245 (2)",
+   "x0": 0.25,
+   "y0": 2.2590000000000003,
+   "x1": 0.65,
+   "y1": 3.5090000000000003,
+   "z0": 1.6,
+   "z1": 1.8450000000000002
+  },
+  {
+   "tag": "11 Barra",
+   "mat": "encimera",
+   "nombre": "Mostrador delantero a medida",
+   "x0": 1.9,
+   "y0": 3.968,
+   "x1": 2.48,
+   "y1": 4.759,
+   "z0": 0.0,
+   "z1": 0.9
+  },
+  {
+   "tag": "11 Barra",
+   "mat": "madera",
+   "nombre": "Frente de la barra · revestimiento de madera (logo y LED)",
+   "x0": 2.5,
+   "y0": 1.968,
+   "x1": 2.53,
+   "y1": 4.759,
+   "z0": 0.05,
+   "z1": 0.9
+  },
+  {
+   "tag": "11 Barra",
+   "mat": "madera",
+   "nombre": "Frente de la barra · retranqueo inferior para la tira de LED",
+   "x0": 2.48,
+   "y0": 1.968,
+   "x1": 2.5,
+   "y1": 4.759,
+   "z0": 0.0,
+   "z1": 0.05
+  },
+  {
+   "tag": "11 Barra",
+   "mat": "madera",
+   "nombre": "Mostrador · tabla de madera",
+   "x0": 1.9,
+   "y0": 3.968,
+   "x1": 2.53,
+   "y1": 4.759,
+   "z0": 0.9,
+   "z1": 0.9400000000000001
+  },
+  {
+   "tag": "11 Barra",
+   "mat": "aparato",
+   "nombre": "V2 · motor",
+   "x0": 2.18,
+   "y0": 1.968,
+   "x1": 2.48,
+   "y1": 2.268,
+   "z0": 0.0,
+   "z1": 0.3
+  },
+  {
+   "tag": "11 Barra",
+   "mat": "vidrio",
+   "nombre": "V2 · Vitrina refrigerada (comprada), 1,00 × 0,70; debajo, lavavasos",
+   "x0": 1.9,
+   "y0": 1.968,
+   "x1": 2.5,
+   "y1": 2.968,
+   "z0": 0.6,
+   "z1": 1.25
+  },
+  {
+   "tag": "11 Barra",
+   "mat": "aparato",
+   "nombre": "V1 · motor",
+   "x0": 2.18,
+   "y0": 2.968,
+   "x1": 2.48,
+   "y1": 3.268,
+   "z0": 0.0,
+   "z1": 0.3
+  },
+  {
+   "tag": "11 Barra",
+   "mat": "vidrio",
+   "nombre": "V1 · Vitrina refrigerada (comprada), 1,00 × 0,70; hueco libre debajo",
+   "x0": 1.9,
+   "y0": 2.968,
+   "x1": 2.5,
+   "y1": 3.968,
+   "z0": 0.6,
+   "z1": 1.25
+  },
+  {
+   "tag": "11 Barra",
+   "mat": "aparato",
+   "nombre": "B1 · Lavavasos Elettrobar FAST 40, cesta 40 × 40 (bajo la vitrina V2)",
+   "x0": 1.94,
+   "y0": 2.2979999999999996,
+   "x1": 2.48,
+   "y1": 2.7379999999999995,
+   "z0": 0.0,
+   "z1": 0.67
+  },
+  {
+   "tag": "11 Barra",
+   "mat": "aparato",
+   "nombre": "B3 · Caja: tablet sobre soporte (lo único que queda en el mostrador)",
+   "x0": 2.05,
+   "y0": 4.168,
+   "x1": 2.25,
+   "y1": 4.418,
+   "z0": 0.9400000000000001,
+   "z1": 1.19
+  },
+  {
+   "tag": "11 Barra",
+   "mat": "madera",
+   "nombre": "Tabla de P2",
+   "x0": 0.51,
+   "y0": 1.621,
+   "x1": 1.29,
+   "y1": 2.011,
+   "z0": 0.9,
+   "z1": 0.9400000000000001
+  },
+  {
+   "tag": "11 Barra",
+   "mat": "inox",
+   "nombre": "B4 · Columna de cerveza en T de 3 grifos, bandeja 40 × 40, sobre la tabla de P2",
+   "x0": 0.7899999999999999,
+   "y0": 1.701,
+   "x1": 1.19,
+   "y1": 2.101,
+   "z0": 0.9400000000000001,
+   "z1": 1.4900000000000002
+  },
+  {
+   "tag": "12 Sala",
+   "mat": "frio",
+   "nombre": "A7 · Armario expositor de bebidas Gasfrit, 1 puerta de cristal, 400 L",
+   "x0": 5.725,
+   "y0": 4.108,
+   "x1": 6.265000000000001,
+   "y1": 4.688,
+   "z0": 0.0,
+   "z1": 1.92
+  },
+  {
+   "tag": "12 Sala",
+   "mat": "mesa",
+   "nombre": "M1 · tablero",
+   "x0": 3.53,
+   "y0": 2.488,
+   "x1": 4.23,
+   "y1": 3.188,
+   "z0": 0.71,
+   "z1": 0.75
+  },
+  {
+   "tag": "12 Sala",
+   "mat": "silla",
+   "nombre": "M1 · pie 1",
+   "x0": 3.84,
+   "y0": 2.798,
+   "x1": 3.92,
+   "y1": 2.878,
+   "z0": 0.0,
+   "z1": 0.71
+  },
+  {
+   "tag": "12 Sala",
+   "mat": "silla",
+   "nombre": "M1 · base 1",
+   "x0": 3.6799999999999997,
+   "y0": 2.638,
+   "x1": 4.08,
+   "y1": 3.0380000000000003,
+   "z0": 0.0,
+   "z1": 0.02
+  },
+  {
+   "tag": "12 Sala",
+   "mat": "silla",
+   "nombre": "M1 · silla 1 · asiento",
+   "x0": 3.67,
+   "y0": 3.238,
+   "x1": 4.09,
+   "y1": 3.658,
+   "z0": 0.41000000000000003,
+   "z1": 0.45
+  },
+  {
+   "tag": "12 Sala",
+   "mat": "silla",
+   "nombre": "M1 · silla 1 · pata",
+   "x0": 3.67,
+   "y0": 3.238,
+   "x1": 3.71,
+   "y1": 3.278,
+   "z0": 0.0,
+   "z1": 0.41000000000000003
+  },
+  {
+   "tag": "12 Sala",
+   "mat": "silla",
+   "nombre": "M1 · silla 1 · pata",
+   "x0": 4.05,
+   "y0": 3.238,
+   "x1": 4.09,
+   "y1": 3.278,
+   "z0": 0.0,
+   "z1": 0.41000000000000003
+  },
+  {
+   "tag": "12 Sala",
+   "mat": "silla",
+   "nombre": "M1 · silla 1 · pata",
+   "x0": 3.67,
+   "y0": 3.618,
+   "x1": 3.71,
+   "y1": 3.658,
+   "z0": 0.0,
+   "z1": 0.41000000000000003
+  },
+  {
+   "tag": "12 Sala",
+   "mat": "silla",
+   "nombre": "M1 · silla 1 · pata",
+   "x0": 4.05,
+   "y0": 3.618,
+   "x1": 4.09,
+   "y1": 3.658,
+   "z0": 0.0,
+   "z1": 0.41000000000000003
+  },
+  {
+   "tag": "12 Sala",
+   "mat": "silla",
+   "nombre": "M1 · silla 1 · respaldo",
+   "x0": 3.67,
+   "y0": 3.608,
+   "x1": 4.09,
+   "y1": 3.658,
+   "z0": 0.45,
+   "z1": 0.88
+  },
+  {
+   "tag": "12 Sala",
+   "mat": "silla",
+   "nombre": "M1 · silla 2 · asiento",
+   "x0": 3.67,
+   "y0": 2.0180000000000002,
+   "x1": 4.09,
+   "y1": 2.438,
+   "z0": 0.41000000000000003,
+   "z1": 0.45
+  },
+  {
+   "tag": "12 Sala",
+   "mat": "silla",
+   "nombre": "M1 · silla 2 · pata",
+   "x0": 3.67,
+   "y0": 2.0180000000000002,
+   "x1": 3.71,
+   "y1": 2.0580000000000003,
+   "z0": 0.0,
+   "z1": 0.41000000000000003
+  },
+  {
+   "tag": "12 Sala",
+   "mat": "silla",
+   "nombre": "M1 · silla 2 · pata",
+   "x0": 4.05,
+   "y0": 2.0180000000000002,
+   "x1": 4.09,
+   "y1": 2.0580000000000003,
+   "z0": 0.0,
+   "z1": 0.41000000000000003
+  },
+  {
+   "tag": "12 Sala",
+   "mat": "silla",
+   "nombre": "M1 · silla 2 · pata",
+   "x0": 3.67,
+   "y0": 2.398,
+   "x1": 3.71,
+   "y1": 2.438,
+   "z0": 0.0,
+   "z1": 0.41000000000000003
+  },
+  {
+   "tag": "12 Sala",
+   "mat": "silla",
+   "nombre": "M1 · silla 2 · pata",
+   "x0": 4.05,
+   "y0": 2.398,
+   "x1": 4.09,
+   "y1": 2.438,
+   "z0": 0.0,
+   "z1": 0.41000000000000003
+  },
+  {
+   "tag": "12 Sala",
+   "mat": "silla",
+   "nombre": "M1 · silla 2 · respaldo",
+   "x0": 3.67,
+   "y0": 2.0180000000000002,
+   "x1": 4.09,
+   "y1": 2.068,
+   "z0": 0.45,
+   "z1": 0.88
+  },
+  {
+   "tag": "12 Sala",
+   "mat": "mesa",
+   "nombre": "M3 · tablero",
+   "x0": 4.83,
+   "y0": 2.488,
+   "x1": 5.53,
+   "y1": 3.188,
+   "z0": 0.71,
+   "z1": 0.75
+  },
+  {
+   "tag": "12 Sala",
+   "mat": "silla",
+   "nombre": "M3 · pie 1",
+   "x0": 5.14,
+   "y0": 2.798,
+   "x1": 5.22,
+   "y1": 2.878,
+   "z0": 0.0,
+   "z1": 0.71
+  },
+  {
+   "tag": "12 Sala",
+   "mat": "silla",
+   "nombre": "M3 · base 1",
+   "x0": 4.9799999999999995,
+   "y0": 2.638,
+   "x1": 5.38,
+   "y1": 3.0380000000000003,
+   "z0": 0.0,
+   "z1": 0.02
+  },
+  {
+   "tag": "12 Sala",
+   "mat": "silla",
+   "nombre": "M3 · silla 1 · asiento",
+   "x0": 4.97,
+   "y0": 3.238,
+   "x1": 5.39,
+   "y1": 3.658,
+   "z0": 0.41000000000000003,
+   "z1": 0.45
+  },
+  {
+   "tag": "12 Sala",
+   "mat": "silla",
+   "nombre": "M3 · silla 1 · pata",
+   "x0": 4.97,
+   "y0": 3.238,
+   "x1": 5.01,
+   "y1": 3.278,
+   "z0": 0.0,
+   "z1": 0.41000000000000003
+  },
+  {
+   "tag": "12 Sala",
+   "mat": "silla",
+   "nombre": "M3 · silla 1 · pata",
+   "x0": 5.35,
+   "y0": 3.238,
+   "x1": 5.39,
+   "y1": 3.278,
+   "z0": 0.0,
+   "z1": 0.41000000000000003
+  },
+  {
+   "tag": "12 Sala",
+   "mat": "silla",
+   "nombre": "M3 · silla 1 · pata",
+   "x0": 4.97,
+   "y0": 3.618,
+   "x1": 5.01,
+   "y1": 3.658,
+   "z0": 0.0,
+   "z1": 0.41000000000000003
+  },
+  {
+   "tag": "12 Sala",
+   "mat": "silla",
+   "nombre": "M3 · silla 1 · pata",
+   "x0": 5.35,
+   "y0": 3.618,
+   "x1": 5.39,
+   "y1": 3.658,
+   "z0": 0.0,
+   "z1": 0.41000000000000003
+  },
+  {
+   "tag": "12 Sala",
+   "mat": "silla",
+   "nombre": "M3 · silla 1 · respaldo",
+   "x0": 4.97,
+   "y0": 3.608,
+   "x1": 5.39,
+   "y1": 3.658,
+   "z0": 0.45,
+   "z1": 0.88
+  },
+  {
+   "tag": "12 Sala",
+   "mat": "silla",
+   "nombre": "M3 · silla 2 · asiento",
+   "x0": 4.97,
+   "y0": 2.0180000000000002,
+   "x1": 5.39,
+   "y1": 2.438,
+   "z0": 0.41000000000000003,
+   "z1": 0.45
+  },
+  {
+   "tag": "12 Sala",
+   "mat": "silla",
+   "nombre": "M3 · silla 2 · pata",
+   "x0": 4.97,
+   "y0": 2.0180000000000002,
+   "x1": 5.01,
+   "y1": 2.0580000000000003,
+   "z0": 0.0,
+   "z1": 0.41000000000000003
+  },
+  {
+   "tag": "12 Sala",
+   "mat": "silla",
+   "nombre": "M3 · silla 2 · pata",
+   "x0": 5.35,
+   "y0": 2.0180000000000002,
+   "x1": 5.39,
+   "y1": 2.0580000000000003,
+   "z0": 0.0,
+   "z1": 0.41000000000000003
+  },
+  {
+   "tag": "12 Sala",
+   "mat": "silla",
+   "nombre": "M3 · silla 2 · pata",
+   "x0": 4.97,
+   "y0": 2.398,
+   "x1": 5.01,
+   "y1": 2.438,
+   "z0": 0.0,
+   "z1": 0.41000000000000003
+  },
+  {
+   "tag": "12 Sala",
+   "mat": "silla",
+   "nombre": "M3 · silla 2 · pata",
+   "x0": 5.35,
+   "y0": 2.398,
+   "x1": 5.39,
+   "y1": 2.438,
+   "z0": 0.0,
+   "z1": 0.41000000000000003
+  },
+  {
+   "tag": "12 Sala",
+   "mat": "silla",
+   "nombre": "M3 · silla 2 · respaldo",
+   "x0": 4.97,
+   "y0": 2.0180000000000002,
+   "x1": 5.39,
+   "y1": 2.068,
+   "z0": 0.45,
+   "z1": 0.88
+  },
+  {
+   "tag": "12 Sala",
+   "mat": "mesa",
+   "nombre": "M2 · tablero",
+   "x0": 6.13,
+   "y0": 2.488,
+   "x1": 6.83,
+   "y1": 3.188,
+   "z0": 0.71,
+   "z1": 0.75
+  },
+  {
+   "tag": "12 Sala",
+   "mat": "silla",
+   "nombre": "M2 · pie 1",
+   "x0": 6.44,
+   "y0": 2.798,
+   "x1": 6.5200000000000005,
+   "y1": 2.878,
+   "z0": 0.0,
+   "z1": 0.71
+  },
+  {
+   "tag": "12 Sala",
+   "mat": "silla",
+   "nombre": "M2 · base 1",
+   "x0": 6.28,
+   "y0": 2.638,
+   "x1": 6.680000000000001,
+   "y1": 3.0380000000000003,
+   "z0": 0.0,
+   "z1": 0.02
+  },
+  {
+   "tag": "12 Sala",
+   "mat": "silla",
+   "nombre": "M2 · silla 1 · asiento",
+   "x0": 6.2700000000000005,
+   "y0": 3.238,
+   "x1": 6.69,
+   "y1": 3.658,
+   "z0": 0.41000000000000003,
+   "z1": 0.45
+  },
+  {
+   "tag": "12 Sala",
+   "mat": "silla",
+   "nombre": "M2 · silla 1 · pata",
+   "x0": 6.2700000000000005,
+   "y0": 3.238,
+   "x1": 6.3100000000000005,
+   "y1": 3.278,
+   "z0": 0.0,
+   "z1": 0.41000000000000003
+  },
+  {
+   "tag": "12 Sala",
+   "mat": "silla",
+   "nombre": "M2 · silla 1 · pata",
+   "x0": 6.65,
+   "y0": 3.238,
+   "x1": 6.69,
+   "y1": 3.278,
+   "z0": 0.0,
+   "z1": 0.41000000000000003
+  },
+  {
+   "tag": "12 Sala",
+   "mat": "silla",
+   "nombre": "M2 · silla 1 · pata",
+   "x0": 6.2700000000000005,
+   "y0": 3.618,
+   "x1": 6.3100000000000005,
+   "y1": 3.658,
+   "z0": 0.0,
+   "z1": 0.41000000000000003
+  },
+  {
+   "tag": "12 Sala",
+   "mat": "silla",
+   "nombre": "M2 · silla 1 · pata",
+   "x0": 6.65,
+   "y0": 3.618,
+   "x1": 6.69,
+   "y1": 3.658,
+   "z0": 0.0,
+   "z1": 0.41000000000000003
+  },
+  {
+   "tag": "12 Sala",
+   "mat": "silla",
+   "nombre": "M2 · silla 1 · respaldo",
+   "x0": 6.2700000000000005,
+   "y0": 3.608,
+   "x1": 6.69,
+   "y1": 3.658,
+   "z0": 0.45,
+   "z1": 0.88
+  },
+  {
+   "tag": "12 Sala",
+   "mat": "silla",
+   "nombre": "M2 · silla 2 · asiento",
+   "x0": 6.2700000000000005,
+   "y0": 2.0180000000000002,
+   "x1": 6.69,
+   "y1": 2.438,
+   "z0": 0.41000000000000003,
+   "z1": 0.45
+  },
+  {
+   "tag": "12 Sala",
+   "mat": "silla",
+   "nombre": "M2 · silla 2 · pata",
+   "x0": 6.2700000000000005,
+   "y0": 2.0180000000000002,
+   "x1": 6.3100000000000005,
+   "y1": 2.0580000000000003,
+   "z0": 0.0,
+   "z1": 0.41000000000000003
+  },
+  {
+   "tag": "12 Sala",
+   "mat": "silla",
+   "nombre": "M2 · silla 2 · pata",
+   "x0": 6.65,
+   "y0": 2.0180000000000002,
+   "x1": 6.69,
+   "y1": 2.0580000000000003,
+   "z0": 0.0,
+   "z1": 0.41000000000000003
+  },
+  {
+   "tag": "12 Sala",
+   "mat": "silla",
+   "nombre": "M2 · silla 2 · pata",
+   "x0": 6.2700000000000005,
+   "y0": 2.398,
+   "x1": 6.3100000000000005,
+   "y1": 2.438,
+   "z0": 0.0,
+   "z1": 0.41000000000000003
+  },
+  {
+   "tag": "12 Sala",
+   "mat": "silla",
+   "nombre": "M2 · silla 2 · pata",
+   "x0": 6.65,
+   "y0": 2.398,
+   "x1": 6.69,
+   "y1": 2.438,
+   "z0": 0.0,
+   "z1": 0.41000000000000003
+  },
+  {
+   "tag": "12 Sala",
+   "mat": "silla",
+   "nombre": "M2 · silla 2 · respaldo",
+   "x0": 6.2700000000000005,
+   "y0": 2.0180000000000002,
+   "x1": 6.69,
+   "y1": 2.068,
+   "z0": 0.45,
+   "z1": 0.88
+  },
+  {
+   "tag": "12 Sala",
+   "mat": "mesa",
+   "nombre": "M5 · tablero",
+   "x0": 3.84,
+   "y0": 5.33,
+   "x1": 4.54,
+   "y1": 6.03,
+   "z0": 0.71,
+   "z1": 0.75
+  },
+  {
+   "tag": "12 Sala",
+   "mat": "silla",
+   "nombre": "M5 · pie 1",
+   "x0": 4.1499999999999995,
+   "y0": 5.64,
+   "x1": 4.2299999999999995,
+   "y1": 5.72,
+   "z0": 0.0,
+   "z1": 0.71
+  },
+  {
+   "tag": "12 Sala",
+   "mat": "silla",
+   "nombre": "M5 · base 1",
+   "x0": 3.9899999999999993,
+   "y0": 5.4799999999999995,
+   "x1": 4.39,
+   "y1": 5.88,
+   "z0": 0.0,
+   "z1": 0.02
+  },
+  {
+   "tag": "12 Sala",
+   "mat": "silla",
+   "nombre": "M5 · silla 1 · asiento",
+   "x0": 3.9799999999999995,
+   "y0": 6.08,
+   "x1": 4.3999999999999995,
+   "y1": 6.5,
+   "z0": 0.41000000000000003,
+   "z1": 0.45
+  },
+  {
+   "tag": "12 Sala",
+   "mat": "silla",
+   "nombre": "M5 · silla 1 · pata",
+   "x0": 3.9799999999999995,
+   "y0": 6.08,
+   "x1": 4.02,
+   "y1": 6.12,
+   "z0": 0.0,
+   "z1": 0.41000000000000003
+  },
+  {
+   "tag": "12 Sala",
+   "mat": "silla",
+   "nombre": "M5 · silla 1 · pata",
+   "x0": 4.359999999999999,
+   "y0": 6.08,
+   "x1": 4.3999999999999995,
+   "y1": 6.12,
+   "z0": 0.0,
+   "z1": 0.41000000000000003
+  },
+  {
+   "tag": "12 Sala",
+   "mat": "silla",
+   "nombre": "M5 · silla 1 · pata",
+   "x0": 3.9799999999999995,
+   "y0": 6.46,
+   "x1": 4.02,
+   "y1": 6.5,
+   "z0": 0.0,
+   "z1": 0.41000000000000003
+  },
+  {
+   "tag": "12 Sala",
+   "mat": "silla",
+   "nombre": "M5 · silla 1 · pata",
+   "x0": 4.359999999999999,
+   "y0": 6.46,
+   "x1": 4.3999999999999995,
+   "y1": 6.5,
+   "z0": 0.0,
+   "z1": 0.41000000000000003
+  },
+  {
+   "tag": "12 Sala",
+   "mat": "silla",
+   "nombre": "M5 · silla 1 · respaldo",
+   "x0": 3.9799999999999995,
+   "y0": 6.45,
+   "x1": 4.3999999999999995,
+   "y1": 6.5,
+   "z0": 0.45,
+   "z1": 0.88
+  },
+  {
+   "tag": "12 Sala",
+   "mat": "silla",
+   "nombre": "M5 · silla 2 · asiento",
+   "x0": 3.9799999999999995,
+   "y0": 4.86,
+   "x1": 4.3999999999999995,
+   "y1": 5.28,
+   "z0": 0.41000000000000003,
+   "z1": 0.45
+  },
+  {
+   "tag": "12 Sala",
+   "mat": "silla",
+   "nombre": "M5 · silla 2 · pata",
+   "x0": 3.9799999999999995,
+   "y0": 4.86,
+   "x1": 4.02,
+   "y1": 4.9,
+   "z0": 0.0,
+   "z1": 0.41000000000000003
+  },
+  {
+   "tag": "12 Sala",
+   "mat": "silla",
+   "nombre": "M5 · silla 2 · pata",
+   "x0": 4.359999999999999,
+   "y0": 4.86,
+   "x1": 4.3999999999999995,
+   "y1": 4.9,
+   "z0": 0.0,
+   "z1": 0.41000000000000003
+  },
+  {
+   "tag": "12 Sala",
+   "mat": "silla",
+   "nombre": "M5 · silla 2 · pata",
+   "x0": 3.9799999999999995,
+   "y0": 5.24,
+   "x1": 4.02,
+   "y1": 5.28,
+   "z0": 0.0,
+   "z1": 0.41000000000000003
+  },
+  {
+   "tag": "12 Sala",
+   "mat": "silla",
+   "nombre": "M5 · silla 2 · pata",
+   "x0": 4.359999999999999,
+   "y0": 5.24,
+   "x1": 4.3999999999999995,
+   "y1": 5.28,
+   "z0": 0.0,
+   "z1": 0.41000000000000003
+  },
+  {
+   "tag": "12 Sala",
+   "mat": "silla",
+   "nombre": "M5 · silla 2 · respaldo",
+   "x0": 3.9799999999999995,
+   "y0": 4.86,
+   "x1": 4.3999999999999995,
+   "y1": 4.91,
+   "z0": 0.45,
+   "z1": 0.88
+  },
+  {
+   "tag": "12 Sala",
+   "mat": "mesa",
+   "nombre": "M4 · tablero",
+   "x0": 4.97,
+   "y0": 5.33,
+   "x1": 5.67,
+   "y1": 6.03,
+   "z0": 0.71,
+   "z1": 0.75
+  },
+  {
+   "tag": "12 Sala",
+   "mat": "silla",
+   "nombre": "M4 · pie 1",
+   "x0": 5.28,
+   "y0": 5.64,
+   "x1": 5.36,
+   "y1": 5.72,
+   "z0": 0.0,
+   "z1": 0.71
+  },
+  {
+   "tag": "12 Sala",
+   "mat": "silla",
+   "nombre": "M4 · base 1",
+   "x0": 5.12,
+   "y0": 5.4799999999999995,
+   "x1": 5.5200000000000005,
+   "y1": 5.88,
+   "z0": 0.0,
+   "z1": 0.02
+  },
+  {
+   "tag": "12 Sala",
+   "mat": "silla",
+   "nombre": "M4 · silla 1 · asiento",
+   "x0": 5.11,
+   "y0": 6.08,
+   "x1": 5.53,
+   "y1": 6.5,
+   "z0": 0.41000000000000003,
+   "z1": 0.45
+  },
+  {
+   "tag": "12 Sala",
+   "mat": "silla",
+   "nombre": "M4 · silla 1 · pata",
+   "x0": 5.11,
+   "y0": 6.08,
+   "x1": 5.15,
+   "y1": 6.12,
+   "z0": 0.0,
+   "z1": 0.41000000000000003
+  },
+  {
+   "tag": "12 Sala",
+   "mat": "silla",
+   "nombre": "M4 · silla 1 · pata",
+   "x0": 5.49,
+   "y0": 6.08,
+   "x1": 5.53,
+   "y1": 6.12,
+   "z0": 0.0,
+   "z1": 0.41000000000000003
+  },
+  {
+   "tag": "12 Sala",
+   "mat": "silla",
+   "nombre": "M4 · silla 1 · pata",
+   "x0": 5.11,
+   "y0": 6.46,
+   "x1": 5.15,
+   "y1": 6.5,
+   "z0": 0.0,
+   "z1": 0.41000000000000003
+  },
+  {
+   "tag": "12 Sala",
+   "mat": "silla",
+   "nombre": "M4 · silla 1 · pata",
+   "x0": 5.49,
+   "y0": 6.46,
+   "x1": 5.53,
+   "y1": 6.5,
+   "z0": 0.0,
+   "z1": 0.41000000000000003
+  },
+  {
+   "tag": "12 Sala",
+   "mat": "silla",
+   "nombre": "M4 · silla 1 · respaldo",
+   "x0": 5.11,
+   "y0": 6.45,
+   "x1": 5.53,
+   "y1": 6.5,
+   "z0": 0.45,
+   "z1": 0.88
+  },
+  {
+   "tag": "12 Sala",
+   "mat": "silla",
+   "nombre": "M4 · silla 2 · asiento",
+   "x0": 5.11,
+   "y0": 4.86,
+   "x1": 5.53,
+   "y1": 5.28,
+   "z0": 0.41000000000000003,
+   "z1": 0.45
+  },
+  {
+   "tag": "12 Sala",
+   "mat": "silla",
+   "nombre": "M4 · silla 2 · pata",
+   "x0": 5.11,
+   "y0": 4.86,
+   "x1": 5.15,
+   "y1": 4.9,
+   "z0": 0.0,
+   "z1": 0.41000000000000003
+  },
+  {
+   "tag": "12 Sala",
+   "mat": "silla",
+   "nombre": "M4 · silla 2 · pata",
+   "x0": 5.49,
+   "y0": 4.86,
+   "x1": 5.53,
+   "y1": 4.9,
+   "z0": 0.0,
+   "z1": 0.41000000000000003
+  },
+  {
+   "tag": "12 Sala",
+   "mat": "silla",
+   "nombre": "M4 · silla 2 · pata",
+   "x0": 5.11,
+   "y0": 5.24,
+   "x1": 5.15,
+   "y1": 5.28,
+   "z0": 0.0,
+   "z1": 0.41000000000000003
+  },
+  {
+   "tag": "12 Sala",
+   "mat": "silla",
+   "nombre": "M4 · silla 2 · pata",
+   "x0": 5.49,
+   "y0": 5.24,
+   "x1": 5.53,
+   "y1": 5.28,
+   "z0": 0.0,
+   "z1": 0.41000000000000003
+  },
+  {
+   "tag": "12 Sala",
+   "mat": "silla",
+   "nombre": "M4 · silla 2 · respaldo",
+   "x0": 5.11,
+   "y0": 4.86,
+   "x1": 5.53,
+   "y1": 4.91,
+   "z0": 0.45,
+   "z1": 0.88
+  },
+  {
+   "tag": "12 Sala",
+   "mat": "mesa",
+   "nombre": "M7 · tablero",
+   "x0": 2.55,
+   "y0": 7.657,
+   "x1": 3.95,
+   "y1": 8.357,
+   "z0": 0.71,
+   "z1": 0.75
+  },
+  {
+   "tag": "12 Sala",
+   "mat": "silla",
+   "nombre": "M7 · pie 1",
+   "x0": 2.86,
+   "y0": 7.967,
+   "x1": 2.94,
+   "y1": 8.046999999999999,
+   "z0": 0.0,
+   "z1": 0.71
+  },
+  {
+   "tag": "12 Sala",
+   "mat": "silla",
+   "nombre": "M7 · base 1",
+   "x0": 2.6999999999999997,
+   "y0": 7.8069999999999995,
+   "x1": 3.1,
+   "y1": 8.206999999999999,
+   "z0": 0.0,
+   "z1": 0.02
+  },
+  {
+   "tag": "12 Sala",
+   "mat": "silla",
+   "nombre": "M7 · pie 2",
+   "x0": 3.56,
+   "y0": 7.967,
+   "x1": 3.64,
+   "y1": 8.046999999999999,
+   "z0": 0.0,
+   "z1": 0.71
+  },
+  {
+   "tag": "12 Sala",
+   "mat": "silla",
+   "nombre": "M7 · base 2",
+   "x0": 3.4,
+   "y0": 7.8069999999999995,
+   "x1": 3.8000000000000003,
+   "y1": 8.206999999999999,
+   "z0": 0.0,
+   "z1": 0.02
+  },
+  {
+   "tag": "12 Sala",
+   "mat": "silla",
+   "nombre": "M7 · silla 1 · asiento",
+   "x0": 2.69,
+   "y0": 7.187,
+   "x1": 3.11,
+   "y1": 7.607,
+   "z0": 0.41000000000000003,
+   "z1": 0.45
+  },
+  {
+   "tag": "12 Sala",
+   "mat": "silla",
+   "nombre": "M7 · silla 1 · pata",
+   "x0": 2.69,
+   "y0": 7.187,
+   "x1": 2.73,
+   "y1": 7.227,
+   "z0": 0.0,
+   "z1": 0.41000000000000003
+  },
+  {
+   "tag": "12 Sala",
+   "mat": "silla",
+   "nombre": "M7 · silla 1 · pata",
+   "x0": 3.07,
+   "y0": 7.187,
+   "x1": 3.11,
+   "y1": 7.227,
+   "z0": 0.0,
+   "z1": 0.41000000000000003
+  },
+  {
+   "tag": "12 Sala",
+   "mat": "silla",
+   "nombre": "M7 · silla 1 · pata",
+   "x0": 2.69,
+   "y0": 7.567,
+   "x1": 2.73,
+   "y1": 7.607,
+   "z0": 0.0,
+   "z1": 0.41000000000000003
+  },
+  {
+   "tag": "12 Sala",
+   "mat": "silla",
+   "nombre": "M7 · silla 1 · pata",
+   "x0": 3.07,
+   "y0": 7.567,
+   "x1": 3.11,
+   "y1": 7.607,
+   "z0": 0.0,
+   "z1": 0.41000000000000003
+  },
+  {
+   "tag": "12 Sala",
+   "mat": "silla",
+   "nombre": "M7 · silla 1 · respaldo",
+   "x0": 2.69,
+   "y0": 7.187,
+   "x1": 3.11,
+   "y1": 7.237,
+   "z0": 0.45,
+   "z1": 0.88
+  },
+  {
+   "tag": "12 Sala",
+   "mat": "silla",
+   "nombre": "M7 · silla 2 · asiento",
+   "x0": 3.39,
+   "y0": 7.187,
+   "x1": 3.81,
+   "y1": 7.607,
+   "z0": 0.41000000000000003,
+   "z1": 0.45
+  },
+  {
+   "tag": "12 Sala",
+   "mat": "silla",
+   "nombre": "M7 · silla 2 · pata",
+   "x0": 3.39,
+   "y0": 7.187,
+   "x1": 3.43,
+   "y1": 7.227,
+   "z0": 0.0,
+   "z1": 0.41000000000000003
+  },
+  {
+   "tag": "12 Sala",
+   "mat": "silla",
+   "nombre": "M7 · silla 2 · pata",
+   "x0": 3.77,
+   "y0": 7.187,
+   "x1": 3.81,
+   "y1": 7.227,
+   "z0": 0.0,
+   "z1": 0.41000000000000003
+  },
+  {
+   "tag": "12 Sala",
+   "mat": "silla",
+   "nombre": "M7 · silla 2 · pata",
+   "x0": 3.39,
+   "y0": 7.567,
+   "x1": 3.43,
+   "y1": 7.607,
+   "z0": 0.0,
+   "z1": 0.41000000000000003
+  },
+  {
+   "tag": "12 Sala",
+   "mat": "silla",
+   "nombre": "M7 · silla 2 · pata",
+   "x0": 3.77,
+   "y0": 7.567,
+   "x1": 3.81,
+   "y1": 7.607,
+   "z0": 0.0,
+   "z1": 0.41000000000000003
+  },
+  {
+   "tag": "12 Sala",
+   "mat": "silla",
+   "nombre": "M7 · silla 2 · respaldo",
+   "x0": 3.39,
+   "y0": 7.187,
+   "x1": 3.81,
+   "y1": 7.237,
+   "z0": 0.45,
+   "z1": 0.88
+  },
+  {
+   "tag": "12 Sala",
+   "mat": "mesa",
+   "nombre": "M10 · tablero",
+   "x0": 4.615,
+   "y0": 7.657,
+   "x1": 5.315,
+   "y1": 8.357,
+   "z0": 0.71,
+   "z1": 0.75
+  },
+  {
+   "tag": "12 Sala",
+   "mat": "silla",
+   "nombre": "M10 · pie 1",
+   "x0": 4.925,
+   "y0": 7.967,
+   "x1": 5.005,
+   "y1": 8.046999999999999,
+   "z0": 0.0,
+   "z1": 0.71
+  },
+  {
+   "tag": "12 Sala",
+   "mat": "silla",
+   "nombre": "M10 · base 1",
+   "x0": 4.765,
+   "y0": 7.8069999999999995,
+   "x1": 5.165,
+   "y1": 8.206999999999999,
+   "z0": 0.0,
+   "z1": 0.02
+  },
+  {
+   "tag": "12 Sala",
+   "mat": "silla",
+   "nombre": "M10 · silla 1 · asiento",
+   "x0": 4.755,
+   "y0": 7.187,
+   "x1": 5.175,
+   "y1": 7.607,
+   "z0": 0.41000000000000003,
+   "z1": 0.45
+  },
+  {
+   "tag": "12 Sala",
+   "mat": "silla",
+   "nombre": "M10 · silla 1 · pata",
+   "x0": 4.755,
+   "y0": 7.187,
+   "x1": 4.795,
+   "y1": 7.227,
+   "z0": 0.0,
+   "z1": 0.41000000000000003
+  },
+  {
+   "tag": "12 Sala",
+   "mat": "silla",
+   "nombre": "M10 · silla 1 · pata",
+   "x0": 5.135,
+   "y0": 7.187,
+   "x1": 5.175,
+   "y1": 7.227,
+   "z0": 0.0,
+   "z1": 0.41000000000000003
+  },
+  {
+   "tag": "12 Sala",
+   "mat": "silla",
+   "nombre": "M10 · silla 1 · pata",
+   "x0": 4.755,
+   "y0": 7.567,
+   "x1": 4.795,
+   "y1": 7.607,
+   "z0": 0.0,
+   "z1": 0.41000000000000003
+  },
+  {
+   "tag": "12 Sala",
+   "mat": "silla",
+   "nombre": "M10 · silla 1 · pata",
+   "x0": 5.135,
+   "y0": 7.567,
+   "x1": 5.175,
+   "y1": 7.607,
+   "z0": 0.0,
+   "z1": 0.41000000000000003
+  },
+  {
+   "tag": "12 Sala",
+   "mat": "silla",
+   "nombre": "M10 · silla 1 · respaldo",
+   "x0": 4.755,
+   "y0": 7.187,
+   "x1": 5.175,
+   "y1": 7.237,
+   "z0": 0.45,
+   "z1": 0.88
+  },
+  {
+   "tag": "12 Sala",
+   "mat": "mesa",
+   "nombre": "M11 · tablero",
+   "x0": 5.98,
+   "y0": 7.657,
+   "x1": 7.38,
+   "y1": 8.357,
+   "z0": 0.71,
+   "z1": 0.75
+  },
+  {
+   "tag": "12 Sala",
+   "mat": "silla",
+   "nombre": "M11 · pie 1",
+   "x0": 6.29,
+   "y0": 7.967,
+   "x1": 6.37,
+   "y1": 8.046999999999999,
+   "z0": 0.0,
+   "z1": 0.71
+  },
+  {
+   "tag": "12 Sala",
+   "mat": "silla",
+   "nombre": "M11 · base 1",
+   "x0": 6.13,
+   "y0": 7.8069999999999995,
+   "x1": 6.53,
+   "y1": 8.206999999999999,
+   "z0": 0.0,
+   "z1": 0.02
+  },
+  {
+   "tag": "12 Sala",
+   "mat": "silla",
+   "nombre": "M11 · pie 2",
+   "x0": 6.99,
+   "y0": 7.967,
+   "x1": 7.07,
+   "y1": 8.046999999999999,
+   "z0": 0.0,
+   "z1": 0.71
+  },
+  {
+   "tag": "12 Sala",
+   "mat": "silla",
+   "nombre": "M11 · base 2",
+   "x0": 6.83,
+   "y0": 7.8069999999999995,
+   "x1": 7.23,
+   "y1": 8.206999999999999,
+   "z0": 0.0,
+   "z1": 0.02
+  },
+  {
+   "tag": "12 Sala",
+   "mat": "silla",
+   "nombre": "M11 · silla 1 · asiento",
+   "x0": 6.12,
+   "y0": 7.187,
+   "x1": 6.54,
+   "y1": 7.607,
+   "z0": 0.41000000000000003,
+   "z1": 0.45
+  },
+  {
+   "tag": "12 Sala",
+   "mat": "silla",
+   "nombre": "M11 · silla 1 · pata",
+   "x0": 6.12,
+   "y0": 7.187,
+   "x1": 6.16,
+   "y1": 7.227,
+   "z0": 0.0,
+   "z1": 0.41000000000000003
+  },
+  {
+   "tag": "12 Sala",
+   "mat": "silla",
+   "nombre": "M11 · silla 1 · pata",
+   "x0": 6.5,
+   "y0": 7.187,
+   "x1": 6.54,
+   "y1": 7.227,
+   "z0": 0.0,
+   "z1": 0.41000000000000003
+  },
+  {
+   "tag": "12 Sala",
+   "mat": "silla",
+   "nombre": "M11 · silla 1 · pata",
+   "x0": 6.12,
+   "y0": 7.567,
+   "x1": 6.16,
+   "y1": 7.607,
+   "z0": 0.0,
+   "z1": 0.41000000000000003
+  },
+  {
+   "tag": "12 Sala",
+   "mat": "silla",
+   "nombre": "M11 · silla 1 · pata",
+   "x0": 6.5,
+   "y0": 7.567,
+   "x1": 6.54,
+   "y1": 7.607,
+   "z0": 0.0,
+   "z1": 0.41000000000000003
+  },
+  {
+   "tag": "12 Sala",
+   "mat": "silla",
+   "nombre": "M11 · silla 1 · respaldo",
+   "x0": 6.12,
+   "y0": 7.187,
+   "x1": 6.54,
+   "y1": 7.237,
+   "z0": 0.45,
+   "z1": 0.88
+  },
+  {
+   "tag": "12 Sala",
+   "mat": "silla",
+   "nombre": "M11 · silla 2 · asiento",
+   "x0": 6.82,
+   "y0": 7.187,
+   "x1": 7.24,
+   "y1": 7.607,
+   "z0": 0.41000000000000003,
+   "z1": 0.45
+  },
+  {
+   "tag": "12 Sala",
+   "mat": "silla",
+   "nombre": "M11 · silla 2 · pata",
+   "x0": 6.82,
+   "y0": 7.187,
+   "x1": 6.86,
+   "y1": 7.227,
+   "z0": 0.0,
+   "z1": 0.41000000000000003
+  },
+  {
+   "tag": "12 Sala",
+   "mat": "silla",
+   "nombre": "M11 · silla 2 · pata",
+   "x0": 7.2,
+   "y0": 7.187,
+   "x1": 7.24,
+   "y1": 7.227,
+   "z0": 0.0,
+   "z1": 0.41000000000000003
+  },
+  {
+   "tag": "12 Sala",
+   "mat": "silla",
+   "nombre": "M11 · silla 2 · pata",
+   "x0": 6.82,
+   "y0": 7.567,
+   "x1": 6.86,
+   "y1": 7.607,
+   "z0": 0.0,
+   "z1": 0.41000000000000003
+  },
+  {
+   "tag": "12 Sala",
+   "mat": "silla",
+   "nombre": "M11 · silla 2 · pata",
+   "x0": 7.2,
+   "y0": 7.567,
+   "x1": 7.24,
+   "y1": 7.607,
+   "z0": 0.0,
+   "z1": 0.41000000000000003
+  },
+  {
+   "tag": "12 Sala",
+   "mat": "silla",
+   "nombre": "M11 · silla 2 · respaldo",
+   "x0": 6.82,
+   "y0": 7.187,
+   "x1": 7.24,
+   "y1": 7.237,
+   "z0": 0.45,
+   "z1": 0.88
+  },
+  {
+   "tag": "12 Sala",
+   "mat": "sillon",
+   "nombre": "Sillón corrido · asiento",
+   "x0": 2.53,
+   "y0": 8.357000000000001,
+   "x1": 7.4,
+   "y1": 8.957,
+   "z0": 0.0,
+   "z1": 0.42
+  },
+  {
+   "tag": "12 Sala",
+   "mat": "sillon",
+   "nombre": "Sillón corrido · respaldo",
+   "x0": 2.53,
+   "y0": 8.857000000000001,
+   "x1": 7.4,
+   "y1": 8.957,
+   "z0": 0.42,
+   "z1": 1.05
+  },
+  {
+   "tag": "13 Instalaciones",
+   "mat": "luz",
+   "nombre": "Aplique 1",
+   "x0": 0.25,
+   "y0": 5.65,
+   "x1": 0.37,
+   "y1": 5.85,
+   "z0": 1.95,
+   "z1": 2.25
+  },
+  {
+   "tag": "13 Instalaciones",
+   "mat": "luz",
+   "nombre": "Aplique 2",
+   "x0": 0.25,
+   "y0": 6.3500000000000005,
+   "x1": 0.37,
+   "y1": 6.55,
+   "z0": 1.95,
+   "z1": 2.25
+  },
+  {
+   "tag": "13 Instalaciones",
+   "mat": "aire",
+   "nombre": "AC1 · cuerpo de la máquina (empotrado en el forjado)",
+   "x0": 4.285,
+   "y0": 4.938,
+   "x1": 4.855,
+   "y1": 5.508,
+   "z0": 2.31,
+   "z1": 2.51
+  },
+  {
+   "tag": "13 Instalaciones",
+   "mat": "aire",
+   "nombre": "AC1 · Cassette de 4 vías empotrado, al Oeste de P3 · panel de 4 vías",
+   "x0": 4.15,
+   "y0": 4.803,
+   "x1": 4.99,
+   "y1": 5.643,
+   "z0": 2.28,
+   "z1": 2.31
+  },
+  {
+   "tag": "13 Instalaciones",
+   "mat": "rejilla",
+   "nombre": "AC1 · rejilla de retorno central",
+   "x0": 4.345,
+   "y0": 4.998,
+   "x1": 4.795,
+   "y1": 5.448,
+   "z0": 2.265,
+   "z1": 2.28
+  },
+  {
+   "tag": "13 Instalaciones",
+   "mat": "rejilla",
+   "nombre": "AC1 · lama de impulsión Sur",
+   "x0": 4.275,
+   "y0": 4.838,
+   "x1": 4.865,
+   "y1": 4.928,
+   "z0": 2.265,
+   "z1": 2.28
+  },
+  {
+   "tag": "13 Instalaciones",
+   "mat": "rejilla",
+   "nombre": "AC1 · lama de impulsión Norte",
+   "x0": 4.275,
+   "y0": 5.518,
+   "x1": 4.865,
+   "y1": 5.608,
+   "z0": 2.265,
+   "z1": 2.28
+  },
+  {
+   "tag": "13 Instalaciones",
+   "mat": "rejilla",
+   "nombre": "AC1 · lama de impulsión Oeste",
+   "x0": 4.185,
+   "y0": 4.928,
+   "x1": 4.275,
+   "y1": 5.518,
+   "z0": 2.265,
+   "z1": 2.28
+  },
+  {
+   "tag": "13 Instalaciones",
+   "mat": "rejilla",
+   "nombre": "AC1 · lama de impulsión Este",
+   "x0": 4.865,
+   "y0": 4.928,
+   "x1": 4.955,
+   "y1": 5.518,
+   "z0": 2.265,
+   "z1": 2.28
+  },
+  {
+   "tag": "14 Planta alta",
+   "mat": "tabique",
+   "nombre": "Tabique Oeste del aseo",
+   "x0": 2.461,
+   "y0": 7.509,
+   "x1": 2.56,
+   "y1": 8.957,
+   "z0": 2.56,
+   "z1": 5.0600000000000005
+  },
+  {
+   "tag": "14 Planta alta",
+   "mat": "tabique",
+   "nombre": "Tabique Sur - tramo Oeste",
+   "x0": 2.56,
+   "y0": 7.509,
+   "x1": 3.089,
+   "y1": 7.607,
+   "z0": 2.56,
+   "z1": 5.0600000000000005
+  },
+  {
+   "tag": "14 Planta alta",
+   "mat": "tabique",
+   "nombre": "Tabique Sur - tramo Este",
+   "x0": 3.849,
+   "y0": 7.509,
+   "x1": 7.511,
+   "y1": 7.607,
+   "z0": 2.56,
+   "z1": 5.0600000000000005
+  },
+  {
+   "tag": "14 Planta alta",
+   "mat": "tabique",
+   "nombre": "Tabique del inodoro",
+   "x0": 4.461,
+   "y0": 7.607,
+   "x1": 4.56,
+   "y1": 8.208,
+   "z0": 2.56,
+   "z1": 5.0600000000000005
+  },
+  {
+   "tag": "14 Planta alta",
+   "mat": "tabique",
+   "nombre": "Tabique aseo / almacen",
+   "x0": 5.459,
+   "y0": 7.607,
+   "x1": 5.558,
+   "y1": 8.957,
+   "z0": 2.56,
+   "z1": 5.0600000000000005
+  },
+  {
+   "tag": "14 Planta alta",
+   "mat": "tabique",
+   "nombre": "Tabique Este del almacen",
+   "x0": 7.408,
+   "y0": 7.607,
+   "x1": 7.511,
+   "y1": 8.072,
+   "z0": 2.56,
+   "z1": 5.0600000000000005
+  },
+  {
+   "tag": "14 Planta alta",
+   "mat": "tabique",
+   "nombre": "Puerta aseo · dintel",
+   "x0": 3.089,
+   "y0": 7.509,
+   "x1": 3.849,
+   "y1": 7.607,
+   "z0": 4.66,
+   "z1": 5.0600000000000005
+  },
+  {
+   "tag": "14 Planta alta",
+   "mat": "madera",
+   "nombre": "Puerta aseo · hoja",
+   "x0": 3.089,
+   "y0": 7.529,
+   "x1": 3.849,
+   "y1": 7.569,
+   "z0": 2.56,
+   "z1": 4.66
+  },
+  {
+   "tag": "14 Planta alta",
+   "mat": "tabique",
+   "nombre": "Puerta inodoro · dintel",
+   "x0": 4.461,
+   "y0": 8.208,
+   "x1": 4.56,
+   "y1": 8.957,
+   "z0": 4.66,
+   "z1": 5.0600000000000005
+  },
+  {
+   "tag": "14 Planta alta",
+   "mat": "madera",
+   "nombre": "Puerta inodoro · hoja",
+   "x0": 4.481,
+   "y0": 8.208,
+   "x1": 4.521,
+   "y1": 8.957,
+   "z0": 2.56,
+   "z1": 4.66
+  },
+  {
+   "tag": "14 Planta alta",
+   "mat": "tabique",
+   "nombre": "Puerta almacen · dintel",
+   "x0": 7.408,
+   "y0": 8.072,
+   "x1": 7.511,
+   "y1": 8.957,
+   "z0": 4.66,
+   "z1": 5.0600000000000005
+  },
+  {
+   "tag": "14 Planta alta",
+   "mat": "madera",
+   "nombre": "Puerta almacen · hoja",
+   "x0": 7.428,
+   "y0": 8.072,
+   "x1": 7.468,
+   "y1": 8.956999999999999,
+   "z0": 2.56,
+   "z1": 4.66
+  },
+  {
+   "tag": "14 Planta alta",
+   "mat": "vidrio",
+   "nombre": "Borde Oeste del vacio",
+   "x0": 2.411,
+   "y0": 3.988,
+   "x1": 2.461,
+   "y1": 7.509,
+   "z0": 2.56,
+   "z1": 3.56
+  },
+  {
+   "tag": "14 Planta alta",
+   "mat": "vidrio",
+   "nombre": "Borde Sur del vacio",
+   "x0": 2.411,
+   "y0": 3.939,
+   "x1": 8.759,
+   "y1": 3.988,
+   "z0": 2.56,
+   "z1": 3.56
+  },
+  {
+   "tag": "14 Planta alta",
+   "mat": "vidrio",
+   "nombre": "Caja de escalera",
+   "x0": 8.759,
+   "y0": 3.939,
+   "x1": 8.811,
+   "y1": 7.738,
+   "z0": 2.56,
+   "z1": 3.56
+  },
+  {
+   "tag": "14 Planta alta",
+   "mat": "mesa",
+   "nombre": "C1 · tablero",
+   "x0": 3.35,
+   "y0": 4.1,
+   "x1": 4.35,
+   "y1": 6.5,
+   "z0": 3.27,
+   "z1": 3.31
+  },
+  {
+   "tag": "14 Planta alta",
+   "mat": "silla",
+   "nombre": "C1 · pie 1",
+   "x0": 3.8099999999999996,
+   "y0": 5.26,
+   "x1": 3.8899999999999997,
+   "y1": 5.34,
+   "z0": 2.56,
+   "z1": 3.27
+  },
+  {
+   "tag": "14 Planta alta",
+   "mat": "silla",
+   "nombre": "C1 · base 1",
+   "x0": 3.6499999999999995,
+   "y0": 5.1,
+   "x1": 4.05,
+   "y1": 5.5,
+   "z0": 2.56,
+   "z1": 2.58
+  },
+  {
+   "tag": "14 Planta alta",
+   "mat": "silla",
+   "nombre": "C1 · silla 1 · asiento",
+   "x0": 4.3999999999999995,
+   "y0": 4.1899999999999995,
+   "x1": 4.819999999999999,
+   "y1": 4.609999999999999,
+   "z0": 2.97,
+   "z1": 3.0100000000000002
+  },
+  {
+   "tag": "14 Planta alta",
+   "mat": "silla",
+   "nombre": "C1 · silla 1 · pata",
+   "x0": 4.3999999999999995,
+   "y0": 4.1899999999999995,
+   "x1": 4.4399999999999995,
+   "y1": 4.2299999999999995,
+   "z0": 2.56,
+   "z1": 2.97
+  },
+  {
+   "tag": "14 Planta alta",
+   "mat": "silla",
+   "nombre": "C1 · silla 1 · pata",
+   "x0": 4.779999999999999,
+   "y0": 4.1899999999999995,
+   "x1": 4.819999999999999,
+   "y1": 4.2299999999999995,
+   "z0": 2.56,
+   "z1": 2.97
+  },
+  {
+   "tag": "14 Planta alta",
+   "mat": "silla",
+   "nombre": "C1 · silla 1 · pata",
+   "x0": 4.3999999999999995,
+   "y0": 4.569999999999999,
+   "x1": 4.4399999999999995,
+   "y1": 4.609999999999999,
+   "z0": 2.56,
+   "z1": 2.97
+  },
+  {
+   "tag": "14 Planta alta",
+   "mat": "silla",
+   "nombre": "C1 · silla 1 · pata",
+   "x0": 4.779999999999999,
+   "y0": 4.569999999999999,
+   "x1": 4.819999999999999,
+   "y1": 4.609999999999999,
+   "z0": 2.56,
+   "z1": 2.97
+  },
+  {
+   "tag": "14 Planta alta",
+   "mat": "silla",
+   "nombre": "C1 · silla 1 · respaldo",
+   "x0": 4.77,
+   "y0": 4.1899999999999995,
+   "x1": 4.819999999999999,
+   "y1": 4.609999999999999,
+   "z0": 3.0100000000000002,
+   "z1": 3.44
+  },
+  {
+   "tag": "14 Planta alta",
+   "mat": "silla",
+   "nombre": "C1 · silla 2 · asiento",
+   "x0": 4.3999999999999995,
+   "y0": 4.79,
+   "x1": 4.819999999999999,
+   "y1": 5.21,
+   "z0": 2.97,
+   "z1": 3.0100000000000002
+  },
+  {
+   "tag": "14 Planta alta",
+   "mat": "silla",
+   "nombre": "C1 · silla 2 · pata",
+   "x0": 4.3999999999999995,
+   "y0": 4.79,
+   "x1": 4.4399999999999995,
+   "y1": 4.83,
+   "z0": 2.56,
+   "z1": 2.97
+  },
+  {
+   "tag": "14 Planta alta",
+   "mat": "silla",
+   "nombre": "C1 · silla 2 · pata",
+   "x0": 4.779999999999999,
+   "y0": 4.79,
+   "x1": 4.819999999999999,
+   "y1": 4.83,
+   "z0": 2.56,
+   "z1": 2.97
+  },
+  {
+   "tag": "14 Planta alta",
+   "mat": "silla",
+   "nombre": "C1 · silla 2 · pata",
+   "x0": 4.3999999999999995,
+   "y0": 5.17,
+   "x1": 4.4399999999999995,
+   "y1": 5.21,
+   "z0": 2.56,
+   "z1": 2.97
+  },
+  {
+   "tag": "14 Planta alta",
+   "mat": "silla",
+   "nombre": "C1 · silla 2 · pata",
+   "x0": 4.779999999999999,
+   "y0": 5.17,
+   "x1": 4.819999999999999,
+   "y1": 5.21,
+   "z0": 2.56,
+   "z1": 2.97
+  },
+  {
+   "tag": "14 Planta alta",
+   "mat": "silla",
+   "nombre": "C1 · silla 2 · respaldo",
+   "x0": 4.77,
+   "y0": 4.79,
+   "x1": 4.819999999999999,
+   "y1": 5.21,
+   "z0": 3.0100000000000002,
+   "z1": 3.44
+  },
+  {
+   "tag": "14 Planta alta",
+   "mat": "silla",
+   "nombre": "C1 · silla 3 · asiento",
+   "x0": 4.3999999999999995,
+   "y0": 5.39,
+   "x1": 4.819999999999999,
+   "y1": 5.81,
+   "z0": 2.97,
+   "z1": 3.0100000000000002
+  },
+  {
+   "tag": "14 Planta alta",
+   "mat": "silla",
+   "nombre": "C1 · silla 3 · pata",
+   "x0": 4.3999999999999995,
+   "y0": 5.39,
+   "x1": 4.4399999999999995,
+   "y1": 5.43,
+   "z0": 2.56,
+   "z1": 2.97
+  },
+  {
+   "tag": "14 Planta alta",
+   "mat": "silla",
+   "nombre": "C1 · silla 3 · pata",
+   "x0": 4.779999999999999,
+   "y0": 5.39,
+   "x1": 4.819999999999999,
+   "y1": 5.43,
+   "z0": 2.56,
+   "z1": 2.97
+  },
+  {
+   "tag": "14 Planta alta",
+   "mat": "silla",
+   "nombre": "C1 · silla 3 · pata",
+   "x0": 4.3999999999999995,
+   "y0": 5.77,
+   "x1": 4.4399999999999995,
+   "y1": 5.81,
+   "z0": 2.56,
+   "z1": 2.97
+  },
+  {
+   "tag": "14 Planta alta",
+   "mat": "silla",
+   "nombre": "C1 · silla 3 · pata",
+   "x0": 4.779999999999999,
+   "y0": 5.77,
+   "x1": 4.819999999999999,
+   "y1": 5.81,
+   "z0": 2.56,
+   "z1": 2.97
+  },
+  {
+   "tag": "14 Planta alta",
+   "mat": "silla",
+   "nombre": "C1 · silla 3 · respaldo",
+   "x0": 4.77,
+   "y0": 5.39,
+   "x1": 4.819999999999999,
+   "y1": 5.81,
+   "z0": 3.0100000000000002,
+   "z1": 3.44
+  },
+  {
+   "tag": "14 Planta alta",
+   "mat": "silla",
+   "nombre": "C1 · silla 4 · asiento",
+   "x0": 4.3999999999999995,
+   "y0": 5.99,
+   "x1": 4.819999999999999,
+   "y1": 6.41,
+   "z0": 2.97,
+   "z1": 3.0100000000000002
+  },
+  {
+   "tag": "14 Planta alta",
+   "mat": "silla",
+   "nombre": "C1 · silla 4 · pata",
+   "x0": 4.3999999999999995,
+   "y0": 5.99,
+   "x1": 4.4399999999999995,
+   "y1": 6.03,
+   "z0": 2.56,
+   "z1": 2.97
+  },
+  {
+   "tag": "14 Planta alta",
+   "mat": "silla",
+   "nombre": "C1 · silla 4 · pata",
+   "x0": 4.779999999999999,
+   "y0": 5.99,
+   "x1": 4.819999999999999,
+   "y1": 6.03,
+   "z0": 2.56,
+   "z1": 2.97
+  },
+  {
+   "tag": "14 Planta alta",
+   "mat": "silla",
+   "nombre": "C1 · silla 4 · pata",
+   "x0": 4.3999999999999995,
+   "y0": 6.37,
+   "x1": 4.4399999999999995,
+   "y1": 6.41,
+   "z0": 2.56,
+   "z1": 2.97
+  },
+  {
+   "tag": "14 Planta alta",
+   "mat": "silla",
+   "nombre": "C1 · silla 4 · pata",
+   "x0": 4.779999999999999,
+   "y0": 6.37,
+   "x1": 4.819999999999999,
+   "y1": 6.41,
+   "z0": 2.56,
+   "z1": 2.97
+  },
+  {
+   "tag": "14 Planta alta",
+   "mat": "silla",
+   "nombre": "C1 · silla 4 · respaldo",
+   "x0": 4.77,
+   "y0": 5.99,
+   "x1": 4.819999999999999,
+   "y1": 6.41,
+   "z0": 3.0100000000000002,
+   "z1": 3.44
+  },
+  {
+   "tag": "14 Planta alta",
+   "mat": "silla",
+   "nombre": "C1 · silla 5 · asiento",
+   "x0": 2.8800000000000003,
+   "y0": 4.1899999999999995,
+   "x1": 3.3000000000000003,
+   "y1": 4.609999999999999,
+   "z0": 2.97,
+   "z1": 3.0100000000000002
+  },
+  {
+   "tag": "14 Planta alta",
+   "mat": "silla",
+   "nombre": "C1 · silla 5 · pata",
+   "x0": 2.8800000000000003,
+   "y0": 4.1899999999999995,
+   "x1": 2.9200000000000004,
+   "y1": 4.2299999999999995,
+   "z0": 2.56,
+   "z1": 2.97
+  },
+  {
+   "tag": "14 Planta alta",
+   "mat": "silla",
+   "nombre": "C1 · silla 5 · pata",
+   "x0": 3.2600000000000002,
+   "y0": 4.1899999999999995,
+   "x1": 3.3000000000000003,
+   "y1": 4.2299999999999995,
+   "z0": 2.56,
+   "z1": 2.97
+  },
+  {
+   "tag": "14 Planta alta",
+   "mat": "silla",
+   "nombre": "C1 · silla 5 · pata",
+   "x0": 2.8800000000000003,
+   "y0": 4.569999999999999,
+   "x1": 2.9200000000000004,
+   "y1": 4.609999999999999,
+   "z0": 2.56,
+   "z1": 2.97
+  },
+  {
+   "tag": "14 Planta alta",
+   "mat": "silla",
+   "nombre": "C1 · silla 5 · pata",
+   "x0": 3.2600000000000002,
+   "y0": 4.569999999999999,
+   "x1": 3.3000000000000003,
+   "y1": 4.609999999999999,
+   "z0": 2.56,
+   "z1": 2.97
+  },
+  {
+   "tag": "14 Planta alta",
+   "mat": "silla",
+   "nombre": "C1 · silla 5 · respaldo",
+   "x0": 2.8800000000000003,
+   "y0": 4.1899999999999995,
+   "x1": 2.93,
+   "y1": 4.609999999999999,
+   "z0": 3.0100000000000002,
+   "z1": 3.44
+  },
+  {
+   "tag": "14 Planta alta",
+   "mat": "silla",
+   "nombre": "C1 · silla 6 · asiento",
+   "x0": 2.8800000000000003,
+   "y0": 4.79,
+   "x1": 3.3000000000000003,
+   "y1": 5.21,
+   "z0": 2.97,
+   "z1": 3.0100000000000002
+  },
+  {
+   "tag": "14 Planta alta",
+   "mat": "silla",
+   "nombre": "C1 · silla 6 · pata",
+   "x0": 2.8800000000000003,
+   "y0": 4.79,
+   "x1": 2.9200000000000004,
+   "y1": 4.83,
+   "z0": 2.56,
+   "z1": 2.97
+  },
+  {
+   "tag": "14 Planta alta",
+   "mat": "silla",
+   "nombre": "C1 · silla 6 · pata",
+   "x0": 3.2600000000000002,
+   "y0": 4.79,
+   "x1": 3.3000000000000003,
+   "y1": 4.83,
+   "z0": 2.56,
+   "z1": 2.97
+  },
+  {
+   "tag": "14 Planta alta",
+   "mat": "silla",
+   "nombre": "C1 · silla 6 · pata",
+   "x0": 2.8800000000000003,
+   "y0": 5.17,
+   "x1": 2.9200000000000004,
+   "y1": 5.21,
+   "z0": 2.56,
+   "z1": 2.97
+  },
+  {
+   "tag": "14 Planta alta",
+   "mat": "silla",
+   "nombre": "C1 · silla 6 · pata",
+   "x0": 3.2600000000000002,
+   "y0": 5.17,
+   "x1": 3.3000000000000003,
+   "y1": 5.21,
+   "z0": 2.56,
+   "z1": 2.97
+  },
+  {
+   "tag": "14 Planta alta",
+   "mat": "silla",
+   "nombre": "C1 · silla 6 · respaldo",
+   "x0": 2.8800000000000003,
+   "y0": 4.79,
+   "x1": 2.93,
+   "y1": 5.21,
+   "z0": 3.0100000000000002,
+   "z1": 3.44
+  },
+  {
+   "tag": "14 Planta alta",
+   "mat": "silla",
+   "nombre": "C1 · silla 7 · asiento",
+   "x0": 2.8800000000000003,
+   "y0": 5.39,
+   "x1": 3.3000000000000003,
+   "y1": 5.81,
+   "z0": 2.97,
+   "z1": 3.0100000000000002
+  },
+  {
+   "tag": "14 Planta alta",
+   "mat": "silla",
+   "nombre": "C1 · silla 7 · pata",
+   "x0": 2.8800000000000003,
+   "y0": 5.39,
+   "x1": 2.9200000000000004,
+   "y1": 5.43,
+   "z0": 2.56,
+   "z1": 2.97
+  },
+  {
+   "tag": "14 Planta alta",
+   "mat": "silla",
+   "nombre": "C1 · silla 7 · pata",
+   "x0": 3.2600000000000002,
+   "y0": 5.39,
+   "x1": 3.3000000000000003,
+   "y1": 5.43,
+   "z0": 2.56,
+   "z1": 2.97
+  },
+  {
+   "tag": "14 Planta alta",
+   "mat": "silla",
+   "nombre": "C1 · silla 7 · pata",
+   "x0": 2.8800000000000003,
+   "y0": 5.77,
+   "x1": 2.9200000000000004,
+   "y1": 5.81,
+   "z0": 2.56,
+   "z1": 2.97
+  },
+  {
+   "tag": "14 Planta alta",
+   "mat": "silla",
+   "nombre": "C1 · silla 7 · pata",
+   "x0": 3.2600000000000002,
+   "y0": 5.77,
+   "x1": 3.3000000000000003,
+   "y1": 5.81,
+   "z0": 2.56,
+   "z1": 2.97
+  },
+  {
+   "tag": "14 Planta alta",
+   "mat": "silla",
+   "nombre": "C1 · silla 7 · respaldo",
+   "x0": 2.8800000000000003,
+   "y0": 5.39,
+   "x1": 2.93,
+   "y1": 5.81,
+   "z0": 3.0100000000000002,
+   "z1": 3.44
+  },
+  {
+   "tag": "14 Planta alta",
+   "mat": "silla",
+   "nombre": "C1 · silla 8 · asiento",
+   "x0": 2.8800000000000003,
+   "y0": 5.99,
+   "x1": 3.3000000000000003,
+   "y1": 6.41,
+   "z0": 2.97,
+   "z1": 3.0100000000000002
+  },
+  {
+   "tag": "14 Planta alta",
+   "mat": "silla",
+   "nombre": "C1 · silla 8 · pata",
+   "x0": 2.8800000000000003,
+   "y0": 5.99,
+   "x1": 2.9200000000000004,
+   "y1": 6.03,
+   "z0": 2.56,
+   "z1": 2.97
+  },
+  {
+   "tag": "14 Planta alta",
+   "mat": "silla",
+   "nombre": "C1 · silla 8 · pata",
+   "x0": 3.2600000000000002,
+   "y0": 5.99,
+   "x1": 3.3000000000000003,
+   "y1": 6.03,
+   "z0": 2.56,
+   "z1": 2.97
+  },
+  {
+   "tag": "14 Planta alta",
+   "mat": "silla",
+   "nombre": "C1 · silla 8 · pata",
+   "x0": 2.8800000000000003,
+   "y0": 6.37,
+   "x1": 2.9200000000000004,
+   "y1": 6.41,
+   "z0": 2.56,
+   "z1": 2.97
+  },
+  {
+   "tag": "14 Planta alta",
+   "mat": "silla",
+   "nombre": "C1 · silla 8 · pata",
+   "x0": 3.2600000000000002,
+   "y0": 6.37,
+   "x1": 3.3000000000000003,
+   "y1": 6.41,
+   "z0": 2.56,
+   "z1": 2.97
+  },
+  {
+   "tag": "14 Planta alta",
+   "mat": "silla",
+   "nombre": "C1 · silla 8 · respaldo",
+   "x0": 2.8800000000000003,
+   "y0": 5.99,
+   "x1": 2.93,
+   "y1": 6.41,
+   "z0": 3.0100000000000002,
+   "z1": 3.44
+  },
+  {
+   "tag": "14 Planta alta",
+   "mat": "silla",
+   "nombre": "R1 · silla 1 · asiento",
+   "x0": 7.330000000000001,
+   "y0": 6.08,
+   "x1": 7.750000000000001,
+   "y1": 6.5,
+   "z0": 2.97,
+   "z1": 3.0100000000000002
+  },
+  {
+   "tag": "14 Planta alta",
+   "mat": "silla",
+   "nombre": "R1 · silla 1 · pata",
+   "x0": 7.330000000000001,
+   "y0": 6.08,
+   "x1": 7.370000000000001,
+   "y1": 6.12,
+   "z0": 2.56,
+   "z1": 2.97
+  },
+  {
+   "tag": "14 Planta alta",
+   "mat": "silla",
+   "nombre": "R1 · silla 1 · pata",
+   "x0": 7.710000000000001,
+   "y0": 6.08,
+   "x1": 7.750000000000001,
+   "y1": 6.12,
+   "z0": 2.56,
+   "z1": 2.97
+  },
+  {
+   "tag": "14 Planta alta",
+   "mat": "silla",
+   "nombre": "R1 · silla 1 · pata",
+   "x0": 7.330000000000001,
+   "y0": 6.46,
+   "x1": 7.370000000000001,
+   "y1": 6.5,
+   "z0": 2.56,
+   "z1": 2.97
+  },
+  {
+   "tag": "14 Planta alta",
+   "mat": "silla",
+   "nombre": "R1 · silla 1 · pata",
+   "x0": 7.710000000000001,
+   "y0": 6.46,
+   "x1": 7.750000000000001,
+   "y1": 6.5,
+   "z0": 2.56,
+   "z1": 2.97
+  },
+  {
+   "tag": "14 Planta alta",
+   "mat": "silla",
+   "nombre": "R1 · silla 1 · respaldo",
+   "x0": 7.330000000000001,
+   "y0": 6.45,
+   "x1": 7.750000000000001,
+   "y1": 6.5,
+   "z0": 3.0100000000000002,
+   "z1": 3.44
+  },
+  {
+   "tag": "14 Planta alta",
+   "mat": "silla",
+   "nombre": "R1 · silla 2 · asiento",
+   "x0": 7.330000000000001,
+   "y0": 4.359999999999999,
+   "x1": 7.750000000000001,
+   "y1": 4.779999999999999,
+   "z0": 2.97,
+   "z1": 3.0100000000000002
+  },
+  {
+   "tag": "14 Planta alta",
+   "mat": "silla",
+   "nombre": "R1 · silla 2 · pata",
+   "x0": 7.330000000000001,
+   "y0": 4.359999999999999,
+   "x1": 7.370000000000001,
+   "y1": 4.3999999999999995,
+   "z0": 2.56,
+   "z1": 2.97
+  },
+  {
+   "tag": "14 Planta alta",
+   "mat": "silla",
+   "nombre": "R1 · silla 2 · pata",
+   "x0": 7.710000000000001,
+   "y0": 4.359999999999999,
+   "x1": 7.750000000000001,
+   "y1": 4.3999999999999995,
+   "z0": 2.56,
+   "z1": 2.97
+  },
+  {
+   "tag": "14 Planta alta",
+   "mat": "silla",
+   "nombre": "R1 · silla 2 · pata",
+   "x0": 7.330000000000001,
+   "y0": 4.739999999999999,
+   "x1": 7.370000000000001,
+   "y1": 4.779999999999999,
+   "z0": 2.56,
+   "z1": 2.97
+  },
+  {
+   "tag": "14 Planta alta",
+   "mat": "silla",
+   "nombre": "R1 · silla 2 · pata",
+   "x0": 7.710000000000001,
+   "y0": 4.739999999999999,
+   "x1": 7.750000000000001,
+   "y1": 4.779999999999999,
+   "z0": 2.56,
+   "z1": 2.97
+  },
+  {
+   "tag": "14 Planta alta",
+   "mat": "silla",
+   "nombre": "R1 · silla 2 · respaldo",
+   "x0": 7.330000000000001,
+   "y0": 4.359999999999999,
+   "x1": 7.750000000000001,
+   "y1": 4.409999999999999,
+   "z0": 3.0100000000000002,
+   "z1": 3.44
+  },
+  {
+   "tag": "14 Planta alta",
+   "mat": "silla",
+   "nombre": "R1 · silla 3 · asiento",
+   "x0": 8.074781847254618,
+   "y0": 5.6499999999999995,
+   "x1": 8.49478184725462,
+   "y1": 6.069999999999999,
+   "z0": 2.97,
+   "z1": 3.0100000000000002
+  },
+  {
+   "tag": "14 Planta alta",
+   "mat": "silla",
+   "nombre": "R1 · silla 3 · pata",
+   "x0": 8.074781847254618,
+   "y0": 5.6499999999999995,
+   "x1": 8.114781847254617,
+   "y1": 5.6899999999999995,
+   "z0": 2.56,
+   "z1": 2.97
+  },
+  {
+   "tag": "14 Planta alta",
+   "mat": "silla",
+   "nombre": "R1 · silla 3 · pata",
+   "x0": 8.45478184725462,
+   "y0": 5.6499999999999995,
+   "x1": 8.49478184725462,
+   "y1": 5.6899999999999995,
+   "z0": 2.56,
+   "z1": 2.97
+  },
+  {
+   "tag": "14 Planta alta",
+   "mat": "silla",
+   "nombre": "R1 · silla 3 · pata",
+   "x0": 8.074781847254618,
+   "y0": 6.029999999999999,
+   "x1": 8.114781847254617,
+   "y1": 6.069999999999999,
+   "z0": 2.56,
+   "z1": 2.97
+  },
+  {
+   "tag": "14 Planta alta",
+   "mat": "silla",
+   "nombre": "R1 · silla 3 · pata",
+   "x0": 8.45478184725462,
+   "y0": 6.029999999999999,
+   "x1": 8.49478184725462,
+   "y1": 6.069999999999999,
+   "z0": 2.56,
+   "z1": 2.97
+  },
+  {
+   "tag": "14 Planta alta",
+   "mat": "silla",
+   "nombre": "R1 · silla 3 · respaldo",
+   "x0": 8.44478184725462,
+   "y0": 5.6499999999999995,
+   "x1": 8.49478184725462,
+   "y1": 6.069999999999999,
+   "z0": 3.0100000000000002,
+   "z1": 3.44
+  },
+  {
+   "tag": "14 Planta alta",
+   "mat": "silla",
+   "nombre": "R1 · silla 4 · asiento",
+   "x0": 6.585218152745384,
+   "y0": 5.6499999999999995,
+   "x1": 7.005218152745384,
+   "y1": 6.069999999999999,
+   "z0": 2.97,
+   "z1": 3.0100000000000002
+  },
+  {
+   "tag": "14 Planta alta",
+   "mat": "silla",
+   "nombre": "R1 · silla 4 · pata",
+   "x0": 6.585218152745384,
+   "y0": 5.6499999999999995,
+   "x1": 6.625218152745384,
+   "y1": 5.6899999999999995,
+   "z0": 2.56,
+   "z1": 2.97
+  },
+  {
+   "tag": "14 Planta alta",
+   "mat": "silla",
+   "nombre": "R1 · silla 4 · pata",
+   "x0": 6.965218152745384,
+   "y0": 5.6499999999999995,
+   "x1": 7.005218152745384,
+   "y1": 5.6899999999999995,
+   "z0": 2.56,
+   "z1": 2.97
+  },
+  {
+   "tag": "14 Planta alta",
+   "mat": "silla",
+   "nombre": "R1 · silla 4 · pata",
+   "x0": 6.585218152745384,
+   "y0": 6.029999999999999,
+   "x1": 6.625218152745384,
+   "y1": 6.069999999999999,
+   "z0": 2.56,
+   "z1": 2.97
+  },
+  {
+   "tag": "14 Planta alta",
+   "mat": "silla",
+   "nombre": "R1 · silla 4 · pata",
+   "x0": 6.965218152745384,
+   "y0": 6.029999999999999,
+   "x1": 7.005218152745384,
+   "y1": 6.069999999999999,
+   "z0": 2.56,
+   "z1": 2.97
+  },
+  {
+   "tag": "14 Planta alta",
+   "mat": "silla",
+   "nombre": "R1 · silla 4 · respaldo",
+   "x0": 6.585218152745384,
+   "y0": 5.6499999999999995,
+   "x1": 6.6352181527453835,
+   "y1": 6.069999999999999,
+   "z0": 3.0100000000000002,
+   "z1": 3.44
+  },
+  {
+   "tag": "14 Planta alta",
+   "mat": "silla",
+   "nombre": "R1 · silla 5 · asiento",
+   "x0": 6.585218152745384,
+   "y0": 4.79,
+   "x1": 7.005218152745384,
+   "y1": 5.21,
+   "z0": 2.97,
+   "z1": 3.0100000000000002
+  },
+  {
+   "tag": "14 Planta alta",
+   "mat": "silla",
+   "nombre": "R1 · silla 5 · pata",
+   "x0": 6.585218152745384,
+   "y0": 4.79,
+   "x1": 6.625218152745384,
+   "y1": 4.83,
+   "z0": 2.56,
+   "z1": 2.97
+  },
+  {
+   "tag": "14 Planta alta",
+   "mat": "silla",
+   "nombre": "R1 · silla 5 · pata",
+   "x0": 6.965218152745384,
+   "y0": 4.79,
+   "x1": 7.005218152745384,
+   "y1": 4.83,
+   "z0": 2.56,
+   "z1": 2.97
+  },
+  {
+   "tag": "14 Planta alta",
+   "mat": "silla",
+   "nombre": "R1 · silla 5 · pata",
+   "x0": 6.585218152745384,
+   "y0": 5.17,
+   "x1": 6.625218152745384,
+   "y1": 5.21,
+   "z0": 2.56,
+   "z1": 2.97
+  },
+  {
+   "tag": "14 Planta alta",
+   "mat": "silla",
+   "nombre": "R1 · silla 5 · pata",
+   "x0": 6.965218152745384,
+   "y0": 5.17,
+   "x1": 7.005218152745384,
+   "y1": 5.21,
+   "z0": 2.56,
+   "z1": 2.97
+  },
+  {
+   "tag": "14 Planta alta",
+   "mat": "silla",
+   "nombre": "R1 · silla 5 · respaldo",
+   "x0": 6.585218152745384,
+   "y0": 4.79,
+   "x1": 6.6352181527453835,
+   "y1": 5.21,
+   "z0": 3.0100000000000002,
+   "z1": 3.44
+  },
+  {
+   "tag": "14 Planta alta",
+   "mat": "silla",
+   "nombre": "R1 · silla 6 · asiento",
+   "x0": 8.074781847254616,
+   "y0": 4.789999999999999,
+   "x1": 8.494781847254618,
+   "y1": 5.209999999999999,
+   "z0": 2.97,
+   "z1": 3.0100000000000002
+  },
+  {
+   "tag": "14 Planta alta",
+   "mat": "silla",
+   "nombre": "R1 · silla 6 · pata",
+   "x0": 8.074781847254616,
+   "y0": 4.789999999999999,
+   "x1": 8.114781847254616,
+   "y1": 4.829999999999999,
+   "z0": 2.56,
+   "z1": 2.97
+  },
+  {
+   "tag": "14 Planta alta",
+   "mat": "silla",
+   "nombre": "R1 · silla 6 · pata",
+   "x0": 8.454781847254619,
+   "y0": 4.789999999999999,
+   "x1": 8.494781847254618,
+   "y1": 4.829999999999999,
+   "z0": 2.56,
+   "z1": 2.97
+  },
+  {
+   "tag": "14 Planta alta",
+   "mat": "silla",
+   "nombre": "R1 · silla 6 · pata",
+   "x0": 8.074781847254616,
+   "y0": 5.169999999999999,
+   "x1": 8.114781847254616,
+   "y1": 5.209999999999999,
+   "z0": 2.56,
+   "z1": 2.97
+  },
+  {
+   "tag": "14 Planta alta",
+   "mat": "silla",
+   "nombre": "R1 · silla 6 · pata",
+   "x0": 8.454781847254619,
+   "y0": 5.169999999999999,
+   "x1": 8.494781847254618,
+   "y1": 5.209999999999999,
+   "z0": 2.56,
+   "z1": 2.97
+  },
+  {
+   "tag": "14 Planta alta",
+   "mat": "silla",
+   "nombre": "R1 · silla 6 · respaldo",
+   "x0": 8.444781847254617,
+   "y0": 4.789999999999999,
+   "x1": 8.494781847254618,
+   "y1": 5.209999999999999,
+   "z0": 3.0100000000000002,
+   "z1": 3.44
+  }
+ ],
+ "prismas": [
+  {
+   "tag": "01 Solera",
+   "mat": "solera",
+   "nombre": "Solera de planta baja",
+   "pts": [
+    [
+     0.25,
+     9.008
+    ],
+    [
+     2.43,
+     9.008
+    ],
+    [
+     2.43,
+     8.957
+    ],
+    [
+     9.89,
+     8.957
+    ],
+    [
+     9.89,
+     1.429
+    ],
+    [
+     9.71,
+     1.429
+    ],
+    [
+     9.71,
+     0.379
+    ],
+    [
+     6.23,
+     0.379
+    ],
+    [
+     6.23,
+     0.96
+    ],
+    [
+     5.98,
+     0.96
+    ],
+    [
+     5.98,
+     1.621
+    ],
+    [
+     0.51,
+     1.621
+    ],
+    [
+     0.51,
+     2.009
+    ],
+    [
+     0.25,
+     2.009
+    ]
+   ],
+   "z0": -0.15,
+   "z1": 0.0
+  },
+  {
+   "tag": "09 Forjado",
+   "mat": "forjado",
+   "nombre": "Forjado de planta alta",
+   "pts": [
+    [
+     2.461,
+     8.957
+    ],
+    [
+     9.89,
+     8.957
+    ],
+    [
+     9.89,
+     7.738
+    ],
+    [
+     8.811,
+     7.738
+    ],
+    [
+     8.811,
+     3.939
+    ],
+    [
+     2.411,
+     3.939
+    ],
+    [
+     2.411,
+     7.509
+    ],
+    [
+     2.461,
+     7.509
+    ]
+   ],
+   "z0": 2.31,
+   "z1": 2.56
+  },
+  {
+   "tag": "15 Techo",
+   "mat": "forjado",
+   "nombre": "Techo del altillo",
+   "pts": [
+    [
+     0.0,
+     9.156
+    ],
+    [
+     10.04,
+     9.156
+    ],
+    [
+     10.04,
+     0.33
+    ],
+    [
+     6.23,
+     0.33
+    ],
+    [
+     6.23,
+     0.0
+    ],
+    [
+     5.731,
+     0.0
+    ],
+    [
+     5.731,
+     1.561
+    ],
+    [
+     0.0,
+     1.561
+    ]
+   ],
+   "z0": 5.0600000000000005,
+   "z1": 5.260000000000001
+  }
+ ],
+ "cilindros": [
+  {
+   "tag": "11 Barra",
+   "mat": "inox",
+   "nombre": "B2 · Barriles de cerveza de 30 L, Ø 0,32 (debajo de la tabla de P2)",
+   "cx": 0.91,
+   "cy": 1.816,
+   "r": 0.16,
+   "z0": 0.13,
+   "z1": 0.73
+  },
+  {
+   "tag": "13 Instalaciones",
+   "mat": "luz",
+   "nombre": "Empotrado 1",
+   "cx": 1.1,
+   "cy": 4.6,
+   "r": 0.045,
+   "z0": 2.29,
+   "z1": 2.31
+  },
+  {
+   "tag": "13 Instalaciones",
+   "mat": "luz",
+   "nombre": "Empotrado 2",
+   "cx": 2.6,
+   "cy": 4.6,
+   "r": 0.045,
+   "z0": 2.29,
+   "z1": 2.31
+  },
+  {
+   "tag": "13 Instalaciones",
+   "mat": "luz",
+   "nombre": "Empotrado 3",
+   "cx": 4.1,
+   "cy": 4.6,
+   "r": 0.045,
+   "z0": 2.29,
+   "z1": 2.31
+  },
+  {
+   "tag": "13 Instalaciones",
+   "mat": "luz",
+   "nombre": "Empotrado 4",
+   "cx": 1.1,
+   "cy": 5.9,
+   "r": 0.045,
+   "z0": 2.29,
+   "z1": 2.31
+  },
+  {
+   "tag": "13 Instalaciones",
+   "mat": "luz",
+   "nombre": "Empotrado 5",
+   "cx": 2.6,
+   "cy": 5.9,
+   "r": 0.045,
+   "z0": 2.29,
+   "z1": 2.31
+  },
+  {
+   "tag": "13 Instalaciones",
+   "mat": "luz",
+   "nombre": "Empotrado 6",
+   "cx": 4.1,
+   "cy": 5.9,
+   "r": 0.045,
+   "z0": 2.29,
+   "z1": 2.31
+  },
+  {
+   "tag": "13 Instalaciones",
+   "mat": "luz",
+   "nombre": "Empotrado 7",
+   "cx": 1.1,
+   "cy": 7.2,
+   "r": 0.045,
+   "z0": 2.29,
+   "z1": 2.31
+  },
+  {
+   "tag": "13 Instalaciones",
+   "mat": "luz",
+   "nombre": "Empotrado 8",
+   "cx": 2.6,
+   "cy": 7.2,
+   "r": 0.045,
+   "z0": 2.29,
+   "z1": 2.31
+  },
+  {
+   "tag": "13 Instalaciones",
+   "mat": "luz",
+   "nombre": "Empotrado 9",
+   "cx": 4.1,
+   "cy": 7.2,
+   "r": 0.045,
+   "z0": 2.29,
+   "z1": 2.31
+  },
+  {
+   "tag": "13 Instalaciones",
+   "mat": "luz",
+   "nombre": "Empotrado 10",
+   "cx": 1.1,
+   "cy": 8.5,
+   "r": 0.045,
+   "z0": 2.29,
+   "z1": 2.31
+  },
+  {
+   "tag": "13 Instalaciones",
+   "mat": "luz",
+   "nombre": "Empotrado 11",
+   "cx": 2.6,
+   "cy": 8.5,
+   "r": 0.045,
+   "z0": 2.29,
+   "z1": 2.31
+  },
+  {
+   "tag": "13 Instalaciones",
+   "mat": "luz",
+   "nombre": "Empotrado 12",
+   "cx": 4.1,
+   "cy": 8.5,
+   "r": 0.045,
+   "z0": 2.29,
+   "z1": 2.31
+  },
+  {
+   "tag": "13 Instalaciones",
+   "mat": "luz",
+   "nombre": "Empotrado 13",
+   "cx": 8.6,
+   "cy": 8.5,
+   "r": 0.045,
+   "z0": 2.29,
+   "z1": 2.31
+  },
+  {
+   "tag": "13 Instalaciones",
+   "mat": "luz",
+   "nombre": "Colgante 1",
+   "cx": 2.04,
+   "cy": 2.28,
+   "r": 0.13,
+   "z0": 1.7,
+   "z1": 1.92
+  },
+  {
+   "tag": "13 Instalaciones",
+   "mat": "luz",
+   "nombre": "Colgante 2",
+   "cx": 2.04,
+   "cy": 3.58,
+   "r": 0.13,
+   "z0": 1.7,
+   "z1": 1.92
+  },
+  {
+   "tag": "13 Instalaciones",
+   "mat": "luz",
+   "nombre": "Colgante 3",
+   "cx": 4.6,
+   "cy": 3.2,
+   "r": 0.13,
+   "z0": 1.7,
+   "z1": 1.92
+  },
+  {
+   "tag": "13 Instalaciones",
+   "mat": "luz",
+   "nombre": "Colgante 4",
+   "cx": 7.6,
+   "cy": 3.2,
+   "r": 0.13,
+   "z0": 1.7,
+   "z1": 1.92
+  },
+  {
+   "tag": "13 Instalaciones",
+   "mat": "luz",
+   "nombre": "Colgante 5",
+   "cx": 7.3,
+   "cy": 0.95,
+   "r": 0.13,
+   "z0": 1.7,
+   "z1": 1.92
+  },
+  {
+   "tag": "13 Instalaciones",
+   "mat": "luz",
+   "nombre": "Colgante 6",
+   "cx": 8.9,
+   "cy": 0.95,
+   "r": 0.13,
+   "z0": 1.7,
+   "z1": 1.92
+  },
+  {
+   "tag": "14 Planta alta",
+   "mat": "mesa",
+   "nombre": "R1 · tablero",
+   "cx": 7.540000000000001,
+   "cy": 5.43,
+   "r": 0.6000000000000001,
+   "z0": 3.27,
+   "z1": 3.31
+  },
+  {
+   "tag": "14 Planta alta",
+   "mat": "silla",
+   "nombre": "R1 · pie",
+   "cx": 7.540000000000001,
+   "cy": 5.43,
+   "r": 0.06,
+   "z0": 2.56,
+   "z1": 3.27
+  },
+  {
+   "tag": "14 Planta alta",
+   "mat": "silla",
+   "nombre": "R1 · base",
+   "cx": 7.540000000000001,
+   "cy": 5.43,
+   "r": 0.22,
+   "z0": 2.56,
+   "z1": 2.58
+  }
+ ],
+ "paneles": [
+  {
+   "tag": "08 Escalera",
+   "mat": "tabique",
+   "nombre": "Caja de escalera (planta baja)",
+   "pts_yz": [
+    [
+     3.939,
+     0.0
+    ],
+    [
+     7.738,
+     0.0
+    ],
+    [
+     7.738,
+     2.31
+    ],
+    [
+     5.84,
+     2.31
+    ],
+    [
+     3.939,
+     1.209
+    ]
+   ],
+   "x0": 8.65,
+   "x1": 8.811
+  }
+ ]
+}

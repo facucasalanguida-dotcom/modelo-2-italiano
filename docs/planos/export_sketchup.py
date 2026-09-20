@@ -710,6 +710,29 @@ def main():
         f.write('\n'.join(L))
     print(f'MODELO_3D.rb  ·  {len(cajas)} cajas, {len(prismas)} prismas, '
           f'{len(cilindros)} cilindros, {len(paneles)} paneles, {len(tags)} capas')
+
+    # La misma geometria en JSON, para el motor de render (Blender/Cycles).
+    # Un solo generador: lo que se dibuja, lo que va a SketchUp y lo que se
+    # renderiza salen de aqui, asi que no pueden discrepar.
+    import json
+    j = dict(
+        unidades='m',
+        origen='esquina interior Suroeste, X al Este, Y al Norte, Z arriba',
+        alturas={nm: v for nm, v, _ in ALTURAS_DOC if v is not None},
+        materiales={k: dict(nombre=nm, rgb=list(rgb)) for k, (nm, rgb) in MAT.items()},
+        cajas=[dict(tag=t, mat=m, nombre=n, x0=x0, y0=y0, x1=x1, y1=y1, z0=z0, z1=z1)
+               for t, m, n, x0, y0, x1, y1, z0, z1 in cajas],
+        prismas=[dict(tag=t, mat=m, nombre=n, pts=[list(q) for q in pts], z0=z0, z1=z1)
+                 for t, m, n, pts, z0, z1 in prismas],
+        cilindros=[dict(tag=t, mat=m, nombre=n, cx=cx, cy=cy, r=r, z0=z0, z1=z1)
+                   for t, m, n, cx, cy, r, z0, z1 in cilindros],
+        paneles=[dict(tag=t, mat=m, nombre=n, pts_yz=[list(q) for q in pts], x0=x0, x1=x1)
+                 for t, m, n, pts, x0, x1 in paneles],
+    )
+    djson = os.path.join(AQUI, 'MODELO_3D.json')
+    with open(djson, 'w', encoding='utf-8') as f:
+        json.dump(j, f, ensure_ascii=False, indent=1)
+    print(f'MODELO_3D.json  ·  misma geometria para Blender')
     return destino
 
 
