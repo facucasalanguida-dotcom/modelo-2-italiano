@@ -4,11 +4,13 @@ A7 · Armario expositor refrigerado de bebidas Gasfrit, 1 puerta, 400 L,
 540 x 580 x 1920 (foto acotada del fabricante).
 
 Referencia: 9 fotos de gasfrit.com. Cuerpo de acero galvanizado lacado en
-NEGRO satinado; puerta de doble cristal (480 x 1430, de 250 a 1680 del
-suelo) con marco de aluminio y cenefa negra serigrafiada, banda negra opaca
-superior de 70 que oculta el ventilador, montante derecho redondeado
-(bisagra), cerradura en el canto izquierdo y asa integrada en el montante
-izquierdo; la puerta sobresale 15 del frente. Sin cabecera luminosa: dos
+NEGRO satinado; puerta de doble cristal (530 x 1655, de 250 a 1905 del
+suelo: ocupa todo el frente y llega al canto superior, medido sobre las
+fotos) con marco negro brillante de filete de aluminio y cenefa negra
+serigrafiada, banda negra opaca superior de 85 que oculta el ventilador,
+montante derecho redondeado (bisagra con pivote plateado arriba), cerradura
+en el montante izquierdo de 60 con asa integrada; la puerta sobresale 15 del
+frente y sus 15 mm traseros van en un rebaje del cuerpo. Sin cabecera luminosa: dos
 tiras LED verticales interiores (azul / blanco / amarillo; aqui blanco).
 Interior de PVC negro con pared del fondo ranurada, cremalleras, rejilla
 redonda del ventilador en el techo y 5 parrillas de varilla gris claro con
@@ -31,11 +33,11 @@ Y_FRENTE = -F / 2 + PUERTA_SAL          # frente del cuerpo
 Y_TRAS = F / 2
 Y_PUERTA = -F / 2                       # cara exterior del cristal
 H_RUEDA = 0.065
-Z_PUERTA0, Z_PUERTA1 = 0.250, 1.680
-PUERTA_W, PUERTA_E = 0.480, 0.030
+Z_PUERTA0, Z_PUERTA1 = 0.250, 1.905       # la puerta llega al canto superior (fotos)
+PUERTA_W, PUERTA_E = 0.530, 0.030         # ocupa todo el frente, 5 mm por lado
 MARCO = 0.025
-BANDA = 0.070
-INT_W, INT_D, INT_H = 0.460, 0.470, 1.400
+BANDA = 0.085                             # banda negra opaca superior de la puerta
+INT_W, INT_D, INT_H = 0.460, 0.470, 1.590
 Z_INT0 = 0.270
 
 
@@ -78,7 +80,8 @@ def calca_cenefa(ruta):
 
 
 def build():
-    negro = L.mat_chapa('Lacado negro satinado', (0.018, 0.018, 0.019), rug=0.42, brillo=0.2, piel=0.1)
+    negro = L.mat_chapa('Lacado negro satinado', (0.018, 0.018, 0.019), rug=0.50, brillo=0.1, piel=0.1)
+    negro_b = L.mat_chapa('Lacado negro brillo marco', (0.012, 0.012, 0.013), rug=0.18, brillo=0.5, piel=0.05)
     pvc = L.mat_plastico('PVC negro interior', (0.02, 0.02, 0.02), rug=0.55)
     alu = L.mat_aluminio()
     vidrio = L.mat_vidrio('Vidrio de puerta', tinte=(0.93, 0.97, 0.96))
@@ -97,46 +100,51 @@ def build():
     L.sustraer(cuerpo, L.caja('interior', INT_W, INT_D + 0.02, INT_H, (0, Y_FRENTE + INT_D / 2 - 0.01, Z_INT0), r_vert=0.006, r=0.006, segs=3))
     y_fondo = Y_FRENTE + INT_D
     for k in range(7):
-        P.rejilla_ranuras(f'fondo ranuras {k + 1}', (0, y_fondo, Z_INT0 + 0.10 + k * 0.19), 0.30, 0.030, normal='-Y', paso=0.010, ranura=0.005, orient='V', mat=pvc, cuerpo=cuerpo)
+        P.rejilla_ranuras(f'fondo ranuras {k + 1}', (0, y_fondo, Z_INT0 + 0.10 + k * 0.22), 0.30, 0.030, normal='-Y', paso=0.010, ranura=0.005, orient='V', mat=pvc, cuerpo=cuerpo)
     # cremalleras en las cuatro esquinas del hueco
     for sx in (-1, 1):
         for y in (Y_FRENTE + 0.040, y_fondo - 0.040):
             L.caja(f'cremallera {sx}{y:+.2f}', 0.012, 0.012, INT_H - 0.04, (sx * (INT_W / 2 - 0.006), y, Z_INT0 + 0.02), mat=alu, suave=False)
     # rejilla redonda del ventilador en el techo interior y deflector
-    L.cilindro('ventilador rejilla', 0.075, 0.003, (0.06, y_fondo - 0.120, Z_INT0 + INT_H - 0.004), segs=64,
+    L.cilindro('ventilador rejilla', 0.075, 0.003, (0.06, y_fondo - 0.120, Z_INT0 + INT_H - 0.003), segs=64,
                mat=L.mat_chapa_perforada('Rejilla ventilador', d=0.005, paso=0.009))
     # 5 parrillas con tope frontal
     for k in range(5):
-        z = Z_INT0 + 0.130 + k * 0.250
+        z = Z_INT0 + 0.190 + k * 0.270
         P.estante_rejilla(f'parrilla {k + 1}', (0, y_fondo - 0.015 - 0.220, z), INT_W - 0.020, 0.440, paso=0.025, d_barra=0.005, mat=gris)
-        L.cilindro(f'parrilla {k + 1} tope', 0.0025, INT_W - 0.020, (-(INT_W - 0.020) / 2, y_fondo - 0.015 - 0.440, z + 0.020), eje='X', segs=12, mat=gris)
+        L.cilindro(f'parrilla {k + 1} tope', 0.0025, INT_W - 0.070, (-(INT_W - 0.070) / 2, y_fondo - 0.015 - 0.440, z + 0.020), eje='X', segs=12, mat=gris)
         for sx in (-1, 1):
-            L.cilindro(f'parrilla {k + 1} tope pie {sx}', 0.0025, 0.020, (sx * (INT_W / 2 - 0.020), y_fondo - 0.015 - 0.440, z), segs=12, mat=gris)
+            L.cilindro(f'parrilla {k + 1} tope pie {sx}', 0.0025, 0.020, (sx * (INT_W / 2 - 0.045), y_fondo - 0.015 - 0.440, z), segs=12, mat=gris)
     # tiras LED verticales en los montantes interiores
     for sx in (-1, 1):
-        L.caja(f'led {sx}', 0.010, 0.006, INT_H - 0.06, (sx * (INT_W / 2 - 0.006), Y_FRENTE + 0.006, Z_INT0 + 0.03), mat=led, suave=False)
+        L.caja(f'led {sx}', 0.010, 0.006, INT_H - 0.06, (sx * (INT_W / 2 - 0.020), Y_FRENTE + 0.014, Z_INT0 + 0.03), mat=led, suave=False)
 
     # --- puerta de cristal con marco, cenefa, montantes, cerradura y bisagra
     zc = (Z_PUERTA0 + Z_PUERTA1) / 2
     ph = Z_PUERTA1 - Z_PUERTA0
+    L.sustraer(cuerpo, L.caja('puerta rebaje', PUERTA_W + 0.004, PUERTA_E - PUERTA_SAL + 0.002, ph + 0.004,
+                              (0, Y_FRENTE + (PUERTA_E - PUERTA_SAL) / 2 - 0.001, Z_PUERTA0 - 0.002)))
     for nm, y in (('cristal exterior', Y_PUERTA + 0.004), ('cristal interior', Y_PUERTA + PUERTA_E - 0.008)):
         L.caja(nm, PUERTA_W - 2 * MARCO + 0.010, 0.004, ph - 2 * MARCO + 0.010, (0, y, Z_PUERTA0 + MARCO - 0.005), mat=vidrio, suave=False)
     ruta = os.path.join(L.CALCAS_DIR, 'A7_cenefa.png')
     calca_cenefa(ruta)
     L.calca('A7 cenefa', ruta, PUERTA_W, ph, (0, Y_PUERTA + 0.0065, zc), normal='-Y')
     # marco: montante izquierdo con asa integrada (canal), derecho redondeado (bisagra), travesanos
-    izq = L.caja('montante izquierdo', 0.030, PUERTA_E, ph, (-PUERTA_W / 2 + 0.015, Y_PUERTA + PUERTA_E / 2, Z_PUERTA0), r=0.003, segs=3, mat=alu)
-    L.sustraer(izq, L.caja('asa canal', 0.016, 0.014, ph - 0.10, (-PUERTA_W / 2 + 0.008, Y_PUERTA + 0.012, Z_PUERTA0 + 0.05), r=0.003))
-    L.caja('montante derecho', 0.035, PUERTA_E, ph, (PUERTA_W / 2 - 0.0175, Y_PUERTA + PUERTA_E / 2, Z_PUERTA0), r_vert=0.014, r=0.003, segs=8, mat=negro)
-    L.caja('travesano superior', PUERTA_W, PUERTA_E, BANDA, (0, Y_PUERTA + PUERTA_E / 2, Z_PUERTA1 - BANDA), r=0.003, segs=3, mat=negro)
-    L.caja('travesano inferior', PUERTA_W, PUERTA_E, MARCO, (0, Y_PUERTA + PUERTA_E / 2, Z_PUERTA0), r=0.003, segs=3, mat=alu)
-    L.cilindro('cerradura', 0.007, 0.003, (-PUERTA_W / 2 + 0.015, Y_PUERTA - 0.003 + 0.0, 0.900), eje='Y', segs=32, r=0.001, mat=cromo)
+    izq = L.caja('montante izquierdo', 0.060, PUERTA_E, ph, (-PUERTA_W / 2 + 0.030, Y_PUERTA + PUERTA_E / 2, Z_PUERTA0), r=0.003, segs=3, mat=negro_b)
+    L.sustraer(izq, L.caja('asa canal', 0.016, 0.014, ph - 0.10, (-PUERTA_W / 2 + 0.010, Y_PUERTA + 0.012, Z_PUERTA0 + 0.05), r=0.003))
+    L.caja('montante izquierdo filete', 0.004, PUERTA_E - 0.004, ph - 0.004, (-PUERTA_W / 2 + 0.002, Y_PUERTA + PUERTA_E / 2 - 0.0005, Z_PUERTA0 + 0.002), mat=alu, suave=False)
+    L.caja('montante derecho', 0.050, PUERTA_E, ph, (PUERTA_W / 2 - 0.025, Y_PUERTA + PUERTA_E / 2, Z_PUERTA0), r_vert=0.020, r=0.003, segs=8, mat=negro_b)
+    L.caja('travesano superior', PUERTA_W, PUERTA_E, BANDA, (0, Y_PUERTA + PUERTA_E / 2, Z_PUERTA1 - BANDA), r=0.003, segs=3, mat=negro_b)
+    L.caja('travesano inferior', PUERTA_W, PUERTA_E, MARCO, (0, Y_PUERTA + PUERTA_E / 2, Z_PUERTA0), r=0.003, segs=3, mat=negro_b)
+    L.caja('travesano inferior filete', PUERTA_W - 0.004, PUERTA_E - 0.004, 0.004, (0, Y_PUERTA + PUERTA_E / 2 - 0.0005, Z_PUERTA0 + 0.001), mat=alu, suave=False)
+    L.cilindro('bisagra pivote', 0.012, 0.004, (PUERTA_W / 2 - 0.030, Y_PUERTA + 0.020, Z_PUERTA1 + 0.010), segs=32, r=0.001, mat=cromo)
+    L.cilindro('cerradura', 0.007, 0.003, (-PUERTA_W / 2 + 0.035, Y_PUERTA - 0.003 + 0.0, 0.900), eje='Y', segs=32, r=0.001, mat=cromo)
     L.caja('bisagra superior', 0.040, 0.040, 0.010, (PUERTA_W / 2 - 0.020, Y_PUERTA + 0.020, Z_PUERTA1), r=0.003, segs=2, mat=cromo)
 
     # --- zocalo: rejilla de ranuras cortas a la izquierda, etiqueta de mandos e interruptores a la derecha
     zz = H_RUEDA + 0.095
     for col in range(8):
-        P.rejilla_ranuras(f'zocalo rejilla col {col + 1}', (-A / 2 + 0.060 + col * 0.027, Y_FRENTE, zz), 0.022, 0.110, normal='-Y',
+        P.rejilla_ranuras(f'zocalo rejilla col {col + 1}', (-A / 2 + 0.060 + col * 0.027, Y_FRENTE, zz + (0.009 if col % 2 else 0.0)), 0.022, 0.110, normal='-Y',
                           paso=0.018, ranura=0.006, orient='H', mat=negro, cuerpo=cuerpo)
     ruta = os.path.join(L.CALCAS_DIR, 'A7_mandos.png')
     calca_mandos(ruta)
@@ -148,4 +156,4 @@ def build():
     L.cilindro('taladro evacuacion', 0.005, 0.002, (A / 2 - 0.040, Y_FRENTE - 0.001, zz), eje='Y', segs=24, mat=pvc)
 
     P.cable('cable', (0.10, Y_TRAS, 0.20), largo=0.30, d=0.009)
-    return dict(ignorar=('cable', 'interruptor', 'cerradura'))
+    return dict(ignorar=('cable', 'interruptor', 'cerradura', 'bisagra pivote'))

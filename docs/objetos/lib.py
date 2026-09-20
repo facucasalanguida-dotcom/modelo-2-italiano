@@ -135,6 +135,25 @@ def _malla_desde_bm(nombre, bm, mat=None, parent=None, uv=True, suave=False):
     return ob
 
 
+def normales_ponderadas(ob):
+    """Normales personalizadas ponderadas por area (modificador Weighted
+    Normal aplicado): las caras planas grandes quedan realmente planas
+    aunque esten suavizadas junto a biseles finos. Evita el 'abanico' de
+    reflejos en tapas y frentes."""
+    if ob.type != 'MESH' or not any(p.use_smooth for p in ob.data.polygons):
+        return ob
+    mod = ob.modifiers.new('wn', 'WEIGHTED_NORMAL')
+    mod.mode = 'FACE_AREA'
+    mod.keep_sharp = True
+    mod.weight = 50
+    try:
+        with bpy.context.temp_override(object=ob, active_object=ob, selected_objects=[ob]):
+            bpy.ops.object.modifier_apply(modifier=mod.name)
+    except Exception:
+        ob.modifiers.remove(mod)
+    return ob
+
+
 def _autosuave(ob, ang=30.0):
     """Sombreado suave por angulo (Smooth by Angle) sin depender del
     operador: modificador de nodos si existe, si no marca todo suave."""
@@ -144,6 +163,7 @@ def _autosuave(ob, ang=30.0):
             bpy.ops.object.shade_smooth_by_angle(angle=math.radians(ang))
     except Exception:
         pass
+    normales_ponderadas(ob)
 
 
 def _bevel_bm(bm, edges, r, segs):
@@ -451,6 +471,7 @@ def sustraer(ob, cortador, borrar=True):
     if borrar:
         bpy.data.objects.remove(cortador, do_unlink=True)
     uv_cubo(ob)
+    normales_ponderadas(ob)
     return ob
 
 
@@ -676,6 +697,19 @@ def mat_vidrio(nombre='Vidrio', tinte=(0.94, 0.985, 0.965), rug=0.0):
     bsdf.inputs['Roughness'].default_value = rug
     bsdf.inputs['IOR'].default_value = 1.50
     bsdf.inputs['Transmission Weight'].default_value = 1.0
+    # transparente para los rayos de sombra: lo que hay detras del vidrio
+    # (calcas, esferas, interiores) recibe luz directa, como en un vidrio real
+    salida = next(n for n in nt.nodes if n.type == 'OUTPUT_MATERIAL')
+    lp = nt.nodes.new('ShaderNodeLightPath')
+    lp.location = (-200, 400)
+    tr = nt.nodes.new('ShaderNodeBsdfTransparent')
+    tr.location = (0, 300)
+    mx = nt.nodes.new('ShaderNodeMixShader')
+    mx.location = (250, 200)
+    nt.links.new(lp.outputs['Is Shadow Ray'], mx.inputs['Fac'])
+    nt.links.new(bsdf.outputs['BSDF'], mx.inputs[1])
+    nt.links.new(tr.outputs['BSDF'], mx.inputs[2])
+    nt.links.new(mx.outputs['Shader'], salida.inputs['Surface'])
     return m
 
 

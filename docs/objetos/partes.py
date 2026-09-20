@@ -331,7 +331,12 @@ def cable(nombre, inicio, largo=0.25, d=0.008, parent=None):
     resto = largo * 0.65 - caida
     if resto > 0.02:
         pts.append((ix, iy + a + 0.03 + resto, zf))
-    return [L.tubo_curva(nombre, pts, d / 2, segs=16, res=12, mat=mat, parent=parent)]
+    ob = L.tubo_curva(nombre, pts, d / 2, segs=16, res=12, mat=mat, parent=parent)
+    # el suavizado Bezier puede rebotar por debajo del suelo: se recorta a z >= 0,5 mm
+    for v in ob.data.vertices:
+        if v.co.z < 0.0005:
+            v.co.z = 0.0005
+    return [ob]
 
 
 def estante_rejilla(nombre, centro, w, d, n_barras=None, paso=0.03, d_barra=0.005, mat=None, parent=None):
