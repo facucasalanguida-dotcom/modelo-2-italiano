@@ -67,7 +67,7 @@ def build():
     for k, sx in enumerate((-1, 1)):
         x_ext = sx * L_TUBO / 2
         L.sustraer(th, L.cilindro(f'tapa hueco {k + 1}', R_TUBO - 0.0025, 0.004, (x_ext - (0.003 if sx > 0 else 0.001), Y_COL, Z_EJE), eje='X', segs=96))
-        L.cilindro(f'tapa {k + 1}', R_TUBO - 0.0027, 0.002, (x_ext - (0.005 if sx > 0 else -0.003), Y_COL, Z_EJE), eje='X', segs=96, mat=inox_s)
+        L.cilindro(f'tapa {k + 1}', R_TUBO - 0.0027, 0.002, (x_ext - (0.0053 if sx > 0 else -0.0033), Y_COL, Z_EJE), eje='X', segs=96, mat=inox_s)
     L.caja('pletina', 0.340, 0.020, 0.0025, (0, Y_COL, Z_EJE + R_TUBO - 0.0015), r=0.0005, segs=2, mat=inox_s)
     for k, x in enumerate((-0.160, 0.160)):
         L.cilindro(f'pletina tornillo {k + 1}', 0.003, 0.001, (x, Y_COL, Z_EJE + R_TUBO + 0.001), segs=24, r=0.0004, mat=inox_p)

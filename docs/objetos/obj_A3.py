@@ -93,8 +93,8 @@ def build():
     for sx, nm in ((-1, 'izquierdo'), (1, 'derecho')):
         normal = '-X' if sx < 0 else '+X'
         L.sustraer(cuerpo, L.caja(f'panel {nm} rebaje', 0.008, 0.330, 0.250, (sx * A / 2, 0.045, H_PIE + 0.045)))
-        xp = sx * (A / 2 - 0.002)                                        # cara del panel
-        marco = L.caja(f'panel {nm} marco', 0.003, 0.330, 0.250, (sx * (A / 2 - 0.0035), 0.045, H_PIE + 0.045), mat=marron, suave=False)
+        xp = sx * (A / 2 - 0.0027)                                       # cara de las lamas, 0,5 dentro del marco
+        marco = L.caja(f'panel {nm} marco', 0.003, 0.330, 0.250, (sx * (A / 2 - 0.0037), 0.045, H_PIE + 0.045), mat=marron, suave=False)
         P.rejilla_ranuras(f'panel {nm} lamas', (xp, 0.045, H_PIE + 0.045 + 0.125), 0.300, 0.220, normal=normal,
                           paso=0.010, ranura=0.005, orient='H', mat=marron, fondo=0.003, cuerpo=(cuerpo, marco))
         L.caja(f'panel {nm} tira', 0.002, 0.060, 0.006, (xp, 0.045, H_PIE + 0.090), mat=plata, suave=False)
@@ -153,7 +153,7 @@ def build():
     pal = L.caja('grifo palanca', 0.018, 0.008, 0.090, (-0.030, Y_CUBA0 - 0.058, Z_CUBA - 0.070), r=0.004, segs=4, mat=bl_pl)
     L.girar_malla(pal, (-0.030, Y_CUBA0 - 0.058, Z_CUBA - 0.070), 'X', -12)
     # asiento blanco de la cuba sobre el cuerpo (vuela 10 mm por delante del frente)
-    L.caja('asiento cuba', 0.190, 0.300, 0.012, (0, -0.015, Z_CUERPO - 0.001), r=0.004, segs=3, mat=blanco)
+    L.caja('asiento cuba', 0.190, 0.300, 0.012, (0, -0.015, Z_CUERPO - 0.0015), r=0.004, segs=3, mat=blanco)
 
     # --- frontal: panel de control (170 de ancho, dentro de la zona plana del frente), botones, logo dorado
     ruta = os.path.join(L.CALCAS_DIR, 'A3_panel.png')

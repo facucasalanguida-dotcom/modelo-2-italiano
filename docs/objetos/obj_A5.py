@@ -56,10 +56,10 @@ def build():
     L.sustraer(cor, L.caja('cornisa hueco', A - 0.024, F - 0.024, 0.10, (0, 0.0, Z_CASCO1 + 0.036), r_vert=0.006))
     L.caja('cornisa fondo', A - 0.024 - 0.001, F - 0.024 - 0.001, 0.002, (0, 0, Z_CASCO1 + 0.036), mat=L.mat_plastico('Interior oscuro', (0.01, 0.01, 0.01), rug=0.9), suave=False)
     L.caja('franja trasera', A - 0.024, 0.080, 0.018, (0, F / 2 - 0.012 - 0.040, Z_CASCO1 + 0.050), r=0.002, segs=2, mat=inox)
-    L.caja('carril central', 0.030, F - 0.024 - 0.080, 0.006, (0, -0.040, Z_CASCO1 + 0.064), r=0.001, segs=2, mat=inox_p)
+    L.caja('carril central', 0.030, F - 0.024 - 0.080, 0.006, (0, -0.040, Z_CASCO1 + 0.0635), r=0.001, segs=2, mat=inox_p)
     tw = (A - 0.024 - 0.030) / 2 - 0.004
     for k, x in enumerate((-(A - 0.024) / 4 - 0.0075, (A - 0.024) / 4 + 0.0075)):
-        tapa = L.caja(f'tapa {k + 1}', tw, F - 0.024 - 0.080 - 0.006, 0.015, (x, -0.040, Z_CASCO1 + CORNISA_H - 0.015), r=0.002, segs=3, mat=inox_p)
+        tapa = L.caja(f'tapa {k + 1}', tw, F - 0.024 - 0.080 - 0.006, 0.015, (x, -0.040, Z_CASCO1 + CORNISA_H - 0.0155), r=0.002, segs=3, mat=inox_p)
         L.caja(f'tapa {k + 1} borde', tw, 0.002, 0.012, (x, -0.040 - (F - 0.024 - 0.080 - 0.006) / 2 + 0.001, Z_CASCO1 + CORNISA_H - 0.027), r=0.0006, segs=2, mat=inox_p)
 
     # --- frontal: mandos, rejilla, abrebotellas, tapon

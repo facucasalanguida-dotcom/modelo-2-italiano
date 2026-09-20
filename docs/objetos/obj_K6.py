@@ -106,7 +106,7 @@ def build():
 
     # --- puerta abatible con asa en arco
     L.caja('puerta', PUERTA_W, PUERTA_E, PUERTA_H, (0, Y_PUERTA + PUERTA_E / 2, Z_PUERTA0), r=0.002, segs=3, mat=inox)
-    L.caja('puerta junta', PUERTA_W + 0.004, 0.002, PUERTA_H + 0.004, (0, Y_PUERTA + PUERTA_E - 0.001, Z_PUERTA0 - 0.002),
+    L.caja('puerta junta', PUERTA_W + 0.004, 0.002, PUERTA_H + 0.004, (0, Y_PUERTA + PUERTA_E - 0.0015, Z_PUERTA0 - 0.002),
            mat=L.mat_goma(), suave=False)
     za = Z_PUERTA0 + PUERTA_H - 0.040
     # arco de pletina: 7 tramos sobre una circunferencia de radio 0,6 (flecha ~25 mm)

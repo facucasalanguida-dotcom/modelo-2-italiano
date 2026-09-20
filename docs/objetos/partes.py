@@ -109,6 +109,9 @@ def mando_ruleta(nombre, centro, d=0.040, alto=0.022, normal='-Y', mat=None,
     else:
         base = c + n * alto
     if faldon:
+        # 0,3 mm dentro de la cara: si arrancara en el mismo plano que el
+        # cuerpo del mando las dos caras se pelearian por el mismo pixel
+        c = c + n * 0.0003
         f = c + (n * 0.006 if normal in ('-Y', '-X') else Vector((0, 0, 0)))
         out.append(L.cilindro(nombre + ' faldon', d * 0.62, 0.006, tuple(f), eje=eje,
                               segs=48, mat=mat, parent=parent, radio2=d * 0.5))
@@ -172,6 +175,9 @@ def rejilla_ranuras(nombre, centro, w, h, normal='-Y', n=None, paso=0.012, ranur
     else:
         out.append(L.caja(nombre + ' fondo', 0.002, w, h, (cx + dx * (fondo + 0.002), cy, cz - h / 2),
                           mat=oscuro, parent=parent, suave=False))
+    # las lamas se retranquean 0,2 mm: a ras quedarian coplanarias con la
+    # cara del cuerpo y el render alternaria entre las dos superficies
+    cx, cy, cz = cx + dx * 0.0002, cy + dy * 0.0002, cz
     cuenta = n or int((h if orient == 'H' else w) / paso)
     for i in range(cuenta):
         off = -(cuenta - 1) / 2 * paso + i * paso
@@ -251,7 +257,7 @@ def cuba(nombre, cuerpo, centro_sup, w, d, prof, r_esq=0.03, r_fondo=0.02,
     inte = L.caja(nombre + ' hueco', w - 2 * espesor, d - 2 * espesor, prof + r_fondo, (cx, cy, cz - prof + espesor),
                   r_vert=max(r_esq - espesor, 0.002), r=max(r_fondo - espesor, 0.002), segs=6)
     L.sustraer(ext, inte)
-    L.sustraer(ext, L.caja(nombre + ' recorte', w + 0.02, d + 0.02, r_fondo + 0.02, (cx, cy, cz)))
+    L.sustraer(ext, L.caja(nombre + ' recorte', w + 0.02, d + 0.02, r_fondo + 0.02, (cx, cy, cz - 0.0003)))
     out = [ext]
     if desague:
         out.append(L.cilindro(nombre + ' desague', 0.045, 0.002, (cx, cy, cz - prof + espesor), segs=48,

@@ -145,7 +145,7 @@ def build():
     # desague: rehundido circular delante a la derecha con rejilla de malla
     L.cilindro('desague rehundido', 0.040, 0.0008, (CUBA_W / 2 - 0.055, CUBA_Y - CUBA_D / 2 + 0.055, z_fondo + 0.0012),
                segs=64, mat=inox_p)
-    L.cilindro('desague', 0.0125, 0.004, (CUBA_W / 2 - 0.055, CUBA_Y - CUBA_D / 2 + 0.055, z_fondo + 0.0012), segs=48,
+    L.cilindro('desague', 0.0125, 0.004, (CUBA_W / 2 - 0.055, CUBA_Y - CUBA_D / 2 + 0.055, z_fondo + 0.0014), segs=48,
                r=0.001, mat=cromo)
     L.cilindro('desague malla', 0.0095, 0.001, (CUBA_W / 2 - 0.055, CUBA_Y - CUBA_D / 2 + 0.055, z_fondo + 0.0052),
                segs=32, mat=L.mat_chapa_perforada('Malla fina', d=0.0008, paso=0.0013))

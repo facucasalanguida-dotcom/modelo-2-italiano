@@ -72,11 +72,11 @@ def build():
     # chapa galvanizada del plenum, por encima de los filtros hasta el techo
     largo_plenum = (H - E - Z_ARRANQUE) / s - FILTRO
     y_fin_filtro, z_fin_filtro = Y_ARRANQUE - FILTRO * c, Z_ARRANQUE + FILTRO * s
-    pl = L.caja('plenum', AI - 0.001, largo_plenum, E, (0, y_fin_filtro - largo_plenum / 2, z_fin_filtro), mat=galva, suave=False)
+    pl = L.caja('plenum', AI - 0.001, largo_plenum, E, (0, y_fin_filtro - largo_plenum / 2, z_fin_filtro + 0.0004), mat=galva, suave=False)
     L.girar_malla(pl, (0, y_fin_filtro, z_fin_filtro), 'X', -ANG)
     # perfiles en U arriba y abajo del plano de filtros (guias)
-    for nm, y0, z0 in (('guia inferior', Y_ARRANQUE, Z_ARRANQUE), ('guia superior', y_fin_filtro, z_fin_filtro)):
-        g = L.caja(nm, AI - 0.001, 0.012, 0.055, (0, y0, z0 - E_FILTRO / 2), r=0.001, segs=2, mat=inox)
+    for nm, y0, z0, sy in (('guia inferior', Y_ARRANQUE, Z_ARRANQUE, 1), ('guia superior', y_fin_filtro, z_fin_filtro, -1)):
+        g = L.caja(nm, AI - 0.001, 0.012, 0.055, (0, y0 + sy * 0.0004, z0 - E_FILTRO / 2 - 0.0005), r=0.001, segs=2, mat=inox)
         L.girar_malla(g, (0, y0, z0), 'X', -ANG)
 
     # --- cuatro filtros de lamas 490 x 490 x 50, sobre el plano inclinado.

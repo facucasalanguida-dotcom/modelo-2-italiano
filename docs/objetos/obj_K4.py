@@ -136,9 +136,9 @@ def build():
                             (0, Y_FRENTE + 0.010 - 0.0005, H_PATA + 0.004)))
     # --- labio delantero de 15 mm bajo la placa, cubierto por la banda negra;
     # marco de la placa (4 mm bajo su cara) del que cuelgan los petos
-    L.caja('labio', A, 0.040, Z_PLACA - E_PLACA - Z_CAJA, (0, Y_FRENTE + 0.020, Z_CAJA), r=0.002, segs=3, mat=inox)
+    L.caja('labio', A, 0.040, Z_PLACA - E_PLACA - Z_CAJA - 0.0003, (0, Y_FRENTE + 0.020, Z_CAJA), r=0.002, segs=3, mat=inox)
     L.caja('banda negra', A + 0.0004, 0.0008, Z_PLACA - E_PLACA - Z_CAJA, (0, Y_FRENTE - 0.0002, Z_CAJA), mat=banda, suave=False)
-    marco = L.caja('marco placa', A, Y_TRAS - Y_PLACA0, Z_PLACA - Z_CAJA - 0.004, (0, (Y_PLACA0 + Y_TRAS) / 2, Z_CAJA), r=0.001, segs=2, mat=inox)
+    marco = L.caja('marco placa', A - 0.0006, Y_TRAS - Y_PLACA0, Z_PLACA - Z_CAJA - 0.0043, (0, (Y_PLACA0 + Y_TRAS) / 2 + 0.0003, Z_CAJA + 0.0003), r=0.001, segs=2, mat=inox)
     L.sustraer(marco, L.caja('marco hueco', PLACA_W + 0.002, PLACA_D + 0.002, 0.05, (0, Y_PLACA0 + PLACA_D / 2 + 0.001, Z_PLACA - 0.03)))
     # --- placa pulida 500 x 425 x 12, canto delantero visto
     L.caja('placa', PLACA_W, PLACA_D, E_PLACA, (0, Y_PLACA0 + PLACA_D / 2, Z_PLACA - E_PLACA), r=0.0015, segs=2, mat=placa_m)

@@ -94,7 +94,7 @@ def build():
     L.caja('trasera', A - 0.006, 0.002, Z_TOP_CUERPO - H_PIE - H_COMPRESOR - 0.004,
            (0, Y_TRAS - 0.001, H_PIE + H_COMPRESOR + 0.002), mat=galva, suave=False)
     # bandeja sobre la que descansan compresor y condensador
-    L.caja('bandeja compresor', A - 0.130, F_COMPRESOR, 0.003, (0, Y_TRAS - F_COMPRESOR / 2, H_PIE), mat=galva, suave=False)
+    L.caja('bandeja compresor', A - 0.130, F_COMPRESOR, 0.003, (0, Y_TRAS - F_COMPRESOR / 2, H_PIE + 0.0005), mat=galva, suave=False)
     L.cilindro('compresor', 0.072, 0.16, (0.10, Y_TRAS - F_COMPRESOR / 2, H_PIE + 0.003), segs=48, r=0.02, mat=plast)
     L.caja('condensador', 0.25, 0.02, 0.20, (-0.12, Y_TRAS - 0.03, H_PIE + 0.003),
            mat=L.mat_chapa('Condensador negro', (0.02, 0.02, 0.02), rug=0.8, brillo=0.0), suave=False)

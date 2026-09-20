@@ -62,7 +62,7 @@ def build():
     tab = L.caja('encimera', A, F, E_TAB, (0, 0, Z_TAB - E_TAB), r=0.003, segs=3, mat=inox)
     # canto delantero redondeado: se redondea la arista frontal superior con
     # un cilindro sustraido y otro anadido (radio 20)
-    L.sustraer(tab, L.caja('canto corte', A + 0.01, 0.020, 0.020, (0, Y_FRENTE_TAB + 0.010, Z_TAB - 0.020)))
+    L.sustraer(tab, L.caja('canto corte', A + 0.01, 0.025, 0.025, (0, Y_FRENTE_TAB + 0.005, Z_TAB - 0.025)))
     L.cilindro('canto curvo', 0.020, A - 0.0006, (-A / 2 + 0.0003, Y_FRENTE_TAB + 0.020, Z_TAB - 0.020), eje='X', segs=32, mat=inox)
     L.prisma_yz('peto', [(Y_TRAS - PETO_E, Z_TAB - 0.001), (Y_TRAS, Z_TAB - 0.001), (Y_TRAS, Z_TAB + PETO_H - 0.008),
                          (Y_TRAS - PETO_E * 0.6, Z_TAB + PETO_H), (Y_TRAS - PETO_E, Z_TAB + PETO_H - 0.004)],
@@ -78,7 +78,7 @@ def build():
                                   (xc, Y_FRENTE + PUERTA_E / 2 - 0.003, Z_PUERTA0 - 0.002)))
         xp = xc - CANAL_W / 2                  # hoja pegada al lado izquierdo del hueco (bisagra a la izquierda)
         # puerta lisa con burlete, ranura oscura de tirador por arriba y canal vertical oscuro a la derecha
-        L.caja(f'puerta {k + 1}', PUERTA_W, PUERTA_E, PUERTA_H, (xp, Y_FRENTE + PUERTA_E / 2, Z_PUERTA0), r=0.003, segs=3, mat=inox)
+        L.caja(f'puerta {k + 1}', PUERTA_W, PUERTA_E, PUERTA_H, (xp, Y_FRENTE + PUERTA_E / 2 - 0.0005, Z_PUERTA0), r=0.003, segs=3, mat=inox)
         L.caja(f'puerta {k + 1} burlete', PUERTA_W + 0.003, 0.003, PUERTA_H + 0.003, (xp, Y_FRENTE + PUERTA_E + 0.0015, Z_PUERTA0 - 0.0015),
                mat=goma, suave=False)
         L.caja(f'puerta {k + 1} ranura', PUERTA_W, 0.004, 0.026, (xp, Y_FRENTE + 0.030, Z_PUERTA0 + PUERTA_H + 0.002),

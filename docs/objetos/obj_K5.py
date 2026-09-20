@@ -90,7 +90,7 @@ def build():
         L.cilindro(f'taco {i + 1}', 0.0175, H_PIE, (sx * (A / 2 - 0.040), sy * (F / 2 - 0.040), 0), r=0.004, segs=40, mat=plast)
     cuerpo = L.caja('cuerpo', A, F, H - H_PIE, (0, 0, H_PIE), r=0.002, segs=3, mat=inox)
     # hueco de la puerta (retranqueo de 30 mm en el frente) y camara
-    L.sustraer(cuerpo, L.caja('hueco puerta', PUERTA_W + 0.004, PUERTA_E + 0.002, PUERTA_H + 0.004,
+    L.sustraer(cuerpo, L.caja('hueco puerta', PUERTA_W + 0.004, PUERTA_E + 0.008, PUERTA_H + 0.004,
                               (0, Y_FRENTE + PUERTA_E / 2 - 0.001, Z_PUERTA0 - 0.002)))
     L.sustraer(cuerpo, L.caja('camara', CAM_W, CAM_D + 0.05, CAM_H, (0, Y_FRENTE + PUERTA_E + CAM_D / 2 - 0.025, Z_CAM0), r_vert=0.012, r=0.012, segs=4))
     # ranuras de ventilacion en la tapa, sobre la puerta
@@ -98,7 +98,7 @@ def build():
         L.sustraer(cuerpo, L.caja(f'ranura {i + 1}', 0.040, 0.008, 0.02, (-0.217 + i * 0.062, Y_FRENTE + 0.018, H - 0.01), r=0.002))
 
     # --- puerta: marco negro con ventana redondeada, cristal exterior e interior
-    puerta = L.caja('puerta', PUERTA_W, PUERTA_E, PUERTA_H, (0, Y_FRENTE + PUERTA_E / 2, Z_PUERTA0), r=0.003, segs=3, mat=negro)
+    puerta = L.caja('puerta', PUERTA_W, PUERTA_E, PUERTA_H, (0, Y_FRENTE + PUERTA_E / 2 - 0.0005, Z_PUERTA0), r=0.003, segs=3, mat=negro)
     zc = Z_PUERTA0 + PUERTA_H / 2
     L.sustraer(puerta, L.caja('ventana', VENT_W, 0.10, VENT_H, (0, Y_FRENTE + PUERTA_E / 2, zc - VENT_H / 2), r=0.025, segs=8))
     # cristal exterior enrasado (cara vista 0,5 mm tras el plano de la puerta)

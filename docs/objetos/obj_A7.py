@@ -117,7 +117,7 @@ def build():
             L.cilindro(f'parrilla {k + 1} tope pie {sx}', 0.0025, 0.020, (sx * (INT_W / 2 - 0.045), y_fondo - 0.015 - 0.440, z), segs=12, mat=gris)
     # tiras LED verticales en los montantes interiores
     for sx in (-1, 1):
-        L.caja(f'led {sx}', 0.010, 0.006, INT_H - 0.06, (sx * (INT_W / 2 - 0.020), Y_FRENTE + 0.014, Z_INT0 + 0.03), mat=led, suave=False)
+        L.caja(f'led {sx}', 0.010, 0.006, INT_H - 0.06, (sx * (INT_W / 2 - 0.022), Y_FRENTE + 0.016, Z_INT0 + 0.03), mat=led, suave=False)
 
     # --- puerta de cristal con marco, cenefa, montantes, cerradura y bisagra
     zc = (Z_PUERTA0 + Z_PUERTA1) / 2
@@ -132,11 +132,11 @@ def build():
     # marco: montante izquierdo con asa integrada (canal), derecho redondeado (bisagra), travesanos
     izq = L.caja('montante izquierdo', 0.060, PUERTA_E, ph, (-PUERTA_W / 2 + 0.030, Y_PUERTA + PUERTA_E / 2, Z_PUERTA0), r=0.003, segs=3, mat=negro_b)
     L.sustraer(izq, L.caja('asa canal', 0.016, 0.014, ph - 0.10, (-PUERTA_W / 2 + 0.010, Y_PUERTA + 0.012, Z_PUERTA0 + 0.05), r=0.003))
-    L.caja('montante izquierdo filete', 0.004, PUERTA_E - 0.004, ph - 0.004, (-PUERTA_W / 2 + 0.002, Y_PUERTA + PUERTA_E / 2 - 0.0005, Z_PUERTA0 + 0.002), mat=alu, suave=False)
+    L.caja('montante izquierdo filete', 0.0043, PUERTA_E - 0.004, ph - 0.004, (-PUERTA_W / 2 + 0.00185, Y_PUERTA + PUERTA_E / 2 - 0.0008, Z_PUERTA0 + 0.002), mat=alu, suave=False)
     L.caja('montante derecho', 0.050, PUERTA_E, ph, (PUERTA_W / 2 - 0.025, Y_PUERTA + PUERTA_E / 2, Z_PUERTA0), r_vert=0.020, r=0.003, segs=8, mat=negro_b)
-    L.caja('travesano superior', PUERTA_W, PUERTA_E, BANDA, (0, Y_PUERTA + PUERTA_E / 2, Z_PUERTA1 - BANDA), r=0.003, segs=3, mat=negro_b)
-    L.caja('travesano inferior', PUERTA_W, PUERTA_E, MARCO, (0, Y_PUERTA + PUERTA_E / 2, Z_PUERTA0), r=0.003, segs=3, mat=negro_b)
-    L.caja('travesano inferior filete', PUERTA_W - 0.004, PUERTA_E - 0.004, 0.004, (0, Y_PUERTA + PUERTA_E / 2 - 0.0005, Z_PUERTA0 + 0.001), mat=alu, suave=False)
+    L.caja('travesano superior', PUERTA_W - 0.122, PUERTA_E, BANDA, (0, Y_PUERTA + PUERTA_E / 2 + 0.0003, Z_PUERTA1 - BANDA), r=0.003, segs=3, mat=negro_b)
+    L.caja('travesano inferior', PUERTA_W - 0.122, PUERTA_E, MARCO, (0, Y_PUERTA + PUERTA_E / 2 + 0.0003, Z_PUERTA0), r=0.003, segs=3, mat=negro_b)
+    L.caja('travesano inferior filete', PUERTA_W - 0.126, PUERTA_E - 0.004, 0.004, (0, Y_PUERTA + PUERTA_E / 2 - 0.0008, Z_PUERTA0 + 0.001), mat=alu, suave=False)
     L.cilindro('bisagra pivote', 0.012, 0.004, (PUERTA_W / 2 - 0.030, Y_PUERTA + 0.020, Z_PUERTA1 + 0.010), segs=32, r=0.001, mat=cromo)
     L.cilindro('cerradura', 0.007, 0.003, (-PUERTA_W / 2 + 0.035, Y_PUERTA - 0.003 + 0.0, 0.900), eje='Y', segs=32, r=0.001, mat=cromo)
     L.caja('bisagra superior', 0.040, 0.040, 0.010, (PUERTA_W / 2 - 0.020, Y_PUERTA + 0.020, Z_PUERTA1), r=0.003, segs=2, mat=cromo)

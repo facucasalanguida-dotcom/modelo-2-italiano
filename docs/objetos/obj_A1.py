@@ -205,6 +205,6 @@ def build():
         L.cilindro(f'lanza {k + 1} punta', 0.0075, 0.012, (x0 + sx * 0.010, Y_CUERPO - 0.160, Z_PANEL0 - 0.155), segs=32, r=0.002, mat=cromo)
 
     # --- trasera: panel liso con placa y salida de cable
-    L.caja('placa trasera', 0.080, 0.002, 0.050, (0.30, Y_TRAS - 0.001, 0.15), mat=L.mat_aluminio('Placa aluminio', rug=0.3), suave=False)
+    L.caja('placa trasera', 0.080, 0.002, 0.050, (0.30, Y_TRAS - 0.0015, 0.15), mat=L.mat_aluminio('Placa aluminio', rug=0.3), suave=False)
     P.cable('cable', (-0.30, Y_TRAS, 0.12), largo=0.30, d=0.010)
     return dict(ignorar=('cable',))
