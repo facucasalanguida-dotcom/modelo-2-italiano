@@ -6,3 +6,7 @@ __pycache__/
 
 # Datos reservados del presupuesto (firma, DNI, cuenta)
 docs/presupuesto/privado.json
+
+# copias de seguridad de Blender
+*.blend1
+*.blend2
