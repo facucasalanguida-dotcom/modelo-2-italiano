@@ -43,8 +43,8 @@ def pie_goma(nombre, pos, d=0.030, h=0.012, mat=None, parent=None):
                       mat=mat or L.mat_goma(), parent=parent)
 
 
-def pies_goma(nombre, w, d, inset=0.030, **kw):
-    return [pie_goma(f'{nombre} {i + 1}', (sx * (w / 2 - inset), sy * (d / 2 - inset), 0), **kw)
+def pies_goma(nombre, w, fondo, inset=0.030, **kw):
+    return [pie_goma(f'{nombre} {i + 1}', (sx * (w / 2 - inset), sy * (fondo / 2 - inset), 0), **kw)
             for i, (sx, sy) in enumerate(((-1, -1), (1, -1), (1, 1), (-1, 1)))]
 
 

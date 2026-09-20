@@ -28,14 +28,16 @@ def construir(tag, modo='completo'):
     L.raiz(tag)
     extra = mod.build() or {}
     print(f'[{tag}] construido en {time.time() - t0:.1f} s')
-    kw = dict(ignorar=extra.get('ignorar', ()), medidas=extra.get('medidas'))
+    kw = dict(ignorar=extra.get('ignorar', ()), medidas=extra.get('medidas'),
+              altura=extra.get('altura', 0.0))
+    vistas = extra.get('vistas', L.VISTAS)
     if modo == 'rapido':
-        L.finalizar(tag, spp=64, res=(800, 600), vistas=[L.VISTAS[0]], **kw)
+        L.finalizar(tag, spp=64, res=(800, 600), vistas=[vistas[0]], **kw)
     elif modo == 'sin-render':
         L.finalizar(tag, render=False, **kw)
     else:
         L.finalizar(tag, spp=extra.get('spp', 192), res=(1100, 825),
-                    vistas=extra.get('vistas', L.VISTAS), lente=extra.get('lente', 50.0), **kw)
+                    vistas=vistas, lente=extra.get('lente', 50.0), **kw)
     print(f'[{tag}] total {time.time() - t0:.0f} s')
 
 

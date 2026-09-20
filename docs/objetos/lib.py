@@ -318,12 +318,7 @@ def tubo_curva(nombre, puntos, radio, segs=24, res=16, mat=None, parent=None,
     for bp, p in zip(sp.bezier_points, puntos):
         bp.co = p
         bp.handle_left_type = bp.handle_right_type = 'AUTO' if suavizar else 'VECTOR'
-    ob = bpy.data.objects.new(nombre, cu)
-    bpy.context.scene.collection.objects.link(ob)
-    with bpy.context.temp_override(object=ob, active_object=ob, selected_objects=[ob]):
-        bpy.ops.object.convert(target='MESH')
-    ob = bpy.data.objects[nombre]
-    bpy.context.scene.collection.objects.unlink(ob)
+    ob = _curva_a_malla(nombre, cu)
     for pg in ob.data.polygons:
         pg.use_smooth = True
     _registrar(ob, mat, parent)
@@ -331,9 +326,95 @@ def tubo_curva(nombre, puntos, radio, segs=24, res=16, mat=None, parent=None,
     return ob
 
 
-def plano(nombre, w, h, pos=(0, 0, 0), normal='-Y', mat=None, parent=None):
+def _curva_a_malla(nombre, cu):
+    """Evalua una curva (o texto) con su bisel/extrusion y devuelve un
+    objeto malla nuevo, sin depender de operadores de interfaz."""
+    tmp = bpy.data.objects.new(nombre + ' tmp', cu)
+    bpy.context.scene.collection.objects.link(tmp)
+    bpy.context.view_layer.update()
+    dg = bpy.context.evaluated_depsgraph_get()
+    me = bpy.data.meshes.new_from_object(tmp.evaluated_get(dg), depsgraph=dg)
+    me.name = nombre
+    bpy.data.objects.remove(tmp, do_unlink=True)
+    bpy.data.curves.remove(cu)
+    return bpy.data.objects.new(nombre, me)
+
+
+def prisma_yz(nombre, pts_yz, x0, x1, mat=None, parent=None, r=0.0, segs=3, suave=False):
+    """Poligono en el plano Y-Z (lista de (y, z), antihorario visto desde
+    +X) extruido en X de x0 a x1. Para cabezales con panel inclinado,
+    petos en cuna, perfiles de campana..."""
+    bm = bmesh.new()
+    vs = [bm.verts.new((x0, y, z)) for y, z in pts_yz]
+    f = bm.faces.new(vs)
+    res = bmesh.ops.extrude_face_region(bm, geom=[f])
+    top = [g for g in res['geom'] if isinstance(g, bmesh.types.BMVert)]
+    bmesh.ops.translate(bm, vec=(x1 - x0, 0, 0), verts=top)
+    bmesh.ops.recalc_face_normals(bm, faces=bm.faces)
+    if r > 0:
+        bm.edges.ensure_lookup_table()
+        _bevel_bm(bm, list(bm.edges), r, segs)
+    return _malla_desde_bm(nombre, bm, mat, parent, suave=suave or r > 0)
+
+
+def girar_malla(ob, pivote, eje, grados):
+    """Gira la malla (los vertices, no el objeto) alrededor de `pivote`
+    (punto) y del eje 'X', 'Y' o 'Z'. Para inclinar paneles, mandos sobre
+    caras inclinadas, asas..."""
+    from mathutils import Matrix
+    M = Matrix.Rotation(math.radians(grados), 4, eje)
+    pv = Vector(pivote)
+    me = ob.data
+    for v in me.vertices:
+        v.co = (M @ (v.co - pv)) + pv
+    me.update()
+    return ob
+
+
+def mat_chapa_perforada(nombre='Chapa perforada', d=0.003, paso=0.005, base=None):
+    """Inox con agujeros al tresbolillo hechos con alfa (Voronoi en UV):
+    para cestos, bandejas y filtros. d: diametro del agujero, paso:
+    distancia entre centros (las UV van en metros)."""
+    if nombre in _MATS and _MATS[nombre].name in bpy.data.materials:
+        return _MATS[nombre]
+    m = mat_inox(nombre, rug=0.22, aniso=0.4, rayado=0.02, huellas=0.03,
+                 color=(0.56, 0.565, 0.575))
+    nt = m.node_tree
+    bsdf = next(n for n in nt.nodes if n.type == 'BSDF_PRINCIPLED')
+    tc = next(n for n in nt.nodes if n.type == 'TEX_COORD')
+    vor = nt.nodes.new('ShaderNodeTexVoronoi')
+    vor.location = (-800, -600)
+    vor.voronoi_dimensions = '2D'
+    vor.feature = 'F1'
+    vor.distance = 'EUCLIDEAN'
+    vor.inputs['Scale'].default_value = 1.0 / paso
+    vor.inputs['Randomness'].default_value = 0.0
+    mp = nt.nodes.new('ShaderNodeMapping')
+    mp.location = (-1000, -600)
+    # tresbolillo: se inclina la rejilla 30 grados
+    mp.inputs['Rotation'].default_value = (0, 0, math.radians(30))
+    nt.links.new(tc.outputs['UV'], mp.inputs['Vector'])
+    nt.links.new(mp.outputs['Vector'], vor.inputs['Vector'])
+    # distancia F1 va de 0 (centro) a ~0.5*paso*escala; agujero si < d/2
+    mth = nt.nodes.new('ShaderNodeMath')
+    mth.location = (-500, -600)
+    mth.operation = 'GREATER_THAN'
+    mth.inputs[1].default_value = (d / 2) / paso
+    nt.links.new(vor.outputs['Distance'], mth.inputs[0])
+    nt.links.new(mth.outputs['Value'], bsdf.inputs['Alpha'])
+    m.blend_method = 'CLIP'
+    try:
+        m.surface_render_method = 'DITHERED'
+    except Exception:
+        pass
+    return m
+
+
+def plano(nombre, w, h, pos=(0, 0, 0), normal='-Y', mat=None, parent=None, rot=None):
     """Plano de w x h con su normal hacia `normal`: '-Y' (frente), '+Y',
-    '+X', '-X', '+Z', '-Z'. `pos` = centro del plano. Para calcas."""
+    '+X', '-X', '+Z', '-Z'. `pos` = centro del plano. Para calcas.
+    rot: (eje, grados) de giro adicional sobre el centro del plano, para
+    calcas en caras inclinadas."""
     bm = bmesh.new()
     vs = [bm.verts.new(v) for v in ((-w / 2, -h / 2, 0), (w / 2, -h / 2, 0),
                                      (w / 2, h / 2, 0), (-w / 2, h / 2, 0))]
@@ -342,6 +423,8 @@ def plano(nombre, w, h, pos=(0, 0, 0), normal='-Y', mat=None, parent=None):
          '+X': _rot('Y', 90), '-X': _rot('Y', -90)}[normal]
     if m is not None:
         bmesh.ops.rotate(bm, cent=(0, 0, 0), verts=bm.verts, matrix=m)
+    if rot is not None:
+        bmesh.ops.rotate(bm, cent=(0, 0, 0), verts=bm.verts, matrix=_rot(rot[0], rot[1]))
     bmesh.ops.translate(bm, vec=pos, verts=bm.verts)
     me = bpy.data.meshes.new(nombre)
     bm.to_mesh(me)
@@ -394,12 +477,7 @@ def texto(nombre, cadena, alto, pos=(0, 0, 0), normal='-Y', grosor=0.0005,
             cu.font = bpy.data.fonts.load(fuente)
         except Exception:
             pass
-    ob = bpy.data.objects.new(nombre, cu)
-    bpy.context.scene.collection.objects.link(ob)
-    with bpy.context.temp_override(object=ob, active_object=ob, selected_objects=[ob]):
-        bpy.ops.object.convert(target='MESH')
-    ob = bpy.data.objects[nombre] if nombre in bpy.data.objects else ob
-    bpy.context.scene.collection.objects.unlink(ob)
+    ob = _curva_a_malla(nombre, cu)
     rot = {'-Y': (math.pi / 2, 0, 0), '+Y': (math.pi / 2, 0, math.pi),
            '+X': (math.pi / 2, 0, math.pi / 2), '-X': (math.pi / 2, 0, -math.pi / 2),
            '+Z': (0, 0, 0)}[normal]
@@ -442,8 +520,8 @@ def _ruido(nt, escala, detalle=2.0, rug=0.5, loc=(-600, 0), coords=None, mapping
     return n
 
 
-def mat_inox(nombre='INOX cepillado', rug=0.40, aniso=0.85, rayado=0.14,
-             color=(0.500, 0.505, 0.515), direccion=0.0, huellas=0.10,
+def mat_inox(nombre='INOX cepillado', rug=0.34, aniso=0.75, rayado=0.10,
+             color=(0.500, 0.505, 0.515), direccion=0.0, huellas=0.06,
              escala_rayado=700.0):
     """Acero inoxidable cepillado: Principled metalico anisotropo con el
     rayado como bump direccional y huellas/manchas que varian la rugosidad.
@@ -505,7 +583,7 @@ def mat_inox_satinado(nombre='INOX satinado'):
 
 
 def mat_inox_pulido(nombre='INOX pulido'):
-    return mat_inox(nombre, rug=0.14, aniso=0.30, rayado=0.02, huellas=0.06,
+    return mat_inox(nombre, rug=0.12, aniso=0.25, rayado=0.006, huellas=0.02,
                     color=(0.58, 0.585, 0.595), escala_rayado=600.0)
 
 
@@ -601,6 +679,21 @@ def mat_policarbonato(nombre='Policarbonato', tinte=(0.97, 0.97, 0.96)):
     return mat_vidrio(nombre, tinte, rug=0.04)
 
 
+def mat_vitroceramica(nombre='Vitroceramica negra', color=(0.004, 0.004, 0.005), rug=0.03):
+    """Vidrio negro brillante (vitroceramica, cristal de puerta de horno
+    visto desde fuera): dielectrico oscuro muy liso, sin bump."""
+    b = _base(nombre)
+    if b is None:
+        return _MATS[nombre]
+    m, nt, bsdf = b
+    bsdf.inputs['Base Color'].default_value = (*color, 1)
+    bsdf.inputs['Metallic'].default_value = 0.0
+    bsdf.inputs['Roughness'].default_value = rug
+    bsdf.inputs['IOR'].default_value = 1.52
+    bsdf.inputs['Specular IOR Level'].default_value = 0.55
+    return m
+
+
 def mat_led(nombre, color=(1.0, 1.0, 1.0), fuerza=8.0):
     b = _base(nombre)
     if b is None:
@@ -637,10 +730,10 @@ def mat_calca(nombre, ruta_png, fuerza_emision=0.0, rug=0.35):
     return m
 
 
-def calca(nombre, ruta_png, w, h, pos, normal='-Y', emision=0.0, parent=None):
+def calca(nombre, ruta_png, w, h, pos, normal='-Y', emision=0.0, parent=None, rot=None):
     """Plano con la imagen, separado 0,3 mm de la superficie (la separacion
     la pone quien llama en `pos`)."""
-    return plano(nombre, w, h, pos, normal, mat_calca('Calca ' + nombre, ruta_png, emision), parent)
+    return plano(nombre, w, h, pos, normal, mat_calca('Calca ' + nombre, ruta_png, emision), parent, rot=rot)
 
 
 # ============================================================ calcas (PIL)
@@ -785,6 +878,20 @@ def plato(tam=30.0):
     ob = bpy.data.objects.new('_ciclorama', me)
     ob.data.materials.append(m)
     col.objects.link(ob)
+    # techo blanco a 3,5 m: como una tienda de luz, para que el inox refleje
+    # claro tambien dentro de cubas y cestos
+    mt = bpy.data.materials.new('_techo')
+    mt.use_nodes = True
+    mt.node_tree.nodes['Principled BSDF'].inputs['Base Color'].default_value = (0.92, 0.92, 0.92, 1)
+    bm = bmesh.new()
+    bmesh.ops.create_grid(bm, x_segments=1, y_segments=1, size=tam / 2)
+    bmesh.ops.translate(bm, vec=(0, 0, 3.5), verts=bm.verts)
+    me2 = bpy.data.meshes.new('_techo')
+    bm.to_mesh(me2)
+    bm.free()
+    ob2 = bpy.data.objects.new('_techo', me2)
+    ob2.data.materials.append(mt)
+    col.objects.link(ob2)
     # luz principal: area grande, arriba a la izquierda y delante
     ld = bpy.data.lights.new('_key', 'AREA')
     ld.energy = 250.0
@@ -898,8 +1005,12 @@ def render_vistas(tag, spp=160, res=(1000, 750), vistas=VISTAS, lente=50.0,
     cam = _camara('_cam', lente)
     sc.camera = cam
     rutas = []
+    ciclo = bpy.data.objects.get('_ciclorama')
     for nm, az, el in vistas:
         encuadrar(cam, tag, az, el, lente=lente, res=res)
+        if ciclo is not None:
+            # el ciclorama gira con la camara: la pared siempre queda detras
+            ciclo.rotation_euler = (0, 0, math.radians(az))
         ruta = os.path.join(SCRATCH, f'_v_{tag}_{nm}.png')
         sc.render.filepath = ruta
         t = time.time()
@@ -963,10 +1074,19 @@ def guardar(tag):
 
 
 def finalizar(tag, medidas=None, ignorar=(), spp=160, res=(1000, 750), vistas=VISTAS,
-              lente=50.0, render=True):
-    """Control de medidas, plato, render de vistas y guardado."""
+              lente=50.0, render=True, altura=0.0):
+    """Control de medidas, plato, render de vistas y guardado. `altura`:
+    a que cota se cuelga el objeto en el plato para las vistas (campanas,
+    estantes murales: se ven desde abajo); se deshace antes de guardar."""
     comprobar_medidas(tag, medidas, ignorar=ignorar)
     if render:
         plato()
+        raiz_ob = bpy.data.objects.get(tag)
+        if altura and raiz_ob is not None:
+            raiz_ob.location.z = altura
+            bpy.context.view_layer.update()
         render_vistas(tag, spp=spp, res=res, vistas=vistas, lente=lente)
+        if altura and raiz_ob is not None:
+            raiz_ob.location.z = 0.0
+            bpy.context.view_layer.update()
     return guardar(tag)
