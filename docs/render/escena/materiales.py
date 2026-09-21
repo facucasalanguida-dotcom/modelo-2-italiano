@@ -45,11 +45,19 @@ def imagen(ruta, sin_color=False):
     return _img_cache[k]
 
 
+# Cycles carga cada mapa entero en RAM. Con ~120 mapas a 4096x4096 el proceso
+# pasa de 13 GB y lo mata el sistema, asi que se usan las copias a 2K que
+# genera scratchpad/ph/hacer_2k.py. A la resolucion de salida no se distingue:
+# la proyeccion de caja reparte la textura en tramos de 1,5 a 3 m.
+DOS_K = os.environ.get('CM_4K', '') == ''
+
+
 def mapas(aid):
-    """Mapas 4K de un activo de Poly Haven ya descargado."""
+    """Mapas de un activo de Poly Haven ya descargado (2K salvo que se pida 4K)."""
     if aid in _map_cache:
         return _map_cache[aid]
-    d = f'{PH}/{aid}/textures'
+    d2 = f'{PH}/{aid}/textures_2k'
+    d = d2 if (DOS_K and os.path.isdir(d2)) else f'{PH}/{aid}/textures'
 
     def uno(pat):
         c = sorted(glob.glob(f'{d}/{aid}_{pat}_4k.*'),
@@ -100,8 +108,11 @@ def _set(b, clave, valor):
 
 
 # ------------------------------------------------------------- fabricas
-def liso(nombre, rgb, rug=0.6, metal=0.0, coat=0.0, aniso=0.0):
+def liso(nombre, rgb, rug=0.6, metal=0.0, coat=0.0, aniso=0.0, sheen_=False):
     m, nt, b = _nuevo(nombre)
+    if sheen_:
+        _set(b, 'Sheen Weight', 0.7)
+        _set(b, 'Sheen Roughness', 0.4)
     _set(b, 'Base Color', (*rgb, 1))
     _set(b, 'Roughness', rug)
     _set(b, 'Metallic', metal)
@@ -375,4 +386,39 @@ def construir():
     M['_vidrio_copa'] = vidrio('Vidrio de copa')
     M['_luz_calida'] = emision('Luz calida', srgb('FFDCA6'), 2.2)
     M['_marmol'] = pbr('Marmol', 'marble_01', 1.6, coat=0.30, nrm_str=0.30)
+
+    # ------------------------------------------------------------ la calle
+    # Por un escaparate de doble altura se ve la calle entera, asi que la
+    # ciudad no puede ser el HDRI: tiene que estar construida y tener
+    # materiales propios.
+    M['_acera'] = pbr('Acera', 'large_floor_tiles_02', 2.4, albedo='B9B4AA', nrm_str=0.8)
+    M['_asfalto'] = pbr('Asfalto', 'asphalt_02', 3.2, albedo='4A4845', nrm_str=0.9)
+    M['_pintura_vial'] = liso('Pintura vial', srgb('D8D4C8'), 0.68)
+    M['_tierra'] = liso('Tierra de alcorque', srgb('4A3A2C'), 0.92)
+    M['_cornisa'] = pbr('Cornisa', 'white_plaster_02', 1.8, albedo='EDE8DC', nrm_str=0.4)
+    M['_teja'] = pbr('Teja', 'clay_roof_tiles', 1.1, albedo='9A5A3C', nrm_str=1.0) \
+        if mapas('clay_roof_tiles')['diff'] else liso('Teja', srgb('9A5A3C'), 0.8)
+    M['_persiana'] = liso('Persiana', srgb('C8C3B4'), 0.62)
+    M['_interior_calle'] = liso('Interior de vivienda', srgb('14100C'), 0.9)
+    M['_vidrio_calle'] = vidrio_arq('Vidrio de la calle', reflejo=0.16)
+    M['_luz_farola'] = emision('Luz de farola', srgb('FFE2B0'), 6.0)
+    # fachadas de la manzana de enfrente, en ocres de Malaga
+    M['_fachada'] = [pintura(f'Fachada {i + 1}', c, rug=0.62, coat=0.0,
+                             textura='plastered_wall', tam=3.4)
+                     for i, c in enumerate(('D9C9A8', 'E6DCC8', 'C9A882', 'EFE7D6',
+                                            'D2B896', 'E3D6BC', 'CDBEA4'))]
+    M['_bajo'] = [liso(f'Bajo comercial {i + 1}', srgb(c), 0.45, coat=0.15)
+                  for i, c in enumerate(('B08A63', '7C6A58', '3E4A52', '8C5C48',
+                                         '445048', '9A6A4A', '5A4438'))]
+    M['_toldo'] = [liso(f'Toldo {i + 1}', srgb(c), 0.72, sheen_=True)
+                   for i, c in enumerate(('8E2F2A', '1F4E3D', 'C8912F', '2B4C7E'))]
+    # coches
+    M['_luna'] = vidrio_arq('Luna de coche', reflejo=0.34)
+    M['_faro'] = liso('Faro', srgb('E8ECEF'), 0.10, coat=0.9)
+    M['_piloto'] = liso('Piloto', srgb('8E1410'), 0.20, coat=0.8)
+    M['_neumatico'] = liso('Neumatico', srgb('16171A'), 0.82)
+    M['_llanta'] = liso('Llanta', srgb('B8BCC0'), 0.24, metal=1.0)
+    M['_coche'] = [liso(f'Carroceria {i + 1}', srgb(c), 0.22, metal=0.55, coat=0.85)
+                   for i, c in enumerate(('1C2733', 'A8ADB2', '8E1B18', 'E8E9EA',
+                                          '2E4636', '3A3F45', 'C2B9A8'))]
     return M

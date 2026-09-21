@@ -168,10 +168,18 @@ def escena_nueva(spp=512, ancho=2560, alto=1440):
     sc.cycles.max_bounces = 12
     sc.cycles.diffuse_bounces = 6
     sc.cycles.glossy_bounces = 6
-    sc.cycles.transmission_bounces = 12
-    sc.cycles.transparent_max_bounces = 16
+    sc.cycles.transmission_bounces = 8
+    sc.cycles.transparent_max_bounces = 6
     sc.cycles.sample_clamp_indirect = 10.0
     sc.cycles.blur_glossy = 0.6
+    # aproximacion del rebote lejano: en un interior con 60 luminarias
+    # ahorra un tercio del tiempo y no se distingue en la imagen
+    try:
+        sc.cycles.use_fast_gi = True
+        sc.cycles.ao_bounces_render = 3
+        sc.cycles.ao_factor = 1.0
+    except Exception:
+        pass
     sc.cycles.caustics_reflective = False
     sc.cycles.caustics_refractive = False
     sc.render.resolution_x = ancho
@@ -896,33 +904,81 @@ def luces(j):
 _importados = {}
 
 
-def importar(aid, nombres=None):
+def _elegir_lod(disponibles, lod):
+    """Los modelos de Poly Haven traen varios niveles de detalle.
+
+    Un arbol en LOD0 son 2-4 millones de triangulos: puesto diez veces en la
+    calle son 26 millones y el render se va a las nubes. De cerca hace falta
+    el LOD0; para el arbolado de la calle, el LOD1 es indistinguible.
+    """
+    nombres = [n for n in disponibles if 'geometry_nodes' not in n]
+    if lod <= 0:
+        return [n for n in nombres if '_LOD' not in n or n.endswith('_LOD0')]
+    suf = f'_LOD{lod}'
+    con = [n for n in nombres if n.endswith(suf)]
+    sin = [n for n in nombres if '_LOD' not in n]
+    return (con + sin) or [n for n in nombres if n.endswith('_LOD0')]
+
+
+def importar(aid, nombres=None, lod=0):
     """Trae un modelo CC0 de Poly Haven y lo deja fuera de escena, de molde."""
-    if aid in _importados:
-        return _importados[aid]
+    clave = (aid, lod)
+    if clave in _importados:
+        return _importados[clave]
     ruta = os.path.join(PH, aid, f'{aid}.blend')
     if not os.path.exists(ruta):
         print(f'   (falta el modelo {aid})')
-        _importados[aid] = []
+        _importados[clave] = []
         return []
     antes = set(bpy.data.objects.keys())
     with bpy.data.libraries.load(ruta, link=False) as (src, dst):
-        dst.objects = [n for n in src.objects
-                       if 'LOD1' not in n and 'LOD2' not in n and 'LOD3' not in n
-                       and (nombres is None or n in nombres)]
+        elegidos = _elegir_lod(src.objects, lod)
+        dst.objects = [n for n in elegidos if nombres is None or n in nombres]
     obs = [o for o in bpy.data.objects if o.name not in antes and o.type == 'MESH']
+    _recolocar_texturas(aid)
     molde = coleccion('_moldes')
     for o in obs:
         for c in list(o.users_collection):
             c.objects.unlink(o)
         molde.objects.link(o)
-    _importados[aid] = obs
+        # el molde no se renderiza: solo esta para copiarlo
+        o.hide_render = True
+        o.hide_viewport = True
+    _importados[clave] = obs
     return obs
 
 
-def poner(aid, x, y, z, escala=1.0, giro=0.0, col='Decoracion', nombres=None):
-    """Copia enlazada de un modelo importado, apoyada en (x, y, z)."""
-    molde = importar(aid, nombres)
+def _recolocar_texturas(aid):
+    """Los .blend de Poly Haven apuntan a texturas .exr y el descargador las
+    trae en png/jpg: sin esto los modelos pierden rugosidad y normal."""
+    d2 = os.path.join(PH, aid, 'textures_2k')
+    d = d2 if (MT.DOS_K and os.path.isdir(d2)) else os.path.join(PH, aid, 'textures')
+    if not os.path.isdir(d):
+        return
+    hay = os.listdir(d)
+    for im in bpy.data.images:
+        fp = bpy.path.abspath(im.filepath)
+        if not fp:
+            continue
+        base = os.path.splitext(os.path.basename(fp))[0]
+        if os.path.exists(fp) and os.path.dirname(fp) == d:
+            continue
+        for f in hay:
+            if os.path.splitext(f)[0] == base:
+                im.filepath = os.path.join(d, f)
+                im.reload()
+                break
+
+
+def poner(aid, x, y, z, escala=1.0, giro=0.0, col='Decoracion', nombres=None,
+          lod=0, altura=None):
+    """Copia enlazada de un modelo importado, apoyada en (x, y, z).
+
+    Con `altura` se escala a esa altura real en metros, que es lo unico
+    fiable: los modelos de Poly Haven vienen a su tamano natural y un
+    jacaranda mide 20 m, asi que un factor a ojo se va de madre.
+    """
+    molde = importar(aid, nombres, lod)
     if not molde:
         return []
     # caja del conjunto, para apoyarlo por su base y centrarlo en planta
@@ -935,6 +991,9 @@ def poner(aid, x, y, z, escala=1.0, giro=0.0, col='Decoracion', nombres=None):
                 lo[i] = min(lo[i], w[i])
                 hi[i] = max(hi[i], w[i])
     cx, cy = (lo[0] + hi[0]) / 2, (lo[1] + hi[1]) / 2
+    if altura:
+        alto = max(1e-6, hi[2] - lo[2])
+        escala = altura / alto
     import mathutils
     M = (mathutils.Matrix.Translation((x, y, z))
          @ mathutils.Matrix.Rotation(math.radians(giro), 4, 'Z')
@@ -944,6 +1003,8 @@ def poner(aid, x, y, z, escala=1.0, giro=0.0, col='Decoracion', nombres=None):
     for o in molde:
         c = o.copy()                      # malla enlazada: no duplica memoria
         c.matrix_world = M @ o.matrix_world
+        c.hide_render = False
+        c.hide_viewport = False
         coleccion(col).objects.link(c)
         out.append(c)
     return out
@@ -1070,11 +1131,11 @@ def decoracion():
     poner('wine_barrel_01', 7.90, 2.35, 0.0, escala=1.0, giro=12)
     poner('wine_bottles_01', 7.90, 2.35, 0.86, escala=1.0, giro=-40)
     # ---- plantas: terracota, el verde de la trattoria
-    for aid, x, y, s, g in (('potted_plant_01', 2.22, 3.30, 0.95, 20),
-                            ('potted_plant_02', 8.36, 7.55, 1.00, -30),
-                            ('potted_plant_01', 3.30, 4.35, 0.90, 60),
-                            ('potted_plant_02', 7.62, 3.30, 0.85, 110)):
-        poner(aid, x, y, 0.0, escala=s, giro=g)
+    for aid, x, y, h, g in (('potted_plant_01', 2.22, 3.30, 1.10, 20),
+                            ('potted_plant_02', 8.36, 7.55, 1.35, -30),
+                            ('potted_plant_01', 3.30, 4.35, 0.95, 60),
+                            ('potted_plant_02', 7.62, 3.30, 1.20, 110)):
+        poner(aid, x, y, 0.0, altura=h, giro=g)
     for i, (x, y) in enumerate(((2.62, 8.55), (7.10, 8.55))):
         poner('planter_pot_clay', x, y, 0.0, escala=1.2, giro=i * 40)
     # ---- fruta y pan en el paso de la cocina
@@ -1164,16 +1225,85 @@ def mundo(rot=-102.5, fuerza=4.2):
 
 
 def exterior():
-    """Acera, calzada y arbolado: lo que se ve por el escaparate."""
-    caja('Acera', -14.0, -12.0, 24.0, 1.500, -0.020, 0.000,
-         MT.pbr('Acera', 'large_floor_tiles_02', 3.0, tint=(1.02, 0.99, 0.94)), 'Exterior')
-    caja('Calzada', -14.0, -12.0, 24.0, -3.200, -0.150, -0.020,
-         MT.pbr('Asfalto', 'asphalt_02', 3.0), 'Exterior')
-    caja('Bordillo', -14.0, -3.260, 24.0, -3.200, -0.020, 0.120,
-         MAT['piedra'], 'Exterior')
-    for i, x in enumerate((-3.0, 2.5, 8.0, 13.5)):
-        poner('tree_small_02', x, -1.30, 0.0, escala=2.6 + 0.4 * (i % 2),
-              giro=i * 47, col='Exterior')
+    """La calle entera: acera, calzada, la manzana de enfrente, arbolado,
+    mobiliario urbano y coches aparcados.
+
+    Por un escaparate de doble altura se ve la ciudad de cerca, asi que no
+    vale con el HDRI: el HDRI pone el cielo y la luz, y esto pone la calle.
+    """
+    import ciudad as C
+    rnd = random.Random(31)
+    C.suelo_urbano(CIUDAD_API, MAT)
+    C.edificios(CIUDAD_API, MAT, rnd)
+
+    # arbolado en los alcorques de nuestra acera
+    for i, x in enumerate(C.ALCORQUES):
+        aid = 'jacaranda_tree' if (i % 2 and _hay('jacaranda_tree')) else 'tree_small_02'
+        poner(aid, x, C.Y_ACERA + 0.90, C.H_BORDILLO - 0.02, altura=7.2 + 0.8 * (i % 2),
+              giro=i * 53, col='Ciudad', lod=1)
+    # arbolado de la acera de enfrente, mas lejos y mas suelto
+    for i, x in enumerate((-9.0, 14.0)):
+        poner('tree_small_02', x, C.Y_ACERA_OP - 1.20, C.H_BORDILLO - 0.02,
+              altura=6.4 + 0.9 * (i % 2), giro=i * 71, col='Ciudad', lod=1)
+
+    # mobiliario urbano
+    for i, x in enumerate((-5.2, 2.0, 8.6, 15.2, 21.8)):
+        C.farola(CIUDAD_API, MAT, x, C.Y_ACERA + 0.55, nombre=f'Farola {i + 1}')
+    for i, x in enumerate((-2.6, -1.9, 3.4, 4.1, 9.8, 10.5, 16.2, 16.9)):
+        C.bolardo(CIUDAD_API, MAT, x, C.Y_ACERA + 0.42, f'Bolardo {i + 1}')
+    for aid, x, y, g in (('metal_trash_can', 6.10, C.Y_ACERA + 0.70, 20),
+                         ('fire_hydrant', -6.40, C.Y_ACERA + 0.60, -30),
+                         ('painted_wooden_bench', 13.20, C.Y_ACERA + 0.95, 180),
+                         ('modular_street_seating', -9.60, C.Y_ACERA + 1.05, 0)):
+        if _hay(aid):
+            poner(aid, x, y, C.H_BORDILLO, escala=1.0, giro=g, col='Ciudad')
+
+    # terraza del local, en la acera delante del escaparate
+    if _hay('outdoor_table_chair_set_01'):
+        for i, x in enumerate((3.40, 5.30)):
+            poner('outdoor_table_chair_set_01', x, C.Y_ACERA + 1.90,
+                  C.H_BORDILLO, escala=1.0, giro=90 + i * 12, col='Ciudad')
+
+    # coches aparcados en la banda, y un par en el otro sentido
+    for i, (x, g) in enumerate(((-7.4, 0), (-2.1, 0), (3.6, 0), (9.4, 0),
+                                (15.8, 0), (21.2, 0))):
+        if i == 3:
+            continue                       # hueco libre, que no parezca un catalogo
+        C.coche(CIUDAD_API, MAT, x, C.Y_APARCA + 0.95, g,
+                MAT['_coche'][i % len(MAT['_coche'])], f'Coche {i + 1}')
+    for i, x in enumerate((-11.0, 6.2, 18.4)):
+        C.coche(CIUDAD_API, MAT, x, C.Y_ACERA_OP + 2.05, 180,
+                MAT['_coche'][(i + 3) % len(MAT['_coche'])], f'Coche op {i + 1}')
+
+
+def acera_corta():
+    """Para las vistas que no ven la calle: acera y calzada y nada mas.
+
+    Montar la manzana entera, los arboles y los coches cuesta 6 millones de
+    triangulos y 3 GB; si por la camara no se ve la calle, no compensa.
+    """
+    import ciudad as C
+    caja('Acera', -16.0, C.Y_ACERA, 26.0, C.Y_FACHADA + 0.4, 0.0, C.H_BORDILLO,
+         MAT['_acera'], 'Ciudad')
+    caja('Calzada', -16.0, -14.0, 26.0, C.Y_ACERA - 0.18, -0.130, -0.002,
+         MAT['_asfalto'], 'Ciudad')
+    caja('Bordillo', -16.0, C.Y_ACERA - 0.18, 26.0, C.Y_ACERA, -0.120,
+         C.H_BORDILLO, MAT['piedra'], 'Ciudad')
+
+
+def _hay(aid):
+    return os.path.exists(os.path.join(PH, aid, f'{aid}.blend'))
+
+
+class _CiudadAPI:
+    """Puente para que ciudad.py use las primitivas de la escena."""
+    caja = staticmethod(lambda *a, **k: caja(*a, **k))
+    cilindro = staticmethod(lambda *a, **k: cilindro(*a, **k))
+    bisel = staticmethod(lambda *a, **k: bisel(*a, **k))
+    girar = staticmethod(lambda *a, **k: girar(*a, **k))
+
+
+CIUDAD_API = _CiudadAPI()
 
 
 # ==================================================== 10. camaras y render
@@ -1194,22 +1324,97 @@ def camara(nombre, ojo, mira, lente=28.0, despl=0.0):
     return ob
 
 
-# ojo, mira, lente: las siete vistas que cuentan el local
+def camara_orto(nombre, ojo, mira, escala, despl=(0.0, 0.0)):
+    """Camara ortografica, para plantas y axonometrias."""
+    cam = bpy.data.cameras.new(nombre)
+    cam.type = 'ORTHO'
+    cam.ortho_scale = escala
+    cam.clip_start = 0.01
+    cam.clip_end = 300.0
+    cam.shift_x, cam.shift_y = despl
+    ob = bpy.data.objects.new(nombre, cam)
+    coleccion('Camaras').objects.link(ob)
+    d = Vector(mira) - Vector(ojo)
+    ob.location = ojo
+    ob.rotation_euler = d.to_track_quat('-Z', 'Y').to_euler()
+    return ob
+
+
+def ocultar_sobre(z, salvo=()):
+    """Esconde del render lo que esta por encima de una cota.
+
+    Es lo que convierte la escena en una planta: se quita el techo y lo que
+    estorba, sin tocar la geometria.
+    """
+    n = 0
+    for ob in bpy.data.objects:
+        if ob.type not in ('MESH', 'LIGHT') or any(k in ob.name for k in salvo):
+            continue
+        if ob.type == 'LIGHT':
+            continue
+        zmin = min((ob.matrix_world @ Vector(c)).z for c in ob.bound_box)
+        if zmin >= z:
+            ob.hide_render = True
+            n += 1
+    return n
+
+
+def mostrar_todo():
+    for ob in bpy.data.objects:
+        ob.hide_render = False
+
+
+# ojo, mira, lente: las vistas que cuentan el local
 VISTAS = {
+    # ---------------------------------------------------------- planta baja
     # la barra en diagonal, con el mostrador huyendo y la trasbarra al fondo
-    'barra':      ((4.90, 1.95, 1.520), (1.35, 4.30, 1.060), 24.0),
+    'barra':        ((4.90, 1.95, 1.520), (1.35, 4.30, 1.060), 24.0),
+    # el mostrador de frente, desde la sala
+    'barra_frente': ((4.35, 3.15, 1.480), (2.10, 3.35, 1.180), 30.0),
+    # desde dentro de la barra, el punto de vista del camarero
+    'trasbarra':    ((1.42, 2.35, 1.560), (1.05, 4.70, 1.150), 22.0),
     # la sala desde la entrada, con el pilar forrado y la escalera
-    'sala':       ((8.75, 2.10, 1.600), (4.10, 6.30, 1.220), 21.0),
+    'sala':         ((8.75, 2.10, 1.600), (4.10, 6.30, 1.220), 21.0),
+    # la fila del sillon corrido, contra el muro Norte
+    'sillon':       ((7.90, 6.20, 1.520), (3.20, 8.30, 1.150), 24.0),
+    # el hueco central entre la barra y el pilar
+    'sala_centro':  ((6.90, 7.60, 1.560), (3.30, 3.90, 1.200), 20.0),
     # desde dentro hacia el escaparate de doble altura
-    'escaparate': ((4.60, 6.30, 1.580), (6.10, 1.30, 1.900), 24.0),
-    # la cocina vista desde la sala, a traves de la mampara
-    'cocina':     ((2.16, 5.90, 1.600), (1.05, 8.70, 1.120), 21.0),
+    'escaparate':   ((4.60, 6.30, 1.580), (6.10, 1.30, 1.900), 24.0),
+    # la entrada, nada mas cruzar la puerta
+    'entrada':      ((8.55, 1.15, 1.620), (4.60, 5.40, 1.400), 20.0),
     # la pared azzurro con el logo, de frente
-    'logo':       ((7.05, 2.80, 1.560), (8.64, 5.90, 1.430), 30.0),
-    # el altillo
-    'alta':       ((8.45, 6.95, Z_PA + 1.580), (3.55, 5.60, Z_PA + 1.120), 20.0),
+    'logo':         ((7.05, 2.80, 1.560), (8.64, 5.90, 1.430), 30.0),
+    # el arranque de la escalera
+    'escalera':     ((7.35, 5.40, 1.600), (9.35, 6.60, 1.900), 22.0),
+    # la cocina desde dentro, con la campana y la linea de coccion
+    'cocina':       ((2.16, 5.90, 1.600), (1.05, 8.70, 1.120), 21.0),
+    # la cocina desde el paso de servicio, con la mampara en primer plano
+    'cocina_paso':  ((2.95, 4.95, 1.580), (1.30, 7.60, 1.250), 24.0),
     # panoramica general desde la esquina de entrada
-    'general':    ((9.30, 1.70, 2.150), (3.40, 6.60, 1.250), 18.0),
+    'general':      ((9.30, 1.70, 2.150), (3.40, 6.60, 1.250), 18.0),
+    # ---------------------------------------------------------- planta alta
+    'alta':         ((8.45, 6.95, Z_PA + 1.580), (3.55, 5.60, Z_PA + 1.120), 20.0),
+    'alta_cowork':  ((6.60, 6.80, Z_PA + 1.540), (3.60, 5.00, Z_PA + 1.100), 24.0),
+    'alta_redonda': ((4.90, 4.80, Z_PA + 1.540), (7.60, 5.60, Z_PA + 1.120), 26.0),
+    # asomado al vacio, mirando la planta baja
+    'alta_vacio':   ((3.35, 5.20, Z_PA + 1.620), (5.60, 2.20, 0.900), 22.0),
+    # el desembarco de la escalera
+    'alta_escalera':((8.20, 8.10, Z_PA + 1.580), (4.60, 5.40, Z_PA + 1.150), 21.0),
+    # ------------------------------------------------------------- exterior
+    # la fachada desde la acera de enfrente
+    'fachada':      ((6.20, -9.20, 1.700), (5.60, 1.60, 2.600), 28.0),
+    # la calle, con el local a un lado
+    'calle':        ((-3.80, -5.40, 1.650), (12.00, -2.60, 2.000), 24.0),
+}
+
+# plantas y axonometrias: camara ortografica y recorte por cota
+#   nombre: (ojo, mira, escala_orto, cota_de_recorte)
+ORTOS = {
+    'planta_baja':  ((5.10, 5.30, 14.0), (5.10, 5.30, 0.0), 11.4, 2.28),
+    'planta_alta':  ((6.15, 6.45, 16.0), (6.15, 6.45, Z_PA), 9.0, Z_PA + 2.30),
+    'axonometrica': ((-7.0, -8.5, 13.5), (5.10, 5.30, 1.20), 17.0, 2.60),
+    'axono_alta':   ((-5.0, -6.5, 15.5), (6.15, 6.45, Z_PA + 1.1), 13.0, Z_PA + 2.35),
 }
 
 
@@ -1263,7 +1468,14 @@ def compositor():
     return nt
 
 
-def construir(spp, ancho, alto, con_decoracion=True, con_glare=False):
+# vistas desde las que se ve la calle: solo en esas se monta la ciudad
+VE_LA_CALLE = {'escaparate', 'fachada', 'calle', 'entrada', 'general', 'sala',
+               'barra', 'sala_centro', 'alta_vacio', 'axonometrica', 'axono_alta',
+               'planta_baja', 'barra_frente'}
+
+
+def construir(spp, ancho, alto, con_decoracion=True, con_glare=False,
+              con_ciudad=True):
     global MAT
     sc = escena_nueva(spp, ancho, alto)
     MAT = MT.construir()
@@ -1283,7 +1495,10 @@ def construir(spp, ancho, alto, con_decoracion=True, con_glare=False):
     nl = luces(j)
     print('  luminarias del plano:', nl, flush=True)
     mundo()
-    exterior()
+    if con_ciudad:
+        exterior()
+    else:
+        acera_corta()
     if con_decoracion:
         decoracion()
         caracter_italiano()
@@ -1297,15 +1512,27 @@ def construir(spp, ancho, alto, con_decoracion=True, con_glare=False):
 
 def render(vista, salida, spp, ancho, alto, rapido=False):
     sc = bpy.context.scene
-    ojo, mira, lente = VISTAS[vista]
-    cam = camara(f'cam {vista}', ojo, mira, lente)
+    mostrar_todo()
+    if vista in ORTOS:
+        ojo, mira, escala, corte = ORTOS[vista]
+        cam = camara_orto(f'cam {vista}', ojo, mira, escala)
+        n = ocultar_sobre(corte)
+        print(f'    (planta: {n} piezas por encima de {corte:.2f} fuera)', flush=True)
+        if vista.startswith('planta'):          # las plantas, cuadradas
+            alto = ancho
+    else:
+        ojo, mira, lente = VISTAS[vista]
+        cam = camara(f'cam {vista}', ojo, mira, lente)
     sc.camera = cam
+    sc.render.resolution_x = ancho
+    sc.render.resolution_y = alto
     sc.render.filepath = salida
     if rapido:
         sc.cycles.samples = max(24, spp // 16)
         sc.render.resolution_x = ancho // 3
         sc.render.resolution_y = alto // 3
     bpy.ops.render.render(write_still=True)
+    mostrar_todo()
     return salida
 
 
@@ -1320,21 +1547,25 @@ def main():
     ap.add_argument('--rapido', action='store_true')
     ap.add_argument('--sin-decoracion', action='store_true')
     ap.add_argument('--glare', action='store_true')
+    ap.add_argument('--sin-ciudad', action='store_true')
     ap.add_argument('--salida', default=os.path.join(SCRATCH, 'renders'))
     ap.add_argument('--guardar-blend', default='')
     a = ap.parse_args(sys.argv[sys.argv.index('--') + 1:] if '--' in sys.argv else None)
 
     os.makedirs(a.salida, exist_ok=True)
+    todas = list(VISTAS) + list(ORTOS)
+    if a.vistas:
+        vistas = [v.strip() for v in a.vistas.split(',') if v.strip() in todas]
+    else:
+        vistas = todas if a.todas else [a.vista]
     print('Casa Margot · montando la escena', flush=True)
-    construir(a.spp, a.ancho, a.alto, not a.sin_decoracion, a.glare)
+    ciudad = any(v in VE_LA_CALLE for v in vistas) and not a.sin_ciudad
+    construir(a.spp, a.ancho, a.alto, not a.sin_decoracion, a.glare, ciudad)
+    print('  ciudad:', 'montada' if ciudad else 'no hace falta en estas vistas', flush=True)
     print('  objetos en escena:', len(bpy.data.objects), flush=True)
     if a.guardar_blend:
         bpy.ops.wm.save_as_mainfile(filepath=a.guardar_blend)
         print('  guardado', a.guardar_blend, flush=True)
-    if a.vistas:
-        vistas = [v.strip() for v in a.vistas.split(',') if v.strip() in VISTAS]
-    else:
-        vistas = list(VISTAS) if a.todas else [a.vista]
     for v in vistas:
         f = os.path.join(a.salida, f'CM_{v}.png')
         print(f'  render {v} -> {f}', flush=True)
