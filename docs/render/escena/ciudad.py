@@ -70,8 +70,12 @@ def suelo_urbano(E, M):
                H_BORDILLO + 0.01, M['piedra'])
 
 
-# menos alcorques: cada arbol es follaje con alfa, lo mas caro de la escena
-ALCORQUES = [-6.8, 8.6, 17.5]
+# Menos alcorques: cada arbol es follaje con alfa, lo mas caro de la escena.
+# Fuera los dos que quedaban sobre el encuadre de la vista de calle: el de
+# x = -6,8 y el de x = 8,6, cuya copa llegaba a z = 6,8 por encima de la
+# camara. Queda el del fondo de la calle y los dos de la acera de enfrente,
+# que dan arbolado sin taparlo todo.
+ALCORQUES = [17.5]
 
 
 # ------------------------------------------------------------- los edificios
