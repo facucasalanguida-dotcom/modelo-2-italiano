@@ -1625,10 +1625,10 @@ def decoracion():
     poner('jug_01', 0.45, 4.62, 0.905, escala=1.0, giro=35)
     poner('metal_jug', 0.66, 4.60, 0.905, escala=0.9, giro=-15)
     # ---- plantas: terracota, el verde de la trattoria
-    # delante de la puerta del baño no va ninguna: estorba el paso
+    # delante de la puerta del baño no va ninguna: estorba el paso. Y delante
+    # de la pared azzurro tampoco: ahi va la pared y el logo, nada mas.
     for aid, x, y, h, g in (('potted_plant_01', 2.24, 3.15, 0.80, 20),
-                            ('potted_plant_01', 2.70, 6.85, 0.75, 60),
-                            ('potted_plant_02', 9.55, 3.10, 0.95, 110)):
+                            ('potted_plant_01', 2.70, 6.85, 0.75, 60)):
         poner(aid, x, y, 0.0, altura=h, giro=g)
     for i, (x, y) in enumerate(((2.58, 8.45), (7.72, 8.45))):
         poner('planter_pot_clay', x, y, 0.0, altura=0.52, giro=i * 40)
