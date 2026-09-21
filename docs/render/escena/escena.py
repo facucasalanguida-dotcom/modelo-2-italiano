@@ -317,6 +317,14 @@ def arquitectura():
         z1 = s['z1'] + d.get('z1', 0.0)
         if s['nombre'].startswith('Tramo largo') and s['mat'] == 'vidrio':
             z1 = Z_SOFITO          # el vidrio de la L, hasta el techo
+        if s['nombre'] == 'Puerta de acceso · montante superior':
+            # El plano lo dibuja en vidrio, pero encima de la puerta va
+            # pared, no ventanal. Se le da el grueso entero de la fachada
+            # -de 0,370 a 0,419, el mismo que el dintel de arriba y que las
+            # hojas de abajo- en vez de los 29 mm que tenia de acristalado,
+            # para que el pano suba continuo de la puerta al dintel.
+            m = MAT['muro']
+            y0, y1 = 0.370, 0.419
         if s['nombre'] in ('Tramo largo 3,60', 'Doblez 0,74'):
             # La pared en L iba con la clave 'tabique' del plano, que es un
             # enlucido mas frio y mas blanco que el de los muros. Se pinta
