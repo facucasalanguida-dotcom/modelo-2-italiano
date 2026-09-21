@@ -324,9 +324,12 @@ def arquitectura():
             # superior de la viga y el intrados del forjado en el mismo plano
             # (2,310), por encima del extremo se veia el muro Oeste al fondo
             # y la viga seguia leyendose cortada en el aire. Se le da el
-            # canto entero de entrega -250 mm, su propio peralte- por debajo
-            # del forjado, que es como entrega una viga de verdad.
-            x1 = 2.411 + 0.250
+            # canto entero de entrega por debajo del forjado. Pero la planta
+            # alta tiene que leerse como un bloque macizo, sin nada colgando
+            # de su intrados, asi que la viga muere a ras de la cara Oeste
+            # del bloque (x = 2,411): su testa y esa cara quedan en el mismo
+            # plano y forman un paramento continuo de 2,100 a 2,560.
+            x1 = 2.411
         ob = caja(s['nombre'], x0, y0, x1, y1, z0, z1, m, col)
         if s['mat'] not in ('vidrio',):
             bisel(ob)
@@ -1505,8 +1508,10 @@ def decoracion():
         y = 2.95 + i * 0.14
         botella(f'Botella estante {i + 1}', 0.42, y, z_est,
                 alto=0.28 + 0.06 * ((i * 7) % 3) / 2)
+    # Los tarros arrancaban en y = 2,45 y la balda no empieza hasta 2,884:
+    # los dos primeros colgaban en el aire delante del estante.
     for i in range(4):
-        tarro(f'Tarro pasta {i + 1}', 0.62, 2.45 + i * 0.30, z_est, alto=0.20 + 0.03 * (i % 2))
+        tarro(f'Tarro pasta {i + 1}', 0.62, 3.05 + i * 0.30, z_est, alto=0.20 + 0.03 * (i % 2))
     # tazas de espresso boca abajo sobre la cafetera y la mesada
     for i in range(6):
         taza(f'Taza barra {i + 1}', 0.40 + 0.11 * (i % 3), 4.20 + 0.12 * (i // 3), 0.905)
