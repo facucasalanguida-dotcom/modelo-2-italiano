@@ -317,6 +317,11 @@ def arquitectura():
         z1 = s['z1'] + d.get('z1', 0.0)
         if s['nombre'].startswith('Tramo largo') and s['mat'] == 'vidrio':
             z1 = Z_SOFITO          # el vidrio de la L, hasta el techo
+        if s['nombre'] == 'Viga P1b':
+            # El plano la deja en 2,380 y el forjado arranca en 2,411: la
+            # viga se quedaba a 31 mm de la planta alta, colgada del machon
+            # por un solo extremo. Se prolonga hasta meterse en el canto.
+            x1 = 2.411 + SOLAPE
         ob = caja(s['nombre'], x0, y0, x1, y1, z0, z1, m, col)
         if s['mat'] not in ('vidrio',):
             bisel(ob)
@@ -634,13 +639,14 @@ def frente_barra():
          mx1 + 0.014, my1 + 0.014, 0.0, Q.H_ENCIMERA + 0.042,
          MAT['_blanco_lacado'])
 
-    # La misma banda azzurro en el canto del forjado, que es donde va en la
-    # referencia: cuelga 0,30 por debajo del intrados y llega al suelo del
-    # altillo. Dos tramos, el del vacio Sur y el que da a la cocina.
-    caja('Banda de rotulo Sur', 2.405, 3.917, 9.890, 3.945,
-         Z_SOFITO - 0.12, Z_PA - 0.001, MAT['_pared_napoli'])
-    # El canto Oeste del forjado da al paso de servicio y a la cocina: ahi no
-    # va banda de rotulo.
+    # Canto del forjado: en la referencia es una banda blanca lisa que no
+    # sobresale nada por debajo del intrados. Antes colgaba 120 mm y ademas
+    # iba en azzurro, que es justo al reves de lo que pide el cliente. Va
+    # a tope contra el canto del forjado, sin solapar, para no dejar dos
+    # caras inferiores en el mismo plano.
+    caja('Canto del forjado Sur', 2.405, 3.907, 9.890, 3.939,
+         Z_SOFITO, Z_PA - 0.001, MAT['_blanco_lacado'])
+    # El canto Oeste da al paso de servicio y a la cocina: ahi no se forra.
 
 
 def cocina_inox():
@@ -1096,11 +1102,10 @@ def planta_alta():
     # --- banda azzurro sobre la celosia, gemela de la de abajo
     caja('Banda azzurro PA', 2.600, 8.714, 6.200, 8.734, z + 2.150, z + 2.420,
          MAT['_pared_napoli'], col)
-    # --- estantes de botellas en el testero Oeste (simetria con la trasbarra)
-    for i in range(3):
-        zz = z + 0.90 + i * 0.42
-        caja(f'Estante PA {i + 1}', 2.500, 5.100, 2.780, 7.300, zz, zz + 0.030,
-             MAT['mesa'], col)
+    # Aqui iban tres estantes de botellas, por simetria con la trasbarra.
+    # No hay donde anclarlos: entre y = 5,100 y 7,300 el testero Oeste del
+    # altillo es el vacio, el tabique del aseo no arranca hasta y = 7,509 y
+    # el vidrio del borde muere en 3,560. Volaban sobre el hueco.
 
 
 # ==================================================== 7. luminarias
@@ -1217,12 +1222,19 @@ def luces(j):
         elif nm.startswith('Aplique'):
             aplique(nm, x, y, (s['z0'] + s['z1']) / 2, '-X' if x < 1.2 else '-Y')
         else:
+            # Un empotrado necesita un techo donde empotrarse. Los cuatro de
+            # la fila x = 1,10 caen fuera del forjado, en la doble altura de
+            # la cocina, y quedaban flotando a 2,31 con cinco metros de aire
+            # encima. La cocina ya lleva sus pantallas suspendidas.
+            if abs(techo_sobre(x, y, s['z1']) - s['z1']) > 0.030:
+                continue
             empotrado(nm, x, y, s['z1'])
         n += 1
     # el altillo necesita su propia luz: el plano no la trae
     for i, (x, y) in enumerate(((3.85, 4.80), (3.85, 6.20), (7.54, 5.43))):
         luminaria_colgante(f'Colgante PA {i + 1}', x, y, Z_PA + 1.700)
-    for i, (x, y) in enumerate(((2.90, 8.60), (5.90, 8.60))):
+    # contra la cara de la celosia (y = 8,720), no a 120 mm de ella
+    for i, (x, y) in enumerate(((2.90, 8.722), (5.90, 8.722))):
         aplique(f'Aplique PA {i + 1}', x, y, Z_PA + 1.950, '-Y')
 
     # --- cocina: pantallas estancas suspendidas. Los cuatro empotrados que el
@@ -1480,9 +1492,12 @@ def decoracion():
     """Todo lo que hace que el local parezca abierto y no un plano en 3D."""
     rnd = random.Random(23)
     # ---- trasbarra: estante A6 con botellas, tarros de pasta y vajilla
-    z_est = 1.600 + 0.245 + 0.010
+    # La balda del A6 esta en z 1,800 y va de y 2,884 a 4,134 (medido sobre el
+    # objeto montado). Las botellas iban a 1,855 y repartidas de 2,30 a 4,38:
+    # flotaban 55 mm y cuatro de las nueve se salian de la balda por los topes.
+    z_est = 1.798                              # 2 mm dentro de la balda
     for i in range(9):
-        y = 2.30 + i * 0.26
+        y = 2.95 + i * 0.14
         botella(f'Botella estante {i + 1}', 0.42, y, z_est,
                 alto=0.28 + 0.06 * ((i * 7) % 3) / 2)
     for i in range(4):
@@ -1556,15 +1571,8 @@ def decoracion():
             for i in range(4):
                 copa(f'Copa PA {i}', cx + 0.22 * math.cos(i * 1.57),
                      cy + 0.22 * math.sin(i * 1.57), z, col='Planta alta')
-    # ---- estantes del altillo con botellas y ceramica
-    for i in range(3):
-        zz = Z_PA + 0.90 + i * 0.42 + 0.030
-        for k in range(6):
-            botella(f'Botella PA {i}{k}', 2.64, 5.25 + k * 0.33, zz,
-                    alto=0.26 + 0.05 * (k % 3), col='Planta alta')
-    poner('brass_pot_01', 2.66, 7.10, Z_PA + 0.90 + 0.84 + 0.03, escala=0.9,
-          col='Planta alta')
-    poner('ceramic_vase_03', 2.66, 5.05, Z_PA + 0.93, escala=0.9, col='Planta alta')
+    # Las botellas y la ceramica iban sobre los estantes del testero Oeste,
+    # que se han quitado por no tener pared donde anclarse.
 
 
 # ==================================================== 9. exterior y cielo
@@ -2274,10 +2282,13 @@ def caracter_italiano():
                         alto=0.225 if k % 2 == 0 else 0.245, col='Decoracion')
     # cestas de pan y aceite en el paso de servicio
     poner('wicker_basket_02', 2.75, 4.30, Q.H_ENCIMERA + 0.040, escala=0.8, giro=15)
-    # ceramica en el alfeizar del ventanal
+    # Ceramica al pie del ventanal. Iba a la cota del zocalo (0,130) como si
+    # hubiera alfeizar, pero el ventanal arranca del suelo: la vasija de
+    # vidrio va de 0,130 a 4,700 y no hay repisa ninguna, asi que las piezas
+    # colgaban a 129 mm del pavimento. Van al suelo.
     for i, x in enumerate((4.35, 5.05, 5.75)):
         poner(('ceramic_vase_01', 'ceramic_vase_02', 'brass_pot_01')[i % 3],
-              x, 1.760, E.H_ZOCALO, escala=0.8, giro=i * 63)
+              x, 1.760, 0.001, escala=0.8, giro=i * 63)
 
 
 if __name__ == '__main__':
