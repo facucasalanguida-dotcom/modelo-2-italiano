@@ -673,7 +673,12 @@ def mobiliario():
                        redonda=(tipo == 'redonda'), col=col)
             for i, (sx0, sy0, sx1, sy1) in enumerate(MB.sillas(m)):
                 scx, scy = (sx0 + sx1) / 2, (sy0 + sy1) / 2
-                ang = math.degrees(math.atan2(cy - scy, cx - scx)) - 90
+                # La silla se construye con el respaldo en +Y, o sea mirando a
+                # -Y con giro 0. Para que mire a la mesa hace falta
+                #   sin(a) = dx/|d|  y  cos(a) = -dy/|d|,  es decir  a = atan2(dx, -dy).
+                # Con -90 en vez de +90 salian las 29 sillas de espaldas a la mesa.
+                dx, dy = cx - scx, cy - scy
+                ang = math.degrees(math.atan2(dx, -dy))
                 obs += silla(f'{tag} silla {i + 1}', scx, scy, ang,
                              telas[(k + i) % 2], col=col)
                 n_sillas += 1
