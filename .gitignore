@@ -10,3 +10,7 @@ docs/presupuesto/privado.json
 # copias de seguridad de Blender
 *.blend1
 *.blend2
+
+# Masters de 16 bits del lote de renders: pesan 21 MB cada uno y el repo
+# guarda las vistas en JPG, como el resto de docs/render
+docs/render/casa_margot/*.png
