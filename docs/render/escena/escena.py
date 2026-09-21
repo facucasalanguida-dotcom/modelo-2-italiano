@@ -798,6 +798,34 @@ def planta_alta():
 
 
 # ==================================================== 7. luminarias
+def _dentro(poli, x, y):
+    """Punto dentro de un poligono en planta (regla par-impar)."""
+    dentro = False
+    n = len(poli)
+    for i in range(n):
+        x0, y0 = poli[i]
+        x1, y1 = poli[(i + 1) % n]
+        if (y0 > y) != (y1 > y):
+            xc = x0 + (y - y0) * (x1 - x0) / (y1 - y0)
+            if x < xc:
+                dentro = not dentro
+    return dentro
+
+
+def techo_sobre(x, y, z_pieza=0.0):
+    """A que altura esta el techo sobre un punto.
+
+    Donde hay altillo, el techo es el intrados del forjado (2,310). Donde el
+    local es de doble altura -toda la franja Sur y la cocina- el techo es el
+    del altillo (5,060). Los seis colgantes del proyecto caen justo en la
+    doble altura, asi que colgarlos de 2,310 los dejaba con la varilla
+    acabada en el aire.
+    """
+    if z_pieza >= Z_PA:
+        return Z_TECHO
+    return Z_SOFITO if _dentro(E.FORJADO, x, y) else Z_TECHO
+
+
 def luminaria_colgante(nombre, cx, cy, z_borde, d=0.340, h=0.200, col='Luces'):
     """Pantalla de opal con aro de laton y varilla negra, la de las fotos."""
     z0 = z_borde
@@ -809,9 +837,14 @@ def luminaria_colgante(nombre, cx, cy, z_borde, d=0.340, h=0.200, col='Luces'):
     disco = cilindro(f'{nombre} luz', cx, cy, d / 2 - 0.012, z0 + 0.004, z0 + 0.010,
                      MAT['luz'], col, 48)
     disco.visible_shadow = False
-    techo = Z_SOFITO if z_borde < Z_PA else Z_TECHO
-    cilindro(f'{nombre} varilla', cx, cy, 0.008, z1, techo, MAT['carp'], col, 16)
-    cilindro(f'{nombre} florn', cx, cy, 0.048, techo - 0.016, techo, MAT['carp'], col, 24)
+    techo = techo_sobre(cx, cy, z_borde)
+    caida = techo - z1
+    # caidas largas van de cable, no de varilla rigida: 3,4 m de tubo de 8 mm
+    # no se sostienen y ademas cantan
+    r = 0.0035 if caida > 1.5 else 0.008
+    cilindro(f'{nombre} suspension', cx, cy, r, z1, techo, MAT['carp'], col, 16)
+    cilindro(f'{nombre} floron', cx, cy, 0.052, techo - 0.018, techo,
+             MAT['carp'], col, 24)
     # la luz de verdad: un area pequeno dentro de la pantalla
     lz = bpy.data.lights.new(f'{nombre} foco', 'AREA')
     lz.shape = 'DISK'
