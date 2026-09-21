@@ -168,6 +168,14 @@ def girar(ob, centro, grados, eje='Z'):
 
 
 # =============================================== 1. escena limpia y ajustes
+# La misma escena no se expone igual desde dentro que desde la calle. El HDRI
+# va a 4,2 para que entre luz de sobra por el escaparate de doble altura, y a
+# la intemperie eso son casi dos pasos de mas: el cielo y los paramentos
+# salian quemados. Desde fuera se cierra el diafragma, como haria cualquiera.
+EXPOSICION_BASE = 0.65
+EXPOSICION = {'calle': -1.30, 'fachada': -1.30}
+
+
 def escena_nueva(spp=512, ancho=2560, alto=1440):
     bpy.ops.wm.read_factory_settings(use_empty=True)
     # los datablocks de imagen mueren con el fichero: si no se vacian los
@@ -218,7 +226,7 @@ def escena_nueva(spp=512, ancho=2560, alto=1440):
         sc.view_settings.look = 'AgX - Medium High Contrast'
     except Exception:
         pass
-    sc.view_settings.exposure = 0.65
+    sc.view_settings.exposure = EXPOSICION_BASE
     sc.render.image_settings.file_format = 'PNG'
     sc.render.image_settings.color_depth = '16'
     return sc
@@ -1949,6 +1957,7 @@ def render(vista, salida, spp, ancho, alto, rapido=False):
         ojo, mira, lente = VISTAS[vista]
         cam = camara(f'cam {vista}', ojo, mira, lente)
     sc.camera = cam
+    sc.view_settings.exposure = EXPOSICION.get(vista, EXPOSICION_BASE)
     sc.render.resolution_x = ancho
     sc.render.resolution_y = alto
     sc.render.filepath = salida
