@@ -317,6 +317,11 @@ def arquitectura():
         z1 = s['z1'] + d.get('z1', 0.0)
         if s['nombre'].startswith('Tramo largo') and s['mat'] == 'vidrio':
             z1 = Z_SOFITO          # el vidrio de la L, hasta el techo
+        if s['nombre'] in ('Tramo largo 3,60', 'Doblez 0,74'):
+            # La pared en L iba con la clave 'tabique' del plano, que es un
+            # enlucido mas frio y mas blanco que el de los muros. Se pinta
+            # del mismo color que las paredes.
+            m = MAT['muro']
         if s['nombre'] == 'Viga P1b':
             # La viga acostada iba de 2,100 a 2,310: entera por debajo del
             # forjado y en una zona de doble altura donde encima no hay nada.
@@ -620,11 +625,12 @@ def listones(nombre, x0, y0, x1, y1, z0, z1, mat, ancho=0.028, hueco=0.016,
 
 # ---------------------------------------- frente de la barra y forro del pilar
 def frente_barra():
-    """El mostrador, en listones verticales azzurro Napoli.
+    """El mostrador, en el mismo liston de roble que las columnas.
 
-    Es el elemento que fija el caracter del local: los mismos listones de la
-    referencia, pero en el azul del Napoli en vez del azul apagado anterior.
-    Abajo queda el retranqueo de 50 mm con la tira de LED.
+    Iba en listones azzurro Napoli. Ahora lleva el mismo revestimiento que
+    P1, P3 y P4 -roble, y con el mismo ancho de liston y la misma junta, 28
+    y 16 mm- para que el local se lea con un solo lenguaje de madera. Abajo
+    queda el retranqueo de 50 mm con la tira de LED.
     """
     mx0, mx1 = Q.MOSTRADOR_X
     my0, my1 = Q.MOSTRADOR_Y
@@ -633,7 +639,7 @@ def frente_barra():
     caja('Frente de la barra · fondo', mx1 - 0.030, my0, mx1 - 0.020, my1, 0.0, z1,
          MAT['_negro'])
     listones('Frente de la barra · liston', mx1 - 0.022, my0, mx1, my1, z0, z1,
-             MAT['_liston_azul'], ancho=0.034, hueco=0.014, fondo=0.022, eje='y')
+             MAT['_liston'], fondo=0.022, eje='y')
     # zocalo retranqueado y tira de LED que lame el suelo
     caja('Frente de la barra · zocalo', mx1 - 0.050, my0, mx1 - 0.022, my1, 0.0, z0,
          MAT['_negro'])
@@ -648,7 +654,7 @@ def frente_barra():
     # Se cierra con un remate blanco, que ademas continua la linea de la L.
     caja('Frente de la barra · remate Norte', mx1 - 0.062, my1 - 0.004,
          mx1 + 0.014, my1 + 0.014, 0.0, Q.H_ENCIMERA + 0.042,
-         MAT['_blanco_lacado'])
+         MAT['muro'])
 
     # Canto del forjado: en la referencia es una banda blanca lisa que no
     # sobresale nada por debajo del intrados. Antes colgaba 120 mm y ademas
@@ -778,6 +784,12 @@ PILARES = (
                                                            # cara Norte solo la tapa
                                                            # el muro del cuello hasta
                                                            # x 5,980, el resto se ve
+    # El machon de P5 no acaba en la columna: sigue hacia dentro con el muro
+    # del cuello y la jamba del ventanal, y ese retorno se ve desde la sala y
+    # desde el vestibulo. Salia en enlucido al lado de la losa. Se forra la
+    # cara Norte de la jamba (y = 1,810) y todo el costado Este (x = 5,980)
+    # de y 1,000 a 1,810, que es muro del cuello abajo y jamba arriba.
+    ('P5i', 5.870, 1.000, 5.980, 1.810, 'ONE', 'losa'),    # retorno interior de P5
 )
 
 

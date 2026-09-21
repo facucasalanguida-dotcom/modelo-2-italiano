@@ -14,8 +14,10 @@ for v in "$@"; do
   python3 escena.py --vista "$v" --spp "$SPP" --ancho "$W" --alto "$H" --salida "$SAL" \
       2>&1 | grep -viE "numpy|deprecat|cuew|^\s*$" | tail -4
   if [ ! -f "$SAL/CM_$v.png" ]; then
-    echo "[$v] fallo; reintento a $((W*3/4))x$((H*3/4))"
-    python3 escena.py --vista "$v" --spp "$SPP" --ancho $((W*3/4)) --alto $((H*3/4)) \
+    # Se reintenta bajando muestras, no resolucion: si se baja la resolucion
+    # la entrega sale con vistas de dos tamaños distintos y no casan.
+    echo "[$v] fallo; reintento con $((SPP/2)) muestras a la misma resolucion"
+    python3 escena.py --vista "$v" --spp $((SPP/2)) --ancho "$W" --alto "$H" \
         --salida "$SAL" 2>&1 | grep -viE "numpy|deprecat|cuew|^\s*$" | tail -3
   fi
   echo "[$v] $((SECONDS-t0)) s"
