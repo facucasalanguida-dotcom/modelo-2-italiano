@@ -237,7 +237,10 @@ def arquitectura():
             continue
         m = MAT.get(s['mat'])
         col = 'Planta alta' if s['tag'].startswith('14') else 'Obra'
-        ob = caja(s['nombre'], s['x0'], s['y0'], s['x1'], s['y1'], s['z0'], s['z1'], m, col)
+        z1 = s['z1']
+        if s['nombre'].startswith('Tramo largo') and s['mat'] == 'vidrio':
+            z1 = Z_SOFITO          # el vidrio de la L, hasta el techo
+        ob = caja(s['nombre'], s['x0'], s['y0'], s['x1'], s['y1'], s['z0'], z1, m, col)
         if s['mat'] not in ('vidrio',):
             bisel(ob)
         n += 1
@@ -387,17 +390,18 @@ def remate_vidrio_L():
     """
     x0, x1 = 2.460, 2.500          # el pano del plano
     y0, y1 = 5.457, 8.927
-    z_ab, z_ar = 1.220, 2.570
+    z_ab, z_ar = 1.220, Z_SOFITO      # el vidrio llega al techo
     e = 0.012                      # cuanto sobresale del vidrio
     h = 0.030                      # canto del perfil: fino
     m = MAT['_blanco_lacado']
+    # el remate de arriba cuelga del techo, no lo atraviesa
     caja('Vidrio L · remate superior', x0 - e, y0, x1 + e, y1,
-         z_ar - h * 0.5, z_ar + h * 0.5, m, 'Obra')
+         z_ar - h, z_ar, m, 'Obra')
     caja('Vidrio L · remate inferior', x0 - e, y0, x1 + e, y1,
          z_ab - h * 0.5, z_ab + h * 0.5, m, 'Obra')
     for nm, ya, yb in (('Sur', y0, y0 + h), ('Norte', y1 - h, y1)):
         caja(f'Vidrio L · jamba {nm}', x0 - e, ya, x1 + e, yb,
-             z_ab, z_ar, m, 'Obra')
+             z_ab, z_ar - h, m, 'Obra')
 
 
 def forro_pilar():
