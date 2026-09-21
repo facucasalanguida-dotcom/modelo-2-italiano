@@ -248,6 +248,8 @@ def sustituido(s):
         return True                       # se rehace en listones azzurro
     if nm.startswith('Pilar ') and 'P3' in nm:
         return True                       # se forra de listones
+    if '· hoja' in nm and s['mat'] in ('madera', 'vidrio'):
+        return True                       # las puertas se rehacen con herrajes
     return False
 
 
@@ -260,9 +262,6 @@ def arquitectura():
             continue
         m = MAT.get(s['mat'])
         nm = s['nombre'] or ''
-        # las hojas de puerta van del color de las paredes, no de madera
-        if s['mat'] == 'madera' and 'hoja' in nm:
-            m = MAT['tabique']
         col = 'Planta alta' if s['tag'].startswith('14') else 'Obra'
         z1 = s['z1']
         if s['nombre'].startswith('Tramo largo') and s['mat'] == 'vidrio':
@@ -289,6 +288,184 @@ def arquitectura():
         bisel(ob)
         n += 1
     return n, j
+
+
+# --------------------------------------------------------------- carpinteria
+# El plano dibuja cada puerta como una tabla: una caja de 40 mm de canto. De
+# cerca eso no cuela, asi que aqui se rehacen enteras: cerco dentro del hueco,
+# tapajuntas a las dos caras, hoja de dos cuarterones con montantes y
+# travesanos, tres pernios y manilla de palanca con roseta a ambos lados.
+CERCO = 0.028                    # canto del cerco, dentro del hueco
+TAPAJUNTAS, TJ_VUELO = 0.055, 0.012
+HOJA_E, NUCLEO_E = 0.042, 0.020  # grueso del bastidor y del cuarteron hundido
+HOLGURA, BAJO_PUERTA = 0.003, 0.010
+MONTANTE, TRAV_SUP, TRAV_CERR, TRAV_INF = 0.105, 0.105, 0.180, 0.200
+ALTO_MANILLA = 1.020             # sobre el pavimento de su planta
+# la del baño va mas corta que las demas, como pidio el cliente
+ALTO_HOJA = {'Baño': 2.030}
+
+
+def _cil_eje(nombre, p, r, largo, eje, mat, col, segs=24):
+    """Cilindro tumbado: el helper solo sabe hacerlos de pie."""
+    x, y, z = p
+    ob = cilindro(nombre, x, y, r, z - largo / 2, z + largo / 2, mat, col, segs=segs)
+    if eje == 'X':
+        girar(ob, (x, y, z), 90, 'Y')
+    elif eje == 'Y':
+        girar(ob, (x, y, z), 90, 'X')
+    return ob
+
+
+def _manilla(C, D, a, b_cara, z, sentido, mat, nm, col):
+    """Roseta, cuello y palanca en una cara de la hoja.
+
+    sentido es hacia donde mira la cara: +1 si da a la b creciente, -1 si a la
+    decreciente. La roseta se mete 2 mm en la hoja para no dejar dos caras
+    pegadas, y de ella sale el cuello y la palanca.
+    """
+    v = sentido
+    D(f'{nm} roseta', (a, b_cara + v * 0.004, z), 0.028, 0.012, mat, col)
+    D(f'{nm} cuello', (a, b_cara + v * 0.028, z), 0.011, 0.040, mat, col)
+    C(f'{nm} palanca', a - 0.105, b_cara + v * 0.040, a + 0.013, b_cara + v * 0.062,
+      z - 0.011, z + 0.011, mat)
+    D(f'{nm} bocallave', (a, b_cara + v * 0.003, z - 0.055), 0.012, 0.010, mat, col)
+
+
+def _puerta_madera(s, dintel, col):
+    """Una puerta de paso completa donde el plano ponia una tabla."""
+    nm = s['nombre'].split(' · ')[0]
+    x0, x1, y0, y1 = s['x0'], s['x1'], s['y0'], s['y1']
+    tumbada = (x1 - x0) >= (y1 - y0)       # la hoja se desarrolla en X
+    if tumbada:
+        a0, a1 = x0, x1
+        b0, b1 = ((dintel['y0'], dintel['y1']) if dintel else (y0 - 0.030, y1 + 0.030))
+        def C(n, aa0, bb0, aa1, bb1, zz0, zz1, m):
+            return caja(n, aa0, bb0, aa1, bb1, zz0, zz1, m, col)
+        def D(n, p, r, largo, m, cl):
+            return _cil_eje(n, (p[0], p[1], p[2]), r, largo, 'Y', m, cl)
+    else:
+        a0, a1 = y0, y1
+        b0, b1 = ((dintel['x0'], dintel['x1']) if dintel else (x0 - 0.030, x1 + 0.030))
+        def C(n, aa0, bb0, aa1, bb1, zz0, zz1, m):
+            return caja(n, bb0, aa0, bb1, aa1, zz0, zz1, m, col)
+        def D(n, p, r, largo, m, cl):
+            return _cil_eje(n, (p[1], p[0], p[2]), r, largo, 'X', m, cl)
+
+    madera, herraje = MAT['madera'], MAT['inox']
+    z0 = s['z0']
+    alto = ALTO_HOJA.get(nm, s['z1'] - z0)
+    ztop = z0 + alto                       # cara inferior del cabecero
+    zc = ztop + CERCO                      # trasdos del cerco
+
+    piezas = []
+    # si la hoja se acorta, el hueco que queda se cierra con el mismo tabique
+    if zc < s['z1']:
+        piezas.append(C(f'{nm} · ciego sobre la puerta', a0 - SOLAPE, b0, a1 + SOLAPE,
+                        b1, zc - SOLAPE, s['z1'] + SOLAPE, MAT['tabique']))
+    # cerco: las jambas se meten 4 mm en la mocheta y el cabecero en las jambas
+    for lado, aa in (('izquierda', a0), ('derecha', a1)):
+        sg = 1 if aa == a0 else -1
+        piezas.append(C(f'{nm} · jamba {lado}', aa - sg * SOLAPE, b0 - 0.002,
+                        aa + sg * CERCO, b1 + 0.002, z0, zc, madera))
+    piezas.append(C(f'{nm} · cabecero del cerco', a0 + CERCO - 0.002, b0 - 0.002,
+                    a1 - CERCO + 0.002, b1 + 0.002, ztop, zc, madera))
+    # tapajuntas a las dos caras, metidos 2 mm en el paramento
+    for cara, bb, sg in (('interior', b0, -1), ('exterior', b1, 1)):
+        bj0, bj1 = bb - sg * 0.002, bb + sg * TJ_VUELO
+        for lado, aa, sa in (('izquierdo', a0, 1), ('derecho', a1, -1)):
+            piezas.append(C(f'{nm} · tapajuntas {lado} {cara}',
+                            aa - sa * (TAPAJUNTAS - 0.006), min(bj0, bj1),
+                            aa + sa * 0.006, max(bj0, bj1), z0, zc + 0.008, madera))
+        piezas.append(C(f'{nm} · tapajuntas superior {cara}',
+                        a0 - TAPAJUNTAS + 0.006, min(bj0, bj1),
+                        a1 + TAPAJUNTAS - 0.006, max(bj0, bj1),
+                        zc + 0.006, zc + 0.006 + TAPAJUNTAS, madera))
+
+    # hoja: nucleo hundido y bastidor por delante, que deja dos cuarterones
+    la0, la1 = a0 + CERCO + HOLGURA, a1 - CERCO - HOLGURA
+    lz0, lz1 = z0 + BAJO_PUERTA, ztop - HOLGURA
+    bc = (b0 + b1) / 2
+    n0, n1 = bc - NUCLEO_E / 2, bc + NUCLEO_E / 2
+    h0, h1 = bc - HOJA_E / 2, bc + HOJA_E / 2
+    piezas.append(C(f'{nm} · hoja nucleo', la0, n0, la1, n1, lz0, lz1, madera))
+    for lado, aa, sa in (('izquierdo', la0, 1), ('derecho', la1, -1)):
+        piezas.append(C(f'{nm} · hoja montante {lado}', aa, h0,
+                        aa + sa * MONTANTE, h1, lz0, lz1, madera))
+    ta0, ta1 = la0 + MONTANTE - 0.002, la1 - MONTANTE + 0.002
+    zcerr = lz0 + ALTO_MANILLA
+    for lado, zz0, zz1 in (('superior', lz1 - TRAV_SUP, lz1),
+                           ('de la cerradura', zcerr - TRAV_CERR / 2, zcerr + TRAV_CERR / 2),
+                           ('inferior', lz0, lz0 + TRAV_INF)):
+        piezas.append(C(f'{nm} · hoja travesano {lado}', ta0, h0, ta1, h1, zz0, zz1, madera))
+
+    # pernios en la jamba izquierda y manilla en el canto de la cerradura
+    for i, zz in enumerate((lz0 + 0.240, (lz0 + lz1) / 2, lz1 - 0.240)):
+        cx, cy = (la0, bc) if tumbada else (bc, la0)
+        piezas.append(cilindro(f'{nm} · pernio {i + 1}', cx, cy, 0.009,
+                               zz - 0.040, zz + 0.040, herraje, col, segs=20))
+    am = la1 - MONTANTE / 2
+    _manilla(C, D, am, h0, zcerr, -1, herraje, f'{nm} ·', col)
+    _manilla(C, D, am, h1, zcerr, +1, herraje, f'{nm} ·', col)
+
+    for ob in piezas:
+        bisel(ob)
+    return piezas
+
+
+def _puerta_vidrio(s, col='Obra'):
+    """La puerta de acceso: hoja de vidrio con bastidor de inox y tirador."""
+    nm = s['nombre']
+    x0, x1 = s['x0'], s['x1']
+    y0, y1 = s['y0'], s['y1']
+    z0, z1 = s['z0'], s['z1']
+    inox, vid = MAT['inox'], MAT['vidrio']
+    yc = (y0 + y1) / 2
+    piezas = []
+    # bastidor: zocalo alto, cabecero y dos montantes
+    piezas.append(caja(f'{nm} · zocalo', x0, y0, x1, y1, z0, z0 + 0.140, inox, col))
+    piezas.append(caja(f'{nm} · cabecero', x0, y0, x1, y1, z1 - 0.100, z1, inox, col))
+    for lado, xx, sx in (('izquierdo', x0, 1), ('derecho', x1, -1)):
+        piezas.append(caja(f'{nm} · montante {lado}', xx, y0, xx + sx * 0.050, y1,
+                           z0 + 0.140 - SOLAPE, z1 - 0.100 + SOLAPE, inox, col))
+    # el vidrio, mas fino y metido en el bastidor
+    piezas.append(caja(f'{nm} · vidrio', x0 + 0.046, yc - 0.006, x1 - 0.046,
+                       yc + 0.006, z0 + 0.136, z1 - 0.096, vid, col))
+    # tirador vertical de tubo, separado 55 mm de la hoja
+    xt = x0 + 0.110 if 'hoja 2' in nm else x1 - 0.110
+    zt0, zt1 = z0 + 0.750, z0 + 1.650
+    for cara, yb, sg in (('exterior', y0, -1), ('interior', y1, 1)):
+        yt = yb + sg * 0.055
+        piezas.append(cilindro(f'{nm} · tirador {cara}', xt, yt, 0.016, zt0, zt1,
+                               inox, col, segs=20))
+        for zz in (zt0 + 0.030, zt1 - 0.030):
+            piezas.append(_cil_eje(f'{nm} · soporte del tirador {cara}',
+                                   (xt, (yt + yb) / 2, zz), 0.010, 0.075, 'Y', inox, col))
+    for ob in piezas:
+        if ob.data.materials and ob.data.materials[0] is not vid:
+            bisel(ob)
+    return piezas
+
+
+def carpinteria(j):
+    """Rehace las puertas del plano con cerco, hoja de cuarterones y herrajes."""
+    dinteles = {}
+    for s in j['cajas']:
+        nm = s['nombre'] or ''
+        if 'dintel' in nm:
+            dinteles[nm.split(' · ')[0]] = s
+    n = 0
+    for s in j['cajas']:
+        nm = s['nombre'] or ''
+        if '· hoja' not in nm:
+            continue
+        col = 'Planta alta' if s['tag'].startswith('14') else 'Obra'
+        if s['mat'] == 'madera':
+            _puerta_madera(s, dinteles.get(nm.split(' · ')[0]), col)
+            n += 1
+        elif s['mat'] == 'vidrio':
+            _puerta_vidrio(s, col)
+            n += 1
+    return n
 
 
 # ------------------------------------------------- suelos, techos y remates
@@ -1363,15 +1540,14 @@ def exterior():
     # La terraza no esta en el proyecto: la acera se deja libre.
 
     # coches aparcados en la banda, y un par en el otro sentido
-    flota = ('hatchback_blue', 'hatchback', 'suv', 'hatchback_red',
-             'hatchback', 'hatchback_blue')
-    for i, x in enumerate((-7.6, -2.3, 3.4, 9.6, 15.9, 21.4)):
+    for i, x in enumerate((-7.6, -2.0, 3.8, 9.8, 16.2, 21.8)):
         if i == 3:
             continue                       # hueco libre, que no parezca un catalogo
-        poner_coche(flota[i], x, C.Y_APARCA + 0.95, 1.5 - 3.0 * (i % 2))
-    for i, x in enumerate((-11.2, 6.4, 18.6)):
-        poner_coche(flota[(i + 2) % len(flota)], x, C.Y_ACERA_OP + 2.05,
-                    180 + 2.0 * (i % 2))
+        poner_bmw(x, C.Y_APARCA + 0.95, 1.5 - 3.0 * (i % 2),
+                  COLORES_COCHE[i % len(COLORES_COCHE)], f'Coche {i + 1}')
+    for i, x in enumerate((-11.4, 6.6, 18.8)):
+        poner_bmw(x, C.Y_ACERA_OP + 2.05, 180 + 2.0 * (i % 2),
+                  COLORES_COCHE[(i + 3) % len(COLORES_COCHE)], f'Coche op {i + 1}')
 
 
 def acera_corta():
@@ -1390,157 +1566,149 @@ def acera_corta():
 
 
 # ---------------------------------------------------------------- coches
-# Poly Haven no tiene coches (521 modelos, comprobado contra su API en vivo) y
-# ambientCG tampoco. Los coches salen de osrf/gazebo_models, la base de
-# modelos de Gazebo: son coches reales de simulacion robotica, low-poly pero
-# con textura de 1024 que lleva pintadas ventanas, opticas, parrilla y
-# manetas. Licencia CC-BY 3.0, Nathan Koenig / Open Source Robotics
-# Foundation. La atribucion esta en docs/render/CREDITOS.md.
-COCHES = os.path.join(SCRATCH, 'coches')
+# Poly Haven no tiene coches (521 modelos, comprobado contra su API en vivo)
+# y ambientCG tampoco (400). Los de gazebo_models eran low-poly y no daban el
+# pego. El bueno esta en los ficheros de demostracion de Blender: la escena
+# de referencia BMW27 trae un BMW 1M completo -carroceria con subdivision,
+# lunas, llantas con el rodel, discos de freno, opticas con ojos de angel,
+# pilotos, parrilla, espejos, escape, matricula e interior- en 188.000
+# triangulos. La coleccion se llama '1M' y hay que traerla entera, porque las
+# ruedas y los frenos son empties que instancian colecciones.
+#   https://download.blender.org/demo/test/BMW27_2.blend.zip
+BMW = os.path.join(SCRATCH, 'coches', 'bmw27', 'bmw27', 'bmw27_cpu.blend')
+BMW_LARGO = 4.55                 # a lo que se escala el conjunto
 
-# modelo: (malla, largo, ancho, alto) en metros reales
-FLOTA = {
-    'hatchback':      ('hatchback', 4.16, 1.79, 1.46),
-    'hatchback_blue': ('hatchback', 4.16, 1.79, 1.46),
-    'hatchback_red':  ('hatchback', 4.16, 1.79, 1.46),
-    'suv':            ('suv', 4.78, 1.94, 1.78),
-}
-
-
-def _sombreado_duro(ob, ang=36.0):
-    """Suaviza solo lo curvo. En un modelo low-poly, suavizarlo todo deja la
-    carroceria derretida; marcar como duras las aristas por encima de cierto
-    angulo devuelve los paneles y los cantos."""
-    me = ob.data
-    if not me.polygons:
-        return ob
-    for p in me.polygons:
-        p.use_smooth = True
-    lim = math.cos(math.radians(ang))
-    caras = [[] for _ in range(len(me.edges))]
-    idx = {tuple(sorted(e.vertices)): e.index for e in me.edges}
-    for p in me.polygons:
-        for ek in p.edge_keys:
-            k = tuple(sorted(ek))
-            if k in idx:
-                caras[idx[k]].append(p.index)
-    for e in me.edges:
-        cs = caras[e.index]
-        e.use_edge_sharp = (len(cs) != 2 or
-                            me.polygons[cs[0]].normal.dot(me.polygons[cs[1]].normal) < lim)
-    return ob
+# la flota de la calle: (color de carroceria, si lleva las lunas tintadas)
+COLORES_COCHE = ['2E3238', 'DCDCD8', '1E3050', '9AA0A6', '6E1714', '35403A']
+_BMW_CAJA = []                   # la caja del modelo se mide una vez y vale para todos
 
 
-def _importar_coche(modelo):
-    """Trae un coche de gazebo_models, lo orienta, lo escala y lo deja de molde."""
-    clave = ('coche', modelo)
-    if clave in _importados:
-        return _importados[clave]
-    malla, largo, ancho, alto = FLOTA[modelo]
-    ruta = os.path.join(COCHES, modelo, 'meshes', f'{malla}.obj')
-    if not os.path.exists(ruta):
-        print(f'   (falta el coche {modelo})')
-        _importados[clave] = []
-        return []
-    import glob as _glob
+def _caja_instancias(col):
+    """Caja envolvente de una coleccion contando la geometria instanciada.
+
+    Las ruedas y los frenos son empties que instancian colecciones: su
+    geometria no aparece en bound_box, solo en el depsgraph evaluado.
+    """
     import mathutils
-    antes = set(bpy.data.objects.keys())
-    bpy.ops.wm.obj_import(filepath=ruta)
-    obs = [o for o in bpy.data.objects if o.name not in antes and o.type == 'MESH']
-    # El .mtl referencia las texturas con rutas model:// que Blender no resuelve.
-    # Ademas las tres variantes del hatchback usan el mismo nombre de fichero
-    # (hatchback.png) con distinto color, asi que hay que cargar una imagen
-    # propia por variante o Blender reutiliza la primera y salen todos grises.
-    tex = {os.path.basename(t): t
-           for t in _glob.glob(os.path.join(COCHES, modelo, '**', '*.png'), recursive=True)}
-    base = modelo.rsplit('_', 1)[0]
-    if base != modelo:                     # variantes de color: faltan ruedas
-        for t in _glob.glob(os.path.join(COCHES, base, '**', '*.png'), recursive=True):
-            tex.setdefault(os.path.basename(t), t)
-    for o in obs:
-        for sl in o.material_slots:
-            m = sl.material
-            if not m or not m.use_nodes:
-                continue
-            for nd in m.node_tree.nodes:
-                if nd.bl_idname != 'ShaderNodeTexImage' or not nd.image:
-                    continue
-                b_ = os.path.basename(nd.image.filepath.replace('\\', '/')) or nd.image.name
-                if b_ not in tex:
-                    b_ = nd.image.name.split('.')[0] + '.png'
-                if b_ in tex:
-                    nd.image = MT.imagen(tex[b_])
-    # pintura sobre la textura: la textura trae el color, el shader el brillo
-    for o in obs:
-        for sl in o.material_slots:
-            m = sl.material
-            if not m or not m.use_nodes:
-                continue
-            bs = next((n for n in m.node_tree.nodes
-                       if n.bl_idname == 'ShaderNodeBsdfPrincipled'), None)
-            if not bs:
-                continue
-            es_rueda = 'heel' in (m.name or '') or 'ire' in (m.name or '')
-            bs.inputs['Roughness'].default_value = 0.62 if es_rueda else 0.24
-            if 'Coat Weight' in bs.inputs:
-                bs.inputs['Coat Weight'].default_value = 0.0 if es_rueda else 0.55
-            if 'Metallic' in bs.inputs:
-                bs.inputs['Metallic'].default_value = 0.0 if es_rueda else 0.18
-    # orientacion: el modelo viene X=ancho, Y=alto hacia abajo, Z=largo
-    P = mathutils.Matrix(((0, 0, 1, 0), (-1, 0, 0, 0), (0, -1, 0, 0), (0, 0, 0, 1)))
-    for o in obs:
-        o.matrix_world = P @ o.matrix_world
-    lo = Vector((1e9,) * 3)
-    hi = Vector((-1e9,) * 3)
-    for o in obs:
+    bpy.context.view_layer.update()
+    dg = bpy.context.evaluated_depsgraph_get()
+    dentro = {o.name for o in col.all_objects}
+    lo = Vector((1e9, 1e9, 1e9))
+    hi = Vector((-1e9, -1e9, -1e9))
+    for inst in dg.object_instances:
+        o = inst.object
+        if o is None or o.type != 'MESH':
+            continue
+        src = inst.parent if inst.is_instance else o
+        if src is None or src.original.name not in dentro:
+            continue
         for c in o.bound_box:
-            w = o.matrix_world @ Vector(c)
+            w = inst.matrix_world @ Vector(c)
             for i in range(3):
                 lo[i] = min(lo[i], w[i])
                 hi[i] = max(hi[i], w[i])
-    d = hi - lo
-    S = mathutils.Matrix.Diagonal((largo / d.x, ancho / d.y, alto / d.z, 1.0))
-    for o in obs:
-        o.matrix_world = S @ o.matrix_world
-    molde = coleccion('_moldes')
-    for o in obs:
-        for c in list(o.users_collection):
-            c.objects.unlink(o)
-        molde.objects.link(o)
-        o.hide_render = True
-        o.hide_viewport = True
-        _sombreado_duro(o)
-    _importados[clave] = obs
-    return obs
+    return lo, hi
 
 
-def poner_coche(modelo, x, y, giro, col='Ciudad'):
-    """Copia enlazada de un coche real, apoyada en el suelo en (x, y)."""
-    molde = _importar_coche(modelo)
-    if not molde:
+def _congelar(col):
+    """Deja la coleccion en mallas sueltas con su sitio de ahora.
+
+    El BMW viene aparejado: la carroceria lleva modificador de armadura y las
+    ruedas y los frenos cuelgan de ella con restricciones de suelo
+    (la suspension). Mientras ese aparejo esta vivo, mover la matriz del
+    objeto raiz no arrastra la geometria evaluada -las restricciones la
+    vuelven a clavar donde estaba- y el coche acaba descolocado. Como la pose
+    esta en reposo, quitar el aparejo no cambia ni un milimetro (comprobado:
+    la caja envolvente sale identica antes y despues), y a cambio deja el
+    conjunto como mallas independientes que se pueden colocar con una matriz.
+    """
+    bpy.context.view_layer.update()
+    mw = {o.name: o.matrix_world.copy() for o in col.all_objects}
+    for o in list(col.all_objects):
+        o.constraints.clear()
+        o.animation_data_clear()          # los drivers apuntaban a las restricciones
+        for m in list(getattr(o, 'modifiers', [])):
+            if m.type == 'ARMATURE':
+                o.modifiers.remove(m)
+    for o in list(col.all_objects):
+        o.parent = None
+        o.matrix_world = mw[o.name]
+    for a in [o for o in col.all_objects if o.type == 'ARMATURE']:
+        bpy.data.objects.remove(a, do_unlink=True)
+
+
+def poner_bmw(x, y, giro, hexcol, nombre, col='Ciudad', z_apoyo=-0.010, subdiv=1):
+    """Trae el BMW de la escena de demostracion y lo planta en la calle.
+
+    Se importa una vez por coche en vez de duplicar: son 188.000 triangulos,
+    sale barato, y asi cada uno lleva su propio material de carroceria y se
+    le puede cambiar el color sin tocar a los demas.
+
+    Queda con el eje largo en X mirando a +X, centrado en (x, y) y apoyado en
+    la rasante: el largo se mide sobre la caja real -ya instanciada- y no
+    sobre una constante, asi que el coche se apoya solo aunque cambie el
+    modelo. z_apoyo es la cota de la banda de rodadura; por defecto 8 mm por
+    debajo del asfalto (-0,002) para que la huella del neumatico se aplaste
+    contra el suelo en vez de dejar una linea de luz.
+    """
+    if not os.path.exists(BMW):
+        print('   (falta el BMW: descarga BMW27_2.blend.zip)')
         return []
     import mathutils
-    lo = Vector((1e9,) * 3)
-    hi = Vector((-1e9,) * 3)
-    for o in molde:
-        for c in o.bound_box:
-            w = o.matrix_world @ Vector(c)
-            for i in range(3):
-                lo[i] = min(lo[i], w[i])
-                hi[i] = max(hi[i], w[i])
-    cx, cy = (lo[0] + hi[0]) / 2, (lo[1] + hi[1]) / 2
-    M = (mathutils.Matrix.Translation((x, y, -lo[2]))
+    antes = set(bpy.data.collections.keys())
+    with bpy.data.libraries.load(BMW, link=False) as (src, dst):
+        dst.collections = ['1M']
+    nueva = next((c for c in bpy.data.collections if c.name not in antes), None)
+    if nueva is None:
+        return []
+    nueva.name = f'{nombre}'
+    coleccion(col).children.link(nueva)
+    _congelar(nueva)
+
+    # El modelo viene con subdivision de render hasta nivel 3: cada nivel
+    # multiplica por cuatro, y ocho coches asi se comen la memoria antes de
+    # empezar a trazar rayos. A veinte metros de la camara, el nivel 1 ya no
+    # deja ver facetas en la chapa.
+    for o in nueva.all_objects:
+        for m in getattr(o, 'modifiers', []):
+            if m.type == 'SUBSURF':
+                m.render_levels = min(m.render_levels, subdiv)
+                m.levels = m.render_levels
+
+    # Color de la carroceria. Ojo: la chapa no es un Principled, es una mezcla
+    # de dos BsdfAnisotropic (capa de color rugosa + barniz liso) unidas por
+    # un LayerWeight. Hay que tocar el Color del que hace de capa de color,
+    # que es el de rugosidad alta; el otro es el barniz y se deja.
+    rgb = MT.srgb(hexcol)
+    for o in nueva.all_objects:
+        for sl in getattr(o, 'material_slots', []):
+            m = sl.material
+            if not m or not m.use_nodes:
+                continue
+            if m.name.split('.')[0] not in ('CarShellNew', 'BMWWhite', 'BMWSilver'):
+                continue
+            anis = [n for n in m.node_tree.nodes
+                    if n.bl_idname == 'ShaderNodeBsdfAnisotropic']
+            if not anis:
+                continue
+            capa = max(anis, key=lambda n: n.inputs['Roughness'].default_value)
+            capa.inputs['Color'].default_value = (*rgb, 1)
+
+    # medir la caja obliga a evaluar el depsgraph entero; como todos los
+    # coches salen del mismo fichero, se mide con el primero y se guarda.
+    if not _BMW_CAJA:
+        _BMW_CAJA.extend(_caja_instancias(nueva))
+    lo, hi = _BMW_CAJA
+    k = BMW_LARGO / (hi.x - lo.x)
+    cx, cy = (lo.x + hi.x) / 2, (lo.y + hi.y) / 2
+    M = (mathutils.Matrix.Translation((x, y, z_apoyo - k * lo.z))
          @ mathutils.Matrix.Rotation(math.radians(giro), 4, 'Z')
-         @ mathutils.Matrix.Translation((-cx, -cy, 0)))
-    out = []
-    for o in molde:
-        c = o.copy()
-        c.matrix_world = M @ o.matrix_world
-        c.hide_render = False
-        c.hide_viewport = False
-        coleccion(col).objects.link(c)
-        out.append(c)
-    return out
+         @ mathutils.Matrix.Scale(k, 4)
+         @ mathutils.Matrix.Translation((-cx, -cy, 0.0)))
+    obs = list(nueva.all_objects)
+    for o in obs:
+        o.matrix_world = M @ o.matrix_world
+    return obs
 
 
 def _hay(aid):
@@ -1737,6 +1905,7 @@ def construir(spp, ancho, alto, con_decoracion=True, con_glare=False,
     print('  materiales:', len(MAT), flush=True)
     n, j = arquitectura()
     print('  obra:', n, 'solidos', flush=True)
+    print('  puertas:', carpinteria(j), flush=True)
     suelos_y_techos()
     frente_barra()
     forro_pilar()
