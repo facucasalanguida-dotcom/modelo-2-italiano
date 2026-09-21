@@ -409,6 +409,9 @@ def construir():
     M['_interior_calle'] = liso('Interior de vivienda', srgb('14100C'), 0.9)
     M['_vidrio_calle'] = vidrio_arq('Vidrio de la calle', reflejo=0.16)
     M['_luz_farola'] = emision('Luz de farola', srgb('FFE2B0'), 6.0)
+    # tira de led bajo el mamperlan de cada peldaño, en su perfil de aluminio
+    M['_led_escalon'] = emision('LED de peldaño', srgb('FFE6BE'), 14.0)
+    M['_perfil_led'] = liso('Perfil de aluminio', srgb('BFC4C8'), 0.32, metal=0.9)
     # fachadas de la manzana de enfrente, en ocres de Malaga
     M['_fachada'] = [pintura(f'Fachada {i + 1}', c, rug=0.62, coat=0.0,
                              textura='plastered_wall', tam=3.4)

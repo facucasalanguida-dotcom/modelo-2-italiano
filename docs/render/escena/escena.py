@@ -519,6 +519,47 @@ def carpinteria(j):
     return n
 
 
+# ---------------------------------------------------- luz de la escalera
+# Perfil de aluminio bajo el mamperlan de cada peldaño, con la tira metida
+# entre los dos labios. El plano dibuja la escalera como cajas macizas
+# apiladas, asi que el frente de cada peldaño es su contrahuella y ahi va el
+# perfil. Un peldaño puede venir partido en dos cajas donde la escalera se
+# estrecha: manda la que tiene la Y mas baja, que es la que se ve.
+LED_RETRANQUEO = 0.060           # lo que se retira el perfil de cada costado
+LED_LABIO = 0.005                # canto de los labios de aluminio
+LED_ALTO = 0.020                 # alto de la tira
+LED_BAJO = 0.025                 # del mamperlan al labio de arriba
+
+
+def leds_escalera(j):
+    """Una linea de led bajo el mamperlan de cada peldaño."""
+    frentes = {}
+    for s in j['cajas']:
+        nm = s['nombre'] or ''
+        if not nm.startswith('Peldaño'):
+            continue
+        a = frentes.get(nm)
+        if a is None or s['y0'] < a['y0']:
+            frentes[nm] = s
+    n = 0
+    for nm, s in sorted(frentes.items(), key=lambda kv: kv[1]['y0']):
+        x0, x1 = s['x0'] + LED_RETRANQUEO, s['x1'] - LED_RETRANQUEO
+        yf, zt = s['y0'], s['z1']
+        z_alto = zt - LED_BAJO                       # cara baja del labio de arriba
+        z_bajo = z_alto - LED_ALTO                   # cara alta del labio de abajo
+        # los labios vuelan 12 mm y se meten 4 en la contrahuella
+        for lado, za, zb in (('superior', z_alto, z_alto + LED_LABIO),
+                             ('inferior', z_bajo - LED_LABIO, z_bajo)):
+            caja(f'{nm} · labio {lado}', x0, yf - 0.012, x1, yf + SOLAPE, za, zb,
+                 MAT['_perfil_led'], 'Luces')
+        # la tira, retranqueada entre los labios: asi se ve la linea de luz y
+        # no el punto, y no comparte plano con la contrahuella
+        caja(f'{nm} · tira led', x0, yf - 0.006, x1, yf - 0.002, z_bajo, z_alto,
+             MAT['_led_escalon'], 'Luces')
+        n += 1
+    return n
+
+
 # ------------------------------------------------- suelos, techos y remates
 def suelos_y_techos():
     """El plano no dibuja pavimento ni techo: aqui si, que es lo que se ve."""
@@ -1859,8 +1900,10 @@ VISTAS = {
     'entrada':      ((8.55, 1.15, 1.620), (4.60, 5.40, 1.400), 20.0),
     # la pared azzurro con el logo, de frente
     'logo':         ((6.35, 1.95, 1.680), (9.88, 2.78, 1.470), 26.0),
-    # el arranque de la escalera
-    'escalera':     ((7.35, 5.40, 1.600), (9.35, 6.60, 1.900), 22.0),
+    # el arranque de la escalera, con la linea de led de cada peldaño.
+    # La camara anterior -(7,35 / 5,40) mirando a (9,35 / 6,60)- encuadraba
+    # el costado ciego de la escalera: salia un paño de enlucido y nada mas.
+    'escalera':     ((8.10, 2.55, 1.180), (9.40, 5.60, 0.480), 30.0),
     # la cocina desde dentro, con la campana y la linea de coccion
     'cocina':       ((2.16, 5.90, 1.600), (1.05, 8.70, 1.120), 21.0),
     # la cocina desde el paso de servicio, con la mampara en primer plano
@@ -1970,6 +2013,7 @@ def construir(spp, ancho, alto, con_decoracion=True, con_glare=False,
     print('  mobiliario:', ns, 'sillas', flush=True)
     nl = luces(j)
     print('  luminarias del plano:', nl, flush=True)
+    print('  led en peldaños:', leds_escalera(j), flush=True)
     mundo()
     if con_ciudad:
         exterior()
