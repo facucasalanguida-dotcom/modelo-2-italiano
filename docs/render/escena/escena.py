@@ -659,12 +659,17 @@ def taburete(nombre, cx, cy, z=0.760, col='Mobiliario'):
 
 
 def sillon_corrido():
-    """Banco corrido contra el muro Norte: asiento y respaldo capitonados."""
-    x0, x1 = 2.430, 7.500
-    y1 = 8.733
-    y0 = y1 - 0.560
+    """Banco corrido contra el muro Norte, en la caja que fija el plano.
+
+    equipamiento/mobiliario lo dibujan en x 2,530..7,400, y 8,357..8,957, con
+    el asiento a 0,42 y el respaldo hasta 1,05. La cara interior del muro
+    Norte es 8,957: no hay trasdosado.
+    """
+    x0, x1 = 2.530, 7.400
+    y1 = 8.957
+    y0 = 8.357
     obs = []
-    base = caja('Sillon base', x0, y0, x1, y1, 0.0, 0.400, MAT['_negro'])
+    base = caja('Sillon base', x0, y0, x1, y1, 0.0, 0.360, MAT['_negro'])
     bisel(base, 0.004)
     obs.append(base)
     # cojin de asiento por tramos, para que se lea el capitone
@@ -672,11 +677,11 @@ def sillon_corrido():
     for i in range(n):
         a = x0 + (x1 - x0) * i / n
         b = x0 + (x1 - x0) * (i + 1) / n
-        c = caja(f'Sillon cojin {i + 1}', a + 0.006, y0, b - 0.006, y1 - 0.02,
-                 0.400, 0.470, MAT['sillon'])
+        c = caja(f'Sillon cojin {i + 1}', a + 0.006, y0, b - 0.006, y1 - 0.10,
+                 0.360, 0.420, MAT['sillon'])
         obs.append(blando(c, 0.030, 4, 1))
-        r = caja(f'Sillon respaldo {i + 1}', a + 0.006, y1 - 0.130, b - 0.006, y1,
-                 0.470, 1.050, MAT['sillon'])
+        r = caja(f'Sillon respaldo {i + 1}', a + 0.006, y1 - 0.100, b - 0.006, y1,
+                 0.420, 1.050, MAT['sillon'])
         obs.append(blando(r, 0.030, 4, 1))
     return obs
 
@@ -708,10 +713,8 @@ def mobiliario():
                 for o in obs:
                     for v in o.data.vertices:
                         v.co.z += dz
-    # taburetes frente al mostrador, del lado de la sala
-    mx1 = Q.MOSTRADOR_X[1]
-    for i, ty in enumerate((2.30, 2.95, 3.60)):
-        taburete(f'Taburete {i + 1}', mx1 + 0.42, ty)
+    # El plano no lleva taburetes en el mostrador, asi que no se ponen: la
+    # escena dibuja lo que hay proyectado, no lo que quedaria bonito.
     sillon_corrido()
     return n_sillas
 
@@ -1154,9 +1157,6 @@ def decoracion():
     # ---- botellero sobre la vitrina y aceite en el paso
     poner('jug_01', 0.45, 4.62, 0.905, escala=1.0, giro=35)
     poner('metal_jug', 0.66, 4.60, 0.905, escala=0.9, giro=-15)
-    # ---- barrica de vino como mesa alta junto al ventanal
-    poner('wine_barrel_01', 7.90, 2.35, 0.0, escala=1.0, giro=12)
-    poner('wine_bottles_01', 7.90, 2.35, 0.86, escala=1.0, giro=-40)
     # ---- plantas: terracota, el verde de la trattoria
     for aid, x, y, h, g in (('potted_plant_01', 2.24, 3.15, 0.80, 20),
                             ('potted_plant_02', 8.38, 7.60, 1.05, -30),
@@ -1174,7 +1174,7 @@ def decoracion():
     # ---- la pared del sillon corrido: solo cuadros, repartidos
     for i, x in enumerate((3.05, 3.95, 4.85, 6.10, 7.00)):
         alto = 0.560 if i % 2 == 0 else 0.460
-        cuadro(f'Cuadro {i + 1}', x, 8.700, 1.700, alto * 0.78, alto, '-Y')
+        cuadro(f'Cuadro {i + 1}', x, 8.957, 1.700, alto * 0.78, alto, '-Y')
     # ---- mesas puestas: cada una cuenta algo distinto
     for k, m in enumerate(MB.MESAS_PB):
         tag, tipo, x0, y0, x1, y1, lados = m
@@ -1286,11 +1286,7 @@ def exterior():
         if _hay(aid):
             poner(aid, x, y, C.H_BORDILLO, escala=1.0, giro=g, col='Ciudad')
 
-    # terraza del local, en la acera delante del escaparate
-    if _hay('outdoor_table_chair_set_01'):
-        for i, x in enumerate((3.40, 5.30)):
-            poner('outdoor_table_chair_set_01', x, C.Y_ACERA + 1.90,
-                  C.H_BORDILLO, escala=1.0, giro=90 + i * 12, col='Ciudad')
+    # La terraza no esta en el proyecto: la acera se deja libre.
 
     # coches aparcados en la banda, y un par en el otro sentido
     for i, (x, g) in enumerate(((-7.4, 0), (-2.1, 0), (3.6, 0), (9.4, 0),
