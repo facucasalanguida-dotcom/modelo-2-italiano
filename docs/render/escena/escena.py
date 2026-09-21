@@ -724,18 +724,91 @@ def remate_vidrio_L():
              z_ab, z_ar - h, m, 'Obra')
 
 
-def forro_pilar():
-    """P3, el pilar exento de la sala, forrado de listones en sus cuatro caras."""
-    x0, y0, x1, y1 = 5.670, 4.688, 6.320, 5.758
-    d = 0.026 + SOLAPE
-    listones('Forro P3 Sur', x0, y0 - d + SOLAPE, x1, y0, 0.0, Z_SOFITO,
-             MAT['_liston'], fondo=d, eje='x')
-    listones('Forro P3 Norte', x0, y1 - SOLAPE, x1, y1 + d, 0.0, Z_SOFITO,
-             MAT['_liston'], fondo=d, eje='x')
-    listones('Forro P3 Oeste', x0 - d + SOLAPE, y0, x0, y1, 0.0, Z_SOFITO,
-             MAT['_liston'], fondo=d, eje='y')
-    listones('Forro P3 Este', x1 - SOLAPE, y0, x1 + d, y1, 0.0, Z_SOFITO,
-             MAT['_liston'], fondo=d, eje='y')
+def losas(nombre, x0, y0, x1, y1, z0, z1, mat, alto=0.72, junta=0.009,
+          fondo=0.022, eje='x', col='Obra'):
+    """Aplacado de losas de piedra, por hiladas y con junta abierta.
+
+    Misma firma que listones para que el forro de una columna se arme igual
+    con una cosa que con la otra: la losa ocupa todo el ancho de la cara y
+    se apila en altura.
+
+    mat puede ser una lista de materiales. Entonces cada hilada coge uno,
+    y ademas sale un poco mas gruesa o mas fina y un pelin mas corta o mas
+    larga que la de al lado: la piedra cortada no da todas las piezas
+    iguales, y si salen iguales se ve que es un render. La semilla sale del
+    nombre de la pieza, no de hash(), que cambia de una ejecucion a otra y
+    dejaria cada vista con un despiece distinto.
+    """
+    import zlib
+    rnd = random.Random(zlib.crc32(nombre.encode()))
+    varios = isinstance(mat, (list, tuple))
+    n = max(1, int(round((z1 - z0) / alto)))
+    paso = (z1 - z0) / n
+    obs = []
+    for i in range(n):
+        m = mat[rnd.randrange(len(mat))] if varios else mat
+        j = junta * rnd.uniform(0.7, 1.35)
+        f = fondo + (rnd.uniform(-0.0015, 0.0035) if varios else 0.0)
+        za = z0 + paso * i + (j / 2 if i else 0.0)
+        zb = z0 + paso * (i + 1) - (j / 2 if i < n - 1 else 0.0)
+        if eje == 'x':
+            obs.append(caja(f'{nombre} hilada {i + 1}', x0, y0, x1, y0 + f,
+                            za, zb, m, col))
+        else:
+            obs.append(caja(f'{nombre} hilada {i + 1}', x0, y0, x0 + f, y1,
+                            za, zb, m, col))
+    for o in obs:
+        bisel(o, 0.0022, segs=2)
+    return obs
+
+
+# Las cinco columnas del proyecto: caras que quedan a la vista y con que se
+# forran. P2 -la pilastra del ventanal- y P5 -la de fachada- van en losa de
+# piedra gris negro; las otras tres, en liston de roble. Y enteras: del
+# pavimento al techo, no hasta el intrados de planta alta.
+#   S = cara Sur (y0)   N = Norte (y1)   O = Oeste (x0)   E = Este (x1)
+PILARES = (
+    ('P1', 0.250, 4.759, 0.550, 5.357, 'SNE', 'liston'),   # machon del muro Oeste
+    ('P2', 1.290, 1.561, 1.870, 2.011, 'SONE', 'losa'),    # pilastra del ventanal,
+                                                           # forrada tambien por la
+                                                           # cara Sur, que da a la calle
+    ('P3', 5.670, 4.688, 6.320, 5.758, 'SNOE', 'liston'),  # exento, en la sala
+    ('P4', 9.689, 4.708, 9.890, 5.309, 'SNO', 'liston'),   # machon de la medianera
+    ('P5', 5.731, 0.000, 6.331, 1.000, 'SOE', 'losa'),     # pilar de fachada
+)
+
+
+def forro_pilares():
+    """Forra las columnas de arriba abajo, cada una con lo suyo."""
+    n = 0
+    for tag, x0, y0, x1, y1, caras, tipo in PILARES:
+        fondo = 0.026 if tipo == 'liston' else 0.022
+        d = fondo + SOLAPE
+        mat = MAT['_liston'] if tipo == 'liston' else MAT['_losa_piedra']
+        poner_forro = (lambda *a, **k: listones(*a, fondo=d, **k)) if tipo == 'liston' \
+            else (lambda *a, **k: losas(*a, fondo=d, **k))
+        # las caras Sur y Norte se prolongan para cerrar la esquina cuando el
+        # costado tambien va forrado; asi no queda un vacio de 26 mm en el
+        # canto y los costados topan contra ellas sin solaparse
+        ax0 = x0 - d if 'O' in caras else x0
+        ax1 = x1 + d if 'E' in caras else x1
+        if 'S' in caras:
+            poner_forro(f'Forro {tag} Sur', ax0, y0 - d + SOLAPE, ax1, y0,
+                        0.0, Z_TECHO, mat, eje='x')
+            n += 1
+        if 'N' in caras:
+            poner_forro(f'Forro {tag} Norte', ax0, y1 - SOLAPE, ax1, y1 + d,
+                        0.0, Z_TECHO, mat, eje='x')
+            n += 1
+        if 'O' in caras:
+            poner_forro(f'Forro {tag} Oeste', x0 - d + SOLAPE, y0, x0, y1,
+                        0.0, Z_TECHO, mat, eje='y')
+            n += 1
+        if 'E' in caras:
+            poner_forro(f'Forro {tag} Este', x1 - SOLAPE, y0, x1 + d, y1,
+                        0.0, Z_TECHO, mat, eje='y')
+            n += 1
+    return n
 
 
 # ================================================ 3. los 24 aparatos 1:1
@@ -2023,7 +2096,7 @@ def construir(spp, ancho, alto, con_decoracion=True, con_glare=False,
     print('  puertas:', carpinteria(j), flush=True)
     suelos_y_techos()
     frente_barra()
-    forro_pilar()
+    print('  caras de columna forradas:', forro_pilares(), flush=True)
     cocina_inox()
     remate_vidrio_L()
     pared_logo()

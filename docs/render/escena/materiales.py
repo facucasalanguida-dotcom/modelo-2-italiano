@@ -15,6 +15,7 @@ recorriendo MODELO_3D.json sin traducir nada.
 """
 import glob
 import os
+import random
 
 import bpy
 
@@ -410,6 +411,24 @@ def construir():
     M['_vidrio_calle'] = vidrio_arq('Vidrio de la calle', reflejo=0.16)
     M['_luz_farola'] = emision('Luz de farola', srgb('FFE2B0'), 6.0)
     # tira de led bajo el mamperlan de cada peldaño, en su perfil de aluminio
+    # Losa de piedra gris negro. La piedra de verdad no casa de una pieza a
+    # otra: cada losa sale de un bloque distinto y tiene su tono, su veta y
+    # su rugosidad. Asi que en vez de un material se hacen cinco, con la
+    # textura cogida por otro sitio, girada y con el tono movido; luego el
+    # aplacado los reparte entre las hiladas. La base es dark_rock, que es
+    # roca de verdad y no baldosa pulida.
+    M['_losa_piedra'] = []
+    _r = random.Random(7)
+    for _i, _tono in enumerate(('34363A', '2B2D31', '3B3D41', '2F3237', '383A3F')):
+        _m = pbr(f'Losa de piedra {_i + 1}', 'dark_rock', 1.10 + 0.30 * _r.random(),
+                 albedo=_tono, coat=0.08, nrm_str=1.25, rug=0.47, mezcla_caja=0.25)
+        for _nd in _m.node_tree.nodes:
+            if _nd.bl_idname == 'ShaderNodeMapping':
+                _nd.inputs['Location'].default_value = (_r.uniform(-6, 6),
+                                                        _r.uniform(-6, 6),
+                                                        _r.uniform(-6, 6))
+                _nd.inputs['Rotation'].default_value = (0.0, 0.0, _r.uniform(0, 6.283))
+        M['_losa_piedra'].append(_m)
     M['_led_escalon'] = emision('LED de peldaño', srgb('FFE6BE'), 14.0)
     M['_perfil_led'] = liso('Perfil de aluminio', srgb('BFC4C8'), 0.32, metal=0.9)
     # fachadas de la manzana de enfrente, en ocres de Malaga
