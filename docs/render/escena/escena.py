@@ -1131,13 +1131,13 @@ def decoracion():
     poner('wine_barrel_01', 7.90, 2.35, 0.0, escala=1.0, giro=12)
     poner('wine_bottles_01', 7.90, 2.35, 0.86, escala=1.0, giro=-40)
     # ---- plantas: terracota, el verde de la trattoria
-    for aid, x, y, h, g in (('potted_plant_01', 2.22, 3.30, 1.10, 20),
-                            ('potted_plant_02', 8.36, 7.55, 1.35, -30),
-                            ('potted_plant_01', 3.30, 4.35, 0.95, 60),
-                            ('potted_plant_02', 7.62, 3.30, 1.20, 110)):
+    for aid, x, y, h, g in (('potted_plant_01', 2.24, 3.15, 0.80, 20),
+                            ('potted_plant_02', 8.38, 7.60, 1.05, -30),
+                            ('potted_plant_01', 2.70, 6.85, 0.75, 60),
+                            ('potted_plant_02', 9.55, 3.10, 0.95, 110)):
         poner(aid, x, y, 0.0, altura=h, giro=g)
-    for i, (x, y) in enumerate(((2.62, 8.55), (7.10, 8.55))):
-        poner('planter_pot_clay', x, y, 0.0, escala=1.2, giro=i * 40)
+    for i, (x, y) in enumerate(((2.58, 8.45), (7.72, 8.45))):
+        poner('planter_pot_clay', x, y, 0.0, altura=0.52, giro=i * 40)
     # ---- fruta y pan en el paso de la cocina
     poner('wooden_bowl_01', 1.30, 6.90, Q.H_ENCIMERA, escala=1.0, giro=25)
     for i, aid in enumerate(('food_apple_01', 'food_lime_01', 'food_pomegranate_01')):
@@ -1650,36 +1650,61 @@ def pizarra_menu(x, y, z, normal='-Y', ancho=0.62, alto=0.88, col='Decoracion'):
 
 
 def nichos_botellas(x0, x1, y, z0, alto=0.95, n=5, normal='-Y', col='Decoracion'):
-    """Hornacinas iluminadas con botellas, como en las fotos de referencia."""
-    prof = 0.180
-    s = -1 if normal == '-Y' else 1
-    marco = 0.035
-    paso = (x1 - x0) / n
-    # cuerpo del mueble, empotrado en el paño
-    caja('Nichos · cuerpo', x0, y, x1, y + s * prof, z0, z0 + alto,
-         MAT['_liston'], col)
+    """Hornacinas iluminadas con botellas, como en las fotos de referencia.
+
+    Carcasa abierta: trasera, dos costados, tapa, fondo y montantes. Antes era
+    un bloque macizo con las botellas dentro, asi que no se veia nada.
+    """
+    prof = 0.190
+    s_ = -1 if normal == '-Y' else 1
+    e = 0.026                                  # grueso de la madera
+    ya, yb = (y, y + s_ * prof) if s_ > 0 else (y + s_ * prof, y)
+    # trasera clara, que es la que recoge la luz
+    caja('Nichos · trasera', x0, y - s_ * 0.004, x1, y + s_ * 0.020,
+         z0, z0 + alto, MAT['_blanco'], col)
+    # tapa, fondo y costados
+    caja('Nichos · tapa', x0, ya, x1, yb, z0 + alto - e, z0 + alto, MAT['_liston'], col)
+    caja('Nichos · base', x0, ya, x1, yb, z0, z0 + e, MAT['_liston'], col)
+    caja('Nichos · costado i', x0, ya, x0 + e, yb, z0, z0 + alto, MAT['_liston'], col)
+    caja('Nichos · costado d', x1 - e, ya, x1, yb, z0, z0 + alto, MAT['_liston'], col)
+    paso = (x1 - x0 - 2 * e) / n
     for i in range(n):
-        a = x0 + paso * i + marco
-        b = x0 + paso * (i + 1) - marco
-        # hueco: se vacia con una caja de material claro retranqueada
-        caja(f'Nichos · fondo {i + 1}', a, y + s * (prof - 0.012), b,
-             y + s * prof, z0 + marco, z0 + alto - marco, MAT['_blanco'], col)
-        caja(f'Nichos · techo {i + 1}', a, y, b, y + s * prof,
-             z0 + alto - marco - 0.010, z0 + alto - marco, MAT['_luz_calida'], col)
-        lz = bpy.data.lights.new(f'Nicho luz {i + 1}', 'AREA')
-        lz.shape = 'RECTANGLE'
-        lz.size, lz.size_y = b - a, prof * 0.8
-        lz.energy = 5.5
-        lz.color = (1.0, 0.86, 0.68)
-        ob = bpy.data.objects.new(f'Nicho luz {i + 1}', lz)
-        ob.location = ((a + b) / 2, y + s * prof / 2, z0 + alto - marco - 0.016)
-        ob.rotation_euler = (math.radians(180), 0, 0)
-        coleccion('Luces').objects.link(ob)
-        # genero
+        a = x0 + e + paso * i
+        b = a + paso
+        if i:                                  # montante entre hornacinas
+            caja(f'Nichos · montante {i}', a - e / 2, ya, a + e / 2, yb,
+                 z0 + e, z0 + alto - e, MAT['_liston'], col)
+        # balda intermedia
+        zb_ = z0 + alto * 0.52
+        caja(f'Nichos · balda {i + 1}', a + e / 2, ya, b - e / 2, yb,
+             zb_, zb_ + 0.016, MAT['_liston'], col)
+        # LED bajo la tapa y bajo la balda
+        for zz, pot in ((z0 + alto - e - 0.012, 7.0), (zb_ - 0.012, 5.0)):
+            caja(f'Nichos · led {i + 1} {zz:.2f}', a + 0.02, y + s_ * 0.030,
+                 b - 0.02, y + s_ * 0.055, zz, zz + 0.010,
+                 MAT['_luz_calida'], col)
+            lz = bpy.data.lights.new(f'Nicho luz {i + 1} {zz:.2f}', 'AREA')
+            lz.shape = 'RECTANGLE'
+            lz.size, lz.size_y = b - a - 0.04, prof * 0.7
+            lz.energy = pot
+            lz.color = (1.0, 0.87, 0.70)
+            ob = bpy.data.objects.new(f'Nicho luz {i + 1} {zz:.2f}', lz)
+            ob.location = ((a + b) / 2, y + s_ * prof * 0.55, zz - 0.004)
+            ob.rotation_euler = (math.radians(180), 0, 0)
+            coleccion('Luces').objects.link(ob)
+        # genero: botellas abajo, ceramica arriba
         for k in range(3):
             bx = a + (b - a) * (k + 0.5) / 3
-            botella(f'Nicho {i + 1} botella {k + 1}', bx, y + s * prof * 0.55,
-                    z0 + marco + 0.004, alto=0.26 + 0.05 * ((i + k) % 3), col=col)
+            botella(f'Nicho {i + 1} botella {k + 1}', bx, y + s_ * prof * 0.55,
+                    z0 + e + 0.004, alto=0.24 + 0.04 * ((i + k) % 3), col=col)
+        if i % 2 == 0:
+            poner('ceramic_vase_02', (a + b) / 2, y + s_ * prof * 0.55,
+                  zb_ + 0.016, altura=0.26, giro=i * 37, col=col)
+        else:
+            for k in range(2):
+                bx = a + (b - a) * (k + 0.5) / 2
+                botella(f'Nicho {i + 1} alta {k + 1}', bx, y + s_ * prof * 0.55,
+                        zb_ + 0.016, alto=0.26, col=col)
 
 
 def logo_escaparate():
@@ -1714,6 +1739,16 @@ def caracter_italiano():
     nichos_botellas(5.90, 7.45, 8.715, 1.180, alto=0.95, n=5, normal='-Y')
     # el logo en el vidrio del ventanal
     logo_escaparate()
+    # el expositor de bebidas, lleno: sus cinco parrillas estan a 0,46 / 0,73
+    # / 1,00 / 1,27 / 1,54 (obj_A7: Z_INT0 + 0,190 + k * 0,270)
+    ax, ay = 5.995, 4.078                      # centro y cara interior del frente
+    for k in range(5):
+        z = 0.462 + k * 0.270
+        for j in range(6):
+            bx = ax - 0.185 + j * 0.074
+            for f, dy in ((0, 0.075), (1, 0.230)):
+                botella(f'A7 botella {k}{j}{f}', bx, ay + dy, z + 0.006,
+                        alto=0.225 if k % 2 == 0 else 0.245, col='Decoracion')
     # cestas de pan y aceite en el paso de servicio
     poner('wicker_basket_02', 2.75, 4.30, Q.H_ENCIMERA + 0.040, escala=0.8, giro=15)
     # ceramica en el alfeizar del ventanal
