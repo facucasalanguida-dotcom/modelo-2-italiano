@@ -275,11 +275,17 @@ def sustituido(s):
 #     muro = 3,71, de P5 (6,331) a la cara exterior de la medianera (10,040).
 # Asi que el hueco de 2,06 x 2,10 se abre en la fachada y la puerta se planta
 # 1,06 mas adentro, en y = 1,429, que es justo donde muere el cuello y
-# empieza la pared del plotter. El costado Este del retranqueo es la cara del
-# cuello (x = 9,710) y el costado Oeste lo cierra el escaparate, que dobla la
-# esquina: la cadena de cotas no deja grueso para una jamba de obra ahi.
+# empieza la pared del plotter.
+#
+# Lo que queda delante de la puerta es un cubo de obra: paredes y techo. El
+# costado Este es la cara del cuello (x = 9,710) y el Oeste es un tabique de
+# 96 mm cuya cara vista cae en x = 7,641, la jamba que midio el cliente: sus
+# 1,31 de P5 a la jamba y sus 2,23 de ancho de vestibulo suman los 3,559 que
+# hay de P5 al muro Este, luego la jamba es una linea sin grueso y el tabique
+# tiene que crecer hacia el escaparate. El vidrio pierde ahi 96 mm por debajo
+# del techo del cubo y sigue entero por encima.
 RETRANQUEO = dict(x0=7.641, x1=9.710, y0=0.370, y1=1.429,
-                  alto=2.100, canto=0.140, zocalo=0.130, e_vidrio=0.029)
+                  alto=2.100, canto=0.140, zocalo=0.130, e_pared=0.096)
 
 
 def _retranquear(cajas):
@@ -292,9 +298,11 @@ def _retranquear(cajas):
     R = RETRANQUEO
     for s in cajas:
         nm = s['nombre'] or ''
-        if nm == 'Escaparate · zócalo de piedra':
-            # el zocalo es del escaparate: no cruza el hueco de la entrada
-            s['x1'] = R['x0']
+        if nm in ('Escaparate · zócalo de piedra', 'Escaparate · vidrio'):
+            # el escaparate es del escaparate: no cruza el hueco de la
+            # entrada, y muere medio milimetro antes de la jamba para no
+            # compartir plano con el tabique que lo tapa
+            s['x1'] = R['x0'] - DESPEGUE
         elif nm.startswith('Puerta de acceso · hoja'):
             # al fondo del retranqueo y apoyada en el pavimento: 2,10 de hueco
             # de paso, no 2,10 medidos desde el zocalo del escaparate
@@ -651,27 +659,25 @@ def suelos_y_techos():
 
 
 def vestibulo():
-    """El retranqueo de la entrada: retorno del escaparate y dintel del hueco.
+    """El cubo de la entrada: paredes de obra y techo, con la puerta al fondo.
 
-    El costado Este del hueco ya lo da el cuello de la medianera y el fondo lo
-    cierra la propia puerta. Falta el costado Oeste -el escaparate doblando la
-    esquina, con su zocalo, porque la cadena de cotas de fachada no deja grueso
-    para una jamba de obra- y el techo del hueco, que es lo que hace que la
-    entrada sea un hueco de 2,06 x 2,10 y no un agujero abierto hasta los cinco
-    metros de la doble altura.
+    Lo que hay delante de la hoja no es un retorno de escaparate: es una caja
+    de obra abierta solo a la calle. El costado Este ya lo da el cuello de la
+    medianera y el fondo lo cierra la propia puerta; aqui van el costado Oeste
+    y el techo, que es lo que hace que la entrada sea un hueco de 2,06 x 2,10
+    y no un agujero abierto hasta los cinco metros de la doble altura.
     """
     R = RETRANQUEO
-    xg1 = R['x0'] - DESPEGUE                 # cara interior del retorno
-    xg0 = xg1 - R['e_vidrio']
-    # zocalo doblando la esquina: medio milimetro por debajo del de fachada
-    # para no compartir con el la cara de arriba en el rincon
-    caja('Vestíbulo · zócalo de retorno', xg0, 0.3805, xg1, R['y1'],
-         0.0, R['zocalo'] - DESPEGUE, MAT['piedra'])
-    caja('Vestíbulo · escaparate de retorno', xg0, 0.3805, xg1, R['y1'],
-         R['zocalo'] + DESPEGUE, R['alto'], MAT['vidrio'])
-    # dintel del hueco: se hunde 4 mm en la cabeza de la puerta y del vidrio,
-    # se mete en el cuello y se retira medio milimetro de la linea de fachada
-    ob = caja('Vestíbulo · dintel del hueco', xg0 - 0.010, R['y0'] + DESPEGUE,
+    xp = R['x0'] - R['e_pared']              # trasdos del tabique del costado
+    # Costado Oeste. Arranca medio milimetro por detras de la linea de fachada
+    # -ahi tiene su cara el zocalo de piedra del escaparate- y baja del suelo
+    # para que no se vea la junta con el pavimento.
+    ob = caja('Vestíbulo · pared Oeste', xp, R['y0'] + DESPEGUE, R['x0'], R['y1'],
+              -0.010, R['alto'], MAT['muro'])
+    bisel(ob)
+    # Techo del cubo: vuela 6 mm sobre el tabique para caparlo, se hunde 4 mm
+    # en la cabeza de la puerta y se mete en el cuello de la medianera.
+    ob = caja('Vestíbulo · techo', xp - 0.006, R['y0'] + 0.001,
               R['x1'] + SOLAPE, R['y1'] - DESPEGUE,
               R['alto'] - SOLAPE, R['alto'] + R['canto'], MAT['muro'])
     bisel(ob)
