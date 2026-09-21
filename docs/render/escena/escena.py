@@ -333,8 +333,8 @@ def frente_barra():
     # altillo. Dos tramos, el del vacio Sur y el que da a la cocina.
     caja('Banda de rotulo Sur', 2.405, 3.917, 9.890, 3.945,
          Z_SOFITO - 0.12, Z_PA - 0.001, MAT['_pared_napoli'])
-    caja('Banda de rotulo Oeste', 2.389, 3.945, 2.417, 8.957,
-         Z_SOFITO - 0.34, Z_PA - 0.001, MAT['_pared_napoli'])
+    # El canto Oeste del forjado da al paso de servicio y a la cocina: ahi no
+    # va banda de rotulo.
 
 
 def cocina_inox():
@@ -376,6 +376,28 @@ def cocina_inox():
         else:
             caja(f'Cocina · pala {i + 1}', x - 0.035, yb - 0.006, x + 0.035,
                  yb + 0.006, 1.230, 1.395, MAT['inox'], 'Obra')
+
+
+def remate_vidrio_L():
+    """Reborde blanco del vidrio de la pared en L.
+
+    Un perfil fino que cierra el canto de arriba del vidrio y otro en la junta
+    del vidrio con la fabrica de la L, que es como se remata de obra un pano
+    de vidrio apoyado sobre un antepecho.
+    """
+    x0, x1 = 2.460, 2.500          # el pano del plano
+    y0, y1 = 5.457, 8.927
+    z_ab, z_ar = 1.220, 2.570
+    e = 0.012                      # cuanto sobresale del vidrio
+    h = 0.030                      # canto del perfil: fino
+    m = MAT['_blanco_lacado']
+    caja('Vidrio L · remate superior', x0 - e, y0, x1 + e, y1,
+         z_ar - h * 0.5, z_ar + h * 0.5, m, 'Obra')
+    caja('Vidrio L · remate inferior', x0 - e, y0, x1 + e, y1,
+         z_ab - h * 0.5, z_ab + h * 0.5, m, 'Obra')
+    for nm, ya, yb in (('Sur', y0, y0 + h), ('Norte', y1 - h, y1)):
+        caja(f'Vidrio L · jamba {nm}', x0 - e, ya, x1 + e, yb,
+             z_ab, z_ar, m, 'Obra')
 
 
 def forro_pilar():
@@ -1149,9 +1171,10 @@ def decoracion():
         poner(aid, 1.26 + 0.05 * i, 6.88 + 0.04 * (i % 2), Q.H_ENCIMERA + 0.045,
               escala=1.0, giro=i * 55)
     poner('wicker_basket_02', 1.75, 6.90, Q.H_ENCIMERA, escala=0.9, giro=-12)
-    # ---- cuadros en la pared Norte y en el testero
-    for i, x in enumerate((3.30, 4.10, 4.90)):
-        cuadro(f'Cuadro {i + 1}', x, 8.700, 1.700, 0.440, 0.560, '-Y')
+    # ---- la pared del sillon corrido: solo cuadros, repartidos
+    for i, x in enumerate((3.05, 3.95, 4.85, 6.10, 7.00)):
+        alto = 0.560 if i % 2 == 0 else 0.460
+        cuadro(f'Cuadro {i + 1}', x, 8.700, 1.700, alto * 0.78, alto, '-Y')
     # ---- mesas puestas: cada una cuenta algo distinto
     for k, m in enumerate(MB.MESAS_PB):
         tag, tipo, x0, y0, x1, y1, lados = m
@@ -1491,6 +1514,7 @@ def construir(spp, ancho, alto, con_decoracion=True, con_glare=False,
     frente_barra()
     forro_pilar()
     cocina_inox()
+    remate_vidrio_L()
     pared_logo()
     planta_alta()
     puestos = aparatos(j)
@@ -1616,11 +1640,14 @@ def pizarra_menu(x, y, z, normal='-Y', ancho=0.62, alto=0.88, col='Decoracion'):
         platos = [('Antipasto della casa', '9,50'), ('Tagliatelle al ragù', '12,00'),
                   ('Gnocchi al pesto', '11,50'), ('Parmigiana', '10,50'),
                   ('Tiramisù', '5,50'), ('Caffè Margot', '1,80')]
-        f = _fuente(int(H * 0.048))
+        f = _fuente(int(H * 0.044))
         for i, (p, pr) in enumerate(platos):
             yy = H * (0.315 + i * 0.088)
-            dr.text((W * 0.10, yy), p, font=f, fill=(238, 233, 220, 255))
-            dr.text((W * 0.78, yy), pr, font=f, fill=(226, 200, 140, 255))
+            dr.text((W * 0.09, yy), p, font=f, fill=(238, 233, 220, 255))
+            # el precio, alineado a la derecha: si no, los platos largos se
+            # comian la cifra ("Antipasto della casa9,50")
+            anc = dr.textlength(pr, font=f)
+            dr.text((W * 0.91 - anc, yy), pr, font=f, fill=(226, 200, 140, 255))
         dr.text((W * 0.30, H * 0.905), '~ Casa Margot ~',
                 font=_fuente(int(H * 0.050), False, True), fill=(210, 205, 190, 255))
     ruta = _calca_png('pizarra_menu', 620, 880, dib)
@@ -1738,10 +1765,9 @@ def logo_escaparate():
 
 def caracter_italiano():
     """Lo que convierte el local en una trattoria y no en una cafeteria."""
-    # carta del dia junto al paso de la barra, donde se lee al entrar
-    pizarra_menu(2.62, 5.30, 1.520, normal='+X')
-    # hornacinas iluminadas sobre el sillon corrido
-    nichos_botellas(5.90, 7.45, 8.715, 1.180, alto=0.95, n=5, normal='-Y')
+    # Ni carta en pizarra en el paso de servicio ni hornacinas sobre el
+    # sillon: ese tramo es zona de paso y la pared del sillon lleva solo
+    # cuadros.
     # el logo en el vidrio del ventanal
     logo_escaparate()
     # el expositor de bebidas, lleno: sus cinco parrillas estan a 0,46 / 0,73

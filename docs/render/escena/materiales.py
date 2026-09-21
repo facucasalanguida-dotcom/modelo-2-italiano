@@ -377,6 +377,7 @@ def construir():
     M['_suelo'] = pbr('Suelo de roble', 'wood_floor', 1.7, albedo='C09563', coat=0.12, nrm_str=0.85)
     M['_pared_napoli'] = pintura('Pared azzurro Napoli', AZZURRO, rug=0.45, coat=0.05)
     M['_vinilo'] = liso('Vinilo de plotter', srgb('222222'), 0.55)
+    M['_blanco_lacado'] = liso('Blanco lacado', srgb('F4F4F1'), 0.28, coat=0.35)
     M['_laton'] = liso('Laton', srgb('C69E54'), 0.25, 1.0)
     M['_negro'] = liso('Negro mate', srgb('262524'), 0.55)
     M['_blanco'] = pbr('Blanco roto', 'white_plaster_02', 2.6, albedo='F2EFE8', nrm_str=0.3)
