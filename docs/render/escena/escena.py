@@ -135,6 +135,29 @@ def bisel(ob, ancho=0.0022, segs=2, angulo=50.0):
     return ob
 
 
+def sustraer(cuerpo, cortador, borrar=True):
+    """Resta booleana. El cortador tiene que sobresalir de la cara que corta:
+    si queda a hueso deja dos caras coincidentes y el render parpadea."""
+    md = cuerpo.modifiers.new('corte', 'BOOLEAN')
+    md.operation = 'DIFFERENCE'
+    md.object = cortador
+    md.solver = 'EXACT'
+    dg = bpy.context.evaluated_depsgraph_get()
+    me = bpy.data.meshes.new_from_object(cuerpo.evaluated_get(dg))
+    vieja = cuerpo.data
+    cuerpo.data = me
+    cuerpo.modifiers.remove(md)
+    bpy.data.meshes.remove(vieja)
+    if borrar:
+        bpy.data.objects.remove(cortador, do_unlink=True)
+    return cuerpo
+
+
+def malla_libre(nombre, verts, faces, mat, col, suave=True):
+    """Malla a medida, para las piezas que no son cajas ni cilindros."""
+    return _malla(nombre, verts, faces, mat, col, suave)
+
+
 def girar(ob, centro, grados, eje='Z'):
     import mathutils
     c = Vector(centro)
@@ -1326,15 +1349,15 @@ def exterior():
     # La terraza no esta en el proyecto: la acera se deja libre.
 
     # coches aparcados en la banda, y un par en el otro sentido
-    for i, (x, g) in enumerate(((-7.4, 0), (-2.1, 0), (3.6, 0), (9.4, 0),
-                                (15.8, 0), (21.2, 0))):
+    flota = ('hatchback_blue', 'hatchback', 'suv', 'hatchback_red',
+             'hatchback', 'hatchback_blue')
+    for i, x in enumerate((-7.6, -2.3, 3.4, 9.6, 15.9, 21.4)):
         if i == 3:
             continue                       # hueco libre, que no parezca un catalogo
-        C.coche(CIUDAD_API, MAT, x, C.Y_APARCA + 0.95, g,
-                MAT['_coche'][i % len(MAT['_coche'])], f'Coche {i + 1}')
-    for i, x in enumerate((-11.0, 6.2, 18.4)):
-        C.coche(CIUDAD_API, MAT, x, C.Y_ACERA_OP + 2.05, 180,
-                MAT['_coche'][(i + 3) % len(MAT['_coche'])], f'Coche op {i + 1}')
+        poner_coche(flota[i], x, C.Y_APARCA + 0.95, 1.5 - 3.0 * (i % 2))
+    for i, x in enumerate((-11.2, 6.4, 18.6)):
+        poner_coche(flota[(i + 2) % len(flota)], x, C.Y_ACERA_OP + 2.05,
+                    180 + 2.0 * (i % 2))
 
 
 def acera_corta():
@@ -1352,6 +1375,160 @@ def acera_corta():
          C.H_BORDILLO, MAT['piedra'], 'Ciudad')
 
 
+# ---------------------------------------------------------------- coches
+# Poly Haven no tiene coches (521 modelos, comprobado contra su API en vivo) y
+# ambientCG tampoco. Los coches salen de osrf/gazebo_models, la base de
+# modelos de Gazebo: son coches reales de simulacion robotica, low-poly pero
+# con textura de 1024 que lleva pintadas ventanas, opticas, parrilla y
+# manetas. Licencia CC-BY 3.0, Nathan Koenig / Open Source Robotics
+# Foundation. La atribucion esta en docs/render/CREDITOS.md.
+COCHES = os.path.join(SCRATCH, 'coches')
+
+# modelo: (malla, largo, ancho, alto) en metros reales
+FLOTA = {
+    'hatchback':      ('hatchback', 4.16, 1.79, 1.46),
+    'hatchback_blue': ('hatchback', 4.16, 1.79, 1.46),
+    'hatchback_red':  ('hatchback', 4.16, 1.79, 1.46),
+    'suv':            ('suv', 4.78, 1.94, 1.78),
+}
+
+
+def _sombreado_duro(ob, ang=36.0):
+    """Suaviza solo lo curvo. En un modelo low-poly, suavizarlo todo deja la
+    carroceria derretida; marcar como duras las aristas por encima de cierto
+    angulo devuelve los paneles y los cantos."""
+    me = ob.data
+    if not me.polygons:
+        return ob
+    for p in me.polygons:
+        p.use_smooth = True
+    lim = math.cos(math.radians(ang))
+    caras = [[] for _ in range(len(me.edges))]
+    idx = {tuple(sorted(e.vertices)): e.index for e in me.edges}
+    for p in me.polygons:
+        for ek in p.edge_keys:
+            k = tuple(sorted(ek))
+            if k in idx:
+                caras[idx[k]].append(p.index)
+    for e in me.edges:
+        cs = caras[e.index]
+        e.use_edge_sharp = (len(cs) != 2 or
+                            me.polygons[cs[0]].normal.dot(me.polygons[cs[1]].normal) < lim)
+    return ob
+
+
+def _importar_coche(modelo):
+    """Trae un coche de gazebo_models, lo orienta, lo escala y lo deja de molde."""
+    clave = ('coche', modelo)
+    if clave in _importados:
+        return _importados[clave]
+    malla, largo, ancho, alto = FLOTA[modelo]
+    ruta = os.path.join(COCHES, modelo, 'meshes', f'{malla}.obj')
+    if not os.path.exists(ruta):
+        print(f'   (falta el coche {modelo})')
+        _importados[clave] = []
+        return []
+    import glob as _glob
+    import mathutils
+    antes = set(bpy.data.objects.keys())
+    bpy.ops.wm.obj_import(filepath=ruta)
+    obs = [o for o in bpy.data.objects if o.name not in antes and o.type == 'MESH']
+    # El .mtl referencia las texturas con rutas model:// que Blender no resuelve.
+    # Ademas las tres variantes del hatchback usan el mismo nombre de fichero
+    # (hatchback.png) con distinto color, asi que hay que cargar una imagen
+    # propia por variante o Blender reutiliza la primera y salen todos grises.
+    tex = {os.path.basename(t): t
+           for t in _glob.glob(os.path.join(COCHES, modelo, '**', '*.png'), recursive=True)}
+    base = modelo.rsplit('_', 1)[0]
+    if base != modelo:                     # variantes de color: faltan ruedas
+        for t in _glob.glob(os.path.join(COCHES, base, '**', '*.png'), recursive=True):
+            tex.setdefault(os.path.basename(t), t)
+    for o in obs:
+        for sl in o.material_slots:
+            m = sl.material
+            if not m or not m.use_nodes:
+                continue
+            for nd in m.node_tree.nodes:
+                if nd.bl_idname != 'ShaderNodeTexImage' or not nd.image:
+                    continue
+                b_ = os.path.basename(nd.image.filepath.replace('\\', '/')) or nd.image.name
+                if b_ not in tex:
+                    b_ = nd.image.name.split('.')[0] + '.png'
+                if b_ in tex:
+                    nd.image = MT.imagen(tex[b_])
+    # pintura sobre la textura: la textura trae el color, el shader el brillo
+    for o in obs:
+        for sl in o.material_slots:
+            m = sl.material
+            if not m or not m.use_nodes:
+                continue
+            bs = next((n for n in m.node_tree.nodes
+                       if n.bl_idname == 'ShaderNodeBsdfPrincipled'), None)
+            if not bs:
+                continue
+            es_rueda = 'heel' in (m.name or '') or 'ire' in (m.name or '')
+            bs.inputs['Roughness'].default_value = 0.62 if es_rueda else 0.24
+            if 'Coat Weight' in bs.inputs:
+                bs.inputs['Coat Weight'].default_value = 0.0 if es_rueda else 0.55
+            if 'Metallic' in bs.inputs:
+                bs.inputs['Metallic'].default_value = 0.0 if es_rueda else 0.18
+    # orientacion: el modelo viene X=ancho, Y=alto hacia abajo, Z=largo
+    P = mathutils.Matrix(((0, 0, 1, 0), (-1, 0, 0, 0), (0, -1, 0, 0), (0, 0, 0, 1)))
+    for o in obs:
+        o.matrix_world = P @ o.matrix_world
+    lo = Vector((1e9,) * 3)
+    hi = Vector((-1e9,) * 3)
+    for o in obs:
+        for c in o.bound_box:
+            w = o.matrix_world @ Vector(c)
+            for i in range(3):
+                lo[i] = min(lo[i], w[i])
+                hi[i] = max(hi[i], w[i])
+    d = hi - lo
+    S = mathutils.Matrix.Diagonal((largo / d.x, ancho / d.y, alto / d.z, 1.0))
+    for o in obs:
+        o.matrix_world = S @ o.matrix_world
+    molde = coleccion('_moldes')
+    for o in obs:
+        for c in list(o.users_collection):
+            c.objects.unlink(o)
+        molde.objects.link(o)
+        o.hide_render = True
+        o.hide_viewport = True
+        _sombreado_duro(o)
+    _importados[clave] = obs
+    return obs
+
+
+def poner_coche(modelo, x, y, giro, col='Ciudad'):
+    """Copia enlazada de un coche real, apoyada en el suelo en (x, y)."""
+    molde = _importar_coche(modelo)
+    if not molde:
+        return []
+    import mathutils
+    lo = Vector((1e9,) * 3)
+    hi = Vector((-1e9,) * 3)
+    for o in molde:
+        for c in o.bound_box:
+            w = o.matrix_world @ Vector(c)
+            for i in range(3):
+                lo[i] = min(lo[i], w[i])
+                hi[i] = max(hi[i], w[i])
+    cx, cy = (lo[0] + hi[0]) / 2, (lo[1] + hi[1]) / 2
+    M = (mathutils.Matrix.Translation((x, y, -lo[2]))
+         @ mathutils.Matrix.Rotation(math.radians(giro), 4, 'Z')
+         @ mathutils.Matrix.Translation((-cx, -cy, 0)))
+    out = []
+    for o in molde:
+        c = o.copy()
+        c.matrix_world = M @ o.matrix_world
+        c.hide_render = False
+        c.hide_viewport = False
+        coleccion(col).objects.link(c)
+        out.append(c)
+    return out
+
+
 def _hay(aid):
     return os.path.exists(os.path.join(PH, aid, f'{aid}.blend'))
 
@@ -1362,6 +1539,9 @@ class _CiudadAPI:
     cilindro = staticmethod(lambda *a, **k: cilindro(*a, **k))
     bisel = staticmethod(lambda *a, **k: bisel(*a, **k))
     girar = staticmethod(lambda *a, **k: girar(*a, **k))
+    malla = staticmethod(lambda *a, **k: malla_libre(*a, **k))
+    sustraer = staticmethod(lambda *a, **k: sustraer(*a, **k))
+    prisma = staticmethod(lambda *a, **k: prisma(*a, **k))
 
 
 CIUDAD_API = _CiudadAPI()

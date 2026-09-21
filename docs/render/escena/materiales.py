@@ -419,7 +419,11 @@ def construir():
     M['_piloto'] = liso('Piloto', srgb('8E1410'), 0.20, coat=0.8)
     M['_neumatico'] = liso('Neumatico', srgb('16171A'), 0.82)
     M['_llanta'] = liso('Llanta', srgb('B8BCC0'), 0.24, metal=1.0)
-    M['_coche'] = [liso(f'Carroceria {i + 1}', srgb(c), 0.22, metal=0.55, coat=0.85)
+    M['_paragolpes'] = liso('Paragolpes', srgb('2A2C2E'), 0.46)
+    M['_rejilla_coche'] = liso('Parrilla', srgb('0E0F11'), 0.38)
+    M['_junta_coche'] = liso('Junta de puerta', srgb('141516'), 0.60)
+    M['_hueco_rueda'] = liso('Hueco de rueda', srgb('090A0B'), 0.85)
+    M['_coche'] = [liso(f'Carroceria {i + 1}', srgb(c), 0.18, metal=0.60, coat=0.95)
                    for i, c in enumerate(('1C2733', 'A8ADB2', '8E1B18', 'E8E9EA',
                                           '2E4636', '3A3F45', 'C2B9A8'))]
     return M

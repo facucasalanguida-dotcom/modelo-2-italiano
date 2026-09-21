@@ -194,60 +194,7 @@ def bolardo(E, M, x, y, nombre):
     E.cilindro(f'{nombre} cabeza', x, y, 0.070, 0.78, 0.83, M['carp'], 'Ciudad', 20)
 
 
-def coche(E, M, x, y, giro, color, nombre, largo=4.35, ancho=1.78):
-    """Coche aparcado: carroceria, lunas y ruedas. A la distancia a la que se
-    ve por el escaparate, la silueta y el reflejo son lo que cuenta."""
-    L, A = largo, ancho
-    h0, h1, h2 = 0.28, 0.76, 1.42          # bajos, cintura, techo
-    obs = []
-    # cuerpo bajo
-    c = E.caja(f'{nombre} cuerpo', x - L / 2, y - A / 2, x + L / 2, y + A / 2,
-               h0, h1, color, 'Ciudad')
-    E.bisel(c, 0.055, 4, 70)
-    obs.append(c)
-    # habitaculo, mas corto y estrecho
-    hx0, hx1 = x - L * 0.30, x + L * 0.22
-    t = E.caja(f'{nombre} techo', hx0, y - A / 2 + 0.09, hx1, y + A / 2 - 0.09,
-               h1 - 0.03, h2, color, 'Ciudad')
-    E.bisel(t, 0.085, 4, 70)
-    obs.append(t)
-    # lunas
-    for nm, a, b, c0, c1 in (('parabrisas', hx1 - 0.06, hx1 + 0.02, h1 + 0.04, h2 - 0.06),
-                             ('luneta', hx0 - 0.02, hx0 + 0.06, h1 + 0.04, h2 - 0.06)):
-        E.caja(f'{nombre} {nm}', a, y - A / 2 + 0.12, b, y + A / 2 - 0.12,
-               c0, c1, M['_luna'], 'Ciudad')
-    for s in (-1, 1):
-        E.caja(f'{nombre} ventanilla {s}', hx0 + 0.10, y + s * (A / 2 - 0.10),
-               hx1 - 0.10, y + s * (A / 2 - 0.075), h1 + 0.05, h2 - 0.09,
-               M['_luna'], 'Ciudad')
-    # faros y pilotos
-    E.caja(f'{nombre} faro i', x + L / 2 - 0.06, y - A / 2 + 0.18, x + L / 2 + 0.01,
-           y - A / 2 + 0.58, h1 - 0.28, h1 - 0.08, M['_faro'], 'Ciudad')
-    E.caja(f'{nombre} faro d', x + L / 2 - 0.06, y + A / 2 - 0.58, x + L / 2 + 0.01,
-           y + A / 2 - 0.18, h1 - 0.28, h1 - 0.08, M['_faro'], 'Ciudad')
-    for s in (-1, 1):
-        E.caja(f'{nombre} piloto {s}', x - L / 2 - 0.01, y + s * (A / 2 - 0.55),
-               x - L / 2 + 0.06, y + s * (A / 2 - 0.16), h1 - 0.26, h1 - 0.06,
-               M['_piloto'], 'Ciudad')
-    # ruedas
-    for sx in (-1, 1):
-        for sy in (-1, 1):
-            rx, ry = x + sx * L * 0.30, y + sy * (A / 2 - 0.09)
-            r = E.cilindro(f'{nombre} rueda {sx}{sy}', 0, 0, 0.325, -0.105, 0.105,
-                           M['_neumatico'], 'Ciudad', 28)
-            E.girar(r, (0, 0, 0), 90, 'X')
-            for v in r.data.vertices:
-                v.co.x += rx
-                v.co.y += ry
-                v.co.z += 0.325
-            ll = E.cilindro(f'{nombre} llanta {sx}{sy}', 0, 0, 0.205, -0.112, 0.112,
-                            M['_llanta'], 'Ciudad', 24)
-            E.girar(ll, (0, 0, 0), 90, 'X')
-            for v in ll.data.vertices:
-                v.co.x += rx
-                v.co.y += ry
-                v.co.z += 0.325
-            obs += [r, ll]
-    for o in obs:
-        E.girar(o, (x, y, 0), giro)
-    return obs
+# Los coches NO se modelan aqui: son modelos reales de osrf/gazebo_models
+# (CC-BY 3.0), que escena.py importa con poner_coche(). Se intento modelarlos
+# parametricamente y no daba el pego ni de lejos: una carroceria creible no
+# sale de secciones lofteadas a mano.
