@@ -261,6 +261,51 @@ def sustituido(s):
     return False
 
 
+# ------------------------------------------------- retranqueo de la entrada
+# La puerta NO esta en el plano de fachada: la entrada va metida hacia dentro.
+# Lo dice la propia planta baja, aunque el dibujo 2D la grafie en la linea del
+# escaparate:
+#   * la medianera Este engorda de 0,150 a 0,330 SOLO entre y = 0,330 y
+#     y = 1,429 ('Medianera Este - cuello'). Ese engorde es el costado del
+#     hueco; no hay otra razon para que un muro medianero sea el doble de
+#     grueso justo el primer metro y vuelva a su espesor despues.
+#   * la cota 1,06 del plano mide exactamente ese tramo (0,370 a 1,429), que
+#     es el fondo del vestibulo, y la nota lo llama VESTIBULO DE ACCESO.
+#   * la cadena de fachada es 1,31 de escaparate + 2,06 de puerta + 0,34 de
+#     muro = 3,71, de P5 (6,331) a la cara exterior de la medianera (10,040).
+# Asi que el hueco de 2,06 x 2,10 se abre en la fachada y la puerta se planta
+# 1,06 mas adentro, en y = 1,429, que es justo donde muere el cuello y
+# empieza la pared del plotter. El costado Este del retranqueo es la cara del
+# cuello (x = 9,710) y el costado Oeste lo cierra el escaparate, que dobla la
+# esquina: la cadena de cotas no deja grueso para una jamba de obra ahi.
+RETRANQUEO = dict(x0=7.641, x1=9.710, y0=0.370, y1=1.429,
+                  alto=2.100, canto=0.140, zocalo=0.130, e_vidrio=0.029)
+
+
+def _retranquear(cajas):
+    """Mete la puerta de acceso al fondo del vestibulo y abre el hueco.
+
+    Toca los solidos del plano en el propio diccionario, antes de dibujar,
+    para que la carpinteria -que rehace las hojas leyendo j['cajas']- las
+    encuentre ya en su sitio.
+    """
+    R = RETRANQUEO
+    for s in cajas:
+        nm = s['nombre'] or ''
+        if nm == 'Escaparate · zócalo de piedra':
+            # el zocalo es del escaparate: no cruza el hueco de la entrada
+            s['x1'] = R['x0']
+        elif nm.startswith('Puerta de acceso · hoja'):
+            # al fondo del retranqueo y apoyada en el pavimento: 2,10 de hueco
+            # de paso, no 2,10 medidos desde el zocalo del escaparate
+            s['y0'], s['y1'] = R['y1'] - 0.049, R['y1']
+            s['z0'] = 0.0
+            if abs(s['x1'] - 9.701) < 1e-6:
+                s['x1'] = R['x1'] + SOLAPE      # cierra contra el cuello
+        elif nm == 'Puerta de acceso · montante superior':
+            s['x1'] = R['x1']                   # el pano macizo, hasta el cuello
+
+
 DESPEGUE = 0.0005                 # medio milimetro
 
 
@@ -301,6 +346,7 @@ def _despegar(cajas):
 def arquitectura():
     """Muros, forjado, escalera, carpinteria y mobiliario fijo del plano."""
     j = json.load(open(os.path.join(PLANOS, 'MODELO_3D.json'), encoding='utf-8'))
+    _retranquear(j['cajas'])
     ajustes = _despegar(j['cajas'])
     print('  caras coplanarias despegadas:', len(ajustes), flush=True)
     n = 0
@@ -602,6 +648,33 @@ def suelos_y_techos():
     # pavimento del altillo, sobre el forjado
     caja('Pavimento planta alta', 2.411, 3.939, 9.890, 8.957, Z_PA - 0.018,
          Z_PA + 0.001, MAT['_suelo'], 'Planta alta')
+
+
+def vestibulo():
+    """El retranqueo de la entrada: retorno del escaparate y dintel del hueco.
+
+    El costado Este del hueco ya lo da el cuello de la medianera y el fondo lo
+    cierra la propia puerta. Falta el costado Oeste -el escaparate doblando la
+    esquina, con su zocalo, porque la cadena de cotas de fachada no deja grueso
+    para una jamba de obra- y el techo del hueco, que es lo que hace que la
+    entrada sea un hueco de 2,06 x 2,10 y no un agujero abierto hasta los cinco
+    metros de la doble altura.
+    """
+    R = RETRANQUEO
+    xg1 = R['x0'] - DESPEGUE                 # cara interior del retorno
+    xg0 = xg1 - R['e_vidrio']
+    # zocalo doblando la esquina: medio milimetro por debajo del de fachada
+    # para no compartir con el la cara de arriba en el rincon
+    caja('Vestíbulo · zócalo de retorno', xg0, 0.3805, xg1, R['y1'],
+         0.0, R['zocalo'] - DESPEGUE, MAT['piedra'])
+    caja('Vestíbulo · escaparate de retorno', xg0, 0.3805, xg1, R['y1'],
+         R['zocalo'] + DESPEGUE, R['alto'], MAT['vidrio'])
+    # dintel del hueco: se hunde 4 mm en la cabeza de la puerta y del vidrio,
+    # se mete en el cuello y se retira medio milimetro de la linea de fachada
+    ob = caja('Vestíbulo · dintel del hueco', xg0 - 0.010, R['y0'] + DESPEGUE,
+              R['x1'] + SOLAPE, R['y1'] - DESPEGUE,
+              R['alto'] - SOLAPE, R['alto'] + R['canto'], MAT['muro'])
+    bisel(ob)
 
 
 def listones(nombre, x0, y0, x1, y1, z0, z1, mat, ancho=0.028, hueco=0.016,
@@ -1154,6 +1227,16 @@ def pared_logo():
     # la pared, pintada entera del azul del Napoli (2 mm por delante del muro)
     caja('Pared azzurro Napoli', P['x'] - 0.006, P['y0'], P['x'] + SOLAPE,
          P['y1'], P['z0'], P['z1'], MAT['_pared_napoli'])
+    # La pared del plotter es la que va de la puerta a la escalera, y el
+    # cuello de la medianera la dobla: al retranquear la entrada, el canto de
+    # ese cuello -180 mm, de x 9,710 a 9,890- queda mirando a la sala justo al
+    # lado de la puerta. Sin pintar salia como una franja de enlucido gris
+    # entre la hoja y el azul. Se pinta tambien, y asi el plotter da la vuelta
+    # a la jamba y la pared se lee de una pieza.
+    R = RETRANQUEO
+    caja('Pared azzurro Napoli · jamba', R['x1'], P['y0'] - SOLAPE,
+         P['x'] - 0.006 + SOLAPE, P['y0'] + 0.006, P['z0'], P['z1'] - DESPEGUE,
+         MAT['_pared_napoli'])
     if not os.path.exists(LOGO):
         print('   (sin logo: falta', LOGO, ')')
         return
@@ -1241,6 +1324,10 @@ def techo_sobre(x, y, z_pieza=0.0):
     """
     if z_pieza >= Z_PA:
         return Z_TECHO
+    R = RETRANQUEO
+    if (R['x0'] <= x <= R['x1'] and R['y0'] <= y <= R['y1']
+            and z_pieza < R['alto']):
+        return R['alto']          # bajo el dintel del retranqueo de entrada
     return Z_SOFITO if _dentro(E.FORJADO, x, y) else Z_TECHO
 
 
@@ -2013,8 +2100,11 @@ VISTAS = {
     'sala_centro':  ((6.90, 7.60, 1.560), (3.30, 3.90, 1.200), 20.0),
     # desde dentro hacia el escaparate de doble altura
     'escaparate':   ((4.60, 6.30, 1.580), (6.10, 1.30, 1.900), 24.0),
-    # la entrada, nada mas cruzar la puerta
-    'entrada':      ((8.55, 1.15, 1.620), (4.60, 5.40, 1.400), 20.0),
+    # la entrada, nada mas cruzar la puerta. Antes la camara estaba en
+    # y = 1,15, que ahora cae DENTRO del retranqueo: la vista salia entera a
+    # traves del vidrio de la puerta, velada de reflejos. Se pasa al otro
+    # lado del umbral (y = 1,429).
+    'entrada':      ((8.62, 1.92, 1.620), (4.60, 5.40, 1.400), 20.0),
     # la pared azzurro con el logo, de frente
     'logo':         ((6.35, 1.95, 1.680), (9.88, 2.78, 1.470), 26.0),
     # el arranque de la escalera, con la linea de led de cada peldaño.
@@ -2118,6 +2208,7 @@ def construir(spp, ancho, alto, con_decoracion=True, con_glare=False,
     print('  obra:', n, 'solidos', flush=True)
     print('  puertas:', carpinteria(j), flush=True)
     suelos_y_techos()
+    vestibulo()
     frente_barra()
     print('  caras de columna forradas:', forro_pilares(), flush=True)
     cocina_inox()
