@@ -774,7 +774,10 @@ PILARES = (
                                                            # cara Sur, que da a la calle
     ('P3', 5.670, 4.688, 6.320, 5.758, 'SNOE', 'liston'),  # exento, en la sala
     ('P4', 9.689, 4.708, 9.890, 5.309, 'SNO', 'liston'),   # machon de la medianera
-    ('P5', 5.731, 0.000, 6.331, 1.000, 'SOE', 'losa'),     # pilar de fachada
+    ('P5', 5.731, 0.000, 6.331, 1.000, 'SONE', 'losa'),    # pilar de fachada; la
+                                                           # cara Norte solo la tapa
+                                                           # el muro del cuello hasta
+                                                           # x 5,980, el resto se ve
 )
 
 
