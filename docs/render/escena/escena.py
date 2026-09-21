@@ -320,8 +320,13 @@ def arquitectura():
         if s['nombre'] == 'Viga P1b':
             # El plano la deja en 2,380 y el forjado arranca en 2,411: la
             # viga se quedaba a 31 mm de la planta alta, colgada del machon
-            # por un solo extremo. Se prolonga hasta meterse en el canto.
-            x1 = 2.411 + SOLAPE
+            # por un solo extremo. Tocarlo a hueso tampoco valia: con la cara
+            # superior de la viga y el intrados del forjado en el mismo plano
+            # (2,310), por encima del extremo se veia el muro Oeste al fondo
+            # y la viga seguia leyendose cortada en el aire. Se le da el
+            # canto entero de entrega -250 mm, su propio peralte- por debajo
+            # del forjado, que es como entrega una viga de verdad.
+            x1 = 2.411 + 0.250
         ob = caja(s['nombre'], x0, y0, x1, y1, z0, z1, m, col)
         if s['mat'] not in ('vidrio',):
             bisel(ob)
