@@ -1460,8 +1460,8 @@ def decoracion():
     poner('jug_01', 0.45, 4.62, 0.905, escala=1.0, giro=35)
     poner('metal_jug', 0.66, 4.60, 0.905, escala=0.9, giro=-15)
     # ---- plantas: terracota, el verde de la trattoria
+    # delante de la puerta del baño no va ninguna: estorba el paso
     for aid, x, y, h, g in (('potted_plant_01', 2.24, 3.15, 0.80, 20),
-                            ('potted_plant_02', 8.38, 7.60, 1.05, -30),
                             ('potted_plant_01', 2.70, 6.85, 0.75, 60),
                             ('potted_plant_02', 9.55, 3.10, 0.95, 110)):
         poner(aid, x, y, 0.0, altura=h, giro=g)
