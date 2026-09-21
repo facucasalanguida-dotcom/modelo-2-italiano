@@ -351,7 +351,13 @@ def construir():
         'carp':     liso('Carpinteria negra', srgb('2A2A28'), 0.40, 0.40),
 
         # --- maderas
-        'madera':   madera_tenida('Azzurro Napoli', AZZURRO, nrm_str=0.35, rug=0.45),
+        # OJO: la clave 'madera' del plano la usan la tabla del mostrador, la
+        # tabla de P2 y las hojas de puerta. El azzurro va SOLO en los
+        # listones del frente de barra, que la escena construye aparte con
+        # '_liston_azul'. Pintar aqui de azul dejaba la puerta del bano y las
+        # del altillo en azul Napoli.
+        'madera':   pbr('Madera de obra', 'oak_veneer_01', 1.35, albedo='C0945F',
+                        coat=0.10, nrm_str=0.55),
         'mesa':     pbr('Tablero mesa', 'oak_veneer_01', 1.5, albedo='C79B68', coat=0.10, nrm_str=0.55),
         'silla':    pbr('Madera silla', 'oak_veneer_01', 1.4, albedo='CFA575', nrm_str=0.5),
         'sillon':   boucle('Boucle crema', 'E9DFC9'),

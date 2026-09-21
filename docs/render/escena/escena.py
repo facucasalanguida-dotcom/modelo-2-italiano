@@ -259,6 +259,10 @@ def arquitectura():
         if sustituido(s):
             continue
         m = MAT.get(s['mat'])
+        nm = s['nombre'] or ''
+        # las hojas de puerta van del color de las paredes, no de madera
+        if s['mat'] == 'madera' and 'hoja' in nm:
+            m = MAT['tabique']
         col = 'Planta alta' if s['tag'].startswith('14') else 'Obra'
         z1 = s['z1']
         if s['nombre'].startswith('Tramo largo') and s['mat'] == 'vidrio':
@@ -354,6 +358,13 @@ def frente_barra():
     # canto superior de madera sobre los listones
     caja('Frente de la barra · canto', mx1 - 0.055, my0, mx1 + 0.012, my1,
          z1, z1 + 0.042, MAT['mesa'])
+    # Testa Norte del mostrador: el trasdos negro de los listones acababa a la
+    # vista justo donde arranca la pared en L y se leia como una franja negra.
+    # Se cierra con un remate blanco, que ademas continua la linea de la L.
+    caja('Frente de la barra · remate Norte', mx1 - 0.062, my1 - 0.004,
+         mx1 + 0.014, my1 + 0.014, 0.0, Q.H_ENCIMERA + 0.042,
+         MAT['_blanco_lacado'])
+
     # La misma banda azzurro en el canto del forjado, que es donde va en la
     # referencia: cuelga 0,30 por debajo del intrados y llega al suelo del
     # altillo. Dos tramos, el del vacio Sur y el que da a la cocina.
@@ -747,26 +758,29 @@ def mobiliario():
 
 
 # ========================================== 5. pared azzurro con el logo
-# La caja de escalera: su cara Oeste es la pared ciega que se ve de frente
-# al venir de la puerta, justo antes de subir. Va pintada entera de azzurro
-# y lleva el logo en vinilo de plotter.
-PARED_LOGO = dict(x=8.650, y0=3.939, y1=7.738, z0=0.0, z1=Z_SOFITO)
+# La pared que se ve a la derecha al entrar, antes de subir la escalera, es
+# la MEDIANERA ESTE: su cara interior esta en x = 9,890 y el tramo que va del
+# cuello (1,429) al primer peldano (3,579) queda libre. El modelo NO tiene
+# cerramiento de escalera -estructura.CAJA_ESC_PB esta definido pero el
+# generador no lo dibuja-, asi que pintar alli era inventarse un muro.
+# Ese tramo es de doble altura: no hay forjado hasta y = 3,939.
+PARED_LOGO = dict(x=9.890, y0=1.429, y1=3.579, z0=0.0, z1=Z_TECHO - 0.005)
 
 
 def pared_logo():
     P = PARED_LOGO
     # la pared, pintada entera del azul del Napoli (2 mm por delante del muro)
-    caja('Pared azzurro Napoli', P['x'] - 0.002, P['y0'], P['x'] + SOLAPE,
-         P['y1'], P['z0'], P['z1'] - 0.001, MAT['_pared_napoli'])
+    caja('Pared azzurro Napoli', P['x'] - 0.006, P['y0'], P['x'] + SOLAPE,
+         P['y1'], P['z0'], P['z1'], MAT['_pared_napoli'])
     if not os.path.exists(LOGO):
         print('   (sin logo: falta', LOGO, ')')
         return
     from PIL import Image
     w_px, h_px = Image.open(LOGO).size
-    ancho = 1.900                      # vinilo de 1,90 m de ancho
+    ancho = 1.560                      # vinilo, centrado en los 2,15 del tramo
     alto = ancho * h_px / w_px
-    cy, cz = (P['y0'] + P['y1']) / 2, 1.470
-    x = P['x'] - 0.0035                # el vinilo, delante de la pintura
+    cy, cz = (P['y0'] + P['y1']) / 2, 1.620
+    x = P['x'] - 0.0095                # el vinilo, delante de la pintura
     me = bpy.data.meshes.new('Logo Casa Margot')
     v = [(x, cy - ancho / 2, cz - alto / 2), (x, cy + ancho / 2, cz - alto / 2),
          (x, cy + ancho / 2, cz + alto / 2), (x, cy - ancho / 2, cz + alto / 2)]
@@ -1625,7 +1639,7 @@ VISTAS = {
     # la entrada, nada mas cruzar la puerta
     'entrada':      ((8.55, 1.15, 1.620), (4.60, 5.40, 1.400), 20.0),
     # la pared azzurro con el logo, de frente
-    'logo':         ((7.05, 2.80, 1.560), (8.64, 5.90, 1.430), 30.0),
+    'logo':         ((6.35, 1.95, 1.680), (9.88, 2.78, 1.470), 26.0),
     # el arranque de la escalera
     'escalera':     ((7.35, 5.40, 1.600), (9.35, 6.60, 1.900), 22.0),
     # la cocina desde dentro, con la campana y la linea de coccion
