@@ -261,20 +261,63 @@ def sustituido(s):
     return False
 
 
+DESPEGUE = 0.0005                 # medio milimetro
+
+
+def _despegar(cajas):
+    """Separa las caras que dos solidos del plano comparten exactamente.
+
+    El plano dibuja la esquina en L de dos tabiques como dos cajas que
+    solapan el bloque del rincon, y las dos llevan su cara en el mismo plano
+    y mirando al mismo lado. Cycles no tiene forma de saber cual esta
+    delante, y donde eso pasa sale una franja negra a lo alto de la esquina
+    (se veia en el rincon del baño y en el doblez de la mampara). La cura es
+    retirar medio milimetro la cara de la caja mas pequeña: alli esta metida
+    dentro de la otra, asi que esa cara deja de verse, y donde la caja no
+    solapa el escalon de medio milimetro no lo aprecia nadie.
+
+    Devuelve {indice de la caja: {clave: desplazamiento}}.
+    """
+    ejes = (('x0', 'x1'), ('y0', 'y1'), ('z0', 'z1'))
+
+    def vol(s):
+        return (s['x1'] - s['x0']) * (s['y1'] - s['y0']) * (s['z1'] - s['z0'])
+
+    ajustes = {}
+    for i, a in enumerate(cajas):
+        for k, b in enumerate(cajas[i + 1:], i + 1):
+            if any(min(a[c1], b[c1]) - max(a[c0], b[c0]) <= DESPEGUE for c0, c1 in ejes):
+                continue                   # no se interpenetran de verdad
+            j = i if vol(a) < vol(b) else k
+            # solo en planta: retirar media decima en Z abriria una rendija
+            # de luz entre el arranque del muro y el suelo o el techo
+            for c0, c1 in ejes[:2]:
+                for c, sg in ((c0, +1), (c1, -1)):
+                    if abs(a[c] - b[c]) < 1e-9:
+                        ajustes.setdefault(j, {})[c] = sg * DESPEGUE
+    return ajustes
+
+
 def arquitectura():
     """Muros, forjado, escalera, carpinteria y mobiliario fijo del plano."""
     j = json.load(open(os.path.join(PLANOS, 'MODELO_3D.json'), encoding='utf-8'))
+    ajustes = _despegar(j['cajas'])
+    print('  caras coplanarias despegadas:', len(ajustes), flush=True)
     n = 0
-    for s in j['cajas']:
+    for i, s in enumerate(j['cajas']):
         if sustituido(s):
             continue
         m = MAT.get(s['mat'])
         nm = s['nombre'] or ''
         col = 'Planta alta' if s['tag'].startswith('14') else 'Obra'
-        z1 = s['z1']
+        d = ajustes.get(i, {})
+        x0, x1 = s['x0'] + d.get('x0', 0.0), s['x1'] + d.get('x1', 0.0)
+        y0, y1 = s['y0'] + d.get('y0', 0.0), s['y1'] + d.get('y1', 0.0)
+        z0 = s['z0'] + d.get('z0', 0.0)
+        z1 = s['z1'] + d.get('z1', 0.0)
         if s['nombre'].startswith('Tramo largo') and s['mat'] == 'vidrio':
             z1 = Z_SOFITO          # el vidrio de la L, hasta el techo
-        ob = caja(s['nombre'], s['x0'], s['y0'], s['x1'], s['y1'], s['z0'], z1, m, col)
+        ob = caja(s['nombre'], x0, y0, x1, y1, z0, z1, m, col)
         if s['mat'] not in ('vidrio',):
             bisel(ob)
         n += 1
