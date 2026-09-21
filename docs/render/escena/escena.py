@@ -318,18 +318,21 @@ def arquitectura():
         if s['nombre'].startswith('Tramo largo') and s['mat'] == 'vidrio':
             z1 = Z_SOFITO          # el vidrio de la L, hasta el techo
         if s['nombre'] == 'Viga P1b':
-            # El plano la deja en 2,380 y el forjado arranca en 2,411: la
-            # viga se quedaba a 31 mm de la planta alta, colgada del machon
-            # por un solo extremo. Tocarlo a hueso tampoco valia: con la cara
-            # superior de la viga y el intrados del forjado en el mismo plano
-            # (2,310), por encima del extremo se veia el muro Oeste al fondo
-            # y la viga seguia leyendose cortada en el aire. Se le da el
-            # canto entero de entrega por debajo del forjado. Pero la planta
-            # alta tiene que leerse como un bloque macizo, sin nada colgando
-            # de su intrados, asi que la viga muere a ras de la cara Oeste
-            # del bloque (x = 2,411): su testa y esa cara quedan en el mismo
-            # plano y forman un paramento continuo de 2,100 a 2,560.
+            # La viga acostada iba de 2,100 a 2,310: entera por debajo del
+            # forjado y en una zona de doble altura donde encima no hay nada.
+            # Por mucho que se alargara hasta el canto seguia leyendose como
+            # una barra colgada en el aire, y darle entrega por debajo del
+            # bloque tampoco vale, porque el bloque tiene que ser macizo y
+            # sin nada colgando del intrados.
+            #
+            # Se sube a la franja del propio forjado: ocupa de 2,310 a 2,560,
+            # el mismo canto que la planta alta, y muere a hueso contra su
+            # cara Oeste (x = 2,411). Asi la viga es un brazo del bloque que
+            # sale hasta el machon P1 -misma cara inferior, misma cara
+            # superior, mismo plano de testa- en vez de una pieza suelta por
+            # debajo. Gana 40 mm de canto respecto al plano.
             x1 = 2.411
+            z0, z1 = Z_SOFITO, Z_PA
         ob = caja(s['nombre'], x0, y0, x1, y1, z0, z1, m, col)
         if s['mat'] not in ('vidrio',):
             bisel(ob)
