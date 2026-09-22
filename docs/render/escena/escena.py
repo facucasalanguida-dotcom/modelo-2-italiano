@@ -821,6 +821,14 @@ def frente_barra():
     # caras inferiores en el mismo plano.
     caja('Canto del forjado Sur', 2.405, 3.907, 9.890, 3.939,
          Z_SOFITO, Z_PA - 0.001, MAT['_blanco_lacado'])
+    # Viga de canto sobre la escalera. En obra existe y no se puede quitar:
+    # sostiene parte del forjado. Cuelga del borde Sur del altillo, cruza el
+    # hueco de la escalera de lado a lado y muere contra la medianera Este,
+    # justo al lado del antepecho de la planta alta. El resto del canto sigue
+    # enrasado, que es como pidio el cliente que fuera el bloque.
+    ob = caja('Viga de la escalera', 8.300, 3.907, 9.890, 4.187,
+              Z_SOFITO - 0.360, Z_SOFITO + SOLAPE, MAT['muro'])
+    bisel(ob)
     # El canto Oeste da al paso de servicio y a la cocina: ahi no se forra.
 
 
@@ -2233,6 +2241,16 @@ VISTAS = {
     'entrada':      ((8.62, 1.92, 1.620), (4.60, 5.40, 1.400), 20.0),
     # la pared azzurro con el logo, de frente
     'logo':         ((6.35, 1.95, 1.680), (9.88, 2.78, 1.470), 26.0),
+    # La escalera desde la sala: el tramo entero subiendo contra la medianera
+    # Este, con la pared del plotter debajo. La camara se queda al Sur de
+    # y = 3,939, que es donde arranca el forjado del altillo: mas al Norte el
+    # techo baja a 2,310 y el encuadre se cierra.
+    'escalera_sala': ((8.05, 1.95, 1.640), (9.35, 6.30, 1.500), 21.0),
+    'escalera_sala_b': ((7.20, 2.40, 2.050), (9.30, 5.60, 1.100), 24.0),
+    # El mismo punto de vista que la foto de obra: al pie del tramo, a la
+    # altura de los ojos y mirando hacia arriba, para ver la viga de canto
+    # que cruza sobre la escalera y el antepecho de la planta alta.
+    'escalera_viga': ((8.55, 2.25, 1.620), (9.30, 6.20, 1.950), 19.0),
     # el arranque de la escalera, con la linea de led de cada peldaño.
     # La camara anterior -(7,35 / 5,40) mirando a (9,35 / 6,60)- encuadraba
     # el costado ciego de la escalera: salia un paño de enlucido y nada mas.
