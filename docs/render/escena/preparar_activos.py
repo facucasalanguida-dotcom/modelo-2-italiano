@@ -40,25 +40,36 @@ BASE = {
     'hdri': ['wide_street_01'],
     'textura': ['asphalt_02', 'clay_roof_tiles', 'concrete_floor_worn_001',
                 'dark_rock', 'granite_tile', 'large_floor_tiles_02', 'marble_01',
-                'oak_veneer_01', 'plastered_wall', 'white_plaster_02', 'wood_floor'],
+                'oak_veneer_01', 'plastered_wall', 'sandstone_cracks', 'white_plaster_02',
+                'wood_floor'],
     'modelo': ['brass_pot_01', 'ceramic_vase_01', 'ceramic_vase_02', 'croissant',
                'fire_hydrant', 'food_apple_01', 'food_lime_01', 'food_pomegranate_01',
-               'jacaranda_tree', 'jug_01', 'metal_jug', 'metal_trash_can',
+               'jacaranda_tree', 'jug_01', 'lemon', 'metal_jug', 'metal_trash_can',
                'modular_street_seating', 'painted_wooden_bench', 'planter_pot_clay',
                'potted_plant_01', 'potted_plant_02', 'tea_set_01', 'tree_small_02',
                'wicker_basket_01', 'wicker_basket_02', 'wooden_bowl_01'],
 }
 
 
-def indice():
+def indice(reintento=True):
     """El catalogo entero de Poly Haven: 2.380 activos con su tipo."""
     # con bajar() y no con un curl suelto: son 2,4 MB y un corte deja la
     # lista deducida fuera de juego sin decir por que
     d = os.path.join(CACHE, 'index.json')
     bajar('https://api.polyhaven.com/assets', d, minimo=100000)
+    # En UTF-8 siempre. Sin decirlo, Windows lo lee en cp1252, que no sabe
+    # leer los nombres de algunos autores: el catalogo no se podia leer, se
+    # tiraba de la lista de seguridad y no se bajaban los activos nuevos.
     try:
-        return json.load(open(d))
-    except Exception:
+        return json.load(open(d, encoding='utf-8'))
+    except Exception as e:
+        print(f'  (el catalogo de Poly Haven no se pudo leer: {e})', flush=True)
+        if reintento:
+            try:
+                os.remove(d)
+            except OSError:
+                pass
+            return indice(reintento=False)
         return {}
 
 
@@ -139,7 +150,7 @@ def ficheros(aid, reintento=True):
         subprocess.run(['curl', '-sS', '-L', '--fail',
                         f'https://api.polyhaven.com/files/{aid}', '-o', d])
     try:
-        f = json.load(open(d))
+        f = json.load(open(d, encoding='utf-8'))
     except Exception:
         f = {}
     util = isinstance(f, dict) and (
@@ -292,4 +303,10 @@ if __name__ == '__main__':
     tot = poly_haven(necesarios()) + coche()
     logo()
     print(f'\nLISTO  {tot / 1e6:.0f} MB bajados', flush=True)
-    print('Ahora:  export CM_SCRATCH=' + SCRATCH, flush=True)
+    if os.path.abspath(SCRATCH) != os.path.join(AQUI, 'activos'):
+        # fuera de la carpeta por defecto hay que decirle a la escena donde
+        if os.name == 'nt':
+            print(f'Antes de renderizar:  $env:CM_SCRATCH="{SCRATCH}"   '
+                  f'(en cmd: set CM_SCRATCH={SCRATCH})', flush=True)
+        else:
+            print('Antes de renderizar:  export CM_SCRATCH=' + SCRATCH, flush=True)
