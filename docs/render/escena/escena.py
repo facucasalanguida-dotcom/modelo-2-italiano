@@ -3451,6 +3451,9 @@ def main():
     ap.add_argument('--guardar-blend', default='')
     ap.add_argument('--gpu', action='store_true',
                     help='renderiza con la tarjeta grafica en vez de la CPU')
+    ap.add_argument('--umbral', type=float, default=0.010,
+                    help='ruido que se tolera por pixel antes de dejar de muestrear '
+                         '(muestreo adaptativo): menos es mas limpio y mas lento')
     a = ap.parse_args(sys.argv[sys.argv.index('--') + 1:] if '--' in sys.argv else None)
 
     global USAR_GPU
@@ -3491,6 +3494,7 @@ def main():
         sys.exit(2)
     ciudad = any(v in VE_LA_CALLE for v in vistas) and not a.sin_ciudad
     construir(a.spp, a.ancho, a.alto, not a.sin_decoracion, a.glare, ciudad)
+    bpy.context.scene.cycles.adaptive_threshold = a.umbral
     print('  ciudad:', 'montada' if ciudad else 'no hace falta en estas vistas', flush=True)
     print('  objetos en escena:', len(bpy.data.objects), flush=True)
     if a.guardar_blend:

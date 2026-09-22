@@ -13,9 +13,15 @@ Sin --vistas hace las quince de la serie. Se salta las que ya esten hechas,
 asi que si se corta a media noche se relanza y sigue donde iba.
 
 El recorrido de 20 fotos, de la calle al almacen de arriba y en orden
-(CM_01_calle.png ... CM_20_almacen.png; las camaras estan en recorrido.py):
+(CM_01_calle.png ... CM_20_almacen.png; las camaras estan en recorrido.py),
+a la maxima calidad:
 
-    python lote.py --recorrido --gpu --salida .\\recorrido
+    python lote.py --recorrido --maxima --gpu --salida .\\recorrido
+
+--maxima es 3840 x 2160, hasta 2048 muestras por pixel y un umbral de ruido
+de 0,005 (el normal es 0,010): el muestreo adaptativo deja de insistir en
+cada pixel en cuanto esta limpio, asi que las zonas faciles no gastan las
+2048. Se puede subir mas con --spp 4096 o bajar el umbral con --umbral.
 
 Busca el Blender solo. Si no lo encuentra -o si se prefiere- se le dice:
 
@@ -62,13 +68,21 @@ def main():
     ap.add_argument('--vistas', default='', help='coma: alta,cocina,...')
     ap.add_argument('--recorrido', action='store_true',
                     help='las 20 fotos del recorrido, en orden (recorrido.py)')
-    ap.add_argument('--spp', type=int, default=96)
+    ap.add_argument('--maxima', action='store_true',
+                    help='maxima calidad: 4K, hasta 2048 muestras y umbral 0,005')
+    ap.add_argument('--spp', type=int, default=None, help='muestras (96; 2048 con --maxima)')
+    ap.add_argument('--umbral', type=float, default=None,
+                    help='ruido tolerado por pixel (0,010; 0,005 con --maxima)')
     ap.add_argument('--ancho', type=int, default=3840)
     ap.add_argument('--alto', type=int, default=2160)
     ap.add_argument('--gpu', action='store_true')
     ap.add_argument('--blender', default='')
     ap.add_argument('--dry', action='store_true', help='solo enseña que lanzaria')
     a = ap.parse_args()
+    if a.spp is None:
+        a.spp = 2048 if a.maxima else 96
+    if a.umbral is None:
+        a.umbral = 0.005 if a.maxima else 0.010
 
     blender = a.blender or buscar_blender()
     if not blender and not a.dry:
@@ -84,7 +98,7 @@ def main():
 
     print(f'Blender : {blender}')
     print(f'Salida  : {a.salida}')
-    print(f'Calidad : {a.ancho}x{a.alto}  {a.spp} muestras  '
+    print(f'Calidad : {a.ancho}x{a.alto}  {a.spp} muestras  umbral {a.umbral}  '
           f'{"GPU" if a.gpu else "CPU"}')
     print(f'Vistas  : {len(vistas)}\n', flush=True)
 
@@ -98,7 +112,8 @@ def main():
         for spp in (a.spp, a.spp // 2):
             orden = [blender, '--background', '--python', ESCENA, '--',
                      '--vista', v, '--spp', str(spp), '--ancho', str(a.ancho),
-                     '--alto', str(a.alto), '--salida', a.salida]
+                     '--alto', str(a.alto), '--umbral', str(a.umbral),
+                     '--salida', a.salida]
             if a.gpu:
                 orden.append('--gpu')
             if a.dry:
