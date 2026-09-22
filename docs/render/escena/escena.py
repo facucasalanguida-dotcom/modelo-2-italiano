@@ -2141,10 +2141,12 @@ VISTAS = {
     # La camara anterior -(7,35 / 5,40) mirando a (9,35 / 6,60)- encuadraba
     # el costado ciego de la escalera: salia un paño de enlucido y nada mas.
     'escalera':     ((8.10, 2.55, 1.180), (9.40, 5.60, 0.480), 30.0),
-    # la chopera de cerveza, desde dentro de la barra. La columna de 3 grifos
-    # esta sobre la tabla de P2 (x 0,79..1,19 · y 1,62..2,02, de 0,94 a 1,49),
-    # con los barriles debajo y el ventanal Sur justo detras.
-    'chopera':      ((1.45, 3.30, 1.520), (0.99, 1.88, 1.180), 35.0),
+    # La barra entera por dentro, mirando al Sur hacia la chopera: es el plano
+    # inverso de 'trasbarra', por la misma calle de servicio (x 0,85..1,90),
+    # desde la boca Norte. A la izquierda la mesada con la cafetera y la
+    # balda; a la derecha las vitrinas; al fondo la columna de 3 grifos sobre
+    # la tabla de P2, con los barriles debajo y el ventanal Sur detras.
+    'chopera':      ((1.40, 5.60, 2.100), (1.15, 2.10, 0.950), 24.0),
     # la cocina desde dentro, con la campana y la linea de coccion
     'cocina':       ((2.16, 5.90, 1.600), (1.05, 8.70, 1.120), 21.0),
     # la cocina desde el paso de servicio, con la mampara en primer plano
