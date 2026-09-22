@@ -22,6 +22,9 @@ a la maxima calidad:
 de 0,005 (el normal es 0,010): el muestreo adaptativo deja de insistir en
 cada pixel en cuanto esta limpio, asi que las zonas faciles no gastan las
 2048. Se puede subir mas con --spp 4096 o bajar el umbral con --umbral.
+Tambien prueba las texturas a 4K; si una vista no sale con ellas (la
+tarjeta se queda sin memoria) la repite con las de 2K. Con una tarjeta de
+menos de 12 GB conviene saltarse ese intento: --sin-4k.
 
 Busca el Blender solo. Si no lo encuentra -o si se prefiere- se le dice:
 
@@ -69,7 +72,11 @@ def main():
     ap.add_argument('--recorrido', action='store_true',
                     help='las 20 fotos del recorrido, en orden (recorrido.py)')
     ap.add_argument('--maxima', action='store_true',
-                    help='maxima calidad: 4K, hasta 2048 muestras y umbral 0,005')
+                    help='maxima calidad: 4K, hasta 2048 muestras, umbral 0,005 y '
+                         'texturas a 4K si caben en la tarjeta')
+    ap.add_argument('--sin-4k', action='store_true',
+                    help='con --maxima, no probar las texturas a 4K (tarjetas de '
+                         'menos de 12 GB)')
     ap.add_argument('--spp', type=int, default=None, help='muestras (96; 2048 con --maxima)')
     ap.add_argument('--umbral', type=float, default=None,
                     help='ruido tolerado por pixel (0,010; 0,005 con --maxima)')
@@ -102,6 +109,13 @@ def main():
           f'{"GPU" if a.gpu else "CPU"}')
     print(f'Vistas  : {len(vistas)}\n', flush=True)
 
+    # Con --maxima se prueba primero con las texturas a 4K (CM_4K=1): son
+    # ~120 mapas de 4096 y piden unos 10 GB mas de memoria que las de 2K. Si
+    # la vista no sale con ellas -tarjeta sin memoria- se repite esa vista con
+    # las de 2K, y solo despues se bajan muestras. Si las 4K no estan bajadas
+    # se sigue con las 2K todo el lote.
+    usar_4k = a.maxima and not a.sin_4k
+    sin_memoria_4k = 0
     hechas, fallos, t_lote = 0, [], time.time()
     for i, v in enumerate(vistas, 1):
         destino = os.path.join(a.salida, f'CM_{v}.png')
@@ -109,7 +123,14 @@ def main():
             print(f'[{i}/{len(vistas)}] {v}: ya estaba', flush=True)
             hechas += 1
             continue
-        for spp in (a.spp, a.spp // 2):
+        intentos = [(a.spp, True), (a.spp, False), (a.spp // 2, False)]
+        for n, (spp, k4) in enumerate(intentos):
+            if k4 and not usar_4k:
+                continue
+            entorno = dict(os.environ)
+            entorno.pop('CM_4K', None)
+            if k4:
+                entorno['CM_4K'] = '1'
             orden = [blender, '--background', '--python', ESCENA, '--',
                      '--vista', v, '--spp', str(spp), '--ancho', str(a.ancho),
                      '--alto', str(a.alto), '--umbral', str(a.umbral),
@@ -117,22 +138,43 @@ def main():
             if a.gpu:
                 orden.append('--gpu')
             if a.dry:
-                print(' '.join(f'"{o}"' if ' ' in o else o for o in orden))
+                print(('CM_4K=1 ' if k4 else '') +
+                      ' '.join(f'"{o}"' if ' ' in o else o for o in orden))
                 break
-            if spp != a.spp:
-                # Se reintenta bajando muestras, no resolucion: si se baja la
-                # resolucion la entrega sale con vistas de dos tamaños.
-                print(f'[{i}/{len(vistas)}] {v}: fallo; reintento con {spp}',
-                      flush=True)
+            tex = 'texturas 4K' if k4 else 'texturas 2K'
+            if n and not (n == 1 and not usar_4k):
+                # Se reintenta bajando texturas y luego muestras, nunca la
+                # resolucion: la entrega saldria con vistas de dos tamaños.
+                print(f'[{i}/{len(vistas)}] {v}: fallo; reintento con {spp} '
+                      f'muestras y {tex}', flush=True)
             else:
-                print(f'[{i}/{len(vistas)}] {v}: {time.strftime("%H:%M:%S")}',
+                print(f'[{i}/{len(vistas)}] {v}: {time.strftime("%H:%M:%S")}  ({tex})',
                       flush=True)
             t0 = time.time()
-            r = subprocess.run(orden)
+            r = subprocess.run(orden, env=entorno)
             if r.returncode == 2:
+                if k4:
+                    print(f'[{i}/{len(vistas)}] {v}: no estan las texturas a 4K; '
+                          'sigo con las de 2K', flush=True)
+                    usar_4k = False
+                    continue
                 # Faltan los activos: le va a pasar a las quince, asi que se
                 # para el lote entero en vez de encadenar quince fallos.
                 sys.exit('\nLote parado: hay que bajar los activos primero.')
+            if os.path.exists(destino):
+                print(f'[{i}/{len(vistas)}] {v}: listo en '
+                      f'{(time.time() - t0) / 60:.0f} min', flush=True)
+                hechas += 1
+                break
+            if k4:
+                # sin memoria para las 4K: esta vista, con las de 2K. Si les
+                # pasa a dos, la tarjeta no da para ellas y el resto va a 2K
+                sin_memoria_4k += 1
+                if sin_memoria_4k >= 2:
+                    print('  dos vistas sin sitio para las texturas a 4K: el resto '
+                          'del lote, con las de 2K', flush=True)
+                    usar_4k = False
+                continue
             if r.returncode and time.time() - t0 < 60:
                 # No es falta de memoria ni tiempo: se ha roto al montar, y con
                 # la mitad de muestras se rompe igual. No se insiste, pero se
@@ -142,11 +184,6 @@ def main():
                 print(f'[{i}/{len(vistas)}] {v}: se rompio al montar; sigo con '
                       'las demas. El error esta arriba', flush=True)
                 fallos.append(v)
-                break
-            if os.path.exists(destino):
-                print(f'[{i}/{len(vistas)}] {v}: listo en '
-                      f'{(time.time() - t0) / 60:.0f} min', flush=True)
-                hechas += 1
                 break
         else:
             if not a.dry:
