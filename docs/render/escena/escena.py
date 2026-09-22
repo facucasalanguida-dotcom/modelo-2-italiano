@@ -732,20 +732,34 @@ def suelos_y_techos():
 def vestibulo():
     """El cubo de la entrada: paredes de obra y techo, con la puerta al fondo.
 
-    Lo que hay delante de la hoja no es un retorno de escaparate: es una caja
-    de obra abierta solo a la calle. El costado Este ya lo da el cuello de la
-    medianera y el fondo lo cierra la propia puerta; aqui van el costado Oeste
-    y el techo, que es lo que hace que la entrada sea un hueco de 2,06 x 2,10
-    y no un agujero abierto hasta los cinco metros de la doble altura.
+    Lo que hay delante de la hoja es una caja abierta solo a la calle. El
+    costado Este ya lo da el cuello de la medianera y el fondo lo cierra la
+    propia puerta; aqui van el costado Oeste y el techo, que es lo que hace
+    que la entrada sea un hueco de 2,06 x 2,10 y no un agujero abierto hasta
+    los cinco metros de la doble altura.
+
+    El costado Oeste es de VIDRIO con rebordes del color de la pared. El
+    techo si es pladur macizo, tambien del color de la pared.
     """
     R = RETRANQUEO
     xp = R['x0'] - R['e_pared']              # trasdos del tabique del costado
-    # Costado Oeste. Arranca medio milimetro por detras de la linea de fachada
-    # -ahi tiene su cara el zocalo de piedra del escaparate- y baja del suelo
-    # para que no se vea la junta con el pavimento.
-    ob = caja('Vestíbulo · pared Oeste', xp, R['y0'] + DESPEGUE, R['x0'], R['y1'],
-              -0.010, R['alto'], MAT['muro'])
-    bisel(ob)
+    # Costado Oeste: NO es un tabique, es un pano de vidrio. Antes de entrar,
+    # a la izquierda, se ve la sala a traves del cristal. Va enmarcado con
+    # rebordes del color de la pared -montantes de 60 arriba, abajo y en las
+    # dos jambas- y el vidrio por el medio, de 12, centrado en el grueso.
+    C = 0.060                                # ancho del reborde
+    ey0, ey1 = R['y0'] + DESPEGUE, R['y1']
+    ez0, ez1 = -0.010, R['alto']
+    for nm, y0, y1, z0, z1 in (
+            ('inferior', ey0, ey1, ez0, ez0 + C),
+            ('superior', ey0, ey1, ez1 - C, ez1),
+            ('jamba calle', ey0, ey0 + C, ez0 + C, ez1 - C),
+            ('jamba puerta', ey1 - C, ey1, ez0 + C, ez1 - C)):
+        bisel(caja(f'Vestíbulo · reborde {nm}', xp, y0, R['x0'], y1, z0, z1,
+                   MAT['muro']))
+    xc = (xp + R['x0']) / 2
+    caja('Vestíbulo · vidrio Oeste', xc - 0.006, ey0 + C - SOLAPE, xc + 0.006,
+         ey1 - C + SOLAPE, ez0 + C - SOLAPE, ez1 - C + SOLAPE, MAT['vidrio'])
     # Techo del cubo: vuela 6 mm sobre el tabique para caparlo, se hunde 4 mm
     # en la cabeza de la puerta y se mete en el cuello de la medianera.
     ob = caja('Vestíbulo · techo', xp - 0.006, R['y0'] + 0.001,
@@ -1870,7 +1884,8 @@ def decoracion():
     for i in range(3):
         copa(f'Copa mostrador {i + 1}', mx1 - 0.16, 4.44 + i * 0.09, z_tabla)
     # ---- botellero sobre la vitrina y aceite en el paso
-    poner('jug_01', 0.45, 4.62, 0.905, escala=1.0, giro=35)
+    # y 4,62 metia la jarra 9 mm dentro de P1, que arranca en 4,759
+    poner('jug_01', 0.45, 4.55, 0.905, escala=1.0, giro=35)
     poner('metal_jug', 0.66, 4.60, 0.905, escala=0.9, giro=-15)
     # ---- plantas: terracota, el verde de la trattoria
     # delante de la puerta del baño no va ninguna: estorba el paso. Y delante
@@ -2726,7 +2741,9 @@ def caracter_italiano():
     # hubiera alfeizar, pero el ventanal arranca del suelo: la vasija de
     # vidrio va de 0,130 a 4,700 y no hay repisa ninguna, asi que las piezas
     # colgaban a 129 mm del pavimento. Van al suelo.
-    for i, x in enumerate((4.35, 5.05, 5.75)):
+    # la tercera pieza, a x 5,75, se metia 49 mm en el retorno de P5i
+    # (5,870..5,980): las tres se corren al Oeste manteniendo el paso de 0,70
+    for i, x in enumerate((4.26, 4.96, 5.66)):
         poner(('ceramic_vase_01', 'ceramic_vase_02', 'brass_pot_01')[i % 3],
               x, 1.760, 0.001, escala=0.8, giro=i * 63)
 
