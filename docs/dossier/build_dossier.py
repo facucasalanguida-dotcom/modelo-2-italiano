@@ -156,7 +156,11 @@ def pagina_foto(doc, ruta, pie, n, total, ancho=0):
         im.save(t.name, quality=88, optimize=True)
         ruta = t.name
     iw, ih = im.size
-    k = max(W / iw, H / ih)
+    # Si la foto es 16:9 se lleva la pagina entera a sangre. Si viene
+    # recortada -y alguna llega asi- se encaja dentro sin recortarla mas: la
+    # pagina ya se ha pintado del color de fondo y hace de marco.
+    prop = (iw / ih) / (W / H)
+    k = (max if 0.98 < prop < 1.02 else min)(W / iw, H / ih)
     w, h = iw * k, ih * k
     x0, y0 = (W - w) / 2, (H - h) / 2
     p.insert_image(fitz.Rect(x0, y0, x0 + w, y0 + h), filename=ruta)
