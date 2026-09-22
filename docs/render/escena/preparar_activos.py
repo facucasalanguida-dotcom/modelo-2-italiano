@@ -23,7 +23,7 @@ relanzar si se corta a medias. Al terminar deja:
 La escena usa las copias a 2K salvo que se pida CM_4K=1: Cycles carga cada
 mapa entero en memoria y con ~120 mapas a 4096x4096 el proceso pasa de 13 GB.
 """
-import ast, io, json, os, subprocess, sys, time, zipfile
+import ast, glob, io, json, os, subprocess, sys, time, zipfile
 
 AQUI = os.path.dirname(os.path.abspath(__file__))
 SCRATCH = os.environ.get('CM_SCRATCH') or os.path.join(AQUI, 'activos')
@@ -123,13 +123,35 @@ def bajar(url, dest, minimo=1000):
     return 0
 
 
-def ficheros(aid):
+def ficheros(aid, reintento=True):
+    """Ficha de un activo, cacheada. Se valida antes de fiarse de ella.
+
+    Si la API contesta mal en el momento de bajarla, la respuesta se quedaba
+    cacheada para siempre: las llamadas siguientes leian una ficha sin mapas,
+    no se bajaba nada, no se avisaba, y el fallo no salia hasta el render
+    -donde tampoco, porque un material sin textura sale liso-. Ahora, si la
+    ficha no trae ni un mapa ni un blend ni un hdri, se tira y se vuelve a
+    pedir una vez.
+    """
     d = os.path.join(CACHE, f'{aid}.json')
-    if not os.path.exists(d):
+    if not os.path.exists(d) or os.path.getsize(d) < 50:
         os.makedirs(CACHE, exist_ok=True)
-        subprocess.run(['curl', '-sS', '--fail',
+        subprocess.run(['curl', '-sS', '-L', '--fail',
                         f'https://api.polyhaven.com/files/{aid}', '-o', d])
-    return json.load(open(d))
+    try:
+        f = json.load(open(d))
+    except Exception:
+        f = {}
+    util = isinstance(f, dict) and (
+        'hdri' in f or 'blend' in f or any(k in f for k in CLAVES))
+    if not util and reintento:
+        print(f'  (la ficha de {aid} venia vacia; la vuelvo a pedir)', flush=True)
+        try:
+            os.remove(d)
+        except OSError:
+            pass
+        return ficheros(aid, reintento=False)
+    return f if isinstance(f, dict) else {}
 
 
 def poly_haven(nec):
@@ -141,6 +163,7 @@ def poly_haven(nec):
         print(f'  HDRI    {aid} {res}', flush=True)
     for aid in nec['textura']:
         f = ficheros(aid)
+        n = 0
         for res, carpeta in (('4k', 'textures'), ('2k', 'textures_2k')):
             for nombre, clave in CLAVES.items():
                 nodo = f.get(nombre)
@@ -148,9 +171,18 @@ def poly_haven(nec):
                     continue
                 fmts = nodo[res]
                 fmt = 'jpg' if 'jpg' in fmts else ('png' if 'png' in fmts else max(fmts))
-                tot += bajar(fmts[fmt]['url'],
-                             f'{PH}/{aid}/{carpeta}/{aid}_{clave}_4k.{fmt}')
-        print(f'  TEXTURA {aid}', flush=True)
+                d = f'{PH}/{aid}/{carpeta}/{aid}_{clave}_4k.{fmt}'
+                tot += bajar(fmts[fmt]['url'], d)
+                n += os.path.exists(d)
+        # Antes esto imprimia 'TEXTURA <aid>' pasara lo que pasara. Si la API
+        # devolvia algo raro, no se bajaba nada, no se avisaba, y el fallo no
+        # aparecia hasta el render -y alli tampoco, porque el material salia
+        # liso-. Ahora se cuenta lo que hay de verdad en el disco.
+        if n < 3:
+            print(f'  TEXTURA {aid}: SOLO {n} MAPAS. La API devolvio '
+                  f'{sorted(k for k in f if k in CLAVES)}', flush=True)
+        else:
+            print(f'  TEXTURA {aid}  ({n} mapas)', flush=True)
     for aid in nec['modelo']:
         f = ficheros(aid)
         # a 2K a proposito: a 4K los 22 modelos revientan la memoria de Cycles,
@@ -195,8 +227,40 @@ def logo():
         print('  LOGO    FALLO: hace falta  pip install pymupdf pillow numpy', flush=True)
 
 
+def comprobar():
+    """Dice que hay en el disco de verdad, activo por activo."""
+    nec = necesarios()
+    mal = 0
+    print(f'\ncomprobando {SCRATCH}\n')
+    for aid in nec['hdri']:
+        h = glob.glob(f'{PH}/{aid}/{aid}_*.hdr')
+        print(f'  HDRI    {aid:28s}', f'{os.path.getsize(h[0])/1e6:.0f} MB' if h else 'NO ESTA')
+        mal += not h
+    for aid in nec['textura']:
+        d2, d4 = f'{PH}/{aid}/textures_2k', f'{PH}/{aid}/textures'
+        n2 = len(glob.glob(f'{d2}/{aid}_*_4k.*'))
+        n4 = len(glob.glob(f'{d4}/{aid}_*_4k.*'))
+        diff = glob.glob(f'{d2}/{aid}_diff_4k.*') or glob.glob(f'{d4}/{aid}_diff_4k.*')
+        estado = 'ok' if diff else 'SIN MAPA DE COLOR'
+        print(f'  TEXTURA {aid:28s} 2K:{n2}  4K:{n4}  {estado}')
+        mal += not diff
+    for aid in nec['modelo']:
+        b = os.path.exists(f'{PH}/{aid}/{aid}.blend')
+        print(f'  MODELO  {aid:28s}', 'ok' if b else 'NO ESTA')
+        mal += not b
+    c = os.path.exists(os.path.join(SCRATCH, 'coches', 'bmw27', 'bmw27', 'bmw27_cpu.blend'))
+    l = os.path.exists(os.path.join(SCRATCH, 'logo', 'casa_margot_recortado.png'))
+    print(f'  COCHE   {"ok" if c else "NO ESTA"}')
+    print(f'  LOGO    {"ok" if l else "NO ESTA"}')
+    mal += (not c) + (not l)
+    print(f'\n{"TODO EN SU SITIO" if not mal else str(mal) + " COSAS FALTAN"}\n')
+    return mal
+
+
 if __name__ == '__main__':
     print('activos en', SCRATCH, flush=True)
+    if '--comprobar' in sys.argv:
+        sys.exit(1 if comprobar() else 0)
     tot = poly_haven(necesarios()) + coche()
     logo()
     print(f'\nLISTO  {tot / 1e6:.0f} MB bajados', flush=True)
