@@ -28,9 +28,10 @@ RECORRIDO = [
     # ------------------------------------------------------------ la calle
     dict(nombre='01_calle', calle=True, exp=-1.30,
          ojo=(6.20, -9.20, 1.700), mira=(5.60, 1.60, 2.600), lente=28.0),
-    # el porche cubierto y el ventanal, desde nuestra acera, en escorzo
+    # el porche cubierto y el ventanal, desde nuestra acera, en escorzo (a la
+    # derecha de la farola de x = 2,0: desde detras tapaba un sexto de la foto)
     dict(nombre='02_porche', calle=True, exp=-1.30,
-         ojo=(1.60, -2.20, 1.600), mira=(4.60, 1.30, 2.000), lente=18.0),
+         ojo=(1.20, -1.60, 1.600), mira=(4.60, 1.30, 2.000), lente=18.0),
     # la puerta, metida en su cubo, con el escaparate al lado
     dict(nombre='03_puerta', calle=True, exp=-1.30,
          ojo=(8.70, -1.60, 1.620), mira=(7.60, 1.05, 1.250), lente=24.0),
@@ -69,15 +70,18 @@ RECORRIDO = [
     dict(nombre='14_escalera', calle=True, exp=None,
          ojo=(8.05, 1.95, 1.640), mira=(9.35, 6.30, 1.500), lente=21.0),
     # ------------------------------------------------------- planta alta
-    # la llegada de la escalera
+    # la llegada: junto a los ultimos peldaños, la planta alta entera hacia el
+    # Oeste (la vista 'alta' de la serie). Desde el rellano, la pared y la
+    # puerta del almacen ocupaban un tercio de la foto a un metro
     dict(nombre='15_llegada', calle=True, exp=None,
-         ojo=(8.20, 8.10, Z_PA + 1.580), mira=(4.60, 5.40, Z_PA + 1.150), lente=21.0),
+         ojo=(8.45, 6.95, Z_PA + 1.580), mira=(3.55, 5.60, Z_PA + 1.120), lente=20.0),
     # la mesa larga de cowork
     dict(nombre='16_cowork', calle=True, exp=None,
          ojo=(6.60, 6.80, Z_PA + 1.540), mira=(3.60, 5.00, Z_PA + 1.100), lente=24.0),
-    # la mesa redonda
+    # la mesa redonda, desde el Noroeste, con el antepecho y las lamas detras.
+    # Desde el Oeste el pilar P3 quedaba a 0,9 m, justo en medio
     dict(nombre='17_redonda', calle=True, exp=None,
-         ojo=(4.90, 4.80, Z_PA + 1.540), mira=(7.60, 5.60, Z_PA + 1.120), lente=26.0),
+         ojo=(6.30, 7.20, Z_PA + 1.500), mira=(7.60, 5.00, Z_PA + 0.850), lente=24.0),
     # asomado al vacio, la planta baja desde arriba
     dict(nombre='18_vacio', calle=True, exp=None,
          ojo=(3.35, 5.20, Z_PA + 1.620), mira=(5.60, 2.20, 0.900), lente=22.0),

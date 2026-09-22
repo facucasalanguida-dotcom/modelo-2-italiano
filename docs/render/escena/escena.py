@@ -2159,9 +2159,10 @@ def luces(j):
 
     # --- tira de LED bajo el estante de la trasbarra: la luz de trabajo y el
     #     brillo que hace que las botellas se lean
-    # arranca en la cara del muro (0,250), no a 10 mm de ella: con el estante
-    # A6 contra el muro, sus cartelas ya no la tocaban y quedaba en el aire
-    caja('LED trasbarra', 0.250, 2.05, 0.60, 4.72, 1.596, 1.604,
+    # arranca en la cara del muro (0,250), no a 10 mm de ella, y su cara de
+    # arriba toca la punta de las cartelas del estante A6 (1,600): con el
+    # estante contra el muro ya no las tocaba y quedaba en el aire
+    caja('LED trasbarra', 0.250, 2.05, 0.60, 4.72, 1.592, 1.600,
          MAT['_luz_calida'], 'Luces')
     lz = bpy.data.lights.new('LED trasbarra luz', 'AREA')
     lz.shape = 'RECTANGLE'
@@ -3654,7 +3655,7 @@ def caracter_italiano():
     # seis botellas a 74 mm se salian por los dos lados y se metian en ellas.
     # Van cinco a 85 mm. La parrilla son varillas a 25 mm con la cara de
     # arriba en z + 0,0005: el culo de la botella, que es abombado, baja
-    # 1,5 mm entre ellas y descansa en las que tiene debajo (antes flotaba
+    # 2 mm entre ellas y descansa en las que tiene debajo (antes flotaba
     # 5 mm por encima de todas).
     ax, ay = 5.995, 4.078                      # centro y cara interior del frente
     for k in range(5):
@@ -3662,7 +3663,7 @@ def caracter_italiano():
         for j in range(5):
             bx = ax + (j - 2) * 0.085
             for f, dy in ((0, 0.075), (1, 0.230)):
-                botella(f'A7 botella {k}{j}{f}', bx, ay + dy, z - 0.001,
+                botella(f'A7 botella {k}{j}{f}', bx, ay + dy, z - 0.0015,
                         alto=0.225 if k % 2 == 0 else 0.245, col='Decoracion')
     # Cesta de pan del paso. Estaba en x = 2,75 y la tabla del mostrador muere
     # en 2,53: volaba 220 mm por delante del canto. Se pasa a la mesa de
