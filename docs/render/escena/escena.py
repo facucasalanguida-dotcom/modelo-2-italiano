@@ -967,13 +967,12 @@ def pilar_escalera():
     En planta cae dentro del grueso del antepecho de la escalera -CAJA_ESC_PB,
     x 8,650..8,811-, arrimado a su extremo Sur. Como ese antepecho tiene el
     borde superior en rampante (1,209 en el arranque), el perfil solo asoma de
-    ahi para arriba.
+    ahi para arriba: desde la sala, el antepecho y el perfil se leen como una
+    sola pilastra de 160 que sube del suelo al forjado.
 
-    Va forrado con el liston de roble de P1, P3 y P4, que es lo que pidio el
-    cliente. El forro baja hasta el suelo por delante del testero del
-    antepecho, asi que los dos se leen como una sola pilastra de madera del
-    suelo al forjado -antes eran una franja de enlucido que en esa orientacion
-    salia gris-.
+    Va enlucido con el mismo material que el antepecho, no forrado de roble:
+    es lo que eligio el cliente. Llego a estar forrado con el liston de P1, P3
+    y P4 y se descarto.
 
     Sostiene parte del techo y no se puede quitar.
     """
@@ -982,22 +981,10 @@ def pilar_escalera():
     # en el forjado, que ahi si lo hay.
     x0, x1 = 8.651, 8.811 - DESPEGUE
     y0, y1 = 3.939 + DESPEGUE, 4.099
-    # el mismo hormigon que P1, P3, P4 y P5: es lo que asoma por las juntas
-    # del liston, y con 'tabique' salia mas claro que en las demas columnas
-    ob = caja('Pilar de la escalera · alma', x0, y0, x1, y1, 0.0,
-              Z_SOFITO + SOLAPE, MAT['pilar'])
+    ob = caja('Pilar de la escalera', x0, y0, x1, y1, 0.0, Z_SOFITO + SOLAPE,
+              MAT['tabique'])
     bisel(ob)
-    # Solo se forran las dos caras que se ven: la Norte queda metida en el
-    # antepecho y la Este topa con el costado de los peldaños. La cara Sur se
-    # prolonga hacia el Oeste para cerrar la esquina con el costado, igual que
-    # en forro_pilares(). Muere en el intrados, no sube a Z_TECHO como las
-    # columnas de la doble altura.
-    d = 0.026 + SOLAPE
-    listones('Forro pilar escalera Sur', x0 - d, y0 - d + SOLAPE, x1, y0,
-             0.0, Z_SOFITO, MAT['_liston'], fondo=d, eje='x')
-    listones('Forro pilar escalera Oeste', x0 - d + SOLAPE, y0, x0, y1,
-             0.0, Z_SOFITO, MAT['_liston'], fondo=d, eje='y')
-    return 2
+    return 1
 
 
 def forro_pilares():
@@ -2418,8 +2405,7 @@ def construir(spp, ancho, alto, con_decoracion=True, con_glare=False,
     vestibulo()
     frente_barra()
     print('  caras de columna forradas:', forro_pilares(), flush=True)
-    print('  pilar de la escalera, caras forradas:',
-          pilar_escalera(), flush=True)
+    print('  pilar de la escalera:', pilar_escalera(), flush=True)
     cocina_inox()
     remate_vidrio_L()
     pared_logo()
