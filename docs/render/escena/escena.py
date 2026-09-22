@@ -316,6 +316,8 @@ def sustituido(s):
         return True                       # se forra de listones
     if '· hoja' in nm and s['mat'] in ('madera', 'vidrio'):
         return True                       # las puertas se rehacen con herrajes
+    if nm in ('Borde Oeste del vacio', 'Borde Sur del vacio'):
+        return True                       # el antepecho lo pone planta_alta()
     return False
 
 
@@ -469,6 +471,10 @@ def arquitectura():
         y0, y1 = s['y0'] + d.get('y0', 0.0), s['y1'] + d.get('y1', 0.0)
         z0 = s['z0'] + d.get('z0', 0.0)
         z1 = s['z1'] + d.get('z1', 0.0)
+        if s['nombre'] in ('Ventanal Sur · paño 1', 'Escaparate · vidrio'):
+            # el canto de abajo, dentro del vierteaguas: sobre su cara de
+            # arriba (0,130) el vidrio tocaba un opaco en el mismo plano
+            z0 = FA_VIERTE - SOLAPE
         if s['nombre'].startswith('Tramo largo') and s['mat'] == 'vidrio':
             # hasta el techo, pero con el canto metido en el remate superior
             # (2,280..2,310): a 2,310 justos coincidia con el intrados
@@ -773,16 +779,31 @@ def suelos_y_techos():
     #                 trasbarra: el cliente lo quiere cortado en la viga, que
     #                 su canto y la cara de la viga queden en un solo plano.
     # Cuelga 15 mm bajo la linea del forjado.
-    caja('Techo de pladur · cocina', 0.250, E.VIGA[2], 2.448, 9.008,
-         2.295, 2.310, MAT['muro'], 'Obra')
+    # La campana KC (x 0,31..2,31, y 7,778..8,978, de 2,00 a 2,54) sube por
+    # encima de los 2,31: el techo la rodea, no la atraviesa. Entero, dejaba
+    # una tapa de yeso dentro de la campana, a media altura de los filtros.
+    kx0, ky0, kx1, ky1 = CAMPANA_KC
+    for nm, a0, b0, a1, b1 in (('', 0.250, E.VIGA[2], 2.448, ky0),
+                               (' Oeste', 0.250, ky0, kx0, 9.008),
+                               (' Este', kx1, ky0, 2.448, 9.008),
+                               (' Norte', kx0, ky1, kx1, 9.008)):
+        caja(f'Techo de pladur · cocina{nm}', a0, b0, a1, b1,
+             2.295, 2.310, MAT['muro'], 'Obra')
 
     # Pavimento del altillo, sobre el forjado. Va con la MISMA planta que el
     # forjado -E.FORJADO-, no con su rectangulo envolvente: el poligono tiene
     # recortado el hueco de la escalera (x 8,811..9,890 entre y 3,939 y 7,738)
     # y si aqui se pone una caja, el roble tapa el hueco y la escalera sube
     # contra un techo a 2,54. El forjado lo traia bien; el pavimento no.
-    prisma('Pavimento planta alta', E.FORJADO, Z_PA - 0.018, Z_PA + 0.001,
+    # Arranca en la cara de arriba del forjado: bajando 18 mm sus cantos
+    # coincidian con los del forjado en todo el borde del altillo.
+    prisma('Pavimento planta alta', E.FORJADO, Z_PA - DESPEGUE, Z_PA + 0.001,
            MAT['_suelo'], 'Planta alta')
+
+
+# Huella en planta de la campana KC tal como la planta aparatos() -
+# comprobada contra su caja envolvente en la escena montada.
+CAMPANA_KC = (0.310, 7.778, 2.310, 8.978)
 
 
 def vestibulo():
@@ -819,8 +840,11 @@ def vestibulo():
     caja('Vestíbulo · vidrio Oeste', xc - 0.006, ey0 + C - SOLAPE, xc + 0.006,
          ey1 - C + SOLAPE, ez0 + C - SOLAPE, ez1 - C + SOLAPE, MAT['vidrio'])
     # Techo del cubo: vuela 6 mm sobre el tabique para caparlo, se hunde 4 mm
-    # en la cabeza de la puerta y se mete en el cuello de la medianera.
-    ob = caja('Vestíbulo · techo', xp - 0.006, R['y0'] + 0.001,
+    # en la cabeza de la puerta y se mete en el cuello de la medianera. Por
+    # delante arranca en la cara interior de la perfileria de fachada
+    # (y 0,425): desde 0,371 asomaba un bloque de pladur 9 mm por delante
+    # del vidrio del escaparate, en su esquina derecha, de 2,10 a 2,24.
+    ob = caja('Vestíbulo · techo', xp - 0.006, 0.425 - SOLAPE,
               R['x1'] + SOLAPE, R['y1'] - DESPEGUE,
               R['alto'] - SOLAPE, R['alto'] + R['canto'], MAT['muro'])
     bisel(ob)
@@ -901,7 +925,7 @@ def frente_barra():
                  yb, z1, z1 + 0.042, MAT['mesa'])
     # Balda en la que apoyan las dos vitrinas acortadas. Por debajo queda el
     # hueco abierto al pasillo, con los dos motores y el lavavasos del plano.
-    bisel(caja('Vitrinas · balda de apoyo', 1.830, my0, mx1 - 0.030, Y_MOSTRADOR,
+    bisel(caja('Vitrinas · balda de apoyo', VITRINA_TRASERA, my0, mx1 - 0.030, Y_MOSTRADOR,
                VITRINA_BASE - 0.025, VITRINA_BASE, MAT['inox']))
     # Testa Norte del mostrador: el trasdos negro de los listones acababa a la
     # vista justo donde arranca la pared en L y se leia como una franja negra.
@@ -940,7 +964,7 @@ def cocina_inox():
     # Hasta la coronacion de la pared en L (1,220), no hasta 1,500: subia
     # 280 mm por encima del muro y asomaba dentro de la cristalera.
     caja('Cocina · chapa Este', x1 - e, y0, x1 + SOLAPE, y1, 0.0,
-         E.H_PARED_L, MAT['inox'], 'Obra')
+         E.H_PARED_L - DESPEGUE, MAT['inox'], 'Obra')
     # junta horizontal: dos perfiles que rompen el paño y dan una linea de luz
     for zz in (1.500, 2.150):
         caja(f'Cocina · junta {zz:.2f} N', x0, y1 - 0.014, x1, y1 - e,
@@ -1078,14 +1102,14 @@ def pilar_escalera():
     return 1
 
 
-def aplacado(nombre, x0, y0, x1, y1, z0, z1, eje='x', zocalo=0.100,
+def aplacado(nombre, x0, y0, x1, y1, z0, z1, eje='x', zocalo=0.090,
              tonos=None, gris=0.05, col='Obra'):
     """Aplacado de arenisca como el de la fachada real.
 
     Hiladas de 0,28 a 0,42 de alto y en cada una una o dos losas, con la
     junta vertical corrida respecto a la de abajo, y cada losa de su tono:
-    asi esta en el video. Al pie, un zocalo de pizarra oscura de 10 cm, que
-    es la banda negra que se ve en la base de los machones. La caja
+    asi esta en el video. Al pie, un zocalo gris oscuro que acaba en 0,080,
+    a la misma altura que la banda de la perfileria (arranca en -0,010). La caja
     (x0..x1, y0..y1) es la capa del aplacado; eje dice hacia donde corre la
     cara. La semilla sale del nombre y no de hash(), para que el despiece
     sea el mismo en todas las vistas.
@@ -1214,7 +1238,9 @@ def fachada_real():
     YP0, YP1 = 1.561, 1.621                 # fondo de la perfileria del ventanal
     XR = 5.735                              # plano del retorno acristalado
     XP0, XP1 = XR - 0.030, XR + 0.030       # fondo de su perfileria
-    YR0 = 1.000 + d                         # el retorno arranca en la cara Norte de P5
+    # el retorno arranca en la cara Norte de P5, dentro del forro Norte
+    # (1,0255..1,0284): en 1,030 quedaba una rendija de 2 a 4 mm
+    YR0 = 1.025
 
     # --- P2: su cara a la calle en arenisca, cubriendo las esquinas de sus
     #     costados, que forra forro_pilares()
@@ -1240,8 +1266,8 @@ def fachada_real():
     # --- paño estrecho (x 0,51..1,29) y paño grande (x 1,87..retorno)
     _paño_fachada('Fachada paño 1', 0.510, 1.290, 'x', YP0, YP1)
     _paño_fachada('Fachada paño 2', 1.870, XP1, 'x', YP0, YP1)
-    caja('Fachada paño 2 · vidrio', 1.870, 1.573, XR, 1.609, FA_VIERTE, FA_FAJA[1],
-         MAT['vidrio'])
+    caja('Fachada paño 2 · vidrio', 1.870, 1.573, XR, 1.609, FA_VIERTE - SOLAPE,
+         FA_FAJA[1], MAT['vidrio'])
     # junta a tope entre los dos vidrios bajos del paño grande
     caja('Fachada paño 2 · junta', 3.796, 1.571, 3.804, 1.611, FA_VIERTE,
          FA_TRAVESANOS[0][0], MAT['_negro'])
@@ -1257,10 +1283,13 @@ def fachada_real():
 
     # --- retorno acristalado del rincon, de la cara Norte de P5 al ventanal;
     #     su montante del lado del ventanal es el propio montante de esquina
+    # En el video (v1 f_03 y f_06) el retorno solo lleva el travesaño de
+    # 2,30 y el remate de arriba: no tiene el de 2,72 de la caja del toldo.
     _paño_fachada('Fachada retorno', YR0, YP0, 'y', XP0, XP1,
-                  montantes=(True, False), faja_fin=YP0 - 0.006)
+                  montantes=(True, False), faja_fin=YP0 - 0.006,
+                  travesaños=(FA_TRAVESANOS[0], FA_TRAVESANOS[2]))
     caja('Fachada retorno · vidrio', XR - 0.006, YR0, XR + 0.006, 1.573,
-         FA_VIERTE, FA_FAJA[1], MAT['vidrio'])
+         FA_VIERTE - SOLAPE, FA_FAJA[1], MAT['vidrio'])
 
     # --- franja de pizarra del extremo Oeste: losas lisas con junta, de
     #     arriba abajo, por la cara Sur del machon SO
@@ -1281,9 +1310,16 @@ def fachada_real():
     bisel(prisma('Balcon curvo sobre el porche', pts, Z_TECHO, Z_TECHO + 0.400,
                  MAT['_revoco_fachada']))
     # la caja de viga que baja del intrados en el extremo Oeste, delante del
-    # paño estrecho, con su cara lisa hacia la calle
-    bisel(caja('Caja de viga del porche', 0.000, 0.000, 1.100, YP0 - 0.012,
+    # paño estrecho, con su cara lisa hacia la calle. En v2 f_12 y f_31 cubre
+    # la franja de pizarra, el paño estrecho y P2, hasta donde arranca la
+    # faja del paño grande (1,87); por detras, contra la faja (1,555).
+    bisel(caja('Caja de viga del porche', 0.000, 0.000, 1.870, 1.559,
                4.600, Z_TECHO + SOLAPE, MAT['_revoco_fachada']))
+    # El porche no esta abierto al Oeste: lo cierra la medianera del
+    # edificio vecino, de revoco (v1 f_10, f_24, f_27; v2 f_12, f_31). Solo
+    # el muro; la ventana, la reja y los toldos del vecino no se ponen.
+    caja('Medianera del vecino · porche', -0.300, 0.000, SOLAPE, YP0 - DESPEGUE,
+         -0.010, Z_TECHO + 0.400 - DESPEGUE, MAT['_revoco_fachada'])
 
     # ================================================ PARTE ESTE
     # Segundo video y las dos fotos: escaparate con montante bajo, puerta
@@ -1294,8 +1330,17 @@ def fachada_real():
     YE0, YE1 = 0.365, 0.425                 # perfileria en la linea de fachada
     E0, E1 = 6.331, R['x0'] - DESPEGUE      # escaparate, hasta el hueco
     D0, D1 = R['x0'], R['x1']               # la puerta, hasta el cuello
+    # Encima del vidrio bajo: travesaño fino a 2,04, un montante bajo de
+    # 2,10 a 2,27 con tres barrotes finos, y de 2,27 a la caja del toldo
+    # (2,78) una banda crema ciega, la misma altura que la de la persiana de
+    # la puerta (fotos 1 y 2). Antes llevaba ahi un travesaño y vidrio.
     _paño_fachada('Fachada escaparate', E0, E1, 'x', YE0, YE1,
-                  travesaños=((2.040, 2.100),) + FA_TRAVESANOS)
+                  travesaños=((2.040, 2.100), (2.270, FA_TRAVESANOS[1][1]),
+                              FA_TRAVESANOS[2]))
+    for k, u in enumerate((E0 + C + 0.045, (E0 + E1) / 2, E1 - C - 0.045)):
+        # por la cara de la calle, entre la perfileria (0,365) y el vidrio (0,380)
+        caja(f'Fachada escaparate · barrote {k + 1}', u - 0.008, 0.367, u + 0.008,
+             0.379, 2.100 - SOLAPE, 2.270 + SOLAPE, MAT['_perfil_crema'])
 
     # sobre la puerta, en la linea de fachada: banda de la persiana,
     # travesaño, paño de lamas de 2 x 2, travesaño, faja y dintel. A la
@@ -1310,12 +1355,18 @@ def fachada_real():
     L0, L1 = FA_TRAVESANOS[1][1], FA_TRAVESANOS[2][0]     # 2,78 .. 4,32
     xm = (D0 + D1 - C) / 2
     e('Fachada lamas · montante central', xm - C / 2, xm + C / 2, L0, L1)
-    e('Fachada lamas · travesaño', D0, xm - C / 2, 3.870, 3.930)
-    e('Fachada lamas · travesaño 2', xm + C / 2, D1 - C, 3.870, 3.930)
-    caja('Fachada lamas · fondo', D0, YE1 - 0.006, D1 - C, YE1, L0, L1, MAT['_negro'])
+    # la fila de arriba es un tercio del paño (foto 2: ~10 lamas arriba y
+    # ~25 abajo), no un cuarto
+    LT0, LT1 = 3.800, 3.860
+    e('Fachada lamas · travesaño', D0, xm - C / 2, LT0, LT1)
+    e('Fachada lamas · travesaño 2', xm + C / 2, D1 - C, LT0, LT1)
+    # el fondo, 4 mm por delante de la cara interior de la perfileria: en
+    # 0,425 justos compartia plano con travesaños y montante central
+    caja('Fachada lamas · fondo', D0, YE1 - 0.0075, D1 - C, YE1 - SOLAPE, L0, L1,
+         MAT['_negro'])
     n_lamas = 0
     for u0, u1 in ((D0, xm - C / 2), (xm + C / 2, D1 - C)):
-        for z0, z1 in ((L0, 3.870), (3.930, L1)):
+        for z0, z1 in ((L0, LT0), (LT1, L1)):
             paso = 0.045
             k = max(1, int((z1 - z0) / paso))
             paso = (z1 - z0) / k
@@ -1422,6 +1473,11 @@ def _hueco_del_plano(j):
 # queda en 1,250 y la bandeja sube hasta aqui, 30 mm por encima del
 # lavavasos para que quepa la balda en la que apoya.
 VITRINA_BASE = 0.700
+# Trasera de las vitrinas: la del plano (x 1,90). El modelo comprado mide 0,70
+# de fondo y, con el frente enrasado en 2,530, su trasera caia en 1,830: la
+# esquina Sur de V2 y la balda se metian 43 mm en P2 y en su forro (hasta
+# 1,896 entre y 1,968 y 2,011). Se escala el fondo, no se mueve el frente.
+VITRINA_TRASERA = 1.900
 
 
 def aparatos(j):
@@ -1520,6 +1576,17 @@ def aparatos(j):
             for o in fuera:
                 traidos.remove(o)
                 bpy.data.objects.remove(o, do_unlink=True)
+            padres = [o for o in traidos if o.parent is None]
+            xs = [(o.matrix_world @ Vector(c)).x for o in traidos
+                  if o.type == 'MESH' for c in o.bound_box]
+            x_fr, x_tr = max(xs), min(xs)
+            kx = (x_fr - VITRINA_TRASERA) / (x_fr - x_tr)
+            S = (mathutils.Matrix.Translation((x_fr, 0, 0))
+                 @ mathutils.Matrix.Scale(kx, 4, (1, 0, 0))
+                 @ mathutils.Matrix.Translation((-x_fr, 0, 0)))
+            for o in padres:
+                o.matrix_world = S @ o.matrix_world
+            bpy.context.view_layer.update()
             h = huecos[tag]
             luz_expositor(tag, (h[0], h[1], VITRINA_BASE, h[3], h[4], h[5]))
             puestos.append(tag)
@@ -1544,7 +1611,10 @@ def luz_expositor(tag, hueco):
     x0, y0, z0, x1, y1, z1 = hueco
     n = 3 if (z1 - z0) > 1.2 else 1
     for i in range(n):
-        z = z0 + (z1 - z0) * (i + 1) / (n + 0.6)
+        # cada una bajo su balda, alumbrando HACIA ABAJO. Giradas 180 grados
+        # emitian hacia arriba y la camara las veia como laminas blancas
+        # flotando a media vitrina.
+        z = z0 + (z1 - z0) * (i + 1) / (n + 0.25)
         lz = bpy.data.lights.new(f'{tag} luz interior {i + 1}', 'AREA')
         lz.shape = 'RECTANGLE'
         lz.size = max(0.12, min(x1 - x0, y1 - y0) * 0.7)
@@ -1553,7 +1623,7 @@ def luz_expositor(tag, hueco):
         lz.color = (0.95, 0.97, 1.0)
         ob = bpy.data.objects.new(f'{tag} luz interior {i + 1}', lz)
         ob.location = ((x0 + x1) / 2, (y0 + y1) / 2, z)
-        ob.rotation_euler = (math.radians(180), 0, 0)
+        ob.visible_camera = False
         coleccion('Luces').objects.link(ob)
 
 
@@ -1814,8 +1884,11 @@ def planta_alta():
     z = Z_PA
     # --- antepechos de vidrio del vacio, sin pasamanos: el cliente quiere
     #     el vidrio limpio, sin el reborde de roble que llevaba encima
+    # Son los 'Borde Oeste/Sur del vacio' del plano, que traen vidrio de 50
+    # mm; se descartan alli y se ponen aqui a 12, para que no haya dos
+    # vidrios pegados. El Sur llega hasta donde lo lleva el plano, 8,759.
     bordes = [((2.461, 3.988), (2.461, 7.509)),      # borde Oeste del vacio
-              ((2.461, 3.988), (6.320, 3.988))]      # borde Sur del vacio
+              ((2.461, 3.988), (8.759, 3.988))]      # borde Sur del vacio
     for k, ((ax, ay), (bx, by)) in enumerate(bordes):
         if abs(bx - ax) < 1e-6:
             caja(f'Antepecho PA {k + 1}', ax - 0.006, ay, ax + 0.006, by,
@@ -1949,9 +2022,21 @@ def luces(j):
         else:
             x, y = (s['x0'] + s['x1']) / 2, (s['y0'] + s['y1']) / 2
         if nm.startswith('Colgante'):
+            R = RETRANQUEO
+            if R['x0'] < x < R['x1'] and R['y0'] < y < R['y1']:
+                # el plano lo pone justo dentro de la puerta; con la puerta
+                # retranqueada 1,06 caia en el cubo de la calle, a la altura
+                # de la cabeza. Entra con la puerta: tras ella, en el local.
+                y += R['y1'] - R['y0'] - 0.059
             luminaria_colgante(nm, x, y, s['z0'])
         elif nm.startswith('Aplique'):
-            aplique(nm, x, y, (s['z0'] + s['z1']) / 2, '-X' if x < 1.2 else '-Y')
+            if x < 1.2:
+                # los de la cocina, contra la cara del Muro Oeste (x 0,250):
+                # con '-X' la caja daba la espalda al muro y la luz quedaba
+                # dentro de el, en x 0,245
+                aplique(nm, 0.250 + DESPEGUE, y, (s['z0'] + s['z1']) / 2, '+X')
+            else:
+                aplique(nm, x, y, (s['z0'] + s['z1']) / 2, '-Y')
         else:
             # Un empotrado necesita un techo donde empotrarse. Los cuatro de
             # la fila x = 1,10 caen fuera del forjado, en la doble altura de
@@ -1973,7 +2058,9 @@ def luces(j):
     # Colgaban a 2,560 con tirantes hasta los 5,06 porque la cocina no tenia
     # techo. Ahora lo tiene, a 2,295: van adosadas a el y los tirantes sobran.
     Z_TECHO_COCINA = 2.295
-    for i, y in enumerate((6.20, 7.30, 8.40)):
+    # la tercera iba en y 8,40, dentro de la campana KC (7,778..8,978), que
+    # ya lleva su propia luz: pasa al tramo Sur, junto a la viga
+    for i, y in enumerate((5.20, 6.20, 7.30)):
         x0_, x1_ = 0.45, 2.25
         caja(f'Cocina · pantalla {i + 1}', x0_, y - 0.055, x1_, y + 0.055,
              Z_TECHO_COCINA - 0.060, Z_TECHO_COCINA + SOLAPE, MAT['_opal'],
@@ -3051,7 +3138,7 @@ def nichos_botellas(x0, x1, y, z0, alto=0.95, n=5, normal='-Y', col='Decoracion'
             lz.color = (1.0, 0.87, 0.70)
             ob = bpy.data.objects.new(f'Nicho luz {i + 1} {zz:.2f}', lz)
             ob.location = ((a + b) / 2, y + s_ * prof * 0.55, zz - 0.004)
-            ob.rotation_euler = (math.radians(180), 0, 0)
+            ob.visible_camera = False             # alumbra hacia abajo
             coleccion('Luces').objects.link(ob)
         # genero: botellas abajo, ceramica arriba
         for k in range(3):
@@ -3076,8 +3163,10 @@ def logo_escaparate():
     w_px, h_px = _medida_png(LOGO)
     ancho = 1.15
     alto = ancho * h_px / w_px
-    y = 1.585                      # cara interior del vidrio del ventanal Sur
-    cx, cz = 3.60, 1.62
+    y = 1.609 + DESPEGUE           # cara interior del vidrio del ventanal Sur
+    # centrado en el vidrio bajo de la derecha (3,804..5,705): en 3,60 la
+    # junta a tope de los dos vidrios (3,80) le cruzaba el nombre
+    cx, cz = 4.75, 1.62
     me = bpy.data.meshes.new('Logo escaparate')
     v = [(cx - ancho / 2, y, cz - alto / 2), (cx + ancho / 2, y, cz - alto / 2),
          (cx + ancho / 2, y, cz + alto / 2), (cx - ancho / 2, y, cz + alto / 2)]
@@ -3112,15 +3201,16 @@ def caracter_italiano():
     # en 2,53: volaba 220 mm por delante del canto. Se pasa a la mesa de
     # trabajo de la cocina, con la fruta y la otra cesta.
     poner('wicker_basket_02', 2.10, 7.35, 0.850, escala=0.8, giro=15)
-    # Ceramica al pie del ventanal. Iba a la cota del zocalo (0,130) como si
-    # hubiera alfeizar, pero el ventanal arranca del suelo: la vasija de
-    # vidrio va de 0,130 a 4,700 y no hay repisa ninguna, asi que las piezas
-    # colgaban a 129 mm del pavimento. Van al suelo.
+    # Ceramica al pie del ventanal, SOBRE el 'Zocalo del ventanal' del plano
+    # (x 1,87..5,87, y 1,621..1,968, de 0 a 0,130): puestas en el suelo se
+    # enterraban 13 cm en la piedra. Centradas en su fondo (y 1,795) y 15 cm
+    # mas al Oeste: la olla de laton mide 0,34 y en (5,66, 1,76) se metia
+    # en el vidrio del ventanal y en el montante del retorno (5,705).
     # la tercera pieza, a x 5,75, se metia 49 mm en el retorno de P5i
     # (5,870..5,980): las tres se corren al Oeste manteniendo el paso de 0,70
-    for i, x in enumerate((4.26, 4.96, 5.66)):
+    for i, x in enumerate((4.11, 4.81, 5.51)):
         poner(('ceramic_vase_01', 'ceramic_vase_02', 'brass_pot_01')[i % 3],
-              x, 1.760, 0.001, escala=0.8, giro=i * 63)
+              x, 1.795, 0.130 + DESPEGUE, escala=0.8, giro=i * 63)
 
 
 if __name__ == '__main__':
