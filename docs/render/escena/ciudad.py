@@ -68,9 +68,12 @@ def suelo_urbano(E, M):
         _c(E, f'Cebra {i + 1}', x, Y_ACERA_OP + 0.2, x + 0.50, Y_ACERA - 0.2,
            Z_CALZADA + 0.001, Z_CALZADA + 0.0035, M['_pintura_vial'])
     # alcorques de los arboles
+    # La tierra acababa 2 cm por debajo de la cara de la acera, que es un
+    # bloque macizo sin hueco: quedaba tapada y dentro del marco se veia
+    # baldosa. Asoma 2 mm por encima y el marco de piedra, 8 mm mas.
     for x in ALCORQUES:
         _c(E, f'Alcorque {x:.0f}', x - 0.55, Y_ACERA + 0.35, x + 0.55,
-           Y_ACERA + 1.45, H_BORDILLO - 0.15, H_BORDILLO - 0.02, M['_tierra'])
+           Y_ACERA + 1.45, H_BORDILLO - 0.15, H_BORDILLO + 0.002, M['_tierra'])
         for s, (ax0, ay0, ax1, ay1) in enumerate((
                 (x - 0.60, Y_ACERA + 0.30, x + 0.60, Y_ACERA + 0.35),
                 (x - 0.60, Y_ACERA + 1.45, x + 0.60, Y_ACERA + 1.50),
@@ -192,8 +195,13 @@ def baranda(E, M, x0, y0, x1, y1, z0, z1, nombre):
 
 
 # ------------------------------------------------------- mobiliario y coches
+# La farola y el bolardo arrancaban en z = 0 y la acera esta a H_BORDILLO
+# (-0,003): quedaban 3 mm en el aire. Van 10 mm metidos en la acera.
+Z_ANCLAJE = H_BORDILLO - 0.010
+
+
 def farola(E, M, x, y, alto=5.2, nombre='Farola'):
-    E.cilindro(f'{nombre} base', x, y, 0.115, 0.0, 0.42, M['carp'], 'Ciudad', 20)
+    E.cilindro(f'{nombre} base', x, y, 0.115, Z_ANCLAJE, 0.42, M['carp'], 'Ciudad', 20)
     E.cilindro(f'{nombre} fuste', x, y, 0.062, 0.40, alto, M['carp'], 'Ciudad', 20)
     E.cilindro(f'{nombre} brazo', x, y, 0.045, alto, alto + 0.22, M['carp'], 'Ciudad', 16)
     lum = E.caja(f'{nombre} luminaria', x - 0.28, y - 0.17, x + 0.28, y + 0.17,
@@ -204,7 +212,7 @@ def farola(E, M, x, y, alto=5.2, nombre='Farola'):
 
 
 def bolardo(E, M, x, y, nombre):
-    E.cilindro(f'{nombre}', x, y, 0.055, 0.0, 0.78, M['carp'], 'Ciudad', 20)
+    E.cilindro(f'{nombre}', x, y, 0.055, Z_ANCLAJE, 0.78, M['carp'], 'Ciudad', 20)
     E.cilindro(f'{nombre} cabeza', x, y, 0.070, 0.78, 0.83, M['carp'], 'Ciudad', 20)
 
 

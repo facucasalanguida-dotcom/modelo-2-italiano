@@ -318,6 +318,10 @@ def sustituido(s):
         return True                       # las puertas se rehacen con herrajes
     if nm in ('Borde Oeste del vacio', 'Borde Sur del vacio'):
         return True                       # el antepecho lo pone planta_alta()
+    if nm.startswith('Sillón corrido'):
+        return True                       # lo rehace sillon_corrido(), con sus
+                                          # cojines: la caja del plano los tapaba
+                                          # y su frente parpadeaba con la base
     return False
 
 
@@ -497,6 +501,9 @@ def arquitectura():
             # el canto de abajo, dentro del vierteaguas: sobre su cara de
             # arriba (0,130) el vidrio tocaba un opaco en el mismo plano
             z0 = FA_VIERTE - SOLAPE
+            # y los de los lados, dentro de los montantes: acababan a ras de
+            # su cara exterior y las dos caras parpadeaban
+            x0, x1 = x0 + SOLAPE, x1 - SOLAPE
         if s['nombre'].startswith('Tramo largo') and s['mat'] == 'vidrio':
             # hasta el techo, pero con el canto metido en el remate superior
             # (2,280..2,310): a 2,310 justos coincidia con el intrados
@@ -631,8 +638,10 @@ def _puerta_madera(s, dintel, col):
         sg = 1 if aa == a0 else -1
         piezas.append(C(f'{nm} · jamba {lado}', aa - sg * SOLAPE, b0 - 0.002,
                         aa + sg * CERCO, b1 + 0.002, z0, zc, madera))
+    # su cara de abajo, medio mm por debajo de la del dintel: en el mismo
+    # plano parpadeaban madera y tabique
     piezas.append(C(f'{nm} · cabecero del cerco', a0 + CERCO - 0.002, b0 - 0.002,
-                    a1 - CERCO + 0.002, b1 + 0.002, ztop, zc, madera))
+                    a1 - CERCO + 0.002, b1 + 0.002, ztop - DESPEGUE, zc, madera))
     # tapajuntas a las dos caras, metidos 2 mm en el paramento
     for cara, bb, sg in (('interior', b0, -1), ('exterior', b1, 1)):
         bj0, bj1 = bb - sg * 0.002, bb + sg * TJ_VUELO
@@ -956,17 +965,20 @@ def frente_barra():
         led.visible_shadow = False
         if con_canto:
             # canto superior de madera: solo donde hay mostrador
+            # medio mm por debajo de la tabla: con la cara de abajo en el
+            # mismo plano que la suya parpadeaban
             caja(f'Frente de la barra · canto {nm}', mx1 - 0.055, ya, mx1 + 0.012,
-                 yb, z1, z1 + 0.042, MAT['mesa'])
+                 yb, z1 - DESPEGUE, z1 + 0.042, MAT['mesa'])
     # Balda en la que apoyan las dos vitrinas acortadas. Por debajo queda el
     # hueco abierto al pasillo, con los dos motores y el lavavasos del plano.
-    bisel(caja('Vitrinas · balda de apoyo', VITRINA_TRASERA, my0, mx1 - 0.030, Y_MOSTRADOR,
-               VITRINA_BASE - 0.025, VITRINA_BASE, MAT['inox']))
+    # su trasera y su testa Sur, medio mm por dentro de las de la vitrina
+    bisel(caja('Vitrinas · balda de apoyo', VITRINA_TRASERA + DESPEGUE, my0 + DESPEGUE,
+               mx1 - 0.030, Y_MOSTRADOR, VITRINA_BASE - 0.025, VITRINA_BASE, MAT['inox']))
     # Testa Norte del mostrador: el trasdos negro de los listones acababa a la
     # vista justo donde arranca la pared en L y se leia como una franja negra.
     # Se cierra con un remate blanco, que ademas continua la linea de la L.
     caja('Frente de la barra · remate Norte', mx1 - 0.062, my1 - 0.004,
-         mx1 + 0.014, my1 + 0.014, 0.0, Q.H_ENCIMERA + 0.042,
+         mx1 + 0.014, my1 + 0.014, 0.0, Q.H_ENCIMERA + 0.042 - DESPEGUE,
          MAT['muro'])
 
     # Canto del forjado: en la referencia es una banda blanca lisa que no
@@ -1009,20 +1021,28 @@ def cocina_inox():
     # barra portautensilios sobre la bancada, como en la referencia
     cilindro('Cocina · barra utensilios', 0, 0, 0.001, 0, 0.001, MAT['inox'], 'Obra', 4)
     bpy.data.objects.remove(bpy.data.objects['Cocina · barra utensilios'], do_unlink=True)
-    yb = y1 - 0.060
+    # Los cazos colgaban hasta 1,250 y los aparatos de debajo (K2, K3) llegan
+    # a 1,26-1,27: se metian dentro. Y a 60 mm del muro, con 75 de radio,
+    # los cazos entraban en la chapa. Todo sube 100 mm y se separa 86 mm; el
+    # riel va cogido al muro con dos escuadras, no en el aire.
+    yb = y1 - 0.086
     caja('Cocina · riel', x0 + 0.35, yb - 0.012, x0 + 1.75, yb + 0.012,
-         1.480, 1.504, MAT['inox'], 'Obra')
+         1.580, 1.604, MAT['inox'], 'Obra')
+    for xe in (x0 + 0.38, x0 + 1.72):
+        caja(f'Cocina · escuadra del riel {xe:.2f}', xe - 0.010, yb, xe + 0.010,
+             y1 - e + SOLAPE, 1.580, 1.604, MAT['inox'], 'Obra')
     for i in range(6):
         x = x0 + 0.45 + i * 0.24
+        # el gancho entra 5 mm en lo que cuelga: antes quedaba 5 mm por encima
         caja(f'Cocina · gancho {i + 1}', x - 0.004, yb - 0.004, x + 0.004, yb + 0.004,
-             1.400, 1.492, MAT['inox'], 'Obra')
+             1.490, 1.592, MAT['inox'], 'Obra')
         # cazo o utensilio colgado
         if i % 2 == 0:
-            cilindro(f'Cocina · cazo {i + 1}', x, yb, 0.075, 1.250, 1.395,
+            cilindro(f'Cocina · cazo {i + 1}', x, yb, 0.075, 1.350, 1.495,
                      MAT['inox'], 'Obra', 28)
         else:
             caja(f'Cocina · pala {i + 1}', x - 0.035, yb - 0.006, x + 0.035,
-                 yb + 0.006, 1.230, 1.395, MAT['inox'], 'Obra')
+                 yb + 0.006, 1.330, 1.495, MAT['inox'], 'Obra')
 
 
 def remate_vidrio_L():
@@ -1354,7 +1374,8 @@ def fachada_real():
     # paño estrecho, con su cara lisa hacia la calle. En v2 f_12 y f_31 cubre
     # la franja de pizarra, el paño estrecho y P2, hasta donde arranca la
     # faja del paño grande (1,87); por detras, contra la faja (1,555).
-    bisel(caja('Caja de viga del porche', 0.000, 0.000, 1.870, 1.559,
+    # medio mm por dentro de la cara Oeste del aplacado, no a ras
+    bisel(caja('Caja de viga del porche', DESPEGUE, 0.000, 1.870, 1.559,
                4.600, Z_TECHO + SOLAPE, MAT['_revoco_fachada']))
 
     # ================================================ PARTE ESTE
@@ -1485,6 +1506,11 @@ GIRO = {
     # frente tiene que girar 180 y quedar de cara a el.
     'B4': 180,
 }
+# Correcciones en Y sobre el centro del hueco del plano. La cafetera A1 se
+# metia 30 mm en el forro de P1: se corre 32 mm al Sur y el molino A2 con
+# ella, hasta tocar la granizadora A3, que baja los 2 mm que faltan. Al Sur
+# de A3 la mesada esta libre hasta el peto (y 2,611).
+CORRE_Y = {'A1': -0.032, 'A2': -0.032, 'A3': -0.002}
 
 
 def _hueco_del_plano(j):
@@ -1567,12 +1593,17 @@ def aparatos(j):
         # la del liston (x = 2,530) y el zocalo de la vitrina quede detras de
         # la madera, que es para lo que esta puesta.
         s = -0.020 if tag in ('V1', 'V2') else SEPARACION_MURO
+        # El estante A6 va colgado del muro, sin patas: separado 30 mm como
+        # los aparatos de suelo quedaba en el aire
+        if tag == 'A6':
+            s = 0.0
         if g == 90:
             cx += s
         elif g == -90:
             cx -= s
         elif g == 0:
             cy -= s
+        cy += CORRE_Y.get(tag, 0.0)
         raiz_ob = raiz if raiz is not None else mallas[0]
         padres = [o for o in traidos if o.parent is None]
         import mathutils
@@ -1941,12 +1972,19 @@ def planta_alta():
         else:
             caja(f'Antepecho PA {k + 1}', ax, ay - 0.006, bx, ay + 0.006,
                  z, z + E.H_BARANDA, MAT['vidrio'], col)
-    # --- celosia de listones en el testero Norte del altillo, como abajo
-    listones('Celosia PA', 2.600, 8.720, 6.200, 8.740, z, z + 2.150,
-             MAT['_liston'], ancho=0.030, hueco=0.018, fondo=0.020, eje='x', col=col)
-    # --- banda azzurro sobre la celosia, gemela de la de abajo
-    caja('Banda azzurro PA', 2.600, 8.714, 6.200, 8.734, z + 2.150, z + 2.420,
-         MAT['_pared_napoli'], col)
+    # --- celosia de listones en el testero Norte del altillo, como abajo, con
+    #     su banda azzurro encima, gemela de la de abajo.
+    # Ese testero lo parten el tabique del inodoro -cuya puerta llega hasta la
+    # medianera- y el tabique aseo / almacen: seguida de 2,60 a 6,20 los
+    # atravesaba a los dos y al dintel de la puerta. Va por tramos, a 16 mm de
+    # cada tabique, que es lo que vuelan los tapajuntas de la puerta y un poco.
+    hol = TJ_VUELO + 0.004
+    for i, (a, b) in enumerate(((2.600, 4.461 - hol), (4.560 + hol, 5.459 - hol),
+                                (5.558 + hol, 6.200))):
+        listones(f'Celosia PA {i + 1}', a, 8.720, b, 8.740, z, z + 2.150,
+                 MAT['_liston'], ancho=0.030, hueco=0.018, fondo=0.020, eje='x', col=col)
+        caja(f'Banda azzurro PA {i + 1}', a, 8.714, b, 8.734, z + 2.150, z + 2.420,
+             MAT['_pared_napoli'], col)
     # Aqui iban tres estantes de botellas, por simetria con la trasbarra.
     # No hay donde anclarlos: entre y = 5,100 y 7,300 el testero Oeste del
     # altillo es el vacio, el tabique del aseo no arranca hasta y = 7,509 y
@@ -2285,15 +2323,23 @@ def _revolucion(nombre, perfil, x, y, z, mat, col, segs=36):
     return ob
 
 
-def taza(nombre, x, y, z, col='Decoracion', r=0.038, h=0.062):
+def taza(nombre, x, y, z, col='Decoracion', r=0.038, h=0.062, con_plato=True):
+    """Taza con su plato. z es donde apoya el conjunto.
+
+    El plato iba en z - 0,009 y la taza en z: el plato quedaba metido 9 mm en
+    el tablero. Ahora el plato apoya en z y la taza en el fondo del plato,
+    5 mm mas arriba. Sin plato (las del calientatazas) la taza apoya en z.
+    """
     perfil = [(0.000, 0.000), (r * 0.62, 0.000), (r * 0.66, 0.004), (r * 0.92, h * 0.72),
               (r, h), (r - 0.0035, h), (r * 0.90, h * 0.72), (r * 0.60, 0.006),
               (0.000, 0.006)]
-    ob = _revolucion(nombre, perfil, x, y, z, MAT['_blanco'], col, 32)
-    # plato
+    ob = _revolucion(nombre, perfil, x, y, z + (0.005 if con_plato else 0.0),
+                     MAT['_blanco'], col, 32)
+    if not con_plato:
+        return [ob]
     pl = _revolucion(f'{nombre} plato', [(0.000, 0.000), (0.060, 0.000), (0.066, 0.004),
                                          (0.068, 0.009), (0.064, 0.009), (0.058, 0.005),
-                                         (0.000, 0.005)], x, y, z - 0.009,
+                                         (0.000, 0.005)], x, y, z,
                      MAT['_blanco'], col, 32)
     return [ob, pl]
 
@@ -2302,6 +2348,12 @@ def plato(nombre, x, y, z, r=0.115, col='Decoracion'):
     perfil = [(0.000, 0.000), (r * 0.80, 0.000), (r, 0.014), (r, 0.019),
               (r * 0.78, 0.006), (0.000, 0.006)]
     return _revolucion(nombre, perfil, x, y, z, MAT['_blanco'], col, 40)
+
+
+# Lo que ocupa en planta una botella de las de botella(): la etiqueta es una
+# caja de 2 x 0,99 r de lado y sus esquinas llegan a 53 mm del eje. Con el
+# radio del vidrio (38 mm) el aceite y el vinagre se metian las etiquetas.
+R_BOTELLA = 0.054
 
 
 def botella(nombre, x, y, z, alto=0.300, col='Decoracion', vidrio=None, giro=0.0):
@@ -2327,7 +2379,8 @@ def tarro(nombre, x, y, z, alto=0.220, r=0.058, col='Decoracion'):
     _revolucion(nombre, perfil, x, y, z, MT.vidrio(f'{nombre} v', (0.98, 0.98, 0.96)), col, 28)
     cilindro(f'{nombre} tapa', x, y, r * 0.90, z + alto, z + alto + 0.016,
              MAT['_laton'], col, 28)
-    relleno = cilindro(f'{nombre} pasta', x, y, r * 0.92, z + 0.010, z + alto - 0.045,
+    # la pasta apoya en el fondo del vidrio (a 4 mm en el canto): a 10 mm flotaba
+    relleno = cilindro(f'{nombre} pasta', x, y, r * 0.92, z + 0.004, z + alto - 0.045,
                        MT.liso(f'{nombre} m', MT.srgb('E3C275'), 0.75), col, 28)
     return relleno
 
@@ -2435,19 +2488,39 @@ def albahaca(nombre, x, y, z, col='Decoracion'):
              _mat_mesa('tierra'), col, 24)
     rnd = random.Random(zlib.crc32(nombre.encode()))
     bm = bmesh.new()
-    for i in range(34):
-        th = rnd.uniform(0.0, 2 * math.pi)
-        ph = rnd.uniform(0.10, 1.25)                 # desde la vertical
-        R = rnd.uniform(0.030, 0.058)
-        px, py = R * math.sin(ph) * math.cos(th), R * math.sin(ph) * math.sin(th)
-        pz = 0.070 + 0.070 * math.cos(ph) + rnd.uniform(0.0, 0.015)
-        tam = rnd.uniform(0.8, 1.15)
-        g = bmesh.ops.create_uvsphere(bm, u_segments=8, v_segments=5, radius=1.0)
-        M = (mathutils.Matrix.Translation((x + px, y + py, z + pz))
-             @ mathutils.Matrix.Rotation(th, 4, 'Z')
-             @ mathutils.Matrix.Rotation(-rnd.uniform(0.35, 0.9), 4, 'Y')
-             @ mathutils.Matrix.Diagonal((0.019 * tam, 0.011 * tam, 0.0022, 1.0)))
+    # Siete tallos que salen de la tierra (arrancan 5 mm dentro) y las hojas
+    # cogidas a ellos por pares, en tres nudos. Antes eran 34 hojas sueltas
+    # entre 20 y 30 mm por encima de la tierra: una nube verde en el aire.
+    # Todo cabe en 62 mm de radio, dentro de lo que se le reserva en la mesa.
+    for t in range(7):
+        th = 2 * math.pi * t / 7 + rnd.uniform(-0.3, 0.3)
+        incl = rnd.uniform(0.08, 0.30)               # desde la vertical
+        largo = rnd.uniform(0.055, 0.078)
+        base = Vector((x + 0.006 * math.cos(th), y + 0.006 * math.sin(th), z + 0.058))
+        eje = Vector((math.sin(incl) * math.cos(th), math.sin(incl) * math.sin(th),
+                      math.cos(incl)))
+        g = bmesh.ops.create_cone(bm, cap_ends=True, segments=6, radius1=0.0022,
+                                  radius2=0.0012, depth=largo)
+        M = (mathutils.Matrix.Translation(base + eje * (largo / 2))
+             @ Vector((0, 0, 1)).rotation_difference(eje).to_matrix().to_4x4())
         bmesh.ops.transform(bm, matrix=M, verts=g['verts'])
+        for n, f in enumerate((0.45, 0.72, 1.0)):
+            nudo = base + eje * (largo * f)
+            for lado in (0, 1):
+                a = th + (math.pi / 2 if n % 2 else 0.0) + lado * math.pi \
+                    + rnd.uniform(-0.25, 0.25)
+                tam = rnd.uniform(0.80, 1.0) * (1.10 - 0.25 * f)
+                sube = rnd.uniform(0.35, 0.9)
+                # la hoja arranca en el tallo: su centro, a media hoja de el
+                d = Vector((math.cos(a) * math.cos(sube), math.sin(a) * math.cos(sube),
+                            math.sin(sube)))
+                c = nudo + d * (0.016 * tam)
+                g = bmesh.ops.create_uvsphere(bm, u_segments=8, v_segments=5, radius=1.0)
+                M = (mathutils.Matrix.Translation(c)
+                     @ mathutils.Matrix.Rotation(a, 4, 'Z')
+                     @ mathutils.Matrix.Rotation(-sube, 4, 'Y')
+                     @ mathutils.Matrix.Diagonal((0.019 * tam, 0.011 * tam, 0.0022, 1.0)))
+                bmesh.ops.transform(bm, matrix=M, verts=g['verts'])
     me = bpy.data.meshes.new(f'{nombre} hojas')
     bm.to_mesh(me)
     bm.free()
@@ -2527,7 +2600,8 @@ def _huella(obs, cx, cy):
     return (mx - cx, my - cy, max(max(xs) - min(xs), max(ys) - min(ys)) / 2 + 0.005)
 
 
-def mesa_italiana(tag, cx, cy, w, d, z, ocup, k, redonda=False, col='Decoracion'):
+def mesa_italiana(tag, cx, cy, w, d, z, ocup, k, redonda=False, col='Decoracion',
+                  aceite=None):
     """Lo que la hace mesa de trattoria: fiasco con vela, aceite y vinagre,
     sal y pimienta, albahaca o grissini, y limones en las de cuatro.
 
@@ -2559,13 +2633,13 @@ def mesa_italiana(tag, cx, cy, w, d, z, ocup, k, redonda=False, col='Decoracion'
         return lambda x, y: sx * y - 1.5 * abs(x)
 
     puestos = []
-    # el aceite de la mesa, para arrimarle el vinagre, la sal y la pimienta;
-    # las de arriba no lo llevaban y se les pone
-    aceite = [(ox, oy) for ox, oy, orr in ocup if abs(orr - 0.042) < 1e-6]
+    # el aceite de la mesa (aceite = su sitio, relativo al centro), para
+    # arrimarle el vinagre, la sal y la pimienta; las de arriba no lo llevaban
+    # y se les pone
     if aceite:
-        ax, ay = aceite[0]
+        ax, ay = aceite
     else:
-        p = _colocar(ocup, 0.042, dentro, testero(-lado))
+        p = _colocar(ocup, R_BOTELLA, dentro, testero(-lado))
         ax, ay = p if p else (0.0, 0.0)
         if p:
             puestos.append(botella(f'Aceite {tag}', cx + p[0], cy + p[1], z,
@@ -2573,7 +2647,7 @@ def mesa_italiana(tag, cx, cy, w, d, z, ocup, k, redonda=False, col='Decoracion'
     p = _colocar(ocup, 0.070, dentro, testero(lado))
     if p:
         puestos.append(fiasco(f'Fiasco {tag}', cx + p[0], cy + p[1], z, col=col))
-    p = _colocar(ocup, 0.030, dentro, cerca(ax, ay))
+    p = _colocar(ocup, R_BOTELLA, dentro, cerca(ax, ay))
     if p:
         puestos.append(botella(f'Vinagre {tag}', cx + p[0], cy + p[1], z, alto=0.170,
                                col=col, vidrio=_mat_mesa('vinagre')))
@@ -2623,11 +2697,29 @@ def decoracion():
                 alto=0.28 + 0.06 * ((i * 7) % 3) / 2)
     # Los tarros arrancaban en y = 2,45 y la balda no empieza hasta 2,884:
     # los dos primeros colgaban en el aire delante del estante.
+    # El estante va de x 0,250 a 0,650, contra el muro: en x = 0,62 los tarros
+    # (58 mm de radio) volaban 28 mm por fuera del canto.
     for i in range(4):
-        tarro(f'Tarro pasta {i + 1}', 0.62, 3.05 + i * 0.30, z_est, alto=0.20 + 0.03 * (i % 2))
-    # tazas de espresso boca abajo sobre la cafetera y la mesada
-    for i in range(6):
-        taza(f'Taza barra {i + 1}', 0.40 + 0.11 * (i % 3), 4.20 + 0.12 * (i // 3), 0.905)
+        tarro(f'Tarro pasta {i + 1}', 0.585, 3.05 + i * 0.30, z_est, alto=0.20 + 0.03 * (i % 2))
+    # Tazas de espresso sobre el calientatazas de la cafetera, sin plato, que
+    # es donde se ponen a calentar. Iban a la cota de la mesada (0,905) justo
+    # donde esta la maquina, y salian de dentro de su cuerpo. Cada una apoya
+    # donde da un rayo vertical sobre la bandeja de arriba.
+    cal = next((o for o in bpy.data.objects
+                if o.type == 'MESH' and o.name.split('.')[0] == 'calientatazas'), None)
+    if cal is not None:
+        bpy.context.view_layer.update()
+        dg = bpy.context.evaluated_depsgraph_get()
+        ws = [cal.matrix_world @ Vector(c) for c in cal.bound_box]
+        xc = (min(w.x for w in ws) + max(w.x for w in ws)) / 2
+        yc = (min(w.y for w in ws) + max(w.y for w in ws)) / 2
+        zt = max(w.z for w in ws)
+        for i in range(6):
+            tx, ty = xc + (i % 2 - 0.5) * 0.095, yc + (i // 2 - 1) * 0.095
+            ok, loc, *_ = bpy.context.scene.ray_cast(
+                dg, Vector((tx, ty, zt + 0.05)), Vector((0, 0, -1)), distance=0.20)
+            if ok:
+                taza(f'Taza barra {i + 1}', tx, ty, loc.z, con_plato=False)
     # ---- mostrador: lo que ve el cliente
     mx1 = Q.MOSTRADOR_X[1]
     z_tabla = Q.H_ENCIMERA + 0.040
@@ -2640,10 +2732,12 @@ def decoracion():
     poner('ceramic_vase_01', 2.20, 4.08, z_tabla, escala=0.9, giro=-25)
     for i in range(3):
         copa(f'Copa mostrador {i + 1}', mx1 - 0.16, 4.44 + i * 0.09, z_tabla)
-    # ---- botellero sobre la vitrina y aceite en el paso
-    # y 4,62 metia la jarra 9 mm dentro de P1, que arranca en 4,759
-    poner('jug_01', 0.45, 4.55, 0.905, escala=1.0, giro=35)
-    poner('metal_jug', 0.66, 4.60, 0.905, escala=0.9, giro=-15)
+    # ---- las dos jarras, en la mesada de la trasbarra
+    # En (0,45 / 4,55) y (0,66 / 4,60) caian dentro de la cafetera, que ocupa
+    # la mesada de y 3,727 a 4,727. Van al tramo libre, entre el peto (2,611)
+    # y la granizadora (3,357), apoyadas en la mesada (0,900).
+    poner('jug_01', 0.46, 2.80, 0.900, escala=1.0, giro=35)
+    poner('metal_jug', 0.52, 3.15, 0.900, escala=0.9, giro=-15)
     # ---- plantas: terracota, el verde de la trattoria
     # delante de la puerta del baño no va ninguna: estorba el paso. Y delante
     # de la pared azzurro tampoco: ahi va la pared y el logo, nada mas.
@@ -2660,9 +2754,20 @@ def decoracion():
     # la K10, que es la mesa de trabajo, y su tablero esta a 0,850, no a 0,900.
     z_k10 = 0.850
     poner('wooden_bowl_01', 2.10, 6.30, z_k10, escala=1.0, giro=25)
-    for i, aid in enumerate(('food_apple_01', 'food_lime_01', 'food_pomegranate_01')):
-        poner(aid, 2.06 + 0.05 * i, 6.28 + 0.04 * (i % 2), z_k10 + 0.045,
-              escala=1.0, giro=i * 55)
+    # La fruta iba a 50 mm una de otra y a una cota fija: la lima se metia en
+    # la granada y la manzana en la lima. Cada una en su sitio del cuenco y
+    # apoyada donde da un rayo vertical sobre la madera, como los limones.
+    bpy.context.view_layer.update()
+    dg = bpy.context.evaluated_depsgraph_get()
+    frutas = (('food_apple_01', 2.055, 6.275), ('food_lime_01', 2.145, 6.265),
+              ('food_pomegranate_01', 2.100, 6.360))
+    cotas = []
+    for aid, fx, fy in frutas:
+        ok, loc, *_ = bpy.context.scene.ray_cast(
+            dg, Vector((fx, fy, z_k10 + 0.40)), Vector((0, 0, -1)))
+        cotas.append(loc.z if ok and loc.z < z_k10 + 0.10 else z_k10 + 0.020)
+    for i, ((aid, fx, fy), zf) in enumerate(zip(frutas, cotas)):
+        poner(aid, fx, fy, zf - 0.004, escala=1.0, giro=i * 55)
     poner('wicker_basket_02', 2.10, 6.85, z_k10, escala=0.9, giro=-12)
     # ---- la pared del sillon corrido: solo cuadros, repartidos
     for i, x in enumerate((3.05, 3.95, 4.85, 6.10, 7.00)):
@@ -2684,7 +2789,7 @@ def decoracion():
             copa('Copa ' + tag + ' 1', cx - 0.12, cy + 0.08, z)
             copa('Copa ' + tag + ' 2', cx + 0.11, cy + 0.06, z)
             botella('Vino ' + tag, cx, cy - 0.13, z, alto=0.300)
-            ocup += [(-0.12, 0.08, 0.043), (0.11, 0.06, 0.043), (0.0, -0.13, 0.041)]
+            ocup += [(-0.12, 0.08, 0.043), (0.11, 0.06, 0.043), (0.0, -0.13, R_BOTELLA)]
         elif estilo == 2:
             te = poner('tea_set_01', cx, cy, z, escala=1.0, giro=rnd.uniform(-30, 30))
             ocup.append(_huella(te, cx, cy))
@@ -2696,8 +2801,8 @@ def decoracion():
             ocup += [(-0.05, 0.0, 0.120), (0.16, 0.03, 0.070)]
         # aceite en todas; con el, el vinagre, la sal y la pimienta
         botella('Aceite ' + tag, cx + 0.22, cy + 0.20, z, alto=0.185)
-        ocup.append((0.22, 0.20, 0.042))
-        mesa_italiana(tag, cx, cy, x1 - x0, y1 - y0, z, ocup, k)
+        ocup.append((0.22, 0.20, R_BOTELLA))
+        mesa_italiana(tag, cx, cy, x1 - x0, y1 - y0, z, ocup, k, aceite=(0.22, 0.20))
     # ---- mesas de planta alta
     for k, m in enumerate(MB.MESAS_PA):
         tag, tipo, x0, y0, x1, y1, lados = m
@@ -2780,15 +2885,19 @@ def exterior():
         aid = 'jacaranda_tree' if (i % 2 and _hay('jacaranda_tree')) else 'tree_small_02'
         poner(aid, x, C.Y_ACERA + 0.90, C.H_BORDILLO - 0.02, altura=7.2 + 0.8 * (i % 2),
               giro=i * 53, col='Ciudad', lod=1)
-    # arbolado de la acera de enfrente, mas lejos y mas suelto
+    # arbolado de la acera de enfrente, mas lejos y mas suelto. A 1,20 del
+    # bordillo la copa se metia en los balcones y en el toldo de enfrente: va
+    # a 0,35, del lado de la calzada, que es donde hay aire
     for i, x in enumerate((-9.0, 14.0)):
-        poner('tree_small_02', x, C.Y_ACERA_OP - 1.20, C.H_BORDILLO - 0.02,
+        poner('tree_small_02', x, C.Y_ACERA_OP - 0.35, C.H_BORDILLO - 0.02,
               altura=6.4 + 0.9 * (i % 2), giro=i * 71, col='Ciudad', lod=1)
 
     # mobiliario urbano
     for i, x in enumerate((-5.2, 2.0, 8.6, 15.2, 21.8)):
         C.farola(CIUDAD_API, MAT, x, C.Y_ACERA + 0.55, nombre=f'Farola {i + 1}')
-    for i, x in enumerate((-2.6, -1.9, 3.4, 4.1, 9.8, 10.5, 16.2, 16.9)):
+    # la ultima pareja, 10 cm al Oeste: el bolardo de 16,9 pisaba el marco
+    # del alcorque de 17,5, que arranca en 16,90
+    for i, x in enumerate((-2.6, -1.9, 3.4, 4.1, 9.8, 10.5, 16.1, 16.8)):
         C.bolardo(CIUDAD_API, MAT, x, C.Y_ACERA + 0.42, f'Bolardo {i + 1}')
     for aid, x, y, g in (('metal_trash_can', 6.10, C.Y_ACERA + 0.70, 20),
                          ('fire_hydrant', -6.40, C.Y_ACERA + 0.60, -30),
@@ -3361,82 +3470,6 @@ def main():
 
 
 # ------------------------------------------- piezas de caracter italiano
-def _calca_png(nombre, ancho_px, alto_px, dibujar):
-    """Genera un PNG con PIL en el scratch y devuelve su ruta."""
-    from PIL import Image, ImageDraw
-    d = os.path.join(SCRATCH, 'calcas')
-    os.makedirs(d, exist_ok=True)
-    ruta = os.path.join(d, f'{nombre}.png')
-    im = Image.new('RGBA', (ancho_px, alto_px), (0, 0, 0, 0))
-    dibujar(im, ImageDraw.Draw(im))
-    im.save(ruta)
-    return ruta
-
-
-def _fuente(px, negrita=False, cursiva=False):
-    """Solo hay DejaVu: la cursiva se hace con el serif, que ademas queda
-    mejor en una carta de trattoria."""
-    from PIL import ImageFont
-    n = 'DejaVuSerif' if cursiva else 'DejaVuSans'
-    if negrita:
-        n += '-Bold'
-    return ImageFont.truetype(f'/usr/share/fonts/truetype/dejavu/{n}.ttf', px)
-
-
-def pizarra_menu(x, y, z, normal='-Y', ancho=0.62, alto=0.88, col='Decoracion'):
-    """Pizarra de carta del dia, escrita a mano."""
-    def dib(im, dr):
-        W, H = im.size
-        dr.rectangle((0, 0, W, H), fill=(26, 28, 27, 255))
-        dr.text((W * 0.16, H * 0.06), 'MENU', font=_fuente(int(H * 0.085), True),
-                fill=(242, 238, 228, 255))
-        dr.text((W * 0.10, H * 0.155), 'del giorno', font=_fuente(int(H * 0.070), False, True),
-                fill=(232, 226, 212, 255))
-        dr.line((W * 0.10, H * 0.255, W * 0.90, H * 0.255), fill=(200, 196, 186, 255), width=3)
-        platos = [('Antipasto della casa', '9,50'), ('Tagliatelle al ragù', '12,00'),
-                  ('Gnocchi al pesto', '11,50'), ('Parmigiana', '10,50'),
-                  ('Tiramisù', '5,50'), ('Caffè Margot', '1,80')]
-        f = _fuente(int(H * 0.044))
-        for i, (p, pr) in enumerate(platos):
-            yy = H * (0.315 + i * 0.088)
-            dr.text((W * 0.09, yy), p, font=f, fill=(238, 233, 220, 255))
-            # el precio, alineado a la derecha: si no, los platos largos se
-            # comian la cifra ("Antipasto della casa9,50")
-            anc = dr.textlength(pr, font=f)
-            dr.text((W * 0.91 - anc, yy), pr, font=f, fill=(226, 200, 140, 255))
-        dr.text((W * 0.30, H * 0.905), '~ Casa Margot ~',
-                font=_fuente(int(H * 0.050), False, True), fill=(210, 205, 190, 255))
-    ruta = _calca_png('pizarra_menu', 620, 880, dib)
-    e = 0.030
-    s = -1 if normal in ('-Y', '-X') else 1
-    if normal in ('-Y', '+Y'):
-        caja('Pizarra marco', x - ancho / 2 - 0.030, y, x + ancho / 2 + 0.030,
-             y + s * e, z - alto / 2 - 0.030, z + alto / 2 + 0.030, MAT['mesa'], col)
-        v = [(x - ancho / 2, y + s * (e + 0.002), z - alto / 2),
-             (x + ancho / 2, y + s * (e + 0.002), z - alto / 2),
-             (x + ancho / 2, y + s * (e + 0.002), z + alto / 2),
-             (x - ancho / 2, y + s * (e + 0.002), z + alto / 2)]
-        uvs = ((1, 0), (0, 0), (0, 1), (1, 1)) if s < 0 else ((0, 0), (1, 0), (1, 1), (0, 1))
-    else:
-        caja('Pizarra marco', x, y - ancho / 2 - 0.030, x + s * e,
-             y + ancho / 2 + 0.030, z - alto / 2 - 0.030, z + alto / 2 + 0.030,
-             MAT['mesa'], col)
-        v = [(x + s * (e + 0.002), y - ancho / 2, z - alto / 2),
-             (x + s * (e + 0.002), y + ancho / 2, z - alto / 2),
-             (x + s * (e + 0.002), y + ancho / 2, z + alto / 2),
-             (x + s * (e + 0.002), y - ancho / 2, z + alto / 2)]
-        uvs = ((0, 0), (1, 0), (1, 1), (0, 1)) if s > 0 else ((1, 0), (0, 0), (0, 1), (1, 1))
-    me = bpy.data.meshes.new('Pizarra carta')
-    me.from_pydata(v, [], [(0, 1, 2, 3)])
-    me.uv_layers.new()
-    for i, c in enumerate(uvs):
-        me.uv_layers[0].data[i].uv = c
-    me.materials.append(MT.calca('Carta del dia', ruta, rug=0.85))
-    ob = bpy.data.objects.new('Pizarra carta', me)
-    coleccion(col).objects.link(ob)
-    return ob
-
-
 def nichos_botellas(x0, x1, y, z0, alto=0.95, n=5, normal='-Y', col='Decoracion'):
     """Hornacinas iluminadas con botellas, como en las fotos de referencia.
 
@@ -3577,13 +3610,16 @@ def caracter_italiano():
     pizarra_menu()
     # el expositor de bebidas, lleno: sus cinco parrillas estan a 0,46 / 0,73
     # / 1,00 / 1,27 / 1,54 (obj_A7: Z_INT0 + 0,190 + k * 0,270)
+    # Entre las cremalleras de los laterales quedan libres x 5,777..6,213:
+    # seis botellas a 74 mm se salian por los dos lados y se metian en ellas.
+    # Van cinco a 85 mm, y apoyadas en la parrilla (antes flotaban 5 mm).
     ax, ay = 5.995, 4.078                      # centro y cara interior del frente
     for k in range(5):
         z = 0.462 + k * 0.270
-        for j in range(6):
-            bx = ax - 0.185 + j * 0.074
+        for j in range(5):
+            bx = ax + (j - 2) * 0.085
             for f, dy in ((0, 0.075), (1, 0.230)):
-                botella(f'A7 botella {k}{j}{f}', bx, ay + dy, z + 0.006,
+                botella(f'A7 botella {k}{j}{f}', bx, ay + dy, z + 0.001,
                         alto=0.225 if k % 2 == 0 else 0.245, col='Decoracion')
     # Cesta de pan del paso. Estaba en x = 2,75 y la tabla del mostrador muere
     # en 2,53: volaba 220 mm por delante del canto. Se pasa a la mesa de
