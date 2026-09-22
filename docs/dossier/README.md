@@ -1,7 +1,8 @@
 # Dossier de Casa Margot
 
 `build_dossier.py` arma el PDF de presentacion: portada con el logo, pagina
-de color y una pagina por render, a sangre.
+de color, una pagina por render a sangre, y las tablas de equipamiento con
+la ficha de cada maquina como enlace clicable dentro del PDF.
 
     python3 build_dossier.py --fotos ../render/casa_margot
 
@@ -14,6 +15,12 @@ Opciones:
     --ancho    reescala las fotos a ese ancho en px. Sin esto el PDF pesa
                unos 50 MB con quince vistas; con --ancho 2000 baja a 4,5 MB,
                que es lo que pasa por correo.
+    --sin-equipamiento   deja fuera las tablas de maquinaria.
+
+Las tablas de equipamiento se leen de `docs/planos/LISTA_MAKRO.md`, no de una
+copia: si alli se cambia una maquina o una ficha, el dossier sale ya
+cambiado. Son las 24 referencias del modelo y las 19 alternativas, con su
+medida, donde va cada una y el enlace a makro.es.
 
 Las paginas son 16:9 para que los renders entren sin bandas: son 3840x2160 y
 cualquier formato de papel les dejaria franjas arriba y abajo.

@@ -12,12 +12,13 @@ no como imagen: en el PDF final se puede ampliar sin que pixele.
 Los colores no son inventados: salen de materiales.py, que es de donde los
 toma el render. Si alli cambia un albedo, aqui hay que cambiarlo tambien.
 """
-import argparse, os, sys
+import argparse, io, os, re, sys
 import fitz
 
 AQUI = os.path.dirname(os.path.abspath(__file__))
 REPO = os.path.abspath(os.path.join(AQUI, '..', '..'))
 LOGO_PDF = os.path.join(REPO, 'docs', 'pared', 'CASA_MARGOT_LOGO_NERO.pdf')
+LISTA = os.path.join(REPO, 'docs', 'planos', 'LISTA_MAKRO.md')
 
 W, H = 842.0, 473.6                      # 16:9 sobre el ancho de un A4 apaisado
 M = 46.0                                 # margen de las paginas de texto
@@ -60,6 +61,33 @@ VISTAS = [
     ('alta_cowork', 'La mesa de cowork, ocho puestos'),
     ('alta_vacio', 'Asomado al vacío de doble altura'),
 ]
+
+
+def equipamiento():
+    """Lee LISTA_MAKRO.md y devuelve las dos tablas con sus enlaces.
+
+    La fuente es el markdown del repositorio, no una copia: si alli se
+    cambia una maquina o una ficha, el dossier sale ya cambiado.
+    """
+    if not os.path.exists(LISTA):
+        return []
+    bloques, sec, filas = [], 'Equipamiento del modelo', []
+    for ln in io.open(LISTA, encoding='utf-8').read().splitlines():
+        if ln.startswith('##'):
+            if filas:
+                bloques.append((sec, filas)); filas = []
+            sec = ln.lstrip('# ').strip()
+            continue
+        if not ln.startswith('|') or re.match(r'^\|[\s\-|]+\|$', ln):
+            continue
+        c = [x.strip() for x in ln.strip('|').split('|')]
+        if len(c) < 5 or c[0] in ('Rótulo', 'Sustituye a', 'Elemento'):
+            continue
+        m = re.search(r'\((https?://[^)]+)\)', c[4])
+        filas.append((c[0], c[1], c[2], c[3], m.group(1) if m else ''))
+    if filas:
+        bloques.append((sec, filas))
+    return [(s_, f) for s_, f in bloques if f]
 
 
 def rgb(h):
@@ -152,11 +180,52 @@ def contraportada(doc, doc_logo, pie):
         texto(p, (W - w) / 2, H / 2 + 56 + i * 15, s, 9.5, CREMA)
 
 
+FILAS_POR_PAGINA = 10
+
+
+def paginas_equipamiento(doc, doc_logo, seccion, filas, doc_sub):
+    for i in range(0, len(filas), FILAS_POR_PAGINA):
+        trozo = filas[i:i + FILAS_POR_PAGINA]
+        p = doc.new_page(width=W, height=H)
+        fondo(p, CREMA)
+        texto(p, M, M + 12, seccion.upper(), 15, TINTA, 'hebo')
+        p.draw_line(fitz.Point(M, M + 24), fitz.Point(M + 58, M + 24),
+                    color=rgb(AZZURRO), width=1.4)
+        sub = doc_sub if i == 0 else f'continuación · {i + 1}–{i + len(trozo)}'
+        texto(p, M, M + 40, sub, 8.5, '6B6862')
+        logo(p, fitz.Rect(W - M - 104, M - 6, W - M, M + 30), doc_logo)
+        y = M + 62
+        xt, xp, xm, xf = M, M + 42, W - M - 190, W - M - 66
+        for tag, prod, med, donde, url in trozo:
+            texto(p, xt, y + 11, tag, 9.5, AZZURRO, 'hebo')
+            # insert_textbox no dibuja NADA si el texto no le cabe, y una
+            # linea de 8,5 pt necesita 15 de alto: con 13 salian las filas
+            # sin el nombre del producto y parecia que el markdown no traia
+            # esa columna.
+            p.insert_textbox(fitz.Rect(xp, y + 1, xm - 12, y + 17), prod,
+                             fontsize=8.5, fontname='helv', color=rgb(TINTA))
+            p.insert_textbox(fitz.Rect(xp, y + 15, xm - 12, y + 28), donde,
+                             fontsize=7, fontname='helv', color=rgb('6B6862'))
+            texto(p, xm, y + 11, med, 8, TINTA)
+            if url:
+                texto(p, xf, y + 11, 'ver ficha', 8, AZZURRO)
+                p.insert_link({'kind': fitz.LINK_URI,
+                               'from': fitz.Rect(xf, y + 1, W - M, y + 15),
+                               'uri': url})
+            else:
+                texto(p, xf, y + 11, 'ya comprado', 8, '9A968F')
+            p.draw_line(fitz.Point(M, y + 30), fitz.Point(W - M, y + 30),
+                        color=rgb('DCD7CC'), width=0.5)
+            y += 32
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument('--fotos', default=os.path.join(REPO, 'docs', 'render', 'casa_margot'))
     ap.add_argument('--salida', default=os.path.join(AQUI, 'CASA_MARGOT_dossier.pdf'))
     ap.add_argument('--titulo', default='Proyecto de interiorismo')
+    ap.add_argument('--sin-equipamiento', action='store_true',
+                    help='deja fuera las tablas de maquinaria con sus fichas')
     ap.add_argument('--ancho', type=int, default=0,
                     help='reescala las fotos a este ancho en px para el PDF '
                          'de correo; 0 las deja como estan')
@@ -188,6 +257,10 @@ def main():
     pagina_paleta(doc, doc_logo)
     for i, (r, pie) in enumerate(fotos, 1):
         pagina_foto(doc, r, pie, i, len(fotos), a.ancho)
+    if not a.sin_equipamiento:
+        for sec, filas in equipamiento():
+            paginas_equipamiento(doc, doc_logo, sec, filas,
+                                 f'{len(filas)} referencias · ficha en makro.es')
     contraportada(doc, doc_logo, [a.lugar])
 
     doc.set_metadata({'title': 'Casa Margot · ' + a.titulo, 'subject': a.lugar})
