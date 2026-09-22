@@ -102,16 +102,20 @@ def main():
                       flush=True)
             t0 = time.time()
             r = subprocess.run(orden)
-            if r.returncode and time.time() - t0 < 60:
-                # No es falta de memoria ni tiempo: se ha roto al montar. Con
-                # la mitad de muestras se rompe igual, asi que no se insiste.
-                print(f'[{i}/{len(vistas)}] {v}: se rompio al montar la escena; '
-                      'mira el error de arriba', flush=True)
-                sys.exit('\nLote parado.')
             if r.returncode == 2:
-                # faltan los activos: reintentar con menos muestras no arregla
-                # nada y son quince fallos seguidos. Se para y ya esta.
+                # Faltan los activos: le va a pasar a las quince, asi que se
+                # para el lote entero en vez de encadenar quince fallos.
                 sys.exit('\nLote parado: hay que bajar los activos primero.')
+            if r.returncode and time.time() - t0 < 60:
+                # No es falta de memoria ni tiempo: se ha roto al montar, y con
+                # la mitad de muestras se rompe igual. No se insiste, pero se
+                # sigue con las demas: puede ser cosa de esta vista sola -la de
+                # fachada es la unica que carga la ciudad y el HDRI de 8K- y
+                # parar el lote por ella dejaria catorce sin hacer.
+                print(f'[{i}/{len(vistas)}] {v}: se rompio al montar; sigo con '
+                      'las demas. El error esta arriba', flush=True)
+                fallos.append(v)
+                break
             if os.path.exists(destino):
                 print(f'[{i}/{len(vistas)}] {v}: listo en '
                       f'{(time.time() - t0) / 60:.0f} min', flush=True)
