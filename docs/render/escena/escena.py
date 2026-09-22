@@ -970,7 +970,14 @@ GIRO = {
     'K10': -90,                                           # pared en L
     'A1': 90, 'A2': 90, 'A3': 90, 'A4': 90, 'A5': 90, 'A6': 90,   # trasbarra
     'A7': 0,                                              # cara Sur de P3
-    'V1': -90, 'V2': -90, 'B1': 90, 'B3': -90, 'B4': -90, 'B2': 0,
+    'V1': -90, 'V2': -90, 'B1': 90, 'B3': -90, 'B2': 0,
+    # La chopera mira al Norte, no al Oeste. El objeto tiene el frente en -Y:
+    # ahi estan los tres caños, las manetas y la rejilla donde va el vaso, y
+    # la columna queda detras. Con -90 los caños apuntaban a la pared Oeste,
+    # contra la que nadie puede ponerse: la tabla de P2 llega hasta ella. El
+    # que tira la cerveza esta al Norte, en la calle de servicio, asi que el
+    # frente tiene que girar 180 y quedar de cara a el.
+    'B4': 180,
 }
 
 
