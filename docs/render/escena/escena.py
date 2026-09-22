@@ -228,15 +228,28 @@ def escena_nueva(spp=512, ancho=2560, alto=1440):
     sc.cycles.diffuse_bounces = 6
     sc.cycles.glossy_bounces = 6
     sc.cycles.transmission_bounces = 8
-    sc.cycles.transparent_max_bounces = 6
+    # Los paños de vidrio no son refractivos: son un Transparent BSDF con algo
+    # de glossy encima -un vidrio de refraccion real en un paño de 4 m deja el
+    # interior lleno de ruido-. Pero cada cara que atraviesa un Transparent
+    # gasta un rebote de los de esta cuenta, y una caja de vidrio gasta dos.
+    # Con 6 se agotaban enseguida: desde la planta alta, el antepecho (2) mas
+    # otro paño (2) mas el ventanal (2) son justo 6, y al pasarse Cycles corta
+    # el rayo y devuelve NEGRO. Por eso la barandilla de vidrio salia como un
+    # panel negro. Son rebotes baratos -el rayo solo sigue recto-, asi que se
+    # sube con holgura.
+    sc.cycles.transparent_max_bounces = 32
     sc.cycles.sample_clamp_indirect = 10.0
     sc.cycles.blur_glossy = 0.6
-    # aproximacion del rebote lejano: en un interior con 60 luminarias
-    # ahorra un tercio del tiempo y no se distingue en la imagen
+    # Fast GI fuera. Estaba puesto con ao_bounces_render = 3 para ahorrar un
+    # tercio del tiempo, con la idea de que no se notaba. Si se nota: a partir
+    # del tercer rebote Cycles cambia el transporte de luz por una
+    # aproximacion de oclusion, y en una superficie transmisiva eso la vuelve
+    # opaca y oscura. Mirando desde la planta alta a traves del antepecho de
+    # vidrio y luego del ventanal son cuatro superficies, se pasa del limite y
+    # el vidrio sale negro. El ahorro tampoco hace ya falta: el lote se
+    # renderiza con tarjeta.
     try:
-        sc.cycles.use_fast_gi = True
-        sc.cycles.ao_bounces_render = 3
-        sc.cycles.ao_factor = 1.0
+        sc.cycles.use_fast_gi = False
     except Exception:
         pass
     sc.cycles.caustics_reflective = False
@@ -763,21 +776,37 @@ def frente_barra():
     """
     mx0, mx1 = Q.MOSTRADOR_X
     my0, my1 = Q.MOSTRADOR_Y
-    z0, z1 = 0.050, Q.H_ENCIMERA
-    # fondo oscuro para que los huecos entre listones no se vean como agujeros
-    caja('Frente de la barra · fondo', mx1 - 0.030, my0, mx1 - 0.020, my1, 0.0, z1,
-         MAT['_negro'])
-    listones('Frente de la barra · liston', mx1 - 0.022, my0, mx1, my1, z0, z1,
-             MAT['_liston'], fondo=0.022, eje='y')
-    # zocalo retranqueado y tira de LED que lame el suelo
-    caja('Frente de la barra · zocalo', mx1 - 0.050, my0, mx1 - 0.022, my1, 0.0, z0,
-         MAT['_negro'])
-    led = caja('Frente de la barra · LED', mx1 - 0.046, my0 + 0.01, mx1 - 0.030,
-               my1 - 0.01, 0.030, 0.042, MAT['_luz_calida'])
-    led.visible_shadow = False
-    # canto superior de madera sobre los listones
-    caja('Frente de la barra · canto', mx1 - 0.055, my0, mx1 + 0.012, my1,
-         z1, z1 + 0.042, MAT['mesa'])
+    z0 = 0.050
+    # La barra no es una pieza continua de 2,79. Solo hay mostrador de verdad
+    # al Norte de y = 3,970, que es donde el plano pone la encimera a medida y
+    # su tabla de roble. Al Sur estan las dos vitrinas, y alli no hay barra:
+    # hay un frente de madera y nada mas, puesto para tapar el zocalo de las
+    # vitrinas, que se quedan a la vista de la bandeja para arriba.
+    #
+    # Antes el frente subia a 0,900 de punta a punta y llevaba encima su canto
+    # de roble tambien de punta a punta: sobre las vitrinas salia una tapa de
+    # barra que no existe, y justo detras de ella asomaba el trasdos negro de
+    # los listones. Ese era el pano negro de delante de las vitrinas.
+    Y_MOSTRADOR = 3.970
+    Z_BASE_VITRINA = 0.420      # coronacion del zocalo de la vitrina comprada
+    for nm, ya, yb, z1, con_canto in (
+            ('vitrinas', my0, Y_MOSTRADOR, Z_BASE_VITRINA, False),
+            ('mostrador', Y_MOSTRADOR, my1, Q.H_ENCIMERA, True)):
+        # fondo oscuro para que los huecos entre listones no se vean como agujeros
+        caja(f'Frente de la barra · fondo {nm}', mx1 - 0.030, ya, mx1 - 0.020, yb,
+             0.0, z1, MAT['_negro'])
+        listones(f'Frente de la barra · liston {nm}', mx1 - 0.022, ya, mx1, yb,
+                 z0, z1, MAT['_liston'], fondo=0.022, eje='y')
+        # zocalo retranqueado y tira de LED que lame el suelo
+        caja(f'Frente de la barra · zocalo {nm}', mx1 - 0.050, ya, mx1 - 0.022, yb,
+             0.0, z0, MAT['_negro'])
+        led = caja(f'Frente de la barra · LED {nm}', mx1 - 0.046, ya + 0.01,
+                   mx1 - 0.030, yb - 0.01, 0.030, 0.042, MAT['_luz_calida'])
+        led.visible_shadow = False
+        if con_canto:
+            # canto superior de madera: solo donde hay mostrador
+            caja(f'Frente de la barra · canto {nm}', mx1 - 0.055, ya, mx1 + 0.012,
+                 yb, z1, z1 + 0.042, MAT['mesa'])
     # Testa Norte del mostrador: el trasdos negro de los listones acababa a la
     # vista justo donde arranca la pared en L y se leia como una franja negra.
     # Se cierra con un remate blanco, que ademas continua la linea de la L.
@@ -1044,7 +1073,11 @@ def aparatos(j):
         # vitrinas no tienen muro detras -van embebidas en el mostrador, con
         # el pasillo de servicio por detras-, asi que a ellas no se les aplica:
         # solo empujaria el cristal por delante del canto de la barra.
-        s = 0.0 if tag in ('V1', 'V2') else SEPARACION_MURO
+        # Las vitrinas no llevan separacion de muro -no tienen muro detras- y
+        # ademas van 20 mm hacia dentro, para que su cara de cristal enrase con
+        # la del liston (x = 2,530) y el zocalo de la vitrina quede detras de
+        # la madera, que es para lo que esta puesta.
+        s = -0.020 if tag in ('V1', 'V2') else SEPARACION_MURO
         if g == 90:
             cx += s
         elif g == -90:
