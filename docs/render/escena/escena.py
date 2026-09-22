@@ -1628,7 +1628,11 @@ def luz_expositor(tag, hueco):
         lz.color = (0.95, 0.97, 1.0)
         ob = bpy.data.objects.new(f'{tag} luz interior {i + 1}', lz)
         ob.location = ((x0 + x1) / 2, (y0 + y1) / 2, z)
+        # alumbra el genero pero no se ve: ni de frente, ni a traves del
+        # cristal del mueble, ni reflejada en sus baldas de vidrio
         ob.visible_camera = False
+        ob.visible_transmission = False
+        ob.visible_glossy = False
         coleccion('Luces').objects.link(ob)
 
 
@@ -3144,6 +3148,8 @@ def nichos_botellas(x0, x1, y, z0, alto=0.95, n=5, normal='-Y', col='Decoracion'
             ob = bpy.data.objects.new(f'Nicho luz {i + 1} {zz:.2f}', lz)
             ob.location = ((a + b) / 2, y + s_ * prof * 0.55, zz - 0.004)
             ob.visible_camera = False             # alumbra hacia abajo
+            ob.visible_transmission = False
+            ob.visible_glossy = False
             coleccion('Luces').objects.link(ob)
         # genero: botellas abajo, ceramica arriba
         for k in range(3):
