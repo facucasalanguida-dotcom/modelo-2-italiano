@@ -2031,12 +2031,10 @@ def luces(j):
         else:
             x, y = (s['x0'] + s['x1']) / 2, (s['y0'] + s['y1']) / 2
         if nm.startswith('Colgante'):
-            R = RETRANQUEO
-            if R['x0'] < x < R['x1'] and R['y0'] < y < R['y1']:
-                # el plano lo pone justo dentro de la puerta; con la puerta
-                # retranqueada 1,06 caia en el cubo de la calle, a la altura
-                # de la cabeza. Entra con la puerta: tras ella, en el local.
-                y += R['y1'] - R['y0'] - 0.059
+            # Ojo: el 'Colgante 6' del plano, en (8,90, 0,95), cae dentro del
+            # cubo de la entrada y cuelga a 1,72, delante de la puerta. Se
+            # deja donde lo pone el plano: pasarlo tras la puerta lo ponia
+            # delante del logo de la pared del plotter.
             luminaria_colgante(nm, x, y, s['z0'])
         elif nm.startswith('Aplique'):
             if x < 1.2:
