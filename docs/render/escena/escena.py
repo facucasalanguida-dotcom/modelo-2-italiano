@@ -982,8 +982,10 @@ def pilar_escalera():
     # en el forjado, que ahi si lo hay.
     x0, x1 = 8.651, 8.811 - DESPEGUE
     y0, y1 = 3.939 + DESPEGUE, 4.099
+    # el mismo hormigon que P1, P3, P4 y P5: es lo que asoma por las juntas
+    # del liston, y con 'tabique' salia mas claro que en las demas columnas
     ob = caja('Pilar de la escalera · alma', x0, y0, x1, y1, 0.0,
-              Z_SOFITO + SOLAPE, MAT['tabique'])
+              Z_SOFITO + SOLAPE, MAT['pilar'])
     bisel(ob)
     # Solo se forran las dos caras que se ven: la Norte queda metida en el
     # antepecho y la Este topa con el costado de los peldaños. La cara Sur se
