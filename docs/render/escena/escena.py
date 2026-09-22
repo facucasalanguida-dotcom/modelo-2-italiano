@@ -938,8 +938,10 @@ def frente_barra():
     # sobresale nada por debajo del intrados. Antes colgaba 120 mm y ademas
     # iba en azzurro, que es justo al reves de lo que pide el cliente. Va
     # a tope contra el canto del forjado, sin solapar, para no dejar dos
-    # caras inferiores en el mismo plano.
-    caja('Canto del forjado Sur', 2.405, 3.907, 9.890, 3.939,
+    # caras inferiores en el mismo plano. Acaba donde acaba el forjado, en
+    # el hueco de la escalera (x 8,811, a haces con el pilar gris): seguia
+    # hasta la medianera (9,890) y cruzaba el hueco como una viga suelta.
+    caja('Canto del forjado Sur', 2.405, 3.907, 8.811, 3.939,
          Z_SOFITO, Z_PA - 0.001, MAT['_blanco_lacado'])
     # El canto Oeste da al paso de servicio y a la cocina: ahi no se forra.
 
@@ -1315,11 +1317,6 @@ def fachada_real():
     # faja del paño grande (1,87); por detras, contra la faja (1,555).
     bisel(caja('Caja de viga del porche', 0.000, 0.000, 1.870, 1.559,
                4.600, Z_TECHO + SOLAPE, MAT['_revoco_fachada']))
-    # El porche no esta abierto al Oeste: lo cierra la medianera del
-    # edificio vecino, de revoco (v1 f_10, f_24, f_27; v2 f_12, f_31). Solo
-    # el muro; la ventana, la reja y los toldos del vecino no se ponen.
-    caja('Medianera del vecino · porche', -0.300, 0.000, SOLAPE, YP0 - DESPEGUE,
-         -0.010, Z_TECHO + 0.400 - DESPEGUE, MAT['_revoco_fachada'])
 
     # ================================================ PARTE ESTE
     # Segundo video y las dos fotos: escaparate con montante bajo, puerta
