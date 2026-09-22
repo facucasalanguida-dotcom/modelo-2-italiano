@@ -2269,9 +2269,9 @@ VISTAS = {
     'escalera_sala': ((8.05, 1.95, 1.640), (9.35, 6.30, 1.500), 21.0),
     'escalera_sala_b': ((7.20, 2.40, 2.050), (9.30, 5.60, 1.100), 24.0),
     # El mismo punto de vista que la foto de obra: al pie del tramo, a la
-    # altura de los ojos y mirando hacia arriba, para ver la viga de canto
-    # que cruza sobre la escalera y el antepecho de la planta alta.
-    'escalera_viga': ((8.55, 2.25, 1.620), (9.30, 6.20, 1.950), 19.0),
+    # altura de los ojos y mirando hacia arriba, para ver el pilar forrado
+    # junto al arranque y el antepecho de la planta alta.
+    'escalera_pilar': ((8.55, 2.25, 1.620), (9.30, 6.20, 1.950), 19.0),
     # el arranque de la escalera, con la linea de led de cada peldaño.
     # La camara anterior -(7,35 / 5,40) mirando a (9,35 / 6,60)- encuadraba
     # el costado ciego de la escalera: salia un paño de enlucido y nada mas.
