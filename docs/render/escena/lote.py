@@ -12,6 +12,11 @@ entre vista y vista.
 Sin --vistas hace las quince de la serie. Se salta las que ya esten hechas,
 asi que si se corta a media noche se relanza y sigue donde iba.
 
+El recorrido de 20 fotos, de la calle al almacen de arriba y en orden
+(CM_01_calle.png ... CM_20_almacen.png; las camaras estan en recorrido.py):
+
+    python lote.py --recorrido --gpu --salida .\\recorrido
+
 Busca el Blender solo. Si no lo encuentra -o si se prefiere- se le dice:
 
     python lote.py --blender "C:\\Program Files\\Blender Foundation\\Blender 5.0\\blender.exe"
@@ -20,6 +25,8 @@ import argparse, glob, os, shutil, subprocess, sys, time
 
 AQUI = os.path.dirname(os.path.abspath(__file__))
 ESCENA = os.path.join(AQUI, 'escena.py')
+sys.path.insert(0, AQUI)
+import recorrido  # noqa: E402  (solo datos: las 20 camaras del recorrido)
 
 SERIE = ['fachada', 'logo', 'escalera', 'escaparate', 'sillon', 'trasbarra',
          'cocina', 'barra', 'barra_frente', 'chopera', 'alta', 'alta_cowork',
@@ -53,6 +60,8 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument('--salida', default=os.path.join(AQUI, 'renders'))
     ap.add_argument('--vistas', default='', help='coma: alta,cocina,...')
+    ap.add_argument('--recorrido', action='store_true',
+                    help='las 20 fotos del recorrido, en orden (recorrido.py)')
     ap.add_argument('--spp', type=int, default=96)
     ap.add_argument('--ancho', type=int, default=3840)
     ap.add_argument('--alto', type=int, default=2160)
@@ -64,11 +73,14 @@ def main():
     blender = a.blender or buscar_blender()
     if not blender and not a.dry:
         sys.exit('No encuentro Blender. Pasalo con --blender "ruta\\a\\blender.exe"')
+    blender = blender or 'blender'          # en --dry solo se enseña la orden
     # absoluta: Blender resuelve las relativas contra el .blend, no contra el
     # directorio de trabajo, y '.\\renders' acababa en C:\\renders
     a.salida = os.path.abspath(os.path.expanduser(a.salida))
     os.makedirs(a.salida, exist_ok=True)
     vistas = [v.strip() for v in a.vistas.split(',') if v.strip()] or SERIE
+    if a.recorrido:
+        vistas = list(recorrido.NOMBRES)
 
     print(f'Blender : {blender}')
     print(f'Salida  : {a.salida}')

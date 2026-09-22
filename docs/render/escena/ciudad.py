@@ -196,8 +196,8 @@ def baranda(E, M, x0, y0, x1, y1, z0, z1, nombre):
 
 # ------------------------------------------------------- mobiliario y coches
 # La farola y el bolardo arrancaban en z = 0 y la acera esta a H_BORDILLO
-# (-0,003): quedaban 3 mm en el aire. Van 10 mm metidos en la acera.
-Z_ANCLAJE = H_BORDILLO - 0.010
+# (-0,003): quedaban 3 mm en el aire. Van 4 mm metidos en la acera.
+Z_ANCLAJE = H_BORDILLO - 0.004
 
 
 def farola(E, M, x, y, alto=5.2, nombre='Farola'):

@@ -37,6 +37,7 @@ import estructura as E          # noqa: E402
 import mobiliario as MB         # noqa: E402
 import equipamiento as Q        # noqa: E402
 import materiales as MT         # noqa: E402
+import recorrido as RC          # noqa: E402
 
 from rutas import SCRATCH, PH, LOGO   # noqa: E402
 
@@ -1030,7 +1031,7 @@ def cocina_inox():
          1.580, 1.604, MAT['inox'], 'Obra')
     for xe in (x0 + 0.38, x0 + 1.72):
         caja(f'Cocina · escuadra del riel {xe:.2f}', xe - 0.010, yb, xe + 0.010,
-             y1 - e + SOLAPE, 1.580, 1.604, MAT['inox'], 'Obra')
+             y1 - e + SOLAPE, 1.580 + DESPEGUE, 1.604 - DESPEGUE, MAT['inox'], 'Obra')
     for i in range(6):
         x = x0 + 0.45 + i * 0.24
         # el gancho entra 5 mm en lo que cuelga: antes quedaba 5 mm por encima
@@ -2158,7 +2159,9 @@ def luces(j):
 
     # --- tira de LED bajo el estante de la trasbarra: la luz de trabajo y el
     #     brillo que hace que las botellas se lean
-    caja('LED trasbarra', 0.26, 2.05, 0.60, 4.72, 1.596, 1.604,
+    # arranca en la cara del muro (0,250), no a 10 mm de ella: con el estante
+    # A6 contra el muro, sus cartelas ya no la tocaban y quedaba en el aire
+    caja('LED trasbarra', 0.250, 2.05, 0.60, 4.72, 1.596, 1.604,
          MAT['_luz_calida'], 'Luces')
     lz = bpy.data.lights.new('LED trasbarra luz', 'AREA')
     lz.shape = 'RECTANGLE'
@@ -2683,6 +2686,27 @@ def mesa_italiana(tag, cx, cy, w, d, z, ocup, k, redonda=False, col='Decoracion'
     return puestos
 
 
+def _dejar_caer(x, y, r, z_desde, dg):
+    """Cota de la base de una pieza casi esferica, de radio r en planta,
+    que se deja caer en (x, y) hasta tocar lo que tiene debajo.
+
+    Rayos verticales por un disco de radio r: la esfera toca donde la
+    superficie mas se le acerca, no solo bajo su centro, que en un cuenco
+    concavo la metia por el lado del borde. None si debajo no hay nada.
+    """
+    zc = None
+    for f in (0.0, 0.3, 0.55, 0.8):
+        for k in range(8 if f else 1):
+            a = 2 * math.pi * k / 8
+            ok, loc, *_ = bpy.context.scene.ray_cast(
+                dg, Vector((x + f * r * math.cos(a), y + f * r * math.sin(a), z_desde)),
+                Vector((0, 0, -1)))
+            if ok:
+                c = loc.z + r * math.sqrt(1.0 - f * f)
+                zc = c if zc is None else max(zc, c)
+    return None if zc is None else zc - r
+
+
 def decoracion():
     """Todo lo que hace que el local parezca abierto y no un plano en 3D."""
     rnd = random.Random(23)
@@ -2714,8 +2738,10 @@ def decoracion():
         xc = (min(w.x for w in ws) + max(w.x for w in ws)) / 2
         yc = (min(w.y for w in ws) + max(w.y for w in ws)) / 2
         zt = max(w.z for w in ws)
+        # tres por dos: la bandeja son dos chapas con una junta de 2 mm justo
+        # en el centro (y = 4,227), y una fila ahi hundia las tazas en ella
         for i in range(6):
-            tx, ty = xc + (i % 2 - 0.5) * 0.095, yc + (i // 2 - 1) * 0.095
+            tx, ty = xc + (i % 3 - 1) * 0.095, yc + (i // 3 - 0.5) * 0.095
             ok, loc, *_ = bpy.context.scene.ray_cast(
                 dg, Vector((tx, ty, zt + 0.05)), Vector((0, 0, -1)), distance=0.20)
             if ok:
@@ -2755,19 +2781,20 @@ def decoracion():
     z_k10 = 0.850
     poner('wooden_bowl_01', 2.10, 6.30, z_k10, escala=1.0, giro=25)
     # La fruta iba a 50 mm una de otra y a una cota fija: la lima se metia en
-    # la granada y la manzana en la lima. Cada una en su sitio del cuenco y
-    # apoyada donde da un rayo vertical sobre la madera, como los limones.
+    # la granada y la manzana en la lima. Van en triangulo alrededor del
+    # centro del cuenco (2,10 / 6,30), a 68 mm de el y a 118 mm entre si, y
+    # cada una se deja caer sobre la madera: el cuenco es concavo y apoyada
+    # por el punto de debajo de su centro se metia por el lado del borde.
     bpy.context.view_layer.update()
     dg = bpy.context.evaluated_depsgraph_get()
-    frutas = (('food_apple_01', 2.055, 6.275), ('food_lime_01', 2.145, 6.265),
-              ('food_pomegranate_01', 2.100, 6.360))
-    cotas = []
-    for aid, fx, fy in frutas:
-        ok, loc, *_ = bpy.context.scene.ray_cast(
-            dg, Vector((fx, fy, z_k10 + 0.40)), Vector((0, 0, -1)))
-        cotas.append(loc.z if ok and loc.z < z_k10 + 0.10 else z_k10 + 0.020)
-    for i, ((aid, fx, fy), zf) in enumerate(zip(frutas, cotas)):
-        poner(aid, fx, fy, zf - 0.004, escala=1.0, giro=i * 55)
+    frutas = [(aid, 2.10 + 0.068 * math.cos(math.radians(a)),
+               6.30 + 0.068 * math.sin(math.radians(a)), r)
+              for aid, a, r in (('food_apple_01', 210, 0.049), ('food_lime_01', 330, 0.031),
+                                ('food_pomegranate_01', 90, 0.058))]
+    cotas = [_dejar_caer(fx, fy, r, z_k10 + 0.40, dg) for aid, fx, fy, r in frutas]
+    for i, ((aid, fx, fy, r), zf) in enumerate(zip(frutas, cotas)):
+        poner(aid, fx, fy, (zf if zf is not None else z_k10 + 0.020) - 0.002,
+              escala=1.0, giro=i * 55)
     poner('wicker_basket_02', 2.10, 6.85, z_k10, escala=0.9, giro=-12)
     # ---- la pared del sillon corrido: solo cuadros, repartidos
     for i, x in enumerate((3.05, 3.95, 4.85, 6.10, 7.00)):
@@ -3320,6 +3347,15 @@ VE_LA_CALLE = {'escaparate', 'fachada', 'calle', 'entrada', 'general', 'sala',
                'fachada_esquina', 'fachada_este', 'porche_intrados',
                'escaparate_alto', 'cubo_calle'}
 
+# el recorrido de 20 fotos (recorrido.py), de la calle al almacen de arriba
+assert abs(RC.Z_PA - Z_PA) < 1e-9, 'recorrido.py tiene otra cota de planta alta'
+for _t in RC.RECORRIDO:
+    VISTAS[_t['nombre']] = (_t['ojo'], _t['mira'], _t['lente'])
+    if _t['exp'] is not None:
+        EXPOSICION[_t['nombre']] = _t['exp']
+    if _t['calle']:
+        VE_LA_CALLE.add(_t['nombre'])
+
 
 def construir(spp, ancho, alto, con_decoracion=True, con_glare=False,
               con_ciudad=True):
@@ -3612,14 +3648,17 @@ def caracter_italiano():
     # / 1,00 / 1,27 / 1,54 (obj_A7: Z_INT0 + 0,190 + k * 0,270)
     # Entre las cremalleras de los laterales quedan libres x 5,777..6,213:
     # seis botellas a 74 mm se salian por los dos lados y se metian en ellas.
-    # Van cinco a 85 mm, y apoyadas en la parrilla (antes flotaban 5 mm).
+    # Van cinco a 85 mm. La parrilla son varillas a 25 mm con la cara de
+    # arriba en z + 0,0005: el culo de la botella, que es abombado, baja
+    # 1,5 mm entre ellas y descansa en las que tiene debajo (antes flotaba
+    # 5 mm por encima de todas).
     ax, ay = 5.995, 4.078                      # centro y cara interior del frente
     for k in range(5):
         z = 0.462 + k * 0.270
         for j in range(5):
             bx = ax + (j - 2) * 0.085
             for f, dy in ((0, 0.075), (1, 0.230)):
-                botella(f'A7 botella {k}{j}{f}', bx, ay + dy, z + 0.001,
+                botella(f'A7 botella {k}{j}{f}', bx, ay + dy, z - 0.001,
                         alto=0.225 if k % 2 == 0 else 0.245, col='Decoracion')
     # Cesta de pan del paso. Estaba en x = 2,75 y la tabla del mostrador muere
     # en 2,53: volaba 220 mm por delante del canto. Se pasa a la mesa de
