@@ -67,11 +67,16 @@ def mapas(aid):
 
     m = {'diff': uno('diff'), 'rough': uno('rough'), 'nrm': uno('nor_gl'),
          'ao': uno('ao'), 'disp': uno('disp')}
+    if not m['diff']:
+        # sin el mapa de color el material sale liso y el render parece bien
+        # aunque no lo este: se apunta para avisar al terminar de montar
+        sin_textura.append(aid)
     _map_cache[aid] = m
     return m
 
 
 _medias = {}
+sin_textura = []     # activos cuyo mapa de color no aparece
 
 
 def media_lineal(ruta):
@@ -79,13 +84,28 @@ def media_lineal(ruta):
     albedo de verdad: el enlucido escaneado de Poly Haven refleja un 26 %, y
     una pared pintada refleja el 75-85 %. Sin esto las paredes salen grises."""
     if ruta not in _medias:
+        # Con el propio Blender, no con Pillow: el Python que lleva Blender
+        # dentro no lo trae y no se le puede pedir a nadie que le instale
+        # paquetes. numpy si viene de serie. Una imagen en sRGB devuelve sus
+        # pixeles ya en lineal, asi que no hay que convertir a mano.
         import numpy as np
-        from PIL import Image
-        im = Image.open(ruta).convert('RGB')
-        im.thumbnail((128, 128))
-        a = np.asarray(im, dtype=float) / 255.0
+        img = bpy.data.images.load(ruta, check_existing=False)
+        try:
+            # 'Non-Color' para que Blender no toque nada: img.pixels de una
+            # imagen de 8 bits devuelve el valor tal cual, es decir en sRGB,
+            # y la curva se aplica aqui -igual que hacia Pillow-. Leerlo como
+            # si ya fuera lineal daba medias del doble y las paredes salian
+            # el doble de oscuras al normalizarlas.
+            img.colorspace_settings.name = 'Non-Color'
+        except Exception:
+            pass
+        img.scale(128, 128)          # 65.000 floats en vez de 16 millones
+        a = np.empty(len(img.pixels), dtype=np.float32)
+        img.pixels.foreach_get(a)
+        a = a.reshape(-1, 4)[:, :3].astype(np.float64)
         lin = np.where(a <= 0.04045, a / 12.92, ((a + 0.055) / 1.055) ** 2.4)
-        _medias[ruta] = tuple(max(1e-4, float(v)) for v in lin.reshape(-1, 3).mean(0))
+        _medias[ruta] = tuple(max(1e-4, float(v)) for v in lin.mean(0))
+        bpy.data.images.remove(img)
     return _medias[ruta]
 
 

@@ -1300,6 +1300,18 @@ def mobiliario():
 PARED_LOGO = dict(x=9.890, y0=1.429, y1=3.579, z0=0.0, z1=Z_TECHO - 0.005)
 
 
+def _medida_png(ruta):
+    """Ancho y alto de un PNG, con Blender y no con Pillow.
+
+    El Python que Blender lleva dentro no trae Pillow, y el vinilo hay que
+    medirlo para sacar su proporcion. La imagen se carga y se suelta.
+    """
+    img = bpy.data.images.load(ruta, check_existing=False)
+    w, h = img.size[0], img.size[1]
+    bpy.data.images.remove(img)
+    return w, h
+
+
 def pared_logo():
     P = PARED_LOGO
     # la pared, pintada entera del azul del Napoli (2 mm por delante del muro)
@@ -1318,8 +1330,7 @@ def pared_logo():
     if not os.path.exists(LOGO):
         print('   (sin logo: falta', LOGO, ')')
         return
-    from PIL import Image
-    w_px, h_px = Image.open(LOGO).size
+    w_px, h_px = _medida_png(LOGO)
     ancho = 1.560                      # vinilo, centrado en los 2,15 del tramo
     alto = ancho * h_px / w_px
     cy, cz = (P['y0'] + P['y1']) / 2, 1.620
@@ -2298,6 +2309,14 @@ def construir(spp, ancho, alto, con_decoracion=True, con_glare=False,
     sc = escena_nueva(spp, ancho, alto)
     MAT = MT.construir()
     print('  materiales:', len(MAT), flush=True)
+    if MT.sin_textura:
+        # Un material sin su mapa de color no rompe nada: sale liso. El render
+        # termina, parece correcto y esta mal. Mejor pararlo.
+        print('\n  *** SIN TEXTURA: ' + ', '.join(sorted(set(MT.sin_textura))),
+              flush=True)
+        print('  Los mapas no estan en', PH, flush=True)
+        print('  Hay que bajarlos:  python preparar_activos.py\n', flush=True)
+        sys.exit(2)
     n, j = arquitectura()
     print('  obra:', n, 'solidos', flush=True)
     print('  puertas:', carpinteria(j), flush=True)
@@ -2569,8 +2588,7 @@ def logo_escaparate():
     rotulista: a la altura de la vista, legible desde la calle."""
     if not os.path.exists(LOGO):
         return
-    from PIL import Image
-    w_px, h_px = Image.open(LOGO).size
+    w_px, h_px = _medida_png(LOGO)
     ancho = 1.15
     alto = ancho * h_px / w_px
     y = 1.585                      # cara interior del vidrio del ventanal Sur

@@ -102,6 +102,12 @@ def main():
                       flush=True)
             t0 = time.time()
             r = subprocess.run(orden)
+            if r.returncode and time.time() - t0 < 60:
+                # No es falta de memoria ni tiempo: se ha roto al montar. Con
+                # la mitad de muestras se rompe igual, asi que no se insiste.
+                print(f'[{i}/{len(vistas)}] {v}: se rompio al montar la escena; '
+                      'mira el error de arriba', flush=True)
+                sys.exit('\nLote parado.')
             if r.returncode == 2:
                 # faltan los activos: reintentar con menos muestras no arregla
                 # nada y son quince fallos seguidos. Se para y ya esta.

@@ -52,11 +52,10 @@ BASE = {
 
 def indice():
     """El catalogo entero de Poly Haven: 2.380 activos con su tipo."""
+    # con bajar() y no con un curl suelto: son 2,4 MB y un corte deja la
+    # lista deducida fuera de juego sin decir por que
     d = os.path.join(CACHE, 'index.json')
-    if not os.path.exists(d):
-        os.makedirs(CACHE, exist_ok=True)
-        subprocess.run(['curl', '-sS', '--fail',
-                        'https://api.polyhaven.com/assets', '-o', d])
+    bajar('https://api.polyhaven.com/assets', d, minimo=100000)
     try:
         return json.load(open(d))
     except Exception:
