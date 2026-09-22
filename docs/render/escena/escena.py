@@ -759,10 +759,13 @@ def suelos_y_techos():
     # el mismo material que sus paredes, que es lo que pidio el cliente.
     #   Oeste x 0,250 trasdos del Muro Oeste;  Este x 2,448 cara Oeste de la
     #   pared en L, para no pisar su remate (2,448..2,512 entre 2,280 y 2,310)
-    #   Norte y 9,008 trasdos de la medianera; Sur y 4,759 el paso de personal
-    # Cuelga 15 mm bajo la linea del forjado y pasa por debajo de la viga P1b,
-    # como haria un falso techo de obra.
-    caja('Techo de pladur · cocina', 0.250, 4.759, 2.448, 9.008,
+    #   Norte y 9,008 trasdos de la medianera
+    #   Sur   y 4,933 la cara de la viga P1b. Arrancaba en 4,759, con el paso de
+    #                 personal, y volaba 174 mm por delante de la viga sobre la
+    #                 trasbarra: el cliente lo quiere cortado en la viga, que
+    #                 su canto y la cara de la viga queden en un solo plano.
+    # Cuelga 15 mm bajo la linea del forjado.
+    caja('Techo de pladur · cocina', 0.250, E.VIGA[2], 2.448, 9.008,
          2.295, 2.310, MAT['muro'], 'Obra')
 
     # Pavimento del altillo, sobre el forjado. Va con la MISMA planta que el
