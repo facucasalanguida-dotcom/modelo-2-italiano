@@ -982,9 +982,12 @@ def remate_vidrio_L():
          z_ar - h, z_ar, m, 'Obra')
     caja('Vidrio L · remate inferior', x0 - e, y0, x1 + e, y1,
          z_ab - h * 0.5, z_ab + h * 0.5, m, 'Obra')
+    # Las jambas arrancan ENCIMA del remate inferior, no dentro de el: tienen
+    # su mismo ancho, y al solapar 15 mm sus caras laterales caian en el mismo
+    # plano y mirando al mismo lado. Era la banda negra al pie del montante.
     for nm, ya, yb in (('Sur', y0, y0 + h), ('Norte', y1 - h, y1)):
         caja(f'Vidrio L · jamba {nm}', x0 - e, ya, x1 + e, yb,
-             z_ab, z_ar - h, m, 'Obra')
+             z_ab + h * 0.5, z_ar - h, m, 'Obra')
 
 
 def losas(nombre, x0, y0, x1, y1, z0, z1, mat, alto=0.72, junta=0.009,
