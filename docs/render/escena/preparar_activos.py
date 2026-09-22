@@ -23,7 +23,7 @@ relanzar si se corta a medias. Al terminar deja:
 La escena usa las copias a 2K salvo que se pida CM_4K=1: Cycles carga cada
 mapa entero en memoria y con ~120 mapas a 4096x4096 el proceso pasa de 13 GB.
 """
-import ast, glob, io, json, os, subprocess, sys, time, zipfile
+import ast, glob, io, json, os, struct, subprocess, sys, time, zipfile
 
 AQUI = os.path.dirname(os.path.abspath(__file__))
 from rutas import SCRATCH, PH
@@ -160,6 +160,11 @@ def poly_haven(nec):
         f = ficheros(aid)
         res = '8k' if '8k' in f['hdri'] else max(f['hdri'])
         tot += bajar(f['hdri'][res]['hdr']['url'], f'{PH}/{aid}/{aid}_{res}.hdr')
+        # y el de 16K, que es el que usa lote.py --maxima (CM_MAXIMA)
+        if '16k' in f['hdri']:
+            tot += bajar(f['hdri']['16k']['hdr']['url'], f'{PH}/{aid}/{aid}_16k.hdr',
+                         minimo=10_000_000)
+            res += ' y 16k'
         print(f'  HDRI    {aid} {res}', flush=True)
     for aid in nec['textura']:
         f = ficheros(aid)
@@ -192,6 +197,14 @@ def poly_haven(nec):
         tot += bajar(bl['url'], f'{PH}/{aid}/{aid}.blend')
         for rel, inf in bl.get('include', {}).items():
             tot += bajar(inf['url'], f'{PH}/{aid}/{rel}')
+        # y a 4K en su carpeta, para lote.py --maxima (CM_MAXIMA): con la
+        # tarjeta que lo aguante, los modelos van con todo su detalle
+        if '4k' in f['blend']:
+            b4 = f['blend']['4k']['blend']
+            tot += bajar(b4['url'], f'{PH}/{aid}/4k/{aid}.blend')
+            for rel, inf in b4.get('include', {}).items():
+                tot += bajar(inf['url'], f'{PH}/{aid}/4k/{rel}')
+            res += ' y 4k'
         print(f'  MODELO  {aid} {res}', flush=True)
     return tot
 
@@ -216,9 +229,20 @@ def coche():
     return n
 
 
+def _ancho_png(ruta):
+    """Ancho de un PNG leyendo su cabecera, sin Pillow."""
+    with open(ruta, 'rb') as f:
+        cab = f.read(24)
+    return struct.unpack('>I', cab[16:20])[0] if cab[:8] == b'\x89PNG\r\n\x1a\n' else 0
+
+
+LOGO_MIN_PX = 6000        # el vinilo de la pared mide 1,56 m: ~4.500 px por metro
+
+
 def logo():
     sal = os.path.join(SCRATCH, 'logo', 'casa_margot_recortado.png')
-    if os.path.exists(sal):
+    # el de antes salia a 120 ppp (2.097 px): se rehace si es de esos
+    if os.path.exists(sal) and _ancho_png(sal) >= LOGO_MIN_PX:
         print('  LOGO    ya estaba', flush=True)
         return
     r = subprocess.run([sys.executable, os.path.join(AQUI, 'rehacer_logo.py')],
@@ -233,8 +257,10 @@ def comprobar():
     mal = 0
     print(f'\ncomprobando {SCRATCH}\n')
     for aid in nec['hdri']:
-        h = glob.glob(f'{PH}/{aid}/{aid}_*.hdr')
-        print(f'  HDRI    {aid:28s}', f'{os.path.getsize(h[0])/1e6:.0f} MB' if h else 'NO ESTA')
+        h = glob.glob(f'{PH}/{aid}/{aid}_8k.hdr') or glob.glob(f'{PH}/{aid}/{aid}_*.hdr')
+        h16 = os.path.exists(f'{PH}/{aid}/{aid}_16k.hdr')
+        print(f'  HDRI    {aid:28s}', f'{os.path.getsize(h[0])/1e6:.0f} MB' if h else 'NO ESTA',
+              ' 16K:', 'ok' if h16 else 'no')
         mal += not h
     for aid in nec['textura']:
         d2, d4 = f'{PH}/{aid}/textures_2k', f'{PH}/{aid}/textures'
@@ -246,12 +272,14 @@ def comprobar():
         mal += not diff
     for aid in nec['modelo']:
         b = os.path.exists(f'{PH}/{aid}/{aid}.blend')
-        print(f'  MODELO  {aid:28s}', 'ok' if b else 'NO ESTA')
+        b4 = os.path.exists(f'{PH}/{aid}/4k/{aid}.blend')
+        print(f'  MODELO  {aid:28s}', 'ok' if b else 'NO ESTA', ' 4K:', 'ok' if b4 else 'no')
         mal += not b
     c = os.path.exists(os.path.join(SCRATCH, 'coches', 'bmw27', 'bmw27', 'bmw27_cpu.blend'))
-    l = os.path.exists(os.path.join(SCRATCH, 'logo', 'casa_margot_recortado.png'))
+    lp = os.path.join(SCRATCH, 'logo', 'casa_margot_recortado.png')
+    l = os.path.exists(lp)
     print(f'  COCHE   {"ok" if c else "NO ESTA"}')
-    print(f'  LOGO    {"ok" if l else "NO ESTA"}')
+    print(f'  LOGO    {"ok" if l else "NO ESTA"}', f'({_ancho_png(lp)} px)' if l else '')
     mal += (not c) + (not l)
     print(f'\n{"TODO EN SU SITIO" if not mal else str(mal) + " COSAS FALTAN"}\n')
     return mal

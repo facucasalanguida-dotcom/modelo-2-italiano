@@ -18,7 +18,10 @@ SCRATCH = os.environ.get('CM_SCRATCH', '/tmp/claude-0/-home-user-modelo-2-italia
                          '30d2763c-3169-519a-ac78-c5a47134634b/scratchpad')
 SAL = os.path.join(SCRATCH, 'logo', 'casa_margot_recortado.png')
 
-pix = pymupdf.open(PDF)[0].get_pixmap(dpi=120, alpha=True)
+# A 400 ppp el logo sale de ~7.000 px de ancho: el vinilo de la pared mide
+# 1,56 m y en una foto a 4K puede ocupar 1.500 px o mas. A 120 salia de 2.097
+# y los bordes de las letras se veian blandos.
+pix = pymupdf.open(PDF)[0].get_pixmap(dpi=400, alpha=True)
 im = Image.frombytes('RGBA', (pix.width, pix.height), pix.samples)
 ys, xs = np.where(np.asarray(im)[..., 3] > 8)
 os.makedirs(os.path.dirname(SAL), exist_ok=True)

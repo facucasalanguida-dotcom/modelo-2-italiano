@@ -171,6 +171,14 @@ def girar(ob, centro, grados, eje='Z'):
 # la intemperie eso son casi dos pasos de mas: el cielo y los paramentos
 # salian quemados. Desde fuera se cierra el diafragma, como haria cualquiera.
 EXPOSICION_BASE = 0.65
+
+# Con CM_MAXIMA (lote.py --maxima) los recursos van a lo mas alto que hay:
+# los modelos de Poly Haven con sus texturas a 4K (ph/<aid>/4k), el cielo a
+# 16K y los arboles de la calle en LOD0, con todo su detalle. Las texturas de
+# los materiales las sube a 4K CM_4K, en materiales.py. Sin ellas, como
+# siempre: modelos a 2K, cielo a 8K y arbolado en LOD1, que cabe en cualquier
+# tarjeta.
+MAXIMA = os.environ.get('CM_MAXIMA', '') != ''
 EXPOSICION = {'calle': -1.30, 'fachada': -1.30}
 
 
@@ -2207,6 +2215,13 @@ def importar(aid, nombres=None, lod=0):
     if clave in _importados:
         return _importados[clave]
     ruta = os.path.join(PH, aid, f'{aid}.blend')
+    texturas = None
+    if MAXIMA:
+        r4 = os.path.join(PH, aid, '4k', f'{aid}.blend')
+        if os.path.exists(r4):
+            ruta, texturas = r4, os.path.join(PH, aid, '4k', 'textures')
+        else:
+            print(f'   (falta el modelo {aid} a 4K: va con el de 2K)')
     if not os.path.exists(ruta):
         print(f'   (falta el modelo {aid})')
         _importados[clave] = []
@@ -2216,7 +2231,7 @@ def importar(aid, nombres=None, lod=0):
         elegidos = _elegir_lod(src.objects, lod)
         dst.objects = [n for n in elegidos if nombres is None or n in nombres]
     obs = [o for o in bpy.data.objects if o.name not in antes and o.type == 'MESH']
-    _recolocar_texturas(aid)
+    _recolocar_texturas(aid, texturas)
     molde = coleccion('_moldes')
     for o in obs:
         for c in list(o.users_collection):
@@ -2229,11 +2244,13 @@ def importar(aid, nombres=None, lod=0):
     return obs
 
 
-def _recolocar_texturas(aid):
+def _recolocar_texturas(aid, d=None):
     """Los .blend de Poly Haven apuntan a texturas .exr y el descargador las
-    trae en png/jpg: sin esto los modelos pierden rugosidad y normal."""
-    d2 = os.path.join(PH, aid, 'textures_2k')
-    d = d2 if (MT.DOS_K and os.path.isdir(d2)) else os.path.join(PH, aid, 'textures')
+    trae en png/jpg: sin esto los modelos pierden rugosidad y normal. d es la
+    carpeta de texturas del modelo que se ha cargado (la de 4K con MAXIMA)."""
+    if d is None:
+        d2 = os.path.join(PH, aid, 'textures_2k')
+        d = d2 if (MT.DOS_K and os.path.isdir(d2)) else os.path.join(PH, aid, 'textures')
     if not os.path.isdir(d):
         return
     hay = os.listdir(d)
@@ -2873,6 +2890,12 @@ def mundo(rot=-102.5, fuerza=4.2):
     bg.inputs['Strength'].default_value = fuerza
     nt.links.new(bg.outputs['Background'], out.inputs['Surface'])
     hdri = os.path.join(PH, 'wide_street_01', 'wide_street_01_8k.hdr')
+    if MAXIMA:
+        h16 = os.path.join(PH, 'wide_street_01', 'wide_street_01_16k.hdr')
+        if os.path.exists(h16):
+            hdri = h16
+        else:
+            print('   (falta el cielo a 16K: va con el de 8K)')
     if os.path.exists(hdri):
         env = nt.nodes.new('ShaderNodeTexEnvironment')
         env.image = MT.imagen(hdri)
@@ -2903,13 +2926,14 @@ def exterior():
     for i, x in enumerate(C.ALCORQUES):
         aid = 'jacaranda_tree' if (i % 2 and _hay('jacaranda_tree')) else 'tree_small_02'
         poner(aid, x, C.Y_ACERA + 0.90, C.H_BORDILLO - 0.02, altura=7.2 + 0.8 * (i % 2),
-              giro=i * 53, col='Ciudad', lod=1)
+              giro=i * 53, col='Ciudad', lod=0 if MAXIMA else 1)
     # arbolado de la acera de enfrente, mas lejos y mas suelto. A 1,20 del
     # bordillo la copa se metia en los balcones y en el toldo de enfrente: va
     # a 0,35, del lado de la calzada, que es donde hay aire
     for i, x in enumerate((-9.0, 14.0)):
         poner('tree_small_02', x, C.Y_ACERA_OP - 0.35, C.H_BORDILLO - 0.02,
-              altura=6.4 + 0.9 * (i % 2), giro=i * 71, col='Ciudad', lod=1)
+              altura=6.4 + 0.9 * (i % 2), giro=i * 71, col='Ciudad',
+              lod=0 if MAXIMA else 1)
 
     # mobiliario urbano
     for i, x in enumerate((-5.2, 2.0, 8.6, 15.2, 21.8)):
