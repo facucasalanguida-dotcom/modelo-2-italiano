@@ -2771,14 +2771,14 @@ VISTAS = {
     # altura de los ojos y mirando hacia arriba, para ver el pilar forrado
     # junto al arranque y el antepecho de la planta alta.
     'escalera_pilar': ((8.55, 2.25, 1.620), (9.30, 6.20, 1.950), 19.0),
-    # La escalera de costado: alzado del tramo. La camara mira en +X desde la
-    # sala, por debajo del forjado, asi que el tramo sale de perfil -la linea
-    # de peldaños y lo que haya sobre ella- en vez de en escorzo. Ojo: el
-    # costado Oeste lo cierra CAJA_ESC_PB, un panel cuyo borde superior sigue
-    # el rampante (1,209 en el arranque, 2,310 a partir de y 5,84), asi que
-    # desde la sala solo se ve el tramo alto. El alzado limpio sale cortando
-    # por x = 8,60, no desde aqui.
-    'escalera_costado': ((5.20, 5.70, 1.560), (9.35, 5.70, 1.180), 35.0),
+    # La escalera de costado, tal como se ve desde la sala. Ojo: el costado
+    # Oeste lo cierra CAJA_ESC_PB, un panel cuyo borde superior sigue el
+    # rampante (1,209 en el arranque, 2,310 a partir de y 5,84), asi que de
+    # costado se ve ese panel y el tramo solo asoma por encima. La camara
+    # anterior, en (5,20 / 5,70), tenia P3 a 44 cm y solo sacaba listones;
+    # esta esta al Norte de P3 y ve el 93 % del costado (comprobado con rayos).
+    # El alzado del tramo entero sale en seccion por x = 8,62, no desde aqui.
+    'escalera_costado': ((6.00, 6.40, 1.600), (8.70, 5.60, 1.600), 18.0),
     # el arranque de la escalera, con la linea de led de cada peldaño.
     # La camara anterior -(7,35 / 5,40) mirando a (9,35 / 6,60)- encuadraba
     # el costado ciego de la escalera: salia un paño de enlucido y nada mas.
