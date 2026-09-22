@@ -967,7 +967,12 @@ GIRO = {
     'K10': -90,                                           # pared en L
     'A1': 90, 'A2': 90, 'A3': 90, 'A4': 90, 'A5': 90, 'A6': 90,   # trasbarra
     'A7': 0,                                              # cara Sur de P3
-    'V1': -90, 'V2': -90, 'B1': 90, 'B3': -90, 'B2': 0,
+    # Las vitrinas miran al cliente, no al camarero. El objeto tiene el cristal
+    # frontal, el panel de control y la rejilla del condensador en su cara -Y,
+    # y las dos puertas correderas con sus tiradores en la +Y. Con -90 el
+    # cristal daba al pasillo de servicio y el cliente veia las correderas por
+    # detras. El cliente esta al Este, asi que van a +90.
+    'V1': 90, 'V2': 90, 'B1': 90, 'B3': -90, 'B2': 0,
     # La chopera mira al Norte, no al Oeste. El objeto tiene el frente en -Y:
     # ahi estan los tres caños, las manetas y la rejilla donde va el vaso, y
     # la columna queda detras. Con -90 los caños apuntaban a la pared Oeste,
@@ -1035,8 +1040,11 @@ def aparatos(j):
         x0, y0, z0, x1, y1, z1 = huecos[tag]
         # centro del hueco en planta y base a la cota del plano
         cx, cy = (x0 + x1) / 2, (y0 + y1) / 2
-        # separacion del muro: el objeto se retira hacia su frente
-        s = SEPARACION_MURO
+        # separacion del muro: el objeto se retira hacia su frente. Las
+        # vitrinas no tienen muro detras -van embebidas en el mostrador, con
+        # el pasillo de servicio por detras-, asi que a ellas no se les aplica:
+        # solo empujaria el cristal por delante del canto de la barra.
+        s = 0.0 if tag in ('V1', 'V2') else SEPARACION_MURO
         if g == 90:
             cx += s
         elif g == -90:
@@ -1834,9 +1842,17 @@ def decoracion():
         cx, cy = (x0 + x1) / 2, (y0 + y1) / 2
         z = H_MESA + Z_PA
         if tipo == 'cowork':
+            # La de cowork es 1,00 x 2,40 con el lado largo en Y, no en X. Las
+            # tres tazas se repartian en cx -0,7 / 0 / +0,7, o sea a lo ancho:
+            # la primera y la tercera caian 200 mm por fuera del tablero y
+            # colgaban sobre el suelo. Se reparten por el lado largo, sea cual
+            # sea, y metidas 250 mm de cada testero.
+            largo_x = (x1 - x0) >= (y1 - y0)
+            a0, a1 = (x0, x1) if largo_x else (y0, y1)
             for i in range(3):
-                taza(f'Taza PA {tag} {i}', cx - 0.7 + i * 0.7, cy + 0.2, z,
-                     col='Planta alta')
+                t = a0 + 0.25 + (a1 - a0 - 0.50) * i / 2
+                tx, ty = (t, cy + 0.20) if largo_x else (cx + 0.20, t)
+                taza(f'Taza PA {tag} {i}', tx, ty, z, col='Planta alta')
             poner('ceramic_vase_02', cx, cy, z, escala=0.85, giro=20, col='Planta alta')
         else:
             poner('wicker_basket_01', cx, cy, z, escala=0.7, giro=-20, col='Planta alta')
