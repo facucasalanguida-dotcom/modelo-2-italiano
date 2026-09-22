@@ -1954,8 +1954,8 @@ def planta_alta():
     """El altillo, con el mismo lenguaje que la planta baja.
 
     El plano ya trae tabiques, aseo, almacen y huecos; lo que falta es lo que
-    hace habitacion: antepecho de vidrio con pasamanos, celosia de listones en
-    el testero, luminarias y el suelo, que se pone en suelos_y_techos().
+    hace habitacion: antepecho de vidrio, luminarias y el suelo, que se pone
+    en suelos_y_techos().
     """
     col = 'Planta alta'
     z = Z_PA
@@ -1973,19 +1973,9 @@ def planta_alta():
         else:
             caja(f'Antepecho PA {k + 1}', ax, ay - 0.006, bx, ay + 0.006,
                  z, z + E.H_BARANDA, MAT['vidrio'], col)
-    # --- celosia de listones en el testero Norte del altillo, como abajo, con
-    #     su banda azzurro encima, gemela de la de abajo.
-    # Ese testero lo parten el tabique del inodoro -cuya puerta llega hasta la
-    # medianera- y el tabique aseo / almacen: seguida de 2,60 a 6,20 los
-    # atravesaba a los dos y al dintel de la puerta. Va por tramos, a 16 mm de
-    # cada tabique, que es lo que vuelan los tapajuntas de la puerta y un poco.
-    hol = TJ_VUELO + 0.004
-    for i, (a, b) in enumerate(((2.600, 4.461 - hol), (4.560 + hol, 5.459 - hol),
-                                (5.558 + hol, 6.200))):
-        listones(f'Celosia PA {i + 1}', a, 8.720, b, 8.740, z, z + 2.150,
-                 MAT['_liston'], ancho=0.030, hueco=0.018, fondo=0.020, eje='x', col=col)
-        caja(f'Banda azzurro PA {i + 1}', a, 8.714, b, 8.734, z + 2.150, z + 2.420,
-             MAT['_pared_napoli'], col)
+    # En el testero Norte iba una celosia de listones con su banda azzurro,
+    # gemela de la de abajo. Ese testero es el fondo del aseo, del inodoro y
+    # del almacen, asi que quedaba dentro de ellos: fuera, lo pide el cliente.
     # Aqui iban tres estantes de botellas, por simetria con la trasbarra.
     # No hay donde anclarlos: entre y = 5,100 y 7,300 el testero Oeste del
     # altillo es el vacio, el tabique del aseo no arranca hasta y = 7,509 y
@@ -2131,8 +2121,9 @@ def luces(j):
     # el altillo necesita su propia luz: el plano no la trae
     for i, (x, y) in enumerate(((3.85, 4.80), (3.85, 6.20), (7.54, 5.43))):
         luminaria_colgante(f'Colgante PA {i + 1}', x, y, Z_PA + 1.700)
-    # contra la cara de la celosia (y = 8,720), no a 120 mm de ella
-    for i, (x, y) in enumerate(((2.90, 8.722), (5.90, 8.722))):
+    # el del aseo y el del almacen, contra la medianera Norte (8,957), metidos
+    # 2 mm en ella. Iban en la celosia (8,720), que ya no esta.
+    for i, (x, y) in enumerate(((2.90, 8.959), (5.90, 8.959))):
         aplique(f'Aplique PA {i + 1}', x, y, Z_PA + 1.950, '-Y')
 
     # --- cocina: pantallas estancas suspendidas. Los cuatro empotrados que el
