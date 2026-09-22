@@ -708,9 +708,13 @@ def suelos_y_techos():
     # intrados del propio forjado (el plano ya lo trae), y donde no lo hay el
     # local es de doble altura hasta el techo del altillo. Ponerlo plano a
     # 2,31 en todo el local cerraba la doble altura y dejaba el local a oscuras.
-    # pavimento del altillo, sobre el forjado
-    caja('Pavimento planta alta', 2.411, 3.939, 9.890, 8.957, Z_PA - 0.018,
-         Z_PA + 0.001, MAT['_suelo'], 'Planta alta')
+    # Pavimento del altillo, sobre el forjado. Va con la MISMA planta que el
+    # forjado -E.FORJADO-, no con su rectangulo envolvente: el poligono tiene
+    # recortado el hueco de la escalera (x 8,811..9,890 entre y 3,939 y 7,738)
+    # y si aqui se pone una caja, el roble tapa el hueco y la escalera sube
+    # contra un techo a 2,54. El forjado lo traia bien; el pavimento no.
+    prisma('Pavimento planta alta', E.FORJADO, Z_PA - 0.018, Z_PA + 0.001,
+           MAT['_suelo'], 'Planta alta')
 
 
 def vestibulo():
@@ -2272,6 +2276,11 @@ VISTAS = {
     # altura de los ojos y mirando hacia arriba, para ver el pilar forrado
     # junto al arranque y el antepecho de la planta alta.
     'escalera_pilar': ((8.55, 2.25, 1.620), (9.30, 6.20, 1.950), 19.0),
+    # La escalera de costado: alzado del tramo. La camara mira en +X desde la
+    # sala, por debajo del forjado, asi que el tramo sale de perfil -la linea
+    # de peldaños y lo que haya sobre ella- en vez de en escorzo. El costado
+    # Oeste de la escalera esta abierto: el generador no dibuja CAJA_ESC_PB.
+    'escalera_costado': ((5.20, 5.70, 1.560), (9.35, 5.70, 1.180), 35.0),
     # el arranque de la escalera, con la linea de led de cada peldaño.
     # La camara anterior -(7,35 / 5,40) mirando a (9,35 / 6,60)- encuadraba
     # el costado ciego de la escalera: salia un paño de enlucido y nada mas.
