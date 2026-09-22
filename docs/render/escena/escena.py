@@ -38,8 +38,28 @@ import mobiliario as MB         # noqa: E402
 import equipamiento as Q        # noqa: E402
 import materiales as MT         # noqa: E402
 
-SCRATCH = os.environ.get('CM_SCRATCH', '/tmp/claude-0/-home-user-modelo-2-italiano/'
-                                       '30d2763c-3169-519a-ac78-c5a47134634b/scratchpad')
+def _donde_estan_los_activos():
+    """Los 1,5 GB de Poly Haven, el coche y el logo, que no van al repositorio.
+
+    Manda CM_SCRATCH si esta puesta. Si no, se buscan solas: en Windows
+    `set` solo vale para esa ventana de consola, y olvidarla no daba ningun
+    error -la escena se montaba igual, sin texturas, sin el logo y sin los
+    22 modelos de decoracion- asi que el render salia mal y parecia bien.
+    """
+    aqui = os.path.dirname(os.path.abspath(__file__))
+    env = os.environ.get('CM_SCRATCH')
+    if env:
+        return os.path.abspath(os.path.expanduser(env))
+    for c in (os.path.join(aqui, 'activos'),
+              os.path.join(os.path.expanduser('~'), 'casa_margot_activos'),
+              '/tmp/claude-0/-home-user-modelo-2-italiano/'
+              '30d2763c-3169-519a-ac78-c5a47134634b/scratchpad'):
+        if os.path.isdir(os.path.join(c, 'ph')):
+            return c
+    return os.path.join(aqui, 'activos')
+
+
+SCRATCH = _donde_estan_los_activos()
 PH = os.path.join(SCRATCH, 'ph')
 LOGO = os.path.join(SCRATCH, 'logo', 'casa_margot_recortado.png')
 
@@ -2359,6 +2379,9 @@ def main():
 
     global USAR_GPU
     USAR_GPU = a.gpu
+    # Absoluta siempre. Blender resuelve una ruta relativa contra el .blend,
+    # no contra el directorio de trabajo: '.\\renders' acababa en C:\\renders.
+    a.salida = os.path.abspath(os.path.expanduser(a.salida))
     os.makedirs(a.salida, exist_ok=True)
     todas = list(VISTAS) + list(ORTOS)
     if a.vistas:
@@ -2366,6 +2389,30 @@ def main():
     else:
         vistas = todas if a.todas else [a.vista]
     print('Casa Margot · montando la escena', flush=True)
+    print('  activos:', SCRATCH, flush=True)
+    # Sin activos la escena se montaba igual -sin texturas, sin el logo y sin
+    # los 22 modelos de decoracion- y el render salia mal pareciendo bien. Se
+    # para antes de gastar el render. El coche solo hace falta en las vistas
+    # de calle, asi que ese es aviso y no parada.
+    if not os.path.isdir(os.path.join(SCRATCH, 'coches')):
+        print('  aviso: falta el coche; la calle saldra vacia', flush=True)
+    faltan = [n for n, c in (('las texturas y modelos de Poly Haven', PH),
+                             ('el vinilo del logo', os.path.dirname(LOGO)))
+              if not os.path.isdir(c)]
+    if faltan:
+        print('\n  *** NO ESTAN ' + ' NI '.join(faltan).upper() + ' ***\n',
+              flush=True)
+        print('  Se buscaron en:', SCRATCH, flush=True)
+        print('  El render saldria sin texturas, asi que no se hace. Antes:',
+              flush=True)
+        print('      python preparar_activos.py', flush=True)
+        print('  Si ya estan bajados pero en otro sitio, hay que decirlo:',
+              flush=True)
+        print('      set CM_SCRATCH=C:\\ruta\\a\\los\\activos    (Windows)',
+              flush=True)
+        print('      export CM_SCRATCH=/ruta/a/los/activos   (Mac y Linux)\n',
+              flush=True)
+        sys.exit(2)
     ciudad = any(v in VE_LA_CALLE for v in vistas) and not a.sin_ciudad
     construir(a.spp, a.ancho, a.alto, not a.sin_decoracion, a.glare, ciudad)
     print('  ciudad:', 'montada' if ciudad else 'no hace falta en estas vistas', flush=True)

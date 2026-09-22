@@ -64,6 +64,9 @@ def main():
     blender = a.blender or buscar_blender()
     if not blender and not a.dry:
         sys.exit('No encuentro Blender. Pasalo con --blender "ruta\\a\\blender.exe"')
+    # absoluta: Blender resuelve las relativas contra el .blend, no contra el
+    # directorio de trabajo, y '.\\renders' acababa en C:\\renders
+    a.salida = os.path.abspath(os.path.expanduser(a.salida))
     os.makedirs(a.salida, exist_ok=True)
     vistas = [v.strip() for v in a.vistas.split(',') if v.strip()] or SERIE
 
@@ -98,7 +101,11 @@ def main():
                 print(f'[{i}/{len(vistas)}] {v}: {time.strftime("%H:%M:%S")}',
                       flush=True)
             t0 = time.time()
-            subprocess.run(orden)
+            r = subprocess.run(orden)
+            if r.returncode == 2:
+                # faltan los activos: reintentar con menos muestras no arregla
+                # nada y son quince fallos seguidos. Se para y ya esta.
+                sys.exit('\nLote parado: hay que bajar los activos primero.')
             if os.path.exists(destino):
                 print(f'[{i}/{len(vistas)}] {v}: listo en '
                       f'{(time.time() - t0) / 60:.0f} min', flush=True)
