@@ -1222,13 +1222,16 @@ def fachada_real():
     x0, x1, y0, y1 = 5.731, 6.331, 0.000, 1.000
     aplacado('Aplacado P5 Sur', x0 - d, y0 - d, x1 + d, y0 + SOLAPE,
              -0.010, Z_TECHO, eje='x')
-    aplacado('Aplacado P5 Oeste', x0 - d, y0, x0 + SOLAPE, y1,
+    # hasta el arranque del retorno (YR0), no hasta la cara Norte de P5: si
+    # no, entre la arenisca y el perfil del retorno asomaba de arriba abajo
+    # el canto del forro Norte, que es de pizarra, como una linea negra
+    aplacado('Aplacado P5 Oeste', x0 - d, y0, x0 + SOLAPE, YR0,
              -0.010, Z_TECHO, eje='y')
     aplacado('Aplacado P5 Este', x1 - SOLAPE, y0, x1 + d, 0.370,
              -0.010, Z_TECHO, eje='y')
     losas('Forro P5 Este interior', x1 - SOLAPE, 0.420, x1 + d, y1,
           0.0, Z_TECHO, MAT['_losa_piedra'], fondo=d, eje='y')
-    losas('Forro P5 Norte', x0 - d, y1 - SOLAPE, x1 + d, y1 + d,
+    losas('Forro P5 Norte', x0, y1 - SOLAPE, x1 + d, y1 + d,
           0.0, Z_TECHO, MAT['_losa_piedra'], fondo=d, eje='x')
 
     # --- paño estrecho (x 0,51..1,29) y paño grande (x 1,87..retorno)
