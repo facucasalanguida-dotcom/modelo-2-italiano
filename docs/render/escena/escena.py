@@ -176,6 +176,37 @@ EXPOSICION_BASE = 0.65
 EXPOSICION = {'calle': -1.30, 'fachada': -1.30}
 
 
+# Por defecto CPU: la maquina donde se monto esto no tiene tarjeta. Con
+# --gpu se buscan las tarjetas que Cycles sepa usar -OptiX y CUDA en NVIDIA,
+# HIP en AMD, Metal en Mac, oneAPI en Intel- y se encienden todas junto con
+# la CPU. Si no hay ninguna, se avisa y se sigue por CPU en vez de reventar.
+USAR_GPU = False
+
+
+def _dispositivo():
+    if not USAR_GPU:
+        return 'CPU'
+    try:
+        pref = bpy.context.preferences.addons['cycles'].preferences
+        for tipo in ('OPTIX', 'CUDA', 'HIP', 'METAL', 'ONEAPI'):
+            try:
+                pref.compute_device_type = tipo
+            except Exception:
+                continue
+            pref.get_devices()
+            tarjetas = [d for d in pref.devices if d.type == tipo]
+            if not tarjetas:
+                continue
+            for d in pref.devices:
+                d.use = True          # tarjetas y CPU a la vez
+            print(f'  GPU: {tipo} ->', ', '.join(d.name for d in tarjetas), flush=True)
+            return 'GPU'
+    except Exception as e:
+        print('  GPU: no se pudo activar (', e, ')', flush=True)
+    print('  GPU: no hay tarjeta que Cycles sepa usar; se renderiza por CPU', flush=True)
+    return 'CPU'
+
+
 def escena_nueva(spp=512, ancho=2560, alto=1440):
     bpy.ops.wm.read_factory_settings(use_empty=True)
     # los datablocks de imagen mueren con el fichero: si no se vacian los
@@ -186,7 +217,7 @@ def escena_nueva(spp=512, ancho=2560, alto=1440):
     COL.clear()
     sc = bpy.context.scene
     sc.render.engine = 'CYCLES'
-    sc.cycles.device = 'CPU'
+    sc.cycles.device = _dispositivo()
     sc.cycles.samples = spp
     sc.cycles.use_adaptive_sampling = True
     sc.cycles.adaptive_threshold = 0.010
@@ -2315,8 +2346,12 @@ def main():
     ap.add_argument('--sin-ciudad', action='store_true')
     ap.add_argument('--salida', default=os.path.join(SCRATCH, 'renders'))
     ap.add_argument('--guardar-blend', default='')
+    ap.add_argument('--gpu', action='store_true',
+                    help='renderiza con la tarjeta grafica en vez de la CPU')
     a = ap.parse_args(sys.argv[sys.argv.index('--') + 1:] if '--' in sys.argv else None)
 
+    global USAR_GPU
+    USAR_GPU = a.gpu
     os.makedirs(a.salida, exist_ok=True)
     todas = list(VISTAS) + list(ORTOS)
     if a.vistas:

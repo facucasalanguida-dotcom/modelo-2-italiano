@@ -106,3 +106,50 @@ salen su posicion y sus dimensiones exactas, que tambien me valen.
   escena desde `docs/render/escena/escena.py`, que es el origen de todo.
   Dime los cambios y los hago ahi, que es lo que garantiza que se apliquen
   a las 24 vistas.
+
+## 9. Renderizar en tu ordenador
+
+Se puede, y en una maquina con tarjeta grafica es entre 5 y 10 veces mas
+rapido que aqui. Lo que manda **no es la RAM**: esta maquina ya tiene 15 GB
+y no es el cuello de botella. Manda la **tarjeta grafica**, y en su defecto
+el numero de nucleos de CPU. Aqui hay 4 nucleos y ninguna tarjeta.
+
+### Lo que necesitas
+
+1. **Blender 5.0 o posterior** (ver el punto 1).
+2. **El repositorio** clonado.
+3. **Los activos**, que NO estan en el repositorio porque pesan 1,5 GB:
+   texturas y modelos de Poly Haven, el coche y el logo. Se reconstruyen
+   con los dos scripts que si estan:
+
+        cd docs/render/escena
+        export CM_SCRATCH=~/casa_margot_activos      # Windows: set CM_SCRATCH=...
+        python3 restaurar_activos.py                 # baja los 34 de Poly Haven
+        python3 rehacer_logo.py                      # rasteriza el logo del PDF
+
+   El coche va aparte: es la escena de demostracion `bmw27` de Blender, y
+   tiene que quedar en `$CM_SCRATCH/coches/bmw27/bmw27/bmw27_cpu.blend`.
+
+### Lanzarlo
+
+    blender --background --python escena.py -- \
+        --vista alta --spp 96 --ancho 3840 --alto 2160 \
+        --salida ./renders --gpu
+
+`--gpu` enciende la tarjeta: prueba OptiX y CUDA (NVIDIA), HIP (AMD), Metal
+(Mac) y oneAPI (Intel), y usa la primera que encuentre junto con la CPU. Si
+no hay ninguna lo dice por pantalla y sigue por CPU, no se rompe.
+
+Para varias seguidas, `lote.sh` hace lo mismo lanzando un proceso por vista:
+
+    ./lote.sh ./renders 3840 2160 96 alta alta_cowork general entrada
+
+### Dos avisos
+
+- **VRAM**: las vistas de interior caben en 8 GB de sobra. Las de calle
+  (`fachada`, `calle`) cargan la ciudad entera con un HDRI de 8K y ahi 8 GB
+  se quedan justos; si la tarjeta se queda sin memoria, Cycles lo dice y
+  esas dos conviene dejarlas en CPU (sin `--gpu`).
+- **Un render a la vez.** Montar la escena se come casi 6 GB, asi que dos
+  procesos a la vez en una maquina de 16 GB se matan entre ellos por falta
+  de memoria. `lote.sh` ya los encadena de uno en uno.
