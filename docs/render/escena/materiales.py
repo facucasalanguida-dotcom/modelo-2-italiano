@@ -143,7 +143,7 @@ def liso(nombre, rgb, rug=0.6, metal=0.0, coat=0.0, aniso=0.0, sheen_=False):
 
 def pbr(nombre, aid, tam=1.0, tint=None, color=None, nrm_str=0.6, coat=0.0,
         metal=0.0, rug=None, ao_fac=0.5, mezcla_caja=0.3, generada=False,
-        albedo=None):
+        albedo=None, contraste=1.0):
     """Material escaneado: color + rugosidad + normal, en proyeccion de caja.
 
     tam es el lado en metros que ocupa una repeticion de la textura, medido
@@ -206,6 +206,17 @@ def pbr(nombre, aid, tam=1.0, tint=None, color=None, nrm_str=0.6, coat=0.0,
             mt.inputs[7].default_value = (*tint, 1)
             nt.links.new(col, mt.inputs[6])
             col = mt.outputs[2]
+        if albedo and contraste < 1.0:
+            # contraste < 1 lleva la textura hacia su color plano: conserva
+            # el grano y apaga lo que sobra, como las grietas de la arenisca
+            mc = nt.nodes.new('ShaderNodeMix')
+            mc.location = (-80, 480)
+            mc.data_type = 'RGBA'
+            mc.blend_type = 'MIX'
+            mc.inputs['Factor'].default_value = contraste
+            mc.inputs[6].default_value = (*srgb(albedo), 1)
+            nt.links.new(col, mc.inputs[7])
+            col = mc.outputs[2]
         nt.links.new(col, b.inputs['Base Color'])
 
     if rug is not None:
@@ -418,7 +429,9 @@ def construir():
     # Por un escaparate de doble altura se ve la calle entera, asi que la
     # ciudad no puede ser el HDRI: tiene que estar construida y tener
     # materiales propios.
-    M['_acera'] = pbr('Acera', 'large_floor_tiles_02', 2.4, albedo='B9B4AA', nrm_str=0.8)
+    # Baldosa de ~0,40 y gris beige, como la de delante del local en los
+    # videos (#9D918C al sol); la textura trae 3 x 3 baldosas por repeticion.
+    M['_acera'] = pbr('Acera', 'large_floor_tiles_02', 1.20, albedo='A89D95', nrm_str=0.8)
     M['_asfalto'] = pbr('Asfalto', 'asphalt_02', 3.2, albedo='4A4845', nrm_str=0.9)
     M['_pintura_vial'] = liso('Pintura vial', srgb('D8D4C8'), 0.68)
     M['_tierra'] = liso('Tierra de alcorque', srgb('4A3A2C'), 0.92)
@@ -460,8 +473,11 @@ def construir():
     # Tonos subidos de saturacion tras comparar el primer render con el
     # video: salian palidos y agrisados al lado de las losas reales.
     for _i, _tono in enumerate(('D9B98F', 'CFA06F', 'D6A184', 'C49A6C', 'E0C9A2')):
+        # Al 35 % de contraste, sin AO y con la normal casi a cero: de cerca
+        # la textura leia como barro cuarteado y las losas reales son lisas.
         _m = pbr(f'Arenisca {_i + 1}', 'sandstone_cracks', 0.55 + 0.20 * _r.random(),
-                 albedo=_tono, nrm_str=0.22, rug=0.64, mezcla_caja=0.25)
+                 albedo=_tono, nrm_str=0.08, rug=0.64, mezcla_caja=0.25,
+                 ao_fac=0.0, contraste=0.35)
         for _nd in _m.node_tree.nodes:
             if _nd.bl_idname == 'ShaderNodeMapping':
                 _nd.inputs['Location'].default_value = (_r.uniform(-6, 6),
@@ -472,8 +488,8 @@ def construir():
     # Alguna losa gris entre la arenisca: en P5 se ven dos o tres, a media
     # altura, en las fotos de la parte Este.
     M['_arenisca_gris'] = pbr('Arenisca gris', 'sandstone_cracks', 0.62,
-                              albedo='A39C92', nrm_str=0.22, rug=0.62,
-                              mezcla_caja=0.25)
+                              albedo='A39C92', nrm_str=0.08, rug=0.62,
+                              mezcla_caja=0.25, ao_fac=0.0, contraste=0.35)
     # Pizarra de la franja del extremo Oeste: losas lisas gris oscuro con
     # junta, no roca. #635E5D al sol en el video. La dark_rock de las
     # columnas interiores tiene un relieve que aqui no existe.

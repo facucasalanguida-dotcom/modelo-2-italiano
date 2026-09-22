@@ -26,7 +26,14 @@ Y_APARCA = -4.900          # banda de aparcamiento
 Y_EJE = -6.900             # eje de la calzada
 Y_ACERA_OP = -10.900       # bordillo de la acera de enfrente
 Y_FACHADA_OP = -13.900     # fachada de enfrente
-H_BORDILLO = 0.140
+# Cota de la ACERA. Estaba a +0,140 con el local a 0: el pavimento de la calle
+# quedaba 14 cm por encima del suelo del local y enterraba la base de la
+# fachada -banda oscura, zocalo de los machones y vierteaguas-, que en los
+# videos se ve entera sobre la acera. La acera va a nivel del local, 3 mm por
+# debajo del pavimento interior para que nunca pelee con el, y la calzada
+# baja los 14 cm del bordillo.
+H_BORDILLO = -0.003
+Z_CALZADA = H_BORDILLO - 0.140
 X0, X1 = -26.0, 34.0       # cuanto de calle se construye
 
 
@@ -37,37 +44,40 @@ def _c(escena, nombre, x0, y0, x1, y1, z0, z1, mat, col='Ciudad'):
 def suelo_urbano(E, M):
     """Acera, bordillo, calzada, marcas viales y alcorques."""
     # acera del local y de enfrente
-    _c(E, 'Acera', X0, Y_ACERA, X1, Y_FACHADA + 0.4, 0.0, H_BORDILLO, M['_acera'])
-    _c(E, 'Acera enfrente', X0, Y_FACHADA_OP, X1, Y_ACERA_OP, 0.0, H_BORDILLO, M['_acera'])
+    _c(E, 'Acera', X0, Y_ACERA, X1, Y_FACHADA + 0.4, H_BORDILLO - 0.15, H_BORDILLO,
+       M['_acera'])
+    _c(E, 'Acera enfrente', X0, Y_FACHADA_OP, X1, Y_ACERA_OP, H_BORDILLO - 0.15,
+       H_BORDILLO, M['_acera'])
     # bordillos de granito
-    _c(E, 'Bordillo', X0, Y_ACERA - 0.180, X1, Y_ACERA, -0.120, H_BORDILLO, M['piedra'])
-    _c(E, 'Bordillo enfrente', X0, Y_ACERA_OP, X1, Y_ACERA_OP + 0.180, -0.120,
-       H_BORDILLO, M['piedra'])
+    _c(E, 'Bordillo', X0, Y_ACERA - 0.180, X1, Y_ACERA, Z_CALZADA - 0.120, H_BORDILLO,
+       M['piedra'])
+    _c(E, 'Bordillo enfrente', X0, Y_ACERA_OP, X1, Y_ACERA_OP + 0.180,
+       Z_CALZADA - 0.120, H_BORDILLO, M['piedra'])
     # calzada, un poco por debajo del bordillo
-    _c(E, 'Calzada', X0, Y_ACERA_OP + 0.18, X1, Y_ACERA - 0.18, -0.130, -0.002,
-       M['_asfalto'])
+    _c(E, 'Calzada', X0, Y_ACERA_OP + 0.18, X1, Y_ACERA - 0.18, Z_CALZADA - 0.128,
+       Z_CALZADA, M['_asfalto'])
     # marcas viales: eje discontinuo y linea de aparcamiento
     for x in range(int(X0), int(X1), 4):
-        _c(E, f'Eje {x}', x, Y_EJE - 0.06, x + 2.2, Y_EJE + 0.06, -0.001, 0.0015,
-           M['_pintura_vial'])
+        _c(E, f'Eje {x}', x, Y_EJE - 0.06, x + 2.2, Y_EJE + 0.06, Z_CALZADA + 0.001,
+           Z_CALZADA + 0.0035, M['_pintura_vial'])
     _c(E, 'Linea aparcamiento', X0, Y_APARCA - 0.05, X1, Y_APARCA + 0.05,
-       -0.001, 0.0015, M['_pintura_vial'])
+       Z_CALZADA + 0.001, Z_CALZADA + 0.0035, M['_pintura_vial'])
     # paso de cebra a la altura de la esquina
     for i in range(7):
         x = 12.4 + i * 0.90
         _c(E, f'Cebra {i + 1}', x, Y_ACERA_OP + 0.2, x + 0.50, Y_ACERA - 0.2,
-           -0.001, 0.0015, M['_pintura_vial'])
+           Z_CALZADA + 0.001, Z_CALZADA + 0.0035, M['_pintura_vial'])
     # alcorques de los arboles
     for x in ALCORQUES:
         _c(E, f'Alcorque {x:.0f}', x - 0.55, Y_ACERA + 0.35, x + 0.55,
-           Y_ACERA + 1.45, 0.0, H_BORDILLO - 0.02, M['_tierra'])
+           Y_ACERA + 1.45, H_BORDILLO - 0.15, H_BORDILLO - 0.02, M['_tierra'])
         for s, (ax0, ay0, ax1, ay1) in enumerate((
                 (x - 0.60, Y_ACERA + 0.30, x + 0.60, Y_ACERA + 0.35),
                 (x - 0.60, Y_ACERA + 1.45, x + 0.60, Y_ACERA + 1.50),
                 (x - 0.60, Y_ACERA + 0.30, x - 0.55, Y_ACERA + 1.50),
                 (x + 0.55, Y_ACERA + 0.30, x + 0.60, Y_ACERA + 1.50))):
-            _c(E, f'Alcorque {x:.0f} canto {s}', ax0, ay0, ax1, ay1, 0.0,
-               H_BORDILLO + 0.01, M['piedra'])
+            _c(E, f'Alcorque {x:.0f} canto {s}', ax0, ay0, ax1, ay1,
+               H_BORDILLO - 0.15, H_BORDILLO + 0.01, M['piedra'])
 
 
 # Menos alcorques: cada arbol es follaje con alfa, lo mas caro de la escena.

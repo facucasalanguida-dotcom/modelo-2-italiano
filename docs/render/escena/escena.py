@@ -287,7 +287,9 @@ def _tag_de(nombre):
 # Piezas del plano que fachada_real() rehace a partir del video de la fachada
 # (IMG_6570). El muro del cuello y la jamba no existen en obra: el rincon entre
 # el ventanal y P5 es un retorno ACRISTALADO, con su perfil y su travesaño.
-FACHADA_REHECHA = ('Muro Oeste del cuello', 'Ventanal Sur · jamba',
+FACHADA_REHECHA = ('Solera de planta baja',   # bajo el suelo no se ve, y en
+                                           # el retranqueo tapaba la acera
+                   'Muro Oeste del cuello', 'Ventanal Sur · jamba',
                    'Ventanal Sur · paño 2', 'Escaparate · zócalo de piedra',
                    'Puerta de acceso · montante superior')
 FACHADA_REHECHA_PREFIJOS = ('Ventanal Sur · travesaño', 'Ventanal Sur · zócalo',
@@ -747,8 +749,14 @@ def leds_escalera(j):
 def suelos_y_techos():
     """El plano no dibuja pavimento ni techo: aqui si, que es lo que se ve."""
     # pavimento de planta baja: roble, en toda la huella util
-    caja('Pavimento planta baja', 0.200, 0.330, 9.940, 9.060, -0.018, 0.001,
-         MAT['_suelo'], 'Obra')
+    # Con la forma del interior y no con una caja: la caja salia al porche y
+    # al retranqueo de la entrada, y con la acera ya a nivel del local esos
+    # dos suelos exteriores habrian salido de roble. El borde sigue la linea
+    # de los vidrios -ventanal, retorno, escaparate, cubo- y la de la puerta.
+    pts = [(0.200, 9.060), (9.940, 9.060), (9.940, 1.404), (7.593, 1.404),
+           (7.593, 0.395), (6.331, 0.395), (6.331, 1.000), (5.735, 1.000),
+           (5.735, 1.591), (0.200, 1.591)]
+    prisma('Pavimento planta baja', pts[::-1], -0.018, 0.001, MAT['_suelo'], 'Obra')
     # El techo de planta baja NO se dibuja: donde hay altillo, el techo es el
     # intrados del propio forjado (el plano ya lo trae), y donde no lo hay el
     # local es de doble altura hasta el techo del altillo. Ponerlo plano a
@@ -872,7 +880,7 @@ def frente_barra():
     # que la madera sube hasta ahi: queda medio frente de madera y medio de
     # vitrina, que es como lo quiere el cliente. Antes moria en 0,420 y la
     # madera se quedaba en un tercio.
-    Z_BASE_VITRINA = 0.600
+    Z_BASE_VITRINA = VITRINA_BASE     # y ahora hasta la vitrina acortada
     for nm, ya, yb, z1, con_canto in (
             ('vitrinas', my0, Y_MOSTRADOR, Z_BASE_VITRINA, False),
             ('mostrador', Y_MOSTRADOR, my1, Q.H_ENCIMERA, True)):
@@ -891,6 +899,10 @@ def frente_barra():
             # canto superior de madera: solo donde hay mostrador
             caja(f'Frente de la barra · canto {nm}', mx1 - 0.055, ya, mx1 + 0.012,
                  yb, z1, z1 + 0.042, MAT['mesa'])
+    # Balda en la que apoyan las dos vitrinas acortadas. Por debajo queda el
+    # hueco abierto al pasillo, con los dos motores y el lavavasos del plano.
+    bisel(caja('Vitrinas · balda de apoyo', 1.830, my0, mx1 - 0.030, Y_MOSTRADOR,
+               VITRINA_BASE - 0.025, VITRINA_BASE, MAT['inox']))
     # Testa Norte del mostrador: el trasdos negro de los listones acababa a la
     # vista justo donde arranca la pared en L y se leia como una franja negra.
     # Se cierra con un remate blanco, que ademas continua la linea de la L.
@@ -1132,7 +1144,10 @@ FA_VIERTE = 0.130       # vierteaguas crema; el vidrio arranca aqui
 FA_TRAVESANOS = ((2.270, 2.330),     # el del plano
                  (2.720, 2.780),     # donde va la caja del toldo
                  (4.320, 4.380))     # remate del vidrio alto
-FA_FAJA = (4.380, 4.700)             # faja ciega de rotulo, crema
+# Faja ciega de rotulo, crema. Llega hasta el intrados: medido sobre el
+# fotograma 31 del segundo video, el mas lejano y frontal, la faja mide
+# ~0,68 y no hay dintel de revoco entre ella y el balcon, como habia.
+FA_FAJA = (4.380, Z_TECHO)
 FA_PERFIL = 0.060                    # cara vista de montantes y travesaños
 
 
@@ -1145,7 +1160,7 @@ def _perfil(nombre, x0, y0, x1, y1, z0, z1, mat=None):
 def _paño_fachada(nombre, a0, a1, eje, p0, p1, montantes=(True, True),
                   travesaños=None, faja_fin=None):
     """Un paño de la fachada: banda, vierteaguas, montantes, travesaños,
-    faja de rotulo y dintel. eje='x' corre en X con la perfileria entre
+    faja de rotulo hasta el intrados. eje='x' corre en X con la perfileria entre
     y = p0..p1; eje='y' corre en Y con la perfileria entre x = p0..p1.
 
     Los travesaños van ENTRE los montantes, no de punta a punta: si no, su
@@ -1161,7 +1176,7 @@ def _paño_fachada(nombre, a0, a1, eje, p0, p1, montantes=(True, True),
         return _perfil(nm, p0 - d, u0, p1 + d, u1, z0, z1, mat)
     t0 = a0 + (C if montantes[0] else 0.0)
     t1 = a1 - (C if montantes[1] else 0.0)
-    c(f'{nombre} · banda', a0, a1, 0.0, FA_BASE, MAT['_pizarra_fachada'][0])
+    c(f'{nombre} · banda', a0, a1, -0.010, FA_BASE, MAT['_pizarra_fachada'][0])
     c(f'{nombre} · vierteaguas', a0, a1, FA_BASE, FA_VIERTE)
     if montantes[0]:
         c(f'{nombre} · montante 1', a0, a0 + C, FA_VIERTE, FA_FAJA[0])
@@ -1169,8 +1184,7 @@ def _paño_fachada(nombre, a0, a1, eje, p0, p1, montantes=(True, True),
         c(f'{nombre} · montante 2', a1 - C, a1, FA_VIERTE, FA_FAJA[0])
     for k, (z0, z1) in enumerate(travesaños or FA_TRAVESANOS):
         c(f'{nombre} · travesaño {k + 1}', t0, t1, z0, z1)
-    c(f'{nombre} · faja', a0, faja_fin or a1, FA_FAJA[0], FA_FAJA[1], d=0.006)
-    c(f'{nombre} · dintel', a0, a1, FA_FAJA[1], Z_TECHO, MAT['_revoco_fachada'])
+    c(f'{nombre} · faja', a0, faja_fin or a1, FA_FAJA[0], FA_FAJA[1] + SOLAPE, d=0.006)
 
 
 def fachada_real():
@@ -1200,16 +1214,16 @@ def fachada_real():
     # --- P2: su cara a la calle en arenisca, cubriendo las esquinas de sus
     #     costados, que forra forro_pilares()
     aplacado('Aplacado P2 Sur', 1.290 - d, YP0 - d + SOLAPE, 1.870 + d, YP0,
-             0.0, Z_TECHO, eje='x')
+             -0.010, Z_TECHO, eje='x')
     # --- P5: las tres caras que dan a la calle en arenisca; su costado Este
     #     solo hasta el escaparate (y 0,37): de ahi para dentro es interior
     x0, x1, y0, y1 = 5.731, 6.331, 0.000, 1.000
     aplacado('Aplacado P5 Sur', x0 - d, y0 - d, x1 + d, y0 + SOLAPE,
-             0.0, Z_TECHO, eje='x')
+             -0.010, Z_TECHO, eje='x')
     aplacado('Aplacado P5 Oeste', x0 - d, y0, x0 + SOLAPE, y1,
-             0.0, Z_TECHO, eje='y')
+             -0.010, Z_TECHO, eje='y')
     aplacado('Aplacado P5 Este', x1 - SOLAPE, y0, x1 + d, 0.370,
-             0.0, Z_TECHO, eje='y')
+             -0.010, Z_TECHO, eje='y')
     losas('Forro P5 Este interior', x1 - SOLAPE, 0.420, x1 + d, y1,
           0.0, Z_TECHO, MAT['_losa_piedra'], fondo=d, eje='y')
     losas('Forro P5 Norte', x0 - d, y1 - SOLAPE, x1 + d, y1 + d,
@@ -1242,7 +1256,7 @@ def fachada_real():
 
     # --- franja de pizarra del extremo Oeste: losas lisas con junta, de
     #     arriba abajo, por la cara Sur del machon SO
-    aplacado('Aplacado SO', 0.000, YP0 - d + SOLAPE, 0.510, YP0, 0.0, Z_TECHO,
+    aplacado('Aplacado SO', 0.000, YP0 - d + SOLAPE, 0.510, YP0, -0.010, Z_TECHO,
              eje='x', zocalo=0.0, tonos=MAT['_pizarra_fachada'], gris=0.0)
 
     # --- balcon curvo del primer piso sobre el porche. En los dos videos el
@@ -1284,8 +1298,7 @@ def fachada_real():
     e('Fachada puerta · banda de la persiana', D0, D1 - C, R['alto'], 2.720)
     for k, (z0, z1) in enumerate(FA_TRAVESANOS[1:]):
         e(f'Fachada puerta · travesaño {k + 1}', D0, D1 - C, z0, z1)
-    e('Fachada puerta · faja', D0, D1, FA_FAJA[0], FA_FAJA[1], dd=0.006)
-    e('Fachada puerta · dintel', D0, D1, FA_FAJA[1], Z_TECHO, MAT['_revoco_fachada'])
+    e('Fachada puerta · faja', D0, D1, FA_FAJA[0], FA_FAJA[1] + SOLAPE, dd=0.006)
     L0, L1 = FA_TRAVESANOS[1][1], FA_TRAVESANOS[2][0]     # 2,78 .. 4,32
     xm = (D0 + D1 - C) / 2
     e('Fachada lamas · montante central', xm - C / 2, xm + C / 2, L0, L1)
@@ -1307,7 +1320,7 @@ def fachada_real():
     # costado Este del retranqueo, forrado de arenisca como los machones; se
     # para antes de las hojas de la puerta
     aplacado('Aplacado retranqueo Este', D1 - d, R['y0'], D1 + SOLAPE, 1.375,
-             0.0, R['alto'], eje='y')
+             -0.010, R['alto'], eje='y')
     return 1
 
 
@@ -1361,7 +1374,9 @@ GIRO = {
     # y las dos puertas correderas con sus tiradores en la +Y. Con -90 el
     # cristal daba al pasillo de servicio y el cliente veia las correderas por
     # detras. El cliente esta al Este, asi que van a +90.
-    'V1': 90, 'V2': 90, 'B1': 90, 'B3': -90, 'B2': 0,
+    # B1 iba a 90, con la puerta y el display contra el frente de madera:
+    # desde el pasillo solo se le veia la trasera, un cubo con un cable.
+    'V1': 90, 'V2': 90, 'B1': -90, 'B3': -90, 'B2': 0,
     # La chopera mira al Norte, no al Oeste. El objeto tiene el frente en -Y:
     # ahi estan los tres caños, las manetas y la rejilla donde va el vaso, y
     # la columna queda detras. Con -90 los caños apuntaban a la pared Oeste,
@@ -1390,6 +1405,15 @@ def _hueco_del_plano(j):
                  max(o[3], b[3]), max(o[4], b[4]), max(o[5], b[5]))
         out[t] = b
     return out
+
+
+# Arranque de la vitrina acortada. El plano la pone de 0,600 a 1,250, pero
+# bajo V2 mete el lavavasos B1, que mide 0,670: el propio plano no cabe. Con
+# la vitrina comprada, que tiene la bandeja a 0,40, el lavavasos se metia 27 cm
+# dentro de ella. El cliente la quiere mas CORTA, no mas alta: la corona se
+# queda en 1,250 y la bandeja sube hasta aqui, 30 mm por encima del
+# lavavasos para que quepa la balda en la que apoya.
+VITRINA_BASE = 0.700
 
 
 def aparatos(j):
@@ -1461,6 +1485,37 @@ def aparatos(j):
                       if o.type == 'MESH' and o.name.split('.')[0] == 'zocalo']:
                 traidos.remove(o)
                 bpy.data.objects.remove(o, do_unlink=True)
+            # Acortarla, no elevarla: escala en Z respecto de la corona, que
+            # no se mueve, hasta que la bandeja quede en VITRINA_BASE.
+            bpy.context.view_layer.update()
+
+            def _zs(o):
+                return [(o.matrix_world @ Vector(c)).z for c in o.bound_box]
+            mallas_v = [o for o in traidos if o.type == 'MESH']
+            z_top = max(max(_zs(o)) for o in mallas_v)
+            z_band = min(min(_zs(o)) for o in mallas_v
+                         if o.name.startswith('plano exposicion'))
+            k = (z_top - VITRINA_BASE) / (z_top - z_band)
+            S = (mathutils.Matrix.Translation((0, 0, z_top))
+                 @ mathutils.Matrix.Scale(k, 4, (0, 0, 1))
+                 @ mathutils.Matrix.Translation((0, 0, -z_top)))
+            for o in padres:
+                o.matrix_world = S @ o.matrix_world
+            bpy.context.view_layer.update()
+            # Lo que la vitrina traia por debajo de la bandeja -pies,
+            # rejilla del condensador, mando- se quedaria flotando en el
+            # hueco: fuera, de las hojas hacia la raiz.
+            fuera = [o for o in traidos if o.type == 'MESH'
+                     and max(_zs(o)) < VITRINA_BASE - 0.020]
+            fuera.sort(key=lambda o: -len(o.children_recursive))
+            fuera.reverse()
+            for o in fuera:
+                traidos.remove(o)
+                bpy.data.objects.remove(o, do_unlink=True)
+            h = huecos[tag]
+            luz_expositor(tag, (h[0], h[1], VITRINA_BASE, h[3], h[4], h[5]))
+            puestos.append(tag)
+            continue
         luz_expositor(tag, huecos[tag])
         puestos.append(tag)
     return puestos
@@ -2348,11 +2403,13 @@ def acera_corta():
     triangulos y 3 GB; si por la camara no se ve la calle, no compensa.
     """
     import ciudad as C
-    caja('Acera', -16.0, C.Y_ACERA, 26.0, C.Y_FACHADA + 0.4, 0.0, C.H_BORDILLO,
+    caja('Acera', -16.0, C.Y_ACERA, 26.0, C.Y_FACHADA + 0.4, C.H_BORDILLO - 0.15,
+         C.H_BORDILLO,
          MAT['_acera'], 'Ciudad')
-    caja('Calzada', -16.0, -14.0, 26.0, C.Y_ACERA - 0.18, -0.130, -0.002,
+    caja('Calzada', -16.0, -14.0, 26.0, C.Y_ACERA - 0.18, C.Z_CALZADA - 0.128,
+         C.Z_CALZADA,
          MAT['_asfalto'], 'Ciudad')
-    caja('Bordillo', -16.0, C.Y_ACERA - 0.18, 26.0, C.Y_ACERA, -0.120,
+    caja('Bordillo', -16.0, C.Y_ACERA - 0.18, 26.0, C.Y_ACERA, C.Z_CALZADA - 0.120,
          C.H_BORDILLO, MAT['piedra'], 'Ciudad')
 
 
@@ -2428,7 +2485,7 @@ def _congelar(col):
         bpy.data.objects.remove(a, do_unlink=True)
 
 
-def poner_bmw(x, y, giro, hexcol, nombre, col='Ciudad', z_apoyo=-0.010, subdiv=1):
+def poner_bmw(x, y, giro, hexcol, nombre, col='Ciudad', z_apoyo=None, subdiv=1):
     """Trae el BMW de la escena de demostracion y lo planta en la calle.
 
     Se importa una vez por coche en vez de duplicar: son 188.000 triangulos,
@@ -2492,6 +2549,9 @@ def poner_bmw(x, y, giro, hexcol, nombre, col='Ciudad', z_apoyo=-0.010, subdiv=1
     lo, hi = _BMW_CAJA
     k = BMW_LARGO / (hi.x - lo.x)
     cx, cy = (lo.x + hi.x) / 2, (lo.y + hi.y) / 2
+    if z_apoyo is None:
+        import ciudad as C
+        z_apoyo = C.Z_CALZADA - 0.008      # 8 mm hundido en el asfalto
     M = (mathutils.Matrix.Translation((x, y, z_apoyo - k * lo.z))
          @ mathutils.Matrix.Rotation(math.radians(giro), 4, 'Z')
          @ mathutils.Matrix.Scale(k, 4)
