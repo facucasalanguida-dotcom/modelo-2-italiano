@@ -17,3 +17,10 @@ docs/render/casa_margot/*.png
 
 # el dossier se genera; pesa 126 MB con las fotos a resolucion completa
 docs/dossier/*.pdf
+
+# Lo que se genera al renderizar en un PC: los 1,5 GB de activos que baja
+# preparar_activos.py y las fotos que saca lote.py
+docs/render/escena/activos/
+docs/render/escena/recorrido/
+docs/render/escena/borrador/
+docs/render/escena/renders/
