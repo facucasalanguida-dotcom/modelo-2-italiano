@@ -1344,9 +1344,9 @@ def mobiliario():
 # ========================================== 5. pared azzurro con el logo
 # La pared que se ve a la derecha al entrar, antes de subir la escalera, es
 # la MEDIANERA ESTE: su cara interior esta en x = 9,890 y el tramo que va del
-# cuello (1,429) al primer peldano (3,579) queda libre. El modelo NO tiene
-# cerramiento de escalera -estructura.CAJA_ESC_PB esta definido pero el
-# generador no lo dibuja-, asi que pintar alli era inventarse un muro.
+# cuello (1,429) al primer peldano (3,579) queda libre. El cerramiento de la
+# escalera -CAJA_ESC_PB, que el plano trae como panel- solo cubre de y 3,939
+# a 7,738, asi que en ese tramo no hay muro donde pintar.
 # Ese tramo es de doble altura: no hay forjado hasta y = 3,939.
 PARED_LOGO = dict(x=9.890, y0=1.429, y1=3.579, z0=0.0, z1=Z_TECHO - 0.005)
 
@@ -2278,8 +2278,11 @@ VISTAS = {
     'escalera_pilar': ((8.55, 2.25, 1.620), (9.30, 6.20, 1.950), 19.0),
     # La escalera de costado: alzado del tramo. La camara mira en +X desde la
     # sala, por debajo del forjado, asi que el tramo sale de perfil -la linea
-    # de peldaños y lo que haya sobre ella- en vez de en escorzo. El costado
-    # Oeste de la escalera esta abierto: el generador no dibuja CAJA_ESC_PB.
+    # de peldaños y lo que haya sobre ella- en vez de en escorzo. Ojo: el
+    # costado Oeste lo cierra CAJA_ESC_PB, un panel cuyo borde superior sigue
+    # el rampante (1,209 en el arranque, 2,310 a partir de y 5,84), asi que
+    # desde la sala solo se ve el tramo alto. El alzado limpio sale cortando
+    # por x = 8,60, no desde aqui.
     'escalera_costado': ((5.20, 5.70, 1.560), (9.35, 5.70, 1.180), 35.0),
     # el arranque de la escalera, con la linea de led de cada peldaño.
     # La camara anterior -(7,35 / 5,40) mirando a (9,35 / 6,60)- encuadraba
