@@ -393,6 +393,27 @@ def _vidrio_L(cajas):
             s['z1'] = Z_SOFITO - 0.012   # dentro del remate superior (2,280..2,310)
 
 
+def _panel_escalera(paneles):
+    """El cerramiento del costado de la escalera arranca en el montante gris.
+
+    El plano lo empieza en y = 3,939, la esquina del altillo, con el borde
+    superior en rampante de (3,939 / 1,209) a (5,84 / 2,31). En obra empieza
+    en el montante, a mitad del 5.º peldaño, y los peldaños de delante quedan
+    vistos de lado. Se recorta por el Sur hasta la cara Norte del montante,
+    siguiendo el mismo rampante; el resto del panel no cambia.
+    """
+    y_ini = PILAR_ESCALERA['y1']
+    for s in paneles:
+        if s['nombre'] != 'Caja de escalera (planta baja)':
+            continue
+        pts = [tuple(p) for p in s['pts_yz']]
+        assert (3.939, 0.0) in pts and (3.939, 1.209) in pts, pts
+        z_ini = 1.209 + (y_ini - 3.939) * (2.310 - 1.209) / (5.84 - 3.939)
+        s['pts_yz'] = [[y_ini, 0.0] if p == (3.939, 0.0) else
+                       [y_ini, round(z_ini, 4)] if p == (3.939, 1.209) else
+                       list(p) for p in pts]
+
+
 def _asentar(cajas):
     """Apoyos del plano que no cuadran con el mueble que los sostiene."""
     for s in cajas:
@@ -455,6 +476,7 @@ def arquitectura():
     """Muros, forjado, escalera, carpinteria y mobiliario fijo del plano."""
     j = json.load(open(os.path.join(PLANOS, 'MODELO_3D.json'), encoding='utf-8'))
     _retranquear(j['cajas'])
+    _panel_escalera(j['paneles'])
     _asentar(j['cajas'])
     _vidrio_L(j['cajas'])
     ajustes = _despegar(j['cajas'])
@@ -939,8 +961,8 @@ def frente_barra():
     # iba en azzurro, que es justo al reves de lo que pide el cliente. Va
     # a tope contra el canto del forjado, sin solapar, para no dejar dos
     # caras inferiores en el mismo plano. Acaba donde acaba el forjado, en
-    # el hueco de la escalera (x 8,811, a haces con el pilar gris): seguia
-    # hasta la medianera (9,890) y cruzaba el hueco como una viga suelta.
+    # la esquina del hueco de la escalera (x 8,811): seguia hasta la
+    # medianera (9,890) y cruzaba el hueco como una viga suelta.
     caja('Canto del forjado Sur', 2.405, 3.907, 8.811, 3.939,
          Z_SOFITO, Z_PA - 0.001, MAT['_blanco_lacado'])
     # El canto Oeste da al paso de servicio y a la cocina: ahi no se forra.
@@ -1072,32 +1094,36 @@ PILARES = (
 )
 
 
+# El montante gris de la escalera, en planta. Centrado a mitad del 5.º
+# peldaño (4,619..4,879), que es donde esta en la segunda foto de obra, la
+# tomada desde la sala: no en la esquina del altillo, sino 0,73 m mas atras,
+# con el forjado volando por delante de el.
+PILAR_ESCALERA = dict(x0=8.651, x1=8.811, y0=4.669, y1=4.829)
+
+
 def pilar_escalera():
-    """El perfil de acero que hay en obra al pie de la escalera.
+    """El perfil de acero que hay en obra junto a la escalera.
 
-    En la foto de obra es un montante gris vertical que sube del suelo hasta
-    el intrados del forjado. Su cabeza muere justo en la ESQUINA ENTRANTE del
-    altillo: el punto (8,811 / 3,939) donde el borde Sur del forjado se
-    encuentra con el costado del hueco de la escalera. Es la esquina que de
-    verdad necesita apoyo, y por eso el perfil esta ahi y no en otro sitio.
+    En las fotos de obra es un montante gris vertical, de 160, que sube del
+    suelo hasta el intrados del forjado por el costado Oeste del tramo, a
+    haces con el borde del hueco (x 8,811). No esta en la esquina del
+    altillo: esta a mitad del 5.º peldaño, y el forjado vuela 0,73 m por
+    delante de el hasta su esquina (8,811 / 3,939).
 
-    En planta cae dentro del grueso del antepecho de la escalera -CAJA_ESC_PB,
-    x 8,650..8,811-, arrimado a su extremo Sur. Como ese antepecho tiene el
-    borde superior en rampante (1,209 en el arranque), el perfil solo asoma de
-    ahi para arriba: desde la sala, el antepecho y el perfil se leen como una
-    sola pilastra de 160 que sube del suelo al forjado.
+    El cerramiento del costado -CAJA_ESC_PB- arranca en el: los peldaños de
+    delante quedan vistos de lado, y el montante se ve entero del suelo al
+    techo (ver _panel_escalera).
 
-    Va enlucido con el mismo material que el antepecho, no forrado de roble:
-    es lo que eligio el cliente. Llego a estar forrado con el liston de P1, P3
-    y P4 y se descarto.
+    Va enlucido con el mismo material que el cerramiento, no forrado de
+    roble: es lo que eligio el cliente.
 
     Sostiene parte del techo y no se puede quitar.
     """
-    # Caras coplanarias con el antepecho -la Sur y la Este-: se retiran un
-    # DESPEGUE para que no peleen en el render. La cabeza se hunde un SOLAPE
-    # en el forjado, que ahi si lo hay.
-    x0, x1 = 8.651, 8.811 - DESPEGUE
-    y0, y1 = 3.939 + DESPEGUE, 4.099
+    # La cara Este se retira un DESPEGUE de la del hueco del forjado, con la
+    # que comparte plano; la cabeza se hunde un SOLAPE en el forjado.
+    P = PILAR_ESCALERA
+    x0, x1 = P['x0'], P['x1'] - DESPEGUE
+    y0, y1 = P['y0'], P['y1']
     ob = caja('Pilar de la escalera', x0, y0, x1, y1, 0.0, Z_SOFITO + SOLAPE,
               MAT['tabique'])
     bisel(ob)
@@ -1821,8 +1847,8 @@ def mobiliario():
 # La pared que se ve a la derecha al entrar, antes de subir la escalera, es
 # la MEDIANERA ESTE: su cara interior esta en x = 9,890 y el tramo que va del
 # cuello (1,429) al primer peldano (3,579) queda libre. El cerramiento de la
-# escalera -CAJA_ESC_PB, que el plano trae como panel- solo cubre de y 3,939
-# a 7,738, asi que en ese tramo no hay muro donde pintar.
+# escalera -CAJA_ESC_PB, que el plano trae como panel- solo cubre de y 4,829
+# (el montante gris) a 7,738, asi que en ese tramo no hay muro donde pintar.
 # Ese tramo es de doble altura: no hay forjado hasta y = 3,939.
 PARED_LOGO = dict(x=9.890, y0=1.429, y1=3.579, z0=0.0, z1=Z_TECHO - 0.005)
 
@@ -2767,10 +2793,14 @@ VISTAS = {
     # techo baja a 2,310 y el encuadre se cierra.
     'escalera_sala': ((8.05, 1.95, 1.640), (9.35, 6.30, 1.500), 21.0),
     'escalera_sala_b': ((7.20, 2.40, 2.050), (9.30, 5.60, 1.100), 24.0),
-    # El mismo punto de vista que la foto de obra: al pie del tramo, a la
-    # altura de los ojos y mirando hacia arriba, para ver el pilar forrado
-    # junto al arranque y el antepecho de la planta alta.
+    # El mismo punto de vista que la primera foto de obra: al pie del tramo,
+    # a la altura de los ojos y mirando hacia arriba, con el montante gris y
+    # el antepecho de la planta alta.
     'escalera_pilar': ((8.55, 2.25, 1.620), (9.30, 6.20, 1.950), 19.0),
+    # El de la segunda foto de obra, desde la sala: el montante a mitad del
+    # 5.º peldaño y el forjado volando por delante de el. Sacado de la foto
+    # (movil en vertical, a 1,29 de altura): va en vertical, 9 x 16.
+    'escalera_obra': ((6.55, 2.35, 1.290), (8.49, 4.64, 1.290), 26.0),
     # La escalera de costado, tal como se ve desde la sala. Ojo: el costado
     # Oeste lo cierra CAJA_ESC_PB, un panel cuyo borde superior sigue el
     # rampante (1,209 en el arranque, 2,310 a partir de y 5,84), asi que de
