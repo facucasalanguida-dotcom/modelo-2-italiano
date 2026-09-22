@@ -16,7 +16,9 @@ Cada toma:
     ojo:     donde esta la camara (x, y, z), en metros, coordenadas del local
     mira:    el punto al que apunta
     lente:   focal en mm, con sensor de 36 mm (18 = gran angular)
-    calle:   True si por algun hueco se ve la calle: solo entonces se monta
+    calle:   True si por algun hueco se puede ver la calle: solo entonces se
+             monta. Ante la duda, True: cuesta un poco mas montarla, y sin
+             ella por el ventanal se veria una calle vacia
     exp:     exposicion; None deja la de siempre (0,65). Fuera -1,30.
 """
 
@@ -46,10 +48,10 @@ RECORRIDO = [
     dict(nombre='07_barra', calle=True, exp=None,
          ojo=(4.90, 1.95, 1.520), mira=(1.35, 4.30, 1.060), lente=24.0),
     # la trasbarra y la pizarra de la carta, entre los dos colgantes
-    dict(nombre='08_pizarra', calle=False, exp=None,
+    dict(nombre='08_pizarra', calle=True, exp=None,
          ojo=(3.90, 2.35, 1.650), mira=(0.25, 3.50, 2.450), lente=24.0),
     # el paso de servicio desde dentro de la barra, hacia la cocina
-    dict(nombre='09_paso', calle=False, exp=None,
+    dict(nombre='09_paso', calle=True, exp=None,
          ojo=(1.42, 2.35, 1.560), mira=(1.05, 4.70, 1.150), lente=22.0),
     # la cocina, con la campana y la linea de coccion
     dict(nombre='10_cocina', calle=False, exp=None,
@@ -58,13 +60,13 @@ RECORRIDO = [
     dict(nombre='11_centro', calle=True, exp=None,
          ojo=(7.20, 2.50, 1.600), mira=(5.95, 5.00, 1.300), lente=22.0),
     # el sillon corrido contra la medianera Norte
-    dict(nombre='12_sillon', calle=False, exp=None,
+    dict(nombre='12_sillon', calle=True, exp=None,
          ojo=(7.90, 6.20, 1.520), mira=(3.20, 8.30, 1.150), lente=24.0),
     # el baño de planta baja, por dentro
     dict(nombre='13_bano', calle=False, exp=None,
          ojo=(7.62, 8.05, 1.550), mira=(9.85, 8.55, 1.150), lente=16.0),
     # la escalera desde la sala, subiendo contra la medianera Este
-    dict(nombre='14_escalera', calle=False, exp=None,
+    dict(nombre='14_escalera', calle=True, exp=None,
          ojo=(8.05, 1.95, 1.640), mira=(9.35, 6.30, 1.500), lente=21.0),
     # ------------------------------------------------------- planta alta
     # la llegada de la escalera
