@@ -708,6 +708,18 @@ def suelos_y_techos():
     # intrados del propio forjado (el plano ya lo trae), y donde no lo hay el
     # local es de doble altura hasta el techo del altillo. Ponerlo plano a
     # 2,31 en todo el local cerraba la doble altura y dejaba el local a oscuras.
+    # Techo de pladur de la cocina. El resto de la planta baja ya tiene techo
+    # -el intrados del forjado, a 2,310- pero la cocina cae fuera del altillo
+    # y se quedaba abierta a la doble altura hasta los 5,06. Va enlucido con
+    # el mismo material que sus paredes, que es lo que pidio el cliente.
+    #   Oeste x 0,250 trasdos del Muro Oeste;  Este x 2,448 cara Oeste de la
+    #   pared en L, para no pisar su remate (2,448..2,512 entre 2,280 y 2,310)
+    #   Norte y 9,008 trasdos de la medianera; Sur y 4,759 el paso de personal
+    # Cuelga 15 mm bajo la linea del forjado y pasa por debajo de la viga P1b,
+    # como haria un falso techo de obra.
+    caja('Techo de pladur · cocina', 0.250, 4.759, 2.448, 9.008,
+         2.295, 2.310, MAT['muro'], 'Obra')
+
     # Pavimento del altillo, sobre el forjado. Va con la MISMA planta que el
     # forjado -E.FORJADO-, no con su rectangulo envolvente: el poligono tiene
     # recortado el hueco de la escalera (x 8,811..9,890 entre y 3,939 y 7,738)
@@ -1576,20 +1588,21 @@ def luces(j):
 
     # --- cocina: pantallas estancas suspendidas. Los cuatro empotrados que el
     #     proyecto pone aqui caen en la doble altura y no alumbran nada.
+    # Colgaban a 2,560 con tirantes hasta los 5,06 porque la cocina no tenia
+    # techo. Ahora lo tiene, a 2,295: van adosadas a el y los tirantes sobran.
+    Z_TECHO_COCINA = 2.295
     for i, y in enumerate((6.20, 7.30, 8.40)):
         x0_, x1_ = 0.45, 2.25
         caja(f'Cocina · pantalla {i + 1}', x0_, y - 0.055, x1_, y + 0.055,
-             2.560, 2.620, MAT['_opal'], 'Luces')
-        for xv in (x0_ + 0.12, x1_ - 0.12):
-            cilindro(f'Cocina · tirante {i + 1} {xv:.2f}', xv, y, 0.005, 2.620,
-                     Z_TECHO, MAT['carp'], 'Luces', 10)
+             Z_TECHO_COCINA - 0.060, Z_TECHO_COCINA + SOLAPE, MAT['_opal'],
+             'Luces')
         lz = bpy.data.lights.new(f'Cocina luz {i + 1}', 'AREA')
         lz.shape = 'RECTANGLE'
         lz.size, lz.size_y = x1_ - x0_, 0.11
         lz.energy = 55.0
         lz.color = (1.0, 0.95, 0.88)
         ob = bpy.data.objects.new(f'Cocina luz {i + 1}', lz)
-        ob.location = ((x0_ + x1_) / 2, y, 2.552)
+        ob.location = ((x0_ + x1_) / 2, y, Z_TECHO_COCINA - 0.068)
         coleccion('Luces').objects.link(ob)
 
     # --- tira de LED bajo el estante de la trasbarra: la luz de trabajo y el
