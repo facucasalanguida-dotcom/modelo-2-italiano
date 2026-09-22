@@ -284,9 +284,20 @@ def _tag_de(nombre):
     return t if t in TAGS_BIBLIOTECA else None
 
 
+# Piezas del plano que fachada_real() rehace a partir del video de la fachada
+# (IMG_6570). El muro del cuello y la jamba no existen en obra: el rincon entre
+# el ventanal y P5 es un retorno ACRISTALADO, con su perfil y su travesaño.
+FACHADA_REHECHA = ('Muro Oeste del cuello', 'Ventanal Sur · jamba',
+                   'Ventanal Sur · paño 2')
+FACHADA_REHECHA_PREFIJOS = ('Ventanal Sur · travesaño', 'Ventanal Sur · zócalo',
+                            'Dintel de fachada Sur')
+
+
 def sustituido(s):
     """True si ese solido del plano lo rehace la escena con mas detalle."""
     nm = s['nombre'] or ''
+    if nm in FACHADA_REHECHA or nm.startswith(FACHADA_REHECHA_PREFIJOS):
+        return True                       # lo rehace fachada_real(), del video
     if '· motor' in nm:
         return False                      # el motor de la vitrina si se dibuja:
                                           # va visto dentro del hueco de abajo
@@ -358,6 +369,25 @@ def _retranquear(cajas):
             s['x1'] = R['x1']                   # el pano macizo, hasta el cuello
 
 
+def _vidrio_L(cajas):
+    """Mete el vidrio de la pared en L dentro de sus perfiles.
+
+    El plano lo pone de 5,457 a 8,927 y de 1,220 a 2,570: sus testas caen en
+    el mismo plano que las caras de las jambas, del remate inferior y del
+    tabique Doblez (y = 5,457), y su canto de abajo sobre la coronacion del
+    muro (z = 1,220). En esa testa salia una banda negra al pie del montante:
+    el rayo cruzaba el vidrio, caia dentro de la jamba por la cara coincidente
+    y ya no salia. Ademas subia hasta 2,570, 9 mm por encima del suelo de la
+    planta alta. Ahora cada canto queda embebido en su perfil.
+    """
+    for s in cajas:
+        if (s.get('nombre') or '') == 'Tramo largo 3,60 · vidrio':
+            s['y0'] += 0.010          # dentro de la jamba Sur (5,457..5,487)
+            s['y1'] -= 0.010          # dentro de la jamba Norte
+            s['z0'] = 1.226           # dentro del remate inferior (1,205..1,235)
+            s['z1'] = Z_SOFITO - 0.012   # dentro del remate superior (2,280..2,310)
+
+
 def _asentar(cajas):
     """Apoyos del plano que no cuadran con el mueble que los sostiene."""
     for s in cajas:
@@ -421,6 +451,7 @@ def arquitectura():
     j = json.load(open(os.path.join(PLANOS, 'MODELO_3D.json'), encoding='utf-8'))
     _retranquear(j['cajas'])
     _asentar(j['cajas'])
+    _vidrio_L(j['cajas'])
     ajustes = _despegar(j['cajas'])
     print('  caras coplanarias despegadas:', len(ajustes), flush=True)
     n = 0
@@ -436,7 +467,9 @@ def arquitectura():
         z0 = s['z0'] + d.get('z0', 0.0)
         z1 = s['z1'] + d.get('z1', 0.0)
         if s['nombre'].startswith('Tramo largo') and s['mat'] == 'vidrio':
-            z1 = Z_SOFITO          # el vidrio de la L, hasta el techo
+            # hasta el techo, pero con el canto metido en el remate superior
+            # (2,280..2,310): a 2,310 justos coincidia con el intrados
+            z1 = Z_SOFITO - 0.012
         if s['nombre'] == 'Puerta de acceso · montante superior':
             # El plano lo dibuja en vidrio, pero encima de la puerta va
             # pared, no ventanal. Se le da el grueso entero de la fachada
@@ -981,21 +1014,17 @@ def losas(nombre, x0, y0, x1, y1, z0, z1, mat, alto=0.72, junta=0.009,
 #   S = cara Sur (y0)   N = Norte (y1)   O = Oeste (x0)   E = Este (x1)
 PILARES = (
     ('P1', 0.250, 4.759, 0.550, 5.357, 'SNE', 'liston'),   # machon del muro Oeste
-    ('P2', 1.290, 1.561, 1.870, 2.011, 'SONE', 'losa'),    # pilastra del ventanal,
-                                                           # forrada tambien por la
-                                                           # cara Sur, que da a la calle
+    # P2 y P5: lo que da a la calle va en arenisca y lo monta fachada_real()
+    # a partir del video de la fachada. Aqui quedan solo sus caras interiores,
+    # en la pizarra que ya tenian.
+    ('P2', 1.290, 1.561, 1.870, 2.011, 'ONE', 'losa'),     # pilastra del ventanal
     ('P3', 5.670, 4.688, 6.320, 5.758, 'SNOE', 'liston'),  # exento, en la sala
     ('P4', 9.689, 4.708, 9.890, 5.309, 'SNO', 'liston'),   # machon de la medianera
-    ('P5', 5.731, 0.000, 6.331, 1.000, 'SONE', 'losa'),    # pilar de fachada; la
-                                                           # cara Norte solo la tapa
-                                                           # el muro del cuello hasta
-                                                           # x 5,980, el resto se ve
-    # El machon de P5 no acaba en la columna: sigue hacia dentro con el muro
-    # del cuello y la jamba del ventanal, y ese retorno se ve desde la sala y
-    # desde el vestibulo. Salia en enlucido al lado de la losa. Se forra la
-    # cara Norte de la jamba (y = 1,810) y todo el costado Este (x = 5,980)
-    # de y 1,000 a 1,810, que es muro del cuello abajo y jamba arriba.
-    ('P5i', 5.870, 1.000, 5.980, 1.810, 'ONE', 'losa'),    # retorno interior de P5
+    # P5 entero lo forra fachada_real(): tres caras a la calle en arenisca y
+    # las interiores en pizarra.
+    # La esquina SO -el machon del muro Oeste al pie del ventanal- es en el
+    # video una franja de pizarra gris oscura de arriba abajo.
+    ('SO', 0.000, 1.561, 0.510, 2.009, 'S', 'losa'),
 )
 
 
@@ -1028,6 +1057,180 @@ def pilar_escalera():
     ob = caja('Pilar de la escalera', x0, y0, x1, y1, 0.0, Z_SOFITO + SOLAPE,
               MAT['tabique'])
     bisel(ob)
+    return 1
+
+
+def aplacado(nombre, x0, y0, x1, y1, z0, z1, eje='x', zocalo=0.100,
+             col='Obra'):
+    """Aplacado de arenisca como el de la fachada real.
+
+    Hiladas de 0,28 a 0,42 de alto y en cada una una o dos losas, con la
+    junta vertical corrida respecto a la de abajo, y cada losa de su tono:
+    asi esta en el video. Al pie, un zocalo de pizarra oscura de 10 cm, que
+    es la banda negra que se ve en la base de los machones. La caja
+    (x0..x1, y0..y1) es la capa del aplacado; eje dice hacia donde corre la
+    cara. La semilla sale del nombre y no de hash(), para que el despiece
+    sea el mismo en todas las vistas.
+    """
+    import zlib
+    rnd = random.Random(zlib.crc32(nombre.encode()))
+    tonos = MAT['_arenisca']
+    J = 0.005
+    obs = []
+    if zocalo > 0:
+        obs.append(caja(f'{nombre} zocalo', x0, y0, x1, y1, z0, z0 + zocalo,
+                        MAT['_losa_piedra'][1], col))
+    tot = z1 - (z0 + zocalo)
+    alturas = []
+    while sum(alturas) < tot:
+        alturas.append(rnd.uniform(0.28, 0.42))
+    alturas = [a * tot / sum(alturas) for a in alturas]
+    L = (x1 - x0) if eje == 'x' else (y1 - y0)
+    a0 = x0 if eje == 'x' else y0
+    z = z0 + zocalo
+    previo = None
+    for i, h in enumerate(alturas):
+        za = z + (J / 2 if i else 0.0)
+        zb = z + h - (J / 2 if i < len(alturas) - 1 else 0.0)
+        cortes = []
+        if L > 0.45:
+            c = rnd.uniform(0.32, 0.68) * L
+            for _ in range(8):                 # que no caiga sobre la de abajo
+                if previo is None or abs(c - previo) > 0.12:
+                    break
+                c = rnd.uniform(0.32, 0.68) * L
+            cortes, previo = [c], c
+        else:
+            previo = None
+        bordes = [0.0] + cortes + [L]
+        for t in range(len(bordes) - 1):
+            ua = a0 + bordes[t] + (J / 2 if t else 0.0)
+            ub = a0 + bordes[t + 1] - (J / 2 if t < len(bordes) - 2 else 0.0)
+            m = tonos[rnd.randrange(len(tonos))]
+            if eje == 'x':
+                obs.append(caja(f'{nombre} {i + 1}.{t + 1}', ua, y0, ub, y1,
+                                za, zb, m, col))
+            else:
+                obs.append(caja(f'{nombre} {i + 1}.{t + 1}', x0, ua, x1, ub,
+                                za, zb, m, col))
+        z += h
+    for o in obs:
+        bisel(o, 0.0018, segs=2)
+    return obs
+
+
+# Cotas de la perfileria de la fachada Oeste, leidas del video (IMG_6570)
+# con el travesaño del plano (2,27..2,33) y el remate del vidrio (4,70) como
+# escala. Las intermedias son estimaciones sobre fotos en escorzo: +-5 cm.
+FA_BASE = 0.080         # banda oscura corrida al pie de todo el frente
+FA_VIERTE = 0.130       # vierteaguas crema; el vidrio arranca aqui
+FA_TRAVESANOS = ((2.270, 2.330),     # el del plano
+                 (2.720, 2.780),     # donde va la caja del toldo
+                 (4.320, 4.380))     # remate del vidrio alto
+FA_FAJA = (4.380, 4.700)             # faja ciega de rotulo, crema
+FA_PERFIL = 0.060                    # cara vista de montantes y travesaños
+
+
+def _perfil(nombre, x0, y0, x1, y1, z0, z1, mat=None):
+    ob = caja(nombre, x0, y0, x1, y1, z0, z1, mat or MAT['_perfil_crema'])
+    bisel(ob, 0.0015, segs=2)
+    return ob
+
+
+def _paño_fachada(nombre, a0, a1, eje, p0, p1, montantes=(True, True)):
+    """Un paño de la fachada: banda, vierteaguas, montantes, travesaños,
+    faja de rotulo y dintel. eje='x' corre en X con la perfileria entre
+    y = p0..p1; eje='y' corre en Y con la perfileria entre x = p0..p1."""
+    C = FA_PERFIL
+
+    def c(nm, u0, u1, z0, z1, mat=None, d=0.0):
+        if eje == 'x':
+            return _perfil(nm, u0, p0 - d, u1, p1 + d, z0, z1, mat)
+        return _perfil(nm, p0 - d, u0, p1 + d, u1, z0, z1, mat)
+    c(f'{nombre} · banda', a0, a1, 0.0, FA_BASE, MAT['_losa_piedra'][1])
+    c(f'{nombre} · vierteaguas', a0, a1, FA_BASE, FA_VIERTE)
+    if montantes[0]:
+        c(f'{nombre} · montante 1', a0, a0 + C, FA_VIERTE, FA_FAJA[0])
+    if montantes[1]:
+        c(f'{nombre} · montante 2', a1 - C, a1, FA_VIERTE, FA_FAJA[0])
+    for k, (z0, z1) in enumerate(FA_TRAVESANOS):
+        c(f'{nombre} · travesaño {k + 1}', a0, a1, z0, z1)
+    c(f'{nombre} · faja', a0, a1, FA_FAJA[0], FA_FAJA[1], d=0.006)
+    c(f'{nombre} · dintel', a0, a1, FA_FAJA[1], Z_TECHO, MAT['_revoco_fachada'])
+
+
+def fachada_real():
+    """La fachada Oeste tal y como esta en el video (IMG_6570).
+
+    Lo que el modelo tenia mal, pieza a pieza, contra los fotogramas:
+      - P2 y P5 iban en pizarra negra. Son de ARENISCA en tonos beige, ocre
+        y rosado, a hiladas, con un zocalo oscuro al pie.
+      - la perfileria era negra y el paño grande un vidrio unico de 4,6 m.
+        Es CREMA, y el paño se parte en vidrio bajo, banda del toldo, vidrio
+        alto y faja de rotulo arriba.
+      - el paño estrecho del Oeste lleva ademas una hoja practicable entre
+        0,86 y 1,72, con dos cierres de laton en su travesaño bajo.
+      - el rincon entre el ventanal y P5 no es muro: es un retorno de
+        vidrio con la misma perfileria.
+      - el porche estaba abierto al cielo. Lo cubre el voladizo del edificio.
+    El escaparate del Este y la puerta no se tocan: en el video estan
+    detras de la persiana. Tampoco se pone el rotulo ni el toldo del
+    inquilino anterior.
+    """
+    d = 0.026 + SOLAPE
+    YP0, YP1 = 1.561, 1.621                 # fondo de la perfileria del ventanal
+    XR = 5.735                              # plano del retorno acristalado
+    XP0, XP1 = XR - 0.030, XR + 0.030       # fondo de su perfileria
+    YR0 = 1.000 + d                         # el retorno arranca en la cara Norte de P5
+
+    # --- P2: su cara a la calle en arenisca, cubriendo las esquinas de sus
+    #     costados, que forra forro_pilares()
+    aplacado('Aplacado P2 Sur', 1.290 - d, YP0 - d + SOLAPE, 1.870 + d, YP0,
+             0.0, Z_TECHO, eje='x')
+    # --- P5: las tres caras que dan a la calle en arenisca; su costado Este
+    #     solo hasta el escaparate (y 0,37): de ahi para dentro es interior
+    x0, x1, y0, y1 = 5.731, 6.331, 0.000, 1.000
+    aplacado('Aplacado P5 Sur', x0 - d, y0 - d, x1 + d, y0 + SOLAPE,
+             0.0, Z_TECHO, eje='x')
+    aplacado('Aplacado P5 Oeste', x0 - d, y0, x0 + SOLAPE, y1,
+             0.0, Z_TECHO, eje='y')
+    aplacado('Aplacado P5 Este', x1 - SOLAPE, y0, x1 + d, 0.370,
+             0.0, Z_TECHO, eje='y')
+    losas('Forro P5 Este interior', x1 - SOLAPE, 0.420, x1 + d, y1,
+          0.0, Z_TECHO, MAT['_losa_piedra'], fondo=d, eje='y')
+    losas('Forro P5 Norte', x0 - d, y1 - SOLAPE, x1 + d, y1 + d,
+          0.0, Z_TECHO, MAT['_losa_piedra'], fondo=d, eje='x')
+
+    # --- paño estrecho (x 0,51..1,29) y paño grande (x 1,87..retorno)
+    _paño_fachada('Fachada paño 1', 0.510, 1.290, 'x', YP0, YP1)
+    _paño_fachada('Fachada paño 2', 1.870, XP1, 'x', YP0, YP1)
+    caja('Fachada paño 2 · vidrio', 1.870, 1.573, XR, 1.609, FA_VIERTE, FA_FAJA[1],
+         MAT['vidrio'])
+    # junta a tope entre los dos vidrios bajos del paño grande
+    caja('Fachada paño 2 · junta', 3.796, 1.571, 3.804, 1.611, FA_VIERTE,
+         FA_TRAVESANOS[0][0], MAT['_negro'])
+    # la hoja practicable del paño estrecho, con sus dos cierres de laton
+    C = FA_PERFIL
+    for nm, z0, z1 in (('bajo', 0.860, 0.920), ('alto', 1.660, 1.720)):
+        _perfil(f'Fachada paño 1 · hoja {nm}', 0.510 + C, YP0, 1.290 - C, YP1, z0, z1)
+    for nm, u0 in (('izq', 0.510 + C), ('der', 1.290 - C - 0.040)):
+        _perfil(f'Fachada paño 1 · hoja {nm}', u0, YP0, u0 + 0.040, YP1, 0.920, 1.660)
+    for k, xc in enumerate((0.720, 1.080)):
+        caja(f'Fachada paño 1 · cierre {k + 1}', xc - 0.018, YP0 - 0.008, xc + 0.018,
+             YP0 + SOLAPE, 0.895, 0.935, MAT['_laton'])
+
+    # --- retorno acristalado del rincon, de la cara Norte de P5 al ventanal;
+    #     su montante del lado del ventanal es el propio montante de esquina
+    _paño_fachada('Fachada retorno', YR0, YP0, 'y', XP0, XP1,
+                  montantes=(True, False))
+    caja('Fachada retorno · vidrio', XR - 0.006, YR0, XR + 0.006, 1.573,
+         FA_VIERTE, FA_FAJA[1], MAT['vidrio'])
+
+    # --- voladizo del edificio sobre el porche: el intrados que se ve en el
+    #     video encima de la faja. En el plano el techo tenia el porche
+    #     recortado y quedaba abierto al cielo.
+    caja('Voladizo sobre el porche', 0.000, 0.000, 5.731, YP0, Z_TECHO,
+         Z_TECHO + 0.200, MAT['_revoco_fachada'])
     return 1
 
 
@@ -2458,6 +2661,8 @@ def construir(spp, ancho, alto, con_decoracion=True, con_glare=False,
     vestibulo()
     frente_barra()
     print('  caras de columna forradas:', forro_pilares(), flush=True)
+    fachada_real()
+    print('  fachada Oeste rehecha desde el video', flush=True)
     print('  pilar de la escalera:', pilar_escalera(), flush=True)
     cocina_inox()
     remate_vidrio_L()

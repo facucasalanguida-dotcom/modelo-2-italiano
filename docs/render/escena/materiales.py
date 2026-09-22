@@ -448,6 +448,33 @@ def construir():
                                                         _r.uniform(-6, 6))
                 _nd.inputs['Rotation'].default_value = (0.0, 0.0, _r.uniform(0, 6.283))
         M['_losa_piedra'].append(_m)
+    # Arenisca del aplacado de fachada, sacada del video de la fachada real
+    # (IMG_6570): losas aserradas en tonos beige, ocre y rosado, cada losa de
+    # su tono. Los cinco tonos son medianas de pixel sobre los machones P2 y
+    # P5 -#D7C1A0 a la sombra, #CAA37C al sol- repartidas entre el mas claro y
+    # el mas encendido. La textura es arenisca de verdad con la normal muy
+    # rebajada y a escala fina, para que se lea como grano y no como grieta:
+    # lo que manda en el video es el tono de cada losa, no el relieve.
+    M['_arenisca'] = []
+    _r = random.Random(11)
+    for _i, _tono in enumerate(('D2B593', 'C9A57F', 'D3A88E', 'C1A07C', 'DCC6A4')):
+        _m = pbr(f'Arenisca {_i + 1}', 'sandstone_cracks', 0.55 + 0.20 * _r.random(),
+                 albedo=_tono, nrm_str=0.22, rug=0.64, mezcla_caja=0.25)
+        for _nd in _m.node_tree.nodes:
+            if _nd.bl_idname == 'ShaderNodeMapping':
+                _nd.inputs['Location'].default_value = (_r.uniform(-6, 6),
+                                                        _r.uniform(-6, 6),
+                                                        _r.uniform(-6, 6))
+                _nd.inputs['Rotation'].default_value = (0.0, 0.0, _r.uniform(0, 6.283))
+        M['_arenisca'].append(_m)
+    # Perfileria de la fachada: aluminio lacado color crema, no negro. Mediana
+    # de pixel del travesaño y de un montante al sol, #EBBC9E y #E6B991,
+    # bajada un punto porque al sol la foto da mas claro que el color real.
+    M['_perfil_crema'] = liso('Perfil de fachada crema', srgb('D9B494'), 0.42,
+                              coat=0.15)
+    # Revoco del intrados del voladizo y de los dinteles: #B0967B en sombra.
+    M['_revoco_fachada'] = pbr('Revoco de fachada', 'plastered_wall', 2.2,
+                               albedo='D6C3A6', nrm_str=0.45)
     M['_led_escalon'] = emision('LED de peldaño', srgb('FFE6BE'), 14.0)
     M['_perfil_led'] = liso('Perfil de aluminio', srgb('BFC4C8'), 0.32, metal=0.9)
     # fachadas de la manzana de enfrente, en ocres de Malaga
