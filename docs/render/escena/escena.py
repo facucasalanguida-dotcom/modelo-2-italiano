@@ -287,6 +287,9 @@ def _tag_de(nombre):
 def sustituido(s):
     """True si ese solido del plano lo rehace la escena con mas detalle."""
     nm = s['nombre'] or ''
+    if '· motor' in nm:
+        return False                      # el motor de la vitrina si se dibuja:
+                                          # va visto dentro del hueco de abajo
     if _tag_de(nm):
         return True                       # aparato de la biblioteca
     if s['mat'] in ('mesa', 'silla'):
@@ -402,6 +405,14 @@ def _despegar(cajas):
                 for c, sg in ((c0, +1), (c1, -1)):
                     if abs(a[c] - b[c]) < 1e-9:
                         ajustes.setdefault(j, {})[c] = sg * DESPEGUE
+            # La coronacion tambien pelea: dos tabiques que solapan en el
+            # rincon y mueren a la misma cota dejan dos caras hacia arriba en
+            # el mismo plano, y sale un cuadrado negro en la esquina (pasaba
+            # en el doblez de la pared en L, a 1,220). Se baja la del solido
+            # menor, salvo que muera contra un techo -ahi si abriria rendija-.
+            if abs(a['z1'] - b['z1']) < 1e-9 and not any(
+                    abs(a['z1'] - t) < 0.001 for t in (Z_SOFITO, Z_PA, Z_TECHO)):
+                ajustes.setdefault(j, {})['z1'] = -DESPEGUE
     return ajustes
 
 
@@ -818,7 +829,11 @@ def frente_barra():
     # barra que no existe, y justo detras de ella asomaba el trasdos negro de
     # los listones. Ese era el pano negro de delante de las vitrinas.
     Y_MOSTRADOR = 3.970
-    Z_BASE_VITRINA = 0.420      # coronacion del zocalo de la vitrina comprada
+    # El plano arranca la vitrina a 0,600 (V1/V2 van de 0,600 a 1,250), asi
+    # que la madera sube hasta ahi: queda medio frente de madera y medio de
+    # vitrina, que es como lo quiere el cliente. Antes moria en 0,420 y la
+    # madera se quedaba en un tercio.
+    Z_BASE_VITRINA = 0.600
     for nm, ya, yb, z1, con_canto in (
             ('vitrinas', my0, Y_MOSTRADOR, Z_BASE_VITRINA, False),
             ('mostrador', Y_MOSTRADOR, my1, Q.H_ENCIMERA, True)):
@@ -871,7 +886,10 @@ def cocina_inox():
     # paramento Oeste (detras del fregadero y los hornos)
     caja('Cocina · chapa Oeste', x0 - SOLAPE, y0, x0 + e, y1, 0.0, z1, MAT['inox'], 'Obra')
     # pared en L por su cara de cocina, hasta la altura de la mesada
-    caja('Cocina · chapa Este', x1 - e, y0, x1 + SOLAPE, y1, 0.0, 1.500, MAT['inox'], 'Obra')
+    # Hasta la coronacion de la pared en L (1,220), no hasta 1,500: subia
+    # 280 mm por encima del muro y asomaba dentro de la cristalera.
+    caja('Cocina · chapa Este', x1 - e, y0, x1 + SOLAPE, y1, 0.0,
+         E.H_PARED_L, MAT['inox'], 'Obra')
     # junta horizontal: dos perfiles que rompen el paño y dan una linea de luz
     for zz in (1.500, 2.150):
         caja(f'Cocina · junta {zz:.2f} N', x0, y1 - 0.014, x1, y1 - e,
@@ -1153,6 +1171,16 @@ def aparatos(j):
              @ mathutils.Matrix.Rotation(math.radians(g), 4, 'Z'))
         for o in padres:
             o.matrix_world = M @ o.matrix_world
+        if tag in ('V1', 'V2'):
+            # El modelo comprado trae un zocalo macizo de 1,830 a 2,490 que
+            # cierra todo el bajo de la vitrina. En obra ahi no hay caja: hay
+            # un hueco abierto por detras con el motor dentro, a la derecha, y
+            # el lavavasos B1 al lado. Se BORRA, no se oculta: render() llama
+            # a mostrar_todo() y un hide_render se perderia en la primera vista.
+            for o in [o for o in traidos
+                      if o.type == 'MESH' and o.name.split('.')[0] == 'zocalo']:
+                traidos.remove(o)
+                bpy.data.objects.remove(o, do_unlink=True)
         luz_expositor(tag, huecos[tag])
         puestos.append(tag)
     return puestos
@@ -1441,20 +1469,17 @@ def planta_alta():
     """
     col = 'Planta alta'
     z = Z_PA
-    # --- antepechos de vidrio del vacio, con pasamanos de roble
+    # --- antepechos de vidrio del vacio, sin pasamanos: el cliente quiere
+    #     el vidrio limpio, sin el reborde de roble que llevaba encima
     bordes = [((2.461, 3.988), (2.461, 7.509)),      # borde Oeste del vacio
               ((2.461, 3.988), (6.320, 3.988))]      # borde Sur del vacio
     for k, ((ax, ay), (bx, by)) in enumerate(bordes):
         if abs(bx - ax) < 1e-6:
             caja(f'Antepecho PA {k + 1}', ax - 0.006, ay, ax + 0.006, by,
                  z, z + E.H_BARANDA, MAT['vidrio'], col)
-            caja(f'Pasamanos PA {k + 1}', ax - 0.026, ay, ax + 0.026, by,
-                 z + E.H_BARANDA, z + E.H_BARANDA + 0.042, MAT['mesa'], col)
         else:
             caja(f'Antepecho PA {k + 1}', ax, ay - 0.006, bx, ay + 0.006,
                  z, z + E.H_BARANDA, MAT['vidrio'], col)
-            caja(f'Pasamanos PA {k + 1}', ax, ay - 0.026, bx, ay + 0.026,
-                 z + E.H_BARANDA, z + E.H_BARANDA + 0.042, MAT['mesa'], col)
     # --- celosia de listones en el testero Norte del altillo, como abajo
     listones('Celosia PA', 2.600, 8.720, 6.200, 8.740, z, z + 2.150,
              MAT['_liston'], ancho=0.030, hueco=0.018, fondo=0.020, eje='x', col=col)
