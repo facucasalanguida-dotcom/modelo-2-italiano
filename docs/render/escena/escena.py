@@ -979,8 +979,12 @@ def pilar_escalera():
     # en el forjado, que ahi si lo hay.
     x0, x1 = 8.651, 8.811 - DESPEGUE
     y0, y1 = 3.939 + DESPEGUE, 4.099
+    # 'tabique', que es el material del antepecho -el plano lo trae asi-, no
+    # 'muro': con muro salia una columna gris y rugosa recortada contra el
+    # enlucido claro del antepecho, que era exactamente lo que se queria
+    # evitar. Con tabique los dos paños son el mismo paño.
     ob = caja('Pilar de la escalera', x0, y0, x1, y1, 0.0, Z_SOFITO + SOLAPE,
-              MAT['muro'])
+              MAT['tabique'])
     bisel(ob)
     return 1
 
