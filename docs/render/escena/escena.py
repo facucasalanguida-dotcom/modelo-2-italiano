@@ -956,32 +956,33 @@ PILARES = (
 
 
 def pilar_escalera():
-    """El pilar que hay en obra al pie de la escalera.
+    """El perfil de acero que hay en obra al pie de la escalera.
 
-    Es un perfil de acero vertical que baja del forjado al suelo, junto al
-    arranque del tramo y en la linea del canto del altillo. Sostiene parte
-    del techo y no se puede quitar, asi que hay que contar con el.
+    En la foto de obra es un montante gris vertical que sube del suelo hasta
+    el intrados del forjado. Su cabeza muere justo en la ESQUINA ENTRANTE del
+    altillo: el punto (8,811 / 3,939) donde el borde Sur del forjado se
+    encuentra con el costado del hueco de la escalera. Es la esquina que de
+    verdad necesita apoyo, y por eso el perfil esta ahi y no en otro sitio.
 
-    Para que no se lea como un parche se forra con el mismo liston de roble
-    que P1, P3 y P4: queda como una columna mas del local, en el sitio donde
-    el proyecto ya tiene madera -el peldaño, la celosia- y no como un perfil
-    metalico asomando. Muere en el intrados del forjado, no sube a los 5,06
-    como las de la doble altura, porque el forjado empieza justo encima.
+    En planta cae dentro del grueso del antepecho de la escalera -CAJA_ESC_PB,
+    x 8,650..8,811-, arrimado a su extremo Sur. Como ese antepecho tiene el
+    borde superior en rampante (1,209 en el arranque), el perfil solo asoma de
+    ahi para arriba: desde la sala, el antepecho y el perfil se leen como una
+    sola pilastra de 160 que sube del suelo al forjado. Por eso va enlucido
+    como el antepecho y no forrado de roble: forrarlo era pegarle una caja de
+    madera a un paño de yeso, que es justo lo que quedaba feo.
+
+    Sostiene parte del techo y no se puede quitar.
     """
-    x0, x1 = 8.611, 8.811          # cara Este contra la masa de la escalera
-    y0, y1 = 3.823, 4.023          # centrado en el canto del forjado (3,923)
-    z1 = Z_SOFITO
-    caja('Pilar de la escalera · alma', x0, y0, x1, y1, 0.0, z1, MAT['_negro'])
-    d = 0.026 + SOLAPE
-    # las caras Sur y Norte se prolongan para cerrar la esquina con el costado
-    # Oeste, igual que en forro_pilares()
-    listones('Forro pilar escalera Sur', x0 - d, y0 - d + SOLAPE, x1, y0,
-             0.0, z1, MAT['_liston'], fondo=d, eje='x')
-    listones('Forro pilar escalera Norte', x0 - d, y1 - SOLAPE, x1, y1 + d,
-             0.0, z1, MAT['_liston'], fondo=d, eje='x')
-    listones('Forro pilar escalera Oeste', x0 - d + SOLAPE, y0, x0, y1,
-             0.0, z1, MAT['_liston'], fondo=d, eje='y')
-    return 3
+    # Caras coplanarias con el antepecho -la Sur y la Este-: se retiran un
+    # DESPEGUE para que no peleen en el render. La cabeza se hunde un SOLAPE
+    # en el forjado, que ahi si lo hay.
+    x0, x1 = 8.651, 8.811 - DESPEGUE
+    y0, y1 = 3.939 + DESPEGUE, 4.099
+    ob = caja('Pilar de la escalera', x0, y0, x1, y1, 0.0, Z_SOFITO + SOLAPE,
+              MAT['muro'])
+    bisel(ob)
+    return 1
 
 
 def forro_pilares():
@@ -2401,8 +2402,8 @@ def construir(spp, ancho, alto, con_decoracion=True, con_glare=False,
     suelos_y_techos()
     vestibulo()
     frente_barra()
-    print('  caras de columna forradas:',
-          forro_pilares() + pilar_escalera(), flush=True)
+    print('  caras de columna forradas:', forro_pilares(), flush=True)
+    print('  pilar de la escalera:', pilar_escalera(), flush=True)
     cocina_inox()
     remate_vidrio_L()
     pared_logo()
