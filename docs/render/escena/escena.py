@@ -2351,6 +2351,264 @@ def cuadro(nombre, x, y, z, ancho, alto, normal='-Y', col='Decoracion'):
              z - alto / 2 + 0.045, z + alto / 2 - 0.045, MAT['_blanco'], col)
 
 
+# ----------------------------------------------------- la mesa de trattoria
+_MAT_MESA = {}
+
+
+def _mat_mesa(clave):
+    """Materiales de las piezas de mesa, creados una sola vez."""
+    if clave not in _MAT_MESA:
+        _MAT_MESA[clave] = {
+            'fiasco': lambda: MT.vidrio('Vidrio de fiasco', (0.10, 0.24, 0.11), 0.02),
+            'paja': lambda: MT.liso('Paja del fiasco', MT.srgb('C9A25C'), 0.85, sheen_=True),
+            'paja_osc': lambda: MT.liso('Atadura de paja', MT.srgb('8E6A34'), 0.8),
+            'cera': lambda: MT.liso('Cera de vela', MT.srgb('F3EDE0'), 0.45),
+            'llama': lambda: MT.emision('Llama de vela', (1.0, 0.62, 0.26), 30.0),
+            'mecha': lambda: MT.liso('Mecha', MT.srgb('1E1B18'), 0.9),
+            'vinagre': lambda: MT.vidrio('Vidrio de vinagre', (0.20, 0.08, 0.035), 0.02),
+            'sal': lambda: MT.liso('Molinillo blanco', MT.srgb('ECE8DF'), 0.35, coat=0.3),
+            'tierra': lambda: MT.liso('Tierra de maceta', MT.srgb('3B2A1E'), 0.95),
+            'albahaca': lambda: MT.liso('Albahaca', MT.srgb('3F7C2C'), 0.5, sheen_=True),
+            'grissini': lambda: MT.liso('Grissini', MT.srgb('D8AF6C'), 0.75),
+            'vaso': lambda: MT.vidrio('Vidrio de vaso', (0.97, 0.99, 0.98), 0.0),
+        }[clave]()
+    return _MAT_MESA[clave]
+
+
+def fiasco(nombre, x, y, z, col='Decoracion'):
+    """Fiasco de Chianti con su funda de paja y una vela encendida."""
+    perfil = [(0.000, 0.000), (0.030, 0.000), (0.052, 0.012), (0.064, 0.040),
+              (0.066, 0.070), (0.058, 0.105), (0.040, 0.132), (0.018, 0.155),
+              (0.013, 0.175), (0.012, 0.250), (0.015, 0.254), (0.015, 0.262),
+              (0.000, 0.262)]
+    _revolucion(nombre, perfil, x, y, z, _mat_mesa('fiasco'), col, 36)
+    # la paja, 3 mm por fuera del vidrio, hasta pasada la panza
+    paja = [(0.030, 0.0005), (0.055, 0.012), (0.067, 0.040), (0.069, 0.070),
+            (0.061, 0.104), (0.050, 0.118)]
+    _revolucion(f'{nombre} paja', paja, x, y, z, _mat_mesa('paja'), col, 36)
+    _revolucion(f'{nombre} atadura', [(0.0505, 0.112), (0.0535, 0.114),
+                                      (0.0535, 0.121), (0.0485, 0.123)],
+                x, y, z, _mat_mesa('paja_osc'), col, 36)
+    # la vela, metida en el cuello, con tres regueros de cera
+    zb = z + 0.250
+    cilindro(f'{nombre} vela', x, y, 0.0105, zb, zb + 0.080, _mat_mesa('cera'), col, 24)
+    for k, (a, l) in enumerate(((0.3, 0.050), (2.4, 0.030), (4.3, 0.065))):
+        rx, ry = x + 0.0125 * math.cos(a), y + 0.0125 * math.sin(a)
+        cilindro(f'{nombre} cera {k + 1}', rx, ry, 0.0028, zb + 0.004 - l,
+                 zb + 0.010, _mat_mesa('cera'), col, 10)
+    cilindro(f'{nombre} mecha', x, y, 0.0009, zb + 0.080, zb + 0.086,
+             _mat_mesa('mecha'), col, 8)
+    llama = _revolucion(f'{nombre} llama', [(0.000, 0.000), (0.0035, 0.004),
+                                            (0.0042, 0.010), (0.0028, 0.017),
+                                            (0.000, 0.024)],
+                        x, y, zb + 0.083, _mat_mesa('llama'), col, 16)
+    llama.visible_shadow = False
+    lz = bpy.data.lights.new(f'{nombre} luz', 'POINT')
+    lz.energy = 0.9
+    lz.shadow_soft_size = 0.006
+    lz.color = (1.0, 0.70, 0.40)
+    ob = bpy.data.objects.new(f'{nombre} luz', lz)
+    ob.location = (x, y, zb + 0.095)
+    coleccion(col).objects.link(ob)
+    return llama
+
+
+def molinillo(nombre, x, y, z, alto=0.140, mat=None, col='Decoracion'):
+    """Molinillo de sal o de pimienta."""
+    r = 0.021
+    perfil = [(0.000, 0.000), (r, 0.000), (r, 0.004), (r * 0.90, 0.012),
+              (r * 0.78, alto * 0.45), (r * 0.95, alto * 0.62), (r * 0.95, alto * 0.80),
+              (r * 0.70, alto * 0.90), (r * 0.42, alto * 0.95), (0.009, alto),
+              (0.000, alto)]
+    return _revolucion(nombre, perfil, x, y, z, mat or MAT['mesa'], col, 28)
+
+
+def albahaca(nombre, x, y, z, col='Decoracion'):
+    """Maceta de barro con albahaca: el verde de la mesa italiana."""
+    import zlib
+    import mathutils
+    maceta = [(0.000, 0.000), (0.033, 0.000), (0.035, 0.004), (0.044, 0.060),
+              (0.048, 0.061), (0.048, 0.070), (0.043, 0.070), (0.040, 0.064),
+              (0.000, 0.064)]
+    _revolucion(nombre, maceta, x, y, z, MAT['_terracota'], col, 32)
+    cilindro(f'{nombre} tierra', x, y, 0.041, z + 0.056, z + 0.063,
+             _mat_mesa('tierra'), col, 24)
+    rnd = random.Random(zlib.crc32(nombre.encode()))
+    bm = bmesh.new()
+    for i in range(34):
+        th = rnd.uniform(0.0, 2 * math.pi)
+        ph = rnd.uniform(0.10, 1.25)                 # desde la vertical
+        R = rnd.uniform(0.030, 0.058)
+        px, py = R * math.sin(ph) * math.cos(th), R * math.sin(ph) * math.sin(th)
+        pz = 0.070 + 0.070 * math.cos(ph) + rnd.uniform(0.0, 0.015)
+        tam = rnd.uniform(0.8, 1.15)
+        g = bmesh.ops.create_uvsphere(bm, u_segments=8, v_segments=5, radius=1.0)
+        M = (mathutils.Matrix.Translation((x + px, y + py, z + pz))
+             @ mathutils.Matrix.Rotation(th, 4, 'Z')
+             @ mathutils.Matrix.Rotation(-rnd.uniform(0.35, 0.9), 4, 'Y')
+             @ mathutils.Matrix.Diagonal((0.019 * tam, 0.011 * tam, 0.0022, 1.0)))
+        bmesh.ops.transform(bm, matrix=M, verts=g['verts'])
+    me = bpy.data.meshes.new(f'{nombre} hojas')
+    bm.to_mesh(me)
+    bm.free()
+    for pl in me.polygons:
+        pl.use_smooth = True
+    me.materials.append(_mat_mesa('albahaca'))
+    ob = bpy.data.objects.new(f'{nombre} hojas', me)
+    coleccion(col).objects.link(ob)
+    return ob
+
+
+def grissini(nombre, x, y, z, n=11, col='Decoracion'):
+    """Vaso de grissini, un poco abiertos."""
+    import zlib
+    import mathutils
+    vaso = [(0.000, 0.000), (0.030, 0.000), (0.032, 0.003), (0.036, 0.110),
+            (0.033, 0.110), (0.029, 0.007), (0.000, 0.007)]
+    _revolucion(f'{nombre} vaso', vaso, x, y, z, _mat_mesa('vaso'), col, 32)
+    rnd = random.Random(zlib.crc32(nombre.encode()))
+    bm = bmesh.new()
+    for i in range(n):
+        a = 2 * math.pi * i / n + rnd.uniform(-0.2, 0.2)
+        r0 = rnd.uniform(0.006, 0.020)
+        largo = rnd.uniform(0.200, 0.250)
+        g = bmesh.ops.create_cone(bm, cap_ends=True, segments=10, radius1=0.0045,
+                                  radius2=0.0040, depth=largo)
+        M = (mathutils.Matrix.Translation((x + r0 * math.cos(a), y + r0 * math.sin(a),
+                                           z + 0.008))
+             @ mathutils.Matrix.Rotation(a, 4, 'Z')
+             @ mathutils.Matrix.Rotation(rnd.uniform(0.07, 0.20), 4, 'Y')
+             @ mathutils.Matrix.Translation((0, 0, largo / 2)))
+        bmesh.ops.transform(bm, matrix=M, verts=g['verts'])
+    me = bpy.data.meshes.new(f'{nombre} palitos')
+    bm.to_mesh(me)
+    bm.free()
+    me.materials.append(_mat_mesa('grissini'))
+    ob = bpy.data.objects.new(f'{nombre} palitos', me)
+    coleccion(col).objects.link(ob)
+    return ob
+
+
+def _colocar(ocup, r, dentro, nota, paso=0.015):
+    """Primer hueco libre de radio r sobre un tablero, el de mejor nota.
+
+    ocup es la lista de (x, y, r) de lo que ya hay encima; dentro(x, y, r)
+    dice si el circulo cabe en el tablero; nota(x, y) puntua cada sitio. Lo
+    colocado se apunta en ocup. Si no hay sitio devuelve None y la pieza no
+    se pone: mejor una pieza menos que una encima de otra.
+    """
+    mejor = None
+    xs = [i * paso for i in range(-60, 61)]
+    for dx in xs:
+        for dy in xs:
+            if not dentro(dx, dy, r):
+                continue
+            if any((dx - ox) ** 2 + (dy - oy) ** 2 < (r + orr + 0.012) ** 2
+                   for ox, oy, orr in ocup):
+                continue
+            n = nota(dx, dy)
+            if mejor is None or n > mejor[0]:
+                mejor = (n, dx, dy)
+    if mejor is None:
+        return None
+    ocup.append((mejor[1], mejor[2], r))
+    return mejor[1], mejor[2]
+
+
+def _huella(obs, cx, cy):
+    """Circulo que envuelve en planta unas piezas, relativo a (cx, cy)."""
+    xs, ys = [], []
+    for o in obs:
+        for c in o.bound_box:
+            w = o.matrix_world @ Vector(c)
+            xs.append(w.x)
+            ys.append(w.y)
+    mx, my = (min(xs) + max(xs)) / 2, (min(ys) + max(ys)) / 2
+    return (mx - cx, my - cy, max(max(xs) - min(xs), max(ys) - min(ys)) / 2 + 0.005)
+
+
+def mesa_italiana(tag, cx, cy, w, d, z, ocup, k, redonda=False, col='Decoracion'):
+    """Lo que la hace mesa de trattoria: fiasco con vela, aceite y vinagre,
+    sal y pimienta, albahaca o grissini, y limones en las de cuatro.
+
+    Cada pieza busca su hueco entre lo que ya hay (ocup): en las mesas
+    cuadradas, con las sillas a Norte y Sur, el centro de mesa va a los
+    testeros y los condimentos se arriman al aceite.
+    """
+    m = 0.035                                   # margen al canto
+    largo_x = w >= d                            # los testeros, en el lado largo
+    grande = max(w, d) > 1.0
+    if redonda:
+        R = w / 2
+
+        def dentro(x, y, r):
+            return math.hypot(x, y) + r <= R - m
+    else:
+        def dentro(x, y, r):
+            return abs(x) + r <= w / 2 - m and abs(y) + r <= d / 2 - m
+    lado = -1 if k % 2 == 0 else 1              # testero del fiasco, alterno
+
+    def cerca(px, py):
+        return lambda x, y: -math.hypot(x - px, y - py)
+
+    def testero(sx):
+        if redonda:
+            return lambda x, y: -abs(math.hypot(x, y) - 0.30) - 0.02 * abs(y)
+        if largo_x:
+            return lambda x, y: sx * x - 1.5 * abs(y)
+        return lambda x, y: sx * y - 1.5 * abs(x)
+
+    puestos = []
+    # el aceite de la mesa, para arrimarle el vinagre, la sal y la pimienta;
+    # las de arriba no lo llevaban y se les pone
+    aceite = [(ox, oy) for ox, oy, orr in ocup if abs(orr - 0.042) < 1e-6]
+    if aceite:
+        ax, ay = aceite[0]
+    else:
+        p = _colocar(ocup, 0.042, dentro, testero(-lado))
+        ax, ay = p if p else (0.0, 0.0)
+        if p:
+            puestos.append(botella(f'Aceite {tag}', cx + p[0], cy + p[1], z,
+                                   alto=0.185, col=col))
+    p = _colocar(ocup, 0.070, dentro, testero(lado))
+    if p:
+        puestos.append(fiasco(f'Fiasco {tag}', cx + p[0], cy + p[1], z, col=col))
+    p = _colocar(ocup, 0.030, dentro, cerca(ax, ay))
+    if p:
+        puestos.append(botella(f'Vinagre {tag}', cx + p[0], cy + p[1], z, alto=0.170,
+                               col=col, vidrio=_mat_mesa('vinagre')))
+    for nm, mat, alto in (('Pimienta', MAT['mesa'], 0.145), ('Sal', _mat_mesa('sal'), 0.130)):
+        p = _colocar(ocup, 0.023, dentro, cerca(ax, ay))
+        if p:
+            puestos.append(molinillo(f'{nm} {tag}', cx + p[0], cy + p[1], z, alto, mat, col))
+    if k % 2 == 0 or grande:
+        p = _colocar(ocup, 0.052, dentro, testero(-lado))
+        if p:
+            puestos.append(albahaca(f'Albahaca {tag}', cx + p[0], cy + p[1], z, col=col))
+    if k % 2 == 1 or grande:
+        p = _colocar(ocup, 0.040, dentro, testero(-lado))
+        if p:
+            puestos.append(grissini(f'Grissini {tag}', cx + p[0], cy + p[1], z, col=col))
+    if w > 1.0 and not redonda:
+        # cuenco de limones en las de cuatro del comedor
+        p = _colocar(ocup, 0.095, dentro, lambda x, y: -abs(x) - 1.5 * abs(y))
+        if p:
+            bx, by = cx + p[0], cy + p[1]
+            puestos += poner('wooden_bowl_01', bx, by, z, escala=1.0, giro=k * 40, col=col)
+            # cada limon se apoya donde da un rayo vertical sobre el cuenco:
+            # ni flotando ni metido en la madera
+            bpy.context.view_layer.update()
+            dg = bpy.context.evaluated_depsgraph_get()
+            for i, (dx, dy, g) in enumerate(((-0.035, -0.015, 10), (0.035, -0.020, 95),
+                                              (0.000, 0.045, 200))):
+                ok, loc, *_ = bpy.context.scene.ray_cast(
+                    dg, Vector((bx + dx, by + dy, z + 0.40)), Vector((0, 0, -1)))
+                zl = loc.z if ok and loc.z < z + 0.10 else z + 0.020
+                puestos += poner('lemon', bx + dx, by + dy, zl - 0.004, escala=1.0,
+                                 giro=g, col=col)
+    return puestos
+
+
 def decoracion():
     """Todo lo que hace que el local parezca abierto y no un plano en 3D."""
     rnd = random.Random(23)
@@ -2416,23 +2674,30 @@ def decoracion():
         cx, cy = (x0 + x1) / 2, (y0 + y1) / 2
         z = H_MESA
         estilo = k % 4
+        ocup = []                       # lo que hay encima, para no pisarlo
         if estilo == 0:
             taza('Taza ' + tag, cx - 0.14, cy + 0.05, z)
             taza('Taza b ' + tag, cx + 0.13, cy - 0.06, z)
             plato('Plato ' + tag, cx, cy + 0.17, z, r=0.085)
+            ocup += [(-0.14, 0.05, 0.070), (0.13, -0.06, 0.070), (0.0, 0.17, 0.090)]
         elif estilo == 1:
             copa('Copa ' + tag + ' 1', cx - 0.12, cy + 0.08, z)
             copa('Copa ' + tag + ' 2', cx + 0.11, cy + 0.06, z)
             botella('Vino ' + tag, cx, cy - 0.13, z, alto=0.300)
+            ocup += [(-0.12, 0.08, 0.043), (0.11, 0.06, 0.043), (0.0, -0.13, 0.041)]
         elif estilo == 2:
-            poner('tea_set_01', cx, cy, z, escala=1.0, giro=rnd.uniform(-30, 30))
+            te = poner('tea_set_01', cx, cy, z, escala=1.0, giro=rnd.uniform(-30, 30))
+            ocup.append(_huella(te, cx, cy))
         else:
             plato('Plato ' + tag, cx - 0.05, cy, z)
-            poner('croissant', cx - 0.05, cy, z + 0.008, escala=1.0,
+            poner('croissant', cx - 0.05, cy, z + 0.006, escala=1.0,
                   giro=rnd.uniform(0, 360))
             taza('Taza ' + tag, cx + 0.16, cy + 0.03, z)
-        # aceite y sal en todas
+            ocup += [(-0.05, 0.0, 0.120), (0.16, 0.03, 0.070)]
+        # aceite en todas; con el, el vinagre, la sal y la pimienta
         botella('Aceite ' + tag, cx + 0.22, cy + 0.20, z, alto=0.185)
+        ocup.append((0.22, 0.20, 0.042))
+        mesa_italiana(tag, cx, cy, x1 - x0, y1 - y0, z, ocup, k)
     # ---- mesas de planta alta
     for k, m in enumerate(MB.MESAS_PA):
         tag, tipo, x0, y0, x1, y1, lados = m
@@ -2446,16 +2711,26 @@ def decoracion():
             # sea, y metidas 250 mm de cada testero.
             largo_x = (x1 - x0) >= (y1 - y0)
             a0, a1 = (x0, x1) if largo_x else (y0, y1)
+            ocup = []
             for i in range(3):
                 t = a0 + 0.25 + (a1 - a0 - 0.50) * i / 2
                 tx, ty = (t, cy + 0.20) if largo_x else (cx + 0.20, t)
                 taza(f'Taza PA {tag} {i}', tx, ty, z, col='Planta alta')
-            poner('ceramic_vase_02', cx, cy, z, escala=0.85, giro=20, col='Planta alta')
+                ocup.append((tx - cx, ty - cy, 0.070))
+            ja = poner('ceramic_vase_02', cx, cy, z, escala=0.85, giro=20, col='Planta alta')
+            ocup.append(_huella(ja, cx, cy))
+            # la de cowork no es de comer: albahaca, grissini y la vela
+            mesa_italiana(tag, cx, cy, x1 - x0, y1 - y0, z, ocup, k, col='Planta alta')
         else:
-            poner('wicker_basket_01', cx, cy, z, escala=0.7, giro=-20, col='Planta alta')
+            ocup = []
+            ce = poner('wicker_basket_01', cx, cy, z, escala=0.7, giro=-20, col='Planta alta')
+            ocup.append(_huella(ce, cx, cy))
             for i in range(4):
                 copa(f'Copa PA {i}', cx + 0.22 * math.cos(i * 1.57),
                      cy + 0.22 * math.sin(i * 1.57), z, col='Planta alta')
+                ocup.append((0.22 * math.cos(i * 1.57), 0.22 * math.sin(i * 1.57), 0.043))
+            mesa_italiana(tag, cx, cy, x1 - x0, y1 - y0, z, ocup, k,
+                          redonda=(tipo == 'redonda'), col='Planta alta')
     # Las botellas y la ceramica iban sobre los estantes del testero Oeste,
     # que se han quitado por no tener pared donde anclarse.
 
@@ -3247,6 +3522,50 @@ def logo_escaparate():
     return ob
 
 
+# La pizarra del menu, en la pared de detras de la barra (el Muro Oeste,
+# cara x = 0,250), centrada sobre la balda de las botellas (y 2,884..4,134,
+# a 1,800; las botellas llegan a 2,15). La imagen la pinta
+# rehacer_pizarra.py: logo en tiza y cuatro apartados de la carta.
+PIZARRA = dict(x=0.250, yc=3.509, zc=2.850, ancho=1.600, alto=1.100, marco=0.050,
+               fondo=0.035)
+PIZARRA_IMG = os.path.join(REPO, 'docs', 'pared', 'CASA_MARGOT_PIZARRA_MENU.jpg')
+
+
+def pizarra_menu():
+    """Pizarra con el logo y la carta, enmarcada en el liston de roble."""
+    if not os.path.exists(PIZARRA_IMG):
+        print('   (sin pizarra: falta', PIZARRA_IMG, ')')
+        return None
+    P = PIZARRA
+    x0 = P['x']
+    y0, y1 = P['yc'] - P['ancho'] / 2, P['yc'] + P['ancho'] / 2
+    z0, z1 = P['zc'] - P['alto'] / 2, P['zc'] + P['alto'] / 2
+    m, f = P['marco'], P['fondo']
+    col = 'Decoracion'
+    # trasdos de la pizarra, pegado al muro
+    caja('Pizarra · tablero', x0 - SOLAPE, y0, x0 + f - 0.012, y1, z0, z1, MAT['_negro'], col)
+    # marco: los largueros de arriba y abajo de punta a punta, los montantes
+    # entre ellos (asi no se cruzan dos testas en el mismo plano)
+    for nm, a0, a1, b0, b1 in (('abajo', y0 - m, y1 + m, z0 - m, z0),
+                               ('arriba', y0 - m, y1 + m, z1, z1 + m),
+                               ('izquierda', y0 - m, y0, z0, z1),
+                               ('derecha', y1, y1 + m, z0, z1)):
+        bisel(caja(f'Pizarra · marco {nm}', x0 - SOLAPE, a0, x0 + f, a1, b0, b1,
+                   MAT['_liston'], col), 0.003, 2)
+    # la cara pintada, un plano con la imagen, mirando a la barra (+X)
+    xc = x0 + f - 0.012 + DESPEGUE
+    me = bpy.data.meshes.new('Pizarra del menu')
+    v = [(xc, y0, z0), (xc, y1, z0), (xc, y1, z1), (xc, y0, z1)]
+    me.from_pydata(v, [], [(0, 1, 2, 3)])
+    me.uv_layers.new()
+    for i, c in enumerate(((0, 0), (1, 0), (1, 1), (0, 1))):
+        me.uv_layers[0].data[i].uv = c
+    me.materials.append(MT.calca('Pizarra del menu', PIZARRA_IMG, rug=0.85))
+    ob = bpy.data.objects.new('Pizarra del menu', me)
+    coleccion(col).objects.link(ob)
+    return ob
+
+
 def caracter_italiano():
     """Lo que convierte el local en una trattoria y no en una cafeteria."""
     # Ni carta en pizarra en el paso de servicio ni hornacinas sobre el
@@ -3254,6 +3573,8 @@ def caracter_italiano():
     # cuadros.
     # el logo en el vidrio del ventanal
     logo_escaparate()
+    # la carta en pizarra, detras de la barra
+    pizarra_menu()
     # el expositor de bebidas, lleno: sus cinco parrillas estan a 0,46 / 0,73
     # / 1,00 / 1,27 / 1,54 (obj_A7: Z_INT0 + 0,190 + k * 0,270)
     ax, ay = 5.995, 4.078                      # centro y cara interior del frente
