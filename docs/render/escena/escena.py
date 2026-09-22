@@ -796,21 +796,31 @@ def suelos_y_techos():
     #   Oeste x 0,250 trasdos del Muro Oeste;  Este x 2,448 cara Oeste de la
     #   pared en L, para no pisar su remate (2,448..2,512 entre 2,280 y 2,310)
     #   Norte y 9,008 trasdos de la medianera
-    #   Sur   y 4,933 la cara de la viga P1b. Arrancaba en 4,759, con el paso de
-    #                 personal, y volaba 174 mm por delante de la viga sobre la
-    #                 trasbarra: el cliente lo quiere cortado en la viga, que
-    #                 su canto y la cara de la viga queden en un solo plano.
-    # Cuelga 15 mm bajo la linea del forjado.
+    #   Sur   la viga P1b: el cliente lo quiere cortado en la viga, que su
+    #                 canto y la cara de la viga queden en un solo plano.
+    # A RAS del intrados de la viga y del forjado (2,310), no colgado 15 mm
+    # por debajo: colgado, su canto asomaba bajo la cara de la viga como un
+    # reborde, y pasada la testa de la viga (x 2,411) volaba solo. Asi la
+    # cara de la viga es lo unico que se ve de frente, y por debajo viga,
+    # forjado y techo son un mismo plano. Se mete 4 mm en la viga (y 5,183)
+    # y en el forjado (x 2,411), medio milimetro por encima de sus caras de
+    # abajo, para que no haya junta abierta ni dos caras en el mismo plano.
+    #   debajo de la viga (y 4,933..5,183) el techo es la propia viga
+    #   entre la viga y y 7,509 el forjado cubre x >= 2,411
+    #   de y 7,509 al Norte el forjado arranca en 2,461: el techo llega a la L
     # La campana KC (x 0,31..2,31, y 7,778..8,978, de 2,00 a 2,54) sube por
     # encima de los 2,31: el techo la rodea, no la atraviesa. Entero, dejaba
     # una tapa de yeso dentro de la campana, a media altura de los filtros.
     kx0, ky0, kx1, ky1 = CAMPANA_KC
-    for nm, a0, b0, a1, b1 in (('', 0.250, E.VIGA[2], 2.448, ky0),
+    yv = E.VIGA[4] - SOLAPE                  # cara Norte de la viga, 5,183
+    xf = 2.411 + SOLAPE                      # cara Oeste del forjado
+    for nm, a0, b0, a1, b1 in (('', 0.250, yv, xf, 7.509),
+                               (' junto a la L', 0.250, 7.509, 2.448, ky0),
                                (' Oeste', 0.250, ky0, kx0, 9.008),
                                (' Este', kx1, ky0, 2.448, 9.008),
                                (' Norte', kx0, ky1, kx1, 9.008)):
         caja(f'Techo de pladur · cocina{nm}', a0, b0, a1, b1,
-             2.295, 2.310, MAT['muro'], 'Obra')
+             Z_TECHO_COCINA, Z_TECHO_COCINA + 0.015, MAT['muro'], 'Obra')
 
     # Pavimento del altillo, sobre el forjado. Va con la MISMA planta que el
     # forjado -E.FORJADO-, no con su rectangulo envolvente: el poligono tiene
@@ -826,6 +836,9 @@ def suelos_y_techos():
 # Huella en planta de la campana KC tal como la planta aparatos() -
 # comprobada contra su caja envolvente en la escena montada.
 CAMPANA_KC = (0.310, 7.778, 2.310, 8.978)
+# Cara de abajo del techo de pladur de la cocina: a ras del intrados de la
+# viga P1b y del forjado, medio milimetro por encima para no compartir plano.
+Z_TECHO_COCINA = Z_SOFITO + DESPEGUE
 
 
 def vestibulo():
@@ -2086,11 +2099,12 @@ def luces(j):
     # --- cocina: pantallas estancas suspendidas. Los cuatro empotrados que el
     #     proyecto pone aqui caen en la doble altura y no alumbran nada.
     # Colgaban a 2,560 con tirantes hasta los 5,06 porque la cocina no tenia
-    # techo. Ahora lo tiene, a 2,295: van adosadas a el y los tirantes sobran.
-    Z_TECHO_COCINA = 2.295
+    # techo. Ahora lo tiene (Z_TECHO_COCINA): van adosadas a el.
     # la tercera iba en y 8,40, dentro de la campana KC (7,778..8,978), que
-    # ya lleva su propia luz: pasa al tramo Sur, junto a la viga
-    for i, y in enumerate((5.20, 6.20, 7.30)):
+    # ya lleva su propia luz. Las tres, a paso igual entre el machon P1 -su
+    # forro Norte llega a 5,387 y la pantalla empieza en x 0,45, dentro de
+    # el- y la campana (7,778)
+    for i, y in enumerate((5.45, 6.35, 7.25)):
         x0_, x1_ = 0.45, 2.25
         caja(f'Cocina · pantalla {i + 1}', x0_, y - 0.055, x1_, y + 0.055,
              Z_TECHO_COCINA - 0.060, Z_TECHO_COCINA + SOLAPE, MAT['_opal'],
