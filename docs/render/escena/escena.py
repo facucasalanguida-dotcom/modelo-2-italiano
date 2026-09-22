@@ -1710,10 +1710,15 @@ def decoracion():
     # ---- mostrador: lo que ve el cliente
     mx1 = Q.MOSTRADOR_X[1]
     z_tabla = Q.H_ENCIMERA + 0.040
-    poner('wicker_basket_01', mx1 - 0.30, 4.35, z_tabla, escala=0.85, giro=18)
-    poner('ceramic_vase_01', mx1 - 0.30, 4.08, z_tabla, escala=0.9, giro=-25)
+    # La tabla del mostrador va de y 3,97 a 4,76 y lleva en medio el soporte
+    # del TPV (B3: x 2,05..2,25, y 4,17..4,42). La cesta estaba justo encima
+    # de el -la tablet salia de dentro del mimbre- y la tercera copa caia 20 mm
+    # por fuera del canto Norte. Cada cosa a su franja libre: la cesta al Norte
+    # del TPV, el jarron al Sur y las copas al filo Este.
+    poner('wicker_basket_01', 2.12, 4.60, z_tabla, escala=0.85, giro=18)
+    poner('ceramic_vase_01', 2.20, 4.08, z_tabla, escala=0.9, giro=-25)
     for i in range(3):
-        copa(f'Copa mostrador {i + 1}', mx1 - 0.16, 4.60 + i * 0.09, z_tabla)
+        copa(f'Copa mostrador {i + 1}', mx1 - 0.16, 4.44 + i * 0.09, z_tabla)
     # ---- botellero sobre la vitrina y aceite en el paso
     poner('jug_01', 0.45, 4.62, 0.905, escala=1.0, giro=35)
     poner('metal_jug', 0.66, 4.60, 0.905, escala=0.9, giro=-15)
@@ -1725,12 +1730,17 @@ def decoracion():
         poner(aid, x, y, 0.0, altura=h, giro=g)
     for i, (x, y) in enumerate(((2.58, 8.45), (7.72, 8.45))):
         poner('planter_pot_clay', x, y, 0.0, altura=0.52, giro=i * 40)
-    # ---- fruta y pan en el paso de la cocina
-    poner('wooden_bowl_01', 1.30, 6.90, Q.H_ENCIMERA, escala=1.0, giro=25)
+    # ---- fruta y pan en la mesa de trabajo de la cocina
+    # Iban a la cota de la barra (0,900) y en x = 1,30 / 1,75, que es el
+    # pasillo entre el fregadero (muere en x = 0,85) y la mesa refrigerada
+    # (arranca en 1,83): no habia nada debajo y colgaban en el aire. Van sobre
+    # la K10, que es la mesa de trabajo, y su tablero esta a 0,850, no a 0,900.
+    z_k10 = 0.850
+    poner('wooden_bowl_01', 2.10, 6.30, z_k10, escala=1.0, giro=25)
     for i, aid in enumerate(('food_apple_01', 'food_lime_01', 'food_pomegranate_01')):
-        poner(aid, 1.26 + 0.05 * i, 6.88 + 0.04 * (i % 2), Q.H_ENCIMERA + 0.045,
+        poner(aid, 2.06 + 0.05 * i, 6.28 + 0.04 * (i % 2), z_k10 + 0.045,
               escala=1.0, giro=i * 55)
-    poner('wicker_basket_02', 1.75, 6.90, Q.H_ENCIMERA, escala=0.9, giro=-12)
+    poner('wicker_basket_02', 2.10, 6.85, z_k10, escala=0.9, giro=-12)
     # ---- la pared del sillon corrido: solo cuadros, repartidos
     for i, x in enumerate((3.05, 3.95, 4.85, 6.10, 7.00)):
         alto = 0.560 if i % 2 == 0 else 0.460
@@ -2486,8 +2496,10 @@ def caracter_italiano():
             for f, dy in ((0, 0.075), (1, 0.230)):
                 botella(f'A7 botella {k}{j}{f}', bx, ay + dy, z + 0.006,
                         alto=0.225 if k % 2 == 0 else 0.245, col='Decoracion')
-    # cestas de pan y aceite en el paso de servicio
-    poner('wicker_basket_02', 2.75, 4.30, Q.H_ENCIMERA + 0.040, escala=0.8, giro=15)
+    # Cesta de pan del paso. Estaba en x = 2,75 y la tabla del mostrador muere
+    # en 2,53: volaba 220 mm por delante del canto. Se pasa a la mesa de
+    # trabajo de la cocina, con la fruta y la otra cesta.
+    poner('wicker_basket_02', 2.10, 7.35, 0.850, escala=0.8, giro=15)
     # Ceramica al pie del ventanal. Iba a la cota del zocalo (0,130) como si
     # hubiera alfeizar, pero el ventanal arranca del suelo: la vasija de
     # vidrio va de 0,130 a 4,700 y no hay repisa ninguna, asi que las piezas
