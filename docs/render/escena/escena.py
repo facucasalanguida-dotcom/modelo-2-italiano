@@ -2813,6 +2813,21 @@ VISTAS = {
     'fachada':      ((6.20, -9.20, 1.700), (5.60, 1.60, 2.600), 28.0),
     # la calle, con el local a un lado
     'calle':        ((-3.80, -5.40, 1.650), (12.00, -2.60, 2.000), 24.0),
+    # --- las de la revision de la fachada contra los videos. Van pensadas
+    #     en vertical (3 x 4): con lote.py, --ancho 2400 --alto 3200
+    'fachada_general': ((5.60, -7.80, 1.650), (5.10, 0.60, 2.700), 20.0),
+    'fachada_oeste':   ((1.55, -2.10, 1.500), (1.45, 1.56, 2.450), 20.0),
+    'fachada_esquina': ((3.70, -0.60, 1.600), (5.80, 1.10, 2.300), 18.0),
+    'fachada_este':    ((8.10, -3.20, 1.600), (7.95, 0.40, 2.650), 20.0),
+    'porche_intrados': ((2.60, -1.40, 1.600), (2.10, 0.70, 4.600), 16.0),
+    'escaparate_alto': ((7.40, -1.90, 1.650), (7.60, 0.40, 3.100), 20.0),
+    # --- y en horizontal, como las demas
+    'cubo_calle':      ((8.70, -1.60, 1.620), (7.60, 1.05, 1.250), 24.0),
+    'vitrinas_detras': ((1.05, 2.95, 0.620), (2.30, 2.95, 0.300), 16.0),
+    'cocina_campana':  ((1.30, 6.30, 1.450), (1.30, 8.30, 2.350), 16.0),
+    'antepecho_pa':    ((5.30, 6.90, Z_PA + 1.550), (2.50, 4.10, Z_PA + 0.650), 20.0),
+    'antepecho_pa2':   ((5.00, 4.45, Z_PA + 1.600), (8.70, 3.95, Z_PA + 0.500), 18.0),
+    'lamas_interior':  ((6.80, 4.30, Z_PA + 1.600), (8.60, 0.40, 3.500), 18.0),
 }
 
 # plantas y axonometrias: camara ortografica y recorte por cota
@@ -2878,7 +2893,9 @@ def compositor():
 # vistas desde las que se ve la calle: solo en esas se monta la ciudad
 VE_LA_CALLE = {'escaparate', 'fachada', 'calle', 'entrada', 'general', 'sala',
                'barra', 'sala_centro', 'alta_vacio', 'axonometrica', 'axono_alta',
-               'planta_baja', 'barra_frente'}
+               'planta_baja', 'barra_frente', 'fachada_general', 'fachada_oeste',
+               'fachada_esquina', 'fachada_este', 'porche_intrados',
+               'escaparate_alto', 'cubo_calle'}
 
 
 def construir(spp, ancho, alto, con_decoracion=True, con_glare=False,
