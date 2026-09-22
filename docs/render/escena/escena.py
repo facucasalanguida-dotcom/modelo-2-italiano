@@ -1362,8 +1362,13 @@ def fachada_real():
     e('Fachada lamas · travesaño 2', xm + C / 2, D1 - C, LT0, LT1)
     # el fondo, 4 mm por delante de la cara interior de la perfileria: en
     # 0,425 justos compartia plano con travesaños y montante central
-    caja('Fachada lamas · fondo', D0, YE1 - 0.0075, D1 - C, YE1 - SOLAPE, L0, L1,
+    # Es negro solo por la cara de la calle, para que las juntas entre lamas
+    # se lean oscuras; por dentro, desde el altillo, salian cuatro cuadros
+    # negros en la pared: se trasdosa en el crema de la perfileria.
+    caja('Fachada lamas · fondo', D0, YE1 - 0.0075, D1 - C, YE1 - 0.0055, L0, L1,
          MAT['_negro'])
+    caja('Fachada lamas · trasdos', D0, YE1 - 0.0055, D1 - C, YE1 - SOLAPE, L0, L1,
+         MAT['_perfil_crema'])
     n_lamas = 0
     for u0, u1 in ((D0, xm - C / 2), (xm + C / 2, D1 - C)):
         for z0, z1 in ((L0, LT0), (LT1, L1)):
