@@ -19,8 +19,7 @@ import random
 
 import bpy
 
-PH = os.environ.get('PH_DIR', '/tmp/claude-0/-home-user-modelo-2-italiano/'
-                              '30d2763c-3169-519a-ac78-c5a47134634b/scratchpad/ph')
+from rutas import PH          # una sola regla para los tres ficheros
 
 AZZURRO = '12A0D7'          # SSC Napoli, Pantone 2995 C
 AZUL_HONDO = '003C82'       # el azul oscuro del escudo, para detalles

@@ -26,8 +26,8 @@ mapa entero en memoria y con ~120 mapas a 4096x4096 el proceso pasa de 13 GB.
 import ast, glob, io, json, os, subprocess, sys, time, zipfile
 
 AQUI = os.path.dirname(os.path.abspath(__file__))
-SCRATCH = os.environ.get('CM_SCRATCH') or os.path.join(AQUI, 'activos')
-PH = os.path.join(SCRATCH, 'ph')
+from rutas import SCRATCH, PH
+
 CACHE = os.path.join(SCRATCH, 'api')
 CLAVES = {'Diffuse': 'diff', 'Rough': 'rough', 'nor_gl': 'nor_gl',
           'Displacement': 'disp', 'AO': 'ao'}

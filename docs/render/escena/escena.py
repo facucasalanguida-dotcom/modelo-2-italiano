@@ -38,30 +38,7 @@ import mobiliario as MB         # noqa: E402
 import equipamiento as Q        # noqa: E402
 import materiales as MT         # noqa: E402
 
-def _donde_estan_los_activos():
-    """Los 1,5 GB de Poly Haven, el coche y el logo, que no van al repositorio.
-
-    Manda CM_SCRATCH si esta puesta. Si no, se buscan solas: en Windows
-    `set` solo vale para esa ventana de consola, y olvidarla no daba ningun
-    error -la escena se montaba igual, sin texturas, sin el logo y sin los
-    22 modelos de decoracion- asi que el render salia mal y parecia bien.
-    """
-    aqui = os.path.dirname(os.path.abspath(__file__))
-    env = os.environ.get('CM_SCRATCH')
-    if env:
-        return os.path.abspath(os.path.expanduser(env))
-    for c in (os.path.join(aqui, 'activos'),
-              os.path.join(os.path.expanduser('~'), 'casa_margot_activos'),
-              '/tmp/claude-0/-home-user-modelo-2-italiano/'
-              '30d2763c-3169-519a-ac78-c5a47134634b/scratchpad'):
-        if os.path.isdir(os.path.join(c, 'ph')):
-            return c
-    return os.path.join(aqui, 'activos')
-
-
-SCRATCH = _donde_estan_los_activos()
-PH = os.path.join(SCRATCH, 'ph')
-LOGO = os.path.join(SCRATCH, 'logo', 'casa_margot_recortado.png')
+from rutas import SCRATCH, PH, LOGO   # noqa: E402
 
 random.seed(11)
 
