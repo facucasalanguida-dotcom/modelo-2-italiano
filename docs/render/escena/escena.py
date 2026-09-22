@@ -1093,8 +1093,10 @@ def aplacado(nombre, x0, y0, x1, y1, z0, z1, eje='x', zocalo=0.100,
     J = 0.005
     obs = []
     if zocalo > 0:
+        # el mismo gris mate que la banda de la perfileria: en el video es
+        # una banda continua bajo vidrios y machones, no un negro brillante
         obs.append(caja(f'{nombre} zocalo', x0, y0, x1, y1, z0, z0 + zocalo,
-                        MAT['_losa_piedra'][1], col))
+                        MAT['_pizarra_fachada'][0], col))
     tot = z1 - (z0 + zocalo)
     alturas = []
     while sum(alturas) < tot:
