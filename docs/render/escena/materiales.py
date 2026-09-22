@@ -457,7 +457,9 @@ def construir():
     # lo que manda en el video es el tono de cada losa, no el relieve.
     M['_arenisca'] = []
     _r = random.Random(11)
-    for _i, _tono in enumerate(('D2B593', 'C9A57F', 'D3A88E', 'C1A07C', 'DCC6A4')):
+    # Tonos subidos de saturacion tras comparar el primer render con el
+    # video: salian palidos y agrisados al lado de las losas reales.
+    for _i, _tono in enumerate(('D9B98F', 'CFA06F', 'D6A184', 'C49A6C', 'E0C9A2')):
         _m = pbr(f'Arenisca {_i + 1}', 'sandstone_cracks', 0.55 + 0.20 * _r.random(),
                  albedo=_tono, nrm_str=0.22, rug=0.64, mezcla_caja=0.25)
         for _nd in _m.node_tree.nodes:
@@ -467,6 +469,19 @@ def construir():
                                                         _r.uniform(-6, 6))
                 _nd.inputs['Rotation'].default_value = (0.0, 0.0, _r.uniform(0, 6.283))
         M['_arenisca'].append(_m)
+    # Alguna losa gris entre la arenisca: en P5 se ven dos o tres, a media
+    # altura, en las fotos de la parte Este.
+    M['_arenisca_gris'] = pbr('Arenisca gris', 'sandstone_cracks', 0.62,
+                              albedo='A39C92', nrm_str=0.22, rug=0.62,
+                              mezcla_caja=0.25)
+    # Pizarra de la franja del extremo Oeste: losas lisas gris oscuro con
+    # junta, no roca. #635E5D al sol en el video. La dark_rock de las
+    # columnas interiores tiene un relieve que aqui no existe.
+    M['_pizarra_fachada'] = []
+    for _i, _tono in enumerate(('55514E', '4B4845', '5E5956', '47433F')):
+        M['_pizarra_fachada'].append(
+            pbr(f'Pizarra de fachada {_i + 1}', 'concrete_floor_worn_001',
+                0.9 + 0.1 * _i, albedo=_tono, nrm_str=0.25, rug=0.55, coat=0.05))
     # Perfileria de la fachada: aluminio lacado color crema, no negro. Mediana
     # de pixel del travesaño y de un montante al sol, #EBBC9E y #E6B991,
     # bajada un punto porque al sol la foto da mas claro que el color real.

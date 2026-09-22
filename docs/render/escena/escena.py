@@ -288,9 +288,10 @@ def _tag_de(nombre):
 # (IMG_6570). El muro del cuello y la jamba no existen en obra: el rincon entre
 # el ventanal y P5 es un retorno ACRISTALADO, con su perfil y su travesaño.
 FACHADA_REHECHA = ('Muro Oeste del cuello', 'Ventanal Sur · jamba',
-                   'Ventanal Sur · paño 2')
+                   'Ventanal Sur · paño 2', 'Escaparate · zócalo de piedra',
+                   'Puerta de acceso · montante superior')
 FACHADA_REHECHA_PREFIJOS = ('Ventanal Sur · travesaño', 'Ventanal Sur · zócalo',
-                            'Dintel de fachada Sur')
+                            'Dintel de fachada Sur', 'Dintel de fachada Este')
 
 
 def sustituido(s):
@@ -799,8 +800,10 @@ def vestibulo():
             ('superior', ey0, ey1, ez1 - C, ez1),
             ('jamba calle', ey0, ey0 + C, ez0 + C, ez1 - C),
             ('jamba puerta', ey1 - C, ey1, ez0 + C, ez1 - C)):
+        # crema, el mismo lacado que el resto de la fachada: es el que se ve
+        # en las fotos del retranqueo
         bisel(caja(f'Vestíbulo · reborde {nm}', xp, y0, R['x0'], y1, z0, z1,
-                   MAT['muro']))
+                   MAT['_perfil_crema']))
     xc = (xp + R['x0']) / 2
     caja('Vestíbulo · vidrio Oeste', xc - 0.006, ey0 + C - SOLAPE, xc + 0.006,
          ey1 - C + SOLAPE, ez0 + C - SOLAPE, ez1 - C + SOLAPE, MAT['vidrio'])
@@ -1022,9 +1025,6 @@ PILARES = (
     ('P4', 9.689, 4.708, 9.890, 5.309, 'SNO', 'liston'),   # machon de la medianera
     # P5 entero lo forra fachada_real(): tres caras a la calle en arenisca y
     # las interiores en pizarra.
-    # La esquina SO -el machon del muro Oeste al pie del ventanal- es en el
-    # video una franja de pizarra gris oscura de arriba abajo.
-    ('SO', 0.000, 1.561, 0.510, 2.009, 'S', 'losa'),
 )
 
 
@@ -1061,7 +1061,7 @@ def pilar_escalera():
 
 
 def aplacado(nombre, x0, y0, x1, y1, z0, z1, eje='x', zocalo=0.100,
-             col='Obra'):
+             tonos=None, gris=0.05, col='Obra'):
     """Aplacado de arenisca como el de la fachada real.
 
     Hiladas de 0,28 a 0,42 de alto y en cada una una o dos losas, con la
@@ -1074,7 +1074,7 @@ def aplacado(nombre, x0, y0, x1, y1, z0, z1, eje='x', zocalo=0.100,
     """
     import zlib
     rnd = random.Random(zlib.crc32(nombre.encode()))
-    tonos = MAT['_arenisca']
+    tonos = tonos or MAT['_arenisca']
     J = 0.005
     obs = []
     if zocalo > 0:
@@ -1093,7 +1093,7 @@ def aplacado(nombre, x0, y0, x1, y1, z0, z1, eje='x', zocalo=0.100,
         za = z + (J / 2 if i else 0.0)
         zb = z + h - (J / 2 if i < len(alturas) - 1 else 0.0)
         cortes = []
-        if L > 0.45:
+        if L > 0.70:              # en el video P2 y P5 Sur van a una losa
             c = rnd.uniform(0.32, 0.68) * L
             for _ in range(8):                 # que no caiga sobre la de abajo
                 if previo is None or abs(c - previo) > 0.12:
@@ -1107,6 +1107,8 @@ def aplacado(nombre, x0, y0, x1, y1, z0, z1, eje='x', zocalo=0.100,
             ua = a0 + bordes[t] + (J / 2 if t else 0.0)
             ub = a0 + bordes[t + 1] - (J / 2 if t < len(bordes) - 2 else 0.0)
             m = tonos[rnd.randrange(len(tonos))]
+            if gris and rnd.random() < gris:
+                m = MAT['_arenisca_gris']
             if eje == 'x':
                 obs.append(caja(f'{nombre} {i + 1}.{t + 1}', ua, y0, ub, y1,
                                 za, zb, m, col))
@@ -1137,25 +1139,34 @@ def _perfil(nombre, x0, y0, x1, y1, z0, z1, mat=None):
     return ob
 
 
-def _paño_fachada(nombre, a0, a1, eje, p0, p1, montantes=(True, True)):
+def _paño_fachada(nombre, a0, a1, eje, p0, p1, montantes=(True, True),
+                  travesaños=None, faja_fin=None):
     """Un paño de la fachada: banda, vierteaguas, montantes, travesaños,
     faja de rotulo y dintel. eje='x' corre en X con la perfileria entre
-    y = p0..p1; eje='y' corre en Y con la perfileria entre x = p0..p1."""
+    y = p0..p1; eje='y' corre en Y con la perfileria entre x = p0..p1.
+
+    Los travesaños van ENTRE los montantes, no de punta a punta: si no, su
+    testa cae en el mismo plano que la del montante y en cada cruce sale un
+    cuadro negro. faja_fin recorta la faja en su extremo final para que no
+    solape con la del paño contiguo en una esquina.
+    """
     C = FA_PERFIL
 
     def c(nm, u0, u1, z0, z1, mat=None, d=0.0):
         if eje == 'x':
             return _perfil(nm, u0, p0 - d, u1, p1 + d, z0, z1, mat)
         return _perfil(nm, p0 - d, u0, p1 + d, u1, z0, z1, mat)
-    c(f'{nombre} · banda', a0, a1, 0.0, FA_BASE, MAT['_losa_piedra'][1])
+    t0 = a0 + (C if montantes[0] else 0.0)
+    t1 = a1 - (C if montantes[1] else 0.0)
+    c(f'{nombre} · banda', a0, a1, 0.0, FA_BASE, MAT['_pizarra_fachada'][0])
     c(f'{nombre} · vierteaguas', a0, a1, FA_BASE, FA_VIERTE)
     if montantes[0]:
         c(f'{nombre} · montante 1', a0, a0 + C, FA_VIERTE, FA_FAJA[0])
     if montantes[1]:
         c(f'{nombre} · montante 2', a1 - C, a1, FA_VIERTE, FA_FAJA[0])
-    for k, (z0, z1) in enumerate(FA_TRAVESANOS):
-        c(f'{nombre} · travesaño {k + 1}', a0, a1, z0, z1)
-    c(f'{nombre} · faja', a0, a1, FA_FAJA[0], FA_FAJA[1], d=0.006)
+    for k, (z0, z1) in enumerate(travesaños or FA_TRAVESANOS):
+        c(f'{nombre} · travesaño {k + 1}', t0, t1, z0, z1)
+    c(f'{nombre} · faja', a0, faja_fin or a1, FA_FAJA[0], FA_FAJA[1], d=0.006)
     c(f'{nombre} · dintel', a0, a1, FA_FAJA[1], Z_TECHO, MAT['_revoco_fachada'])
 
 
@@ -1222,15 +1233,78 @@ def fachada_real():
     # --- retorno acristalado del rincon, de la cara Norte de P5 al ventanal;
     #     su montante del lado del ventanal es el propio montante de esquina
     _paño_fachada('Fachada retorno', YR0, YP0, 'y', XP0, XP1,
-                  montantes=(True, False))
+                  montantes=(True, False), faja_fin=YP0 - 0.006)
     caja('Fachada retorno · vidrio', XR - 0.006, YR0, XR + 0.006, 1.573,
          FA_VIERTE, FA_FAJA[1], MAT['vidrio'])
 
-    # --- voladizo del edificio sobre el porche: el intrados que se ve en el
-    #     video encima de la faja. En el plano el techo tenia el porche
-    #     recortado y quedaba abierto al cielo.
-    caja('Voladizo sobre el porche', 0.000, 0.000, 5.731, YP0, Z_TECHO,
-         Z_TECHO + 0.200, MAT['_revoco_fachada'])
+    # --- franja de pizarra del extremo Oeste: losas lisas con junta, de
+    #     arriba abajo, por la cara Sur del machon SO
+    aplacado('Aplacado SO', 0.000, YP0 - d + SOLAPE, 0.510, YP0, 0.0, Z_TECHO,
+             eje='x', zocalo=0.0, tonos=MAT['_pizarra_fachada'], gris=0.0)
+
+    # --- balcon curvo del primer piso sobre el porche. En los dos videos el
+    #     forjado del porche no es plano ni recto: es el vuelo de un balcon
+    #     con el canto curvo hacia la calle, de revoco, con un canto grueso.
+    #     Flecha de 1,00 m estimada sobre los fotogramas: +-0,25 m.
+    import math
+    c, f = 5.731, 1.00
+    Rr = (c * c / 4 + f * f) / (2 * f)
+    xc, yc = c / 2, -f + Rr
+    arco = [(x, yc - math.sqrt(Rr * Rr - (x - xc) ** 2))
+            for x in (c * i / 32 for i in range(33))]
+    pts = [(0.0, YP0)] + arco + [(c, YP0)]
+    bisel(prisma('Balcon curvo sobre el porche', pts, Z_TECHO, Z_TECHO + 0.400,
+                 MAT['_revoco_fachada']))
+    # la caja de viga que baja del intrados en el extremo Oeste, delante del
+    # paño estrecho, con su cara lisa hacia la calle
+    bisel(caja('Caja de viga del porche', 0.000, 0.000, 1.100, YP0 - 0.012,
+               4.600, Z_TECHO + SOLAPE, MAT['_revoco_fachada']))
+
+    # ================================================ PARTE ESTE
+    # Segundo video y las dos fotos: escaparate con montante bajo, puerta
+    # retranqueada con persiana, lamas de ventilacion encima de la puerta y
+    # el costado Este del retranqueo en arenisca. No se ponen el rotulo, el
+    # toldo, la persiana ni el vinilo translucido del inquilino anterior.
+    R = RETRANQUEO
+    YE0, YE1 = 0.365, 0.425                 # perfileria en la linea de fachada
+    E0, E1 = 6.331, R['x0'] - DESPEGUE      # escaparate, hasta el hueco
+    D0, D1 = R['x0'], R['x1']               # la puerta, hasta el cuello
+    _paño_fachada('Fachada escaparate', E0, E1, 'x', YE0, YE1,
+                  travesaños=((2.040, 2.100),) + FA_TRAVESANOS)
+
+    # sobre la puerta, en la linea de fachada: banda de la persiana,
+    # travesaño, paño de lamas de 2 x 2, travesaño, faja y dintel. A la
+    # izquierda le vale el montante del escaparate.
+    def e(nm, u0, u1, z0, z1, mat=None, dd=0.0):
+        return _perfil(nm, u0, YE0 - dd, u1, YE1 + dd, z0, z1, mat)
+    e('Fachada puerta · montante', D1 - C, D1, R['alto'], FA_FAJA[0])
+    e('Fachada puerta · banda de la persiana', D0, D1 - C, R['alto'], 2.720)
+    for k, (z0, z1) in enumerate(FA_TRAVESANOS[1:]):
+        e(f'Fachada puerta · travesaño {k + 1}', D0, D1 - C, z0, z1)
+    e('Fachada puerta · faja', D0, D1, FA_FAJA[0], FA_FAJA[1], dd=0.006)
+    e('Fachada puerta · dintel', D0, D1, FA_FAJA[1], Z_TECHO, MAT['_revoco_fachada'])
+    L0, L1 = FA_TRAVESANOS[1][1], FA_TRAVESANOS[2][0]     # 2,78 .. 4,32
+    xm = (D0 + D1 - C) / 2
+    e('Fachada lamas · montante central', xm - C / 2, xm + C / 2, L0, L1)
+    e('Fachada lamas · travesaño', D0, xm - C / 2, 3.870, 3.930)
+    e('Fachada lamas · travesaño 2', xm + C / 2, D1 - C, 3.870, 3.930)
+    caja('Fachada lamas · fondo', D0, YE1 - 0.006, D1 - C, YE1, L0, L1, MAT['_negro'])
+    n_lamas = 0
+    for u0, u1 in ((D0, xm - C / 2), (xm + C / 2, D1 - C)):
+        for z0, z1 in ((L0, 3.870), (3.930, L1)):
+            paso = 0.045
+            k = max(1, int((z1 - z0) / paso))
+            paso = (z1 - z0) / k
+            for i in range(k):
+                zc = z0 + paso * (i + 0.5)
+                caja(f'Fachada lama {n_lamas + 1}', u0, YE0 + 0.008, u1,
+                     YE1 - 0.008, zc - 0.007, zc + 0.007, MAT['_perfil_crema'])
+                n_lamas += 1
+
+    # costado Este del retranqueo, forrado de arenisca como los machones; se
+    # para antes de las hojas de la puerta
+    aplacado('Aplacado retranqueo Este', D1 - d, R['y0'], D1 + SOLAPE, 1.375,
+             0.0, R['alto'], eje='y')
     return 1
 
 
