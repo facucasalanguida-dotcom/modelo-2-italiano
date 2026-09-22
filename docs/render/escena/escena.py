@@ -314,6 +314,19 @@ def _retranquear(cajas):
             s['x1'] = R['x1']                   # el pano macizo, hasta el cuello
 
 
+def _asentar(cajas):
+    """Apoyos del plano que no cuadran con el mueble que los sostiene."""
+    for s in cajas:
+        if (s['nombre'] or '').startswith('B4 ·'):
+            # La bandeja de la chopera es de 40 x 40 y la tabla de P2 solo
+            # tiene 39 de fondo (y 1,621..2,011). El plano dibuja la columna
+            # en y 1,701..2,101: 90 mm de bandeja volando por el Norte de la
+            # tabla, en el aire. Se centra sobre ella y quedan 5 mm por lado.
+            d = 1.616 - s['y0']
+            s['y0'] += d
+            s['y1'] += d
+
+
 DESPEGUE = 0.0005                 # medio milimetro
 
 
@@ -355,6 +368,7 @@ def arquitectura():
     """Muros, forjado, escalera, carpinteria y mobiliario fijo del plano."""
     j = json.load(open(os.path.join(PLANOS, 'MODELO_3D.json'), encoding='utf-8'))
     _retranquear(j['cajas'])
+    _asentar(j['cajas'])
     ajustes = _despegar(j['cajas'])
     print('  caras coplanarias despegadas:', len(ajustes), flush=True)
     n = 0
@@ -2127,6 +2141,10 @@ VISTAS = {
     # La camara anterior -(7,35 / 5,40) mirando a (9,35 / 6,60)- encuadraba
     # el costado ciego de la escalera: salia un paño de enlucido y nada mas.
     'escalera':     ((8.10, 2.55, 1.180), (9.40, 5.60, 0.480), 30.0),
+    # la chopera de cerveza, desde dentro de la barra. La columna de 3 grifos
+    # esta sobre la tabla de P2 (x 0,79..1,19 · y 1,62..2,02, de 0,94 a 1,49),
+    # con los barriles debajo y el ventanal Sur justo detras.
+    'chopera':      ((1.45, 3.30, 1.520), (0.99, 1.88, 1.180), 35.0),
     # la cocina desde dentro, con la campana y la linea de coccion
     'cocina':       ((2.16, 5.90, 1.600), (1.05, 8.70, 1.120), 21.0),
     # la cocina desde el paso de servicio, con la mampara en primer plano
