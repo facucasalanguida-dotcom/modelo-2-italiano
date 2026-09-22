@@ -1826,11 +1826,12 @@ def decoracion():
     # ---- plantas: terracota, el verde de la trattoria
     # delante de la puerta del baño no va ninguna: estorba el paso. Y delante
     # de la pared azzurro tampoco: ahi va la pared y el logo, nada mas.
-    for aid, x, y, h, g in (('potted_plant_01', 2.24, 3.15, 0.80, 20),
-                            ('potted_plant_01', 2.70, 6.85, 0.75, 60)):
-        poner(aid, x, y, 0.0, altura=h, giro=g)
-    for i, (x, y) in enumerate(((2.58, 8.45), (7.72, 8.45))):
-        poner('planter_pot_clay', x, y, 0.0, altura=0.52, giro=i * 40)
+    # Queda una sola, y es la unica que estaba en suelo libre. Las otras tres
+    # estaban metidas dentro de algo, que es como no estar:
+    #   (2,24 · 3,15) dentro de la vitrina V1 y de su motor
+    #   (2,58 · 8,45) dentro del asiento del sillon corrido
+    #   (7,72 · 8,45) dentro del baño de planta baja
+    poner('potted_plant_01', 2.70, 6.85, 0.0, altura=0.75, giro=60)
     # ---- fruta y pan en la mesa de trabajo de la cocina
     # Iban a la cota de la barra (0,900) y en x = 1,30 / 1,75, que es el
     # pasillo entre el fregadero (muere en x = 0,85) y la mesa refrigerada
