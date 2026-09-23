@@ -203,8 +203,12 @@ def _dispositivo():
             tarjetas = [d for d in pref.devices if d.type == tipo]
             if not tarjetas:
                 continue
+            # Solo la tarjeta. Con la CPU tambien, en un portatil la CPU apenas
+            # suma al lado de la grafica, pero comparte con ella la
+            # refrigeracion: se calentaba todo (75 grados de CPU) y la tarjeta
+            # podia acabar bajando el ritmo por temperatura.
             for d in pref.devices:
-                d.use = True          # tarjetas y CPU a la vez
+                d.use = (d.type == tipo)
             print(f'  GPU: {tipo} ->', ', '.join(d.name for d in tarjetas), flush=True)
             return 'GPU'
     except Exception as e:
