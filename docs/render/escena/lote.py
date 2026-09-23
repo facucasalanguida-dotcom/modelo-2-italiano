@@ -12,11 +12,16 @@ entre vista y vista.
 Sin --vistas hace las quince de la serie. Se salta las que ya esten hechas,
 asi que si se corta a media noche se relanza y sigue donde iba.
 
-El recorrido de 20 fotos, de la calle al almacen de arriba y en orden
-(CM_01_calle.png ... CM_20_almacen.png; las camaras estan en recorrido.py),
-a la maxima calidad:
+El recorrido de 26 fotos, de la calle al almacen de arriba y en orden
+(CM_01_calle.png ... CM_20_almacen.png; despues la barra y la cocina por
+dentro y las dos plantas cenitales, CM_21 ... CM_26; las camaras estan en
+recorrido.py), a la maxima calidad:
 
     python lote.py --recorrido --maxima --gpu --salida .\\recorrido
+
+Solo las seis ultimas (21-26), si las 20 primeras ya estan hechas:
+
+    python lote.py --vistas 21_barra_dentro,22_trasbarra,23_cocina_fondo,24_cocina_linea,25_planta_baja,26_planta_alta --gpu --spp 512 --salida .\\recorrido
 
 --maxima es 3840 x 2160, hasta 2048 muestras por pixel y un umbral de ruido
 de 0,005 (el normal es 0,010): el muestreo adaptativo deja de insistir en
@@ -36,7 +41,7 @@ import argparse, glob, os, shutil, subprocess, sys, time
 AQUI = os.path.dirname(os.path.abspath(__file__))
 ESCENA = os.path.join(AQUI, 'escena.py')
 sys.path.insert(0, AQUI)
-import recorrido  # noqa: E402  (solo datos: las 20 camaras del recorrido)
+import recorrido  # noqa: E402  (solo datos: las camaras del recorrido)
 
 SERIE = ['fachada', 'logo', 'escalera', 'escaparate', 'sillon', 'trasbarra',
          'cocina', 'barra', 'barra_frente', 'chopera', 'alta', 'alta_cowork',
@@ -71,7 +76,7 @@ def main():
     ap.add_argument('--salida', default=os.path.join(AQUI, 'renders'))
     ap.add_argument('--vistas', default='', help='coma: alta,cocina,...')
     ap.add_argument('--recorrido', action='store_true',
-                    help='las 20 fotos del recorrido, en orden (recorrido.py)')
+                    help='las 26 fotos del recorrido, en orden (recorrido.py)')
     ap.add_argument('--maxima', action='store_true',
                     help='maxima calidad: 4K, hasta 2048 muestras, umbral 0,005 y '
                          'recursos a lo mas alto (texturas 4K, cielo 16K) si caben')

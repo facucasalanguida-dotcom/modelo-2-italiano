@@ -1,4 +1,4 @@
-"""El recorrido de Casa Margot en 20 fotos, en el orden en que se visita.
+"""El recorrido de Casa Margot en fotos, en el orden en que se visita.
 
 Primero la calle, luego la puerta y despues todos los espacios, uno detras
 de otro: el recibidor con el logo, el comedor, el ventanal, la barra, la
@@ -20,6 +20,17 @@ Cada toma:
              monta. Ante la duda, True: cuesta un poco mas montarla, y sin
              ella por el ventanal se veria una calle vacia
     exp:     exposicion; None deja la de siempre (0,65). Fuera -1,30.
+    despl:   (opcional) desplazamiento vertical de la optica, para enseñar mas
+             arriba sin inclinar la camara: las verticales siguen rectas
+
+Despues de las 20 van seis mas (21-26): la barra y la cocina por dentro y
+dos planos cenitales, uno por planta. Esos llevan tipo='planta': camara
+ortografica mirando hacia abajo desde el centro 'centro', con 'ancho_m'
+metros de lado, que corta el edificio a la cota 'corte' -todo lo que queda
+por encima desaparece para la camara, no para la luz- y sale cuadrada.
+
+Solo las nuevas, sin repetir las que ya estan hechas:
+    python lote.py --vistas 21_barra_dentro,22_trasbarra,23_cocina_fondo,24_cocina_linea,25_planta_baja,26_planta_alta --gpu --spp 512 --salida .\\recorrido
 """
 
 Z_PA = 2.560          # suelo de la planta alta (el mismo que escena.Z_PA)
@@ -91,7 +102,33 @@ RECORRIDO = [
     # el almacen
     dict(nombre='20_almacen', calle=False, exp=None,
          ojo=(7.25, 7.76, Z_PA + 1.550), mira=(5.70, 8.75, Z_PA + 1.100), lente=16.0),
+    # ------------------------------------------------- la barra por dentro
+    # como la ve el camarero: por encima de las vitrinas, la sala y el ventanal
+    dict(nombre='21_barra_dentro', calle=True, exp=None,
+         ojo=(1.20, 3.05, 1.600), mira=(5.60, 3.40, 1.300), lente=20.0),
+    # la trasbarra: la cafetera con sus tazas, el estante de botellas y tarros,
+    # las jarras y la pizarra de la carta encima
+    dict(nombre='22_trasbarra', calle=True, exp=None,
+         ojo=(1.80, 2.60, 1.600), mira=(0.25, 3.70, 1.600), lente=16.0, despl=0.10),
+    # ------------------------------------------------ la cocina por dentro
+    # desde el fondo, junto a la campana, hacia el paso: la mesa de trabajo con
+    # la fruta delante, las neveras a la derecha y el vidrio de la L a la izquierda
+    dict(nombre='23_cocina_fondo', calle=False, exp=None,
+         ojo=(2.20, 7.55, 1.620), mira=(0.70, 5.40, 1.200), lente=18.0),
+    # la linea de coccion de frente, bajo la campana
+    dict(nombre='24_cocina_linea', calle=False, exp=None,
+         ojo=(1.45, 6.45, 1.600), mira=(1.35, 9.00, 1.250), lente=20.0),
+    # ---------------------------------------------- planos cenitales, cuadrados
+    # la planta baja entera, cortada a 2,00 (debajo de la campana y de los
+    # dinteles, que asi salen como huecos; encima de las lamparas)
+    dict(nombre='25_planta_baja', tipo='planta', calle=True, exp=None,
+         centro=(5.02, 4.15), ancho_m=10.40, corte=2.00),
+    # la planta alta entera, cortada a 2,00 de su suelo; por el vacio se ve la
+    # planta baja
+    dict(nombre='26_planta_alta', tipo='planta', calle=True, exp=None,
+         centro=(5.02, 4.15), ancho_m=10.40, corte=Z_PA + 2.00),
 ]
 
 NOMBRES = [t['nombre'] for t in RECORRIDO]
-assert len(NOMBRES) == len(set(NOMBRES)) == 20
+NUEVAS = NOMBRES[20:]
+assert len(NOMBRES) == len(set(NOMBRES)) == 26

@@ -3367,10 +3367,15 @@ VE_LA_CALLE = {'escaparate', 'fachada', 'calle', 'entrada', 'general', 'sala',
                'fachada_esquina', 'fachada_este', 'porche_intrados',
                'escaparate_alto', 'cubo_calle'}
 
-# el recorrido de 20 fotos (recorrido.py), de la calle al almacen de arriba
+# el recorrido (recorrido.py), de la calle al almacen de arriba, y sus dos
+# plantas cenitales: nombre -> (centro, lado en metros, cota de corte)
+PLANTAS = {}
 assert abs(RC.Z_PA - Z_PA) < 1e-9, 'recorrido.py tiene otra cota de planta alta'
 for _t in RC.RECORRIDO:
-    VISTAS[_t['nombre']] = (_t['ojo'], _t['mira'], _t['lente'])
+    if _t.get('tipo') == 'planta':
+        PLANTAS[_t['nombre']] = (_t['centro'], _t['ancho_m'], _t['corte'])
+    else:
+        VISTAS[_t['nombre']] = (_t['ojo'], _t['mira'], _t['lente'], _t.get('despl', 0.0))
     if _t['exp'] is not None:
         EXPOSICION[_t['nombre']] = _t['exp']
     if _t['calle']:
@@ -3428,10 +3433,37 @@ def construir(spp, ancho, alto, con_decoracion=True, con_glare=False,
     return sc
 
 
+def fondo_planta():
+    """Suelo neutro muy por debajo de todo, solo para las plantas cenitales.
+
+    Mirando hacia abajo, fuera del edificio -donde no hay vecinos ni acera-
+    la camara veria el suelo de la foto del cielo. Queda debajo de la acera
+    y de los suelos: desde las otras vistas no se ve.
+    """
+    if 'Fondo de las plantas' in bpy.data.objects:
+        return
+    caja('Fondo de las plantas', -60, -60, 60, 60, -0.40, -0.38,
+         MT.liso('Fondo de las plantas', MT.srgb('D9D6D0'), 0.9), 'Obra')
+
+
 def render(vista, salida, spp, ancho, alto, rapido=False):
     sc = bpy.context.scene
     mostrar_todo()
-    if vista in ORTOS:
+    if vista in PLANTAS:
+        (cx, cy), lado, corte = PLANTAS[vista]
+        fondo_planta()
+        cam = camara_orto(f'cam {vista}', (cx, cy, 30.0), (cx, cy, 0.0), lado)
+        # mirando recto hacia abajo, con el Norte arriba y la calle abajo
+        cam.rotation_euler = (0.0, 0.0, 0.0)
+        # El corte lo hace el plano de recorte cercano de la camara, que en una
+        # ortografica es un plano: lo que queda por encima de la cota no existe
+        # para la camara, pero si para la luz, que sigue entrando como en las
+        # fotos. Los muros cortados salen en negro, como en un plano.
+        cam.data.clip_start = 30.0 - corte
+        cam.data.clip_end = 31.0
+        print(f'    (planta cenital cortada a {corte:.2f})', flush=True)
+        alto = ancho                            # cuadrada
+    elif vista in ORTOS:
         ojo, mira, escala, corte = ORTOS[vista]
         cam = camara_orto(f'cam {vista}', ojo, mira, escala)
         n = ocultar_sobre(corte)
@@ -3439,8 +3471,8 @@ def render(vista, salida, spp, ancho, alto, rapido=False):
         if vista.startswith('planta'):          # las plantas, cuadradas
             alto = ancho
     else:
-        ojo, mira, lente = VISTAS[vista]
-        cam = camara(f'cam {vista}', ojo, mira, lente)
+        ojo, mira, lente, *resto = VISTAS[vista]
+        cam = camara(f'cam {vista}', ojo, mira, lente, despl=resto[0] if resto else 0.0)
     sc.camera = cam
     sc.view_settings.exposure = EXPOSICION.get(vista, EXPOSICION_BASE)
     sc.render.resolution_x = ancho
@@ -3482,7 +3514,7 @@ def main():
     # no contra el directorio de trabajo: '.\\renders' acababa en C:\\renders.
     a.salida = os.path.abspath(os.path.expanduser(a.salida))
     os.makedirs(a.salida, exist_ok=True)
-    todas = list(VISTAS) + list(ORTOS)
+    todas = list(VISTAS) + list(ORTOS) + list(PLANTAS)
     if a.vistas:
         vistas = [v.strip() for v in a.vistas.split(',') if v.strip() in todas]
     else:
