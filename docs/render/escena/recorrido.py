@@ -26,8 +26,9 @@ Cada toma:
 Despues de las 20 van seis mas (21-26): la barra y la cocina por dentro y
 dos planos cenitales, uno por planta. Esos llevan tipo='planta': camara
 ortografica mirando hacia abajo desde el centro 'centro', con 'ancho_m'
-metros de lado, que corta el edificio a la cota 'corte' -todo lo que queda
-por encima desaparece para la camara, no para la luz- y sale cuadrada.
+metros de lado, que corta el edificio a la cota 'corte' -lo que queda por
+encima desaparece, y el cielo entra desde arriba como en una maqueta- y
+sale cuadrada.
 
 Solo las nuevas, sin repetir las que ya estan hechas:
     python lote.py --vistas 21_barra_dentro,22_trasbarra,23_cocina_fondo,24_cocina_linea,25_planta_baja,26_planta_alta --gpu --spp 512 --salida .\\recorrido
@@ -123,13 +124,14 @@ RECORRIDO = [
     dict(nombre='24_cocina_linea', calle=False, exp=None,
          ojo=(1.45, 6.45, 1.600), mira=(1.35, 9.00, 1.250), lente=20.0),
     # ---------------------------------------------- planos cenitales, cuadrados
+    # con luz de dia desde arriba: exposicion de fuera, no la de dentro
     # la planta baja entera, cortada a 2,00 (debajo de la campana y de los
     # dinteles, que asi salen como huecos; encima de las lamparas)
-    dict(nombre='25_planta_baja', tipo='planta', calle=True, exp=None,
+    dict(nombre='25_planta_baja', tipo='planta', calle=True, exp=-1.20,
          centro=(5.02, 4.15), ancho_m=10.40, corte=2.00),
     # la planta alta entera, cortada a 2,00 de su suelo; por el vacio se ve la
     # planta baja
-    dict(nombre='26_planta_alta', tipo='planta', calle=True, exp=None,
+    dict(nombre='26_planta_alta', tipo='planta', calle=True, exp=-1.20,
          centro=(5.02, 4.15), ancho_m=10.40, corte=Z_PA + 2.00),
 ]
 

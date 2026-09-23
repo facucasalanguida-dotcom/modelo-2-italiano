@@ -3457,11 +3457,16 @@ def render(vista, salida, spp, ancho, alto, rapido=False):
         cam.rotation_euler = (0.0, 0.0, 0.0)
         # El corte lo hace el plano de recorte cercano de la camara, que en una
         # ortografica es un plano: lo que queda por encima de la cota no existe
-        # para la camara, pero si para la luz, que sigue entrando como en las
-        # fotos. Los muros cortados salen en negro, como en un plano.
+        # para la camara, y los muros cortados salen en negro, como en un
+        # plano. Y lo que queda entero por encima -techos, forjado, cubierta-
+        # fuera tambien para la luz: el cielo entra desde arriba, como en una
+        # maqueta, y se ven hasta los cuartos cerrados (el baño de abajo y el
+        # inodoro de arriba, que con sus techos puestos salian en negro).
         cam.data.clip_start = 30.0 - corte
         cam.data.clip_end = 31.0
-        print(f'    (planta cenital cortada a {corte:.2f})', flush=True)
+        n = ocultar_sobre(corte)
+        print(f'    (planta cenital cortada a {corte:.2f}: {n} piezas por encima fuera)',
+              flush=True)
         alto = ancho                            # cuadrada
     elif vista in ORTOS:
         ojo, mira, escala, corte = ORTOS[vista]
