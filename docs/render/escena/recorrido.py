@@ -124,14 +124,15 @@ RECORRIDO = [
     dict(nombre='24_cocina_linea', calle=False, exp=None,
          ojo=(1.45, 6.45, 1.600), mira=(1.35, 9.00, 1.250), lente=20.0),
     # ---------------------------------------------- planos cenitales, cuadrados
-    # con luz de dia desde arriba: exposicion de fuera, no la de dentro
+    # con luz de dia desde arriba, a pleno sol: exposicion mas baja que la de
+    # la calle, y distinta en cada planta porque el roble de abajo es mas claro
     # la planta baja entera, cortada a 2,00 (debajo de la campana y de los
     # dinteles, que asi salen como huecos; encima de las lamparas)
-    dict(nombre='25_planta_baja', tipo='planta', calle=True, exp=-1.20,
+    dict(nombre='25_planta_baja', tipo='planta', calle=True, exp=-2.40,
          centro=(5.02, 4.15), ancho_m=10.40, corte=2.00),
     # la planta alta entera, cortada a 2,00 de su suelo; por el vacio se ve la
     # planta baja
-    dict(nombre='26_planta_alta', tipo='planta', calle=True, exp=-1.20,
+    dict(nombre='26_planta_alta', tipo='planta', calle=True, exp=-1.60,
          centro=(5.02, 4.15), ancho_m=10.40, corte=Z_PA + 2.00),
 ]
 
