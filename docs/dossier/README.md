@@ -4,7 +4,11 @@
 de color, una pagina por render a sangre, y las tablas de equipamiento con
 la ficha de cada maquina como enlace clicable dentro del PDF.
 
-    python3 build_dossier.py --fotos ../render/casa_margot
+    python3 build_dossier.py --fotos CARPETA_CON_LAS_FOTOS --ancho 2560
+
+Las fotos son las del recorrido (`CM_01_calle.png` ... `CM_26_planta_alta.png`,
+camaras en `docs/render/escena/recorrido.py`). Entran las que esten en la
+carpeta: la que no este, se salta.
 
 Opciones:
 
@@ -32,5 +36,12 @@ Los colores salen de `docs/render/escena/materiales.py`, que es de donde los
 toma el render. Si alli cambia un albedo, hay que cambiarlo tambien en la
 lista PALETA de este script.
 
-El orden y el pie de cada vista estan en la lista VISTAS. Lo que no este en
-esa lista se añade detras, por nombre de fichero.
+El orden y el pie de cada vista estan en la lista VISTAS: el del recorrido,
+con la planta de cada piso delante de sus fotos y la barra y la cocina por
+dentro junto a las suyas. Lo que no este en esa lista se añade detras, por
+nombre de fichero.
+
+Las plantas cenitales (25 y 26) son cuadradas: van enteras, con su nombre,
+el Norte y una escala grafica de 3 m, que sale del ancho que abarca la foto
+en `recorrido.py`. Una foto mas apaisada que 16:9 va a todo lo ancho; las
+dos, encima de la banda del pie, que no las tape.

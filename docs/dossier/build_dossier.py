@@ -43,24 +43,47 @@ PALETA = [
     ('Terracota', 'A9714F', 'Maceteros'),
 ]
 
-# orden y pie de cada vista
+# Orden y pie de cada vista: las del recorrido (docs/render/escena/recorrido.py),
+# con la planta de cada piso delante de sus fotos y la barra y la cocina por
+# dentro junto a las suyas. La que no llegue en la carpeta de fotos se salta.
 VISTAS = [
-    ('fachada', 'La fachada desde la acera de enfrente'),
-    ('entrada', 'La entrada, nada más cruzar la puerta'),
-    ('logo', 'La pared del plotter, de la escalera a la puerta'),
-    ('general', 'Panorámica del local desde la esquina de entrada'),
-    ('barra', 'La barra en diagonal, con la trasbarra al fondo'),
-    ('barra_frente', 'El mostrador de frente, desde la sala'),
-    ('chopera', 'La barra por dentro, hacia la chopera'),
-    ('trasbarra', 'El punto de vista del camarero'),
-    ('cocina', 'La cocina: línea de cocción y campana'),
-    ('escaparate', 'El ventanal de doble altura desde dentro'),
-    ('escalera', 'La escalera, con LED en cada peldaño'),
-    ('sillon', 'El sillón corrido contra el muro Norte'),
-    ('alta', 'El altillo'),
-    ('alta_cowork', 'La mesa de cowork, ocho puestos'),
-    ('alta_vacio', 'Asomado al vacío de doble altura'),
+    ('01_calle', 'La fachada desde la acera de enfrente'),
+    ('02_porche', 'El porche cubierto y el ventanal, desde la acera'),
+    ('03_puerta', 'La entrada, con el escaparate al lado'),
+    ('25_planta_baja', 'Planta baja vista desde arriba'),
+    ('04_recibidor', 'Nada más entrar: la pared azzurro con el logo'),
+    ('05_comedor', 'El comedor desde la esquina de la entrada'),
+    ('06_ventanal', 'Las mesas del ventanal de doble altura'),
+    ('07_barra', 'La barra en diagonal, con el mostrador'),
+    ('08_pizarra', 'La trasbarra y la pizarra de la carta'),
+    ('21_barra_dentro', 'La sala desde dentro de la barra'),
+    ('22_trasbarra', 'La trasbarra de frente: la carta, las botellas y la cafetera'),
+    ('09_paso', 'El paso de servicio, de la barra a la cocina'),
+    ('10_cocina', 'La cocina: campana y línea de cocción'),
+    ('23_cocina_fondo', 'La cocina desde el fondo, hacia la barra'),
+    ('24_cocina_linea', 'La línea de cocción, bajo la campana'),
+    ('11_centro', 'El centro de la sala y el pilar del botellero'),
+    ('12_sillon', 'El sillón corrido contra el muro Norte'),
+    ('13_bano', 'El baño de la planta baja'),
+    ('14_escalera', 'La escalera, con LED en cada peldaño'),
+    ('26_planta_alta', 'Planta alta vista desde arriba'),
+    ('15_llegada', 'La planta alta, nada más subir la escalera'),
+    ('16_cowork', 'La mesa larga de cowork'),
+    ('17_redonda', 'La mesa redonda, con el antepecho y las lamas'),
+    ('18_vacio', 'Asomado al vacío de doble altura'),
+    ('19_aseo', 'El aseo de la planta alta'),
+    ('20_almacen', 'El almacén'),
 ]
+
+# Las plantas cenitales: metros que abarca el lado de la foto, para la
+# escala grafica. Salen de recorrido.py, que es de donde las saca el render.
+sys.path.insert(0, os.path.join(REPO, 'docs', 'render', 'escena'))
+try:
+    import recorrido
+    PLANTAS_M = {t['nombre']: t['ancho_m'] for t in recorrido.RECORRIDO
+                 if t.get('tipo') == 'planta'}
+except ImportError:
+    PLANTAS_M = {}
 
 
 def equipamiento():
@@ -143,7 +166,40 @@ def pagina_paleta(doc, doc_logo):
     logo(p, fitz.Rect(W - M - 104, M - 6, W - M, M + 30), doc_logo)
 
 
-def pagina_foto(doc, ruta, pie, n, total, ancho=0):
+BANDA = 30                               # alto de la banda del pie de foto
+
+
+def rosa_y_escala(p, x0, x1, y_img0, y_img1, lado_pt, metros):
+    """Norte y escala grafica en la franja libre a la derecha de una planta.
+
+    Las plantas salen con el Norte arriba: la camara cenital no gira y la
+    calle, al Sur, queda abajo.
+    """
+    cx = (x0 + x1) / 2
+    # la flecha del Norte
+    yb = y_img0 + 62
+    p.draw_polyline([fitz.Point(cx - 9, yb), fitz.Point(cx, yb - 30),
+                     fitz.Point(cx + 9, yb), fitz.Point(cx, yb - 8),
+                     fitz.Point(cx - 9, yb)],
+                    color=rgb(CREMA), fill=rgb(CREMA), width=0.6)
+    texto(p, cx - fitz.get_text_length('N', fontname='hebo', fontsize=12) / 2,
+          yb - 36, 'N', 12, CREMA, 'hebo')
+    # la escala: tramos de un metro, alternos
+    pm = lado_pt / metros
+    n = 3
+    xa = cx - n * pm / 2
+    yc = y_img1 - 24
+    for i in range(n):
+        p.draw_rect(fitz.Rect(xa + i * pm, yc, xa + (i + 1) * pm, yc + 5),
+                    color=rgb(CREMA), fill=rgb(CREMA) if i % 2 == 0 else rgb(TINTA),
+                    width=0.6)
+    for i in range(n + 1):
+        s = str(i) + (' m' if i == n else '')
+        texto(p, xa + i * pm - fitz.get_text_length(str(i), fontname='helv', fontsize=7.5) / 2,
+              yc + 15, s, 7.5, CREMA)
+
+
+def pagina_foto(doc, ruta, pie, n, total, ancho=0, clave=''):
     p = doc.new_page(width=W, height=H)
     fondo(p, TINTA)
     # a sangre, guardando proporcion: se ajusta al lado que sobre
@@ -158,15 +214,30 @@ def pagina_foto(doc, ruta, pie, n, total, ancho=0):
     iw, ih = im.size
     # Si la foto es 16:9 se lleva la pagina entera a sangre. Si viene
     # recortada -y alguna llega asi- se encaja dentro sin recortarla mas: la
-    # pagina ya se ha pintado del color de fondo y hace de marco.
+    # pagina ya se ha pintado del color de fondo y hace de marco. La mas
+    # apaisada va a todo lo ancho y la mas alta (las plantas, cuadradas)
+    # entera; las dos por encima de la banda del pie, que no las tape.
     prop = (iw / ih) / (W / H)
-    k = (max if 0.98 < prop < 1.02 else min)(W / iw, H / ih)
+    if 0.98 < prop < 1.02:
+        k = max(W / iw, H / ih)
+    elif prop > 1:
+        k = W / iw
+    else:
+        k = (H - BANDA - 28) / ih
     w, h = iw * k, ih * k
-    x0, y0 = (W - w) / 2, (H - h) / 2
+    x0 = (W - w) / 2
+    y0 = (H - h) / 2 if 0.98 < prop < 1.02 else (H - BANDA - h) / 2
     p.insert_image(fitz.Rect(x0, y0, x0 + w, y0 + h), filename=ruta)
+    if clave in PLANTAS_M and prop < 0.98:
+        # la planta: su nombre a la izquierda; Norte y escala a la derecha
+        titulo = clave.split('_', 1)[1].replace('_', ' ').upper()
+        texto(p, M, y0 + 22, titulo, 15, CREMA, 'hebo')
+        p.draw_line(fitz.Point(M, y0 + 34), fitz.Point(M + 58, y0 + 34),
+                    color=rgb(AZZURRO), width=1.4)
+        rosa_y_escala(p, x0 + w, W, y0, y0 + h, w, PLANTAS_M[clave])
     # banda de pie
-    p.draw_rect(fitz.Rect(0, H - 30, W, H), color=None, fill=rgb(TINTA))
-    p.draw_rect(fitz.Rect(0, H - 30, 4, H), color=None, fill=rgb(AZZURRO))
+    p.draw_rect(fitz.Rect(0, H - BANDA, W, H), color=None, fill=rgb(TINTA))
+    p.draw_rect(fitz.Rect(0, H - BANDA, 4, H), color=None, fill=rgb(AZZURRO))
     texto(p, 18, H - 11, pie, 9.5, CREMA)
     s = f'{n:02d} / {total:02d}'
     texto(p, W - 18 - fitz.get_text_length(s, fontname='helv', fontsize=9.5),
@@ -247,20 +318,21 @@ def main():
         for ext in ('.jpg', '.png'):
             r = os.path.join(a.fotos, f'CM_{clave}{ext}')
             if os.path.exists(r):
-                fotos.append((r, pie)); vistos.add(os.path.basename(r)); break
+                fotos.append((r, pie, clave)); vistos.add(os.path.basename(r)); break
     for f in sorted(os.listdir(a.fotos)):
         if f.lower().endswith(('.jpg', '.png')) and f not in vistos:
             base = os.path.splitext(f)[0]
             if base + '.png' in vistos or base + '.jpg' in vistos:
                 continue
-            fotos.append((os.path.join(a.fotos, f), base.replace('CM_', '')))
+            fotos.append((os.path.join(a.fotos, f), base.replace('CM_', ''),
+                          base.replace('CM_', '')))
     if not fotos:
         sys.exit('No hay fotos en ' + a.fotos)
 
     portada(doc, doc_logo, [a.titulo, a.lugar, f'{len(fotos)} vistas'])
     pagina_paleta(doc, doc_logo)
-    for i, (r, pie) in enumerate(fotos, 1):
-        pagina_foto(doc, r, pie, i, len(fotos), a.ancho)
+    for i, (r, pie, clave) in enumerate(fotos, 1):
+        pagina_foto(doc, r, pie, i, len(fotos), a.ancho, clave)
     if not a.sin_equipamiento:
         for sec, filas in equipamiento():
             paginas_equipamiento(doc, doc_logo, sec, filas,
