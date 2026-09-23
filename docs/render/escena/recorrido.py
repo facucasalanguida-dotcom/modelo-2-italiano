@@ -103,13 +103,17 @@ RECORRIDO = [
     dict(nombre='20_almacen', calle=False, exp=None,
          ojo=(7.25, 7.76, Z_PA + 1.550), mira=(5.70, 8.75, Z_PA + 1.100), lente=16.0),
     # ------------------------------------------------- la barra por dentro
-    # como la ve el camarero: por encima de las vitrinas, la sala y el ventanal
+    # como la ve el camarero: por encima de las vitrinas, la sala, la pared del
+    # logo y el ventanal. Entre las dos lamparas de la barra y con un 26 mm,
+    # que las deja justo fuera de cuadro: con menos, se comian media foto
     dict(nombre='21_barra_dentro', calle=True, exp=None,
-         ojo=(1.20, 3.05, 1.600), mira=(5.60, 3.40, 1.300), lente=20.0),
-    # la trasbarra: la cafetera con sus tazas, el estante de botellas y tarros,
-    # las jarras y la pizarra de la carta encima
+         ojo=(1.45, 2.93, 1.500), mira=(5.60, 2.93, 1.300), lente=26.0),
+    # la trasbarra de frente: la pizarra de la carta entera, el estante de
+    # botellas y tarros, la granizadora, las jarras y la cafetera. Del pasillo
+    # a la pared hay 1,6 m y la pizarra acaba a 3,40: pide gran angular (13 mm)
+    # y la optica desplazada hacia arriba, para no inclinar la camara
     dict(nombre='22_trasbarra', calle=True, exp=None,
-         ojo=(1.80, 2.60, 1.600), mira=(0.25, 3.70, 1.600), lente=16.0, despl=0.10),
+         ojo=(1.87, 3.62, 1.350), mira=(0.25, 3.62, 1.350), lente=13.0, despl=0.188),
     # ------------------------------------------------ la cocina por dentro
     # desde el fondo, junto a la campana, hacia el paso: la mesa de trabajo con
     # la fruta delante, las neveras a la derecha y el vidrio de la L a la izquierda
