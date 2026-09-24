@@ -410,6 +410,14 @@ def _vidrio_L(cajas):
             s['z1'] = Z_SOFITO - 0.012   # dentro del remate superior (2,280..2,310)
 
 
+# El hueco que queda entre el borde en rampante del cerramiento de la
+# escalera y el techo, junto al montante, lo quiere el cliente mas grande. El
+# borde baja 0,25 paralelo a si mismo -de 0,85 a 0,60 sobre la linea de los
+# peldaños- y el hueco llega mas lejos antes de morir en el techo. El montante
+# y el forjado que vuela por encima, con su acabado, no se tocan.
+BAJADA_HUECO_ESCALERA = 0.25
+
+
 def _panel_escalera(paneles):
     """El cerramiento del costado de la escalera arranca en el montante gris.
 
@@ -417,17 +425,24 @@ def _panel_escalera(paneles):
     superior en rampante de (3,939 / 1,209) a (5,84 / 2,31). En obra empieza
     en el montante, a mitad del 5.º peldaño, y los peldaños de delante quedan
     vistos de lado. Se recorta por el Sur hasta la cara Norte del montante,
-    siguiendo el mismo rampante; el resto del panel no cambia.
+    siguiendo el mismo rampante, y el rampante baja BAJADA_HUECO_ESCALERA
+    con la misma pendiente: el borde toca el techo mas al Norte. El resto del
+    panel no cambia.
     """
     y_ini = PILAR_ESCALERA['y1']
+    pend = (2.310 - 1.209) / (5.84 - 3.939)
+    b = BAJADA_HUECO_ESCALERA
     for s in paneles:
         if s['nombre'] != 'Caja de escalera (planta baja)':
             continue
         pts = [tuple(p) for p in s['pts_yz']]
-        assert (3.939, 0.0) in pts and (3.939, 1.209) in pts, pts
-        z_ini = 1.209 + (y_ini - 3.939) * (2.310 - 1.209) / (5.84 - 3.939)
+        assert ((3.939, 0.0) in pts and (3.939, 1.209) in pts
+                and (5.84, 2.31) in pts), pts
+        z_ini = 1.209 - b + (y_ini - 3.939) * pend
+        y_techo = 5.84 + b / pend
         s['pts_yz'] = [[y_ini, 0.0] if p == (3.939, 0.0) else
                        [y_ini, round(z_ini, 4)] if p == (3.939, 1.209) else
+                       [round(y_techo, 4), 2.31] if p == (5.84, 2.31) else
                        list(p) for p in pts]
 
 
@@ -3248,7 +3263,7 @@ VISTAS = {
     'escalera_obra': ((6.55, 2.35, 1.290), (8.49, 4.64, 1.290), 26.0),
     # La escalera de costado, tal como se ve desde la sala. Ojo: el costado
     # Oeste lo cierra CAJA_ESC_PB, un panel cuyo borde superior sigue el
-    # rampante (1,209 en el arranque, 2,310 a partir de y 5,84), asi que de
+    # rampante (ver _panel_escalera: hoy llega al techo en y 6,27), asi que de
     # costado se ve ese panel y el tramo solo asoma por encima. La camara
     # anterior, en (5,20 / 5,70), tenia P3 a 44 cm y solo sacaba listones;
     # esta esta al Norte de P3 y ve el 93 % del costado (comprobado con rayos).
