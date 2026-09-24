@@ -412,11 +412,11 @@ def _vidrio_L(cajas):
 
 # El hueco que queda entre el borde en rampante del cerramiento de la
 # escalera y el techo, junto al montante, lo quiere el cliente mas grande. El
-# borde baja 0,55 paralelo a si mismo -de 0,85 a 0,30 sobre la linea de los
-# peldaños; primero fueron 0,25 y pidio 0,30 mas- y el hueco llega mas lejos
-# antes de morir en el techo. El montante y el forjado que vuela por encima,
-# con su acabado, no se tocan.
-BAJADA_HUECO_ESCALERA = 0.55
+# borde baja 0,75 paralelo a si mismo -de 0,85 a 0,10 sobre la linea de los
+# peldaños: queda como una zanca y desde la sala se ve casi toda la
+# escalera- y el hueco llega hasta y 7,13 antes de morir en el techo. El
+# montante y el forjado que vuela por encima, con su acabado, no se tocan.
+BAJADA_HUECO_ESCALERA = 0.75
 
 
 def _panel_escalera(paneles):
@@ -3264,7 +3264,7 @@ VISTAS = {
     'escalera_obra': ((6.55, 2.35, 1.290), (8.49, 4.64, 1.290), 26.0),
     # La escalera de costado, tal como se ve desde la sala. Ojo: el costado
     # Oeste lo cierra CAJA_ESC_PB, un panel cuyo borde superior sigue el
-    # rampante (ver _panel_escalera: hoy llega al techo en y 6,79), asi que de
+    # rampante (ver _panel_escalera: hoy llega al techo en y 7,13), asi que de
     # costado se ve ese panel y el tramo solo asoma por encima. La camara
     # anterior, en (5,20 / 5,70), tenia P3 a 44 cm y solo sacaba listones;
     # esta esta al Norte de P3 y ve el 93 % del costado (comprobado con rayos).
