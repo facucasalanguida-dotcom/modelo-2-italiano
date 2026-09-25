@@ -1509,13 +1509,14 @@ def _toldo(nombre, x0, x1, yf, z_cap, fondo, lona, barras, faldon):
     tela = MT.liso(f'{nombre} · lona', MT.srgb(lona), 0.85, sheen_=True)
     y0, y1 = yf - fondo, yf - DESPEGUE
     obs = []
-    # capota: tapa y frente, con sus dos testeros
+    # capota: tapa y un frente corto, con sus dos testeros. Es un semicofre:
+    # el rollo de lona asoma por debajo del frente, como en las fotos.
     obs.append(caja(f'{nombre} · capota', x0, y0, x1, y1, z_cap - 0.020, z_cap, al))
     obs.append(caja(f'{nombre} · capota frente', x0, y0, x1, y0 + 0.015,
-                    z_cap - 0.130, z_cap - 0.020, al))
+                    z_cap - 0.075, z_cap - 0.020, al))
     for k, xa in enumerate((x0, x1 - 0.008)):
         obs.append(caja(f'{nombre} · testero {k + 1}', xa, y0 + 0.015, xa + 0.008, y1,
-                        z_cap - 0.130, z_cap - 0.020, al))
+                        z_cap - 0.150, z_cap - 0.020, al))
         # soporte a la pared, detras del rollo
         xs = x0 + 0.04 if k == 0 else x1 - 0.09
         obs.append(caja(f'{nombre} · soporte {k + 1}', xs, yf - 0.050, xs + 0.050, y1,
@@ -1525,10 +1526,10 @@ def _toldo(nombre, x0, x1, yf, z_cap, fondo, lona, barras, faldon):
     rollo = cilindro(f'{nombre} · lona enrollada', 0.0, 0.0, r, 0.0,
                      x1 - x0 - 0.020, tela, 'Obra', 32)
     rollo.rotation_euler = (0.0, math.pi / 2, 0.0)
-    rollo.location = (x0 + 0.010, yf - fondo / 2, z_cap - 0.080)
+    rollo.location = (x0 + 0.010, yf - fondo / 2, z_cap - 0.095)
     obs.append(rollo)
     # barras de carga, bajo el rollo, y su faldon por la cara de fuera
-    zb = z_cap - 0.080 - r                  # debajo del rollo
+    zb = z_cap - 0.095 - r                  # debajo del rollo
     for k, (a0, a1) in enumerate(barras):
         obs.append(caja(f'{nombre} · barra de carga {k + 1}', a0, y0 + 0.010, a1,
                         y0 + 0.070, zb - 0.055, zb, al))
