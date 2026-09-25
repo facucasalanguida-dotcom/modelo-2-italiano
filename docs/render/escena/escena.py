@@ -1503,13 +1503,14 @@ ALUMINIO_TOLDO = 'EEEDEA'
 # variable salen como estan hoy: recogidos y con sus colores. Son DOS toldos,
 # cada uno de una pieza:
 #   - el grande, de todo el ventanal: del extremo Oeste (la piedra oscura) a
-#     P5, a unos 3,97 de altura -lo que pide su vuelo a 30 grados-, con una
-#     sola lona y una sola barra de carga,
+#     P5, desde el travesaño del medio del ventanal (2,72..2,78), donde hoy
+#     tiene la capota, con una sola lona y una sola barra de carga,
 #     y en su costado Oeste una cortina lateral que cuelga de la lona hasta
 #     el suelo, de la fachada al poste, con una ventana transparente
 #   - el de la entrada, bajo la capota de hoy, de P5 al cuello de la
-#     medianera, bajo las lamas. Su capota no puede subir, asi que a 30
-#     grados vuela 1,0 y no llega a la linea del grande.
+#     medianera, bajo las lamas.
+# A 30 grados y con la barra a 2,08, los dos vuelan lo que da su capota:
+# 1,07 el grande y 0,99 el de la entrada.
 # Los dos caen 30 grados y llevan la barra de carga a 2,08, con un faldon de
 # 0,22 que queda a 1,85 del suelo, y se apoyan
 # delante en postes blancos: el grande en su extremo Oeste, a la altura de P2
@@ -1749,10 +1750,11 @@ def toldos():
     # de la cara del aplacado (1,535), una lona, una barra de carga, tres
     # postes y la cortina lateral en su costado Oeste
     tg = math.tan(math.radians(CAIDA_TOLDOS))
-    grande = hasta_la_linea(1.535, 0.180, 0.040, 5.680, (0.075, 1.895, 5.650))
-    grande['cortina'] = 'oeste'
-    # la capota, tan alta como pida el vuelo hasta la linea a esa caida
-    z_cap = zF + grande['salida'] * tg + 0.130
+    # la capota sobre el travesaño del medio (2,72..2,78), como la de hoy;
+    # a esa caida vuela lo que da
+    z_cap = 2.830
+    grande = dict(a0=0.040, a1=5.680, salida=(z_cap - 0.130 - zF) / tg, z=zF,
+                  postes=(0.075, 1.895, 5.650), cortina='oeste')
     n = _toldo('Toldo grande', 0.020, 5.700, 1.535, z_cap, 0.180, az,
                barras=(grande,), faldon=f, logo=True, logo_arriba=True)
     # el de la entrada: bajo las lamas, de P5 al cuello, una lona y tres
