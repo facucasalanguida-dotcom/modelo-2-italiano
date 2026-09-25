@@ -1503,21 +1503,21 @@ ALUMINIO_TOLDO = 'EEEDEA'
 # variable salen como estan hoy: recogidos y con sus colores. Son DOS toldos,
 # cada uno de una pieza:
 #   - el grande, de todo el ventanal: del extremo Oeste (la piedra oscura) a
-#     P5, a 3,2 de altura, con una sola lona y una sola barra de carga,
+#     P5, a 3,4 de altura, con una sola lona y una sola barra de carga,
 #     y en su costado Oeste una cortina lateral que cuelga de la lona hasta
 #     el suelo, de la fachada al poste, con una ventana transparente
 #   - el de la entrada, bajo la capota de hoy, de P5 al cuello de la
 #     medianera, bajo las lamas.
 # Los dos llevan la barra de carga en una misma linea paralela a la fachada,
-# a 2,20, con bastante caida (unos 16 y 14 grados) y un faldon de 0,25 que
-# queda a 1,94 del suelo, y se apoyan
+# a 2,08, con mucha caida (unos 21 y 17 grados) y un faldon de 0,22 que
+# queda a 1,85 del suelo, y se apoyan
 # delante en postes blancos: el grande en su extremo Oeste, a la altura de P2
 # y en su extremo Este; el de la entrada en sus dos extremos y delante de la
 # puerta.
 TOLDOS_ABIERTOS = os.environ.get('CM_TOLDOS', '') == 'abiertos'
 Y_FRENTE_TERRAZA = -1.600            # linea de las barras de carga de A, B y C
-Z_BARRA_TERRAZA = 2.200              # lo alto de esas barras
-FALDON_ABIERTO = 0.250               # el faldon que lleva el logo
+Z_BARRA_TERRAZA = 2.080              # lo alto de esas barras
+FALDON_ABIERTO = 0.220               # el faldon que lleva el logo
 POSTE_R = 0.024                      # postes de aluminio blanco, de 48 mm
 
 
@@ -1748,7 +1748,7 @@ def toldos():
     # postes y la cortina lateral en su costado Oeste
     grande = hasta_la_linea(1.535, 0.180, 0.040, 5.680, (0.075, 1.895, 5.650))
     grande['cortina'] = 'oeste'
-    n = _toldo('Toldo grande', 0.020, 5.700, 1.535, 3.200, 0.180, az,
+    n = _toldo('Toldo grande', 0.020, 5.700, 1.535, 3.400, 0.180, az,
                barras=(grande,), faldon=f, logo=True, logo_arriba=True)
     # el de la entrada: bajo las lamas, de P5 al cuello, una lona y tres
     # postes, el del medio delante de la puerta
