@@ -1509,9 +1509,10 @@ ALUMINIO_TOLDO = 'EEEDEA'
 #     el suelo, de la fachada al poste, con una ventana transparente
 #   - el de la entrada, bajo la capota de hoy, de P5 al cuello de la
 #     medianera, bajo las lamas.
-# A 30 grados y con la barra a 2,08, los dos vuelan lo que da su capota:
-# 1,07 el grande y 0,99 el de la entrada.
-# Los dos caen 30 grados y llevan la barra de carga a 2,08, con un faldon de
+# El grande llega hasta la linea de la terraza (-1,60), como en la foto de
+# 2021: vuela 3,05 y, con la barra a 2,08, cae unos 11,6 grados. El de la
+# entrada cae 30 grados y vuela lo que da su capota, 0,99.
+# Los dos llevan la barra de carga a 2,08, con un faldon de
 # 0,22 que queda a 1,85 del suelo, y se apoyan
 # delante en postes blancos: el grande en su extremo Oeste, a la altura de P2
 # y en su extremo Este; el de la entrada en sus dos extremos y delante de la
@@ -1520,7 +1521,7 @@ TOLDOS_ABIERTOS = os.environ.get('CM_TOLDOS', '') == 'abiertos'
 Y_FRENTE_TERRAZA = -1.600            # linea de las barras de carga de A, B y C
 Z_BARRA_TERRAZA = 2.080              # lo alto de esas barras
 FALDON_ABIERTO = 0.220               # el faldon que lleva el logo
-CAIDA_TOLDOS = 30.0                  # grados de pendiente de las lonas
+CAIDA_TOLDOS = 30.0                  # grados de pendiente del de la entrada
 POSTE_R = 0.024                      # postes de aluminio blanco, de 48 mm
 
 
@@ -1750,12 +1751,12 @@ def toldos():
     # de la cara del aplacado (1,535), una lona, una barra de carga, tres
     # postes y la cortina lateral en su costado Oeste
     tg = math.tan(math.radians(CAIDA_TOLDOS))
-    # la capota sobre el travesaño del medio (2,72..2,78), como la de hoy;
-    # a esa caida vuela lo que da
-    z_cap = 2.830
-    grande = dict(a0=0.040, a1=5.680, salida=(z_cap - 0.130 - zF) / tg, z=zF,
-                  postes=(0.075, 1.895, 5.650), cortina='oeste')
-    n = _toldo('Toldo grande', 0.020, 5.700, 1.535, z_cap, 0.180, az,
+    # la capota sobre el travesaño del medio (2,72..2,78), como la de hoy, y
+    # la barra en la linea de la terraza, hasta donde llegaba en la foto: la
+    # caida es la que dan las dos alturas, unos 11,6 grados
+    grande = dict(hasta_la_linea(1.535, 0.180, 0.040, 5.680, (0.075, 1.895, 5.650)),
+                  cortina='oeste')
+    n = _toldo('Toldo grande', 0.020, 5.700, 1.535, 2.830, 0.180, az,
                barras=(grande,), faldon=f, logo=True, logo_arriba=True)
     # el de la entrada: bajo las lamas, de P5 al cuello, una lona y tres
     # postes, el del medio delante de la puerta
