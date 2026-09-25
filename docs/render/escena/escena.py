@@ -1497,13 +1497,60 @@ LONA_CREMA = 'D8C7A3'
 FRANJA_ROJA = 'C0452B'
 ALUMINIO_TOLDO = 'EEEDEA'
 
+# Propuesta: con CM_TOLDOS=abiertos los dos toldos salen DESPLEGADOS, en lona
+# azzurro Napoli y con el logo de Casa Margot en el faldon. Los brazos,
+# el vuelo y la caida son los de un toldo de brazos articulados normal; el
+# vuelo y la caida se ajustan para que el faldon quede a 2,20 del suelo, la
+# altura libre que piden las ordenanzas sobre la acera. Sin la variable, los
+# toldos salen como estan: recogidos y con sus colores.
+TOLDOS_ABIERTOS = os.environ.get('CM_TOLDOS', '') == 'abiertos'
+SALIDA_TOLDO = 1.50                  # vuelo desplegado, en horizontal
+CAIDA_TOLDO = 7.0                    # grados de pendiente de la lona
+FALDON_ABIERTO = 0.250               # el faldon que lleva el logo
 
-def _toldo(nombre, x0, x1, yf, z_cap, fondo, lona, barras, faldon):
-    """Un toldo recogido en semicofre contra la fachada, que da al Sur (-Y).
+
+def _barra_yz(nombre, a, b, grueso, x0, x1, mat):
+    """Un perfil recto de a a b en el plano YZ, de grueso dado, entre x0 y x1."""
+    (ya, za), (yb, zb) = a, b
+    dy, dz = yb - ya, zb - za
+    L = math.hypot(dy, dz)
+    ny, nz = -dz / L * grueso / 2, dy / L * grueso / 2
+    pts = [(ya + ny, za + nz), (yb + ny, zb + nz), (yb - ny, zb - nz), (ya - ny, za - nz)]
+    return panel(nombre, pts, x0, x1, mat)
+
+
+def _logo_faldon(nombre, xc, y, zc, alto):
+    """El logo de Casa Margot, centrado en un faldon que mira a la calle (-Y)."""
+    if not os.path.exists(LOGO):
+        return None
+    w_px, h_px = _medida_png(LOGO)
+    ancho = alto * w_px / h_px
+    me = bpy.data.meshes.new(nombre)
+    me.from_pydata([(xc - ancho / 2, y, zc - alto / 2), (xc + ancho / 2, y, zc - alto / 2),
+                    (xc + ancho / 2, y, zc + alto / 2), (xc - ancho / 2, y, zc + alto / 2)],
+                   [], [(0, 1, 2, 3)])
+    me.uv_layers.new()
+    for i, c in enumerate(((0, 0), (1, 0), (1, 1), (0, 1))):
+        me.uv_layers[0].data[i].uv = c
+    me.materials.append(MT.calca('Logo del toldo', LOGO, rug=0.7))
+    ob = bpy.data.objects.new(nombre, me)
+    coleccion('Obra').objects.link(ob)
+    return ob
+
+
+def _toldo(nombre, x0, x1, yf, z_cap, fondo, lona, barras, faldon,
+           salida=0.0, caida=0.0, logo=False):
+    """Un toldo de brazos articulados en semicofre, en la fachada que da al
+    Sur (-Y).
 
     x0..x1: la capota; yf: la cara de la fachada; z_cap: lo alto de la
-    capota; fondo: lo que vuela; barras: tramos (a0, a1) de barra de carga;
-    faldon: [(alto, color), ...] de arriba abajo.
+    capota; fondo: lo que vuela la capota; barras: tramos (a0, a1) de barra
+    de carga, uno por toldo; faldon: [(alto, color), ...] de arriba abajo.
+    Con salida = 0 esta recogido: la barra de carga bajo el rollo y los
+    brazos plegados detras de ella, contra la pared. Con salida > 0 esta
+    desplegado: la lona baja con la pendiente 'caida' hasta la barra de
+    carga, que sostienen dos brazos por toldo, y el faldon cuelga de ella;
+    con logo, el de Casa Margot centrado en cada faldon.
     """
     al = MT.liso(f'{nombre} · aluminio', MT.srgb(ALUMINIO_TOLDO), 0.35)
     tela = MT.liso(f'{nombre} · lona', MT.srgb(lona), 0.85, sheen_=True)
@@ -1521,39 +1568,79 @@ def _toldo(nombre, x0, x1, yf, z_cap, fondo, lona, barras, faldon):
         xs = x0 + 0.04 if k == 0 else x1 - 0.09
         obs.append(caja(f'{nombre} · soporte {k + 1}', xs, yf - 0.050, xs + 0.050, y1,
                         z_cap - 0.210, z_cap - 0.020, al))
-    # el tubo con la lona enrollada, entre los testeros
-    r = 0.050
+    # el tubo con la lona enrollada, entre los testeros; desplegado queda
+    # casi solo el tubo
+    r = 0.050 if salida <= 0 else 0.035
+    yr, zr = yf - fondo / 2, z_cap - 0.095
     rollo = cilindro(f'{nombre} · lona enrollada', 0.0, 0.0, r, 0.0,
                      x1 - x0 - 0.020, tela, 'Obra', 32)
     rollo.rotation_euler = (0.0, math.pi / 2, 0.0)
-    rollo.location = (x0 + 0.010, yf - fondo / 2, z_cap - 0.095)
+    rollo.location = (x0 + 0.010, yr, zr)
     obs.append(rollo)
-    # barras de carga, bajo el rollo, y su faldon por la cara de fuera
-    zb = z_cap - 0.095 - r                  # debajo del rollo
+    if salida <= 0:
+        yb, zb = y0 + 0.070, zr - r         # la barra, debajo del rollo
+    else:
+        yb = yr - salida
+        zb = zr - r - salida * math.tan(math.radians(caida))
+    logos = []
     for k, (a0, a1) in enumerate(barras):
-        obs.append(caja(f'{nombre} · barra de carga {k + 1}', a0, y0 + 0.010, a1,
-                        y0 + 0.070, zb - 0.055, zb, al))
+        if salida > 0:
+            # la lona, del rollo a la barra de carga
+            obs.append(_barra_yz(f'{nombre} · lona {k + 1}', (yr, zr - r), (yb + 0.035, zb),
+                                 0.004, a0, a1, tela))
+            # dos brazos por toldo, de la pared a la barra, con el codo casi
+            # abierto: arrancan bajo el rollo y suben un poco en el codo
+            hombro = (yf - 0.030, zr - 0.220)
+            punta = (yb + 0.030, zb - 0.030)
+            codo = ((hombro[0] + punta[0]) / 2, (hombro[1] + punta[1]) / 2 + 0.060)
+            for j, xa in enumerate((a0 + 0.080, a1 - 0.080 - 0.035)):
+                obs.append(_barra_yz(f'{nombre} · brazo {k + 1}.{j + 1} a', hombro, codo,
+                                     0.040, xa, xa + 0.035, al))
+                obs.append(_barra_yz(f'{nombre} · brazo {k + 1}.{j + 1} b', codo, punta,
+                                     0.036, xa, xa + 0.035, al))
+                obs.append(caja(f'{nombre} · hombro {k + 1}.{j + 1}', xa - 0.010, yf - 0.060,
+                                xa + 0.045, y1, zr - 0.260, zr - 0.180, al))
+        # la barra de carga y su faldon por la cara de fuera
+        obs.append(caja(f'{nombre} · barra de carga {k + 1}', a0, yb - 0.060, a1,
+                        yb, zb - 0.055, zb, al))
         z = zb - 0.015
         for i, (alto, color) in enumerate(faldon):
             m = tela if color == lona else MT.liso(f'{nombre} · faldon {i}',
                                                    MT.srgb(color), 0.85, sheen_=True)
-            obs.append(caja(f'{nombre} · faldon {k + 1}.{i + 1}', a0, y0 + 0.0055, a1,
-                            y0 + 0.0095, z - alto, z, m))
+            obs.append(caja(f'{nombre} · faldon {k + 1}.{i + 1}', a0, yb - 0.0645, a1,
+                            yb - 0.0605, z - alto, z, m))
             z -= alto
+        if logo:
+            alto_f = sum(a for a, _ in faldon)
+            lg = _logo_faldon(f'{nombre} · logo {k + 1}', (a0 + a1) / 2, yb - 0.0655,
+                              zb - 0.015 - alto_f / 2, alto_f * 0.70)
+            if lg:
+                logos.append(lg)
     for o in obs:
         if o is not rollo:
             bisel(o, 0.0015, segs=2)
-    return len(obs)
+    return len(obs) + len(logos)
 
 
 def toldos():
-    """Los dos toldos de la fachada, recogidos, donde estan en la realidad."""
+    """Los dos toldos de la fachada, donde estan en la realidad.
+
+    Recogidos y con sus colores, como en las fotos; con CM_TOLDOS=abiertos,
+    desplegados, en azzurro Napoli y con el logo en el faldon.
+    """
+    if TOLDOS_ABIERTOS:
+        az = MT.AZZURRO
+        abierto = dict(salida=SALIDA_TOLDO, caida=CAIDA_TOLDO, logo=True)
+        f_ent = f_ven = ((FALDON_ABIERTO, az),)
+        l_ent = l_ven = az
+    else:
+        abierto = {}
+        f_ent, l_ent = ((0.220, LONA_ROJA),), LONA_ROJA
+        f_ven, l_ven = ((0.120, LONA_CREMA), (0.030, FRANJA_ROJA)), LONA_CREMA
     n = _toldo('Toldo de la entrada', 6.362, 9.710 - DESPEGUE, 0.365, 2.780, 0.200,
-               LONA_ROJA, barras=((6.500, 7.860), (8.420, 9.580)),
-               faldon=((0.220, LONA_ROJA),))
+               l_ent, barras=((6.500, 7.860), (8.420, 9.580)), faldon=f_ent, **abierto)
     n += _toldo('Toldo del ventanal', 1.905, 5.700, 1.561, 2.830, 0.180,
-                LONA_CREMA, barras=((1.925, 5.680),),
-                faldon=((0.120, LONA_CREMA), (0.030, FRANJA_ROJA)))
+                l_ven, barras=((1.925, 5.680),), faldon=f_ven, **abierto)
     return n
 
 
@@ -3504,7 +3591,8 @@ def construir(spp, ancho, alto, con_decoracion=True, con_glare=False,
     print('  caras de columna forradas:', forro_pilares(), flush=True)
     fachada_real()
     print('  fachada Oeste rehecha desde el video', flush=True)
-    print('  toldos de la fachada, recogidos:', toldos(), 'piezas', flush=True)
+    print('  toldos de la fachada,', 'DESPLEGADOS (azzurro y logo):' if TOLDOS_ABIERTOS
+          else 'recogidos:', toldos(), 'piezas', flush=True)
     print('  pilar de la escalera:', pilar_escalera(), flush=True)
     cocina_inox()
     remate_vidrio_L()
