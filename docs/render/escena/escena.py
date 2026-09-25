@@ -1498,23 +1498,21 @@ FRANJA_ROJA = 'C0452B'
 ALUMINIO_TOLDO = 'EEEDEA'
 
 # Propuesta: con CM_TOLDOS=abiertos los toldos salen DESPLEGADOS como los
-# tenia el local en 2021 (fotos de la terraza), en lona azzurro Napoli y con
-# el logo de Casa Margot en cada faldon. Sin la variable salen como estan hoy:
-# recogidos y con sus colores. En 2021, de Oeste a Este:
-#   A  extremo Oeste (aplacado SO, paño estrecho y P2), a la altura del
-#      travesaño de 2,72: toldo de brazos hasta la linea de la terraza.
-#   B  ventanal de la cafeteria, en el travesaño de 2,72 (es el toldo crema
-#      que hoy esta recogido, con el mismo faldon): hasta la misma linea.
-#   C  escaparate, bajo las lamas (el de la izquierda de la capota roja de
-#      hoy): hasta la misma linea.
-#   D  puerta, bajo la misma capota que C (el de la derecha de hoy): tambien
-#      hasta la misma linea.
-# Los cuatro llevan la barra de carga en una misma linea paralela a la
-# fachada, a 2,30, con un faldon hondo que queda a unos 2,0 del suelo, y se
-# apoyan delante en postes blancos: uno entre A y B, otro al final de B, uno
-# al principio de C, uno entre C y D -el que queda delante de la puerta- y
-# otro al final de D. A no lleva poste en su extremo Oeste. A va anclado mas
-# alto que B, a unos 3 m, en la piedra del extremo Oeste y en P2.
+# tenia el local (fotos de la terraza de 2017 y 2021), en lona azzurro Napoli
+# y con el logo de Casa Margot en el faldon y encima de la lona. Sin la
+# variable salen como estan hoy: recogidos y con sus colores. Son DOS toldos,
+# cada uno de una pieza:
+#   - el grande, de todo el ventanal: del extremo Oeste (la piedra oscura) a
+#     P5, a unos 2,9 de altura, con una sola lona y una sola barra de carga,
+#     y en su costado Oeste una cortina lateral que cuelga de la lona hasta
+#     el suelo, de la fachada al poste, con una ventana transparente
+#   - el de la entrada, bajo la capota de hoy, de P5 al cuello de la
+#     medianera, bajo las lamas.
+# Los dos llevan la barra de carga en una misma linea paralela a la fachada,
+# a 2,30, con un faldon hondo que queda a unos 2,0 del suelo, y se apoyan
+# delante en postes blancos: el grande en su extremo Oeste, a la altura de P2
+# y en su extremo Este; el de la entrada en sus dos extremos y delante de la
+# puerta.
 TOLDOS_ABIERTOS = os.environ.get('CM_TOLDOS', '') == 'abiertos'
 Y_FRENTE_TERRAZA = -1.600            # linea de las barras de carga de A, B y C
 Z_BARRA_TERRAZA = 2.300              # lo alto de esas barras
@@ -1551,7 +1549,73 @@ def _logo_faldon(nombre, xc, y, zc, alto):
     return ob
 
 
-def _toldo(nombre, x0, x1, yf, z_cap, fondo, lona, barras, faldon, logo=False):
+def _logo_lona(nombre, xc, a, b, ancho):
+    """El logo encima de la lona, a lo largo de su pendiente, de a (arriba,
+    en la fachada) a b (abajo, en la barra), en el plano YZ; se lee desde
+    arriba con la fachada al fondo."""
+    if not os.path.exists(LOGO):
+        return None
+    w_px, h_px = _medida_png(LOGO)
+    alto = ancho * h_px / w_px
+    (ya, za), (yb, zb) = a, b
+    L = math.hypot(yb - ya, zb - za)
+    dy, dz = (yb - ya) / L, (zb - za) / L        # hacia la calle y hacia abajo
+    ny, nz = -dz, dy                              # normal hacia arriba
+    if nz < 0:
+        ny, nz = -ny, -nz
+    cy, cz = (ya + yb) / 2 + ny * 0.004, (za + zb) / 2 + nz * 0.004
+    h = alto / 2
+    v = [(xc - ancho / 2, cy + dy * h, cz + dz * h), (xc + ancho / 2, cy + dy * h, cz + dz * h),
+         (xc + ancho / 2, cy - dy * h, cz - dz * h), (xc - ancho / 2, cy - dy * h, cz - dz * h)]
+    me = bpy.data.meshes.new(nombre)
+    me.from_pydata(v, [], [(0, 1, 2, 3)])
+    me.uv_layers.new()
+    for i, c in enumerate(((0, 0), (1, 0), (1, 1), (0, 1))):
+        me.uv_layers[0].data[i].uv = c
+    me.materials.append(MT.calca('Logo de la lona', LOGO, rug=0.8))
+    ob = bpy.data.objects.new(nombre, me)
+    coleccion('Obra').objects.link(ob)
+    return ob
+
+
+def _cortina_lateral(nombre, x, a, b, y_pared, tela, al, grueso=0.004):
+    """Cortina que cuelga del costado de la lona hasta el suelo, de la fachada
+    al poste, con su contrapeso abajo y una ventana transparente, como la de
+    la foto de 2017. x: su plano; a..b: el borde de la lona (arriba en la
+    fachada, abajo en la barra)."""
+    (ya, za), (yb, zb) = a, b
+    z_pie, z_bajo = 0.160, 0.800            # contrapeso y alto del zocalo de lona
+    marco = 0.220                            # tela alrededor de la ventana
+
+    def borde(y):                            # cota del borde de la lona en y
+        return za + (zb - za) * (ya - y) / (ya - yb)
+    x0, x1 = x - grueso / 2, x + grueso / 2
+    y_f, y_p = min(ya, y_pared), yb          # de la fachada a la barra
+    obs = []
+    # zocalo de lona, de lado a lado
+    obs.append(panel(f'{nombre} · zocalo', [(y_f, z_pie), (y_p, z_pie), (y_p, z_bajo),
+                                            (y_f, z_bajo)], x0, x1, tela))
+    # franjas de delante y de detras, hasta el borde de la lona
+    for nm, u0, u1 in (('trasera', y_f - marco, y_f), ('delantera', y_p, y_p + marco)):
+        u0, u1 = max(u0, y_p), min(u1, y_f)
+        obs.append(panel(f'{nombre} · franja {nm}', [(u1, z_bajo), (u0, z_bajo),
+                                                     (u0, borde(u0)), (u1, borde(u1))], x0, x1, tela))
+    # franja de arriba, bajo la lona, de una franja a la otra
+    wa, wb = y_f - marco, y_p + marco
+    obs.append(panel(f'{nombre} · franja alta', [(wa, borde(wa) - marco), (wb, borde(wb) - marco),
+                                                 (wb, borde(wb)), (wa, borde(wa))], x0, x1, tela))
+    # la ventana de PVC cristal
+    obs.append(panel(f'{nombre} · ventana', [(wa, z_bajo), (wb, z_bajo), (wb, borde(wb) - marco),
+                                             (wa, borde(wa) - marco)], x0 + 0.001, x1 - 0.001,
+                     MAT['vidrio']))
+    # contrapeso blanco al pie
+    obs.append(caja(f'{nombre} · contrapeso', x0 - 0.012, y_p, x1 + 0.012, y_f,
+                    z_pie - 0.040, z_pie, al))
+    return obs
+
+
+def _toldo(nombre, x0, x1, yf, z_cap, fondo, lona, barras, faldon, logo=False,
+           logo_arriba=False):
     """Toldos de brazos articulados en semicofre, en una fachada que da al
     Sur (-Y), bajo una misma capota.
 
@@ -1618,6 +1682,17 @@ def _toldo(nombre, x0, x1, yf, z_cap, fondo, lona, barras, faldon, logo=False):
                                      0.036, xa, xa + 0.035, al))
                 obs.append(caja(f'{nombre} · hombro {k + 1}.{j + 1}', xa - 0.010, yf - 0.060,
                                 xa + 0.045, y1, zr - 0.260, zr - 0.180, al))
+            if logo_arriba:
+                lg = _logo_lona(f'{nombre} · logo en la lona {k + 1}', (a0 + a1) / 2,
+                                (yr, z_lona), (yb + 0.035, zb),
+                                min(0.42 * (a1 - a0), 0.55 * (yr - yb) * 3.1))
+                if lg:
+                    logos.append(lg)
+            if b.get('cortina'):
+                xc_ = a0 - 0.004 if b['cortina'] == 'oeste' else a1 + 0.004
+                obs += _cortina_lateral(f'{nombre} · cortina {b["cortina"]}', xc_,
+                                        (yr, z_lona - 0.004), (yb + 0.035, zb - 0.004),
+                                        yf - 0.040, tela, al)
             # los postes, del suelo a la barra, con su placa de anclaje
             for j, xp in enumerate(b.get('postes', ())):
                 yp = yb - 0.030
@@ -1667,20 +1742,18 @@ def toldos():
 
     def hasta_la_linea(yf, fondo, a0, a1, postes):
         return dict(a0=a0, a1=a1, salida=yf - fondo / 2 - yF, z=zF, postes=postes)
-    # A: extremo Oeste, sobre el aplacado SO (su cara, 1,535), el paño
-    #    estrecho y P2, anclado a 3 m; el poste de su lado Este es el de B
-    n = _toldo('Toldo terraza A', 0.020, 1.885, 1.535, 3.000, 0.180, az,
-               barras=(hasta_la_linea(1.535, 0.180, 0.040, 1.865, ()),), faldon=f, logo=True)
-    # B: el ventanal, con un poste en cada esquina de la barra
-    n += _toldo('Toldo terraza B', 1.905, 5.700, 1.561, 2.830, 0.180, az,
-                barras=(hasta_la_linea(1.561, 0.180, 1.925, 5.680,
-                                       (1.895, 5.650)),), faldon=f, logo=True)
-    # C y D: bajo la capota de la entrada, los dos hasta la linea de la
-    # terraza. El poste entre los dos, delante de la puerta, es uno solo
-    n += _toldo('Toldo terraza C · D', 6.362, 9.710 - DESPEGUE, 0.365, 2.780, 0.200, az,
-                barras=(hasta_la_linea(0.365, 0.200, 6.420, 7.860, (6.450, 7.930)),
-                        hasta_la_linea(0.365, 0.200, 8.000, 9.620, (9.590,))),
-                faldon=f, logo=True)
+    # el grande: una capota de la piedra del extremo Oeste a P5, por delante
+    # de la cara del aplacado (1,535), una lona, una barra de carga, tres
+    # postes y la cortina lateral en su costado Oeste
+    grande = hasta_la_linea(1.535, 0.180, 0.040, 5.680, (0.075, 1.895, 5.650))
+    grande['cortina'] = 'oeste'
+    n = _toldo('Toldo grande', 0.020, 5.700, 1.535, 2.900, 0.180, az,
+               barras=(grande,), faldon=f, logo=True, logo_arriba=True)
+    # el de la entrada: bajo las lamas, de P5 al cuello, una lona y tres
+    # postes, el del medio delante de la puerta
+    n += _toldo('Toldo de la entrada', 6.362, 9.710 - DESPEGUE, 0.365, 2.780, 0.200, az,
+                barras=(hasta_la_linea(0.365, 0.200, 6.420, 9.650, (6.450, 7.930, 9.620)),),
+                faldon=f, logo=True, logo_arriba=True)
     return n
 
 
