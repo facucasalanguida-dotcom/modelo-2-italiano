@@ -1507,14 +1507,18 @@ ALUMINIO_TOLDO = 'EEEDEA'
 #      que hoy esta recogido, con el mismo faldon): hasta la misma linea.
 #   C  escaparate, bajo las lamas (el de la izquierda de la capota roja de
 #      hoy): hasta la misma linea.
-#   D  puerta, bajo la misma capota que C: mas corto y mas caido.
-# A, B y C llevan la barra de carga en una misma linea paralela a la fachada
-# y se apoyan delante en postes blancos: uno entre A y B, dos en B y dos en
-# C; A no lleva poste en su extremo Oeste. El faldon queda a 2,20 del suelo.
+#   D  puerta, bajo la misma capota que C (el de la derecha de hoy): tambien
+#      hasta la misma linea.
+# Los cuatro llevan la barra de carga en una misma linea paralela a la
+# fachada, a 2,30, con un faldon hondo que queda a unos 2,0 del suelo, y se
+# apoyan delante en postes blancos: uno entre A y B, otro al final de B, uno
+# al principio de C, uno entre C y D -el que queda delante de la puerta- y
+# otro al final de D. A no lleva poste en su extremo Oeste. A va anclado mas
+# alto que B, a unos 3 m, en la piedra del extremo Oeste y en P2.
 TOLDOS_ABIERTOS = os.environ.get('CM_TOLDOS', '') == 'abiertos'
 Y_FRENTE_TERRAZA = -1.600            # linea de las barras de carga de A, B y C
-Z_BARRA_TERRAZA = 2.420              # lo alto de esas barras
-FALDON_ABIERTO = 0.220               # el faldon que lleva el logo
+Z_BARRA_TERRAZA = 2.300              # lo alto de esas barras
+FALDON_ABIERTO = 0.300               # el faldon que lleva el logo
 POSTE_R = 0.024                      # postes de aluminio blanco, de 48 mm
 
 
@@ -1664,18 +1668,18 @@ def toldos():
     def hasta_la_linea(yf, fondo, a0, a1, postes):
         return dict(a0=a0, a1=a1, salida=yf - fondo / 2 - yF, z=zF, postes=postes)
     # A: extremo Oeste, sobre el aplacado SO (su cara, 1,535), el paño
-    #    estrecho y P2; el poste de su lado Este es el mismo que el de B
-    n = _toldo('Toldo terraza A', 0.020, 1.885, 1.535, 2.830, 0.180, az,
+    #    estrecho y P2, anclado a 3 m; el poste de su lado Este es el de B
+    n = _toldo('Toldo terraza A', 0.020, 1.885, 1.535, 3.000, 0.180, az,
                barras=(hasta_la_linea(1.535, 0.180, 0.040, 1.865, ()),), faldon=f, logo=True)
     # B: el ventanal, con un poste en cada esquina de la barra
     n += _toldo('Toldo terraza B', 1.905, 5.700, 1.561, 2.830, 0.180, az,
                 barras=(hasta_la_linea(1.561, 0.180, 1.925, 5.680,
                                        (1.895, 5.650)),), faldon=f, logo=True)
-    # C y D: bajo la capota de la entrada. C, el escaparate, hasta la linea
-    # de la terraza con sus dos postes; D, la puerta, corto y mas caido
+    # C y D: bajo la capota de la entrada, los dos hasta la linea de la
+    # terraza. El poste entre los dos, delante de la puerta, es uno solo
     n += _toldo('Toldo terraza C · D', 6.362, 9.710 - DESPEGUE, 0.365, 2.780, 0.200, az,
-                barras=(hasta_la_linea(0.365, 0.200, 6.420, 7.860, (6.450, 7.830)),
-                        dict(a0=8.000, a1=9.620, salida=1.200, z=2.400)),
+                barras=(hasta_la_linea(0.365, 0.200, 6.420, 7.860, (6.450, 7.930)),
+                        hasta_la_linea(0.365, 0.200, 8.000, 9.620, (9.590,))),
                 faldon=f, logo=True)
     return n
 
