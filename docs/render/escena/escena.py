@@ -1321,8 +1321,8 @@ def fachada_real():
         vidrio con la misma perfileria.
       - el porche estaba abierto al cielo. Lo cubre el voladizo del edificio.
     El escaparate del Este y la puerta no se tocan: en el video estan
-    detras de la persiana. Tampoco se pone el rotulo ni el toldo del
-    inquilino anterior.
+    detras de la persiana. Tampoco se pone el rotulo del inquilino
+    anterior. Los toldos si, recogidos como en las fotos: los pone toldos().
     """
     d = 0.026 + SOLAPE
     YP0, YP1 = 1.561, 1.621                 # fondo de la perfileria del ventanal
@@ -1410,8 +1410,9 @@ def fachada_real():
     # ================================================ PARTE ESTE
     # Segundo video y las dos fotos: escaparate con montante bajo, puerta
     # retranqueada con persiana, lamas de ventilacion encima de la puerta y
-    # el costado Este del retranqueo en arenisca. No se ponen el rotulo, el
-    # toldo, la persiana ni el vinilo translucido del inquilino anterior.
+    # el costado Este del retranqueo en arenisca. No se ponen el rotulo, la
+    # persiana ni el vinilo translucido del inquilino anterior; el toldo lo
+    # pone toldos().
     R = RETRANQUEO
     YE0, YE1 = 0.365, 0.425                 # perfileria en la linea de fachada
     E0, E1 = 6.331, R['x0'] - DESPEGUE      # escaparate, hasta el hueco
@@ -1472,6 +1473,87 @@ def fachada_real():
     aplacado('Aplacado retranqueo Este', D1 - d, R['y0'], D1 + SOLAPE, 1.375,
              -0.010, R['alto'], eje='y')
     return 1
+
+
+# ================================================================ toldos
+# Los dos toldos del local, tal y como estan en las fotos de la fachada
+# (sep. 2026). Son toldos de brazos articulados, de manivela, en semicofre:
+# una capota blanca corrida, atornillada a la fachada con dos soportes, tapa
+# por arriba el tubo de enrollamiento con la lona; al recogerlo, los brazos se
+# pliegan contra la pared bajo el tubo y la barra de carga -el perfil del
+# borde de la lona, con el faldon colgando- queda debajo del rollo. Estan
+# recogidos, y asi se ponen.
+#   - Entrada (Este): una capota de P5 al cuello de la medianera
+#     (x 6,36..9,71), bajo las lamas (2,78), lona roja y DOS barras de carga
+#     con su faldon, la de la izquierda sobre el escaparate y la de la
+#     derecha sobre la puerta: son dos toldos bajo la misma capota. Las
+#     barras, medidas sobre la foto frontal (escala: el hueco de 3,38).
+#   - Ventanal (Oeste): sobre el travesaño de 2,72 -el que el video ya daba
+#     como sitio de la caja del toldo- de P2 al retorno (x 1,90..5,70), lona
+#     crema con franja roja al pie del faldon. El rotulo impreso en el faldon
+#     es del inquilino anterior y no se pone.
+LONA_ROJA = 'B03C30'
+LONA_CREMA = 'D8C7A3'
+FRANJA_ROJA = 'C0452B'
+ALUMINIO_TOLDO = 'EEEDEA'
+
+
+def _toldo(nombre, x0, x1, yf, z_cap, fondo, lona, barras, faldon):
+    """Un toldo recogido en semicofre contra la fachada, que da al Sur (-Y).
+
+    x0..x1: la capota; yf: la cara de la fachada; z_cap: lo alto de la
+    capota; fondo: lo que vuela; barras: tramos (a0, a1) de barra de carga;
+    faldon: [(alto, color), ...] de arriba abajo.
+    """
+    al = MT.liso(f'{nombre} · aluminio', MT.srgb(ALUMINIO_TOLDO), 0.35)
+    tela = MT.liso(f'{nombre} · lona', MT.srgb(lona), 0.85, sheen_=True)
+    y0, y1 = yf - fondo, yf - DESPEGUE
+    obs = []
+    # capota: tapa y frente, con sus dos testeros
+    obs.append(caja(f'{nombre} · capota', x0, y0, x1, y1, z_cap - 0.020, z_cap, al))
+    obs.append(caja(f'{nombre} · capota frente', x0, y0, x1, y0 + 0.015,
+                    z_cap - 0.130, z_cap - 0.020, al))
+    for k, xa in enumerate((x0, x1 - 0.008)):
+        obs.append(caja(f'{nombre} · testero {k + 1}', xa, y0 + 0.015, xa + 0.008, y1,
+                        z_cap - 0.130, z_cap - 0.020, al))
+        # soporte a la pared, detras del rollo
+        xs = x0 + 0.04 if k == 0 else x1 - 0.09
+        obs.append(caja(f'{nombre} · soporte {k + 1}', xs, yf - 0.050, xs + 0.050, y1,
+                        z_cap - 0.210, z_cap - 0.020, al))
+    # el tubo con la lona enrollada, entre los testeros
+    r = 0.050
+    rollo = cilindro(f'{nombre} · lona enrollada', 0.0, 0.0, r, 0.0,
+                     x1 - x0 - 0.020, tela, 'Obra', 32)
+    rollo.rotation_euler = (0.0, math.pi / 2, 0.0)
+    rollo.location = (x0 + 0.010, yf - fondo / 2, z_cap - 0.080)
+    obs.append(rollo)
+    # barras de carga, bajo el rollo, y su faldon por la cara de fuera
+    zb = z_cap - 0.080 - r                  # debajo del rollo
+    for k, (a0, a1) in enumerate(barras):
+        obs.append(caja(f'{nombre} · barra de carga {k + 1}', a0, y0 + 0.010, a1,
+                        y0 + 0.070, zb - 0.055, zb, al))
+        z = zb - 0.015
+        for i, (alto, color) in enumerate(faldon):
+            m = tela if color == lona else MT.liso(f'{nombre} · faldon {i}',
+                                                   MT.srgb(color), 0.85, sheen_=True)
+            obs.append(caja(f'{nombre} · faldon {k + 1}.{i + 1}', a0, y0 + 0.0055, a1,
+                            y0 + 0.0095, z - alto, z, m))
+            z -= alto
+    for o in obs:
+        if o is not rollo:
+            bisel(o, 0.0015, segs=2)
+    return len(obs)
+
+
+def toldos():
+    """Los dos toldos de la fachada, recogidos, donde estan en la realidad."""
+    n = _toldo('Toldo de la entrada', 6.362, 9.710 - DESPEGUE, 0.365, 2.780, 0.200,
+               LONA_ROJA, barras=((6.500, 7.860), (8.420, 9.580)),
+               faldon=((0.220, LONA_ROJA),))
+    n += _toldo('Toldo del ventanal', 1.905, 5.700, 1.561, 2.830, 0.180,
+                LONA_CREMA, barras=((1.925, 5.680),),
+                faldon=((0.120, LONA_CREMA), (0.030, FRANJA_ROJA)))
+    return n
 
 
 def forro_pilares():
@@ -3421,6 +3503,7 @@ def construir(spp, ancho, alto, con_decoracion=True, con_glare=False,
     print('  caras de columna forradas:', forro_pilares(), flush=True)
     fachada_real()
     print('  fachada Oeste rehecha desde el video', flush=True)
+    print('  toldos de la fachada, recogidos:', toldos(), 'piezas', flush=True)
     print('  pilar de la escalera:', pilar_escalera(), flush=True)
     cocina_inox()
     remate_vidrio_L()
