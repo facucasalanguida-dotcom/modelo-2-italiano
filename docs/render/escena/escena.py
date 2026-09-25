@@ -1503,14 +1503,15 @@ ALUMINIO_TOLDO = 'EEEDEA'
 # variable salen como estan hoy: recogidos y con sus colores. Son DOS toldos,
 # cada uno de una pieza:
 #   - el grande, de todo el ventanal: del extremo Oeste (la piedra oscura) a
-#     P5, a 3,4 de altura, con una sola lona y una sola barra de carga,
+#     P5, a unos 3,97 de altura -lo que pide su vuelo a 30 grados-, con una
+#     sola lona y una sola barra de carga,
 #     y en su costado Oeste una cortina lateral que cuelga de la lona hasta
 #     el suelo, de la fachada al poste, con una ventana transparente
 #   - el de la entrada, bajo la capota de hoy, de P5 al cuello de la
-#     medianera, bajo las lamas.
-# Los dos llevan la barra de carga en una misma linea paralela a la fachada,
-# a 2,08, con mucha caida (unos 21 y 17 grados) y un faldon de 0,22 que
-# queda a 1,85 del suelo, y se apoyan
+#     medianera, bajo las lamas. Su capota no puede subir, asi que a 30
+#     grados vuela 1,0 y no llega a la linea del grande.
+# Los dos caen 30 grados y llevan la barra de carga a 2,08, con un faldon de
+# 0,22 que queda a 1,85 del suelo, y se apoyan
 # delante en postes blancos: el grande en su extremo Oeste, a la altura de P2
 # y en su extremo Este; el de la entrada en sus dos extremos y delante de la
 # puerta.
@@ -1518,6 +1519,7 @@ TOLDOS_ABIERTOS = os.environ.get('CM_TOLDOS', '') == 'abiertos'
 Y_FRENTE_TERRAZA = -1.600            # linea de las barras de carga de A, B y C
 Z_BARRA_TERRAZA = 2.080              # lo alto de esas barras
 FALDON_ABIERTO = 0.220               # el faldon que lleva el logo
+CAIDA_TOLDOS = 30.0                  # grados de pendiente de las lonas
 POSTE_R = 0.024                      # postes de aluminio blanco, de 48 mm
 
 
@@ -1746,14 +1748,20 @@ def toldos():
     # el grande: una capota de la piedra del extremo Oeste a P5, por delante
     # de la cara del aplacado (1,535), una lona, una barra de carga, tres
     # postes y la cortina lateral en su costado Oeste
+    tg = math.tan(math.radians(CAIDA_TOLDOS))
     grande = hasta_la_linea(1.535, 0.180, 0.040, 5.680, (0.075, 1.895, 5.650))
     grande['cortina'] = 'oeste'
-    n = _toldo('Toldo grande', 0.020, 5.700, 1.535, 3.400, 0.180, az,
+    # la capota, tan alta como pida el vuelo hasta la linea a esa caida
+    z_cap = zF + grande['salida'] * tg + 0.130
+    n = _toldo('Toldo grande', 0.020, 5.700, 1.535, z_cap, 0.180, az,
                barras=(grande,), faldon=f, logo=True, logo_arriba=True)
     # el de la entrada: bajo las lamas, de P5 al cuello, una lona y tres
     # postes, el del medio delante de la puerta
+    # su capota se queda bajo las lamas: a esa caida vuela lo que da
+    sal_e = (2.780 - 0.130 - zF) / tg
     n += _toldo('Toldo de la entrada', 6.362, 9.710 - DESPEGUE, 0.365, 2.780, 0.200, az,
-                barras=(hasta_la_linea(0.365, 0.200, 6.420, 9.650, (6.450, 7.930, 9.620)),),
+                barras=(dict(a0=6.420, a1=9.650, salida=sal_e, z=zF,
+                             postes=(6.450, 7.930, 9.620)),),
                 faldon=f, logo=True, logo_arriba=True)
     return n
 
