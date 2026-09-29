@@ -277,12 +277,18 @@ assert sorted((round(x, 3), round(y, 3)) for _n, x, y, *_r in LUCES_PB) == \
 
 
 def replanteo_luz(luz):
-    """Las dos medidas de una luz: [(metros, texto de la referencia, eje)]."""
+    """Las dos medidas de una luz: [(metros, 'al Norte del muro...', eje)].
+
+    Lleva el lado, porque del borde del forjado o de una cara de P1 la luz
+    puede quedar a un lado o al otro.
+    """
     n, x, y, tipo, sitio, techo, rx, ry = luz
     out = []
     for clave, v in ((rx, x), (ry, y)):
         texto, eje, c = REF_LUCES[clave]
-        out.append((abs(v - c), texto, eje))
+        lado = ('al Este' if v > c else 'al Oeste') if eje == 'x' else \
+               ('al Norte' if v > c else 'al Sur')
+        out.append((abs(v - c), f'{lado} {texto}', eje))
     return out
 
 # ------------------------------------------- reservas de espacio (no estructura)
