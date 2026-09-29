@@ -214,6 +214,77 @@ COLGANTES = [(2.04, 2.28), (2.04, 3.58), (4.60, 3.20), (7.60, 3.20),
              (7.30, 0.95), (8.90, 0.95)]
 APLIQUES = [(0.31, 5.75), (0.31, 6.45)]
 
+# Numeracion de las luces de planta baja y replanteo para abrir los huecos
+# en obra (29 set.). Cada luz se mide, al centro del hueco, desde la cara de
+# pared, pilar o borde de forjado sin revestir mas cercana en cada direccion.
+# Las mismas en la lamina 01 y en la 05.
+REF_LUCES = {
+    'oeste':     ('del muro Oeste', 'x', 0.250),
+    'ele':       ('de la pared en L', 'x', 2.530),
+    'forjado_o': ('del borde Oeste del forjado', 'x', 2.411),
+    'p3_o':      ('de la cara Oeste de P3', 'x', 5.670),
+    'bano_o':    ('del tabique del baño', 'x', 7.400),
+    'bano_i':    ('del tabique Oeste del baño', 'x', 7.500),
+    'p5_e':      ('de la cara Este de P5', 'x', 6.331),
+    'cuello':    ('del cuello de la medianera', 'x', 9.710),
+    'este':      ('de la medianera Este', 'x', 9.890),
+    'norte':     ('del muro Norte', 'y', MURO_N),
+    'norte_coc': ('del muro Norte', 'y', MURO_N_COCINA),
+    'p1_n':      ('de la cara Norte de P1', 'y', 5.357),
+    'p1_s':      ('de la cara Sur de P1', 'y', 4.759),
+    'forjado_s': ('del borde Sur del forjado', 'y', 3.939),
+    'escaparate': ('del vidrio del escaparate', 'y', 0.419),
+    'puerta':    ('de la puerta de acceso', 'y', 1.429),
+}
+# techo: donde se abre el hueco o se ancla el colgante
+TECHO_LUZ = {
+    'altillo':   'bajo el altillo',
+    'cocina':    'pladur de la cocina (+2,31)',
+    'doble':     'doble altura (≈ +5,06)',
+    'vestibulo': 'pladur del vestíbulo (+2,10)',
+}
+# (n, x, y, tipo, sitio, techo, referencia Este-Oeste, referencia Norte-Sur)
+LUCES_PB = [
+    (1, 3.250, 8.007, 'empotrado', 'mesa M7', 'altillo', 'ele', 'norte'),
+    (2, 4.965, 8.007, 'empotrado', 'mesa M10', 'altillo', 'ele', 'norte'),
+    (3, 6.680, 8.007, 'empotrado', 'mesa M11', 'altillo', 'bano_o', 'norte'),
+    (4, 3.185, 5.780, 'empotrado', 'paso junto a la L', 'altillo', 'ele', 'norte'),
+    (5, 4.190, 5.780, 'empotrado', 'mesa M5', 'altillo', 'p3_o', 'norte'),
+    (6, 5.320, 5.780, 'empotrado', 'mesa M4', 'altillo', 'p3_o', 'norte'),
+    (7, 2.600, 4.600, 'empotrado', 'sala, junto a la barra', 'altillo', 'forjado_o',
+     'forjado_s'),
+    (8, 4.100, 4.600, 'empotrado', 'sala', 'altillo', 'p3_o', 'forjado_s'),
+    (9, 8.600, 8.500, 'empotrado', 'baño', 'altillo', 'bano_i', 'norte'),
+    (10, 1.100, 8.500, 'empotrado', 'cocina', 'cocina', 'oeste', 'norte_coc'),
+    (11, 1.100, 7.200, 'empotrado', 'cocina', 'cocina', 'oeste', 'norte_coc'),
+    (12, 1.100, 5.900, 'empotrado', 'cocina', 'cocina', 'oeste', 'p1_n'),
+    (13, 1.100, 4.600, 'empotrado', 'paso de personal', 'doble', 'oeste', 'p1_s'),
+    (14, 2.040, 3.580, 'colgante', 'barra', 'doble', 'oeste', 'forjado_s'),
+    (15, 2.040, 2.280, 'colgante', 'barra', 'doble', 'oeste', 'forjado_s'),
+    (16, 4.600, 3.200, 'colgante', 'sala', 'doble', 'oeste', 'forjado_s'),
+    (17, 7.600, 3.200, 'colgante', 'sala', 'doble', 'este', 'forjado_s'),
+    (18, 7.300, 0.950, 'colgante', 'escaparate', 'doble', 'p5_e', 'escaparate'),
+    (19, 8.900, 0.950, 'colgante', 'vestíbulo', 'vestibulo', 'cuello', 'puerta'),
+]
+# Lo que en obra no se puede hacer tal cual esta en el plano
+AVISOS_LUCES = {
+    10: 'cae dentro de la campana de la cocina',
+    13: 'fuera del techo de la cocina, en la doble altura',
+    19: 'cuelga en el barrido de la hoja derecha de la puerta',
+}
+assert sorted((round(x, 3), round(y, 3)) for _n, x, y, *_r in LUCES_PB) == \
+    sorted((round(x, 3), round(y, 3)) for x, y in EMPOTRADOS + COLGANTES)
+
+
+def replanteo_luz(luz):
+    """Las dos medidas de una luz: [(metros, texto de la referencia, eje)]."""
+    n, x, y, tipo, sitio, techo, rx, ry = luz
+    out = []
+    for clave, v in ((rx, x), (ry, y)):
+        texto, eje, c = REF_LUCES[clave]
+        out.append((abs(v - c), texto, eje))
+    return out
+
 # ------------------------------------------- reservas de espacio (no estructura)
 # El cliente marca donde van tres cosas. No son estructura: se grafian como
 # reserva, con linea de trazos, para que el plano siga siendo estructural.

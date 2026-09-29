@@ -1,12 +1,13 @@
 # Planos del local
 
-Cuatro laminas tecnicas en A3, pensadas para imprimir y acotar a mano sobre
+Cinco laminas tecnicas en A3, pensadas para imprimir y acotar a mano sobre
 ellas. Las dos primeras son de estructura a 1:50 —muros, medianeras, pilares
 y machones, viga descolgada, forjado del altillo, escalera, carpinteria de
 fachada, puntos de luz y aire acondicionado— con el mobiliario de sala y las
-reservas de espacio del cliente encima. Las dos ultimas son el equipamiento
+reservas de espacio del cliente encima. La 03 y la 04 son el equipamiento
 de barra y cocina: el detalle a 1:25 y la lista de compra con los enlaces a
-las fichas de makro.es.
+las fichas de makro.es. La 05 es el replanteo de los puntos de luz de planta
+baja, numerados y acotados desde las paredes para abrir los huecos en obra.
 
 | Archivo | Contenido |
 |---|---|
@@ -14,8 +15,9 @@ las fichas de makro.es.
 | `PLANTA_ALTA.pdf` | Lamina 02 · altillo, cota +2,56 |
 | `EQUIPAMIENTO.pdf` | Lamina 03 · barra y cocina a 1:25, con el cuadro de equipos |
 | `LISTA_EQUIPAMIENTO.pdf` | Lamina 04 · lista de compra con los enlaces clicables |
+| `REPLANTEO_LUCES.pdf` | Lamina 05 · luces de planta baja numeradas y acotadas desde las paredes |
 | `Planos_Estructura.pdf` | Las dos plantas en un solo documento |
-| `Planos_Completos.pdf` | Las cuatro laminas en un solo documento |
+| `Planos_Completos.pdf` | Las cinco laminas en un solo documento |
 | `LISTA_MAKRO.md` | La misma lista de compra en texto, con los enlaces |
 
 ## Sistema de coordenadas
@@ -463,6 +465,21 @@ el vestibulo dejan de contar como doble altura:
 |---|---|---|
 | Planta baja, dentro de muros | 75,25 m² | **73,09 m²** |
 | Zona de doble altura | 37,79 m² | **26,75 m²** |
+
+### Numeracion y replanteo de las luces (lamina 05)
+
+Cada luz de planta baja lleva un numero, el mismo en la lamina 01 y en la
+05 (`LUCES_PB` de `estructura.py`): del 1 al 9 los empotrados bajo el
+altillo, del 10 al 13 los de la fila de la cocina y del 14 al 19 los
+colgantes. La lamina 05 las acota en cadena por filas y trae al pie las dos
+medidas de cada una, al centro de la luz y desde la cara sin revestir de la
+pared, del pilar o del borde del forjado mas cercano en cada direccion
+(`REF_LUCES`). Tres no se pueden hacer tal cual y van marcadas:
+
+- **10**: cae dentro de la campana de la cocina.
+- **13**: queda fuera del techo de pladur de la cocina, en la doble altura.
+- **19**: el colgante del vestibulo cuelga en el barrido de la hoja derecha
+  de la puerta.
 
 ## Comprobar en obra
 

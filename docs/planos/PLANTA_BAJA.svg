@@ -456,6 +456,25 @@
 <text x="125.600" y="97.900" font-size="1.8" text-anchor="middle" fill="#2a7f8f" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">1,31</text>
 <text x="152.600" y="149.900" font-size="1.8" text-anchor="middle" fill="#2a7f8f" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">0,60</text>
 <text x="178.600" y="149.900" font-size="1.8" text-anchor="middle" fill="#2a7f8f" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">0,60</text>
+<text x="129.600" y="45.760" font-size="1.8" text-anchor="start" fill="#a8480c" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">1</text>
+<text x="163.900" y="45.760" font-size="1.8" text-anchor="start" fill="#a8480c" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">2</text>
+<text x="198.200" y="45.760" font-size="1.8" text-anchor="start" fill="#a8480c" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">3</text>
+<text x="128.300" y="90.300" font-size="1.8" text-anchor="start" fill="#a8480c" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">4</text>
+<text x="148.400" y="90.300" font-size="1.8" text-anchor="start" fill="#a8480c" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">5</text>
+<text x="171.000" y="90.300" font-size="1.8" text-anchor="start" fill="#a8480c" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">6</text>
+<text x="116.600" y="113.900" font-size="1.8" text-anchor="start" fill="#a8480c" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">7</text>
+<text x="141.400" y="113.900" font-size="1.8" text-anchor="end" fill="#a8480c" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">8</text>
+<text x="236.600" y="42.900" font-size="1.8" text-anchor="start" fill="#a8480c" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">9</text>
+<text x="86.600" y="35.900" font-size="1.8" text-anchor="start" fill="#a8480c" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">10</text>
+<text x="86.600" y="61.900" font-size="1.8" text-anchor="start" fill="#a8480c" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">11</text>
+<text x="86.600" y="87.900" font-size="1.8" text-anchor="start" fill="#a8480c" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">12</text>
+<text x="86.600" y="113.900" font-size="1.8" text-anchor="start" fill="#a8480c" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">13</text>
+<text x="100.000" y="141.300" font-size="1.8" text-anchor="end" fill="#a8480c" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">14</text>
+<text x="100.000" y="160.100" font-size="1.8" text-anchor="end" fill="#a8480c" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">15</text>
+<text x="156.600" y="141.900" font-size="1.8" text-anchor="start" fill="#a8480c" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">16</text>
+<text x="216.600" y="141.900" font-size="1.8" text-anchor="start" fill="#a8480c" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">17</text>
+<text x="210.600" y="186.900" font-size="1.8" text-anchor="start" fill="#a8480c" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">18</text>
+<text x="242.600" y="186.900" font-size="1.8" text-anchor="start" fill="#a8480c" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">19</text>
 <text x="153.400" y="93.640" font-size="1.9" text-anchor="middle" fill="#4c6b7c" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">AC1</text>
 <text x="196.000" y="83.500" font-size="2.2" text-anchor="middle" fill="#4a4a4a" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">ZONA CON FORJADO SUPERIOR  ·  +2,56</text>
 <text x="242.000" y="143.500" font-size="2.6" text-anchor="middle" fill="#3c5a68" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">DOBLE ALTURA</text>
@@ -518,7 +537,7 @@
 <line x1="322.800" y1="127.200" x2="322.800" y2="129.600" stroke="#7d7d7d" stroke-width="0.1"/>
 <circle cx="327.40" cy="128.40" r="2.0" fill="none" stroke="#7d7d7d" stroke-width="0.18"/>
 <circle cx="327.40" cy="128.40" r="0.56" fill="#7d7d7d"/>
-<text x="331.500" y="129.600" font-size="2.4" text-anchor="start" fill="#111111" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Luz empotrada y colgante</text>
+<text x="331.500" y="129.600" font-size="2.4" text-anchor="start" fill="#111111" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Luz empotrada y colgante (nº: lámina 05)</text>
 <line x1="321.000" y1="133.400" x2="329.000" y2="133.400" stroke="#6f8a99" stroke-width="0.18" stroke-dasharray="1.6 1.1"/>
 <text x="331.500" y="134.600" font-size="2.4" text-anchor="start" fill="#111111" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Aire acondicionado (cassette de techo)</text>
 <rect x="321.000" y="136.200" width="8.000" height="3.600" fill="#12a0d7" stroke="#12a0d7" stroke-width="0.18" fill-opacity="0.10" stroke-dasharray="1.6 1.0"/>
@@ -582,7 +601,7 @@
 <text x="361.000" y="277.000" font-size="2.1" text-anchor="start" fill="#777777" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">FECHA</text>
 <text x="361.000" y="282.400" font-size="2.8" text-anchor="start" fill="#111111" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">29 set. 2026</text>
 <text x="407.000" y="277.000" font-size="2.1" text-anchor="end" fill="#777777" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">PLANO</text>
-<text x="407.000" y="282.400" font-size="3.6" text-anchor="end" fill="#111111" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">01 / 04</text>
+<text x="407.000" y="282.400" font-size="3.6" text-anchor="end" fill="#111111" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">01 / 05</text>
 <rect x="11.000" y="256.000" width="303.000" height="31.000" fill="#fbf6ee" stroke="#9a2b2b" stroke-width="0.18"/>
 <text x="14.500" y="260.600" font-size="2.6" text-anchor="start" fill="#9a2b2b" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold" letter-spacing="0.6">COMPROBAR EN OBRA</text>
 <text x="57.000" y="260.600" font-size="2.0" text-anchor="start" fill="#7a5a3a" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Puntos en los que los vídeos del local no cuadran con el levantamiento, o que el levantamiento no recoge. Se dibuja el levantamiento por ser la única fuente acotada.</text>

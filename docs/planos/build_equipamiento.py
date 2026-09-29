@@ -7,7 +7,7 @@ Dos detalles a 1:25 sobre la misma hoja A3, cada uno con su propio origen de
 coordenadas de obra y recortado a su caja de papel. La geometria de los
 muros sale de `estructura.py` y los aparatos de `equipamiento.py`.
 
-    python3 build_equipamiento.py      # genera las cuatro laminas y los PDF
+    python3 build_equipamiento.py      # genera las cinco laminas y los PDF
 """
 
 import os
@@ -320,7 +320,7 @@ def lamina():
     L.absorber(B, clip=(160.0, 26.0, 292.0, 232.0))
     cuadro_equipos(L)
 
-    marco(L, 'EQUIPAMIENTO', '03 / 04', 'Barra y cocina · productos Makro',
+    marco(L, 'EQUIPAMIENTO', '03 / 05', 'Barra y cocina · productos Makro',
           ['Cada máquina es un producto real de makro.es con',
            'sus medidas de ficha; la web bloquea el acceso',
            'directo, así que las medidas vienen de su buscador.',
@@ -437,7 +437,7 @@ def lamina_lista():
 
     n_fichas = len({p['url'] for p in Q.todos() if p.get('url')})
     n_unid = len([p for p in Q.todos() if p.get('url')])
-    marco(L, 'EQUIPAMIENTO', '04 / 04', 'Lista de compra · enlaces a makro.es',
+    marco(L, 'EQUIPAMIENTO', '04 / 05', 'Lista de compra · enlaces a makro.es',
           ['Medidas ancho × fondo × alto en metros,',
            'tomadas de la ficha de makro.es.',
            'Los enlaces de la última columna son',
@@ -476,14 +476,15 @@ def exportar_lista(nombre='LISTA_EQUIPAMIENTO'):
 
 if __name__ == '__main__':
     import build_planos
-    print('Generando las cuatro láminas...')
+    print('Generando las cinco láminas...')
     pb = exportar(build_planos.planta_baja(), 'PLANTA_BAJA')
     pa = exportar(build_planos.planta_alta(), 'PLANTA_ALTA')
     eq = exportar(lamina(), 'EQUIPAMIENTO')
     li = exportar_lista()
+    rl = exportar(build_planos.replanteo_luces(), 'REPLANTEO_LUCES')
     import pymupdf
     for nombre, hojas in (('Planos_Estructura.pdf', (pb, pa)),
-                          ('Planos_Completos.pdf', (pb, pa, eq, li))):
+                          ('Planos_Completos.pdf', (pb, pa, eq, li, rl))):
         doc = pymupdf.open()
         for f in hojas:
             doc.insert_pdf(pymupdf.open(f))

@@ -600,7 +600,13 @@ def aire(L):
                 '#4c6b7c', 'bold')
 
 
-def luces(L, empotrados=True):
+NUM_LUZ = '#a8480c'   # numero de cada luz
+# donde va el numero respecto de su luz (m) cuando no cabe arriba a la derecha
+NUM_SITIO = {8: (-0.13, 0.13, 'end'), 9: (0.13, -0.22, 'start'),
+             14: (-0.14, -0.22, 'end'), 15: (-0.14, 0.14, 'end')}
+
+
+def luces(L, empotrados=True, numeros=False, tam=1.8, sitio_num=None):
     if empotrados:
         for x, y in E.EMPOTRADOS:
             L.circulo('luces', x, y, 0.085, 'none', '#7d7d7d', 'fino')
@@ -609,6 +615,12 @@ def luces(L, empotrados=True):
     for x, y in E.COLGANTES:
         L.circulo('luces', x, y, 0.10, 'none', '#7d7d7d', 'fino')
         L.circulo('luces', x, y, 0.028, '#7d7d7d', '#7d7d7d', 'auxiliar')
+    if numeros:
+        # numero de cada luz, el mismo de la lamina 05 (replanteo)
+        sitios = {**NUM_SITIO, **(sitio_num or {})}
+        for n, x, y, *_r in E.LUCES_PB:
+            dx, dy, anc = sitios.get(n, (0.13, 0.13, 'start'))
+            L.texto('rotulos', x + dx, y + dy, str(n), tam, anc, NUM_LUZ, 'bold')
 
 
 def cerramiento_escalera(L, z_corte=1.20):
@@ -704,7 +716,7 @@ def planta_baja():
     mobiliario(L, MB.MESAS_PB, luces=E.EMPOTRADOS)
     nevera_bebidas(L)
     accesibilidad(L)
-    luces(L)                      # proyecto original y, en sala, sobre las mesas
+    luces(L, numeros=True)        # proyecto original y, en sala, sobre las mesas
     aire(L)                       # cassettes de aire acondicionado (fotos)
 
     # contorno interior, para reforzar el recinto
@@ -796,7 +808,7 @@ def planta_baja():
     L.cota_v('cotas', [E.ZOCALO_SUR['y1'], P3[3]], L.px(7.00), 1.8,
              ext_desde=5.99)                                    # 2,72
 
-    marco(L, 'PLANTA BAJA', '01 / 04', 'Estado actual · estructura',
+    marco(L, 'PLANTA BAJA', '01 / 05', 'Estado actual · estructura',
           ['Cotas en metros: del cliente (19 set.) y, el resto, del levantamiento.',
            'Sección a 1,20 m. Muro Norte macizo: 0,20, y 0,15 en la cocina por el',
            'hundimiento de 0,05. La pared en L mide 3,60 y llega al muro.',
@@ -815,7 +827,7 @@ def planta_baja():
            ('#f4efe6', MOB, 'Mesas dobles de 0,70 × 0,70 y sillas'),
            ('#eaeff2', APAR, 'Nevera A7 · 0,54 × 0,58 (cara Sur de P3)'),
            ('linea', ACC, 'Recorrido de sala · 0,70 por el Norte'),
-           ('luces', LUZ, 'Luz empotrada y colgante'),
+           ('luces', LUZ, 'Luz empotrada y colgante (nº: lámina 05)'),
            ('linea', '#6f8a99', 'Aire acondicionado (cassette de techo)'),
            ('toldo', AZZ, 'Toldo desplegado: lona, barra y poste')],
           ('SUPERFICIES Y ALTURAS',
@@ -945,7 +957,7 @@ def planta_alta():
 
     L.cota_v('cotas', [7.509, E.MURO_N], L.px(2.72), 1.9)
 
-    marco(L, 'PLANTA ALTA', '02 / 04', 'Altillo +2,56 · estructura',
+    marco(L, 'PLANTA ALTA', '02 / 05', 'Altillo +2,56 · estructura',
           ['Cotas en metros, tomadas sobre el levantamiento.',
            'Nivel del forjado +2,56, medido en obra.',
            'El forjado no cubre todo el local: la franja Sur y la',
@@ -973,6 +985,187 @@ def planta_alta():
     return L
 
 
+# ======================================================= REPLANTEO DE LUCES
+def _m(v):
+    """Metros con dos decimales, redondeando las mitades hacia arriba: si no,
+    dos medidas iguales (1,715) salian una en 1,71 y la otra en 1,72."""
+    return f'{v + 1e-9:.2f}'.replace('.', ',')
+
+
+def _ext(L, x0, y0, x1, y1):
+    """Linea de referencia de una cota, de la luz o de la pared a la cota."""
+    L.linea('cotas', x0, y0, x1, y1, COTA_COL, 'auxiliar')
+
+
+def tabla_luces(L, y0=242.0, y1=287.0, x0=11.0, x1=W - 8.0 - 96.0 - 2.0):
+    """Las dos medidas de cada luz, en dos columnas al pie de la lamina 05."""
+    L.p_rect('cajetin', x0, y0, x1, y1, '#fbf6ee', NUM_LUZ, 'fino')
+    L.p_texto('cajetin', x0 + 3.5, y0 + 4.6, 'REPLANTEO DE LOS HUECOS', 2.6, 'start',
+              NUM_LUZ, 'bold', espaciado='0.6')
+    L.p_texto('cajetin', x0 + 62.0, y0 + 4.6,
+              'Metros, al centro de cada luz, desde la cara sin revestir de la pared, '
+              'del pilar o del borde del forjado.  * ver aviso en las notas.',
+              2.0, 'start', '#7a5a3a')
+    L.p_linea('cajetin', x0 + 3.5, y0 + 6.4, x1 - 3.5, y0 + 6.4, '#d8c6ae', 'cota')
+    porcol = (len(E.LUCES_PB) + 1) // 2
+    ancho = (x1 - x0 - 7.0) / 2
+    cols = ((0.0, 'Nº'), (8.0, 'Sitio'), (44.0, 'Este – Oeste'), (96.0, 'Norte – Sur'))
+    for c in range(2):
+        for dx, t in cols:
+            L.p_texto('cajetin', x0 + 3.5 + c * ancho + dx, y0 + 10.4, t, 1.9, 'start',
+                      '#7a5a3a', 'bold')
+    for i, luz in enumerate(E.LUCES_PB):
+        c, f = divmod(i, porcol)
+        cx, cy = x0 + 3.5 + c * ancho, y0 + 14.2 + f * 3.1
+        n, tipo, sitio = luz[0], luz[3], luz[4]
+        (mx, tx, _ex), (my, ty, _ey) = E.replanteo_luz(luz)
+        L.p_texto('cajetin', cx, cy, f"{n}{' *' if n in E.AVISOS_LUCES else ''}", 2.0,
+                  'start', NUM_LUZ, 'bold')
+        L.p_texto('cajetin', cx + 8.0, cy, f'{sitio} · {tipo}', 1.9, 'start', '#3a3a3a')
+        L.p_texto('cajetin', cx + 44.0, cy, f'{_m(mx)} {tx}', 1.9, 'start', '#3a3a3a')
+        L.p_texto('cajetin', cx + 96.0, cy, f'{_m(my)} {ty}', 1.9, 'start', '#3a3a3a')
+
+
+def replanteo_luces():
+    """Lamina 05: las luces de planta baja numeradas y acotadas desde las
+    paredes, para marcar y abrir los huecos del techo en obra (29 set.).
+
+    Las cotas van en cadena por filas de luces, desde la cara sin revestir de
+    la pared, del pilar o del borde del forjado mas cercano; las mismas
+    medidas estan en la tabla del pie, luz por luz.
+    """
+    L = Lienzo(W, H, ESC, OX, OY)
+    L._fmt = _m
+    for c in ('hoja', 'trama', 'proyeccion', 'muros', 'pilares', 'tabiques',
+              'carpinteria', 'escalera', 'luces', 'cotas', 'rotulos', 'cajetin'):
+        L.capa(c)
+
+    # ---- la caja del local, solo lo que sirve de referencia
+    L.poly('trama', zona_doble_altura(), 'url(#doble)', None)
+    L.poly('proyeccion', E.FORJADO, 'none', '#8a8a8a', 'fino',
+           ' stroke-dasharray="3.2 1.6"')
+    muros(L)
+    pared_l(L)
+    pilares(L)
+    for nm, x0, y0, x1, y1 in E.BANO_TABIQUES:
+        L.rect('tabiques', x0, y0, x1, y1, POCHE_TAB, TINTA, 'tabique')
+    ventanal_sur(L)
+    escaparate(L)
+    cerramiento_escalera(L)
+    L.rect('escalera', E.ESC_X0, E.ESC_Y_PIE, E.ESC_X1, E.ESC_Y_ALTO, 'none',
+           '#9a9a9a', 'fino')
+    viga(L)
+    q = Q.CAMPANA_POS
+    L.rect('proyeccion', q['x0'], q['y0'], q['x1'], q['y1'], 'none', '#6a6a6a',
+           'fino', ' stroke-dasharray="2.4 1.4"')
+    L.texto('rotulos', 1.955, 8.75, 'CAMPANA', 1.8, 'middle', '#5f5f5f', dy=0.6)
+    aire(L)
+    L.poly('muros', interior_pb(), 'none', TINTA, 'fino')
+    # eje de la fila de la cocina
+    L.linea('cotas', 1.100, 4.45, 1.100, 8.70, COTA_COL, 'auxiliar',
+            ' stroke-dasharray="3.0 1.0 0.6 1.0"')
+    luces(L, numeros=True, tam=2.6, sitio_num={18: (-0.13, -0.24, 'end')})
+
+    # ---- rotulos de zona, con el techo de cada una
+    L.texto('rotulos', 0.70, 7.30, 'COCINA', 2.4, 'middle', '#3c5a68', 'bold', rot=-90)
+    L.texto('rotulos', 0.70, 7.30, 'techo de pladur a +2,31', 1.8, 'middle',
+            '#3c5a68', rot=-90, dx=-3.2)
+    L.texto('rotulos', 0.70, 3.10, 'BARRA  ·  doble altura', 2.0, 'middle', '#3c5a68',
+            'bold', rot=-90)
+    L.texto('rotulos', 5.60, 7.00, 'SALA  ·  techo bajo el altillo', 2.1, 'middle',
+            '#4a4a4a', 'bold')
+    L.texto('rotulos', 6.00, 2.55, 'DOBLE ALTURA', 2.3, 'middle', '#3c5a68', 'bold')
+    L.texto('rotulos', 8.20, 8.72, 'BAÑO', 2.0, 'middle', '#4a4a4a', 'bold')
+    L.texto('rotulos', 8.67, 0.58, 'VESTÍBULO', 1.9, 'middle', '#3c5a68', 'bold')
+    L.texto('rotulos', 8.67, 0.58, 'techo +2,10', 1.7, 'middle', '#3c5a68', dy=2.6)
+    L.texto('rotulos', 9.35, 6.00, 'ESCALERA', 2.0, 'middle', '#6a6a6a', rot=-90)
+    L.texto('rotulos', 6.80, 3.939, 'borde Sur del forjado', 1.7, 'middle',
+            '#6a6a6a', dy=-0.9)
+
+    # ---- cotas de replanteo, fila a fila
+    Y = L.py
+    X = L.px
+    # fila del sillon (1, 2, 3): de la pared en L al tabique del baño
+    L.cota_h('cotas', [2.530, 3.250, 4.965, 6.680, 7.400], Y(7.78), 1.9,
+             ext_desde=8.007)
+    # fila central (4, 5, 6): de la pared en L a P3
+    L.cota_h('cotas', [2.530, 3.185, 4.190, 5.320, 5.670], Y(6.08), 1.9,
+             ext_desde=5.780)
+    # las dos filas desde el muro Norte, entre las luces 1 y 2 y entre 4 y 5
+    L.cota_v('cotas', [5.780, 8.007, 8.957], X(3.90), 1.9)
+    _ext(L, 3.250 + 0.085, 8.007, 3.90, 8.007)
+    _ext(L, 4.190 - 0.085, 5.780, 3.90, 5.780)
+    # fila de y 4,60 (7, 8): del borde Oeste del forjado a P3
+    L.cota_h('cotas', [2.411, 2.600, 4.100, 5.670], Y(4.35), 1.9, ext_desde=4.600)
+    # barra (14, 15) y fila de y 4,60 desde el borde Sur del forjado
+    L.cota_v('cotas', [2.280, 3.580, 3.939, 4.600], X(2.30), 1.9)
+    _ext(L, 2.040 + 0.10, 2.280, 2.30, 2.280)
+    _ext(L, 2.040 + 0.10, 3.580, 2.30, 3.580)
+    _ext(L, 2.411, 3.939, 2.30, 3.939)
+    _ext(L, 2.600 - 0.085, 4.600, 2.30, 4.600)
+    # colgantes de la doble altura (15, 16, 17), de muro a muro
+    L.cota_h('cotas', [0.250, 2.040, 4.600, 7.600, 9.890], Y(2.05), 1.9)
+    _ext(L, 2.040, 2.280 - 0.10, 2.040, 2.05)
+    for x in (4.600, 7.600):
+        _ext(L, x, 3.200 - 0.10, x, 2.05)
+        # y su distancia al borde Sur del forjado
+        L.cota_v('cotas', [3.200, 3.939], X(x - 0.25), 1.9)
+        _ext(L, x - 0.10, 3.200, x - 0.25, 3.200)
+    # baño (9)
+    L.cota_h('cotas', [7.500, 8.600, 9.890], Y(8.22), 1.9, ext_desde=8.500)
+    L.cota_v('cotas', [8.500, 8.957], X(9.05), 1.9, ext_desde=8.600)
+    # cocina (10 a 13): desde el muro Norte, y desde P1 las del Sur
+    L.cota_v('cotas', [7.200, 8.500, 9.008], X(1.60), 1.9, ext_desde=1.100)
+    L.cota_v('cotas', [5.357, 5.900], X(1.60), 1.9)
+    _ext(L, 0.550, 5.357, 1.60, 5.357)
+    _ext(L, 1.100 + 0.085, 5.900, 1.60, 5.900)
+    L.cota_v('cotas', [4.600, 4.759], X(1.60), 1.9)
+    _ext(L, 0.550, 4.759, 1.60, 4.759)
+    _ext(L, 1.100 + 0.085, 4.600, 1.60, 4.600)
+    L.cota_h('cotas', [0.250, 1.100], Y(6.55), 1.9)
+    # escaparate (18) y vestibulo (19)
+    L.cota_h('cotas', [6.331, 7.300], Y(1.20), 1.9)
+    _ext(L, 6.331, 1.000, 6.331, 1.20)
+    _ext(L, 7.300, 0.950 + 0.10, 7.300, 1.20)
+    L.cota_v('cotas', [0.419, 0.950], X(6.60), 1.9)
+    _ext(L, 7.300 - 0.10, 0.950, 6.60, 0.950)
+    L.cota_h('cotas', [8.900, 9.710], Y(0.72), 1.9)
+    _ext(L, 8.900, 0.950 - 0.10, 8.900, 0.72)
+    L.cota_v('cotas', [0.950, 1.429], X(8.65), 1.9)
+    _ext(L, 8.900 - 0.10, 0.950, 8.65, 0.950)
+
+    n_emp = sum(1 for l in E.LUCES_PB if l[3] == 'empotrado')
+    avisos = [f'* {n}: {t}.' for n, t in sorted(E.AVISOS_LUCES.items())]
+    marco(L, 'REPLANTEO DE LUCES', '05 / 05', 'Planta baja · huecos en el techo',
+          ['Cada luz lleva su número, el mismo que en la lámina 01.',
+           'Medidas en metros, al centro de cada luz, desde la cara',
+           'sin revestir de la pared, del pilar o del borde del',
+           'forjado; en el dibujo, en cadena por filas, y al pie,',
+           'las dos de cada luz. El diámetro del hueco lo da la',
+           'luminaria que se compre. Colgantes: punto de anclaje.',
+           'La fila 4-5-6 va 2 cm al Norte de la cara Norte de P3.'] + avisos,
+          [('luces', LUZ, 'Luz empotrada y colgante'),
+           ('linea', '#8a8a8a', 'Borde del forjado del altillo'),
+           ('linea', '#6a6a6a', 'Viga P1b y campana de la cocina'),
+           ('linea', '#6f8a99', 'Cassette del aire acondicionado'),
+           ('cota', COTA_COL, 'Cota de replanteo (m)'),
+           (POCHE, TINTA, 'Muro de carga / medianera'),
+           (POCHE_PIL, TINTA, 'Pilar, machón o montante'),
+           (POCHE_TAB, TINTA, 'Pared en L y tabiquería'),
+           (VIDRIO, '#3d6b80', 'Carpintería acristalada')],
+          ('PUNTOS DE LUZ',
+           [('Empotrados', f'{n_emp}'),
+            ('Colgantes', f'{len(E.LUCES_PB) - n_emp}'),
+            ('Total', f'{len(E.LUCES_PB)}')]),
+          tabla=('TECHO DONDE VA CADA LUZ',
+                 [('1 a 9 · bajo el altillo', '2,56 − canto'),
+                  ('10 a 12 · cocina, pladur', '+2,31'),
+                  ('13 a 18 · doble altura', '≈ +5,06'),
+                  ('19 · vestíbulo, pladur', '+2,10')]))
+    tabla_luces(L)
+    return L
+
+
 # ==================================================================== salida
 def exportar(L, nombre):
     svg = os.path.join(AQUI, nombre + '.svg')
@@ -990,6 +1183,7 @@ if __name__ == '__main__':
     print('Generando planos 1:50 en A3...')
     pb = exportar(planta_baja(), 'PLANTA_BAJA')
     pa = exportar(planta_alta(), 'PLANTA_ALTA')
+    exportar(replanteo_luces(), 'REPLANTEO_LUCES')
     import fitz
     doc = fitz.open()
     for f in (pb, pa):
