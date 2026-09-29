@@ -397,6 +397,73 @@ cassette de 4 vias que en ellas se ve como un cuadrado blanco con rejillas.
 
 La posicion sale de las fotos y queda por medir en obra.
 
+## Revision del 29 set. 2026: luces de sala y estado final
+
+### Luces
+
+Sobre la lamina 01 el cliente rodeo en amarillo seis empotrados de la sala y
+marco en rojo donde los quiere:
+
+- **Fuera:** los seis que iban en cuadricula en x 2,60 y 4,10, filas 5,90,
+  7,20 y 8,50 (junto a la pared en L, sobre el sillon y sobre la fila
+  central).
+- **Nuevos, centrados en las mesas:** M7 (3,25 / 8,01), M10 (4,97 / 8,01) y
+  M11 (6,68 / 8,01) en la fila del sillon; M5 (4,19) y M4 (5,32) en la fila
+  central, y uno en el paso de 1,31 entre la pared en L y M5 (3,19), los tres
+  en y 5,78.
+- La fila central va **0,10 al Norte** del centro de sus mesas: centrado, el
+  de M5 pisaba el canto Norte del cassette AC1 (5,643), que tiene debajo.
+- El resto sigue como en el proyecto original: la fila de la cocina
+  (x 1,10), los dos de y 4,60, el del baño y los colgantes.
+
+En la lamina, los rotulos de las mesas con luz bajan al canto Sur de la mesa
+y la cota del paso (1,31) baja 0,15 para no quedar bajo el simbolo.
+`MODELO_3D.json` y `MODELO_3D.rb` se regeneran solo con este cambio: la
+escena de render coloca los empotrados leyendolos de ahi.
+
+### Lo que el modelo 3D ya tenia y ahora dibujan las laminas
+
+La escena de render (`docs/render/escena/escena.py`) habia corregido sobre
+fotos y videos de obra piezas que las laminas seguian dibujando como el
+levantamiento. Pasan a las laminas con constantes nuevas de `estructura.py`
+(`RETORNO`, `PUERTA_FONDO`, `VESTIBULO_VIDRIO`, `MONTANTE_ESC`,
+`ESC_RAMPANTE`, `TECHO_COCINA`, `PIZARRA`, `TOLDOS`). `MUROS`,
+`VENTANAL_SUR`, `PUERTA_ACCESO` y `CAJA_ESC_PB` no se tocan porque de ellos
+sale `MODELO_3D.json`, y la escena ya los corrige al leerlo.
+
+- **Retorno acristalado junto a P5.** El muro del cuello y la jamba del
+  ventanal no existen: el rincon entre el ventanal y P5 lo cierra un vidrio en
+  x 5,735 de la cara Norte de P5 al ventanal. En la cadena de fachada el pano
+  Este queda en 3,86 hasta P5.
+- **Puerta al fondo del vestibulo** (y 1,429), barriendo 1,00 hacia la calle.
+  El vestibulo es un cubo abierto a la calle, con el costado Oeste de vidrio
+  enmarcado (x 7,545..7,641) y techo de pladur a 2,10.
+- **Escalera.** Montante de acero de 0,16 a mitad del 5.º peldaño (x
+  8,651..8,811, y 4,669..4,829). El cerramiento del costado arranca en el y su
+  borde en rampante baja 0,75: por debajo del corte de 1,20 hasta y 5,22
+  (dibujado visto) y cortado desde ahi. El hueco sobre el llega al techo hasta
+  y 7,13.
+- **Cocina** con techo de pladur a +2,31 desde la viga P1b: deja de ser doble
+  altura, tambien en la lamina 02, donde ese tramo pasa de vacio a techo.
+- **Pizarra** con la carta sobre la trasbarra (1,60 × 1,10, de +2,30 a
+  +3,40), en trazos por estar sobre el corte.
+- **Toldos desplegados**, azzurro con el logo en el faldon y en la lona: el
+  grande de la piedra del extremo Oeste a P5, desde el travesaño del medio del
+  ventanal hasta la linea de la terraza (vuela 3,05, cae 15°, barra a 1,88,
+  cortina lateral al Oeste), y el de la entrada bajo las lamas (vuela 0,99,
+  cae 30°, barra a 2,08), con sus postes. La lamina 01 sube 27,5 mm para que
+  quepan y las cadenas de cotas de fachada pasan por debajo de ellos.
+
+### Superficies
+
+El interior acaba ahora en la puerta y el vestibulo queda fuera; la cocina y
+el vestibulo dejan de contar como doble altura:
+
+| | Antes | Ahora |
+|---|---|---|
+| Planta baja, dentro de muros | 75,25 m² | **73,09 m²** |
+| Zona de doble altura | 37,79 m² | **26,75 m²** |
+
 ## Comprobar en obra
 
 Las dos laminas llevan al pie un bloque **COMPROBAR EN OBRA** con los puntos

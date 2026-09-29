@@ -197,10 +197,18 @@ VESTIBULO = dict(x0=7.641, x1=9.890, y0=0.370, y1=1.429, fondo=1.059)
 
 # ------------------------------------------------ puntos de luz en el techo
 # Empotrados del techo bajo (intrados 2,70) tomados del proyecto de reforma.
+# 29 set.: el cliente quita los seis de la sala que iban en cuadricula
+# (x 2,60 y 4,10 en las filas 5,90, 7,20 y 8,50) y los pone sobre las mesas:
+# uno centrado en cada mesa del sillon corrido (M7, M10 y M11) y de la fila
+# central (M5 y M4), y otro en el paso de 1,31 entre la pared en L y M5. La
+# fila central va 0,10 al Norte del centro de las mesas: centrado, el de M5
+# pisaba el canto Norte del cassette AC1 (5,643), que tiene justo debajo.
 EMPOTRADOS = [(1.10, 4.60), (2.60, 4.60), (4.10, 4.60),
-              (1.10, 5.90), (2.60, 5.90), (4.10, 5.90),
-              (1.10, 7.20), (2.60, 7.20), (4.10, 7.20),
-              (1.10, 8.50), (2.60, 8.50), (4.10, 8.50), (8.60, 8.50)]
+              (1.10, 5.90), (1.10, 7.20), (1.10, 8.50), (8.60, 8.50),
+              # sobre las mesas del sillon corrido: M7, M10 y M11
+              (3.250, 8.007), (4.965, 8.007), (6.680, 8.007),
+              # fila central: el paso junto a la pared en L, M5 y M4
+              (3.185, 5.780), (4.190, 5.780), (5.320, 5.780)]
 # Colgantes / focos suspendidos de la zona de doble altura y del cuello
 COLGANTES = [(2.04, 2.28), (2.04, 3.58), (4.60, 3.20), (7.60, 3.20),
              (7.30, 0.95), (8.90, 0.95)]
@@ -254,10 +262,72 @@ BANO_TABIQUES = [
 ]
 BANO_PUERTA = dict(x0=7.770, x1=8.470, y=7.730, ancho=0.700, bisagra='E')
 
+# ------------------------------------ estado final (revision del 29 set.)
+# Lo que el modelo 3D de render (docs/render/escena/escena.py) corrigio sobre
+# las fotos y los videos de obra, y que desde esta revision dibujan tambien
+# las laminas. MUROS, VENTANAL_SUR, PUERTA_ACCESO y CAJA_ESC_PB no se tocan:
+# de ellos sale MODELO_3D.json, y la escena ya los corrige al leerlo
+# (FACHADA_REHECHA, RETRANQUEO y _panel_escalera). Solo los usan las laminas.
+#
+# Retorno acristalado entre el ventanal y P5 (video de la fachada). El muro
+# del cuello y la jamba del ventanal no existen: el rincon se cierra con
+# vidrio en x 5,735, con perfileria de 0,060, de la cara Norte de P5 a la
+# linea del ventanal, y el pano Este llega hasta el.
+RETORNO = dict(x0=5.705, x1=5.765, y0=1.025, y1=1.561)
+NO_EXISTEN = ('Muro Oeste del cuello',)
+# La puerta de acceso va al FONDO del vestibulo (y 1,429), no en la linea
+# de fachada: el vestibulo es un cubo abierto a la calle, con el costado
+# Oeste de vidrio enmarcado (x 7,545..7,641) y techo de pladur a 2,10. Las
+# hojas barren 1,00 hacia la calle, dentro de los 1,06 del vestibulo.
+PUERTA_FONDO = 1.429
+VESTIBULO_VIDRIO = (7.545, 0.370, 7.641, 1.429)
+H_VESTIBULO = 2.100
+# Montante de acero de 0,16 junto a la escalera, a mitad del 5.o peldano
+# (fotos de obra): sostiene el forjado, que vuela 0,73 por delante de el.
+MONTANTE_ESC = (8.651, 4.669, 8.811, 4.829)
+# El cerramiento del costado de la escalera arranca en el montante y su borde
+# de arriba va en rampante, 0,75 mas bajo que el del levantamiento (encargo
+# del cliente): 0,97 en el montante, 1,20 en y 5,22 y el techo (2,31) en
+# y 7,13. Por encima queda el hueco por el que se ve la escalera desde la sala.
+ESC_RAMPANTE = dict(y0=3.939, z0=1.209 - 0.750,
+                    pend=(2.310 - 1.209) / (5.840 - 3.939))
+# Techo de pladur de la cocina, a ras del intrados de la viga P1b y del
+# forjado (2,31), de la viga a la medianera Norte: la cocina deja de estar a
+# doble altura. Rodea la campana KC, que sube por encima.
+TECHO_COCINA = dict(x0=0.250, y0=4.933, x1=2.411, y1=9.008, z=2.310)
+# Pizarra con la carta sobre la trasbarra, en el muro Oeste: 1,60 x 1,10,
+# de +2,30 a +3,40.
+PIZARRA = dict(x=0.250, y0=2.709, y1=4.309, z0=2.300, z1=3.400)
+# Toldos de la fachada, desplegados: azzurro Napoli con el logo de Casa
+# Margot en el faldon y encima de la lona. Los mismos valores que toldos() de
+# la escena. Dos toldos, cada uno de una pieza, con postes blancos de 48 mm
+# delante de la barra de carga y faldon de 0,22:
+#   - el grande, de la piedra del extremo Oeste a P5, sale del travesano del
+#     medio del ventanal (2,72..2,78) y llega a la linea de la terraza
+#     (-1,60): vuela 3,05 y cae 15 grados, con la barra a 1,88. Cortina
+#     lateral en su costado Oeste, de la fachada al poste.
+#   - el de la entrada, bajo las lamas (2,78), de P5 al cuello de la
+#     medianera: vuela 0,99 y cae 30 grados, con la barra a 2,08.
+# capota: (x0, x1, y0, y1); lona y barra de a0 a a1; y_barra: su cara de dentro
+TOLDOS = [
+    dict(rotulo='TOLDO GRANDE', capota=(0.020, 5.700, 1.355, 1.535),
+         a0=0.040, a1=5.680, y_barra=-1.600, postes=(0.075, 1.895, 5.650),
+         cortina=0.036, vuelo=3.05, caida=15, z_barra=1.88),
+    dict(rotulo='TOLDO DE LA ENTRADA', capota=(6.362, 9.710, 0.165, 0.365),
+         a0=6.420, a1=9.650, y_barra=-0.722, postes=(6.450, 7.930, 9.620),
+         cortina=None, vuelo=0.99, caida=30, z_barra=2.08),
+]
+FALDON_TOLDO = 0.0645       # barra de carga y faldon, por delante de y_barra
+R_POSTE_TOLDO = 0.024
+
 # --------------------------------------------------------------- superficies
-SUP_PB_UTIL   = 75.25     # m2 dentro de muros, planta baja (con el hundimiento)
+# 29 set.: el interior acaba en la puerta, al fondo del vestibulo, y la
+# cocina (techo a 2,31) y el vestibulo (techo a 2,10) dejan de ser doble
+# altura. Antes: 75,25 y 37,79. Son las areas de interior_pb() y de
+# zona_doble_altura() de build_planos.py.
+SUP_PB_UTIL   = 73.09     # m2 dentro de muros, planta baja (con el hundimiento)
 SUP_FORJADO   = 33.36     # m2 de forjado de planta alta
-SUP_DOBLE_ALT = 37.79     # m2 de vacio a doble altura
+SUP_DOBLE_ALT = 26.75     # m2 de vacio a doble altura
 SUP_SOLAR     = 81.72     # m2 dentro del contorno exterior
 RECINTOS_PA = [('Aseo (lavabo + inodoro)', 3.77), ('Almacen', 2.50),
                ('Paso / rellano', 3.33), ('Altillo diafano', 26.04)]

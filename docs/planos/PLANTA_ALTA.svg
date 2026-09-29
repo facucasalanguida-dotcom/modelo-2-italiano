@@ -19,7 +19,7 @@
 <rect x="9.200" y="9.200" width="401.600" height="278.600" fill="none" stroke="#111111" stroke-width="0.1"/>
 </g>
 <g id="trama">
-<polygon points="67.000,55.840 110.600,55.840 110.600,56.860 111.220,56.860 111.220,85.820 110.220,85.820 110.220,157.220 259.800,157.220 259.800,207.420 256.200,207.420 256.200,228.420 186.600,228.420 186.600,216.800 181.600,216.800 181.600,203.580 72.200,203.580 72.200,195.820 67.000,195.820" fill="url(#vacio)" stroke="none"/>
+<polygon points="67.000,137.340 110.220,137.340 110.220,157.220 259.800,157.220 259.800,207.420 214.820,207.420 214.820,227.620 188.620,227.620 188.620,216.000 177.300,216.000 177.300,203.580 72.200,203.580 72.200,195.820 67.000,195.820" fill="url(#vacio)" stroke="none"/>
 </g>
 <g id="proyeccion">
 <polygon points="111.220,56.860 259.800,56.860 259.800,81.240 238.220,81.240 238.220,157.220 110.220,157.220 110.220,85.820 111.220,85.820" fill="none" stroke="#111111" stroke-width="0.25"/>
@@ -29,10 +29,9 @@
 <rect x="62.000" y="52.880" width="48.600" height="2.960" fill="#6f6f6f" stroke="#111111" stroke-width="0.5"/>
 <rect x="62.000" y="55.840" width="5.000" height="139.980" fill="#6f6f6f" stroke="#111111" stroke-width="0.5"/>
 <rect x="62.000" y="195.820" width="10.200" height="8.960" fill="#6f6f6f" stroke="#111111" stroke-width="0.5"/>
-<rect x="176.620" y="204.780" width="4.980" height="12.020" fill="#6f6f6f" stroke="#111111" stroke-width="0.5"/>
 <rect x="259.800" y="56.860" width="3.000" height="150.560" fill="#6f6f6f" stroke="#111111" stroke-width="0.5"/>
 <rect x="256.200" y="207.420" width="6.600" height="21.980" fill="#6f6f6f" stroke="#111111" stroke-width="0.5"/>
-<polygon points="67.000,56.860 259.800,56.860 259.800,207.420 256.200,207.420 256.200,228.420 186.600,228.420 186.600,216.800 181.600,216.800 181.600,203.580 72.200,203.580 72.200,195.820 67.000,195.820" fill="none" stroke="#8a8a8a" stroke-width="0.1"/>
+<polygon points="67.000,56.860 259.800,56.860 259.800,207.420 256.200,207.420 256.200,227.620 188.620,227.620 188.620,216.000 177.300,216.000 177.300,203.580 72.200,203.580 72.200,195.820 67.000,195.820" fill="none" stroke="#8a8a8a" stroke-width="0.1"/>
 </g>
 <g id="pilares">
 <rect x="175.400" y="120.840" width="13.000" height="21.400" fill="#2b2b2b" stroke="#111111" stroke-width="0.5"/>
@@ -64,8 +63,8 @@
 </g>
 <g id="carpinteria">
 <rect x="72.200" y="203.820" width="15.600" height="0.720" fill="#7fb4c9" stroke="#3d6b80" stroke-width="0.18"/>
-<rect x="99.400" y="203.820" width="80.000" height="0.720" fill="#7fb4c9" stroke="#3d6b80" stroke-width="0.18"/>
-<rect x="179.400" y="199.800" width="2.200" height="4.980" fill="#6f6f6f" stroke="#111111" stroke-width="0.35"/>
+<rect x="99.400" y="203.820" width="77.900" height="0.720" fill="#7fb4c9" stroke="#3d6b80" stroke-width="0.18"/>
+<rect x="176.340" y="204.540" width="0.720" height="11.460" fill="#7fb4c9" stroke="#3d6b80" stroke-width="0.18"/>
 <rect x="188.620" y="227.820" width="67.580" height="0.580" fill="#7fb4c9" stroke="#3d6b80" stroke-width="0.18"/>
 <rect x="110.220" y="85.820" width="1.000" height="70.420" fill="#7fb4c9" stroke="#3d6b80" stroke-width="0.25"/>
 <rect x="110.220" y="156.240" width="126.960" height="0.980" fill="#7fb4c9" stroke="#3d6b80" stroke-width="0.25"/>
@@ -287,7 +286,9 @@
 <text x="88.800" y="66.200" font-size="1.9" text-anchor="middle" fill="#9a2b2b" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">sólo se ha medido en planta baja (lámina 01)</text>
 <text x="174.000" y="185.000" font-size="2.8" text-anchor="middle" fill="#3c5a68" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">VACÍO SOBRE PLANTA BAJA</text>
 <text x="174.000" y="188.600" font-size="2.3" text-anchor="middle" fill="#3c5a68" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">altura total por medir</text>
-<text x="88.600" y="124.000" font-size="2.3" text-anchor="middle" fill="#3c5a68" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold" transform="rotate(-90 88.600 124.000)">VACÍO</text>
+<text x="88.600" y="166.600" font-size="2.3" text-anchor="middle" fill="#3c5a68" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold" transform="rotate(-90 88.600 166.600)">VACÍO</text>
+<text x="88.600" y="116.000" font-size="1.9" text-anchor="middle" fill="#3c5a68" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal" transform="rotate(-90 88.600 116.000)">TECHO DE LA COCINA  ·  pladur a +2,31</text>
+<text x="235.400" y="217.400" font-size="1.7" text-anchor="middle" fill="#3c5a68" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">cubo de la entrada  ·  techo +2,24</text>
 <text x="134.000" y="70.000" font-size="2.4" text-anchor="middle" fill="#4a4a4a" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">ASEO</text>
 <text x="162.000" y="63.600" font-size="2.1" text-anchor="middle" fill="#4a4a4a" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">INODORO</text>
 <text x="191.600" y="70.000" font-size="2.4" text-anchor="middle" fill="#4a4a4a" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">ALMACÉN</text>
@@ -360,8 +361,8 @@
 <text x="321.000" y="180.400" font-size="2.1" text-anchor="start" fill="#777777" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">NOTAS</text>
 <text x="321.000" y="184.200" font-size="2.3" text-anchor="start" fill="#333333" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Cotas en metros, tomadas sobre el levantamiento.</text>
 <text x="321.000" y="188.000" font-size="2.3" text-anchor="start" fill="#333333" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Nivel del forjado +2,56, medido en obra.</text>
-<text x="321.000" y="191.800" font-size="2.3" text-anchor="start" fill="#333333" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">El forjado del altillo no cubre todo el local: la</text>
-<text x="321.000" y="195.600" font-size="2.3" text-anchor="start" fill="#333333" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">franja sur y oeste es un vacío a doble altura.</text>
+<text x="321.000" y="191.800" font-size="2.3" text-anchor="start" fill="#333333" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">El forjado no cubre todo el local: la franja Sur y la</text>
+<text x="321.000" y="195.600" font-size="2.3" text-anchor="start" fill="#333333" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">barra son doble altura; la cocina, techo a +2,31.</text>
 <text x="321.000" y="199.400" font-size="2.3" text-anchor="start" fill="#333333" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Mesa de cowork 2,40 × 1,00 para 8 puestos y una</text>
 <text x="321.000" y="203.200" font-size="2.3" text-anchor="start" fill="#333333" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">redonda de Ø 1,20 con 6 sillas. Medidas promedio.</text>
 <text x="321.000" y="207.000" font-size="2.3" text-anchor="start" fill="#333333" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">Pasos libres entre mobiliario acotados en azul:</text>
@@ -384,7 +385,7 @@
 <text x="321.000" y="277.000" font-size="2.1" text-anchor="start" fill="#777777" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">ESCALA</text>
 <text x="321.000" y="282.400" font-size="3.6" text-anchor="start" fill="#111111" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">1:50  (A3)</text>
 <text x="361.000" y="277.000" font-size="2.1" text-anchor="start" fill="#777777" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">FECHA</text>
-<text x="361.000" y="282.400" font-size="2.8" text-anchor="start" fill="#111111" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">19 set. 2026</text>
+<text x="361.000" y="282.400" font-size="2.8" text-anchor="start" fill="#111111" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">29 set. 2026</text>
 <text x="407.000" y="277.000" font-size="2.1" text-anchor="end" fill="#777777" font-family="Liberation Sans, Arial, sans-serif" font-weight="normal">PLANO</text>
 <text x="407.000" y="282.400" font-size="3.6" text-anchor="end" fill="#111111" font-family="Liberation Sans, Arial, sans-serif" font-weight="bold">02 / 04</text>
 <rect x="11.000" y="256.000" width="303.000" height="31.000" fill="#fbf6ee" stroke="#9a2b2b" stroke-width="0.18"/>

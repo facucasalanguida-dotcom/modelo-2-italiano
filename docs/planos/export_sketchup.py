@@ -188,7 +188,7 @@ def panel(tag, mat, nombre, pts_yz, x0, x1):
 import build_planos as B
 
 prisma('01 Solera', 'solera', 'Solera de planta baja',
-       B.interior_pb(), -H_SOLERA, 0.0)
+       B.interior_pb(final=False), -H_SOLERA, 0.0)
 
 # El 'Muro Sur (con ventanal)' no es fabrica: en toda su longitud es el
 # ventanal, con P2 y la jamba cerrando los extremos. Se salta igual que en

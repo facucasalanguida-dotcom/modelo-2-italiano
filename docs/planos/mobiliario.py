@@ -85,7 +85,9 @@ ACC_ANCHOS = [
     ('v', 6.267, 3.658, 4.108, 6.090, 3.885),    # sillas de M2 - nevera A7: 0,45
     ('h', 5.679, 7.380, 8.650, 7.980, 5.789),    # M11 - caja de escalera
     ('v', 6.850, 6.500, 7.187, 6.680, 6.900),    # sillas: fila central - sillon
-    ('h', 5.600, 2.530, 3.840, 3.180, 5.710),    # salida del personal a la sala
+    # salida del personal a la sala; 0,15 mas al Sur que antes para dejar
+    # sitio al empotrado del paso (29 set.)
+    ('h', 5.450, 2.530, 3.840, 3.180, 5.560),
     ('h', 2.838, 4.230, 4.830, 4.530, 2.960),    # entre M1 y M3: 0,60
     ('h', 2.838, 5.530, 6.130, 5.830, 2.960),    # entre M3 y M2: 0,60
 ]
